@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="swipestyle">
+
+        <item name="android:colorBackground">#000000</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:spinnerItemStyle">
+            @style/spinnerItemStyle
+        </item>
+    </style>
+    <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorAccent">@color/md_amber_A200</item>
+
+    </style>
+    <style name="spinnerItemStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="yellow_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_yellow_A200</item>
+
+    </style>
+    <style name="white_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/white</item>
+
+    </style>
+    <style name="white_amoled" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/white</item>
+
+    </style>
+    <style name="white_light" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/white</item>
+
+    </style>
+    <style name="amber_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_amber_A200</item>
+
+    </style>
+    <style name="blue_dark" parent="Theme.DARK" >
+        <item name="colorAccent">@color/md_blue_A200</item>
+
+    </style>
+    <style name="lightblue_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_light_blue_A200</item>
+
+    </style>
+    <style name="deeporange_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_deep_orange_A200</item>
+
+    </style>
+    <style name="cyan_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_cyan_A200</item>
+
+    </style>
+    <style name="green_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_green_A200</item>
+
+    </style>
+    <style name="indigo_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_indigo_A200</item>
+
+    </style>
+    <style name="lime_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_lime_A200</item>
+
+    </style>
+
+
+    <style name="yellow_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_yellow_A200</item>
+
+    </style>
+    <style name="amber_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_amber_A200</item>
+
+    </style>
+    <style name="blue_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_blue_A200</item>
+
+    </style>
+    <style name="lightblue_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_light_blue_A200</item>
+
+    </style>
+    <style name="deeporange_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_deep_orange_A200</item>
+
+    </style>
+    <style name="cyan_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_cyan_A200</item>
+
+    </style>
+    <style name="green_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_green_A200</item>
+
+    </style>
+    <style name="indigo_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_indigo_A200</item>
+
+    </style>
+    <style name="lime_LIGHT" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_lime_A200</item>
+
+    </style>
+
+
+    <style name="yellow_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_yellow_A200</item>
+    </style>
+    <style name="amber_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_amber_A200</item>
+
+    </style>
+    <style name="blue_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_blue_A200</item>
+
+    </style>
+    <style name="lightblue_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_light_blue_A200</item>
+
+    </style>
+    <style name="deeporange_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_deep_orange_A200</item>
+
+    </style>
+    <style name="cyan_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_cyan_A200</item>
+
+    </style>
+    <style name="green_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_green_A200</item>
+
+    </style>
+    <style name="indigo_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_indigo_A200</item>
+
+    </style>
+    <style name="lime_AMOLED" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_lime_A200</item>
+
+    </style>
+    <style name="FontStyle.Medium">
+        <item name="font_cardtitle">18sp</item>
+        <item name="font_cardinfo">12sp</item>
+        <item name="font_cardtitlec">16sp</item>
+        <item name="font_cardinfoc">10sp</item>
+        <item name="font_cardtitlem">13sp</item>
+        <item name="font_cardinfom">9sp</item>
+        <item name="font_commenttitle">12sp</item>
+        <item name="font_commentinfo">10sp</item>
+        <item name="font_commentbody">14sp</item>
+    </style>
+    <style name="FontStyle">
+    </style>
+    <style name="FontStyle.Small">
+        <item name="font_cardtitle">16sp</item>
+        <item name="font_cardinfo">14sp</item>
+        <item name="font_cardtitlec">15sp</item>
+        <item name="font_cardinfoc">9sp</item>
+        <item name="font_cardtitlem">12sp</item>
+        <item name="font_cardinfom">8sp</item>
+        <item name="font_commenttitle">10sp</item>
+        <item name="font_commentinfo">8sp</item>
+        <item name="font_commentbody">12sp</item>
+
+    </style>
+    <style name="FontStyle.Large">
+        <item name="font_cardtitle">20sp</item>
+        <item name="font_cardinfo">14sp</item>
+        <item name="font_cardtitlec">17sp</item>
+        <item name="font_cardinfoc">11sp</item>
+        <item name="font_cardtitlem">14sp</item>
+        <item name="font_cardinfom">10sp</item>
+        <item name="font_commenttitle">14sp</item>
+        <item name="font_commentinfo">12sp</item>
+        <item name="font_commentbody">16sp</item>
+    </style>
+    <style name="Theme.LIGHT" parent="swipestyle">
+        <item name="activity_background">#d2d2d2</item>
+        <item name="card_background">#ffffff</item>
+        <item name="font">#b3000000</item>
+        <item name="tint">#de393939</item>
+
+        <item name="list_background">#ffffff</item>
+
+    </style>
+    <style name="Theme.DARK" parent="swipestyle">
+        <item name="activity_background">#303030</item>
+        <item name="card_background">#424242</item>
+        <item name="font">#b3FFFFFF</item>
+
+        <item name="tint">#DEffffff</item>
+
+        <item name="list_background">#303030</item>
+    </style>
+
+    <style name="Theme.AMOLED" parent="swipestyle">
+        <item name="activity_background">#0e0e0e</item>
+        <item name="card_background">#000000</item>
+        <item name="font">#b3FFFFFF</item>
+        <item name="tint">#DEffffff</item>
+
+        <item name="list_background">#000000</item>
+    </style>
+</resources>

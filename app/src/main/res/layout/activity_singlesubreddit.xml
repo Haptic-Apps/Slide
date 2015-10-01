@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:elevation="16dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:clipToPadding="false"
+            android:minHeight="56dp"
+            android:paddingRight="16dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+
+
+            >
+
+            <Spinner
+                android:id="@+id/spinner_nav"
+                android:layout_width="150dp"
+                android:visibility="gone"
+                android:paddingLeft="16dp"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/sorting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+
+                android:background="#00ffffff"
+                android:paddingBottom="12dp"
+
+                android:paddingTop="12dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/sort" />
+
+
+
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/activity_main_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+            android:clipToPadding="false"
+            android:background="?attr/activity_background"
+        android:id="@+id/vertical_content"
+        android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+       >
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
+
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

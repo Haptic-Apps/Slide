@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerlayout"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:background="@color/md_light_blue_500"
+    android:layout_marginBottom="20dp"
+    android:id="@+id/back"
+
+    android:layout_height="160dp">
+<ImageView
+    android:layout_width="match_parent"
+    android:padding="57dp"
+    android:layout_marginTop="-20dp"
+    android:src="@drawable/slogo"
+    android:layout_height="match_parent" />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/profile"
+        android:orientation="horizontal"
+        android:paddingLeft="0dp"
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:paddingLeft="10dp"
+            android:tint="?attr/tint"
+
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/sidebar_profile"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="Log in"
+            android:textColor="?attr/font"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="0dp"
+        android:id="@+id/prof"
+
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:tint="?attr/tint"
+
+            android:src="@drawable/user"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textColor="?attr/font"
+
+            android:textStyle="bold"
+            android:text="Go to profile"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha=".25"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+
+        />
+<EditText
+    android:layout_width="match_parent"
+    android:id="@+id/sort"
+    android:textColor="?attr/font"
+    android:textColorHint="?attr/font"
+    android:hint="Search for a subreddit"
+    android:layout_marginLeft="16dp"
+    android:backgroundTint="?attr/tint"
+    android:layout_marginRight="16dp"
+
+    android:layout_height="wrap_content" />
+</LinearLayout>

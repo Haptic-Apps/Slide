@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:layout_height="wrap_content" >
+<android.support.v7.widget.CardView
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
+
+
+    android:gravity="center"
+    android:orientation="vertical"
+    cardview:cardBackgroundColor="#424242"
+    cardview:cardCornerRadius="2dp"
+
+    cardview:cardElevation="8dp">
+
+
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imagetitle"
+            android:padding="16dp"
+            android:textSize="14dp"
+            android:textColor="#fff"
+            >
+
+        </TextView>
+
+        <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image"
+        android:src="@drawable/chameleon"
+        android:cropToPadding="false"
+        android:adjustViewBounds="true"
+        />
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageCaption"
+            android:padding="16dp"
+
+            android:textSize="12dp"
+            android:textColor="#fff"
+            >
+
+        </TextView>
+
+
+    </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

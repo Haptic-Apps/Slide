@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="?attr/activity_background"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent">
+
+
+
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/orange"
+                android:elevation="16dp"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:clipToPadding="false"
+                    android:minHeight="56dp"
+                    android:paddingRight="16dp"
+                    app:layout_scrollFlags="scroll|enterAlways"
+
+
+                    >
+                    <Spinner
+                        android:id="@+id/spinner_nav"
+                        android:layout_width="150dp"
+                        android:paddingLeft="16dp"
+                        android:layout_height="wrap_content" />
+
+
+
+
+                </android.support.v7.widget.Toolbar>
+
+
+            </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:orientation="vertical"
+             android:padding="16dp"
+             android:layout_height="match_parent">
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:id="@+id/card"
+                 android:layout_height="wrap_content">
+                 <include
+                     layout="@layout/submission_largecard"/>
+             </LinearLayout>
+             <CheckBox
+                 android:id="@+id/fabar"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="8dp"
+                 android:layout_marginTop="8dp"
+                 android:textColorHint="?attr/font"
+                 android:textColor="?attr/font"
+                 android:text="Show actionbar" />
+             <CheckBox
+                 android:id="@+id/flargeimage"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="8dp"
+                 android:layout_marginTop="8dp"
+                 android:textColorHint="?attr/font"
+                 android:textColor="?attr/font"
+                 android:text="Large image preview" />
+             <CheckBox
+                 android:id="@+id/finfo"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="8dp"
+                 android:layout_marginTop="8dp"
+                 android:textColorHint="?attr/font"
+                 android:textColor="?attr/font"
+                 android:text="Info bar visible" />
+         </LinearLayout>
+    </ScrollView>
+
+    </LinearLayout>
+
+

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    android:gravity="center"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="16dp"
+        android:background="?attr/card_background"
+        android:gravity="center"
+        android:orientation="vertical"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/imagearea"
+                android:layout_width="match_parent"
+
+
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/leadimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/chameleon" />
+
+                <LinearLayout
+                    android:id="@+id/base"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/leadimage"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/slightshadow"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp">
+
+                    <TextView
+                        android:id="@+id/textimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="imgur"
+                        android:textColor="#ffffff"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/subtextimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".56"
+
+                        android:text="imgur.com/a/alskfdj"
+                        android:textColor="#ffffff"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+
+                    >
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:paddingTop="16dp">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha=".6"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/subreddit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="center_vertical"
+                                    android:paddingRight="5dp"
+                                    android:text="/r/animals"
+
+                                    android:textColor="?attr/font"
+                                    android:textSize="?attr/font_cardinfo"
+
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/information"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:gravity="center_vertical"
+                                    android:text="6 hours ago"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfo" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:textSize="?attr/font_cardinfo"
+                                    android:text="  •  "
+                                    android:textColor="?attr/font"
+
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:id="@+id/score"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:textColor="?attr/font"
+
+                                    android:gravity="center_vertical"
+                                    android:text="+204"
+                                    android:textStyle="bold"
+
+                                    android:textSize="?attr/font_cardinfo" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:textSize="?attr/font_cardinfo"
+                                    android:text="  •  "
+                                    android:textColor="?attr/font"
+
+                                    android:layout_height="wrap_content" />
+                                <TextView
+                                    android:id="@+id/comments"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:textColor="?attr/font"
+
+                                    android:gravity="center_vertical"
+                                    android:text="402 comments"
+
+                                    android:textSize="?attr/font_cardinfo" />
+
+                            </LinearLayout>
+                            <com.devspark.robototextview.widget.RobotoTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textStyle="bold"
+                                android:text="Chameleons are Cool!"
+                                android:textColor="?attr/font"
+                                android:textSize="?attr/font_cardtitle" />
+
+
+
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/previewContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="vertical">
+
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+
+                            >
+
+                            <ImageView
+                                android:id="@+id/menu"
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                android:visibility="gone"
+                                android:layout_alignParentRight="true"
+
+                                android:padding="8dp"
+                                android:src="@drawable/more" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:maxHeight="82dp"
+                                android:orientation="horizontal"
+                                android:paddingBottom="8dp"
+                                android:paddingLeft="16dp"
+                                android:paddingRight="16dp"
+
+                                android:paddingTop="16dp">
+
+                                <ImageView
+                                    android:id="@+id/thumbimage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="60dp"
+                                    android:layout_marginRight="8dp"
+                                    android:adjustViewBounds="true"
+                                    android:maxWidth="60dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/chameleon" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+                                    android:layout_gravity="center_vertical"
+
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/contenttitle"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="imgur"
+                                        android:textColor="?attr/font"
+                                        android:textSize="16dp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/contenturl"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:alpha=".56"
+
+                                        android:text="imgur.com/a/alskfdj"
+                                        android:textColor="?attr/font"
+                                        android:textSize="14dp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/body_area"
+                        android:orientation="vertical"
+                        android:layout_height="match_parent">
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="16dp"
+                            android:textColor="?attr/font"
+                            android:alpha=".5"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            />
+                    <me.ccrama.redditslide.ActiveTextView
+                        android:layout_width="match_parent"
+                        android:textSize="14sp"
+                        android:id="@+id/body"
+                        android:paddingBottom="8dp"
+
+                        android:textColor="?attr/font"
+                        android:paddingRight="16dp"
+                        android:paddingLeft="16dp"
+
+                        android:layout_height="wrap_content" />
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingRight="16dp"
+                        android:paddingLeft="8dp"
+
+                        android:gravity="center_vertical"
+                        android:layout_height="wrap_content">
+                        <include
+                            android:id="@+id/nsfw"
+                            layout="@layout/nsfw"
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_height="wrap_content"
+
+                            />
+
+                        <include
+                            android:id="@+id/pinned"
+                            layout="@layout/stickied"
+                            android:layout_centerVertical="true"
+
+                            android:layout_toRightOf="@+id/nsfw"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+
+                            android:src="@drawable/pinned" />
+                        <include
+                            android:id="@+id/flairbubble"
+                            layout="@layout/flair"
+                            android:layout_toRightOf="@+id/pinned"
+                            android:layout_centerVertical="true"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+
+                            android:src="@drawable/pinned" />
+                        <ImageView
+                            android:id="@+id/more"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:tint="?attr/tint"
+
+                            android:layout_alignParentRight="true"
+                            android:padding="8dp"
+                            android:src="@drawable/more" />
+
+                        <ImageView
+                            android:id="@+id/upvote"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_toLeftOf="@+id/more"
+                            android:tint="?attr/tint"
+
+                            android:padding="8dp"
+                            android:src="@drawable/upvoted" />
+                        <ImageView
+                            android:id="@+id/reply"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:tint="?attr/tint"
+
+                            android:layout_toLeftOf="@+id/downvote"
+                            android:padding="8dp"
+                            android:src="@drawable/reply" />
+                        <ImageView
+                            android:id="@+id/downvote"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_toLeftOf="@+id/upvote"
+                            android:padding="8dp"
+                            android:tint="?attr/tint"
+
+                            android:src="@drawable/downvote" />
+
+
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/innerSend"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/activity_background"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <EditText
+                            android:id="@+id/textinner"
+                            android:layout_width="match_parent"
+                            android:hint="Reply"
+                            android:textColor="?attr/font"
+                            android:backgroundTint="?attr/tint"
+
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone|flagNoEnterAction"
+                            android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+                            android:minHeight="30dp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/discard"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+                                android:text="DISCARD"
+                                android:textSize="14sp"
+                                android:textColor="?attr/font"
+
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/send"
+                                android:textColor="?attr/font"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:padding="4dp"
+                                android:text="SUBMIT"
+
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

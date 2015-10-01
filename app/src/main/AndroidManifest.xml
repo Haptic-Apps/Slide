@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.ccrama.redditslide" >
+
+    <application
+        android:allowBackup="true"
+        android:name=".Reddit"
+
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/yellow_dark" >
+        <activity
+            android:name=".Activities.LoadingData"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.SubredditOverview"/>
+        <activity android:name=".Activities.Album"/>
+        <activity android:name=".Activities.FullscreenImage"/>
+        <activity android:name=".Activities.GifView"/>
+        <activity android:name=".Activities.FullscreenVideo"/>
+        <activity android:name=".Activities.Wiki"/>
+        <activity android:name=".Activities.CommentsScreen"/>
+        <activity android:name=".Activities.SubredditView"/>
+        <activity android:name=".Activities.MultiredditOverview"/>
+        <activity android:name=".Activities.Profile"/>
+        <activity android:label="SlideIntent" android:name=".Activities.OpenContent">
+        <intent-filter android:label="Slide">
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:host="www.reddit.com" android:scheme="http"/>
+            <data android:host="reddit.com" android:scheme="http"/>
+            <data android:host="i.reddit.com" android:scheme="http"/>
+            <data android:host="m.reddit.com" android:scheme="http"/>
+            <data android:host="np.reddit.com" android:scheme="http"/>
+            <data android:host="www.reddit.com" android:scheme="https"/>
+            <data android:host="reddit.com" android:scheme="https"/>
+            <data android:host="i.reddit.com" android:scheme="https"/>
+            <data android:host="m.reddit.com" android:scheme="https"/>
+            <data android:host="np.reddit.com" android:scheme="https"/>
+
+        </intent-filter>
+        </activity>
+        <activity android:name=".Activities.CommentsScreenSingle"/>
+        <activity android:name=".Activities.Inbox"/>
+        <activity android:name=".Activities.Submit"/>
+        <activity android:name=".Activities.Tutorial"/>
+
+        <activity android:name=".Activities.EditCardsLayout"/>
+
+        <activity android:name=".Activities.Login"/>
+
+    </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+</manifest>

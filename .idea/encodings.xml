@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/Activities/Login.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/Activities/Submit.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/Activities/Tutorial.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/Fragments/Agreement.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/Fragments/TutorialFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_submit.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_tutorial.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/agreement.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/tutorial_inside.xml" charset="windows-1252" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

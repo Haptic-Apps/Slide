@@ -1,0 +1,91 @@
+package me.ccrama.redditslide.Fragments;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.concurrent.ExecutionException;
+
+import me.ccrama.redditslide.Adapters.InboxAdapter;
+import me.ccrama.redditslide.Adapters.InboxMessages;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.Pallete;
+
+public class InboxPage extends Fragment {
+
+
+    public View v;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    RecyclerView rv;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
+
+        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+            final LinearLayoutManager mLayoutManager;
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            rv.setLayoutManager(mLayoutManager);
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        TypedValue typed_value = new TypedValue();
+        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+
+        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id));
+
+        mSwipeRefreshLayout.setRefreshing(true);
+        posts = new InboxMessages(id);
+        adapter = new InboxAdapter(getContext(), posts, rv );
+        rv.setAdapter(adapter);
+
+        try {
+            posts.bindAdapter(adapter, mSwipeRefreshLayout);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //TODO catch errors
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        try {
+                            posts.loadMore(adapter, true, id);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        //TODO catch errors
+                    }
+                }
+        );
+        return v;
+    }
+
+    public InboxAdapter adapter;
+
+    public InboxMessages posts;
+
+    public String id;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        id = bundle.getString("id", "");
+    }
+
+
+}

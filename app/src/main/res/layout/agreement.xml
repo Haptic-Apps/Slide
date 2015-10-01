@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/submission_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:text="Ad-Free and Open Sourced"
+        android:textColor="?attr/font"
+        android:textSize="22sp"
+        />
+    <TextView
+        android:text="Slide for Reddit is free from all in-app advertisements and its source code is publically available on GitHub. This project runs off of your donations, and any contribution is greatly appreciated!"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:text="In Development"
+        android:textColor="?attr/font"
+        android:layout_marginTop="16dp"
+
+        android:textSize="22sp"
+        />
+    <TextView
+        android:text="Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free to post to /r/Slide (from the sidebar) if you run into a problem! Thank you!"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+
+        />
+</LinearLayout>
