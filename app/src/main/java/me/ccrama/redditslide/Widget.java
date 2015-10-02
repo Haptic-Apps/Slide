@@ -3,48 +3,39 @@ package me.ccrama.redditslide;
 /**
  * Created by carlo_000 on 10/2/2015.
  */
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-
-import me.ccrama.redditslide.Activities.LoadingData;
+import me.ccrama.redditslide.Activities.OpenContent;
 
 public class Widget extends AppWidgetProvider {
-    DateFormat df = new SimpleDateFormat("hh:mm:ss");
-
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
+        for (int i = 0; i < appWidgetIds.length; ++i) {
+            RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
-        Log.i("Slide",  "Updating widgets " + Arrays.asList(appWidgetIds));
+            // set intent for widget service that will create the views
+            Intent serviceIntent = new Intent(context, StackWidgetService.class);
+            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))); // embed extras so they don't get ignored
+            remoteViews.setRemoteAdapter(appWidgetIds[i], R.id.vertical_content, serviceIntent);
+            //todo remoteViews.setEmptyView(R.id.vertical_content, R.id.stackWidgetEmptyView);
 
-        // Perform this loop procedure for each App Widget that belongs to this
-        // provider
-        for (int i = 0; i < N; i++) {
-            int appWidgetId = appWidgetIds[i];
+            Intent configIntent = new Intent(context, OpenContent.class);
 
-            // Create an Intent to launch ExampleActivity
-            Intent intent = new Intent(context, LoadingData.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
 
-            // Get the layout for the App Widget and attach an on-click listener
-            // to the button
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.xml.widget);
-          //  views.setOnClickPendingIntent(R.id.button, pendingIntent);
-
-            // To update a label
-          //  views.setTextViewText(R.id.widget1label, df.format(new Date()));
-
-            // Tell the AppWidgetManager to perform an update on the current app
-            // widget
-            appWidgetManager.updateAppWidget(appWidgetId, views);
+            remoteViews.setOnClickPendingIntent(R.id.card, configPendingIntent);
+            appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+            // update widget
+            appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
         }
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 }

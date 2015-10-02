@@ -2,6 +2,7 @@ package me.ccrama.redditslide;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Arrays;
 
@@ -20,6 +21,7 @@ public class OpenRedditLink {
         url = url.replace("http://", "");
         url = url.replace("https://", "");
 
+        Log.v("Slide", url);
         if(url.endsWith("/")){
             url = url.substring(0, url.length() - 1);
 

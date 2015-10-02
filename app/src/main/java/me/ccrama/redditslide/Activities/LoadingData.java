@@ -5,6 +5,8 @@ import android.support.v7.app.ActionBarActivity;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
@@ -18,8 +20,12 @@ public class LoadingData extends ActionBarActivity {
         super.onCreate(savedInstance);
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("ASDF"), true);
 
+        ((Reddit)getApplication()).active = true;
         setContentView(R.layout.activity_slidetabs);
         StyleView.styleActivity(this);
+        if(SubredditStorage.alphabeticalSubscriptions != null){
+            ((Reddit) getApplication()).startMain();
+        }
 
     }
 

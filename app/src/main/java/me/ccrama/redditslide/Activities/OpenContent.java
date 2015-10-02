@@ -16,7 +16,14 @@ public class OpenContent extends Activity {
         super.onCreate(savedInstance);
         Intent intent = getIntent();
         Uri data = intent.getData();
-        String url = data.toString();
+        String url;
+
+        if(data == null) {
+            url = getIntent().getExtras().getString("url", "");
+        } else {
+           url = data.toString();
+        }
+
         new OpenRedditLink(this, url);
         finish();
     }

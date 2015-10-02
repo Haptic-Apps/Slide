@@ -83,12 +83,16 @@ public class Reddit extends Application{
     }
 
     public void startMain(){
-        Intent i = new Intent(this, SubredditOverview.class);
-        Log.v("Slide", "starting new");
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(active) {
+            Intent i = new Intent(this, SubredditOverview.class);
+            Log.v("Slide", "starting new");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        startActivity(i);
+            startActivity(i);
+        }
     }
+
+    public boolean active;
 
     public static SharedPreferences seen;
     public static SharedPreferences hidden;

@@ -54,12 +54,21 @@
         <activity android:name=".Activities.EditCardsLayout"/>
 
         <activity android:name=".Activities.Login"/>
+        <activity android:name=".Activities.Shortcut">
+            <intent-filter>
+            <action android:name="android.intent.action.CREATE_SHORTCUT"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+        </intent-filter>
+     </activity>
         <receiver android:name=".Widget" android:label="Frontpage Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
         </receiver>
+        <service android:name="StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="false" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

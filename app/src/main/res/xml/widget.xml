@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minWidth="294dp"
-    android:minHeight="72dp"
-    android:updatePeriodMillis="1000"
-    android:initialLayout="@layout/fragment_verticalcontenttoolbar">
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minHeight="330dp"
+    android:minWidth="220dp"
+
+    android:updatePeriodMillis="1800000"
+    android:initialLayout="@layout/widget"
+    android:resizeMode="vertical"
+    android:autoAdvanceViewId="@id/vertical_content"
+   >
 </appwidget-provider>

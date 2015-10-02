@@ -28,7 +28,7 @@ public class CreateCardView {
                 break;
 
         }
-        doHideObjects(v);
+        doHideObjects(v, "");
         return v;
     }
     public static View CreateView(ViewGroup viewGroup, String subreddit){
@@ -46,7 +46,7 @@ public class CreateCardView {
                 break;
 
         }
-        doHideObjects(v);
+        doHideObjects(v, subreddit);
         return v;
     }
     public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, String subreddit){
@@ -104,21 +104,39 @@ public class CreateCardView {
 
         }
     }
-    public static void doHideObjects(View v){
-        if(!SettingValues.actionBarVisible){
-            v.findViewById(R.id.actionbar).setVisibility(View.GONE);
-        }
-        if(!SettingValues.largeThumbnails){
-            v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-        }
-        if(!SettingValues.infoBar){
-            v.findViewById(R.id.previewContent).setVisibility(View.GONE);
-        }
-        if(SettingValues.croppedImage){
-            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, v.getContext().getResources().getDisplayMetrics());
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.findViewById(R.id.leadimage).getLayoutParams();
-            params.height = (int) pixels;
-            v.findViewById(R.id.leadimage).setLayoutParams(params);
+    public static void doHideObjects(View v, String subreddit){
+        if(subreddit.isEmpty()) {
+            if (!SettingValues.actionBarVisible) {
+                v.findViewById(R.id.actionbar).setVisibility(View.GONE);
+            }
+            if (!SettingValues.largeThumbnails) {
+                v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+            }
+            if (!SettingValues.infoBar) {
+                v.findViewById(R.id.previewContent).setVisibility(View.GONE);
+            }
+            if (SettingValues.croppedImage) {
+                float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, v.getContext().getResources().getDisplayMetrics());
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.findViewById(R.id.leadimage).getLayoutParams();
+                params.height = (int) pixels;
+                v.findViewById(R.id.leadimage).setLayoutParams(params);
+            }
+        } else {
+            if (!SettingValues.prefs.getBoolean("actionBarVisible" + subreddit, SettingValues.actionBarVisible)) {
+                v.findViewById(R.id.actionbar).setVisibility(View.GONE);
+            }
+            if (!SettingValues.prefs.getBoolean("largeThumbnails" + subreddit, SettingValues.largeThumbnails)) {
+                v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+            }
+            if (!SettingValues.prefs.getBoolean("infoBar" + subreddit, SettingValues.infoBar)) {
+                v.findViewById(R.id.previewContent).setVisibility(View.GONE);
+            }
+            if (SettingValues.croppedImage) {
+                float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, v.getContext().getResources().getDisplayMetrics());
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.findViewById(R.id.leadimage).getLayoutParams();
+                params.height = (int) pixels;
+                v.findViewById(R.id.leadimage).setLayoutParams(params);
+            }
         }
     }
 

@@ -28,6 +28,16 @@ public class SubredditPosts {
         this.paginator = paginator;
     }
 
+    public ArrayList<Submission> getPosts(){
+        try {
+            return new LoadData(true).execute(subreddit).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
     public String subreddit;
 
     public SubredditPosts(String subreddit) {
@@ -57,11 +67,8 @@ public class SubredditPosts {
 
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
-            if (reset) {
-                posts = subs;
-            } else {
-                posts.addAll(subs);
-            }
+
+            if(refreshLayout != null)
             ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -89,7 +96,12 @@ public class SubredditPosts {
             }
             if (paginator.hasNext()) {
                 try {
-                    return new ArrayList<>(paginator.next());
+                    if (reset) {
+                        posts = new ArrayList<>(paginator.next());
+                    } else {
+                        posts.addAll(paginator.next());
+                    }
+                    return posts ;
                 } catch (NetworkException e){
 
                 }
