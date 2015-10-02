@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
@@ -88,11 +89,15 @@ public class SubmissionComments {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(3);
                 Log.v("Slide", "DATA IS " + fullName + " " + context);
             }
-           submission = Authentication.reddit.getSubmission(builder.build());
-            baseComment = submission.getComments();
-            comments = new ArrayList<>();
-            for(CommentNode n : baseComment.walkTree()){
-                comments.add(n);
+            try {
+                submission = Authentication.reddit.getSubmission(builder.build());
+                baseComment = submission.getComments();
+                comments = new ArrayList<>();
+                for (CommentNode n : baseComment.walkTree()) {
+                    comments.add(n);
+                }
+            } catch (NetworkException e ){
+                //Todo reauthenticate
             }
             return null;
         }

@@ -54,7 +54,12 @@
         <activity android:name=".Activities.EditCardsLayout"/>
 
         <activity android:name=".Activities.Login"/>
-
+        <receiver android:name=".Widget" android:label="Frontpage Widget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
+        </receiver>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>

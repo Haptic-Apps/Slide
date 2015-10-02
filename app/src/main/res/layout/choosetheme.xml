@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Edit theme settings"
+                android:text="Edit global theme settings"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/color" />
+                            android:src="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/color" />
+                            android:src="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                             android:tint="#de393939"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/color" />
+                            android:src="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -188,7 +188,7 @@
                         android:layout_height="match_parent"
                         android:alpha=".86"
                         android:padding="12dp"
-                        android:src="@drawable/color" />
+                        android:src="@drawable/card" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -208,7 +208,6 @@
                     android:layout_width="match_parent"
                     android:padding="24dp"
                     android:layout_alignTop="@+id/body"
-                    android:visibility="gone"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
 
@@ -233,13 +232,22 @@
                         android:layout_marginTop="8dp"
                         app:orientation="horizontal"
                         app:selectedColorIndex="5" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="This value applies everywhere you have not set a specific color for."
+                        android:textSize="14dp"
 
+                        android:padding="16dp"
+                        android:textColor="?attr/font"
+                        android:layout_above="@+id/ok"
+                        android:layout_height="wrap_content" />
                     <TextView
                         android:layout_width="match_parent"
                         android:text="OK"
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok"
+
                         android:textStyle="bold"
                         android:padding="16dp"
                         android:textColor="?attr/font"
