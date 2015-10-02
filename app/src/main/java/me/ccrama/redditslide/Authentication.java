@@ -35,6 +35,7 @@ public class Authentication {
         new VerifyCredentials().execute();
 
     }
+    public static String refresh;
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
 
@@ -58,6 +59,8 @@ public class Authentication {
                     oAuthHelper.setRefreshToken(token);
                     try {
                         OAuthData finalData = oAuthHelper.refreshToken(credentials);
+
+                         refresh = oAuthHelper.getRefreshToken();
                         Authentication.reddit.authenticate(finalData);
                         if (Authentication.reddit.isAuthenticated()) {
                             final String name = Authentication.reddit.me().getFullName();
