@@ -31,6 +31,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.TimePeriod;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +57,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
  */
 public class SubredditOverview extends ActionBarActivity {
     Toolbar toolbar;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -61,23 +65,25 @@ public class SubredditOverview extends ActionBarActivity {
             // Make sure the request was successful
             int current = pager.getCurrentItem();
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-               pager.setAdapter(adapter);
+            pager.setAdapter(adapter);
             pager.setCurrentItem(current);
-        } else if(requestCode == 1){
+        } else if (requestCode == 1) {
             restartTheme();
         }
     }
+
     String subToDo;
-    public void resetAdapter(){
+
+    public void resetAdapter() {
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 usedArray = new ArrayList<>(SubredditStorage.subredditsForHome);
 
-                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
-                    pager.setAdapter(adapter);
+                pager.setAdapter(adapter);
                 tabs.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
@@ -86,7 +92,16 @@ public class SubredditOverview extends ActionBarActivity {
 
 
     }
+
+    public void reloadSubs() {
+        int current = pager.getCurrentItem();
+        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(current);
+    }
+
     View header;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -98,8 +113,8 @@ public class SubredditOverview extends ActionBarActivity {
         setContentView(R.layout.activity_overview);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
-        if(!Reddit.colors.getBoolean("Tutorial", false)){
-            Intent i  = new Intent(SubredditOverview.this, Tutorial.class);
+        if (!Reddit.colors.getBoolean("Tutorial", false)) {
+            Intent i = new Intent(SubredditOverview.this, Tutorial.class);
             startActivity(i);
         }
         setSupportActionBar(toolbar);
@@ -154,20 +169,21 @@ public class SubredditOverview extends ActionBarActivity {
                                 }
                             }
                         }
-                    }); dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains("yellow") && theme.getThemeType() == 0) {
-                                new ColorPreferences(SubredditOverview.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                    });
+                    dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains("yellow") && theme.getThemeType() == 0) {
+                                    new ColorPreferences(SubredditOverview.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
 
-                                restartTheme();
-                                break;
+                                    restartTheme();
+                                    break;
+                                }
                             }
                         }
-                    }
-                });
+                    });
                     final View body = dialoglayout.findViewById(R.id.body2);
                     body.setVisibility(View.INVISIBLE);
                     final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
@@ -232,7 +248,7 @@ public class SubredditOverview extends ActionBarActivity {
                             title.setBackgroundColor(colorPicker2.getColor());
 
 
-                            if(Pallete.getColor(subreddit) == Pallete.getDefaultColor()) {//is default
+                            if (Pallete.getColor(subreddit) == Pallete.getDefaultColor()) {//is default
                                 hea.setBackgroundColor(colorPicker2.getColor());
 
                                 findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
@@ -286,7 +302,7 @@ public class SubredditOverview extends ActionBarActivity {
                     dialoglayout.findViewById(R.id.editcards).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           Intent i = new Intent(SubredditOverview.this, EditCardsLayout.class);
+                            Intent i = new Intent(SubredditOverview.this, EditCardsLayout.class);
                             startActivityForResult(i, 2);
                         }
                     });
@@ -296,6 +312,15 @@ public class SubredditOverview extends ActionBarActivity {
                 }
             }
         });
+        findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                {
+                    openPopup(v);
+                }
+            }
+        });
+
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,11 +333,10 @@ public class SubredditOverview extends ActionBarActivity {
                     title.setText("/r/" + subreddit);
                     title.setBackgroundColor(Pallete.getColor(subreddit));
                     CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                    if(SubredditStorage.getPins() == null){
+                    if (SubredditStorage.getPins() == null) {
                         c.setChecked(false);
 
-                    } else
-                    if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
+                    } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
                         c.setChecked(true);
                     }
                     c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -440,21 +464,21 @@ public class SubredditOverview extends ActionBarActivity {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(SubredditOverview.this, Wiki.class);
-                            i.putExtra("subreddit" , subreddit);
+                            i.putExtra("subreddit", subreddit);
                             startActivity(i);
                         }
                     });
                     dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                          new ShowPopupSidebar().execute(subreddit);
+                            new ShowPopupSidebar().execute(subreddit);
                         }
                     });
                     dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(SubredditOverview.this, EditCardsLayout.class);
-                            i.putExtra("subreddit" , subreddit);
+                            i.putExtra("subreddit", subreddit);
                             startActivityForResult(i, 1);
                         }
                     });
@@ -466,12 +490,12 @@ public class SubredditOverview extends ActionBarActivity {
 
     }
 
-    public class ShowPopupSidebar extends AsyncTask<String , Void, Void>{
+    public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
             final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
-                      runOnUiThread(new Runnable() {
+            runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
 
@@ -746,10 +770,101 @@ public class SubredditOverview extends ActionBarActivity {
         }
 
         findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
+        // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
 
     }
 
-    public void restartTheme(){
+    public void openPopup(View view) {
+
+        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        Reddit.defaultSorting = Sorting.HOT;
+                        reloadSubs();
+                        break;
+                    case 1:
+                        Reddit.defaultSorting = Sorting.NEW;
+
+
+                        reloadSubs();
+                        break;
+                    case 2:
+                        Reddit.defaultSorting = Sorting.RISING;
+
+
+                        reloadSubs();
+                        break;
+                    case 3:
+                        Reddit.defaultSorting = Sorting.TOP;
+                        Reddit.timePeriod = TimePeriod.HOUR;
+
+
+                        reloadSubs();
+                        break;
+                    case 4:
+                        Reddit.defaultSorting = Sorting.TOP;
+                        Reddit.timePeriod = TimePeriod.DAY;
+
+
+                        reloadSubs();
+                        break;
+                    case 5:
+                        Reddit.defaultSorting = Sorting.TOP;
+                        Reddit.timePeriod = TimePeriod.WEEK;
+                        //TODO WEEK
+
+
+                        reloadSubs();
+                        break;
+                    case 6:
+                        Reddit.defaultSorting = Sorting.TOP;
+                        Reddit.timePeriod = TimePeriod.MONTH;
+
+                        reloadSubs();
+                        break;
+                    case 7:
+                        Reddit.defaultSorting = Sorting.TOP;
+                        Reddit.timePeriod = TimePeriod.YEAR;
+
+
+                        reloadSubs();
+                        break;
+                    case 8:
+                        Reddit.defaultSorting = Sorting.TOP;
+                        Reddit.timePeriod = TimePeriod.ALL;
+
+
+                        reloadSubs();
+                        break;
+                    case 9:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.HOUR;
+
+
+                        reloadSubs();
+                        break;
+                    case 10:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.DAY;
+
+
+                        reloadSubs();
+                        break;
+                }
+            }
+        };
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(SubredditOverview.this);
+        builder.setTitle("Choose a Sorting Type");
+        builder.setItems(
+                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, l2);
+        builder.show();
+
+    }
+
+    public void restartTheme() {
         Intent intent = this.getIntent();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
@@ -757,6 +872,7 @@ public class SubredditOverview extends ActionBarActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         startActivity(intent);
     }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {

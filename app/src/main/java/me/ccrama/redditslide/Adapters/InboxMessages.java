@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.InboxManager;
@@ -88,7 +87,6 @@ public class InboxMessages {
                    ArrayList<Message> done = new ArrayList<>(paginator.next());
                     for(Message m : done){
                         if(m instanceof PrivateMessage){
-                            Log.v("Slide", "MESSAGE : " + m.getDataNode().toString());
                         }
                     }
                     return done;

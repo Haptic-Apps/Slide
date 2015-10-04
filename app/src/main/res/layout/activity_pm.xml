@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:background="?attr/activity_background"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:elevation="5dp"
+    android:background="@color/md_amber_500"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="60dp"
+    android:title="Submit a post"
+    android:clipToPadding="false"
+    android:paddingRight="16dp"
+
+    >
+
+
+
+
+</android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+    android:padding="16dp"
+
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp"
+            android:weightSum="3"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:checked="true"
+                android:textColor="?attr/font"
+                android:id="@+id/selftextradio"
+
+                android:text="SELF TEXT"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:layout_width="0dp"
+                android:textColor="?attr/font"
+
+
+                android:id="@+id/imageradio"
+                android:layout_weight="1"
+                android:text="IMAGE"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:layout_width="0dp"
+                android:textColor="?attr/font"
+                android:id="@+id/linkradio"
+
+                android:layout_weight="1"
+                android:text="LINK"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+       <EditText
+           android:layout_width="match_parent"
+           android:textColor="?attr/font"
+
+           android:id="@+id/subreddittext"
+           android:maxLines="1"
+
+           android:maxLength="21"
+           android:hint="Subreddit"
+           android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:maxLength="300"
+                android:textColor="?attr/font"
+                android:id="@+id/titletext"
+                android:maxLines="1"
+
+                android:hint="Title"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/selftext"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/bodytext"
+                    android:hint="Body (optional)"
+                    android:textColor="?attr/font"
+                    android:imeOptions="actionDone|flagNoEnterAction"
+                    android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/image"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="SELECT AN IMAGE"
+                    android:id="@+id/selImage"
+
+                    android:textStyle="bold"
+                    android:layout_marginLeft="6dp"
+                    android:textSize="14dp"
+                    android:textColor="?attr/font"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:adjustViewBounds="true"
+                    android:id="@+id/imagepost"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/url"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:hint="URL"
+                    android:maxLines="1"
+                    android:id="@+id/urltext"
+
+                    android:layout_height="wrap_content" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/send"
+        app:fab_size="normal"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
+        app:elevation="6dp"
+        android:layout_margin="16dp"
+        app:pressedTranslationZ="12dp"/>
+    </RelativeLayout>

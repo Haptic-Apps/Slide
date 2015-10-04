@@ -18,6 +18,8 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public TextView author;
     public LinearLayout dots;
     public TextView time;
+    public View loadMore;
+    public TextView loadMoreText;
     public View gild;
     public View children;
     public View more;
@@ -37,6 +39,8 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         super(v);
         title = (TextView) v.findViewById(R.id.title);
         author = (TextView) v.findViewById(R.id.author);
+        loadMore= v.findViewById(R.id.loadMore);
+        loadMoreText = (TextView) v.findViewById(R.id.loadMoreText);
         score = (TextView) v.findViewById(R.id.score);
         time = (TextView) v.findViewById(R.id.time);
         gild =  v.findViewById(R.id.gild);

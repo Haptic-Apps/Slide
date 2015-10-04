@@ -35,6 +35,53 @@ public class Authentication {
         new VerifyCredentials().execute();
 
     }
+    public static class UpdateToken extends  AsyncTask<Void, Void, Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Log.v("Slide", "REAUTH");
+            if(isLoggedIn) {
+
+                final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+                Log.v("Slide", "REAUTH LOGGED IN");
+
+                OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
+                oAuthHelper.setRefreshToken(refresh);
+                try {
+                    OAuthData finalData = oAuthHelper.refreshToken(credentials);
+
+                    refresh = oAuthHelper.getRefreshToken();
+                    Authentication.reddit.authenticate(finalData);
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final String name = Authentication.reddit.me().getFullName();
+                        Authentication.name = name;
+                        Authentication.isLoggedIn = true;
+
+
+                    }
+                } catch (OAuthException e) {
+                    e.printStackTrace();
+                    Log.v("Slide", "RESTARTING CREDS");
+                }
+            } else {
+                final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
+                OAuthData authData = null;
+                try {
+                    authData = Authentication.reddit.getOAuthHelper().easyAuth(fcreds);
+                    Authentication.name = "LOGGEDOUT";
+
+                } catch (OAuthException e) {
+                    //TODO fail
+                }
+                Authentication.reddit.authenticate(authData);
+
+
+
+            }
+            return null;
+        }
+    }
     public static String refresh;
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
@@ -43,6 +90,9 @@ public class Authentication {
 
         @Override
         public void onPostExecute(Void voids){
+            if(a.loader != null){
+                a.loader.loading.setText("Updating your subreddits");
+            }
             new SubredditStorage().execute(a);
 
         }

@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.dean.jraw.models.CommentMessage;
 import net.dean.jraw.models.Message;
+import net.dean.jraw.models.PrivateMessage;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -76,6 +79,19 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
             new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext);
 
            holder.title.setText(comment.getSubject());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comment instanceof PrivateMessage){
+                    //todo reply
+                } else {
+                    CommentMessage m = (CommentMessage) comment;
+                    new OpenRedditLink(mContext,comment.getDataNode().get("context").asText());
+                }
+                return;
+            }
+        });
 
 
 

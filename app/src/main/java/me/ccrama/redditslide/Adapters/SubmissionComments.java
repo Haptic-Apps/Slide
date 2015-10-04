@@ -30,7 +30,7 @@ public class SubmissionComments {
     public Submission submission;
     public CommentPage page;
 
-    public CommentSort defaultSorting = CommentSort.HOT;
+    public CommentSort defaultSorting = CommentSort.CONFIDENCE;
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -87,14 +87,17 @@ public class SubmissionComments {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
             } else {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(3);
-                Log.v("Slide", "DATA IS " + fullName + " " + context);
             }
             try {
                 submission = Authentication.reddit.getSubmission(builder.build());
                 baseComment = submission.getComments();
                 comments = new ArrayList<>();
                 for (CommentNode n : baseComment.walkTree()) {
+
                     comments.add(n);
+
+
+
                 }
             } catch (NetworkException e ){
                 //Todo reauthenticate

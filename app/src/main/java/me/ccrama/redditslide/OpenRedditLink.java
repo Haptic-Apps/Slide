@@ -21,6 +21,9 @@ public class OpenRedditLink {
         url = url.replace("http://", "");
         url = url.replace("https://", "");
 
+        if(url.startsWith("/")){
+            url = "reddit.com" + url;
+        }
         Log.v("Slide", url);
         if(url.endsWith("/")){
             url = url.substring(0, url.length() - 1);

@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.Shortcut;
+
 
 /**
  * Created by carlo_000 on 5/24/2015.
@@ -21,6 +23,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
 
     public static SharedPreferences subscriptions;
+    public static Shortcut shortcut;
 
 
     public static class GetCollections extends AsyncTask<String, Void, ArrayList<String>> {
@@ -48,7 +51,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
     public static ArrayList<MultiReddit> multireddits;
 
     @Override
-    protected ArrayList<String> doInBackground(Reddit... params) {
+    protected ArrayList<String> doInBackground(final Reddit... params) {
         ArrayList<String> finished = new ArrayList<>();
 
         if(Authentication.isLoggedIn){
@@ -68,6 +71,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             ArrayList<String> test = new ArrayList<>();
             test.addAll(sortNoValue(res));
 
+
             ArrayList<String> newValues = new ArrayList<>();
             if(!test.contains("frontpage"))
                 test.add("frontpage");
@@ -79,6 +83,13 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                     newValues.add(s);
                 }
             }
+            params[0].loader.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    params[0].loader.loading.setText("Finding videos of cats");
+
+                }
+            });
             test.addAll(sortNoValue(newValues));
             if(test.contains("")){
                 test.remove("");
@@ -88,6 +99,9 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             alphabeticalSubscriptions = sort(new ArrayList<>(test));
 
             params[0].startMain();
+            if(shortcut != null){
+                shortcut.doShortcut();
+            }
 
             return test;
         } else {
@@ -96,15 +110,26 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             } else {
                 finished.addAll(Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts"));
             }
+            params[0].loader.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    params[0].loader.loading.setText("Finding videos of cats");
+
+                }
+            });
             subredditsForHome = sort(finished);
             alphabeticalSubscriptions = sort(new ArrayList<>(subredditsForHome));
 
             params[0].startMain();
-
+            if(shortcut != null){
+                shortcut.doShortcut();
+            }
             return subredditsForHome;
         }
 
     }
+
+
 
     public static void addPin(String name) {
 
@@ -160,7 +185,6 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
             for (String s : pins.split(",")) {
                 newstrings.add(s.toLowerCase());
-                Log.v("Slide", "PIN FOUND " + s.toLowerCase());
 
             }
         }

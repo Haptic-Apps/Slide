@@ -1,24 +1,23 @@
 package me.ccrama.redditslide.Fragments;
 
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
+import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
@@ -26,9 +25,64 @@ import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 public class CommentPage extends Fragment {
+
+    public void reloadSubs(){
+        mSwipeRefreshLayout.setRefreshing(true);
+        comments.setSorting(Reddit.defaultCommentSorting);
+    }
+    public void openPopup(View view) {
+
+        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        Reddit.defaultCommentSorting = CommentSort.CONFIDENCE;
+                        reloadSubs();
+                        break;
+                    case 1:
+                        Reddit.defaultCommentSorting = CommentSort.TOP;
+                        reloadSubs();
+                        break;
+                    case 2:
+                        Reddit.defaultCommentSorting = CommentSort.QA;
+                        reloadSubs();
+                        break;
+                    case 3:
+                        Reddit.defaultCommentSorting = CommentSort.NEW;
+                        reloadSubs();
+                        break;
+                    case 4:
+                        Reddit.defaultCommentSorting = CommentSort.CONTROVERSIAL;
+                        reloadSubs();
+                        break;
+                    case 5:
+                        Reddit.defaultCommentSorting = CommentSort.OLD;
+                        reloadSubs();
+                        break;
+
+                }
+            }
+        };
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+        builder.setTitle("Choose a Sorting Type");
+        builder.setItems(
+                new String[]{"Best",
+                        "Top",
+                        "Q&A (AMA)",
+
+                        "New",
+                        "Controversial",
+                        "Old"},
+                l2);
+        builder.show();
+
+    }
 
 
     public View v;
@@ -55,65 +109,17 @@ public class CommentPage extends Fragment {
         toolbar.setBackgroundColor(Pallete.getColor(id));
 
 
-
-
-
-        final List<String> list=new ArrayList<String>();
-        list.add("HOT");
-        list.add("NEW");
-        list.add("CONTROVERSIAL");
-        list.add("TOP");
-
-        final Spinner sp=(Spinner) toolbar.findViewById(R.id.spinner_nav);
-        ArrayAdapter<String> adp= new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1,list);
-        adp.setDropDownViewResource(R.layout.spinneritem);
-        sp.setAdapter(adp);
-
-        final SharedPreferences prefs = getActivity().getSharedPreferences("DEFAULTSORT", 0);
-        int chosen =prefs.getInt("last_val", 0);
-        sp.setSelection(chosen);
-
-        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
+        v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> arg0,
-                                       View arg1, int pos, long arg3) {
-
-
-                prefs.edit().putInt("last_val", pos).apply();
-                CommentSort sort = null;
-                switch (pos) {
-                    case 0:
-                        //HOT
-                        sort = CommentSort.HOT;
-                        break;
-                    case 1:
-                        //RISING
-                        sort = CommentSort.NEW;
-
-                        break;
-                    case 2:
-                        //CONT
-                        sort = CommentSort.CONTROVERSIAL;
-
-                        break;
-                    case 3:
-                        sort = CommentSort.TOP;
-
-                        //QA
-                        break;
+            public void onClick(View v) {
+                {
+                    openPopup(v);
                 }
-                mSwipeRefreshLayout.setRefreshing(true);
-                comments.setSorting(sort);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
             }
         });
+
+
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
@@ -157,13 +163,42 @@ public class CommentPage extends Fragment {
         );
         return v;
     }
+    private class TopSnappedSmoothScroller extends LinearSmoothScroller {
+        LinearLayoutManager lm;
+        public TopSnappedSmoothScroller(Context context, LinearLayoutManager lm) {
+            super(context);
+            this.lm = lm;
 
+        }
+
+        @Override
+        public PointF computeScrollVectorForPosition(int targetPosition) {
+            return lm.computeScrollVectorForPosition(targetPosition);
+        }
+
+        @Override
+        protected int getVerticalSnapPreference() {
+            return SNAP_TO_START;
+        }
+    }
     public void doData(Boolean b) {
 
         if(adapter == null){
             if(context != null && !context.equals("NOTHING")) {
                 adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
                 adapter.currentSelectedItem = context;
+                int i = 1;
+                for(CommentNode n : comments.comments){
+
+                    if(n.getComment().getFullName().contains(context)){
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (LinearLayoutManager)rv.getLayoutManager());
+                        smoothScroller.setTargetPosition(i);
+                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        break;
+                    }
+                    i++;
+                }
+
             } else {
                 adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
 

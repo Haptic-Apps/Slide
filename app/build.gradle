@@ -40,19 +40,22 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'net.dean.jraw:JRAW:0.7.1'
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.koushikdutta.ion:ion:2.+'
-    compile(group: 'uz.shift', name: 'colorpicker', version: '0.5', ext: 'aar')
+    compile 'uz.shift:colorpicker:0.5@aar'
     compile 'com.android.support:customtabs:+'
     compile 'org.sufficientlysecure:html-textview:1.2'
     compile 'com.github.ozodrukh:CircularReveal:1.1.1@aar'
     compile 'com.bowyer.app:fab-toolbar:1.1.0@aar'
-
     compile 'com.github.johnkil.android-robototextview:robototextview:2.4.2'
     compile 'me.zhanghai.android.materialprogressbar:library:1.0.2'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:design:+'
     compile 'com.android.support:cardview-v7:+'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+    compile files('libs/JRAW-0.7.1.jar')
+    compile     'com.squareup.okhttp:okhttp:2.3.0'
+    compile     'com.fasterxml.jackson.core:jackson-databind:2.5.0'
+    compile     'com.google.guava:guava:18.0'
+    compile     'org.slf4j:slf4j-api:1.7.10'
 }

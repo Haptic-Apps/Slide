@@ -61,7 +61,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
           final  Submission submission = submissions.get(position);
 
-            Log.v("Slide", "Creating for " + submission.getTitle());
             String url = "";
             ContentType.ImageType type = ContentType.getImageType(submission);
             if (type == ContentType.ImageType.IMAGE) {
@@ -78,7 +77,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                     Ion.with(mContext).load(url).asBitmap().setCallback(new FutureCallback<Bitmap>() {
                         @Override
                         public void onCompleted(Exception e, Bitmap result) {
-                            Log.v("Slide", "LOADED  " + finalUrl);
                             rv.setImageViewBitmap(R.id.thumbnail, result);
                             rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
 

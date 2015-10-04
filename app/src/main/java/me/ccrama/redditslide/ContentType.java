@@ -70,12 +70,15 @@ public class ContentType {
     public static ImageType getImageType(Submission s) {
         Submission.ThumbnailType t = s.getThumbnailType();
         String url = s.getUrl();
-
+        if(url.startsWith("/")){
+            url = "reddit.com" + url;
+        }
         if (s.isSelfPost()) {
             return ImageType.SELF;
         } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("wiki")) {
             return ImageType.REDDIT;
         }
+
         if(s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)){
             return ImageType.EMBEDDED;
         }
@@ -168,7 +171,9 @@ public class ContentType {
 
     public static ImageType getImageType(String url) {
 
-
+        if(url.startsWith("/")){
+            url = "reddit.com" + url;
+        }
         if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("wiki")) {
             return ImageType.REDDIT;
         } else if (url.contains("youtu")) {
