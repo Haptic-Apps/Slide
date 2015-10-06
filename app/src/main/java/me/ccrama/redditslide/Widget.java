@@ -1,7 +1,7 @@
 package me.ccrama.redditslide;
 
 /**
- * Created by carlo_000 on 10/2/2015.
+ * Created by ccrama on 10/2/2015.
  */
 
 import android.app.PendingIntent;

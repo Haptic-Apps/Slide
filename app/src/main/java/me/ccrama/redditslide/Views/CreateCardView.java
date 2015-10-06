@@ -10,7 +10,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
 /**
- * Created by carlo_000 on 9/18/2015.
+ * Created by ccrama on 9/18/2015.
  */
 public class CreateCardView {
     public static View CreateView(ViewGroup viewGroup){

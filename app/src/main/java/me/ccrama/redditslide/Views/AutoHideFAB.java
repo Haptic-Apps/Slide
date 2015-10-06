@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by carlo_000 on 7/20/2015.
+ * Created by ccrama on 7/20/2015.
  */
 public class AutoHideFAB extends FloatingActionButton.Behavior {
     public AutoHideFAB(Context context, AttributeSet attrs) {

@@ -18,7 +18,7 @@
 
         android:gravity="center">
 
-        <VideoView
+        <me.ccrama.redditslide.Views.MediaVideoView
             android:id="@+id/gif"
             android:layout_width="match_parent"
 
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true">
 
-        </VideoView>
+        </me.ccrama.redditslide.Views.MediaVideoView>
         <FrameLayout
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"

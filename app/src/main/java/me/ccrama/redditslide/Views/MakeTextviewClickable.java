@@ -30,7 +30,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 /**
- * Created by carlo_000 on 7/17/2015.
+ * Created by ccrama on 7/17/2015.
  */
 public class MakeTextviewClickable {
 

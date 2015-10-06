@@ -23,7 +23,7 @@ import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
 
 /**
- * Created by carlo_000 on 9/17/2015.
+ * Created by ccrama on 9/17/2015.
  */
 public class Reddit extends Application  implements Application.ActivityLifecycleCallbacks {
 

@@ -11,7 +11,7 @@ import me.ccrama.redditslide.Activities.SubredditOverview;
 
 
 /**
- * Created by carlo_000 on 5/24/2015.
+ * Created by ccrama on 5/24/2015.
  */
 public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, ArrayList<String>> {
 

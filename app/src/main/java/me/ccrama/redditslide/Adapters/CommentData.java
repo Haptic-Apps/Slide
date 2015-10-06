@@ -5,7 +5,7 @@ import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.MoreChildren;
 
 /**
- * Created by carlo_000 on 10/3/2015.
+ * Created by ccrama on 10/3/2015.
  */
 public class CommentData {
     public CommentNode n;

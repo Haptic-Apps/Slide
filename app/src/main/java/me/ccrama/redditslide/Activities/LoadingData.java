@@ -10,7 +10,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
 
 /**
- * Created by carlo_000 on 9/17/2015.
+ * Created by ccrama on 9/17/2015.
  */
 public class LoadingData extends ActionBarActivity {
 

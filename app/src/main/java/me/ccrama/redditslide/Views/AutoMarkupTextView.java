@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 
 /**
- * Created by carlo_000 on 5/5/2015.
+ * Created by ccrama on 5/5/2015.
  */
 public class AutoMarkupTextView extends TextView {
 

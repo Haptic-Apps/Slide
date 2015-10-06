@@ -17,7 +17,7 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Adapters.UserContributions;
 
 /**
- * Created by carlo_000 on 9/17/2015.
+ * Created by ccrama on 9/17/2015.
  */
 public class ContentGrabber {
 

@@ -9,7 +9,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 
 /**
- * Created by carlo_000 on 9/18/2015.
+ * Created by ccrama on 9/18/2015.
  */
 public class StyleView {
     public static void styleActivity(Activity a){

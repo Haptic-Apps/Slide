@@ -16,7 +16,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 
 /**
- * Created by carlo_000 on 8/17/2015.
+ * Created by ccrama on 8/17/2015.
  */
 public class SubredditListingAdapter extends ArrayAdapter<String> {
     List<String> objects;

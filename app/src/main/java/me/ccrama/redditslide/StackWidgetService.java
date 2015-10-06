@@ -21,7 +21,7 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 
 /**
- * Created by carlo_000 on 10/2/2015.
+ * Created by ccrama on 10/2/2015.
  */
 public class StackWidgetService extends RemoteViewsService {
     @Override

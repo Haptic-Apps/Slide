@@ -14,7 +14,7 @@ import me.ccrama.redditslide.R;
 
 
 /**
- * Created by carlo_000 on 6/2/2015.
+ * Created by ccrama on 6/2/2015.
  */
 public class TutorialFragment extends Fragment {
 

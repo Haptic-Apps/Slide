@@ -12,7 +12,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 /**
- * Created by carlo_000 on 8/14/2015.
+ * Created by ccrama on 8/14/2015.
  */
 public class BaseActivity extends ActionBarActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;

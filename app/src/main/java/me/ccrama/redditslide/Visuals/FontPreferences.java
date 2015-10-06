@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import me.ccrama.redditslide.R;
 
 /**
- * Created by carlo_000 on 7/9/2015.
+ * Created by ccrama on 7/9/2015.
  */
 public class FontPreferences {
     private final static String FONT_STYLE = "FONT_STYLE";

@@ -7,7 +7,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
 /**
- * Created by carlo_000 on 9/18/2015.
+ * Created by ccrama on 9/18/2015.
  */
 public class Pallete {
     public int fontColor;

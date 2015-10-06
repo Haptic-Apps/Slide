@@ -22,7 +22,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
- * Created by carlo_000 on 9/17/2015.
+ * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivity {
     ViewPager pager;

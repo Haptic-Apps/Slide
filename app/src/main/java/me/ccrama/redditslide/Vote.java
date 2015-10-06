@@ -12,7 +12,7 @@ import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.VoteDirection;
 
 /**
- * Created by carlo_000 on 9/19/2015.
+ * Created by ccrama on 9/19/2015.
  */
 public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 

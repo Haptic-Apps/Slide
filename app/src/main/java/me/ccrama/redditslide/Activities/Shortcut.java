@@ -20,7 +20,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 /**
- * Created by carlo_000 on 10/2/2015.
+ * Created by ccrama on 10/2/2015.
  */
 public class Shortcut extends Activity {
     String name = "";

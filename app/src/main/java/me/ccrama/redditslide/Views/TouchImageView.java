@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.Views;
 
 /**
- * Created by carlo_000 on 5/26/2015.
+ * Created by ccrama on 5/26/2015.
  */
 
 

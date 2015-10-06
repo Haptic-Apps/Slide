@@ -32,7 +32,7 @@ import me.ccrama.redditslide.R;
 
 
 /**
- * Created by carlo_000 on 3/5/2015.
+ * Created by ccrama on 3/5/2015.
  */
 public class GifView extends BaseActivity {
 

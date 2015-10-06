@@ -65,7 +65,7 @@ import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
 /**
- * Created by carlo_000 on 9/17/2015.
+ * Created by ccrama on 9/17/2015.
  */
 public class SubredditOverview extends ActionBarActivity {
     Toolbar toolbar;

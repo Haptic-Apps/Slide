@@ -30,7 +30,7 @@ import me.ccrama.redditslide.Reddit;
 
 
 /**
- * Created by carlo_000 on 5/27/2015.
+ * Created by ccrama on 5/27/2015.
  */
 public class Login extends ActionBarActivity {
     public Toolbar toolbar;

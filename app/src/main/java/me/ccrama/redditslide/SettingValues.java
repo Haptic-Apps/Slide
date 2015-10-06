@@ -6,7 +6,7 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 /**
- * Created by carlo_000 on 9/19/2015.
+ * Created by ccrama on 9/19/2015.
  */
 public class SettingValues {
     public static boolean actionBarVisible;

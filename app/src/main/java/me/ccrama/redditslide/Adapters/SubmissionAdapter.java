@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 /**
- * Created by carlo_000 on 3/22/2015.
+ * Created by ccrama on 3/22/2015.
  */
 
 import android.content.Context;

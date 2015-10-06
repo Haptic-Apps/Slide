@@ -11,7 +11,7 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 
 /**
- * Created by carlo_000 on 9/27/2015.
+ * Created by ccrama on 9/27/2015.
  */
 public class OpenRedditLink {
     public OpenRedditLink(Context c, String url){
