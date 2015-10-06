@@ -29,6 +29,7 @@ import java.net.URLConnection;
 
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.MediaVideoView;
 
 
 /**
@@ -48,7 +49,7 @@ public class GifView extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gif);
 
-        final VideoView v = (VideoView) findViewById(R.id.gif);
+        final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
 
 
