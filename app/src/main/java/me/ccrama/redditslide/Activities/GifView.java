@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
@@ -107,8 +106,8 @@ public class GifView extends BaseActivity {
                 @Override
                 public void onCompleted(Exception e, final JsonObject result) {
                     if (result != null && result.get("urlKnown").getAsBoolean()) {
-                        final VideoView videoView =
-                                (VideoView) findViewById(R.id.gif);
+                        final MediaVideoView videoView =
+                                (MediaVideoView) findViewById(R.id.gif);
 
                         videoView.setVideoPath(
                                 result.get("mp4Url").getAsString());
@@ -191,8 +190,8 @@ public class GifView extends BaseActivity {
                                     @Override
                                     public void onCompleted(Exception e, final JsonObject result) {
 
-                                        final VideoView videoView =
-                                                (VideoView) findViewById(R.id.gif);
+                                        final MediaVideoView videoView =
+                                                (MediaVideoView) findViewById(R.id.gif);
 
                                         if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
 
@@ -307,7 +306,7 @@ public class GifView extends BaseActivity {
                         @Override
                         public void onCompleted(Exception e, final JsonObject result) {
 
-                            final VideoView v = (VideoView) findViewById(R.id.gif);
+                            final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
                             String obj = "";
                             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
