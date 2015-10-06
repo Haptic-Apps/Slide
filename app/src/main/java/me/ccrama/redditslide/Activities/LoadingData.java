@@ -19,7 +19,7 @@ public class LoadingData extends ActionBarActivity {
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("ASDF"), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
 
         ((Reddit)getApplication()).active = true;
         ((Reddit)getApplication()).loader = this;

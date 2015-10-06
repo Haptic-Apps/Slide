@@ -40,9 +40,10 @@
                     android:id="@+id/leadimage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+
                     android:layout_alignParentLeft="true"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
                     android:src="@drawable/chameleon" />
 
                 <LinearLayout

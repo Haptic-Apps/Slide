@@ -19,6 +19,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import me.ccrama.redditslide.Activities.LoadingData;
+import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
 
 /**
@@ -26,6 +27,7 @@ import me.ccrama.redditslide.Activities.SubredditOverview;
  */
 public class Reddit extends Application  implements Application.ActivityLifecycleCallbacks {
 
+    boolean closed = false;
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     }
@@ -36,11 +38,16 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
 
     @Override
     public void onActivityPaused(Activity activity) {
+        closed = true;
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        new Authentication.UpdateToken().execute();
+
+        if(closed && ! (activity instanceof Login) && !isRestarting) {
+            new Authentication.UpdateToken().execute();
+            closed = false;
+        }
     }
 
     @Override
@@ -80,6 +87,8 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         return mCustomTabsSession;
     }
 
+    public boolean isRestarting;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -95,6 +104,24 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
 
+        if(!seen.contains("RESET")){
+            colors.edit().clear().apply();
+            seen.edit().clear().apply();
+            hidden.edit().clear().apply();
+            Authentication.authentication.edit().clear().apply();
+            SubredditStorage.subscriptions.edit().clear().apply();
+            getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
+            Authentication.authentication = getSharedPreferences("AUTH", 0);
+            SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
+
+
+            SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
+            colors = getSharedPreferences("COLOR", 0);
+            seen = getSharedPreferences("SEEN", 0);
+            hidden = getSharedPreferences("HIDDEN", 0);
+            seen.edit().putBoolean("RESET", true).apply();
+
+        }
 
         int height = this.getResources().getConfiguration().screenWidthDp;
 
@@ -107,10 +134,10 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
             fina = width;
         }
         fina = ((fina + 99) / 100 ) * 100;
+        themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
         dpWidth = fina / 300;
         new Authentication(this);
-        themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
 
         tabletUI = isPackageInstalled(this, "me.ccrama.slideforreddittabletuiunlock");
@@ -151,11 +178,15 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         return result;
     }
     public void restart(){
+        isRestarting = true;
 
-        Intent iIntent = new Intent(this, SubredditOverview.class);
-        iIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(iIntent);
-        android.os.Process.killProcess(android.os.Process.myPid());
+        Intent mStartActivity = new Intent(this, LoadingData.class);
+        mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        mStartActivity.putExtra("EXIT", true);
+        this.startActivity(mStartActivity);
+        onCreate();
+
 
     }
 }

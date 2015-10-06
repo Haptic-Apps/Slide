@@ -6,10 +6,12 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -95,7 +98,11 @@ public class CommentPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
+        int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
+        Log.v("Slide", "STYLE: " + style + " DEFAULT: " + R.style.deeporange_dark);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final LinearLayoutManager mLayoutManager;
@@ -126,7 +133,7 @@ public class CommentPage extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id));
+        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
         if(context.isEmpty()) {
@@ -163,7 +170,7 @@ public class CommentPage extends Fragment {
         );
         return v;
     }
-    private class TopSnappedSmoothScroller extends LinearSmoothScroller {
+    public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
         LinearLayoutManager lm;
         public TopSnappedSmoothScroller(Context context, LinearLayoutManager lm) {
             super(context);
@@ -207,7 +214,7 @@ public class CommentPage extends Fragment {
             adapter.reset(getContext(), comments, rv, comments.submission, 1);
 
         } else
-        if(b == false) {
+        if(!b) {
             adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page), 1);
         } else {
             adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));

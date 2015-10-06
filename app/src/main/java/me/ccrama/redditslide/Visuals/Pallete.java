@@ -1,7 +1,9 @@
 package me.ccrama.redditslide.Visuals;
 
+import android.content.Context;
 import android.graphics.Color;
 
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
 /**
@@ -49,10 +51,10 @@ public class Pallete {
             return 0;
         }
     }
-    public static int[] getColors(String subreddit){
+    public static int[] getColors(String subreddit, Context context){
         int[] ints = new int[2];
         ints[0] = getColor(subreddit);
-        ints[1] = getDarkerColor(subreddit);
+        ints[1] = new ColorPreferences(context).getColor(subreddit);
         return ints;
     }
     public static int getColor(final String subreddit){
@@ -63,6 +65,9 @@ public class Pallete {
     }
     public static void setColor(final String subreddit, int color){
          Reddit.colors.edit().putInt(subreddit.toLowerCase(), color).apply();
+    }
+    public static void removeColor(final String subreddit){
+        Reddit.colors.edit().remove(subreddit.toLowerCase()).apply();
     }
     public static int getColorUser(final String username){
         if(Reddit.colors.contains("USER" + username.toLowerCase())) {

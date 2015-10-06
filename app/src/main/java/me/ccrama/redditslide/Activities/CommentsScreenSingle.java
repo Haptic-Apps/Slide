@@ -27,7 +27,7 @@ public class CommentsScreenSingle extends BaseActivity {
 
         super.onCreate(savedInstance);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("ASDF"), true);
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);

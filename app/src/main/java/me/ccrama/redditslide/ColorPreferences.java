@@ -134,13 +134,13 @@ public class ColorPreferences {
 
         dark_indigo(R.style.indigo_dark, "dark_indigo",R.color.md_indigo_A200,0),
         light_indigo(R.style.indigo_LIGHT, "light_indigo",R.color.md_indigo_A200,1),
-        amoled_indigo(R.style.indigo_AMOLED, "amoled_indigo",R.color.md_indigo_A200,2);
+        amoled_indigo(R.style.indigo_AMOLED, "amoled_indigo", R.color.md_indigo_A200,2);
 
 
         private int baseId;
         private String title;
 
-        
+
         public int getBaseId() {
             return baseId;
         }

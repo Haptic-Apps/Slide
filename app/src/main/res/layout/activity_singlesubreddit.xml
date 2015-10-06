@@ -35,14 +35,7 @@
 
             >
 
-            <Spinner
-                android:id="@+id/spinner_nav"
-                android:layout_width="150dp"
-                android:visibility="gone"
-                android:paddingLeft="16dp"
-                android:gravity="right"
-                android:layout_gravity="right"
-                android:layout_height="wrap_content" />
+
 
             <ImageView
                 android:id="@+id/sorting"
@@ -58,7 +51,16 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/sort" />
 
-
+            <ImageView
+                android:id="@+id/info"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="#00ffffff"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/infonew" />
 
 
 

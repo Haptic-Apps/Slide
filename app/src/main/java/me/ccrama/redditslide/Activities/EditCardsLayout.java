@@ -35,15 +35,15 @@ public class EditCardsLayout extends BaseActivity {
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeOverview(), true);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        setContentView(R.layout.activity_editcards);
-
         if(getIntent() != null && getIntent().hasExtra("subreddit")){
             subreddit = getIntent().getExtras().getString("subreddit","");
         } else {
             subreddit = "";
         }
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
+        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+               setContentView(R.layout.activity_editcards);
+
         findViewById(R.id.toolbar).setBackgroundColor(Pallete.getColor(subreddit));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

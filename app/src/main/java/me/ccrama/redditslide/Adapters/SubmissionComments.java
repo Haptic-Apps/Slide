@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.SubmissionRequest;
@@ -54,8 +53,8 @@ public class SubmissionComments {
 
 
     public void loadMore(CommentAdapter adapter, boolean reset, String subreddit) throws ExecutionException, InterruptedException {
-        new LoadData(reset).execute(subreddit);
         this.adapter = adapter;
+        new LoadData(reset).execute(subreddit);
 
     }
 
@@ -76,8 +75,6 @@ public class SubmissionComments {
                     page.doData(reset);
 
                     refreshLayout.setRefreshing(false);
-
-
         }
 
         @Override

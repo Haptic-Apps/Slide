@@ -41,7 +41,7 @@ public class Profile extends BaseActivity {
 
         super.onCreate(savedInstance);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("ASDF"), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
 
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);

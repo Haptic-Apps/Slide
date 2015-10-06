@@ -173,7 +173,38 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
-                 <LinearLayout
+                    <LinearLayout
+                        android:id="@+id/color2"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:tint="?attr/tint"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:id="@+id/colorExpandFrom2"
+                            android:padding="12dp"
+                            android:src="@drawable/color" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:textColor="?attr/font"
+
+                            android:text="Accent color"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                     android:id="@+id/editcards"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -207,6 +238,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="24dp"
+
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
@@ -247,6 +279,48 @@
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok"
+
+                        android:textStyle="bold"
+                        android:padding="16dp"
+                        android:textColor="?attr/font"
+                        android:gravity="right|bottom"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:padding="24dp"
+                    android:layout_alignTop="@+id/body"
+                    android:layout_alignBottom="@+id/body"
+                    android:id="@+id/body3"
+
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="?attr/card_background">
+
+                    <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/picker3"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        app:orientation="horizontal"
+
+                        app:selectedColorIndex="0" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="This value applies everywhere you have not set a specific color for."
+                        android:textSize="14dp"
+
+                        android:padding="16dp"
+                        android:textColor="?attr/font"
+                        android:layout_above="@+id/ok2"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:text="OK"
+                        android:textSize="14dp"
+                        android:layout_alignParentBottom="true"
+                        android:id="@+id/ok2"
 
                         android:textStyle="bold"
                         android:padding="16dp"

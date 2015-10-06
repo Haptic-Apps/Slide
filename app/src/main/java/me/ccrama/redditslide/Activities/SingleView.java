@@ -32,11 +32,12 @@ public class SingleView extends BaseActivity {
 
 
         super.onCreate(savedInstanceState);
+        final String subreddit = getIntent().getExtras().getString("type", "");
+
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("ASDF"), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
 
         setContentView(R.layout.activity_singlesubreddit);
-        final String subreddit = getIntent().getExtras().getString("type", "");
 
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
         t.setBackgroundColor(Pallete.getColor(subreddit));
@@ -63,7 +64,7 @@ public class SingleView extends BaseActivity {
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(subreddit));
+        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new SubredditPosts(subreddit);

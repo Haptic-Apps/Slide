@@ -35,13 +35,14 @@ public class Wiki extends BaseActivity {
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("ASDF"), true);
+        subreddit = getIntent().getExtras().getString("subreddit", "");
+
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
 
         setContentView(R.layout.activity_slidetabs);
 
         StyleView.styleActivity(this);
 
-        subreddit = getIntent().getExtras().getString("subreddit", "");
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -103,6 +104,7 @@ public class Wiki extends BaseActivity {
             Bundle args = new Bundle();
 
             args.putString("text", values.get(pages.get(i)));
+            args.putString("subreddit", subreddit);
 
             f.setArguments(args);
 

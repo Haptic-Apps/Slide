@@ -48,7 +48,7 @@ public class SubmissionsView extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id));
+        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new SubredditPosts(id);

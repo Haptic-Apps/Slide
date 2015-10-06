@@ -32,7 +32,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = CreateCardView.CreateView( viewGroup, subreddit);
+
         return new SubmissionViewHolder(v);
+
     }
 
     public SubmissionAdapter(Context mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
@@ -51,6 +53,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
 
     int lastPosition = -1;
+
 
     @Override
     public void onBindViewHolder(final SubmissionViewHolder holder, final int i) {

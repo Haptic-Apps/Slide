@@ -103,6 +103,7 @@ public class Authentication {
                 String token = authentication.getString("lasttoken", "");
                 Log.v("Slide", token);
                 if (!token.isEmpty()) {
+                    Log.v("Slide", "LOGGED IN");
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                     OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
@@ -124,6 +125,8 @@ public class Authentication {
                         Log.v("Slide", "RESTARTING CREDS");
                     }
                 } else {
+                    Log.v("Slide", "NOT LOGGED IN");
+
                     final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                     OAuthData authData = null;
                     try {
@@ -132,6 +135,7 @@ public class Authentication {
 
                     } catch (OAuthException e) {
                       //TODO fail
+                        e.printStackTrace();
                     }
                     Authentication.reddit.authenticate(authData);
 

@@ -7,6 +7,7 @@ import android.util.Log;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
@@ -57,13 +58,11 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         if(Authentication.isLoggedIn){
             getMultireddits();
         }
-        if (!Authentication.isLoggedIn && getPins() != null) {
-            subscriptions.edit().remove("pins").apply();
-        }
+
 
         ArrayList<String> value = getPins();
 
-        if (value != null && !value.isEmpty()) {
+        if (Authentication.isLoggedIn && value != null) {
 
 
             ArrayList<String> res = new ArrayList<>(value);
@@ -83,25 +82,34 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                     newValues.add(s);
                 }
             }
-            params[0].loader.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    params[0].loader.loading.setText("Finding videos of cats");
+            if(params[0].loader != null) {
+                params[0].loader.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        params[0].loader.loading.setText("Finding videos of cats");
 
-                }
-            });
+                    }
+                });
+            }
             test.addAll(sortNoValue(newValues));
             if(test.contains("")){
                 test.remove("");
             }
             subredditsForHome = test;
+            DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
+            if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
+                DataShare.notifs = null;
+            }
 
             alphabeticalSubscriptions = sort(new ArrayList<>(test));
+            if(params[0].loader != null) {
 
-            params[0].startMain();
+                params[0].startMain();
+            }
             if(shortcut != null){
                 shortcut.doShortcut();
             }
+
 
             return test;
         } else {
@@ -110,17 +118,22 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             } else {
                 finished.addAll(Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts"));
             }
-            params[0].loader.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    params[0].loader.loading.setText("Finding videos of cats");
+            if(params[0].loader != null) {
 
-                }
-            });
+                params[0].loader.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        params[0].loader.loading.setText("Finding videos of cats");
+
+                    }
+                });
+            }
             subredditsForHome = sort(finished);
             alphabeticalSubscriptions = sort(new ArrayList<>(subredditsForHome));
+            if(params[0].loader != null) {
 
-            params[0].startMain();
+                params[0].startMain();
+            }
             if(shortcut != null){
                 shortcut.doShortcut();
             }

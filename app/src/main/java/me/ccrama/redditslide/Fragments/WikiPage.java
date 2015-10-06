@@ -22,17 +22,21 @@ public class WikiPage extends Fragment {
 
         v = inflater.inflate(R.layout.justtext, container, false);
         ActiveTextView body = (ActiveTextView) v.findViewById(R.id.body);
-        new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, getActivity());
+        new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, getActivity(), subreddit);
 
 
         return v;
     }
+
+    public String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         text = bundle.getString("text", "");
+        subreddit = bundle.getString("sibreddit", "");
+
     }
 
 }

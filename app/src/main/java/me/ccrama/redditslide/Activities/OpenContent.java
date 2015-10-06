@@ -24,6 +24,7 @@ public class OpenContent extends Activity {
            url = data.toString();
         }
 
+
         new OpenRedditLink(this, url);
         finish();
     }

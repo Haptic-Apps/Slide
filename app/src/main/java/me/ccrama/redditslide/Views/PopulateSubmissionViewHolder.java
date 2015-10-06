@@ -17,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.ImageViewBitmapInfo;
 import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.models.Submission;
@@ -77,7 +75,12 @@ public class PopulateSubmissionViewHolder {
         });
 
         holder.comments.setText(submission.getCommentCount() + " comments");
-        holder.score.setText(submission.getScore() + " points");
+        if(submission.getSubredditName().equals("androidcirclejerk")) {
+            holder.score.setText(submission.getScore() + " upDuARTes");
+        } else {
+            holder.score.setText(submission.getScore() + " points");
+
+        }
         if (Authentication.isLoggedIn) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
                 holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
@@ -118,14 +121,10 @@ public class PopulateSubmissionViewHolder {
         } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
 
            boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
+            holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
             if ((big || fullscreen) && !blurry) {
-                Ion.with(holder.leadImage).load(url).withBitmapInfo().setCallback(new FutureCallback<ImageViewBitmapInfo>() {
-                    @Override
-                    public void onCompleted(Exception e, ImageViewBitmapInfo result) {
-                        Log.v("Slide", "DIMENSIONS OF " + submission.getTitle() + " IS W " + result.getBitmapInfo().bitmap.getWidth() + " H " + result.getBitmapInfo().bitmap.getHeight() );
-                    }
-                });
+                Ion.with(holder.leadImage).load(url);
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
@@ -136,6 +135,8 @@ public class PopulateSubmissionViewHolder {
                 bigAtEnd = false;
             }
         } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+            holder.leadImage.setMinimumHeight(0);
+
             if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                 bigAtEnd = false;
                 Ion.with(holder.thumbImage).load(submission.getThumbnail());
@@ -177,8 +178,7 @@ public class PopulateSubmissionViewHolder {
 
             ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
             if(submission.getThumbnailType() == Submission.ThumbnailType.SELF && !submission.getSelftext().isEmpty()){
-                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, (Activity) mContext);
-                bod.setLinkTextColor(mContext.getResources().getColor(R.color.md_amber_A200));
+                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, (Activity) mContext, submission.getSubredditName());
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
@@ -317,6 +317,7 @@ public class PopulateSubmissionViewHolder {
                             if (!upvoted && !downvoted) {
                                 downvoted = true;
                                 points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+
 
                                 new Vote(false, points, mContext).execute(submission);
                             } else if (!downvoted && upvoted) {
@@ -493,8 +494,8 @@ public class PopulateSubmissionViewHolder {
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                         builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fade_out);
-
+                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
+                        builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                         CustomTabsIntent customTabsIntent = builder.build();
                         customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
 
@@ -509,8 +510,8 @@ public class PopulateSubmissionViewHolder {
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                         builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fade_out);
-
+                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
+                        builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                         CustomTabsIntent customTabsIntent = builder.build();
                         customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
                     }
@@ -523,9 +524,8 @@ public class PopulateSubmissionViewHolder {
                     public void onClick(View v2) {
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                         builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fade_out);
-
+                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
+                        builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                         CustomTabsIntent customTabsIntent = builder.build();
                         customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
                     }
@@ -614,8 +614,8 @@ public class PopulateSubmissionViewHolder {
                         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                         builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fade_out);
-
+                        builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
+                        builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                         CustomTabsIntent customTabsIntent = builder.build();
                         customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
                     }
@@ -645,7 +645,6 @@ public class PopulateSubmissionViewHolder {
         float dp = pixesl / density;
         Configuration configuration = mC.getResources().getConfiguration();
         int screenWidthDp = configuration.screenWidthDp; //The current width of the available screen space, in dp units, corresponding to screen width resource qualifier.
-        Log.v("Slide", "Image is " + title + " DP IS " + dp + " SCREEN IS " + screenWidthDp);
 
         if(dp < screenWidthDp / 3){
             return true;

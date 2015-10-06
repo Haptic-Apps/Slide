@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.util.Log;
@@ -33,12 +34,13 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -137,6 +139,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         isSame = false;
         notifyItemRangeInserted(1, users.size() + 1);
 
+        if(currentSelectedItem != null && !currentSelectedItem.isEmpty()){
+            int i = 1;
+            for(CommentNode n : users){
+
+                if(n.getComment().getFullName().contains(currentSelectedItem)){
+                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (LinearLayoutManager)listView.getLayoutManager());
+                    smoothScroller.setTargetPosition(i);
+                    (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
+                    break;
+                }
+                i++;
+            }
+        }
+
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, int oldSize) {
@@ -159,7 +175,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         isSame = false;
         notifyDataSetChanged();
+        if(currentSelectedItem != null && !currentSelectedItem.isEmpty()){
+            int i = 1;
+            for(CommentNode n : users){
 
+                if(n.getComment().getFullName().contains(currentSelectedItem)){
+                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (LinearLayoutManager)listView.getLayoutManager());
+                    smoothScroller.setTargetPosition(i);
+                    (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
+                    break;
+                }
+                i++;
+            }
+        }
     }
 
     boolean isSame;
@@ -228,7 +256,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.replyArea.setVisibility(View.GONE);
         holder.dots.setVisibility(View.VISIBLE);
 
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit("ASDF"), new int[]{R.attr.card_background});
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit(submission.getSubredditName(), true).getBaseId(), new int[]{R.attr.card_background});
         int attributeResourceId = a.getResourceId(0, 0);
         holder.replyArea.setVisibility(View.GONE);
 
@@ -242,7 +270,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.replyArea.setVisibility(View.GONE);
         holder.dots.setVisibility(View.VISIBLE);
 
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit("ASDF"), new int[]{R.attr.card_background});
+        TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit(submission.getSubredditName(), true).getBaseId(), new int[]{R.attr.card_background});
         int attributeResourceId = a.getResourceId(0, 0);
         holder.itemView.findViewById(R.id.background).setBackgroundColor(attributeResourceId);
     }
@@ -267,6 +295,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ArrayList<CommentNode> finalData = new ArrayList<>();
             for (CommentNode no : n.walkTree()) {
                 if(!no.getComment().getFullName().equals(n.getComment().getFullName())) {
+                    Log.v("Slide", "ADDING " + no.getComment().getBody());
                     finalData.add(no);
                 }
 
@@ -297,11 +326,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 doUnHighlighted(holder);
             }
+            final int finalPos = nextPos;
+            final int finalPos1 = pos;
+
             if(baseNode.hasMoreComments() && !hasLoaded.contains(baseNode.getComment().getFullName())){
-                final int finalPos = nextPos;
                 holder.loadMore.setVisibility(View.VISIBLE);
                 holder.loadMoreText.setText("Load " + baseNode.getMoreChildren().getCount() + " more replies");
-                final int finalPos1 = pos;
                 holder.loadMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -328,9 +358,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         holder.replyArea.setVisibility(View.GONE);
                         holder.menu.setVisibility(View.VISIBLE);
-
                         dataSet.refreshLayout.setRefreshing(true);
-                        new ReplyTaskComment(comment).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                        new ReplyTaskComment(comment, finalPos, finalPos1, baseNode).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
 
 
                     }
@@ -409,7 +438,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             //TODO new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, this);
             holder.author.setText(comment.getAuthor());
-            if (comment.getAuthorFlair() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
                 holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.VISIBLE);
                 ((TextView) holder.itemView.findViewById(R.id.text)).setText(comment.getAuthorFlair().getText());
 
@@ -448,9 +477,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
             }
-            holder.time.setText(TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime()));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
 
-            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext);
+            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, submission.getSubredditName());
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
                 ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
@@ -666,14 +695,38 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public Contribution sub;
 
 
+        int finalPos;
+        int finalPos1;
+        CommentNode node;
+        public ReplyTaskComment(Contribution n, int finalPos, int finalPos1, CommentNode node) {
+            sub = n;
+            this.finalPos = finalPos;
+            this.finalPos1 = finalPos1;
+            this.node = node;
+        }
         public ReplyTaskComment(Contribution n) {
             sub = n;
+
         }
 
         @Override
         public void onPostExecute(String s) {
+            dataSet.refreshLayout.setRefreshing(false);
+
             if(s != null) {
-                new OpenRedditLink(mContext, submission.getFullName(), submission.getSubredditName(), s);
+
+
+                    try {
+                        dataSet.loadMore(CommentAdapter.this, true, submission.getSubredditName());
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+                currentSelectedItem = s;
+
             }
 
 

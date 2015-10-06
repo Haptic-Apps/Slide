@@ -49,7 +49,7 @@ public class MultiredditView extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(SubredditStorage.multireddits.get(id).getDisplayName()));
+        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(SubredditStorage.multireddits.get(id).getDisplayName(), getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new MultiredditPosts(SubredditStorage.multireddits.get(id));

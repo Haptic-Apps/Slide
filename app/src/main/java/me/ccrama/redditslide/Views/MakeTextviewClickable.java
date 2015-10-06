@@ -22,10 +22,12 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Visuals.Pallete;
 
 /**
  * Created by carlo_000 on 7/17/2015.
@@ -126,19 +128,15 @@ public class MakeTextviewClickable {
         }
         return text;
     }
-    public  void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c) {
+    public  void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
         comm.refreshDrawableState();
         if(rawHTML.length() > 0) {
-            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "•").replace("<p>", "<div>").replace("</p>","</div>");
-            Log.v("Slide", "FIRST " + rawHTML);
+            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "•").replace("<p>", "<div>").replace("</p>", "</div>");
 
             rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n") );
 
-            Log.v("Slide", "SECOND " + rawHTML);
-
             this.c = c;
 
-            comm.setLinkTextColor(c.getResources().getColor(R.color.md_amber_A200));
 
             CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
             Log.v("Spiral", sequence.toString());
@@ -182,10 +180,10 @@ public class MakeTextviewClickable {
 
                             {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -194,10 +192,10 @@ public class MakeTextviewClickable {
                             case IMAGE_LINK:
                             {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -206,10 +204,10 @@ public class MakeTextviewClickable {
                             case NSFW_LINK:
                             {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -259,10 +257,10 @@ public class MakeTextviewClickable {
                             case NONE_URL:
                             {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -293,6 +291,7 @@ public class MakeTextviewClickable {
             }, false);
 
             links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
+            comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
 
         }
@@ -301,7 +300,7 @@ public class MakeTextviewClickable {
     }
 
 
-    public  void ParseTextWithLinksTextView(String rawHTML, ActiveTextView comm, final Activity c) {
+    public  void ParseTextWithLinksTextView(String rawHTML, ActiveTextView comm, final Activity c, String subreddit) {
         if(rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "•").replace("<p>", "<div>").replace("</p>","</div>");
             rawHTML = rawHTML.substring(15, rawHTML.lastIndexOf("<!-- SC_ON -->"));
@@ -327,7 +326,7 @@ public class MakeTextviewClickable {
                     // Decide what to do when a link is clicked.
                     // (This is useful if you want to open an in app-browser)
                     if (url != null) {
-                        if(url.startsWith("/")){
+                        if (url.startsWith("/")) {
                             url = "reddit.com" + url;
                         }
                         ContentType.ImageType type = ContentType.getImageType(url);
@@ -358,8 +357,8 @@ public class MakeTextviewClickable {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                                 //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -369,8 +368,8 @@ public class MakeTextviewClickable {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                                 //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -380,8 +379,8 @@ public class MakeTextviewClickable {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                                 //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -431,8 +430,8 @@ public class MakeTextviewClickable {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                                 //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
 
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fade_out);
-
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
                                 CustomTabsIntent customTabsIntent = builder.build();
                                 customTabsIntent.launchUrl(c, Uri.parse(url));
 
@@ -450,6 +449,7 @@ public class MakeTextviewClickable {
                     }
                 }
             });
+            comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
             // Set a long pressed link listener (required if you want to show the additional
             // options menu when links are long pressed)

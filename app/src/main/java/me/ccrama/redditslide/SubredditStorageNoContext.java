@@ -1,5 +1,6 @@
 package me.ccrama.redditslide;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,14 +13,14 @@ import me.ccrama.redditslide.Activities.SubredditOverview;
 /**
  * Created by carlo_000 on 5/24/2015.
  */
-public final class SubredditStorageNoContext extends AsyncTask<SubredditOverview, Void, ArrayList<String>> {
+public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, ArrayList<String>> {
 
 
 
 
 
     @Override
-    protected ArrayList<String> doInBackground(SubredditOverview... params) {
+    protected ArrayList<String> doInBackground(Activity... params) {
         ArrayList<String> finished = new ArrayList<>();
 
 
@@ -54,7 +55,8 @@ public final class SubredditStorageNoContext extends AsyncTask<SubredditOverview
             }
             SubredditStorage.subredditsForHome = test;
 
-            params[0].resetAdapter();
+            if(params[0] instanceof SubredditOverview)
+                ((SubredditOverview)params[0]).resetAdapter();
 
             return test;
         } else {
@@ -66,8 +68,8 @@ public final class SubredditStorageNoContext extends AsyncTask<SubredditOverview
             SubredditStorage.subredditsForHome = sort(finished);
 
 
-            params[0].resetAdapter();
-
+            if(params[0] instanceof SubredditOverview)
+                ((SubredditOverview)params[0]).resetAdapter();
             return SubredditStorage.subredditsForHome;
         }
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -54,7 +55,7 @@ public class Login extends ActionBarActivity {
         Log.v("Slide", "Auth URL: " + authorizationUrl);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
-         WebView webView = (WebView) findViewById(R.id.web);
+         final WebView webView = (WebView) findViewById(R.id.web);
 
         webView.loadUrl(authorizationUrl);
         webView.setWebChromeClient(new WebChromeClient() {
@@ -70,6 +71,7 @@ public class Login extends ActionBarActivity {
                 if (url.contains("code=")) {
                     Log.v("Slide", "WebView URL: " + url);
                     new UserChallengeTask(oAuthHelper, credentials).execute(url);
+                    webView.setVisibility(View.GONE);
                 }
             }
         });
@@ -107,11 +109,18 @@ public class Login extends ActionBarActivity {
                         @Override
                         public void run() {
                             AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                            builder.setTitle("App restart needed");
-                            builder.setMessage("In order to sync subreddits and settings, please restart Slide for Reddit");
-                            builder.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+                            builder.setTitle("App is restarting");
+                            builder.setMessage("In order to sync subreddits and settings, Slide will restart");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     ((Reddit) getApplication()).restart();
+                                }
+                            });
+                            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    ((Reddit) getApplication()).restart();
+
                                 }
                             });
 

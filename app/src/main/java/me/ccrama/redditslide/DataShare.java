@@ -10,4 +10,5 @@ import java.util.ArrayList;
 public class DataShare {
     public static ArrayList<Submission> sharedSubreddit;
     public static Submission sharedSubmission;
+    public static Submission notifs;
 }
