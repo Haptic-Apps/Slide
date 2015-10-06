@@ -136,13 +136,19 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         fina = ((fina + 99) / 100 ) * 100;
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
-        dpWidth = fina / 300;
+        if(seen.contains("tabletOVERRIDE")){
+            dpWidth = seen.getInt("tabletOVERRIDE", fina / 300);
+        } else {
+            dpWidth = fina / 300;
+        }
+        defaultDPWidth = fina/300;
         new Authentication(this);
 
 
         tabletUI = isPackageInstalled(this, "me.ccrama.slideforreddittabletuiunlock");
     }
 
+    public static int defaultDPWidth;
     public void startMain(){
         if(active) {
             Intent i = new Intent(this, SubredditOverview.class);

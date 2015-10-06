@@ -45,6 +45,8 @@ public class MultiredditOverview extends BaseActivity {
         StyleView.styleActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Multireddits");
+        findViewById(R.id.information).setVisibility(View.GONE);
+        findViewById(R.id.menu).setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

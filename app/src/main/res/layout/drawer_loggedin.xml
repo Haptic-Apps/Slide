@@ -297,7 +297,11 @@
         android:textColor="?attr/font"
         android:textColorHint="?attr/font"
         android:hint="Search for a subreddit"
+        android:singleLine="true"
+
         android:layout_marginLeft="16dp"
+        android:imeOptions="actionSearch"
+
         android:backgroundTint="?attr/tint"
         android:layout_marginRight="16dp"
 

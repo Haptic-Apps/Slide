@@ -38,39 +38,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RadioGroup
+        <TextView
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:weightSum="3"
-            android:layout_height="wrap_content">
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:checked="true"
-                android:textColor="?attr/font"
-                android:id="@+id/selftextradio"
-
-                android:text="SELF TEXT"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:layout_width="0dp"
-                android:textColor="?attr/font"
-
-
-                android:id="@+id/imageradio"
-                android:layout_weight="1"
-                android:text="IMAGE"
-                android:layout_height="wrap_content" />
-            <RadioButton
-                android:layout_width="0dp"
-                android:textColor="?attr/font"
-                android:id="@+id/linkradio"
-
-                android:layout_weight="1"
-                android:text="LINK"
-                android:layout_height="wrap_content" />
-        </RadioGroup>
+            android:text="View their message"
+            android:textColor="?attr/font"
+            android:textSize="14dp"
+            android:textAllCaps="true"
+            android:id="@+id/oldMSG"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:layout_height="wrap_content" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -79,15 +57,15 @@
             android:layout_height="wrap_content">
        <EditText
            android:layout_width="match_parent"
+           android:textColor="?attr/font"
            android:backgroundTint="?attr/tint"
 
-           android:textColor="?attr/font"
-
-           android:id="@+id/subreddittext"
+           android:id="@+id/to"
            android:maxLines="1"
 
+
            android:maxLength="21"
-           android:hint="Subreddit"
+           android:hint="Recipient"
            android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
@@ -97,15 +75,14 @@
 
             android:layout_height="wrap_content">
             <EditText
-                android:backgroundTint="?attr/tint"
-
                 android:layout_width="match_parent"
                 android:maxLength="300"
                 android:textColor="?attr/font"
-                android:id="@+id/titletext"
+                android:id="@+id/subject"
                 android:maxLines="1"
+                android:backgroundTint="?attr/tint"
 
-                android:hint="Title"
+                android:hint="Subject"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
         <LinearLayout
@@ -119,65 +96,17 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_width="match_parent"
-                    android:id="@+id/bodytext"
-                    android:hint="Body (optional)"
-                    android:textColor="?attr/font"
-                    android:backgroundTint="?attr/tint"
+                    android:id="@+id/body"
+                    android:hint="Body"           android:backgroundTint="?attr/tint"
 
+                    android:textColor="?attr/font"
                     android:imeOptions="actionDone|flagNoEnterAction"
                     android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/image"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="SELECT AN IMAGE"
-                    android:id="@+id/selImage"
-
-                    android:textStyle="bold"
-                    android:layout_marginLeft="6dp"
-                    android:textSize="14dp"
-                    android:textColor="?attr/font"
-                    android:backgroundTint="?attr/tint"
-
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:adjustViewBounds="true"
-                    android:id="@+id/imagepost"
-
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/url"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:textColorHint="?attr/font"
-
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:hint="URL"
-                    android:maxLines="1"
-                    android:backgroundTint="?attr/tint"
-
-                    android:id="@+id/urltext"
-
-                    android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
 
     </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

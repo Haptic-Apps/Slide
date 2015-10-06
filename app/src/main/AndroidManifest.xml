@@ -30,6 +30,8 @@
         <activity android:name=".Activities.SubredditView"/>
         <activity android:name=".Activities.MultiredditOverview"/>
         <activity android:name=".Activities.Profile"/>
+        <activity android:name=".Activities.Sendmessage"/>
+
         <activity android:label="SlideIntent" android:name=".Activities.OpenContent">
         <intent-filter android:label="Slide">
             <action android:name="android.intent.action.VIEW"/>
@@ -52,6 +54,8 @@
         <activity android:name=".Activities.Inbox"/>
         <activity android:name=".Activities.Submit"/>
         <activity android:name=".Activities.Tutorial"/>
+        <activity android:name=".Activities.CommentsScreenPopup"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
 
         <activity android:name=".Activities.EditCardsLayout"/>
 

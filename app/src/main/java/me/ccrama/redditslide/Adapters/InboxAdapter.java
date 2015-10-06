@@ -6,6 +6,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import net.dean.jraw.models.PrivateMessage;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.Activities.Sendmessage;
+import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
@@ -76,7 +79,8 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
             final Message comment = dataSet.get(i);
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
 
-            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, comment.getSubreddit());
+
+            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext,"" );
 
            holder.title.setText(comment.getSubject());
 
@@ -84,7 +88,11 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
             @Override
             public void onClick(View v) {
                 if(comment instanceof PrivateMessage){
-                    //todo reply
+                    DataShare.sharedMessage =  (PrivateMessage) comment;
+                    Intent i = new Intent(mContext, Sendmessage.class);
+                    i.putExtra("name", comment.getAuthor());
+                    i.putExtra("reply" , true);
+                    ((Activity) mContext).startActivity(i);
                 } else {
                     CommentMessage m = (CommentMessage) comment;
                     new OpenRedditLink(mContext,comment.getDataNode().get("context").asText());

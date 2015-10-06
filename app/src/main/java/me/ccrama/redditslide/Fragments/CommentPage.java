@@ -110,9 +110,11 @@ public class CommentPage extends Fragment {
         rv.setLayoutManager(mLayoutManager);
 
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        ((BaseActivity)getActivity()).setSupportActionBar(toolbar);
-        ((BaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((BaseActivity)getActivity()).getSupportActionBar().setTitle(id);
+        if(getActivity() instanceof  BaseActivity) {
+            ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
+        }
         toolbar.setBackgroundColor(Pallete.getColor(id));
 
 

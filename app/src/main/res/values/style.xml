@@ -11,6 +11,7 @@
     </style>
     <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
+
         <item name="colorAccent">@color/md_amber_A200</item>
 
     </style>
@@ -182,6 +183,7 @@
         <item name="card_background">#ffffff</item>
         <item name="font">#b3000000</item>
         <item name="tint">#de393939</item>
+        <item name="android:windowBackground">@color/white</item>
 
         <item name="list_background">#ffffff</item>
 
@@ -190,6 +192,7 @@
         <item name="activity_background">#303030</item>
         <item name="card_background">#424242</item>
         <item name="font">#b3FFFFFF</item>
+        <item name="android:windowBackground">@color/black</item>
 
         <item name="tint">#DEffffff</item>
 
@@ -201,7 +204,9 @@
         <item name="card_background">#000000</item>
         <item name="font">#b3FFFFFF</item>
         <item name="tint">#DEffffff</item>
+        <item name="android:windowBackground">@color/black</item>
 
         <item name="list_background">#000000</item>
     </style>
+
 </resources>

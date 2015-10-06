@@ -38,7 +38,19 @@
 
                     >
 
+                    <ImageView
+                        android:id="@+id/menu"
+                        android:layout_width="36dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end|center_vertical"
 
+                        android:background="#00ffffff"
+                        android:paddingBottom="12dp"
+
+                        android:paddingTop="12dp"
+
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/more" />
 
                     <ImageView
                         android:id="@+id/sorting"
@@ -55,7 +67,30 @@
                         android:src="@drawable/sort" />
 
 
+                    <ImageView
+                        android:id="@+id/info"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:background="#00ffffff"
+                        android:paddingBottom="12dp"
+                        android:paddingTop="12dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/infonew" />
 
+                    <ImageView
+                        android:id="@+id/wiki"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="end|center_vertical"
+
+                        android:background="#00ffffff"
+                        android:paddingBottom="12dp"
+
+                        android:paddingTop="12dp"
+
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/wiki" />
 
 
 

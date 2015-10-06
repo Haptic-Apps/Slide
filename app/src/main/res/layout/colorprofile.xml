@@ -124,7 +124,7 @@
                         android:background="?attr/tint" />
 
                     <LinearLayout
-                        android:id="@+id/sidebar"
+                        android:id="@+id/pm"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"

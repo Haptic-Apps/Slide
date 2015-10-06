@@ -291,6 +291,7 @@ public class MakeTextviewClickable {
             }, false);
 
             links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
+
             comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
 

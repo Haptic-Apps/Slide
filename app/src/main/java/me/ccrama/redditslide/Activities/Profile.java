@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -81,6 +82,16 @@ public class Profile extends BaseActivity {
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText(name);
                     title.setBackgroundColor(Pallete.getColorUser(name));
+
+                    findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Profile.this, Sendmessage.class);
+                            i.putExtra("name", name);
+                            startActivity(i);
+                        }
+                    });
+
 
                     final View body = dialoglayout.findViewById(R.id.body2);
                     body.setVisibility(View.INVISIBLE);

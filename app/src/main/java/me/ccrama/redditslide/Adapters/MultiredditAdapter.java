@@ -7,6 +7,7 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 
@@ -56,11 +59,18 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
 
             @Override
             public void onClick(View arg0) {
-
-                Intent i2 = new Intent(mContext, CommentsScreen.class);
                 DataShare.sharedSubreddit = dataSet.posts;
-                i2.putExtra("page",i );
-                ((Activity) mContext).startActivityForResult(i2, 2);
+
+                if(Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
+                    Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
+                    i2.putExtra("page", i);
+                    (mContext).startActivity(i2);
+
+                } else {
+                    Intent i2 = new Intent(mContext, CommentsScreen.class);
+                    i2.putExtra("page", i);
+                    ((Activity) mContext).startActivityForResult(i2, 2);
+                }
 
 
             }

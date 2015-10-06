@@ -21,13 +21,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -738,6 +741,9 @@ public class SubredditOverview extends ActionBarActivity {
                                         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
                                         pager.setAdapter(adapter);
                                         pager.setCurrentItem(current);
+                                        tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(0)));
+
+
                                     }
                                 });
 
@@ -1155,11 +1161,10 @@ public class SubredditOverview extends ActionBarActivity {
     public void restartTheme() {
         Intent intent = this.getIntent();
         intent.putExtra("pageTo", pager.getCurrentItem());
-        finish();
-        SubredditOverview.this.overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
 
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
+        finish();
 
     }
 
@@ -1327,7 +1332,19 @@ public class SubredditOverview extends ActionBarActivity {
             });
         }
         final EditText e = ((EditText) header.findViewById(R.id.sort));
+        e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
+            @Override
+            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
+                    Intent inte = new Intent(SubredditOverview.this, SubredditView.class);
+                    inte.putExtra("subreddit", e.getText().toString());
+                    SubredditOverview.this.startActivity(inte);
+                }
+                return false;
+            }
+
+        });
         header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1359,14 +1376,75 @@ public class SubredditOverview extends ActionBarActivity {
                     inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
                     Overview.this.startActivity(inte);*/
                 if (Reddit.tabletUI) {
-                    new android.support.v7.app.AlertDialog.Builder(SubredditOverview.this)
-                            .setTitle("Multi-Column settings coming soon!")
-                            .setMessage("In the next update, you will be able to set the amount of cards you would like to see and which veiws to apply Multi-Column to!")
-                            .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(SubredditOverview.this);
 
+                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                   final CheckBox cb = (CheckBox) dialoglayout.findViewById(R.id.default_click);
+                   final View elseView = dialoglayout.findViewById(R.id.override);
+
+                    final EditText editOverride = (EditText) dialoglayout.findViewById(R.id.overrideText);
+                    if(Reddit.dpWidth == Reddit.defaultDPWidth){
+                        cb.setChecked(true);
+                        elseView.setAlpha(0.25f);
+                        editOverride.setInputType(InputType.TYPE_NULL);
+                    } else {
+                        cb.setChecked(false);
+                        elseView.setAlpha(1f);
+                    }
+
+
+                    editOverride.setText(String.valueOf(Reddit.dpWidth));
+
+                    cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                elseView.setAlpha(0.25f);
+                                editOverride.setInputType(InputType.TYPE_NULL);
+                                editOverride.setText(String.valueOf(Reddit.defaultDPWidth));
+
+                            } else {
+                                editOverride.setInputType(InputType.TYPE_CLASS_NUMBER);
+                                elseView.setAlpha(1f);
+                                editOverride.requestFocus();
+
+
+                            }
+                        }
+                    });
+
+
+
+                    final AlertDialog dialog = builder.setView(dialoglayout).create();
+                    dialog.show();
+                    dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (cb.isChecked() || editOverride.getText().toString().isEmpty()) {
+                                Reddit.dpWidth = Reddit.defaultDPWidth;
+                                Reddit.seen.edit().putInt("tabletOVERRIDE", Reddit.dpWidth).apply();
+                                dialog.dismiss();
+                                restartTheme();
+                            } else {
+                                Integer in = Integer.valueOf(editOverride.getText().toString() );
+                                if(in > 0 && in < 8) {
+                                    Reddit.seen.edit().putInt("tabletOVERRIDE", Integer.valueOf(editOverride.getText().toString())).apply();
+                                    dialog.dismiss();
+                                    Reddit.dpWidth = in;
+
+                                    restartTheme();
+                                } else {
+                                    new AlertDialog.Builder(SubredditOverview.this).setTitle("Invalid Amount of Columns").setMessage("You must enter a number between 1 and 7!").create().show();
                                 }
-                            }).show();
+
+                            }
+
+                        }
+                    });
+
+
                 } else {
                     new android.support.v7.app.AlertDialog.Builder(SubredditOverview.this)
                             .setTitle("Unlock Grid Layout")
@@ -1385,16 +1463,6 @@ public class SubredditOverview extends ActionBarActivity {
                         }
                     }).show();
                 }
-            }
-        });
-        footer.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent inte = new Intent(SubredditOverview.this, SubredditView.class);
-                inte.putExtra("subreddit", e.getText().toString());
-                SubredditOverview.this.startActivity(inte);
-
             }
         });
 
