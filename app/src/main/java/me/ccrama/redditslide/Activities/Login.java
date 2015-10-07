@@ -1,12 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +12,8 @@ import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.oauth.Credentials;
@@ -32,7 +32,7 @@ import me.ccrama.redditslide.Reddit;
 /**
  * Created by ccrama on 5/27/2015.
  */
-public class Login extends ActionBarActivity {
+public class Login extends BaseActivity {
     public Toolbar toolbar;
     public static String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     public static String REDIRECT_URL = "http://www.ccrama.me";
@@ -108,7 +108,7 @@ public class Login extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Login.this);
                             builder.setTitle("App is restarting");
                             builder.setMessage("In order to sync subreddits and settings, Slide will restart");
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

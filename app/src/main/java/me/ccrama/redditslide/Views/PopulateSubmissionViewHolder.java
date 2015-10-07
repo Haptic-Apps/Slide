@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -108,12 +108,13 @@ public class PopulateSubmissionViewHolder {
         if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
             if (big || fullscreen) {
-                Ion.with(holder.leadImage).load(url);
+                Picasso.with(mContext).load(url).into(holder.leadImage);
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Ion.with(holder.thumbImage).load(url);
+                Picasso.with(mContext).load(url).into(holder.thumbImage);
+
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
                 bigAtEnd = false;
@@ -124,12 +125,14 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
             if ((big || fullscreen) && !blurry) {
-                Ion.with(holder.leadImage).load(url);
+                Picasso.with(mContext).load(url).into(holder.leadImage);
+
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Ion.with(holder.thumbImage).load(url);
+                Picasso.with(mContext).load(url).into(holder.thumbImage);
+
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
                 bigAtEnd = false;
@@ -139,7 +142,8 @@ public class PopulateSubmissionViewHolder {
 
             if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                 bigAtEnd = false;
-                Ion.with(holder.thumbImage).load(submission.getThumbnail());
+                Picasso.with(mContext).load(submission.getThumbnail()).into(holder.thumbImage);
+
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
             } else {
@@ -177,7 +181,7 @@ public class PopulateSubmissionViewHolder {
             }
 
             ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
-            if(submission.getThumbnailType() == Submission.ThumbnailType.SELF && !submission.getSelftext().isEmpty()){
+            if( !submission.getSelftext().isEmpty()){
                 new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, (Activity) mContext, submission.getSubredditName());
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {

@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,9 +11,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.InboxManager;
@@ -85,7 +83,7 @@ public class Sendmessage extends ActionBarActivity {
                 oldMSG.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AlertDialog.Builder b = new AlertDialog.Builder(Sendmessage.this);
+                        AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(Sendmessage.this);
                         b.setTitle(name + " said...");
                         b.setMessage(previousMessage.getBody());
                         b.create().show();
@@ -134,10 +132,7 @@ public class Sendmessage extends ActionBarActivity {
 
     }
     public String URL;
-    public void setImage(String URL){
-        this.URL = URL;
-        Ion.with(this).load(URL).intoImageView(((ImageView) findViewById(R.id.imagepost)));
-    }
+
 
     private class AsyncDo extends AsyncTask<Void, Void,Void>{
 

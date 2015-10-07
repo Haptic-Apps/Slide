@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,6 +21,7 @@ import net.dean.jraw.models.CommentNode;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 
 
@@ -42,6 +43,7 @@ public class Album extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.album);
 
@@ -124,7 +126,7 @@ public class Album extends BaseActivity {
 
                                 } else {
 
-                                    new AlertDialog.Builder(Album.this)
+                                    new AlertDialogWrapper.Builder(Album.this)
                                             .setTitle("Album not found...")
                                             .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
                                             .setCancelable(false)
@@ -137,7 +139,7 @@ public class Album extends BaseActivity {
                                 }
                             } else {
 
-                                new AlertDialog.Builder(Album.this)
+                                new AlertDialogWrapper.Builder(Album.this)
                                         .setTitle("Album not found...")
                                         .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
                                         .setCancelable(false)

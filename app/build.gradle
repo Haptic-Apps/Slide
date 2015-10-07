@@ -40,19 +40,25 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'com.koushikdutta.ion:ion:2.+'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile('com.afollestad.material-dialogs:core:0.8.2.0@aar') {
+        transitive = true
+    }
+    compile('com.afollestad.material-dialogs:commons:0.8.2.0@aar') {
+        transitive = true
+    }
     compile 'uz.shift:colorpicker:0.5@aar'
+
     compile 'com.android.support:customtabs:+'
-    compile 'org.sufficientlysecure:html-textview:1.2'
-    compile 'com.github.ozodrukh:CircularReveal:1.1.1@aar'
-    compile 'com.bowyer.app:fab-toolbar:1.1.0@aar'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.4.2'
     compile 'me.zhanghai.android.materialprogressbar:library:1.0.2'
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.android.support:design:+'
     compile 'com.android.support:cardview-v7:+'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
+    compile 'com.github.rey5137:material:1.1.1'
+
     compile files('libs/JRAW-0.7.1.jar')
     compile     'com.squareup.okhttp:okhttp:2.3.0'
     compile     'com.fasterxml.jackson.core:jackson-databind:2.5.0'

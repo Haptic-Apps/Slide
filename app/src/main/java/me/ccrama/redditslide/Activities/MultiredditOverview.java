@@ -8,10 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.paginators.Sorting;
@@ -45,7 +46,7 @@ public class MultiredditOverview extends BaseActivity {
         StyleView.styleActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Multireddits");
-        findViewById(R.id.information).setVisibility(View.GONE);
+        findViewById(R.id.info).setVisibility(View.GONE);
         findViewById(R.id.menu).setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -53,6 +54,7 @@ public class MultiredditOverview extends BaseActivity {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
         }
+        findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -152,7 +154,7 @@ public class MultiredditOverview extends BaseActivity {
                 }
             }
         };
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(MultiredditOverview.this);
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MultiredditOverview.this);
         builder.setTitle("Choose a Sorting Type");
         builder.setItems(
                 new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, l2);
@@ -176,7 +178,7 @@ public class MultiredditOverview extends BaseActivity {
     public void setDataSet(List<MultiReddit> data) {
         usedArray = data;
         if(usedArray.size() == 0){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
             builder.setTitle("No Multireddits (yet)!");
             builder.setMessage("For now, you will need to create new multireddits on Reddit.com. Coming soon will be in-app multireddit creation, though!");
             builder.setPositiveButton("Ok!", new DialogInterface.OnClickListener() {

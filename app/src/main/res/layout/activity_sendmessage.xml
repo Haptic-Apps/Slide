@@ -116,11 +116,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:src="@drawable/send"
-        app:fab_size="normal"
+        app:fabSize="normal"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:elevation="6dp"
         android:layout_margin="16dp"
         app:pressedTranslationZ="12dp"/>
     </RelativeLayout>

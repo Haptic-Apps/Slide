@@ -18,26 +18,29 @@ package me.ccrama.redditslide;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-        import android.app.AlertDialog;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.net.Uri;
-        import android.text.Layout;
-        import android.text.Selection;
-        import android.text.Spannable;
-        import android.text.SpannableString;
-        import android.text.SpannableStringBuilder;
-        import android.text.SpannedString;
-        import android.text.method.LinkMovementMethod;
-        import android.text.style.ClickableSpan;
-        import android.text.style.StyleSpan;
-        import android.text.style.URLSpan;
-        import android.util.AttributeSet;
-        import android.view.MotionEvent;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.TextView;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.Layout;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.SpannedString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 public class ActiveTextView extends TextView {
 
@@ -140,7 +143,7 @@ public class ActiveTextView extends TextView {
                 if(mLongPressedLinkListener!=null){
                     if(isLinkPending()){
                         // Create the dialog
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
                         builder.setItems(
                                 mDisplayMinLongPress?new String[]{"Open in browser","Copy link address","Share link"} :
                                         new String[]{"Open in browser","Copy link address","Share link","Long press parent"},
@@ -172,7 +175,7 @@ public class ActiveTextView extends TextView {
                                     }
                                 });
 
-                        AlertDialog alert = builder.create();
+                        Dialog alert = builder.create();
                         alert.setTitle(mUrl);
                         alert.setCanceledOnTouchOutside(true);
                         alert.show();

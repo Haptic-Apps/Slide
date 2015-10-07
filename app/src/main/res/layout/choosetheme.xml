@@ -205,34 +205,34 @@
                     </LinearLayout>
 
                     <LinearLayout
-                    android:id="@+id/editcards"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:gravity="center_vertical"
+                        android:id="@+id/editcards"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
 
-                    android:orientation="horizontal"
-                    android:paddingRight="16dp">
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
 
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:tint="?attr/tint"
-                        android:layout_height="match_parent"
-                        android:alpha=".86"
-                        android:padding="12dp"
-                        android:src="@drawable/card" />
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:tint="?attr/tint"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:src="@drawable/card" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_width="wrap_content"
 
-                        android:layout_height="wrap_content"
+                            android:layout_height="wrap_content"
 
-                        android:textColor="?attr/font"
+                            android:textColor="?attr/font"
 
-                        android:text="Edit CardView"
+                            android:text="Edit CardView"
 
-                        android:textSize="16sp" />
+                            android:textSize="16sp" />
 
-                </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
                 <RelativeLayout

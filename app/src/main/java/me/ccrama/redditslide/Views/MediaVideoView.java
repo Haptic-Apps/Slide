@@ -438,7 +438,7 @@ public class MediaVideoView extends SurfaceView
 //                  messageId = com.android.internal.R.string.VideoView_error_text_unknown;
 //               }
 //
-//               new AlertDialog.Builder(getContext())
+//               new AlertDialogWrapper.Builder(getContext())
 //                  .setMessage(messageId)
 //                  .setPositiveButton(com.android.internal.R.string.VideoView_error_button,
 //                     new DialogInterface.OnClickListener() {

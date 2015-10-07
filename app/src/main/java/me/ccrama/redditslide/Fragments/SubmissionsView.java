@@ -78,9 +78,37 @@ public class SubmissionsView extends Fragment {
                     }
                 }
         );
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                visibleItemCount = rv.getLayoutManager().getChildCount();
+                totalItemCount = rv.getLayoutManager().getItemCount();
+                pastVisiblesItems = ((LinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+
+                        loading = false;
+                        try {
+                            posts.loadMore(adapter, false, posts.subreddit);
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+        });
         return v;
     }
+    int visibleItemCount;
+    boolean loading = true;
+    int pastVisiblesItems;
 
+    int totalItemCount;
     public SubmissionAdapter adapter;
 
     public SubredditPosts posts;

@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -195,7 +195,7 @@ public class GifView extends BaseActivity {
 
                                         if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
 
-                                            new AlertDialog.Builder(GifView.this)
+                                            new AlertDialogWrapper.Builder(GifView.this)
                                                     .setTitle("Gif not found...")
                                                     .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
                                                     .setCancelable(false)
@@ -310,7 +310,7 @@ public class GifView extends BaseActivity {
                             String obj = "";
                             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
-                                new AlertDialog.Builder(GifView.this)
+                                new AlertDialogWrapper.Builder(GifView.this)
                                         .setTitle("Gif not found...")
                                         .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
                                         .setCancelable(false)

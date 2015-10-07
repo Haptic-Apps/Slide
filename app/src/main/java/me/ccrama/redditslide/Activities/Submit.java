@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.ApiException;
@@ -140,6 +140,7 @@ public class Submit extends ActionBarActivity {
     public String URL;
     public void setImage(String URL){
         this.URL = URL;
+
         Ion.with(this).load(URL).intoImageView(((ImageView) findViewById(R.id.imagepost)));
     }
 
@@ -163,7 +164,7 @@ public class Submit extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     finish();
@@ -192,7 +193,7 @@ public class Submit extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     finish();
@@ -223,7 +224,7 @@ public class Submit extends ActionBarActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     finish();

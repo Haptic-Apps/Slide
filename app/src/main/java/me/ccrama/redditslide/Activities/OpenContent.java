@@ -25,6 +25,8 @@ public class OpenContent extends Activity {
         }
 
 
+
+
         new OpenRedditLink(this, url);
         finish();
     }

@@ -38,22 +38,29 @@
             <category android:name="android.intent.category.DEFAULT"/>
             <category android:name="android.intent.category.BROWSABLE"/>
             <data android:host="www.reddit.com" android:scheme="http"/>
-            <data android:host="reddit.com" android:scheme="http"/>
+            <data android:host="reddit.com" android:scheme="https"/>
+
             <data android:host="i.reddit.com" android:scheme="http"/>
             <data android:host="m.reddit.com" android:scheme="http"/>
-            <data android:host="np.reddit.com" android:scheme="http"/>
             <data android:host="www.reddit.com" android:scheme="https"/>
-            <data android:host="reddit.com" android:scheme="https"/>
             <data android:host="i.reddit.com" android:scheme="https"/>
             <data android:host="m.reddit.com" android:scheme="https"/>
-            <data android:host="np.reddit.com" android:scheme="https"/>
+            <data android:host="np.reddit.com" android:scheme="http"/>
+            <data android:host="reddit.com" android:scheme="http"/>
 
+            <data android:host="np.reddit.com" android:scheme="https"/>
+            <data android:host="redd.it" android:scheme="https"/>
+            <data android:host="redd.it" android:scheme="http"/>
+            <data android:host="www.redd.it" android:scheme="https"/>
+            <data android:host="www.redd.it" android:scheme="http"/>
         </intent-filter>
         </activity>
         <activity android:name=".Activities.CommentsScreenSingle"/>
         <activity android:name=".Activities.Inbox"/>
         <activity android:name=".Activities.Submit"/>
         <activity android:name=".Activities.Tutorial"/>
+        <activity android:name=".Activities.DonateView"/>
+
         <activity android:name=".Activities.CommentsScreenPopup"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
 

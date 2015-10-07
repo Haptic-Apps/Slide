@@ -2,9 +2,12 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -17,7 +20,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -38,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.models.Submission;
@@ -64,10 +67,13 @@ import me.ccrama.redditslide.Visuals.Pallete;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
+
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class SubredditOverview extends ActionBarActivity {
+public class SubredditOverview extends ActionBarActivity  {
+
+
     Toolbar toolbar;
 
     @Override
@@ -128,12 +134,12 @@ public class SubredditOverview extends ActionBarActivity {
         setContentView(R.layout.activity_overview);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
-        if(DataShare.notifs != null){
+        if (DataShare.notifs != null) {
 
             final Submission s = DataShare.notifs;
             LayoutInflater inflater = getLayoutInflater();
             final View dialoglayout = inflater.inflate(R.layout.popupsubmission, null);
-            final AlertDialog.Builder builder = new AlertDialog.Builder(SubredditOverview.this);
+            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
             new MakeTextviewClickable().ParseTextWithLinksTextView(s.getDataNode().get("selftext_html").asText(), (ActiveTextView) dialoglayout.findViewById(R.id.body), this, s.getSubredditName());
 
             ((TextView) dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
@@ -146,11 +152,10 @@ public class SubredditOverview extends ActionBarActivity {
             } else {
                 title.setVisibility(View.GONE);
             }
-            ((TextView)dialoglayout.findViewById(R.id.info)).setText(TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
+            ((TextView) dialoglayout.findViewById(R.id.info)).setText(TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
 
 
-
-           final AlertDialog dialog = builder.setView(dialoglayout).create();
+            final Dialog dialog = builder.setView(dialoglayout).create();
             dialog.show();
             dialog.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -168,6 +173,8 @@ public class SubredditOverview extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
+            SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription("Homescreen", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor("")));
+
         }
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -184,7 +191,7 @@ public class SubredditOverview extends ActionBarActivity {
                 {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosetheme, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SubredditOverview.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     final String subreddit = usedArray.get(pager.getCurrentItem());
                     title.setBackgroundColor(Pallete.getDefaultColor());
@@ -310,6 +317,8 @@ public class SubredditOverview extends ActionBarActivity {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
                                         window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                        SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+
                                     }
                                 }
                             }
@@ -380,7 +389,7 @@ public class SubredditOverview extends ActionBarActivity {
                             }
                         });
 
-                       final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+                        final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
                         int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                         int i = 0;
@@ -478,7 +487,7 @@ public class SubredditOverview extends ActionBarActivity {
                     Log.v("Slide", "STYLE: " + style + " DEFAULT: " + R.style.deeporange_dark);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SubredditOverview.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText("/r/" + subreddit);
                     title.setBackgroundColor(Pallete.getColor(subreddit));
@@ -569,6 +578,8 @@ public class SubredditOverview extends ActionBarActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                    SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+
                                 }
                                 title.setBackgroundColor(colorPicker2.getColor());
                             }
@@ -588,6 +599,8 @@ public class SubredditOverview extends ActionBarActivity {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
                                         window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+
                                     }
                                     title.setBackgroundColor(Pallete.getDefaultColor());
 
@@ -779,29 +792,6 @@ public class SubredditOverview extends ActionBarActivity {
             }
         });
 
-    }
-
-    public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    LayoutInflater inflater = getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SubredditOverview.this);
-                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
-                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverview.this, "slideforreddit");
-
-                    builder.setView(dialoglayout).show();
-
-                }
-            });
-            return null;
-        }
     }
 
     public int[] getColors(int c) {
@@ -1037,6 +1027,266 @@ public class SubredditOverview extends ActionBarActivity {
         }
     }
 
+    public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
+                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
+                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverview.this, "slideforreddit");
+
+                    builder.setView(dialoglayout).show();
+
+                }
+            });
+            return null;
+        }
+    }
+
+    public int[] getMainColors(){
+        return new int[]{
+                getResources().getColor(R.color.md_red_500),
+                getResources().getColor(R.color.md_pink_500),
+                getResources().getColor(R.color.md_purple_500),
+                getResources().getColor(R.color.md_deep_purple_500),
+                getResources().getColor(R.color.md_indigo_500),
+                getResources().getColor(R.color.md_blue_500),
+                getResources().getColor(R.color.md_light_blue_500),
+                getResources().getColor(R.color.md_cyan_500),
+                getResources().getColor(R.color.md_teal_500),
+                getResources().getColor(R.color.md_green_500),
+                getResources().getColor(R.color.md_light_green_500),
+                getResources().getColor(R.color.md_lime_500),
+                getResources().getColor(R.color.md_yellow_500),
+                getResources().getColor(R.color.md_amber_500),
+                getResources().getColor(R.color.md_orange_500),
+                getResources().getColor(R.color.md_deep_orange_500),
+                getResources().getColor(R.color.md_brown_500),
+                getResources().getColor(R.color.md_grey_500),
+                getResources().getColor(R.color.md_blue_grey_500)};
+    }
+    public int[][] getSecondaryColors() {
+        return new int[][]{
+                new int[]{
+                        getResources().getColor(R.color.md_red_100),
+                        getResources().getColor(R.color.md_red_200),
+                        getResources().getColor(R.color.md_red_300),
+                        getResources().getColor(R.color.md_red_400),
+                        getResources().getColor(R.color.md_red_500),
+                        getResources().getColor(R.color.md_red_600),
+                        getResources().getColor(R.color.md_red_700),
+                        getResources().getColor(R.color.md_red_800),
+                        getResources().getColor(R.color.md_red_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_pink_100),
+                        getResources().getColor(R.color.md_pink_200),
+                        getResources().getColor(R.color.md_pink_300),
+                        getResources().getColor(R.color.md_pink_400),
+                        getResources().getColor(R.color.md_pink_500),
+                        getResources().getColor(R.color.md_pink_600),
+                        getResources().getColor(R.color.md_pink_700),
+                        getResources().getColor(R.color.md_pink_800),
+                        getResources().getColor(R.color.md_pink_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_purple_100),
+                        getResources().getColor(R.color.md_purple_200),
+                        getResources().getColor(R.color.md_purple_300),
+                        getResources().getColor(R.color.md_purple_400),
+                        getResources().getColor(R.color.md_purple_500),
+                        getResources().getColor(R.color.md_purple_600),
+                        getResources().getColor(R.color.md_purple_700),
+                        getResources().getColor(R.color.md_purple_800),
+                        getResources().getColor(R.color.md_purple_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_deep_purple_100),
+                        getResources().getColor(R.color.md_deep_purple_200),
+                        getResources().getColor(R.color.md_deep_purple_300),
+                        getResources().getColor(R.color.md_deep_purple_400),
+                        getResources().getColor(R.color.md_deep_purple_500),
+                        getResources().getColor(R.color.md_deep_purple_600),
+                        getResources().getColor(R.color.md_deep_purple_700),
+                        getResources().getColor(R.color.md_deep_purple_800),
+                        getResources().getColor(R.color.md_deep_purple_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_indigo_100),
+                        getResources().getColor(R.color.md_indigo_200),
+                        getResources().getColor(R.color.md_indigo_300),
+                        getResources().getColor(R.color.md_indigo_400),
+                        getResources().getColor(R.color.md_indigo_500),
+                        getResources().getColor(R.color.md_indigo_600),
+                        getResources().getColor(R.color.md_indigo_700),
+                        getResources().getColor(R.color.md_indigo_800),
+                        getResources().getColor(R.color.md_indigo_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_blue_100),
+                        getResources().getColor(R.color.md_blue_200),
+                        getResources().getColor(R.color.md_blue_300),
+                        getResources().getColor(R.color.md_blue_400),
+                        getResources().getColor(R.color.md_blue_500),
+                        getResources().getColor(R.color.md_blue_600),
+                        getResources().getColor(R.color.md_blue_700),
+                        getResources().getColor(R.color.md_blue_800),
+                        getResources().getColor(R.color.md_blue_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_light_blue_100),
+                        getResources().getColor(R.color.md_light_blue_200),
+                        getResources().getColor(R.color.md_light_blue_300),
+                        getResources().getColor(R.color.md_light_blue_400),
+                        getResources().getColor(R.color.md_light_blue_500),
+                        getResources().getColor(R.color.md_light_blue_600),
+                        getResources().getColor(R.color.md_light_blue_700),
+                        getResources().getColor(R.color.md_light_blue_800),
+                        getResources().getColor(R.color.md_light_blue_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_cyan_100),
+                        getResources().getColor(R.color.md_cyan_200),
+                        getResources().getColor(R.color.md_cyan_300),
+                        getResources().getColor(R.color.md_cyan_400),
+                        getResources().getColor(R.color.md_cyan_500),
+                        getResources().getColor(R.color.md_cyan_600),
+                        getResources().getColor(R.color.md_cyan_700),
+                        getResources().getColor(R.color.md_cyan_800),
+                        getResources().getColor(R.color.md_cyan_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_teal_100),
+                        getResources().getColor(R.color.md_teal_200),
+                        getResources().getColor(R.color.md_teal_300),
+                        getResources().getColor(R.color.md_teal_400),
+                        getResources().getColor(R.color.md_teal_500),
+                        getResources().getColor(R.color.md_teal_600),
+                        getResources().getColor(R.color.md_teal_700),
+                        getResources().getColor(R.color.md_teal_800),
+                        getResources().getColor(R.color.md_teal_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_green_100),
+                        getResources().getColor(R.color.md_green_200),
+                        getResources().getColor(R.color.md_green_300),
+                        getResources().getColor(R.color.md_green_400),
+                        getResources().getColor(R.color.md_green_500),
+                        getResources().getColor(R.color.md_green_600),
+                        getResources().getColor(R.color.md_green_700),
+                        getResources().getColor(R.color.md_green_800),
+                        getResources().getColor(R.color.md_green_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_light_green_100),
+                        getResources().getColor(R.color.md_light_green_200),
+                        getResources().getColor(R.color.md_light_green_300),
+                        getResources().getColor(R.color.md_light_green_400),
+                        getResources().getColor(R.color.md_light_green_500),
+                        getResources().getColor(R.color.md_light_green_600),
+                        getResources().getColor(R.color.md_light_green_700),
+                        getResources().getColor(R.color.md_light_green_800),
+                        getResources().getColor(R.color.md_light_green_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_lime_100),
+                        getResources().getColor(R.color.md_lime_200),
+                        getResources().getColor(R.color.md_lime_300),
+                        getResources().getColor(R.color.md_lime_400),
+                        getResources().getColor(R.color.md_lime_500),
+                        getResources().getColor(R.color.md_lime_600),
+                        getResources().getColor(R.color.md_lime_700),
+                        getResources().getColor(R.color.md_lime_800),
+                        getResources().getColor(R.color.md_lime_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_yellow_100),
+                        getResources().getColor(R.color.md_yellow_200),
+                        getResources().getColor(R.color.md_yellow_300),
+                        getResources().getColor(R.color.md_yellow_400),
+                        getResources().getColor(R.color.md_yellow_500),
+                        getResources().getColor(R.color.md_yellow_600),
+                        getResources().getColor(R.color.md_yellow_700),
+                        getResources().getColor(R.color.md_yellow_800),
+                        getResources().getColor(R.color.md_yellow_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_amber_100),
+                        getResources().getColor(R.color.md_amber_200),
+                        getResources().getColor(R.color.md_amber_300),
+                        getResources().getColor(R.color.md_amber_400),
+                        getResources().getColor(R.color.md_amber_500),
+                        getResources().getColor(R.color.md_amber_600),
+                        getResources().getColor(R.color.md_amber_700),
+                        getResources().getColor(R.color.md_amber_800),
+                        getResources().getColor(R.color.md_amber_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_orange_100),
+                        getResources().getColor(R.color.md_orange_200),
+                        getResources().getColor(R.color.md_orange_300),
+                        getResources().getColor(R.color.md_orange_400),
+                        getResources().getColor(R.color.md_orange_500),
+                        getResources().getColor(R.color.md_orange_600),
+                        getResources().getColor(R.color.md_orange_700),
+                        getResources().getColor(R.color.md_orange_800),
+                        getResources().getColor(R.color.md_orange_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_deep_orange_100),
+                        getResources().getColor(R.color.md_deep_orange_200),
+                        getResources().getColor(R.color.md_deep_orange_300),
+                        getResources().getColor(R.color.md_deep_orange_400),
+                        getResources().getColor(R.color.md_deep_orange_500),
+                        getResources().getColor(R.color.md_deep_orange_600),
+                        getResources().getColor(R.color.md_deep_orange_700),
+                        getResources().getColor(R.color.md_deep_orange_800),
+                        getResources().getColor(R.color.md_deep_orange_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_brown_100),
+                        getResources().getColor(R.color.md_brown_200),
+                        getResources().getColor(R.color.md_brown_300),
+                        getResources().getColor(R.color.md_brown_400),
+                        getResources().getColor(R.color.md_brown_500),
+                        getResources().getColor(R.color.md_brown_600),
+                        getResources().getColor(R.color.md_brown_700),
+                        getResources().getColor(R.color.md_brown_800),
+                        getResources().getColor(R.color.md_brown_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_grey_100),
+                        getResources().getColor(R.color.md_grey_200),
+                        getResources().getColor(R.color.md_grey_300),
+                        getResources().getColor(R.color.md_grey_400),
+                        getResources().getColor(R.color.md_grey_500),
+                        getResources().getColor(R.color.md_grey_600),
+                        getResources().getColor(R.color.md_grey_700),
+                        getResources().getColor(R.color.md_grey_800),
+                        getResources().getColor(R.color.md_grey_900)
+                },
+                new int[]{
+                        getResources().getColor(R.color.md_blue_grey_100),
+                        getResources().getColor(R.color.md_blue_grey_200),
+                        getResources().getColor(R.color.md_blue_grey_300),
+                        getResources().getColor(R.color.md_blue_grey_400),
+                        getResources().getColor(R.color.md_blue_grey_500),
+                        getResources().getColor(R.color.md_blue_grey_600),
+                        getResources().getColor(R.color.md_blue_grey_700),
+                        getResources().getColor(R.color.md_blue_grey_800),
+                        getResources().getColor(R.color.md_blue_grey_900)
+                }
+        };
+
+    }
+
     public OverviewPagerAdapter adapter;
 
     public ViewPager pager;
@@ -1045,7 +1295,7 @@ public class SubredditOverview extends ActionBarActivity {
     public List<String> usedArray;
 
     public void setDataSet(List<String> data) {
-        if(data != null) {
+        if (data != null) {
             usedArray = data;
             if (adapter == null) {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -1059,6 +1309,8 @@ public class SubredditOverview extends ActionBarActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = this.getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
+                SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
+
             }
 
             findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
@@ -1150,7 +1402,7 @@ public class SubredditOverview extends ActionBarActivity {
                 }
             }
         };
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(SubredditOverview.this);
+       AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
         builder.setTitle("Choose a Sorting Type");
         builder.setItems(
                 new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, l2);
@@ -1185,8 +1437,10 @@ public class SubredditOverview extends ActionBarActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
                         window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
+                        SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+
                     }
-                            tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(position)));
+                    tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(position)));
 
                 }
 
@@ -1226,7 +1480,7 @@ public class SubredditOverview extends ActionBarActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            if(usedArray != null) {
+            if (usedArray != null) {
                 return usedArray.get(position);
             } else {
                 return "";
@@ -1309,14 +1563,7 @@ public class SubredditOverview extends ActionBarActivity {
                     SubredditOverview.this.startActivity(inte);
                 }
             });
-           /* footer.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(Overview.this, DonateView.class);
 
-                    Overview.this.startActivity(inte);
-                }
-            });*/
         } else {
             header = (ViewGroup) inflater.inflate(R.layout.drawer_loggedout, l, false);
             l.addHeaderView(header, null, false);
@@ -1331,6 +1578,14 @@ public class SubredditOverview extends ActionBarActivity {
                 }
             });
         }
+        footer.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inte = new Intent(SubredditOverview.this, DonateView.class);
+
+                SubredditOverview.this.startActivity(inte);
+            }
+        });
         final EditText e = ((EditText) header.findViewById(R.id.sort));
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -1351,7 +1606,7 @@ public class SubredditOverview extends ActionBarActivity {
 
                 final EditText input = new EditText(SubredditOverview.this);
 
-                new android.support.v7.app.AlertDialog.Builder(SubredditOverview.this)
+                new AlertDialogWrapper.Builder(SubredditOverview.this)
                         .setTitle("Enter Username")
                         .setView(input)
                         .setPositiveButton("Go to user", new DialogInterface.OnClickListener() {
@@ -1378,14 +1633,14 @@ public class SubredditOverview extends ActionBarActivity {
                 if (Reddit.tabletUI) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(SubredditOverview.this);
+                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
 
                     dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
-                   final CheckBox cb = (CheckBox) dialoglayout.findViewById(R.id.default_click);
-                   final View elseView = dialoglayout.findViewById(R.id.override);
+                    final CheckBox cb = (CheckBox) dialoglayout.findViewById(R.id.default_click);
+                    final View elseView = dialoglayout.findViewById(R.id.override);
 
                     final EditText editOverride = (EditText) dialoglayout.findViewById(R.id.overrideText);
-                    if(Reddit.dpWidth == Reddit.defaultDPWidth){
+                    if (Reddit.dpWidth == Reddit.defaultDPWidth) {
                         cb.setChecked(true);
                         elseView.setAlpha(0.25f);
                         editOverride.setInputType(InputType.TYPE_NULL);
@@ -1416,8 +1671,7 @@ public class SubredditOverview extends ActionBarActivity {
                     });
 
 
-
-                    final AlertDialog dialog = builder.setView(dialoglayout).create();
+                    final Dialog dialog = builder.setView(dialoglayout).create();
                     dialog.show();
                     dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1428,15 +1682,15 @@ public class SubredditOverview extends ActionBarActivity {
                                 dialog.dismiss();
                                 restartTheme();
                             } else {
-                                Integer in = Integer.valueOf(editOverride.getText().toString() );
-                                if(in > 0 && in < 8) {
+                                Integer in = Integer.valueOf(editOverride.getText().toString());
+                                if (in > 0 && in < 8) {
                                     Reddit.seen.edit().putInt("tabletOVERRIDE", Integer.valueOf(editOverride.getText().toString())).apply();
                                     dialog.dismiss();
                                     Reddit.dpWidth = in;
 
                                     restartTheme();
                                 } else {
-                                    new AlertDialog.Builder(SubredditOverview.this).setTitle("Invalid Amount of Columns").setMessage("You must enter a number between 1 and 7!").create().show();
+                                    new AlertDialogWrapper.Builder(SubredditOverview.this).setTitle("Invalid Amount of Columns").setMessage("You must enter a number between 1 and 7!").create().show();
                                 }
 
                             }
@@ -1446,7 +1700,7 @@ public class SubredditOverview extends ActionBarActivity {
 
 
                 } else {
-                    new android.support.v7.app.AlertDialog.Builder(SubredditOverview.this)
+                    new AlertDialogWrapper.Builder(SubredditOverview.this)
                             .setTitle("Unlock Grid Layout")
                             .setMessage("I have opted to make Multi-Column a paid feature of Slide for Reddit. I am a student developer, and can't keep up the pace of development if I have to get a supplementary job to support myself. This Multi-Column is in lieu of ads or locking already unlocked content, and the app will function normally without purchasing it!\n\nWould you like to unlock Multi-Column?")
                             .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {

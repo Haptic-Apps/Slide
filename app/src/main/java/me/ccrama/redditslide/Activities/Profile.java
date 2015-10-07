@@ -11,13 +11,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Account;
 
@@ -46,7 +47,7 @@ public class Profile extends BaseActivity {
 
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);
-     name = getIntent().getExtras().getString("profile", "");
+        name = getIntent().getExtras().getString("profile", "");
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(name);
         findViewById(R.id.header).setBackgroundColor(Pallete.getColorUser(name));
@@ -78,7 +79,7 @@ public class Profile extends BaseActivity {
                 {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Profile.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText(name);
                     title.setBackgroundColor(Pallete.getColorUser(name));
@@ -224,7 +225,7 @@ public class Profile extends BaseActivity {
         @Override
         public void onPostExecute(Void voidd){
 
-                    doClick();
+            doClick();
 
         }
     }

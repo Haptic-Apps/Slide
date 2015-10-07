@@ -21,11 +21,14 @@ import net.dean.jraw.paginators.TimePeriod;
 import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
+import me.ccrama.redditslide.util.IabHelper;
+import me.ccrama.redditslide.util.IabResult;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class Reddit extends Application  implements Application.ActivityLifecycleCallbacks {
+    public static IabHelper mHelper;
 
     boolean closed = false;
     @Override
@@ -103,6 +106,20 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         colors = getSharedPreferences("COLOR", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
+
+        try {
+            mHelper = new IabHelper(this, SecretConstants.base64EncodedPublicKey);
+            mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                public void onIabSetupFinished(IabResult result) {
+                    if (!result.isSuccess()) {
+                        Log.d("Slide", "Problem setting up In-app Billing: " + result);
+                    }
+
+                }
+            });
+        } catch(Exception e){
+
+        }
 
         if(!seen.contains("RESET")){
             colors.edit().clear().apply();

@@ -73,7 +73,7 @@ public class SubredditView extends BaseActivity {
         if (requestCode == 2) {
             // Make sure the request was successful
             adapter = new SubmissionAdapter(this, posts, rv, subreddit );
-         rv.setAdapter(adapter);
+            rv.setAdapter(adapter);
         }
     }
     @Override

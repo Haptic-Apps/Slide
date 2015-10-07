@@ -58,6 +58,14 @@ public class OpenRedditLink {
                 i.putExtra("context",  end);
                 c.startActivity(i);
 
+            } else if(parts.length == 2) {
+                Intent i = new Intent(c, CommentsScreenSingle.class);
+                i.putExtra("subreddit", "NOTHING");
+                i.putExtra("context",  "NOTHING");
+
+                i.putExtra("submission",  parts[1]);
+                c.startActivity(i);
+
             } else {
 
 

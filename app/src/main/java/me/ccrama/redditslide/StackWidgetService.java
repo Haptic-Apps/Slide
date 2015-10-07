@@ -4,14 +4,15 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import net.dean.jraw.models.Submission;
 
@@ -42,7 +43,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
-    public void onCreate(){
+    public void onCreate() {
 
     }
 
@@ -55,11 +56,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public RemoteViews getViewAt(int position) {
-      final  RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.submission_widget);
+        final RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.submission_widget);
 
         if (position <= getCount()) {
 
-          final  Submission submission = submissions.get(position);
+            final Submission submission = submissions.get(position);
 
             String url = "";
             ContentType.ImageType type = ContentType.getImageType(submission);
@@ -70,29 +71,38 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
 
             } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-               url = submission.getThumbnail();
+                url = submission.getThumbnail();
             }
-                try {
-                    final String finalUrl = url;
-                    Ion.with(mContext).load(url).asBitmap().setCallback(new FutureCallback<Bitmap>() {
-                        @Override
-                        public void onCompleted(Exception e, Bitmap result) {
-                            rv.setImageViewBitmap(R.id.thumbnail, result);
-                            rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
+            try {
+                final String finalUrl = url;
+                Picasso.with(mContext).load(url).into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        rv.setImageViewBitmap(R.id.thumbnail, bitmap);
+                        rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
+                    }
 
-                        }
-                    });
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
 
-                }
-                catch(Exception e) {
-                    Log.v("Slide", e.toString());
-                }
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
 
 
-           rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
+            } catch (Exception e) {
+                Log.v("Slide", e.toString());
+            }
+
+
+            rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
 
             rv.setTextViewText(R.id.subreddit, submission.getSubredditName());
-            rv.setTextViewText(R.id.info,submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime()));
+            rv.setTextViewText(R.id.info, submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime()));
 
             Bundle extras = new Bundle();
             extras.putString("url", submission.getUrl());
@@ -121,8 +131,9 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     SubredditPosts posts;
+
     public void onDataSetChanged() {
-        if(posts == null){
+        if (posts == null) {
             posts = new SubredditPosts("all");
             Log.v("Slide", "MAKING POSTS");
         }

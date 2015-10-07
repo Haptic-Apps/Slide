@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.JsonElement;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -57,8 +57,8 @@ public class AlbumView extends ArrayAdapter<JsonElement> {
             iv.setMaxHeight(height);
             iv.setMinimumHeight(height);
         }
-        Ion.with(main).load(url).intoImageView(iv);
 
+        Picasso.with(getContext()).load(url).into(iv);
         {
             TextView tv = (TextView) convertView.findViewById(R.id.imagetitle);
             tv.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());

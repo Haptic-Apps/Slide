@@ -67,6 +67,7 @@ public class FullscreenImage extends BaseActivity {
             return false;
         }
     }
+    public Bitmap b;
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -90,6 +91,7 @@ public class FullscreenImage extends BaseActivity {
             url = url + ".png";
         }
         Log.v("Slide", "URL IS " + url);
+
         Ion.with(this).load(url).progress(new ProgressCallback() {
 
 
@@ -102,7 +104,6 @@ public class FullscreenImage extends BaseActivity {
                             bar.setVisibility(View.VISIBLE);
                         }
                         bar.setProgress((int) ((downloaded * 100)/ total));
-                        Log.v("Slide", "LOADING " + ( (downloaded / total) * 100) + "ALTERNATE " + ((int) ((downloaded * 100)/ total)));
                         if (downloaded == total) {
 
                             bar.setVisibility(View.GONE);

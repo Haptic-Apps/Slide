@@ -12,7 +12,8 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
@@ -78,7 +79,7 @@ public class Shortcut extends Activity {
                         final Intent shortcutIntent = new Intent(Shortcut.this, OpenContent.class);
 
                         SubredditStorage.shortcut = null;
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Shortcut.this);
+                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Shortcut.this);
 
                         builder.setTitle("Pick a Subreddit");
                         builder.setAdapter(new SubredditListingAdapter(Shortcut.this, SubredditStorage.alphabeticalSubscriptions), new DialogInterface.OnClickListener() {
@@ -114,9 +115,7 @@ public class Shortcut extends Activity {
                             }
                         });
 
-                        AlertDialog alert = builder.create();
-
-                        alert.show();
+                        builder.create().show();
                     }
                 }
         );

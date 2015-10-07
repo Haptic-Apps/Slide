@@ -11,11 +11,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
@@ -72,7 +73,7 @@ public class CommentPage extends Fragment {
                 }
             }
         };
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
         builder.setTitle("Choose a Sorting Type");
         builder.setItems(
                 new String[]{"Best",
@@ -98,78 +99,77 @@ public class CommentPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
-        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
-        Log.v("Slide", "STYLE: " + style + " DEFAULT: " + R.style.deeporange_dark);
-        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        final LinearLayoutManager mLayoutManager;
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(mLayoutManager);
+            int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
+            final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
+            LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+            v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        if(getActivity() instanceof  BaseActivity) {
-            ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
-            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
-        }
-        toolbar.setBackgroundColor(Pallete.getColor(id));
+            rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+            final LinearLayoutManager mLayoutManager;
+            mLayoutManager = new LinearLayoutManager(getActivity());
+            rv.setLayoutManager(mLayoutManager);
 
-
-        v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                {
-                    openPopup(v);
-                }
+            Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+            if (getActivity() instanceof BaseActivity) {
+                ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+                ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
             }
-        });
+            toolbar.setBackgroundColor(Pallete.getColor(id));
 
 
-
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-        TypedValue typed_value = new TypedValue();
-        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
-
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
-
-        mSwipeRefreshLayout.setRefreshing(true);
-        if(context.isEmpty()) {
-
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            adapter = new CommentAdapter(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
-            rv.setAdapter(adapter);
-
-        } else {
-            if(context.equals("NOTHING")){
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-
-            } else {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-            }
-
-
-        }
-
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        try {
-                            comments.loadMore(adapter, true, id);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        //TODO catch errors
+            v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    {
+                        openPopup(v);
                     }
                 }
-        );
+            });
+
+
+            mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+            TypedValue typed_value = new TypedValue();
+            getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
+            mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+
+            mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
+
+            mSwipeRefreshLayout.setRefreshing(true);
+            if (context.isEmpty()) {
+
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                adapter = new CommentAdapter(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+                rv.setAdapter(adapter);
+
+            } else {
+                if (context.equals("NOTHING")) {
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+
+                } else {
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
+                }
+
+
+            }
+
+            mSwipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            try {
+                                comments.loadMore(adapter, true, id);
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //TODO catch errors
+                        }
+                    }
+            );
+
         return v;
     }
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
@@ -190,6 +190,7 @@ public class CommentPage extends Fragment {
             return SNAP_TO_START;
         }
     }
+
     public void doData(Boolean b) {
 
         if(adapter == null){
