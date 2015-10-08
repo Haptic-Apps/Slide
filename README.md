@@ -10,4 +10,4 @@ Please see [History.md](History.md) in the git directory
 More to come soon
 
 #Licensing
-Slide is Licensed under the GNU v3 Public License. License details can be found in license.txt. *If you use code from this repository, I ask that you send me a message and under the GNU license you are required to disclose the source of the code under the same license!*
+Slide is Licensed under the GNU v3 Public License. [License details can be found in license.txt.](license.txt) *If you use code from this repository, I ask that you send me a message and under the GNU license you are required to disclose the source of the code under the same license!*
