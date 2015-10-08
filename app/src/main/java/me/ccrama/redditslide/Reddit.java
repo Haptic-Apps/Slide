@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
@@ -91,6 +92,26 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
     }
 
     public boolean isRestarting;
+    public class SetupIAB extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
+                mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                    public void onIabSetupFinished(IabResult result) {
+                        if (!result.isSuccess()) {
+                            Log.d("Slide", "Problem setting up In-app Billing: " + result);
+                        }
+
+                    }
+                });
+            } catch(Exception e){
+
+            }
+            return null;
+        }
+    }
 
     @Override
     public void onCreate() {
@@ -107,19 +128,7 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
 
-        try {
-            mHelper = new IabHelper(this, SecretConstants.base64EncodedPublicKey);
-            mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                public void onIabSetupFinished(IabResult result) {
-                    if (!result.isSuccess()) {
-                        Log.d("Slide", "Problem setting up In-app Billing: " + result);
-                    }
-
-                }
-            });
-        } catch(Exception e){
-
-        }
+      //new SetupIAB().execute();
 
         if(!seen.contains("RESET")){
             colors.edit().clear().apply();

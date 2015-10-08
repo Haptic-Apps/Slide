@@ -84,7 +84,15 @@ public class SubmissionsView extends Fragment {
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
-                pastVisiblesItems = ((LinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
+                if(rv.getLayoutManager() instanceof  LinearLayoutManager) {
+                    pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if(firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                    }
+                }
 
                 if (loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {

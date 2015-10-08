@@ -84,7 +84,7 @@ public class Profile extends BaseActivity {
                     title.setText(name);
                     title.setBackgroundColor(Pallete.getColorUser(name));
 
-                    findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
+                    dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(Profile.this, Sendmessage.class);
