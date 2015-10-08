@@ -5,7 +5,7 @@ Feel free to fork the repo and add features into the app! Send me a message and 
 
 #Changelog
 
-Please see History.md in the git directory
+Please see [History.md](History.md) in the git directory
 
 More to come soon
 
