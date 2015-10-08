@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import me.ccrama.redditslide.OpenRedditLink;
 
@@ -23,6 +24,10 @@ public class OpenContent extends Activity {
         } else {
            url = data.toString();
         }
+        url = url.toLowerCase();
+
+        Log.v("Slide", url);
+
 
 
 
