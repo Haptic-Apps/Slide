@@ -33,8 +33,6 @@
 ==================
 
   * GIF won't stop audio
-  * GIF won't stop audio
-  * GIF won't stop audio
   * New Tablet UI, Send PMs, Won't crash on startup
   * Merge branch 'master' of https://github.com/ccrama/Slide
   * Accent system, Bug Fixes, Setting Improvements
