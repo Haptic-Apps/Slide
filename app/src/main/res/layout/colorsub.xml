@@ -49,6 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
+                        android:buttonTint="?attr/tint"
                         android:backgroundTint="?attr/tint"
                         android:layout_marginTop="8dp"
                         android:textColorHint="?attr/font"
@@ -222,6 +223,7 @@
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
+
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="?attr/card_background">
