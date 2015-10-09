@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="?attr/activity_background"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="?attr/card_background"
+
+        android:layout_height="wrap_content">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:minHeight="56dp"
+        android:paddingRight="16dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+
+
+        >
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_vertical"
+
+            android:background="#00ffffff"
+            android:paddingBottom="12dp"
+
+            android:tint="?attr/tint"
+            android:paddingTop="12dp"
+
+            android:scaleType="fitCenter"
+            android:src="@drawable/search" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/search"
+        android:textColorHint="?attr/font"
+        android:backgroundTint="?attr/tint"
+        android:hint="Search submissions"
+        android:textColor="?attr/font"
+        android:layout_height="match_parent"/>
+
+    </android.support.v7.widget.Toolbar>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:text="EVERYWHERE"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:text="/r/android"
+                android:textSize="16sp"
+                android:textColor="?attr/font"
+                android:padding="16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:orientation="vertical"
+        android:clipToPadding="false"
+        android:background="?attr/activity_background"
+        android:id="@+id/vertical_content"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

@@ -30,6 +30,7 @@ public class CommentsScreen extends BaseActivity {
     ViewPager pager;
     ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -41,11 +42,15 @@ public class CommentsScreen extends BaseActivity {
         StyleView.styleActivity(this);
 
 
+
         int firstPage = getIntent().getExtras().getInt("page", -1);
         if(firstPage == -1){
             //IS SNIGLE POST
         } else {
             posts = DataShare.sharedSubreddit;
+        }
+        if(posts == null){
+            finish();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

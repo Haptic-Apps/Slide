@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Fragments;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import net.dean.jraw.models.CommentSort;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
+import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.ColorPreferences;
@@ -88,7 +90,30 @@ public class CommentPage extends Fragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
+            if(data.hasExtra("fullname")){
+                String fullname = data.getExtras().getString("fullname");
+                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
+                adapter.currentSelectedItem = fullname;
+                int i = 1;
+                for(CommentNode n : comments.comments){
 
+                    if(n.getComment().getFullName().contains(fullname)){
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (LinearLayoutManager)rv.getLayoutManager());
+                        smoothScroller.setTargetPosition(i);
+                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        break;
+                    }
+                    i++;
+                }
+
+            }
+        }
+
+    }
     public View v;
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView rv;
@@ -111,6 +136,15 @@ public class CommentPage extends Fragment {
             rv.setLayoutManager(mLayoutManager);
 
             Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataShare.sharedComments = comments.comments;
+              Intent i = new Intent(getActivity(), CommentSearch.class);
+              startActivityForResult(i, 1);
+
+            }
+        });
             if (getActivity() instanceof BaseActivity) {
                 ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
                 ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);

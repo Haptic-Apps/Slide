@@ -35,6 +35,7 @@
 
 
 
+
             <ImageView
                 android:id="@+id/sorting"
                 android:layout_width="48dp"
@@ -50,6 +51,20 @@
                 android:src="@drawable/sort" />
 
 
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+
+                android:background="#00ffffff"
+                android:paddingBottom="12dp"
+
+                android:tint="@color/white"
+                android:paddingTop="12dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/search" />
 
 
 

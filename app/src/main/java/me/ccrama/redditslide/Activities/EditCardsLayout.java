@@ -19,6 +19,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -99,11 +100,11 @@ public class EditCardsLayout extends BaseActivity {
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, subreddit);
-                CreateCardView.setActionBarVisible(true, layout, subreddit);
-                CreateCardView.setInfoBarVisible(true, layout, subreddit);
+                CreateCardView.setCardViewType(SettingValues.defaultCardView, layout, subreddit);
+                CreateCardView.setActionBarVisible(SettingValues.actionBarVisible, layout, subreddit);
+                CreateCardView.setInfoBarVisible(SettingValues.infoBar, layout, subreddit);
                 layout.removeAllViews();
-                layout.addView(CreateCardView.setLargeThumbnails(true, layout, subreddit));
+                layout.addView(CreateCardView.setLargeThumbnails(SettingValues.largeThumbnails, layout, subreddit));
                 largeimage.setChecked(CreateCardView.isLarge(subreddit));
                 actionbar.setChecked(CreateCardView.isActionBar(subreddit));
                 infobar.setChecked(CreateCardView.isInfoBar(subreddit));

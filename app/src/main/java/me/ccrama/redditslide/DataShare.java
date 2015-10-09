@@ -1,5 +1,6 @@
 package me.ccrama.redditslide;
 
+import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.PrivateMessage;
 import net.dean.jraw.models.Submission;
 
@@ -13,4 +14,5 @@ public class DataShare {
     public static Submission sharedSubmission;
     public static Submission notifs;
     public static PrivateMessage sharedMessage;
+    public static ArrayList<CommentNode> sharedComments;
 }

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -180,10 +181,32 @@ public class SubredditView extends BaseActivity {
             @Override
             public void onClick(View v) {
                 {
-                    DataShare.sharedSubreddit = posts.posts;
-                    Intent i = new Intent(SubredditView.this, PhotoSubredditView.class);
-                    i.putExtra("position", 0);
-                    startActivity(i);
+                    if(Reddit.tabletUI) {
+                        DataShare.sharedSubreddit = posts.posts;
+                        Intent i = new Intent(SubredditView.this, PhotoSubredditView.class);
+                        i.putExtra("position", 0);
+                        startActivity(i);
+                    } else {
+                    new AlertDialogWrapper.Builder(SubredditView.this)
+                            .setTitle("Slide for Reddit Pro")
+                            .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
+                                    "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
+                                    "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
+                                    "Would you like to unlock Slide for Reddit Pro?")
+                            .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    }).show();
+                }
                 }
             }
         });

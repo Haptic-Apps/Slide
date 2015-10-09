@@ -38,6 +38,23 @@ import me.ccrama.redditslide.Views.MediaVideoView;
 public class GifFull extends Fragment {
 
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser)
+    {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (this.isVisible())
+        {
+            if (!isVisibleToUser)   // If we are becoming invisible, then...
+            {
+                ((MediaVideoView) gif).pause();
+            }
+
+            if (isVisibleToUser) // If we are becoming visible, then...
+            {
+                ((MediaVideoView) gif).start();
+            }
+        }
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
@@ -126,76 +143,76 @@ public class GifFull extends Fragment {
 
             final String finalS = s;
             Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
-            Ion.with(getActivity()).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                @Override
-                public void onCompleted(Exception e, final JsonObject result) {
-                    if (result != null && result.get("urlKnown").getAsBoolean()) {
-                        final MediaVideoView videoView =
-                                (MediaVideoView) gif;
+            if(getContext() != null) {
+                Ion.with(getActivity()).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, final JsonObject result) {
+                        if (result != null && result.get("urlKnown").getAsBoolean()) {
+                            final MediaVideoView videoView =
+                                    (MediaVideoView) gif;
 
-                        videoView.setVideoPath(
-                                result.get("mp4Url").getAsString());
-                        //videoView.set
-
-
-
-                        videoView.start();
-                        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                placeholder.setVisibility(View.GONE);
-                                mp.setLooping(true);
-
-                            }
-                        });
-
-                    } else {
-
-                        Ion.with(getActivity())
-                                .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS)
-                                .asJsonObject()
-                                .setCallback(new FutureCallback<JsonObject>() {
-                                    @Override
-                                    public void onCompleted(Exception e, final JsonObject result) {
-
-                                        final MediaVideoView videoView =
-                                                (MediaVideoView) gif;
-
-                                        if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
-
-                                            new AlertDialogWrapper.Builder(getActivity())
-                                                    .setTitle("Gif not found...")
-                                                    .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
-                                                    .setCancelable(false)
-                                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                        }
-                                                    }).create().show();
-                                        } else {
-                                            videoView.setVideoPath(
-                                                    result.get("mp4Url").getAsString());
-
-                                         
-
-                                            videoView.start();
-                                            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                                @Override
-                                                public void onPrepared(MediaPlayer mp) {
-
-                                                    placeholder.setVisibility(View.GONE);
-                                                    mp.setLooping(true);
+                            videoView.setVideoPath(
+                                    result.get("mp4Url").getAsString());
+                            //videoView.set
 
 
-                                                }
-                                            });
+                            videoView.start();
+                            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                @Override
+                                public void onPrepared(MediaPlayer mp) {
+                                    placeholder.setVisibility(View.GONE);
+                                    mp.setLooping(true);
+
+                                }
+                            });
+
+                        } else {
+
+                            Ion.with(getActivity())
+                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS)
+                                    .asJsonObject()
+                                    .setCallback(new FutureCallback<JsonObject>() {
+                                        @Override
+                                        public void onCompleted(Exception e, final JsonObject result) {
+
+                                            final MediaVideoView videoView =
+                                                    (MediaVideoView) gif;
+
+                                            if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
+
+                                                new AlertDialogWrapper.Builder(getActivity())
+                                                        .setTitle("Gif not found...")
+                                                        .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                            }
+                                                        }).create().show();
+                                            } else {
+                                                videoView.setVideoPath(
+                                                        result.get("mp4Url").getAsString());
+
+
+                                                videoView.start();
+                                                videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                                    @Override
+                                                    public void onPrepared(MediaPlayer mp) {
+
+                                                        placeholder.setVisibility(View.GONE);
+                                                        mp.setLooping(true);
+
+
+                                                    }
+                                                });
+                                            }
+
                                         }
-
-                                    }
-                                });
+                                    });
+                        }
                     }
-                }
-            });
+                });
+            }
 
             return null;
 

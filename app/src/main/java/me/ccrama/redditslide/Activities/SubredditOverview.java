@@ -479,10 +479,33 @@ public class SubredditOverview extends ActionBarActivity  {
             @Override
             public void onClick(View v) {
                 {
-                  DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
-                    Intent i = new Intent(SubredditOverview.this, PhotoSubredditView.class);
-                    i.putExtra("position", pager.getCurrentItem());
-                    startActivity(i);
+
+                    if(Reddit.tabletUI) {
+                        DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                        Intent i = new Intent(SubredditOverview.this, PhotoSubredditView.class);
+                        i.putExtra("position", pager.getCurrentItem());
+                        startActivity(i);
+                    } else {
+                        new AlertDialogWrapper.Builder(SubredditOverview.this)
+                                .setTitle("Slide for Reddit Pro")
+                                .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
+                                        "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
+                                        "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
+                                        "Would you like to unlock Slide for Reddit Pro?")
+                                .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        try {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                        } catch (android.content.ActivityNotFoundException anfe) {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                        }
+                                    }
+                                }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                            }
+                        }).show();
+                    }
                 }
             }
         });
@@ -774,20 +797,26 @@ public class SubredditOverview extends ActionBarActivity  {
                             }
                         }
                     }
-                    dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(SubredditOverview.this, Wiki.class);
-                            i.putExtra("subreddit", subreddit);
-                            startActivity(i);
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            new ShowPopupSidebar().execute(subreddit);
-                        }
-                    });
+                    if(subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") ){
+                        dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
+                        dialoglayout.findViewById(R.id.sidebar).setVisibility(View.GONE);
+
+                    } else {
+                        dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(SubredditOverview.this, Wiki.class);
+                                i.putExtra("subreddit", subreddit);
+                                startActivity(i);
+                            }
+                        });
+                        dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new ShowPopupSidebar().execute(subreddit);
+                            }
+                        });
+                    }
                     dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1723,8 +1752,11 @@ public class SubredditOverview extends ActionBarActivity  {
 
                 } else {
                     new AlertDialogWrapper.Builder(SubredditOverview.this)
-                            .setTitle("Unlock Grid Layout")
-                            .setMessage("I have opted to make Multi-Column a paid feature of Slide for Reddit. I am a student developer, and can't keep up the pace of development if I have to get a supplementary job to support myself. This Multi-Column is in lieu of ads or locking already unlocked content, and the app will function normally without purchasing it!\n\nWould you like to unlock Multi-Column?")
+                            .setTitle("Slide for Reddit Pro")
+                            .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
+                                    "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
+                                    "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
+                                    "Would you like to unlock Slide for Reddit Pro?")
                             .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     try {
@@ -1750,6 +1782,7 @@ public class SubredditOverview extends ActionBarActivity  {
             }
         });*/
         ArrayList<String> copy = new ArrayList<String>();
+        if(SubredditStorage.alphabeticalSubscriptions != null)
         for (String s : SubredditStorage.alphabeticalSubscriptions) {
             copy.add(s);
         }

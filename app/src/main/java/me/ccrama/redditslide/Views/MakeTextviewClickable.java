@@ -9,7 +9,6 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -102,7 +101,6 @@ public class MakeTextviewClickable {
         rawHTML = rawHTML.replace("<li>", "\n•");
 
 
-        Log.v("Slide", rawHTML + "TEST");
 
         this.c = c;
 
@@ -110,7 +108,6 @@ public class MakeTextviewClickable {
         SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
         URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
         for(URLSpan span : urls) {
-            Log.v("Slide", "DOING URL!");
             makeLinkClickable(strBuilder, span, (Activity) c);
         }
         comm.setText(strBuilder);
@@ -131,7 +128,7 @@ public class MakeTextviewClickable {
     public  void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
         comm.refreshDrawableState();
         if(rawHTML.length() > 0) {
-            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "•").replace("<p>", "<div>").replace("</p>", "</div>");
+            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>");
 
             rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n") );
 
@@ -139,7 +136,6 @@ public class MakeTextviewClickable {
 
 
             CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
-            Log.v("Spiral", sequence.toString());
             /* DEPRECATED
             SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
             URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
@@ -300,10 +296,182 @@ public class MakeTextviewClickable {
 
     }
 
+    public  void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit, String search) {
+        comm.refreshDrawableState();
+        if(rawHTML.length() > 0) {
+            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>");
+
+            rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n") );
+
+            rawHTML.replace(search, "<font color='red'>" + search + "</font>" );
+
+            this.c = c;
+
+
+            CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
+            /* DEPRECATED
+            SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
+            URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
+            for (URLSpan span : urls) {
+                Log.v("Slide", "DOING URL!");
+                makeLinkClickable(strBuilder, span, (Activity) c);
+            }*/
+            comm.setText(sequence);
+            comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
+                @Override
+                public void onClick(String url) {
+                    // Decide what to do when a link is clicked.
+                    // (This is useful if you want to open an in app-browser)
+                    if(url!=null){
+                        ContentType.ImageType type = ContentType.getImageType(url);
+                        switch (type) {
+                            case NSFW_IMAGE:
+                                openImage(c, url);
+
+
+                                break;
+
+                            case NSFW_GIF:
+
+                                openGif(false, c, url);
+
+
+                                break;
+                            case NSFW_GFY:
+
+                                openGif(true, c, url);
+
+                                break;
+                            case REDDIT:
+                                new OpenRedditLink(c, url);
+                                break;
+                            case LINK:
+
+                            {
+                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
+                                CustomTabsIntent customTabsIntent = builder.build();
+                                customTabsIntent.launchUrl(c, Uri.parse(url));
+
+                            }
+                            break;
+                            case IMAGE_LINK:
+                            {
+                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
+                                CustomTabsIntent customTabsIntent = builder.build();
+                                customTabsIntent.launchUrl(c, Uri.parse(url));
+
+                            }
+                            break;
+                            case NSFW_LINK:
+                            {
+                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
+                                CustomTabsIntent customTabsIntent = builder.build();
+                                customTabsIntent.launchUrl(c, Uri.parse(url));
+
+                            }
+                            break;
+                            case SELF:
+
+                                break;
+                            case GFY:
+                                openGif(true, c, url);
+
+                                break;
+                            case ALBUM:
+
+                                Intent i = new Intent(c, Album.class);
+                                i.putExtra("url", url);
+                                c.startActivity(i);
+                                c.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+
+
+
+                                break;
+                            case IMAGE:
+                                openImage(c, url);
+
+                                break;
+                            case GIF:
+                                openGif(false, c, url);
+
+                                break;
+                            case NONE_GFY:
+                                openGif(true, c, url);
+
+                                break;
+                            case NONE_GIF:
+                                openGif(false, c, url);
+
+                                break;
+
+                            case NONE:
+
+                                break;
+                            case NONE_IMAGE:
+                                openImage(c, url);
+
+                                break;
+                            case NONE_URL:
+                            {
+                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
+                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+
+                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
+                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
+                                CustomTabsIntent customTabsIntent = builder.build();
+                                customTabsIntent.launchUrl(c, Uri.parse(url));
+
+                            }
+                            break;
+                            case VIDEO:
+
+                                Intent intent = new Intent(c, FullscreenVideo.class);
+                                intent.putExtra("html", url);
+                                c.startActivity(intent);
+
+
+
+
+                        }
+
+                    }
+                }
+            });
+
+            // Set a long pressed link listener (required if you want to show the additional
+            // options menu when links are long pressed)
+            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
+                @Override
+                public void onLongPressed() {
+
+                }
+            }, false);
+
+            links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
+
+            comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
+
+
+        }
+
+
+    }
 
     public  void ParseTextWithLinksTextView(String rawHTML, ActiveTextView comm, final Activity c, String subreddit) {
         if(rawHTML.length() > 0) {
-            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "•").replace("<p>", "<div>").replace("</p>","</div>");
+            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>","</div>");
             rawHTML = rawHTML.substring(15, rawHTML.lastIndexOf("<!-- SC_ON -->"));
 
 
