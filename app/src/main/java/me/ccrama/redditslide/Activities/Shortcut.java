@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -68,7 +69,7 @@ public class Shortcut extends Activity {
 
 
 
-        final Bitmap src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
+
 
 
 
@@ -86,22 +87,31 @@ public class Shortcut extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 name = SubredditStorage.alphabeticalSubscriptions.get(which);
-                                final int overlayColor = Pallete.getColor(name);
-                                final Paint paint = new Paint();
-                                Canvas c;
-                                final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                                c = new Canvas(bm1);
-                                paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
-                                c.drawBitmap(src, 0, 0, paint);
+                                final Bitmap src;
+                                final Bitmap bm2;
+                                if (name.toLowerCase().equals("androidcirclejerk")) {
+                                    bm2 = drawableToBitmap(getResources().getDrawable(R.drawable.matiasduarte));
+                                    Log.v("Slide", "NULL IS " + (bm2 == null));
+                                } else {
+                                     src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
+                                    final int overlayColor = Pallete.getColor(name);
+                                    final Paint paint = new Paint();
+                                    Canvas c;
+                                    final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+                                    c = new Canvas(bm1);
+                                    paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
+                                    c.drawBitmap(src, 0, 0, paint);
 
-                                final Bitmap bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                                c = new Canvas(bm2);
-                                paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
-                                c.drawBitmap(src, 0, 0, paint);
+                                    bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+                                    c = new Canvas(bm2);
+                                    paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
+                                    c.drawBitmap(src, 0, 0, paint);
 
-                                paint.setColorFilter(null);
-                                paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
-                                c.drawBitmap(bm1, 0, 0, paint);
+                                    paint.setColorFilter(null);
+                                    paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
+                                    c.drawBitmap(bm1, 0, 0, paint);
+                                }
+
 
 
                                 shortcutIntent.putExtra("url", "reddit.com/r/" + name);

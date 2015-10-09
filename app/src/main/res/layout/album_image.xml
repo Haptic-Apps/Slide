@@ -15,7 +15,7 @@
 
     android:gravity="center"
     android:orientation="vertical"
-    cardview:cardBackgroundColor="#424242"
+    cardview:cardBackgroundColor="#212121"
     cardview:cardCornerRadius="2dp"
 
     cardview:cardElevation="8dp">

@@ -60,6 +60,7 @@
         <activity android:name=".Activities.Submit"/>
         <activity android:name=".Activities.Tutorial"/>
         <activity android:name=".Activities.DonateView"/>
+        <activity android:name=".Activities.PhotoSubredditView"/>
 
         <activity android:name=".Activities.CommentsScreenPopup"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>

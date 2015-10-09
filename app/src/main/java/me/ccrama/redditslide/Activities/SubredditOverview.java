@@ -393,8 +393,8 @@ public class SubredditOverview extends ActionBarActivity  {
 
                         int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                         int i = 0;
-                        for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                            if(type.getThemeType() == 0) {
+                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                            if (type.getThemeType() == 0) {
                                 arrs[i] = getResources().getColor(type.getColor());
 
                                 i++;
@@ -414,8 +414,8 @@ public class SubredditOverview extends ActionBarActivity  {
                                 public void onClick(View v) {
                                     int color = colorPicker.getColor();
                                     ColorPreferences.Theme t = null;
-                                    for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                        if(getResources().getColor(type.getColor()) == color  && Reddit.themeBack == type.getThemeType()){
+                                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                        if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                             t = type;
                                             break;
                                         }
@@ -475,7 +475,17 @@ public class SubredditOverview extends ActionBarActivity  {
                 }
             }
         });
-
+        findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                {
+                  DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    Intent i = new Intent(SubredditOverview.this, PhotoSubredditView.class);
+                    i.putExtra("position", pager.getCurrentItem());
+                    startActivity(i);
+                }
+            }
+        });
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1318,6 +1328,7 @@ public class SubredditOverview extends ActionBarActivity  {
             tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(0)));
 
         }
+
     }
 
     public void openPopup(View view) {
@@ -1421,7 +1432,18 @@ public class SubredditOverview extends ActionBarActivity  {
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+        private Fragment mCurrentFragment;
 
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
+        }
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
             pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

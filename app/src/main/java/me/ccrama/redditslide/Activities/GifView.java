@@ -82,7 +82,7 @@ public class GifView extends BaseActivity {
     }
 
 
-    private class AsyncImageLoader extends AsyncTask<String, Void, Void> {
+    public class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
 
         @Override

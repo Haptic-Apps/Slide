@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/Activities/DonateView.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/Base64.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/Base64DecoderException.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/GifDecoder.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/IabException.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/IabHelper.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/IabResult.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/Inventory.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/Purchase.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/Security.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/me/ccrama/redditslide/util/SkuDetails.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_donate.xml" charset="windows-1252" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

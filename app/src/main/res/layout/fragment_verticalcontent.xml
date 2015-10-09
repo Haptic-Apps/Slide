@@ -6,7 +6,7 @@
     android:background="?attr/activity_background"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,6 +24,5 @@
         android:listSelector="@android:color/transparent"
        >
         </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
+</me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 </LinearLayout>

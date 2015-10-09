@@ -43,6 +43,8 @@ public class SubmissionsView extends Fragment {
             rv.setLayoutManager(mLayoutManager);
         }
 
+
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
