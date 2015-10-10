@@ -30,4 +30,4 @@ The file [History.md](History.md) provides an overview of the changes for a rele
 
 Slide is Licensed under the [GNU v3 Public License.](license.txt)
 
-In addition to the terms set by the GNU v3 Public License, I ask that if you use any code from this repository as well in addition to publishing the source that you send me a message to let me know
+In addition to the terms set by the GNU v3 Public License, I ask that if you use any code from this repository that you send me a message to let me know.
