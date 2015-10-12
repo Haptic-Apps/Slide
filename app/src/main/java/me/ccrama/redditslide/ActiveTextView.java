@@ -144,6 +144,7 @@ public class ActiveTextView extends TextView {
                     if(isLinkPending()){
                         // Create the dialog
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
+
                         builder.setItems(
                                 mDisplayMinLongPress?new String[]{"Open in browser","Copy link address","Share link"} :
                                         new String[]{"Open in browser","Copy link address","Share link","Long press parent"},

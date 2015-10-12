@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:panel="http://schemas.android.com/apk/res-auto"
+
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
+    android:background="?attr/card_background"
+    android:animateLayoutChanges="true"
+
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -56,135 +61,138 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/profile"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        android:paddingLeft="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/expand"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp"
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:tint="?attr/tint"
 
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
 
-            android:paddingTop="8dp"
-            android:src="@drawable/sidebar_profile" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Profile"
+                android:textAllCaps="true"
+                android:padding="16dp"
+                android:textColor="?attr/font"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="Your profile"
-            android:textColor="?attr/font"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-            android:textSize="14sp"
-            android:textStyle="bold" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:id="@+id/expand_profile"
+        android:weightSum="4"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:id="@+id/profile"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:paddingLeft="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:tint="?attr/tint"
+
+                android:paddingBottom="6dp"
+
+
+                android:paddingTop="6dp"
+                android:src="@drawable/sidebar_profile" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/saved"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:gravity="center"
+
+            android:orientation="horizontal"
+    >
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="match_parent"
+
+                android:tint="?attr/tint"
+
+                android:paddingBottom="6dp"
+
+
+                android:paddingTop="6dp"
+                android:src="@drawable/sidebar_saved" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/upvoted"
+            android:layout_width="0dp"
+            android:layout_weight="1"            android:layout_height="42dp"
+
+            android:orientation="horizontal"
+            android:paddingLeft="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:paddingBottom="6dp"
+
+                android:tint="?attr/tint"
+
+                android:paddingTop="6dp"
+                android:src="@drawable/upvotedarker" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/inbox"
+            android:layout_width="0dp"
+            android:layout_weight="1"            android:layout_height="42dp"
+
+            android:orientation="horizontal"
+            android:paddingLeft="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:paddingBottom="6dp"
+
+                android:tint="?attr/tint"
+
+
+                android:paddingTop="6dp"
+                android:src="@drawable/sidebar_inbox" />
+
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/saved"
+
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-
-        android:orientation="horizontal"
-        android:paddingLeft="0dp">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:tint="?attr/tint"
-
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-
-            android:paddingTop="8dp"
-            android:src="@drawable/sidebar_saved" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textColor="?attr/font"
-
-            android:text="Saved posts"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/upvoted"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-
-        android:orientation="horizontal"
-        android:paddingLeft="0dp">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:tint="?attr/tint"
-
-            android:paddingTop="8dp"
-            android:src="@drawable/upvotedarker" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
-            android:gravity="center_vertical"
-            android:text="Upvoted posts"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/inbox"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-
-        android:orientation="horizontal"
-        android:paddingLeft="0dp">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:tint="?attr/tint"
-
-
-            android:paddingTop="8dp"
-            android:src="@drawable/sidebar_inbox" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
-            android:gravity="center_vertical"
-            android:text="Inbox"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        android:alpha=".5"
+        android:background="?attr/tint"
+        />
 
     <LinearLayout
         android:id="@+id/submit"
@@ -199,12 +207,11 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+
             android:tint="?attr/tint"
 
-            android:paddingTop="8dp"
+            android:padding="10dp"
             android:src="@drawable/editsidebar" />
 
         <TextView
@@ -232,12 +239,11 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingBottom="6dp"
+
             android:tint="?attr/tint"
 
-            android:paddingTop="8dp"
+            android:padding="10dp"
             android:src="@drawable/collection" />
 
         <TextView
@@ -252,6 +258,64 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/support"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+
+        android:paddingLeft="0dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="6dp"
+            android:tint="?attr/tint"
+
+            android:padding="10dp"
+            android:src="@drawable/support" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="?attr/font"
+
+            android:gravity="center_vertical"
+            android:text="Support slide"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/tablet"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+
+        android:paddingLeft="0dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="6dp"
+            android:tint="?attr/tint"
+
+            android:padding="10dp"
+            android:src="@drawable/tablet" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="?attr/font"
+
+            android:gravity="center_vertical"
+            android:text="Grid layout"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/prof"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -264,12 +328,9 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:tint="?attr/tint"
 
-            android:paddingTop="8dp"
+            android:padding="10dp"
             android:src="@drawable/user" />
 
         <TextView

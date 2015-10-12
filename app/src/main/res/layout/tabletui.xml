@@ -42,60 +42,35 @@
 
                     android:paddingTop="8dp">
 
-                    <CheckBox
-                        android:id="@+id/default_click"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:textColorHint="?attr/font"
-                        android:textColor="?attr/font"
-                        android:text="COLUMNS BASED ON SCREEN SIZE" />
-
-
-                    <LinearLayout
-                        android:id="@+id/override"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:textColor="?attr/font"
-
-                            android:text="Override amount of columns to "
-
-                            android:textSize="16sp" />
-                        <EditText
-                            android:layout_width="wrap_content"
-                            android:inputType="number"
-                            android:hint="#"
-                            android:backgroundTint="?attr/tint"
-                            android:textColor="?attr/font"
-                            android:textColorHint="?attr/font"
-                            android:id="@+id/overrideText"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
-
-
                     <TextView
                         android:layout_width="match_parent"
                         android:padding="16dp"
-                        android:text="SAVE"
+                        android:text="LANDSCAPE"
                         android:textSize="14dp"
                         android:textStyle="bold"
-                        android:id="@+id/save"
                         android:textColor="?attr/font"
                         android:layout_height="wrap_content" />
+                    <com.rey.material.widget.Slider
+                        android:id="@+id/landscape"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        app:sl_discreteMode="true"
+                        android:padding="8dp"
+                        app:sl_maxValue="7"
+                        app:sl_minValue="1"
+                        app:sl_secondaryColor="?attr/tint"
+                         />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:text="PORTRAIT SETTINGS COMING SOON"
+                        android:textSize="14dp"
+                        android:alpha=".7"
+                        android:textStyle="bold"
+                        android:textColor="?attr/font"
+                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
 
             </RelativeLayout>

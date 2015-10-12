@@ -23,7 +23,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -42,6 +41,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.koushikdutta.ion.Ion;
+import com.rey.material.widget.Slider;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Sorting;
@@ -1568,6 +1568,8 @@ public class SubredditOverview extends ActionBarActivity  {
 
                 }
             });
+
+
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1687,67 +1689,26 @@ public class SubredditOverview extends ActionBarActivity  {
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
 
                     dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
-                    final CheckBox cb = (CheckBox) dialoglayout.findViewById(R.id.default_click);
-                    final View elseView = dialoglayout.findViewById(R.id.override);
+                    //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
+                    final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                    final EditText editOverride = (EditText) dialoglayout.findViewById(R.id.overrideText);
-                    if (Reddit.dpWidth == Reddit.defaultDPWidth) {
-                        cb.setChecked(true);
-                        elseView.setAlpha(0.25f);
-                        editOverride.setInputType(InputType.TYPE_NULL);
-                    } else {
-                        cb.setChecked(false);
-                        elseView.setAlpha(1f);
-                    }
-
-
-                    editOverride.setText(String.valueOf(Reddit.dpWidth));
-
-                    cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (isChecked) {
-                                elseView.setAlpha(0.25f);
-                                editOverride.setInputType(InputType.TYPE_NULL);
-                                editOverride.setText(String.valueOf(Reddit.defaultDPWidth));
-
-                            } else {
-                                editOverride.setInputType(InputType.TYPE_CLASS_NUMBER);
-                                elseView.setAlpha(1f);
-                                editOverride.requestFocus();
-
-
-                            }
-                        }
-                    });
+                  //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    landscape.setValue(Reddit.dpWidth, false);
 
 
                     final Dialog dialog = builder.setView(dialoglayout).create();
                     dialog.show();
-                    dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
-                        public void onClick(View v) {
-                            if (cb.isChecked() || editOverride.getText().toString().isEmpty()) {
-                                Reddit.dpWidth = Reddit.defaultDPWidth;
-                                Reddit.seen.edit().putInt("tabletOVERRIDE", Reddit.dpWidth).apply();
-                                dialog.dismiss();
-                                restartTheme();
-                            } else {
-                                Integer in = Integer.valueOf(editOverride.getText().toString());
-                                if (in > 0 && in < 8) {
-                                    Reddit.seen.edit().putInt("tabletOVERRIDE", Integer.valueOf(editOverride.getText().toString())).apply();
-                                    dialog.dismiss();
-                                    Reddit.dpWidth = in;
+                        public void onDismiss(DialogInterface dialog) {
+                            Reddit.dpWidth = landscape.getValue();
+                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getValue()).apply();
 
-                                    restartTheme();
-                                } else {
-                                    new AlertDialogWrapper.Builder(SubredditOverview.this).setTitle("Invalid Amount of Columns").setMessage("You must enter a number between 1 and 7!").create().show();
-                                }
-
-                            }
+                            restartTheme();
 
                         }
                     });
+
 
 
                 } else {

@@ -27,7 +27,7 @@ public class FontPreferences {
 
     public FontStyle getFontStyle() {
         return FontStyle.valueOf(open().getString(FONT_STYLE,
-                FontStyle.Large.name()));
+                FontStyle.Medium.name()));
     }
 
     public void setFontStyle(FontStyle style) {

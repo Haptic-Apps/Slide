@@ -2,6 +2,8 @@ package me.ccrama.redditslide;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -21,18 +23,29 @@ import java.util.UUID;
 public class Authentication {
     public static boolean isLoggedIn;
     public static RedditClient reddit;
+    private static boolean isNetworkAvailable(Context ac) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) ac.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public static String name;
     public static String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     public static SharedPreferences authentication;
     public static String REDIRECT_URL = "http://www.ccrama.me";
     public static int inboxC;
     public Reddit a;
+
     public Authentication(Context a) {
-        isLoggedIn = false;
-        this.a = (Reddit) a;
-        reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0 (by /u/ccrama)"));
-        reddit.setLoggingMode(LoggingMode.ALWAYS);
-        new VerifyCredentials().execute();
+        if(isNetworkAvailable(a)) {
+            isLoggedIn = false;
+            this.a = (Reddit) a;
+            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0 (by /u/ccrama)"));
+            reddit.setLoggingMode(LoggingMode.ALWAYS);
+                new VerifyCredentials().execute();
+
+        }
 
     }
     public static class UpdateToken extends  AsyncTask<Void, Void, Void>{
@@ -46,15 +59,15 @@ public class Authentication {
                 final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                 Log.v("Slide", "REAUTH LOGGED IN");
 
-                OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
+                OAuthHelper oAuthHelper = reddit.getOAuthHelper();
                 oAuthHelper.setRefreshToken(refresh);
                 try {
                     OAuthData finalData = oAuthHelper.refreshToken(credentials);
 
                     refresh = oAuthHelper.getRefreshToken();
-                    Authentication.reddit.authenticate(finalData);
-                    if (Authentication.reddit.isAuthenticated()) {
-                        final String name = Authentication.reddit.me().getFullName();
+                    reddit.authenticate(finalData);
+                    if (reddit.isAuthenticated()) {
+                        final String name = reddit.me().getFullName();
                         Authentication.name = name;
                         Authentication.isLoggedIn = true;
 
@@ -67,15 +80,17 @@ public class Authentication {
             } else {
                 final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                 OAuthData authData = null;
-                try {
-                    authData = Authentication.reddit.getOAuthHelper().easyAuth(fcreds);
-                    Authentication.name = "LOGGEDOUT";
+                if(reddit != null) {
+                    try {
 
-                } catch (OAuthException e) {
-                    //TODO fail
+                        authData = reddit.getOAuthHelper().easyAuth(fcreds);
+                        Authentication.name = "LOGGEDOUT";
+
+                    } catch (OAuthException e) {
+                        //TODO fail
+                    }
+                    reddit.authenticate(authData);
                 }
-                Authentication.reddit.authenticate(authData);
-
 
 
             }
@@ -93,7 +108,9 @@ public class Authentication {
             if(a.loader != null){
                 a.loader.loading.setText("Updating your subreddits");
             }
-            new SubredditStorage().execute(a);
+
+                new SubredditStorage().execute(a);
+
 
         }
 
@@ -106,15 +123,15 @@ public class Authentication {
                     Log.v("Slide", "LOGGED IN");
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
-                    OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
+                    OAuthHelper oAuthHelper = reddit.getOAuthHelper();
                     oAuthHelper.setRefreshToken(token);
                     try {
                         OAuthData finalData = oAuthHelper.refreshToken(credentials);
 
                          refresh = oAuthHelper.getRefreshToken();
-                        Authentication.reddit.authenticate(finalData);
-                        if (Authentication.reddit.isAuthenticated()) {
-                            final String name = Authentication.reddit.me().getFullName();
+                        reddit.authenticate(finalData);
+                        if (reddit.isAuthenticated()) {
+                            final String name = reddit.me().getFullName();
                             Authentication.name = name;
                             Authentication.isLoggedIn = true;
 
@@ -130,14 +147,14 @@ public class Authentication {
                     final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                     OAuthData authData = null;
                     try {
-                        authData = Authentication.reddit.getOAuthHelper().easyAuth(fcreds);
+                        authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         Authentication.name = "LOGGEDOUT";
 
                     } catch (OAuthException e) {
                       //TODO fail
                         e.printStackTrace();
                     }
-                    Authentication.reddit.authenticate(authData);
+                    reddit.authenticate(authData);
 
 
                 }

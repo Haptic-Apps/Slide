@@ -67,9 +67,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public int hideNumber(CommentNode n, int i) {
         for (CommentNode ignored : n.getChildren()) {
-            i++;
-            hide(keys.get(ignored.getComment().getFullName()));
-            i += hideNumber(ignored, 0);
+            String fullname = ignored.getComment().getFullName();
+            if(hiddenPersons.contains(fullname)) {
+                hiddenPersons.remove(fullname);
+            }
+            if(!hidden.contains(fullname)) {
+                i++;
+            }
+            hidden.add(fullname);
+                i += hideNumber(ignored, 0);
+
         }
         return i;
     }
@@ -490,8 +497,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
                 ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + getChildNumber(baseNode));
+             //todo maybe   holder.content.setVisibility(View.GONE);
             } else {
                 holder.children.setVisibility(View.GONE);
+              //todo maybe  holder.content.setVisibility(View.VISIBLE);
 
             }
             holder.author.setOnClickListener(new View.OnClickListener() {
@@ -674,9 +683,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hiddenPersons.contains(comment.getFullName())) {
                 unhideAll(baseNode, holder.getAdapterPosition() + 1);
                 hiddenPersons.remove(comment.getFullName());
+       //todo maybe         holder.content.setVisibility(View.VISIBLE);
+
             } else {
                 hideAll(baseNode, holder.getAdapterPosition() + 1
                 );
+             //todo maybe   holder.content.setVisibility(View.GONE);
 
                 hiddenPersons.add(comment.getFullName());
             }
@@ -798,15 +810,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public int unhideNumber(CommentNode n, int i) {
-        for (CommentNode ignored : n.getChildren()) {
-            i++;
-            String name = ignored.getComment().getFullName();
+        for (CommentNode ignored : n.walkTree()) {
+            if(!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
+                i++;
+                String name = ignored.getComment().getFullName();
 
-            if (hiddenPersons.contains(name)) {
-                hiddenPersons.remove(name);
+                if (hiddenPersons.contains(name)) {
+                    hiddenPersons.remove(name);
+                }
+                hidden.remove(name);
+
+                i += unhideNumber(ignored, 0);
             }
-            unHide(keys.get(name));
-            i += unhideNumber(ignored, 0);
         }
         return i;
     }
@@ -839,24 +854,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     ArrayList<String> replie;
 
-    public void hide(int position) {
-        hidden.add(users.get(position).getComment().getFullName());
-    }
 
-    public void unHide(int position) {
-        hidden.remove(users.get(position).getComment().getFullName());
 
-    }
 
-    public void hideAll() {
-        for (int i = 0; i < users.size(); i++) {
-            CommentNode n = users.get(i);
-            if (!n.isTopLevel()) {
-                hide(i);
-            } else {
-                replie.add(n.getComment().getFullName());
 
-            }
-        }
-    }
+
 }

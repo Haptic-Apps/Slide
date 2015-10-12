@@ -155,7 +155,9 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 holder.downvote.setVisibility(View.GONE);
 
             }
-            firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
+        holder.loadMore.setVisibility(View.VISIBLE);
+
+        firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();

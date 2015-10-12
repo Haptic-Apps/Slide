@@ -24,5 +24,12 @@
 
         <attr name="list_background" format="color" />
         />
+
+    </declare-styleable>
+    <declare-styleable name="ExpandablePanel">
+        <attr name="handle" format="reference" />
+        <attr name="content" format="reference" />
+        <attr name="contentContainer" format="reference" />
+        <attr name="animationDuration" format="integer"/>
     </declare-styleable>
 </resources>

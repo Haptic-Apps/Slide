@@ -114,7 +114,7 @@
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
                             android:paddingTop="16dp">
-                            <LinearLayout
+                            <com.wefika.flowlayout.FlowLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:alpha=".6"
@@ -182,7 +182,7 @@
 
                                     android:textSize="?attr/font_cardinfo" />
 
-                            </LinearLayout>
+                            </com.wefika.flowlayout.FlowLayout>
                             <com.devspark.robototextview.widget.RobotoTextView xmlns:android="http://schemas.android.com/apk/res/android"
                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:id="@+id/title"

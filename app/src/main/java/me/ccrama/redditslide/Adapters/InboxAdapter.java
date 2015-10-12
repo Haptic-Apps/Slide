@@ -80,10 +80,25 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
 
 
-            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext,"" );
+            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, "");
 
            holder.title.setText(comment.getSubject());
 
+        holder.content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comment instanceof PrivateMessage){
+                    DataShare.sharedMessage =  (PrivateMessage) comment;
+                    Intent i = new Intent(mContext, Sendmessage.class);
+                    i.putExtra("name", comment.getAuthor());
+                    i.putExtra("reply" , true);
+                    ((Activity) mContext).startActivity(i);
+                } else {
+                    CommentMessage m = (CommentMessage) comment;
+                    new OpenRedditLink(mContext,comment.getDataNode().get("context").asText());
+                }
+            }
+        });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

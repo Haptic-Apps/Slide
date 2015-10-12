@@ -49,8 +49,10 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
     public void onActivityResumed(Activity activity) {
 
         if(closed && ! (activity instanceof Login) && !isRestarting) {
-            new Authentication.UpdateToken().execute();
-            closed = false;
+
+                new Authentication.UpdateToken().execute();
+                closed = false;
+
         }
     }
 

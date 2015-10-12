@@ -116,8 +116,9 @@
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawerlistview"
         android:layout_width="300dp"
-        android:background="?attr/activity_background"
+        android:background="?attr/card_background"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
 
         android:layout_gravity="start"
         android:orientation="vertical">

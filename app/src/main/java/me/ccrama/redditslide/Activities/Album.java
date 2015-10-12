@@ -62,7 +62,8 @@ public class Album extends BaseActivity {
             finish();
         } else {
 
-            new AsyncImageLoader().execute(getHash(rawDat));
+                new AsyncImageLoader().execute(getHash(rawDat));
+
         }
 
     }
@@ -95,35 +96,48 @@ public class Album extends BaseActivity {
 
         @Override
         protected Void doInBackground(String... sub) {
-            Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
-            Ion.with(Album.this)
-                    .load("http://api.imgur.com/2/album" + sub[0] + ".json")
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            Log.v("Slide", result.toString());
+                Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Ion.with(Album.this)
+                        .load("http://api.imgur.com/2/album" + sub[0] + ".json")
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                Log.v("Slide", result.toString());
 
 
-                            ArrayList<JsonElement> jsons = new ArrayList<>();
+                                ArrayList<JsonElement> jsons = new ArrayList<>();
 
-                            if ( result.has("album")) {
-                                if(result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()){
-                                    getSupportActionBar().setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
-                                }
-                                JsonObject obj = result.getAsJsonObject("album");
-                                if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                                    final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                                    for (JsonElement o : jsonAuthorsArray) {
-                                        jsons.add(o);
+                                if (result.has("album")) {
+                                    if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
+                                        getSupportActionBar().setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
                                     }
+                                    JsonObject obj = result.getAsJsonObject("album");
+                                    if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+
+                                        final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+
+                                        for (JsonElement o : jsonAuthorsArray) {
+                                            jsons.add(o);
+                                        }
 
 
-                                    ListView v = (ListView) findViewById(R.id.images);
-                                    v.setAdapter(new AlbumView(Album.this, jsons));
+                                        ListView v = (ListView) findViewById(R.id.images);
+                                        v.setAdapter(new AlbumView(Album.this, jsons));
 
+                                    } else {
+
+                                        new AlertDialogWrapper.Builder(Album.this)
+                                                .setTitle("Album not found...")
+                                                .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
+                                                .setCancelable(false)
+                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        finish();
+                                                    }
+                                                }).create().show();
+                                    }
                                 } else {
 
                                     new AlertDialogWrapper.Builder(Album.this)
@@ -137,21 +151,9 @@ public class Album extends BaseActivity {
                                                 }
                                             }).create().show();
                                 }
-                            } else {
-
-                                new AlertDialogWrapper.Builder(Album.this)
-                                        .setTitle("Album not found...")
-                                        .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
-                                        .setCancelable(false)
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        }).create().show();
                             }
-                        }
-                    });
+                        });
+
             return null;
 
         }

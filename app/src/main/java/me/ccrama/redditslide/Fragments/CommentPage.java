@@ -96,8 +96,10 @@ public class CommentPage extends Fragment {
         if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
             if(data.hasExtra("fullname")){
                 String fullname = data.getExtras().getString("fullname");
-                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
+
                 adapter.currentSelectedItem = fullname;
+                adapter.reset(getContext(), comments, rv, comments.submission);
+                adapter.notifyDataSetChanged();
                 int i = 1;
                 for(CommentNode n : comments.comments){
 
@@ -225,9 +227,10 @@ public class CommentPage extends Fragment {
         }
     }
 
+    boolean single;
     public void doData(Boolean b) {
 
-        if(adapter == null){
+        if(adapter == null || single){
             if(context != null && !context.equals("NOTHING")) {
                 adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
                 adapter.currentSelectedItem = context;
@@ -275,6 +278,7 @@ public class CommentPage extends Fragment {
         id = bundle.getString("subreddit", "");
         fullname = bundle.getString("id", "");
         page = bundle.getInt("page", 0);
+        single = bundle.getBoolean("single", false);
         context = bundle.getString("context", "");
     }
 

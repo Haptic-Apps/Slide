@@ -96,10 +96,10 @@ public class SubmissionsView extends Fragment {
                     }
                 }
 
-                if (loading) {
+                if (posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
 
-                        loading = false;
+                        posts.loading = false;
                         try {
                             posts.loadMore(adapter, false, posts.subreddit);
                         } catch (ExecutionException e) {
@@ -115,7 +115,6 @@ public class SubmissionsView extends Fragment {
         return v;
     }
     int visibleItemCount;
-    boolean loading = true;
     int pastVisiblesItems;
 
     int totalItemCount;

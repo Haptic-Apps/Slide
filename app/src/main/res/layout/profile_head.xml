@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/profile"
+    android:layout_width="match_parent"
+    android:layout_height="42dp"
+    android:orientation="horizontal"
+    android:paddingLeft="0dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="match_parent"
+        android:tint="?attr/tint"
+
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingBottom="6dp"
+
+
+        android:paddingTop="6dp"
+        android:src="@drawable/sidebar_profile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="Profile"
+        android:textColor="?attr/font"
+
+        android:textSize="14sp"
+        android:textStyle="bold" />
+</LinearLayout>

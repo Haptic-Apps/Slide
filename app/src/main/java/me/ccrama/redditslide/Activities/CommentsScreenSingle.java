@@ -70,12 +70,13 @@ public class CommentsScreenSingle extends BaseActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
+                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
+
             }
             pager = (ViewPager) findViewById(R.id.contentView);
 
             context = getIntent().getExtras().getString("context", "");
             pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-            CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
         }
 
@@ -101,6 +102,7 @@ public class CommentsScreenSingle extends BaseActivity {
             args.putString("id", name);
             args.putString("context", context);
             args.putString("subreddit", subreddit);
+            args.putBoolean("single", true);
             f.setArguments(args);
 
             return f;

@@ -23,6 +23,7 @@ public class SubredditPosts {
     public SubredditPaginator paginator;
     public SwipeRefreshLayout refreshLayout;
 
+    public boolean loading;
     public SubredditPosts(ArrayList<Submission> firstData, SubredditPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
@@ -68,6 +69,7 @@ public class SubredditPosts {
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
 
+            loading = true;
             if(refreshLayout != null)
             ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
                 @Override
