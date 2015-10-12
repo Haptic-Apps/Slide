@@ -35,7 +35,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     static int COMMENT = 1;
     @Override
     public int getItemViewType(int position) {
-        if (dataSet.get(position).getFullName().contains("t1"))//IS COMMENT
+        if (dataSet.get(position) instanceof  Comment)//IS COMMENT
             return COMMENT;
 
         return 2;

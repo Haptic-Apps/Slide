@@ -39,21 +39,7 @@
 
                     >
 
-                    <ImageView
-                        android:id="@+id/menu"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="end|center_vertical"
 
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:tint="#ffffff"
-                        android:paddingBottom="12dp"
-
-                        android:paddingTop="12dp"
-
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/settings"
-                        />
 
                     <ImageView
                         android:id="@+id/sorting"
@@ -94,8 +80,7 @@
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/grid" />
-
+                        android:src="@drawable/shadowbox"/>
                 </android.support.v7.widget.Toolbar>
 
                 <android.support.design.widget.TabLayout

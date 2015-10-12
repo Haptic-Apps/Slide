@@ -89,7 +89,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:id="@+id/expand_profile"
-        android:weightSum="4"
+        android:weightSum="5"
         android:layout_height="wrap_content">
 
 
@@ -187,7 +187,27 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/submit"
+            android:layout_width="0dp"
+            android:layout_weight="1"            android:layout_height="42dp"
 
+            android:orientation="horizontal"
+            android:paddingLeft="0dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:paddingBottom="6dp"
+                android:background="?android:selectableItemBackground"
+
+                android:tint="?attr/tint"
+
+                android:paddingTop="6dp"
+                android:src="@drawable/edit" />
+
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -200,37 +220,7 @@
         android:background="?attr/tint"
         />
 
-    <LinearLayout
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
 
-        android:orientation="horizontal"
-        android:paddingLeft="0dp">
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="6dp"
-
-            android:tint="?attr/tint"
-
-            android:padding="10dp"
-            android:src="@drawable/editsidebar" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
-            android:gravity="center_vertical"
-            android:text="Submit post"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
 
     <LinearLayout
@@ -313,7 +303,7 @@
             android:tint="?attr/tint"
 
             android:padding="10dp"
-            android:src="@drawable/tablet" />
+            android:src="@drawable/multicolumn" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -351,6 +341,35 @@
 
             android:gravity="center_vertical"
             android:text="Go to profile"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="?android:selectableItemBackground"
+
+        android:paddingLeft="0dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:tint="?attr/tint"
+
+            android:padding="10dp"
+            android:src="@drawable/settings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="?attr/font"
+
+            android:gravity="center_vertical"
+            android:text="Settings"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

@@ -104,9 +104,9 @@ public class ColorPreferences {
         edit().putString(FONT_STYLE, style.name()).commit();
     }
     public enum Theme {
-        dark_white(R.style.white_dark, "dark_white",R.color.white,0),
-        light_white(R.style.white_light, "light_white",R.color.white,1),
-        amoled_white(R.style.white_amoled, "amoled_white",R.color.white,2),
+        dark_white(R.style.white_dark, "dark_white",R.color.md_blue_grey_100,0),
+        light_white(R.style.white_light, "light_white",R.color.md_blue_grey_100,1),
+        amoled_white(R.style.white_amoled, "amoled_white",R.color.md_blue_grey_100,2),
         dark_deeporange(R.style.deeporange_dark, "dark_deeporange",R.color.md_deep_orange_A200,0),
         light_deeporange(R.style.deeporange_LIGHT, "light_deeporange",R.color.md_deep_orange_A200,1),
         amoled_deeporange(R.style.deeporange_AMOLED, "amoled_deeporange",R.color.md_deep_orange_A200,2),
