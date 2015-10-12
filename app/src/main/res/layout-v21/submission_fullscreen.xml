@@ -355,7 +355,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
                             android:layout_alignParentRight="true"
                             android:padding="8dp"
@@ -367,7 +367,7 @@
                             android:layout_height="36dp"
                             android:layout_toLeftOf="@+id/more"
                             android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
 
                             android:padding="8dp"
@@ -377,7 +377,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
                             android:layout_toLeftOf="@+id/downvote"
                             android:padding="8dp"
@@ -386,7 +386,7 @@
                             android:id="@+id/downvote"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
                             android:layout_toLeftOf="@+id/upvote"
                             android:padding="8dp"

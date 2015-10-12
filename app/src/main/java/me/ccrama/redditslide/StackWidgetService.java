@@ -3,16 +3,11 @@ package me.ccrama.redditslide;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import net.dean.jraw.models.Submission;
 
@@ -75,23 +70,9 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             }
             try {
                 final String finalUrl = url;
-                Picasso.with(mContext).load(url).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        rv.setImageViewBitmap(R.id.thumbnail, bitmap);
-                        rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
-                    }
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
+               //todo rv.setImageViewBitmap(R.id.thumbnail, Glide.with(mContext).load(url).asBitmap().);
+                rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
 
 
             } catch (Exception e) {

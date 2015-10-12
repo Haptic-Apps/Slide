@@ -51,6 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -83,6 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -115,6 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -146,6 +149,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -207,6 +211,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">

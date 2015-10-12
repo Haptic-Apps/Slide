@@ -162,6 +162,7 @@
             android:gravity="bottom"
             android:padding="16dp"
             android:text="DONATE"
+
             android:textColor="@color/md_light_green_500"
             android:textAllCaps="true"
 

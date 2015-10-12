@@ -13,8 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -58,7 +58,7 @@ public class AlbumView extends ArrayAdapter<JsonElement> {
             iv.setMinimumHeight(height);
         }
 
-        Picasso.with(getContext()).load(url).into(iv);
+        Glide.with(getContext()).load(url).crossFade().into(iv);
         {
             TextView tv = (TextView) convertView.findViewById(R.id.imagetitle);
             tv.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());

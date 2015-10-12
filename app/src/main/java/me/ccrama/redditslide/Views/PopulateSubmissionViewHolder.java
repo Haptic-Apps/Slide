@@ -16,8 +16,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.squareup.picasso.Picasso;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -58,8 +58,7 @@ public class PopulateSubmissionViewHolder {
         }
 
 
-        holder.leadImage.setImageBitmap(null);
-        holder.thumbImage.setImageBitmap(null);
+
         holder.title.setText(Html.fromHtml(submission.getTitle()));
 
         holder.info.setText(submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime()));
@@ -95,7 +94,6 @@ public class PopulateSubmissionViewHolder {
 
 
 
-        /* Doing the custom stuff now*/
 
         ContentType.ImageType type = ContentType.getImageType(submission);
 
@@ -108,12 +106,12 @@ public class PopulateSubmissionViewHolder {
         if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
             if (big || fullscreen) {
-                Picasso.with(mContext).load(url).into(holder.leadImage);
+                Glide.with(mContext).load(url).crossFade().into(holder.leadImage);
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Picasso.with(mContext).load(url).into(holder.thumbImage);
+                Glide.with(mContext).load(url).crossFade().into(holder.thumbImage);
 
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
@@ -125,13 +123,13 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
             if ((big || fullscreen) && !blurry) {
-                Picasso.with(mContext).load(url).into(holder.leadImage);
+                Glide.with(mContext).load(url).crossFade().into(holder.leadImage);
 
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Picasso.with(mContext).load(url).into(holder.thumbImage);
+                Glide.with(mContext).load(url).crossFade().into(holder.thumbImage);
 
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
@@ -142,7 +140,7 @@ public class PopulateSubmissionViewHolder {
 
             if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                 bigAtEnd = false;
-                Picasso.with(mContext).load(submission.getThumbnail()).into(holder.thumbImage);
+                Glide.with(mContext).load(submission.getThumbnail()).crossFade().into(holder.thumbImage);
 
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);

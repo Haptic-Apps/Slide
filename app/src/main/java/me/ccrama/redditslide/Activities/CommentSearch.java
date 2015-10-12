@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +14,7 @@ import me.ccrama.redditslide.Adapters.CommentAdapterSearch;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
 /**
@@ -35,8 +35,8 @@ public class CommentSearch extends BaseActivity {
         final EditText search = (EditText) findViewById(R.id.search);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.vertical_content);
-        final LinearLayoutManager mLayoutManager;
-        mLayoutManager = new LinearLayoutManager(this);
+        final PreCachingLayoutManager mLayoutManager;
+        mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv);
         rv.setAdapter(adapter);

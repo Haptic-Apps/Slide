@@ -18,6 +18,7 @@ import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 public class SubmissionsView extends Fragment {
@@ -34,8 +35,8 @@ public class SubmissionsView extends Fragment {
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
-            final LinearLayoutManager mLayoutManager;
-            mLayoutManager = new LinearLayoutManager(getActivity());
+            final PreCachingLayoutManager mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
         } else {
             final StaggeredGridLayoutManager mLayoutManager;
@@ -53,6 +54,7 @@ public class SubmissionsView extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
+
         posts = new SubredditPosts(id);
         adapter = new SubmissionAdapter(getContext(), posts, rv, posts.subreddit );
         rv.setAdapter(adapter);
@@ -86,8 +88,8 @@ public class SubmissionsView extends Fragment {
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
-                if(rv.getLayoutManager() instanceof  LinearLayoutManager) {
-                    pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                if(rv.getLayoutManager() instanceof  PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                 } else {
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);

@@ -26,12 +26,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/imagearea"
                 android:layout_width="match_parent"
 
+                android:background="?android:selectableItemBackground"
 
                 android:layout_height="wrap_content">
 
@@ -199,6 +202,8 @@
                                 android:layout_height="wrap_content"
                                 android:maxHeight="82dp"
                                 android:orientation="horizontal"
+                                android:background="?android:selectableItemBackground"
+
                                 android:paddingBottom="8dp"
                                 android:paddingTop="16dp"
                                 android:paddingLeft="16dp"
@@ -301,6 +306,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:tint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
 
                             android:layout_toLeftOf="@+id/upvote"
                             android:padding="8dp"
@@ -312,6 +318,7 @@
                             android:layout_height="36dp"
                             android:layout_toLeftOf="@+id/menu"
                             android:tint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
 
                             android:padding="8dp"
                             android:src="@drawable/upvoted" />
@@ -322,6 +329,7 @@
                             android:layout_height="36dp"
                             android:layout_alignParentRight="true"
                             android:tint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
 
                             android:padding="8dp"
                             android:src="@drawable/more" />

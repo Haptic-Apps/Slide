@@ -210,6 +210,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
         pag.setLimit(50);
 
+
         while(pag.hasNext()){
             for (net.dean.jraw.models.Subreddit s : pag.next()) {
                 finished.add(s.getDisplayName().toLowerCase());

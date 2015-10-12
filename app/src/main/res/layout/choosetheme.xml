@@ -45,11 +45,14 @@
                     android:paddingTop="8dp">
 
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+
                         android:background="#424242"
+
 
                         android:id="@+id/dark"
                         android:orientation="horizontal"
@@ -150,6 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -180,6 +184,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -211,6 +216,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -244,7 +250,6 @@
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
-
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="?attr/card_background">
@@ -323,6 +328,7 @@
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok2"
+                        android:background="?android:selectableItemBackground"
 
                         android:textStyle="bold"
                         android:padding="16dp"

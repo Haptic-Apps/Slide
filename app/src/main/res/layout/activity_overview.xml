@@ -2,6 +2,7 @@
 
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:background="?attr/activity_background"
@@ -44,14 +45,15 @@
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
 
-                        android:background="#00ffffff"
                         android:tint="#ffffff"
                         android:paddingBottom="12dp"
+                        android:background="?android:selectableItemBackground"
 
                         android:paddingTop="12dp"
 
                         android:scaleType="fitCenter"
-                        android:src="@drawable/settings" />
+                        android:src="@drawable/settings"
+                        />
 
                     <ImageView
                         android:id="@+id/sorting"
@@ -59,8 +61,8 @@
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
 
-                        android:background="#00ffffff"
                         android:paddingBottom="12dp"
+                        android:background="?android:selectableItemBackground"
 
                         android:paddingTop="12dp"
 
@@ -72,9 +74,10 @@
                     <ImageView
                         android:id="@+id/info"
                         android:layout_width="48dp"
+                        android:background="?android:selectableItemBackground"
+
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:background="#00ffffff"
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:scaleType="fitCenter"
@@ -85,9 +88,10 @@
                     <ImageView
                         android:id="@+id/grid"
                         android:layout_width="48dp"
+                        android:background="?android:selectableItemBackground"
+
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:background="#00ffffff"
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:scaleType="fitCenter"
@@ -118,7 +122,6 @@
         android:layout_width="300dp"
         android:background="?attr/card_background"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
 
         android:layout_gravity="start"
         android:orientation="vertical">

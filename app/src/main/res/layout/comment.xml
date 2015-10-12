@@ -108,17 +108,18 @@
                                 layout="@layout/commentnumber"
                                 android:layout_width="wrap_content"
 
-                                android:layout_height="wrap_content"
+                                android:layout_height="16dp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginLeft="10dp"
                                 android:gravity="center_horizontal"
                                 android:orientation="horizontal" />
 
 
-                            <LinearLayout
+                            <com.wefika.flowlayout.FlowLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:paddingRight="10dp"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
                                 >
@@ -126,8 +127,13 @@
                                 <TextView
                                     android:id="@+id/author"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
                                     android:text="ccrama"
+                                    android:layout_height="16dp"
+
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"
+
                                     android:textColor="?attr/font"
                                     android:textSize="?attr/font_commenttitle"
                                     android:textStyle="bold"
@@ -136,9 +142,13 @@
                                 <TextView
                                     android:id="@+id/score"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="16dp"
+
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"
                                     android:text="+49"
-                                    android:padding="5dp"
+                                    android:textStyle="bold"
                                     android:textColor="?attr/font"
 
                                     android:textSize="?attr/font_commentinfo" />
@@ -146,9 +156,11 @@
                                 <TextView
                                     android:id="@+id/time"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:padding="5dp"
+                                    android:layout_height="16dp"
+
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"                                    android:layout_alignParentRight="true"
                                     android:textColor="?attr/font"
 
                                     android:text="4 hours ago"
@@ -158,24 +170,53 @@
                                     android:id="@+id/gild"
                                     layout="@layout/gilded"
                                     android:layout_width="wrap_content"
+                                    android:layout_height="16dp"
 
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_marginLeft="10dp"
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"
                                     android:gravity="center_horizontal"
                                     android:orientation="horizontal" />
                                 <include
                                     android:id="@+id/flairbubble"
                                     layout="@layout/flair"
                                     android:layout_toRightOf="@+id/pinned"
+                                    android:layout_margin="5dp"
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="16dp"
+
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/pinned" />
+                                <include
+                                    android:id="@+id/you"
+                                    layout="@layout/you"
+                                    android:layout_toRightOf="@+id/pinned"
                                     android:layout_centerVertical="true"
 
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp"
+                                    android:layout_height="16dp"
 
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"
                                     android:src="@drawable/pinned" />
-                            </LinearLayout>
+                                <include
+                                    android:id="@+id/op"
+                                    layout="@layout/op"
+                                    android:layout_toRightOf="@+id/pinned"
+                                    android:layout_centerVertical="true"
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="16dp"
+
+                                    android:paddingRight="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/pinned" />
+                            </com.wefika.flowlayout.FlowLayout>
                         </RelativeLayout>
 
 
@@ -243,6 +284,7 @@
 
                                         <RelativeLayout
                                             android:layout_width="wrap_content"
+                                            android:visibility="gone"
                                             android:layout_height="wrap_content"
 
                                             >
@@ -326,6 +368,9 @@
             android:id="@+id/more"
             android:tint="?attr/tint"
             android:padding="12dp"
+            android:background="?android:selectableItemBackground"
+
+
             android:src="@drawable/more" />
 
 
@@ -336,6 +381,7 @@
             android:layout_weight="1"
             android:id="@+id/downvote"
             android:tint="?attr/tint"
+            android:background="?android:selectableItemBackground"
 
             android:padding="12dp"
             android:src="@drawable/downvoteicon" />
@@ -343,7 +389,7 @@
         <ImageView
             android:layout_width="0dp"
             android:tint="?attr/tint"
-
+            android:background="?android:selectableItemBackground"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:padding="12dp"
@@ -357,6 +403,7 @@
             android:id="@+id/reply"
             android:layout_weight="1"
             android:tint="?attr/tint"
+            android:background="?android:selectableItemBackground"
 
             android:padding="12dp"
             android:src="@drawable/reply" />
@@ -390,6 +437,7 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:textColor="?attr/font"
+                android:background="?android:selectableItemBackground"
 
                 android:id="@+id/discard"
                 android:text="DISCARD"
@@ -402,6 +450,7 @@
                 android:layout_alignParentRight="true"
                 android:id="@+id/send"
                 android:textColor="?attr/font"
+                android:background="?android:selectableItemBackground"
 
                 android:padding="4dp"
                 android:text="SUBMIT"

@@ -55,6 +55,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:padding="16dp"
+            android:background="?android:selectableItemBackground"
+
             android:text="LOG OUT"
             android:textColor="#fff"
             android:textSize="14sp"
@@ -105,6 +107,7 @@
                 android:tint="?attr/tint"
 
                 android:paddingBottom="6dp"
+                android:background="?android:selectableItemBackground"
 
 
                 android:paddingTop="6dp"
@@ -128,6 +131,7 @@
                 android:layout_height="match_parent"
 
                 android:tint="?attr/tint"
+                android:background="?android:selectableItemBackground"
 
                 android:paddingBottom="6dp"
 
@@ -151,6 +155,7 @@
                 android:layout_height="match_parent"
 
                 android:paddingBottom="6dp"
+                android:background="?android:selectableItemBackground"
 
                 android:tint="?attr/tint"
 
@@ -173,6 +178,7 @@
                 android:paddingBottom="6dp"
 
                 android:tint="?attr/tint"
+                android:background="?android:selectableItemBackground"
 
 
                 android:paddingTop="6dp"
@@ -198,6 +204,7 @@
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
 
         android:orientation="horizontal"
         android:paddingLeft="0dp">
@@ -230,6 +237,7 @@
         android:id="@+id/multi"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
 
         android:orientation="horizontal"
         android:paddingLeft="0dp">
@@ -262,6 +270,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
+        android:background="?android:selectableItemBackground"
 
         android:paddingLeft="0dp">
 
@@ -291,6 +300,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
+        android:background="?android:selectableItemBackground"
 
         android:paddingLeft="0dp">
 
@@ -320,6 +330,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
+        android:background="?android:selectableItemBackground"
 
         android:paddingLeft="0dp">
 

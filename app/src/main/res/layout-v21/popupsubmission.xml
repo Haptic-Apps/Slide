@@ -22,7 +22,7 @@
             android:textSize="18dp"
             android:textStyle="bold" />
         <ImageView
-            android:background="?android:selectableItemBackground"
+            android:background="?android:selectableItemBackgroundBorderless"
 
             android:layout_width="56dp"
             android:src="@drawable/close"

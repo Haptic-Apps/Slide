@@ -14,6 +14,11 @@
         <item name="colorAccent">@color/md_amber_A200</item>
 
     </style>
+    <style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorAccent">@color/md_amber_A200</item>
+
+    </style>
     <style name="spinnerItemStyle">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
@@ -177,9 +182,11 @@
         <item name="font_commentinfo">12sp</item>
         <item name="font_commentbody">16sp</item>
     </style>
-    <style name="Theme.LIGHT" parent="swipestyle">
+    <style name="Theme.LIGHT" parent="swipestylelight">
         <item name="activity_background">#d2d2d2</item>
-        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat.Light</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
 
         <item name="card_background">#ffffff</item>
         <item name="font">#b3000000</item>

@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import me.ccrama.redditslide.Adapters.InboxAdapter;
 import me.ccrama.redditslide.Adapters.InboxMessages;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 public class InboxPage extends Fragment {
@@ -30,8 +30,8 @@ public class InboxPage extends Fragment {
         v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-            final LinearLayoutManager mLayoutManager;
-            mLayoutManager = new LinearLayoutManager(getActivity());
+            final PreCachingLayoutManager mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
 
 

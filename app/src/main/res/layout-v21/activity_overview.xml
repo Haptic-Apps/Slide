@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:background="?attr/activity_background"
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:layout_width="match_parent"
-
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/activity_background"
-
-    android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -40,25 +41,27 @@
 
                     <ImageView
                         android:id="@+id/menu"
-                        android:layout_width="36dp"
+                        android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:background="?android:selectableItemBackground"
 
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:tint="#ffffff"
                         android:paddingBottom="12dp"
 
                         android:paddingTop="12dp"
 
                         android:scaleType="fitCenter"
-                        android:src="@drawable/more" />
+                        android:src="@drawable/settings"
+                        />
 
                     <ImageView
                         android:id="@+id/sorting"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:background="?android:selectableItemBackground"
 
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
 
                         android:paddingTop="12dp"
@@ -67,34 +70,31 @@
                         android:src="@drawable/sort" />
 
 
+
                     <ImageView
                         android:id="@+id/info"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-
-
                         android:layout_gravity="end|center_vertical"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/infonew" />
 
+
+
                     <ImageView
-                        android:id="@+id/wiki"
-                        android:layout_width="0dp"
+                        android:id="@+id/grid"
+                        android:layout_width="48dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
+
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-
-                        android:background="#00ffffff"
                         android:paddingBottom="12dp"
-
                         android:paddingTop="12dp"
-
                         android:scaleType="fitCenter"
-                        android:src="@drawable/wiki" />
-
-
+                        android:src="@drawable/grid" />
 
                 </android.support.v7.widget.Toolbar>
 
@@ -110,12 +110,21 @@
                 android:id="@+id/contentView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/activity_background"
- 
+
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CoordinatorLayout>
     </FrameLayout>
 
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawerlistview"
+        android:layout_width="300dp"
+        android:background="?attr/card_background"
+        android:layout_height="match_parent"
 
+        android:layout_gravity="start"
+        android:orientation="vertical">
+
+    </ListView>
+</android.support.v4.widget.DrawerLayout>
 

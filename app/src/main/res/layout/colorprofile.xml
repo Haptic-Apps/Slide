@@ -131,6 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -161,6 +162,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -193,7 +195,6 @@
                     android:layout_width="match_parent"
                     android:padding="24dp"
                     android:layout_alignTop="@+id/body"
-                    android:visibility="gone"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
 
@@ -228,6 +229,8 @@
                         android:textStyle="bold"
                         android:padding="16dp"
                         android:textColor="?attr/font"
+                        android:background="?android:selectableItemBackground"
+
                         android:gravity="right|bottom"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>

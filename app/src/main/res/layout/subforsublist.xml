@@ -6,6 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:paddingLeft="16dp"
+        android:background="?android:selectableItemBackground"
+
         android:id="@+id/settings_defaultcolor"
         android:orientation="horizontal">
 

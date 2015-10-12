@@ -62,6 +62,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 import uz.shift.colorpicker.LineColorPicker;
@@ -184,7 +185,13 @@ public class SubredditOverview extends ActionBarActivity  {
 
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();
-
+        findViewById(R.id.menu).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastHelpCreation.makeToast(v, "Global App Settings", SubredditOverview.this);
+                return false;
+            }
+        });
         findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -475,12 +482,26 @@ public class SubredditOverview extends ActionBarActivity  {
                 }
             }
         });
+        findViewById(R.id.sorting).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastHelpCreation.makeToast(v, "Change Post Sorting", SubredditOverview.this);
+                return false;
+            }
+        });
+        findViewById(R.id.grid).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastHelpCreation.makeToast(v, "Enable Shadowbox Mode", SubredditOverview.this);
+                return false;
+            }
+        });
         findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 {
 
-                    if(Reddit.tabletUI) {
+                    if (Reddit.tabletUI) {
                         DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                         Intent i = new Intent(SubredditOverview.this, PhotoSubredditView.class);
                         i.putExtra("position", pager.getCurrentItem());
@@ -507,6 +528,14 @@ public class SubredditOverview extends ActionBarActivity  {
                         }).show();
                     }
                 }
+            }
+        });
+
+        findViewById(R.id.info).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ToastHelpCreation.makeToast(v, "Open Subreddit Settings", SubredditOverview.this);
+                return false;
             }
         });
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
@@ -1549,8 +1578,6 @@ public class SubredditOverview extends ActionBarActivity  {
     public void doSidebar() {
         ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
-        ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.drawerbottom, l, false);
-        l.addFooterView(footer, null, false);
         View header;
 
         if (Authentication.isLoggedIn) {
@@ -1578,6 +1605,7 @@ public class SubredditOverview extends ActionBarActivity  {
                     SubredditOverview.this.startActivity(inte);
                 }
             });
+
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1602,6 +1630,7 @@ public class SubredditOverview extends ActionBarActivity  {
                     Overview.this.startActivity(inte);
                 }
             });*/
+
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1609,6 +1638,7 @@ public class SubredditOverview extends ActionBarActivity  {
                     SubredditOverview.this.startActivity(inte);
                 }
             });
+
             header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1631,7 +1661,8 @@ public class SubredditOverview extends ActionBarActivity  {
                 }
             });
         }
-        footer.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+
+        header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent inte = new Intent(SubredditOverview.this, DonateView.class);
@@ -1639,6 +1670,7 @@ public class SubredditOverview extends ActionBarActivity  {
                 SubredditOverview.this.startActivity(inte);
             }
         });
+
         final EditText e = ((EditText) header.findViewById(R.id.sort));
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -1677,7 +1709,7 @@ public class SubredditOverview extends ActionBarActivity  {
 
             }
         });
-        footer.findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
+        header.findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                   /*  Intent inte = new Intent(Overview.this, Overview.class);

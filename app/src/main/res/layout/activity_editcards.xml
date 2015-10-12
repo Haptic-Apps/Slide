@@ -44,6 +44,8 @@
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:id="@+id/reset"
+                        android:background="?android:selectableItemBackground"
+
                         android:padding="16dp"
                         android:layout_gravity="right"
                         android:layout_height="match_parent" />

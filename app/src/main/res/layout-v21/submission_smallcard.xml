@@ -13,13 +13,15 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
 
-        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:gravity="center"
         android:orientation="vertical"
         cardview:cardBackgroundColor="?attr/card_background"
 
-        cardview:cardCornerRadius="0dp">
+        cardview:cardCornerRadius="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,6 +33,7 @@
             <RelativeLayout
                 android:id="@+id/imagearea"
                 android:layout_width="match_parent"
+                android:background="?android:selectableItemBackground"
 
 
                 android:layout_height="wrap_content">
@@ -42,8 +45,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:adjustViewBounds="true"
-                    android:background="?android:selectableItemBackground"
-
                     android:scaleType="centerCrop"
                     android:src="@drawable/chameleon" />
 
@@ -104,21 +105,13 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <ImageView
-                            android:id="@+id/thumbimage"
-                            android:layout_width="wrap_content"
-                            android:maxWidth="66dp"
-                            android:layout_height="66dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/chameleon" />
                     <LinearLayout
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_toRightOf="@+id/thumbimage"
-                        android:padding="8dp">
+                        android:layout_toLeftOf="@+id/thumbimage"
+                        android:padding="16dp">
 
                         <TextView
 
@@ -127,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:text="Chameleons are Cool!"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitlec"
+                            android:textSize="?attr/font_cardtitle"
 
 
                             />
@@ -147,7 +140,7 @@
                                 android:text="/r/animals"
 
                                 android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardinfoc"
+                                android:textSize="?attr/font_cardinfo"
 
                                 android:textStyle="bold" />
 
@@ -162,13 +155,19 @@
                                 android:text="6 hours ago"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfoc"/>
+                                android:textSize="?attr/font_cardinfo"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
                             <include
                                 android:id="@+id/nsfw"
                                 layout="@layout/nsfw"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:layout_marginTop="8dp"
 
                                 />
 
@@ -179,12 +178,20 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="8dp"
 
+                                android:layout_marginTop="8dp"
                                 android:src="@drawable/pinned" />
                         </LinearLayout>
-
-
                     </LinearLayout>
+                        <ImageView
+                            android:id="@+id/thumbimage"
+                            android:maxWidth="66dp"
 
+                            android:layout_alignParentRight="true"
+                            android:layout_height="66dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/chameleon"
+                            android:layout_width="wrap_content" />
                 </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/previewContent"
@@ -205,8 +212,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="36dp"
                                 android:orientation="horizontal"
+                                android:visibility="gone"
                                 android:paddingLeft="16dp"
-                                android:background="?android:selectableItemBackground"
 
                                 android:paddingRight="16dp">
 
@@ -226,7 +233,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="imgur"
                                         android:textColor="?attr/font"
-                                        android:textSize="?attr/font_cardtitlec" />
+                                        android:textSize="?attr/font_cardtitle" />
 
                                     <TextView
                                         android:id="@+id/contenturl"
@@ -237,7 +244,7 @@
                                         android:alpha=".56"
                                         android:text="imgur.com/a/alskfdj"
                                         android:textColor="?attr/font"
-                                        android:textSize="?attr/font_cardinfoc"
+                                        android:textSize="?attr/font_cardinfo"
 
                                         />
                                 </LinearLayout>
@@ -296,7 +303,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
                             android:layout_toLeftOf="@+id/upvote"
                             android:padding="8dp"
@@ -308,7 +315,7 @@
                             android:layout_height="36dp"
                             android:layout_toLeftOf="@+id/menu"
                             android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
                             android:padding="8dp"
                             android:src="@drawable/upvoted" />
@@ -319,7 +326,7 @@
                             android:layout_height="36dp"
                             android:layout_alignParentRight="true"
                             android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
                             android:padding="8dp"
                             android:src="@drawable/more" />

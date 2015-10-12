@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
@@ -18,6 +17,7 @@ import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.ContributionPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 public class ContributionsView extends Fragment {
@@ -34,8 +34,8 @@ public class ContributionsView extends Fragment {
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
-            final LinearLayoutManager mLayoutManager;
-            mLayoutManager = new LinearLayoutManager(getActivity());
+            final PreCachingLayoutManager mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
         } else {
             final StaggeredGridLayoutManager mLayoutManager;

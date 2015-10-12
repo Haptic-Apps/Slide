@@ -6,7 +6,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +19,7 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -54,8 +54,8 @@ public class SingleView extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
-            final LinearLayoutManager mLayoutManager;
-            mLayoutManager = new LinearLayoutManager(this);
+            final PreCachingLayoutManager mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);
         } else {
             final StaggeredGridLayoutManager mLayoutManager;

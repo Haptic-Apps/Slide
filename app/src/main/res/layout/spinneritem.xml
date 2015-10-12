@@ -6,6 +6,8 @@
     android:textStyle="bold"
     android:textSize="14sp"
     android:gravity="center_vertical"
+    android:background="?android:selectableItemBackground"
+
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:minHeight="?android:attr/listPreferredItemHeightSmall" />

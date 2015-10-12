@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.view.ContextThemeWrapper;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -32,6 +31,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 public class CommentPage extends Fragment {
@@ -104,7 +104,7 @@ public class CommentPage extends Fragment {
                 for(CommentNode n : comments.comments){
 
                     if(n.getComment().getFullName().contains(fullname)){
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (LinearLayoutManager)rv.getLayoutManager());
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments)rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
                         break;
@@ -133,8 +133,8 @@ public class CommentPage extends Fragment {
             v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
             rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-            final LinearLayoutManager mLayoutManager;
-            mLayoutManager = new LinearLayoutManager(getActivity());
+            final PreCachingLayoutManagerComments mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
             rv.setLayoutManager(mLayoutManager);
 
             Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
@@ -209,8 +209,8 @@ public class CommentPage extends Fragment {
         return v;
     }
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
-        LinearLayoutManager lm;
-        public TopSnappedSmoothScroller(Context context, LinearLayoutManager lm) {
+        PreCachingLayoutManagerComments lm;
+        public TopSnappedSmoothScroller(Context context, PreCachingLayoutManagerComments lm) {
             super(context);
             this.lm = lm;
 
@@ -238,7 +238,7 @@ public class CommentPage extends Fragment {
                 for(CommentNode n : comments.comments){
 
                     if(n.getComment().getFullName().contains(context)){
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (LinearLayoutManager)rv.getLayoutManager());
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments)rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
                         break;
