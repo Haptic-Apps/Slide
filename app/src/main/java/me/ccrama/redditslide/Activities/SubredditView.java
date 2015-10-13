@@ -183,7 +183,7 @@ public class SubredditView extends BaseActivity {
                 {
                     if(Reddit.tabletUI) {
                         DataShare.sharedSubreddit = posts.posts;
-                        Intent i = new Intent(SubredditView.this, PhotoSubredditView.class);
+                        Intent i = new Intent(SubredditView.this, Shadowbox.class);
                         i.putExtra("position", 0);
                         startActivity(i);
                     } else {

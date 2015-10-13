@@ -83,6 +83,11 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
             new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, "");
 
            holder.title.setText(comment.getSubject());
+        if(comment.isRead()){
+            holder.title.setTextColor(holder.content.getCurrentTextColor());
+        } else{
+            holder.title.setTextColor(mContext.getResources().getColor(R.color.md_red_500));
+        }
 
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -7,12 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.models.Submission;
 
@@ -53,28 +54,26 @@ public class ImageFull extends Fragment {
 
         if (type.toString().toLowerCase().contains("image")) {
             addClickFunctions(image, rootView, type, getActivity(), s);
-            image.setVisibility(View.VISIBLE);
 
             url = ContentType.getFixedUrl(s.getUrl());
-                Glide.with(getActivity()).load(url).into(image);
+            Ion.with(image).load(url);
         } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
 
             url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            Glide.with(getActivity()).load(url).into(image);
+            Ion.with(image).load(url);
 
 
         } else {
             addClickFunctions(image, rootView, type, getActivity(), s);
-
+            Log.v("Slide", "NO IMAGE");
             image.setImageBitmap(null);
         }
-
 
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
+                if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra("page", i);
                     (getActivity()).startActivity(i2);
@@ -90,16 +89,17 @@ public class ImageFull extends Fragment {
     }
 
     int i = 0;
-    View placeholder;
     Submission s;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
+        s = DataShare.sharedSubreddit.get(i);
 
     }
+
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
         switch (type) {
             case NSFW_IMAGE:

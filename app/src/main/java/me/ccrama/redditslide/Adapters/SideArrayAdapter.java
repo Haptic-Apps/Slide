@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.SubredditOverview;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -66,9 +68,13 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     results.values = nlist;
                     results.count = nlist.size();
                 }
+                nlist.add("Go to " + prefix);
+
             }
             return results;
         }
+
+
 
         @SuppressWarnings("unchecked")
         @Override
@@ -95,15 +101,22 @@ final TextView t =
         ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
+        final String subreddit = fitems.get(position).replace("Go to " ,"");
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-       convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
+       convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((SubredditOverview) getContext()).pager.setCurrentItem(((SubredditOverview) getContext()).usedArray.indexOf(fitems.get(position)));
-                ((SubredditOverview)getContext()).drawerLayout.closeDrawers();
-                InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                if (fitems.get(position).startsWith("Go to ")) {
+                    Intent inte = new Intent(getContext(), SubredditView.class);
+                    inte.putExtra("subreddit", subreddit);
+                    getContext().startActivity(inte);
+                } else {
+                    ((SubredditOverview) getContext()).pager.setCurrentItem(((SubredditOverview) getContext()).usedArray.indexOf(fitems.get(position)));
+                    ((SubredditOverview) getContext()).drawerLayout.closeDrawers();
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         });
         return convertView;

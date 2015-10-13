@@ -216,7 +216,7 @@ public class SubredditOverview extends ActionBarActivity  {
 
                     if (Reddit.tabletUI) {
                         DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
-                        Intent i = new Intent(SubredditOverview.this, PhotoSubredditView.class);
+                        Intent i = new Intent(SubredditOverview.this, Shadowbox.class);
                         i.putExtra("position", pager.getCurrentItem());
                         startActivity(i);
                     } else {
@@ -1289,7 +1289,7 @@ public class SubredditOverview extends ActionBarActivity  {
     public DrawerLayout drawerLayout;
 
     public void doSidebar() {
-        ListView l = (ListView) findViewById(R.id.drawerlistview);
+        final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
         View header;
 
@@ -1385,6 +1385,8 @@ public class SubredditOverview extends ActionBarActivity  {
         });
 
         final EditText e = ((EditText) header.findViewById(R.id.sort));
+
+
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override

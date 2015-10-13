@@ -22,6 +22,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 
@@ -115,6 +116,10 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         }
     }
 
+    public static int notificationTime;
+
+    public static NotificationJobScheduler notifications;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -131,6 +136,7 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         hidden = getSharedPreferences("HIDDEN", 0);
 
       //new SetupIAB().execute();
+
 
         if(!seen.contains("RESET")){
             colors.edit().clear().apply();
@@ -169,10 +175,18 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         } else {
             dpWidth = fina / 300;
         }
+        if(seen.contains("notificationOverride")){
+            notificationTime = seen.getInt("notificationOverride", 15);
+        } else {
+            notificationTime = 15;
+        }
         defaultDPWidth = fina/300;
         new Authentication(this);
 
+        if(notificationTime != -1){
+            notifications = new NotificationJobScheduler(this);
 
+        }
         tabletUI = isPackageInstalled(this, "me.ccrama.slideforreddittabletuiunlock");
     }
 

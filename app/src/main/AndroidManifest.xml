@@ -21,7 +21,8 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SubredditOverview"/>
+        <activity android:name=".Activities.SubredditOverview"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".Activities.Album"/>
         <activity android:name=".Activities.FullscreenImage"/>
         <activity android:name=".Activities.CommentSearch"/>
@@ -63,7 +64,7 @@
         <activity android:name=".Activities.Submit"/>
         <activity android:name=".Activities.Tutorial"/>
         <activity android:name=".Activities.DonateView"/>
-        <activity android:name=".Activities.PhotoSubredditView"/>
+        <activity android:name=".Activities.Shadowbox"/>
 
         <activity android:name=".Activities.CommentsScreenPopup"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
@@ -94,12 +95,23 @@
         <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:resource="@dimen/app_defaultsize_h" />
 
         <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:resource="@dimen/app_minimumsize_w" />
-
+        <receiver android:name=".Notifications.CheckForMail">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
         <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h" />
+        <receiver android:name=".Notifications.StartOnBoot"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
