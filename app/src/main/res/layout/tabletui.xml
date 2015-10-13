@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Tablet UI Settings"
+                android:text="Multi-Column Settings"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
