@@ -19,6 +19,11 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import me.ccrama.redditslide.Activities.Crash;
 import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
@@ -137,6 +142,31 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
 
       //new SetupIAB().execute();
 
+        //START code adapted from https://github.com/QuantumBadger/RedReader/
+        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            public void uncaughtException(Thread thread, Throwable t) {
+
+                try {
+                    Writer writer = new StringWriter();
+                    PrintWriter printWriter = new PrintWriter(writer);
+                    t.printStackTrace(printWriter);
+                    String s = writer.toString();
+                    s = s.replace(";", ",");
+                    s = s.replace("at", "%0Aat");
+                    Log.v("Slide", "Slide crashed with " + s);
+                    Intent i = new Intent(Reddit.this, Crash.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("stacktrace", s);
+
+                    startActivity(i);
+                } catch(Throwable t1) {}
+
+                androidHandler.uncaughtException(thread, t);
+            }
+        });
+        //END adaptation
 
         if(!seen.contains("RESET")){
             colors.edit().clear().apply();

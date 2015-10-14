@@ -49,9 +49,9 @@ public class CommentsScreen extends BaseActivity {
         } else {
             posts = DataShare.sharedSubreddit;
         }
-        if(posts == null){
+        if(posts == null || posts.get(firstPage) == null){
             finish();
-        }
+        } else {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
@@ -84,7 +84,8 @@ public class CommentsScreen extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });}
+
 
     }
 

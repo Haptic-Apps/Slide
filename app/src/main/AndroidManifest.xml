@@ -65,6 +65,7 @@
         <activity android:name=".Activities.Tutorial"/>
         <activity android:name=".Activities.DonateView"/>
         <activity android:name=".Activities.Shadowbox"/>
+        <activity android:name=".Activities.Crash"/>
 
         <activity android:name=".Activities.CommentsScreenPopup"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>

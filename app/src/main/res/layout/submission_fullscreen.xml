@@ -184,7 +184,7 @@
                                     android:textSize="?attr/font_cardinfo" />
 
                             </com.wefika.flowlayout.FlowLayout>
-                            <com.devspark.robototextview.widget.RobotoTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                            <TextView xmlns:android="http://schemas.android.com/apk/res/android"
                                 xmlns:app="http://schemas.android.com/apk/res-auto"
                                 android:id="@+id/title"
                                 android:layout_width="match_parent"

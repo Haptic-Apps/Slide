@@ -55,6 +55,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/contentView"
                 android:layout_width="match_parent"
+                android:background="?attr/activity_background"
                 android:layout_height="match_parent"
 
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
