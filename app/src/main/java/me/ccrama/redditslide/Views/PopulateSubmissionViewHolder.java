@@ -369,6 +369,9 @@ public class PopulateSubmissionViewHolder {
                 baseView= holder.previewContent;
             }
             addClickFunctions(holder.imageArea, baseView, type, (Activity) mContext, submission);
+            addClickFunctions(holder.thumbImage, baseView, type, (Activity) mContext, submission);
+            addClickFunctions(holder.leadImage, baseView, type, (Activity) mContext, submission);
+
             addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission);
 
         } catch (Exception e) {
