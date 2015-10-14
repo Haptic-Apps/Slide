@@ -148,7 +148,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:textSize="?attr/font_cardinfo"
-                                    android:text="  •  "
+                                    android:text="@string/thread_properties_seperator"
                                     android:textColor="?attr/font"
 
                                     android:layout_height="wrap_content" />
@@ -167,7 +167,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:textSize="?attr/font_cardinfo"
-                                    android:text="  •  "
+                                    android:text="@string/thread_properties_seperator"
                                     android:textColor="?attr/font"
 
                                     android:layout_height="wrap_content" />
@@ -428,7 +428,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="4dp"
-                                android:text="DISCARD"
+                                android:text="@string/thread_reply_discard"
                                 android:textSize="14sp"
                                 android:textColor="?attr/font"
 
@@ -442,7 +442,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:padding="4dp"
-                                android:text="SUBMIT"
+                                android:text="@string/thread_reply_submit"
 
                                 android:textSize="14sp"
                                 android:textStyle="bold" />

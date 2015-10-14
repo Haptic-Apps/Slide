@@ -104,7 +104,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Accent color"
+                            android:text="@string/theme_accent_color"
 
                             android:textSize="16sp" />
 

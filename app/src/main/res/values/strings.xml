@@ -15,4 +15,19 @@
 	<string name="example_points">204 points</string>
 	<string name="example_points_short">+204</string>
 	<string name="example_comments">402 comments</string>
+
+	<!-- Used when viewing a thread -->
+	<string name="thread_reply_submit">SUBMIT</string>
+	<string name="thread_reply_discard">DISCARD</string>
+	<string name="thread_properties_seperator">  •  </string>
+
+	<!-- Theme settings -->
+	<string name="theme_light">Light</string>
+	<string name="theme_dark">Dark</string>
+	<string name="theme_black">AMOLED Black</string>
+	<string name="theme_default_color">Default color</string>
+	<string name="theme_default_description">This value applies everywhere you have not set a specific color for.</string>
+	<string name="theme_accent_color">Accent color</string>
+	<string name="theme_edit_global">Edit global theme settings</string>
+	<string name="theme_edit_card">Edit CardView</string>
 </resources>
