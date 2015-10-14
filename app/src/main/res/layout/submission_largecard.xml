@@ -65,7 +65,7 @@
                         android:id="@+id/textimage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="imgur"
+                        android:text="@string/example_domain"
                         android:textColor="#ffffff"
                         android:textSize="16dp" />
 
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".56"
 
-                        android:text="imgur.com/a/alskfdj"
+                        android:text="@string/example_url"
                         android:textColor="#ffffff"
                         android:textSize="14dp" />
                 </LinearLayout>
@@ -116,7 +116,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="8dp"
-                            android:text="Chameleons are Cool!"
+                            android:text="@string/example_title"
                             android:textColor="?attr/font"
                             android:textSize="?attr/font_cardtitle"
                             />
@@ -134,7 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:paddingRight="5dp"
-                                android:text="/r/animals"
+                                android:text="@string/example_sub"
 
                                 android:textColor="?attr/font"
                                 android:textSize="?attr/font_cardinfo"
@@ -149,7 +149,7 @@
                                 android:alpha=".56"
 
                                 android:gravity="center_vertical"
-                                android:text="6 hours ago"
+                                android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />
@@ -233,7 +233,7 @@
                                         android:id="@+id/contenttitle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="imgur"
+                                        android:text="@string/example_domain"
                                         android:textColor="?attr/font"
                                         android:textStyle="bold"
                                         android:textSize="16dp" />
@@ -244,7 +244,7 @@
                                         android:layout_height="wrap_content"
                                         android:alpha=".56"
 
-                                        android:text="imgur.com/a/alskfdj"
+                                        android:text="@string/example_url"
                                         android:textColor="?attr/font"
                                         android:textSize="14dp" />
                                 </LinearLayout>
@@ -280,7 +280,7 @@
                                 android:alpha=".56"
 
                                 android:gravity="center_vertical"
-                                android:text="204 points"
+                                android:text="@string/example_points"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />
@@ -293,7 +293,7 @@
                                 android:alpha=".56"
 
                                 android:gravity="center_vertical"
-                                android:text="402 comments"
+                                android:text="@string/example_comments"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />

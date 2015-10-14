@@ -50,7 +50,7 @@
                             android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Chameleons are Cool!"
+                            android:text="@string/example_title"
                             android:textColor="#b3FFFFFF"
                             android:textSize="20sp"
 
@@ -69,7 +69,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:paddingRight="5dp"
-                                android:text="/r/animals"
+                                android:text="@string/example_sub"
 
                                 android:textColor="#b3FFFFFF"
                                 android:textSize="16sp"
@@ -84,7 +84,7 @@
                                 android:alpha=".56"
 
                                 android:gravity="center_vertical"
-                                android:text="6 hours ago"
+                                android:text="@string/example_time"
                                 android:textColor="#b3FFFFFF"
 
                                 android:textSize="16sp"

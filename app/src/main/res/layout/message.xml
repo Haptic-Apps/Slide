@@ -97,7 +97,7 @@
                     android:gravity="center_vertical"
 
                     android:padding="7dp"
-                    android:text="6 hours ago"
+                    android:text="@string/example_time"
 
                     android:textSize="?attr/font_cardinfo"
                     />
