@@ -7,11 +7,13 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.CommentMessage;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
@@ -19,6 +21,7 @@ import net.dean.jraw.models.PrivateMessage;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.Sendmessage;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -71,6 +74,15 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
     boolean isSame;
 
+    public class AsyncSetRead extends AsyncTask<Message, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Message... params) {
+            new InboxManager(Authentication.reddit).setRead(params[0], true);
+            return null;
+        }
+    }
+
 
     @Override
     public void onBindViewHolder(final MessageViewHolder holder, final int i) {
@@ -92,32 +104,48 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
         holder.content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comment instanceof PrivateMessage){
-                    DataShare.sharedMessage =  (PrivateMessage) comment;
-                    Intent i = new Intent(mContext, Sendmessage.class);
-                    i.putExtra("name", comment.getAuthor());
-                    i.putExtra("reply" , true);
-                    ((Activity) mContext).startActivity(i);
+                if(comment.isRead()) {
+                    if (comment instanceof PrivateMessage) {
+                        DataShare.sharedMessage = (PrivateMessage) comment;
+                        Intent i = new Intent(mContext, Sendmessage.class);
+                        i.putExtra("name", comment.getAuthor());
+                        i.putExtra("reply", true);
+                        ((Activity) mContext).startActivity(i);
+                    } else {
+                        CommentMessage m = (CommentMessage) comment;
+                        new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
+                    }
                 } else {
-                    CommentMessage m = (CommentMessage) comment;
-                    new OpenRedditLink(mContext,comment.getDataNode().get("context").asText());
+                    comment.read = true;
+                    new AsyncSetRead().execute(comment);
+
+                    holder.title.setTextColor(holder.content.getCurrentTextColor());
+
                 }
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comment instanceof PrivateMessage){
-                    DataShare.sharedMessage =  (PrivateMessage) comment;
-                    Intent i = new Intent(mContext, Sendmessage.class);
-                    i.putExtra("name", comment.getAuthor());
-                    i.putExtra("reply" , true);
-                    ((Activity) mContext).startActivity(i);
+                if (comment.isRead()) {
+                    if (comment instanceof PrivateMessage) {
+                        DataShare.sharedMessage = (PrivateMessage) comment;
+                        Intent i = new Intent(mContext, Sendmessage.class);
+                        i.putExtra("name", comment.getAuthor());
+                        i.putExtra("reply", true);
+                        ((Activity) mContext).startActivity(i);
+                    } else {
+                        CommentMessage m = (CommentMessage) comment;
+                        new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
+                    }
+                    return;
+
                 } else {
-                    CommentMessage m = (CommentMessage) comment;
-                    new OpenRedditLink(mContext,comment.getDataNode().get("context").asText());
+                    comment.read = true;
+                    new AsyncSetRead().execute(comment);
+                    holder.title.setTextColor(holder.content.getCurrentTextColor());
+
                 }
-                return;
             }
         });
 

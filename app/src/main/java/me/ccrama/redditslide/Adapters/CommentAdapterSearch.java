@@ -155,6 +155,18 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 holder.downvote.setVisibility(View.GONE);
 
             }
+        if(comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())){
+            holder.itemView.findViewById(R.id.you).setVisibility(View.VISIBLE);
+        } else {
+            holder.itemView.findViewById(R.id.you).setVisibility(View.GONE);
+
+        }
+        if(comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())){
+            holder.itemView.findViewById(R.id.op).setVisibility(View.VISIBLE);
+        } else {
+            holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
+
+        }
         holder.loadMore.setVisibility(View.VISIBLE);
 
         firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
