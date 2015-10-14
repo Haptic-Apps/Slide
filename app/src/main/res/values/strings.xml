@@ -27,7 +27,18 @@
 	<string name="theme_black">AMOLED Black</string>
 	<string name="theme_default_color">Default color</string>
 	<string name="theme_default_description">This value applies everywhere you have not set a specific color for.</string>
+	<string name="theme_subreddit_color">Change color</string>
 	<string name="theme_accent_color">Accent color</string>
 	<string name="theme_edit_global">Edit global theme settings</string>
 	<string name="theme_edit_card">Edit CardView</string>
+
+	<!-- Drawer text -->
+	<string name="drawer_login">Log in</string>
+	<string name="drawer_logout">LOG OUT</string>
+	<string name="drawer_profile">Profile</string>
+	<string name="drawer_multis">Multireddits</string>
+	<string name="drawer_support">Support Slide</string>
+	<string name="drawer_grid">Grid layout</string>
+	<string name="drawer_goto_profile">Go to profile</string>
+	<string name="drawer_settings">Settings</string>
 </resources>

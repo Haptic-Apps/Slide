@@ -57,7 +57,7 @@
             android:padding="16dp"
             android:background="?android:selectableItemBackground"
 
-            android:text="LOG OUT"
+            android:text="@string/drawer_login"
             android:textColor="#fff"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Profile"
+                android:text="@string/drawer_profile"
                 android:textAllCaps="true"
                 android:padding="16dp"
                 android:textColor="?attr/font"
@@ -250,7 +250,7 @@
             android:gravity="center_vertical"
             android:textColor="?attr/font"
 
-            android:text="Multireddits"
+            android:text="@string/drawer_multis"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -281,7 +281,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Support slide"
+            android:text="@string/drawer_support"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -311,7 +311,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Grid layout"
+            android:text="@string/drawer_grid"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -340,7 +340,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Go to profile"
+            android:text="@string/drawer_goto_profile"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -369,7 +369,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Settings"
+            android:text="@string/drawer_settings"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

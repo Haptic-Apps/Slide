@@ -73,7 +73,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Change color"
+                            android:text="@string/theme_subreddit_color"
 
                             android:textSize="16sp" />
 
