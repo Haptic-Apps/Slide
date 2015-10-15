@@ -1,14 +1,14 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -19,70 +19,62 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentGrabber;
-import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
+
 /**
- * Created by ccrama on 9/17/2015.
+ * Created by ccrama on 3/5/2015.
  */
-public class Inbox extends BaseActivity {
-
-    TabLayout tabs;
-    ViewPager pager;
-
-    public static String getTime(int mins) {
-        int hours = mins / 60;
-        int minutes = mins - (hours * 60);
-        String hour = "";
-        String minute = "";
-        if (hours > 0)
-            if (hours > 1) {
-                hour = hours + " hours ";
-            } else {
-                hour = hours + " hour ";
-            }
-        if(minutes > 0)
-        minute = minutes + " minutes";
-         return "\n" + hour + minute;
-    }
+public class Settings extends ActionBarActivity {
 
     @Override
-    public void onCreate(Bundle savedInstance) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 2) {
+            // Make sure the request was successful
+            Intent i = new Intent(Settings.this, Settings.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(i);
+            finish();
 
-        super.onCreate(savedInstance);
+
+        }
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
-
-        setContentView(R.layout.activity_inbox);
-
-
-        tabs = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Inbox");
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        setContentView(R.layout.activity_settings);
+        Toolbar b = (Toolbar) findViewById(R.id.toolbar);
+        b.setBackgroundColor(Pallete.getDefaultColor());
+        setSupportActionBar(b);
+        getSupportActionBar().setTitle("Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pager = (ViewPager) findViewById(R.id.contentView);
-        findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+            Settings.this.setTaskDescription(new ActivityManager.TaskDescription("Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+
+
         }
-        pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
 
-        tabs.setupWithViewPager(pager);
-
-        findViewById(R.id.notifs).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.general).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsGeneral.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Inbox.this);
+                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
                 final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
                 final CheckBox checkBox = (CheckBox) dialoglayout.findViewById(R.id.load);
@@ -91,13 +83,13 @@ public class Inbox extends BaseActivity {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText("Check for new messages every " + getTime(Reddit.notificationTime));
+                    checkBox.setText("Check for new messages every " + Inbox.getTime(Reddit.notificationTime));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText("Check for new messages every " + getTime(i1 * 15));
+                        checkBox.setText("Check for new messages every " + Inbox.getTime(i1 * 15));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -134,46 +126,38 @@ public class Inbox extends BaseActivity {
                     }
                 });
 
+            }
+        });
+        findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Settings.this, SettingsTheme.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, EditCardsLayout.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.pro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
-    }
+        findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inte = new Intent(Settings.this, DonateView.class);
 
-    public Inbox.OverviewPagerAdapter adapter;
+                Settings.this.startActivity(inte);
+            }
+        });
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
-
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-            Fragment f = new InboxPage();
-            Bundle args = new Bundle();
-
-            args.putString("id", ContentGrabber.InboxValue.values()[i].getWhereName());
-
-            f.setArguments(args);
-
-            return f;
-
-
-        }
-
-
-        @Override
-        public int getCount() {
-            return ContentGrabber.InboxValue.values().length;
-        }
-
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return ContentGrabber.InboxValue.values()[position].getDisplayName();
-        }
     }
 
 }

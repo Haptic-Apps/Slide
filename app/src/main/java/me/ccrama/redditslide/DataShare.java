@@ -15,4 +15,5 @@ public class DataShare {
     public static Submission notifs;
     public static PrivateMessage sharedMessage;
     public static ArrayList<CommentNode> sharedComments;
+    public static String subAuthor;
 }

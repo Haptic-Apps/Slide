@@ -38,7 +38,7 @@ public class CommentSearch extends BaseActivity {
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
-        final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv);
+        final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv, DataShare.subAuthor);
         rv.setAdapter(adapter);
         search.addTextChangedListener(new TextWatcher() {
             @Override

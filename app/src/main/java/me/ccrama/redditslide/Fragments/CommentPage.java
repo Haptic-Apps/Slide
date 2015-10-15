@@ -143,6 +143,7 @@ public class CommentPage extends Fragment {
             public void onClick(View v) {
                 if(comments.comments != null) {
                     DataShare.sharedComments = comments.comments;
+                    DataShare.subAuthor = comments.submission.getAuthor();
                     Intent i = new Intent(getActivity(), CommentSearch.class);
                     startActivityForResult(i, 1);
                 }

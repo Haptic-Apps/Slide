@@ -59,6 +59,8 @@
             <data android:host="www.redd.it" android:scheme="http"/>
         </intent-filter>
         </activity>
+        <activity android:name=".Activities.SettingsGeneral"/>
+
         <activity android:name=".Activities.CommentsScreenSingle"/>
         <activity android:name=".Activities.Inbox"/>
         <activity android:name=".Activities.Submit"/>
@@ -67,6 +69,8 @@
         <activity android:name=".Activities.Shadowbox"/>
         <activity android:name=".Activities.Crash"/>
         <activity android:name=".Activities.SubredditOverviewSingle"/>
+        <activity android:name=".Activities.Settings"/>
+        <activity android:name=".Activities.SettingsTheme"/>
 
         <activity android:name=".Activities.CommentsScreenPopup"
             android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
