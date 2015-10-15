@@ -628,7 +628,9 @@ public class SubredditOverviewSingle extends OverviewBase  {
             }
         });
         } else {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+            if(drawerLayout != null)
+
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
         }
     }
 
