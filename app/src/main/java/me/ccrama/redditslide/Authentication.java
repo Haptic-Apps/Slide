@@ -73,7 +73,7 @@ public class Authentication {
 
 
                     }
-                } catch (OAuthException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Log.v("Slide", "RESTARTING CREDS");
                 }

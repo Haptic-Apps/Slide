@@ -32,13 +32,15 @@ public class Settings extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
         if (requestCode == 2) {
-            // Make sure the request was successful
             Intent i = new Intent(Settings.this, Settings.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(i);
+            overridePendingTransition(0, 0);
+
             finish();
+            overridePendingTransition(0,0);
+
 
 
         }

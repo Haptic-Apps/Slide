@@ -91,7 +91,11 @@ public class SettingsTheme extends ActionBarActivity {
                         Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(i);
+                        overridePendingTransition(0, 0);
+
                         finish();
+                        overridePendingTransition(0,0);
+
 
                     }
                 });
@@ -116,7 +120,11 @@ public class SettingsTheme extends ActionBarActivity {
                         Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(i);
+                        overridePendingTransition(0, 0);
+
                         finish();
+                        overridePendingTransition(0,0);
+
                     }
                 });
                 builder.show();
@@ -146,7 +154,11 @@ public class SettingsTheme extends ActionBarActivity {
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(i);
+                                overridePendingTransition(0, 0);
+
                                 finish();
+                                overridePendingTransition(0,0);
+
                                 break;
                             }
                         }
@@ -165,7 +177,11 @@ public class SettingsTheme extends ActionBarActivity {
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(i);
+                                overridePendingTransition(0, 0);
+
                                 finish();
+                                overridePendingTransition(0,0);
+
                                 break;
                             }
                         }
@@ -184,7 +200,11 @@ public class SettingsTheme extends ActionBarActivity {
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(i);
+                                overridePendingTransition(0, 0);
+
                                 finish();
+                                overridePendingTransition(0,0);
+
                                 break;
                             }
                         }
@@ -269,7 +289,11 @@ public class SettingsTheme extends ActionBarActivity {
                         Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(i);
+                        overridePendingTransition(0, 0);
+
                         finish();
+                        overridePendingTransition(0,0);
+
                     }
                 });
 
@@ -282,8 +306,13 @@ public class SettingsTheme extends ActionBarActivity {
                         Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
                         Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
                         startActivity(i);
+                        overridePendingTransition(0, 0);
+
                         finish();
+                        overridePendingTransition(0,0);
+
                     }
                 });
                 builder.show();
