@@ -471,7 +471,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             saved = submission.isSaved();
-            holder.score.setText(comment.getScore() + "");
+            if(comment.isScoreHidden()){
+                holder.score.setText("[SCORE HIDDEN]");
+
+            } else {
+                holder.score.setText(comment.getScore() + "");
+
+            }
             if (baseNode.isTopLevel()) {
                 holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
             } else {
@@ -819,8 +825,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hiddenPersons.contains(name)) {
                     hiddenPersons.remove(name);
                 }
+                if(hidden.contains(name)) {
                     hidden.remove(name);
                     i++;
+                }
                 i += unhideNumber(ignored, 0);
             }
         }

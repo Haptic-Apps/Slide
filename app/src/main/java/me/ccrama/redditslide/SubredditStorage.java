@@ -157,6 +157,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
             ArrayList<String> newstrings = new ArrayList<>();
             for (String s : pins.split(",")) {
+                if(!newstrings.contains(s))
                 newstrings.add(s);
             }
             newstrings.add(name.toLowerCase());

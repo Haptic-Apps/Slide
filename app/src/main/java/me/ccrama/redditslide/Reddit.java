@@ -19,9 +19,15 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import me.ccrama.redditslide.Activities.Crash;
 import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
+import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -29,10 +35,12 @@ import me.ccrama.redditslide.util.IabResult;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Reddit extends Application  implements Application.ActivityLifecycleCallbacks {
+public class Reddit extends Application implements Application.ActivityLifecycleCallbacks {
     public static IabHelper mHelper;
+    public static boolean single;
 
     boolean closed = false;
+
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     }
@@ -49,10 +57,10 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
     @Override
     public void onActivityResumed(Activity activity) {
 
-        if(closed && ! (activity instanceof Login) && !isRestarting) {
+        if (closed && !(activity instanceof Login) && !isRestarting) {
 
-                new Authentication.UpdateToken().execute();
-                closed = false;
+            new Authentication.UpdateToken().execute();
+            closed = false;
 
         }
     }
@@ -95,7 +103,8 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
     }
 
     public boolean isRestarting;
-    public class SetupIAB extends AsyncTask<Void, Void, Void>{
+
+    public class SetupIAB extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -109,7 +118,7 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
 
                     }
                 });
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
             return null;
@@ -135,10 +144,36 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
 
-      //new SetupIAB().execute();
+        //new SetupIAB().execute();
 
+        //START code adapted from https://github.com/QuantumBadger/RedReader/
+        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
 
-        if(!seen.contains("RESET")){
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            public void uncaughtException(Thread thread, Throwable t) {
+
+                try {
+                    Writer writer = new StringWriter();
+                    PrintWriter printWriter = new PrintWriter(writer);
+                    t.printStackTrace(printWriter);
+                    String s = writer.toString();
+                    s = s.replace(";", ",");
+                    s = s.replace("at", "%0Aat");
+                    Log.v("Slide", "Slide crashed with " + s);
+                    Intent i = new Intent(Reddit.this, Crash.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    i.putExtra("stacktrace", s);
+
+                    startActivity(i);
+                } catch (Throwable t1) {
+                }
+
+                androidHandler.uncaughtException(thread, t);
+            }
+        });
+        //END adaptation
+
+        if (!seen.contains("RESET")) {
             colors.edit().clear().apply();
             seen.edit().clear().apply();
             hidden.edit().clear().apply();
@@ -157,33 +192,34 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
 
         }
 
+        single = colors.getBoolean("Single", false);
         int height = this.getResources().getConfiguration().screenWidthDp;
 
         int width = this.getResources().getConfiguration().screenHeightDp;
 
         int fina;
-        if(height > width){
+        if (height > width) {
             fina = height;
         } else {
             fina = width;
         }
-        fina = ((fina + 99) / 100 ) * 100;
+        fina = ((fina + 99) / 100) * 100;
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
-        if(seen.contains("tabletOVERRIDE")){
+        if (seen.contains("tabletOVERRIDE")) {
             dpWidth = seen.getInt("tabletOVERRIDE", fina / 300);
         } else {
             dpWidth = fina / 300;
         }
-        if(seen.contains("notificationOverride")){
+        if (seen.contains("notificationOverride")) {
             notificationTime = seen.getInt("notificationOverride", 15);
         } else {
             notificationTime = 15;
         }
-        defaultDPWidth = fina/300;
+        defaultDPWidth = fina / 300;
         new Authentication(this);
 
-        if(notificationTime != -1){
+        if (notificationTime != -1) {
             notifications = new NotificationJobScheduler(this);
 
         }
@@ -191,14 +227,20 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
     }
 
     public static int defaultDPWidth;
-    public void startMain(){
-        if(active) {
-            Intent i = new Intent(this, SubredditOverview.class);
+
+    public void startMain() {
+        if (active) {
+            Intent i = null;
+            if (single) {
+                i = new Intent(this, SubredditOverviewSingle.class);
+            } else {
+               i = new Intent(this, SubredditOverview.class);
+            }
             Log.v("Slide", "starting new");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             startActivity(i);
-            if(loader != null){
+            if (loader != null) {
                 loader.finish();
             }
         }
@@ -212,24 +254,24 @@ public class Reddit extends Application  implements Application.ActivityLifecycl
     public LoadingData loader;
     public static SharedPreferences hidden;
 
-    public static boolean isPackageInstalled (final Context ctx, final String packageName) {
+    public static boolean isPackageInstalled(final Context ctx, final String packageName) {
         boolean result = false;
         try {
             final PackageManager pm = ctx.getPackageManager();
             final PackageInfo pi = pm.getPackageInfo(packageName, 0);
             if (pi != null && pi.applicationInfo.enabled)
                 result = true;
-        }
-        catch (final Throwable e) {
+        } catch (final Throwable e) {
         }
 
         return result;
     }
-    public void restart(){
+
+    public void restart() {
         isRestarting = true;
 
         Intent mStartActivity = new Intent(this, LoadingData.class);
-        mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_NEW_TASK);
+        mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
         mStartActivity.putExtra("EXIT", true);
         this.startActivity(mStartActivity);

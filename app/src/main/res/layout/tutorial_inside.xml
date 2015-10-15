@@ -10,6 +10,7 @@
         android:id="@+id/imageold"
         android:layout_height="400dp" />
     <ImageView
+
         android:layout_width="182dp"
         android:id="@+id/image"
         android:layout_marginTop="63dp"

@@ -147,7 +147,26 @@
                         android:alpha=".8"
                         android:background="?attr/tint" />
 
+                    <CheckBox
+                        android:id="@+id/single"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:buttonTint="?attr/tint"
+                        android:background="?android:selectableItemBackground"
 
+                        android:backgroundTint="?attr/tint"
+                        android:layout_marginTop="8dp"
+                        android:textColorHint="?attr/font"
+                        android:textColor="?attr/font"
+                        android:text="Single Mode\n(view a single subreddit at a time)" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:alpha=".8"
+                        android:background="?attr/tint" />
                     <LinearLayout
                         android:id="@+id/color"
                         android:layout_width="match_parent"
@@ -249,6 +268,7 @@
 
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
+                    android:visibility="gone"
                     android:id="@+id/body2"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -298,6 +318,7 @@
                     android:padding="24dp"
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
+                    android:visibility="gone"
                     android:id="@+id/body3"
 
                     android:layout_height="match_parent"

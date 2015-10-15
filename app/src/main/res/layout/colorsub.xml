@@ -44,90 +44,8 @@
 
                     android:paddingTop="8dp">
 
-                    <CheckBox
-                        android:id="@+id/pinned"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:buttonTint="?attr/tint"
-                        android:background="?android:selectableItemBackground"
-
-                        android:backgroundTint="?attr/tint"
-                        android:layout_marginTop="8dp"
-                        android:textColorHint="?attr/font"
-                        android:textColor="?attr/font"
-                        android:text="PINNED" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:alpha=".8"
-                        android:background="?attr/tint" />
-
-                    <LinearLayout
-                        android:id="@+id/sidebar"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:background="?android:selectableItemBackground"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:tint="?attr/tint"
-
-                            android:padding="12dp"
-                            android:src="@drawable/ic_format_quote_white_48dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:textColor="?attr/font"
-
-                            android:text="View sidebar"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/wiki"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:background="?android:selectableItemBackground"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"                            android:tint="?attr/tint"
-
-                            android:padding="12dp"
-                            android:src="@drawable/wiki" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
 
 
-                            android:text="View wiki"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/color"
@@ -283,6 +201,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="24dp"
+
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body3"

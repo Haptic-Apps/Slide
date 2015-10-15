@@ -29,7 +29,7 @@ public class TutorialFragment extends Fragment {
     }
     public void doPage(int i, View container){
         ((TextView) container.findViewById(R.id.submission_title)).setText(titles[i]);
-       Ion.with((ImageView) container.findViewById(R.id.image)).load("android.resource://" + getActivity().getPackageName() + "/" + dataBits[i]);
+        Ion.with((ImageView) container.findViewById(R.id.image)).load("android.resource://" + getActivity().getPackageName() + "/" + dataBits[i]);
 
     }
     public static String[] titles = new String[]{

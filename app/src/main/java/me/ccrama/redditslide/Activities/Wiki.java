@@ -68,19 +68,23 @@ public class Wiki extends BaseActivity {
         protected Void doInBackground(Void... params) {
 
             WikiManager wiki = new WikiManager(Authentication.reddit);
-            pages = wiki.getPages(subreddit);
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            try {
+                pages = wiki.getPages(subreddit);
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
-            values = new WeakHashMap<>();
-            ArrayList<String> toRemove = new ArrayList<String>();
-            for(String s : pages){
-                values.put(s, wiki.get(subreddit, s).getDataNode().get("content_html").asText());
-                if(values.get(s).isEmpty() || s.startsWith("config")){
-                    toRemove.add(s);
-                    values.remove(s);
+                values = new WeakHashMap<>();
+                ArrayList<String> toRemove = new ArrayList<String>();
+                for (String s : pages) {
+                    values.put(s, wiki.get(subreddit, s).getDataNode().get("content_html").asText());
+                    if (values.get(s).isEmpty() || s.startsWith("config")) {
+                        toRemove.add(s);
+                        values.remove(s);
+                    }
                 }
+                pages.removeAll(toRemove);
+            } catch(Exception e){
+
             }
-            pages.removeAll(toRemove);
             return null;
         }
         @Override

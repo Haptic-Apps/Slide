@@ -5,6 +5,7 @@
 
         <item name="android:colorBackground">#000000</item>
         <item name="android:windowBackground">@color/black</item>
+
         <item name="android:spinnerItemStyle">
             @style/spinnerItemStyle
         </item>
@@ -16,6 +17,7 @@
     </style>
     <style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
+
         <item name="colorAccent">@color/md_amber_A200</item>
 
     </style>

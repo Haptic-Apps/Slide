@@ -15,43 +15,47 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/sidebarsub"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:background="@color/md_light_green_500"
+                    android:id="@+id/header_sub"
+                    android:orientation="vertical"
 
-                    android:layout_height="160dp">
+                    android:paddingTop="16dp"
+
+                    android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/sub_infotitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="24dp"
-                    android:layout_above="@+id/subs"
+                    android:paddingLeft="16dp"
+                    android:layout_above="@+id/sub_title"
                     android:text="/r/Android"
                     android:textSize="18dp"
                     android:textStyle="bold" />
                     <TextView
-                        android:id="@+id/subs"
+                        android:id="@+id/subscribers"
                         android:layout_width="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="203040 Subscribers"
-                        android:textSize="14dp"
-                        />
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:padding="16dp"
+                        android:paddingLeft="16dp"
 
-                        android:layout_toRightOf="@+id/subs"
                         android:layout_height="wrap_content"
                         android:text="A sub for 2 years"
                         android:textSize="14dp"
                         />
-                </RelativeLayout>
+                    <TextView
+                        android:id="@+id/sub_title"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
+                        android:textSize="14dp"
+                        />
+
+                </LinearLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -104,7 +108,7 @@
                             android:background="?attr/tint" />
 
                         <LinearLayout
-                            android:id="@+id/sidebar"
+                            android:id="@+id/wiki"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:gravity="center_vertical"
@@ -120,7 +124,7 @@
                                 android:tint="?attr/tint"
 
                                 android:padding="12dp"
-                                android:src="@drawable/ic_format_quote_white_48dp" />
+                                android:src="@drawable/wiki" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -129,7 +133,7 @@
 
                                 android:textColor="?attr/font"
 
-                                android:text="View sidebar"
+                                android:text="View wiki"
 
                                 android:textSize="16sp" />
 
@@ -137,7 +141,7 @@
 
 
                         <LinearLayout
-                            android:id="@+id/color"
+                            android:id="@+id/sub_theme"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:gravity="center_vertical"
@@ -162,69 +166,7 @@
 
                                 android:textColor="?attr/font"
 
-                                android:text="Change color"
-
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
-                        <LinearLayout
-                            android:id="@+id/color2"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center_vertical"
-                            android:background="?android:selectableItemBackground"
-
-                            android:orientation="horizontal"
-                            android:paddingRight="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:tint="?attr/tint"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:id="@+id/colorExpandFrom2"
-                                android:padding="12dp"
-                                android:src="@drawable/color" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:textColor="?attr/font"
-
-                                android:text="Accent color"
-
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/card"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center_vertical"
-                            android:background="?android:selectableItemBackground"
-
-                            android:orientation="horizontal"
-                            android:paddingRight="16dp">
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:tint="?attr/tint"
-                                android:padding="12dp"
-                                android:src="@drawable/card" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:textColor="?attr/font"
-
-                                android:text="Change card type for subreddit"
+                                android:text="Subreddit theme settings"
 
                                 android:textSize="16sp" />
 
@@ -240,6 +182,18 @@
 
 
                 </RelativeLayout>
+                <me.ccrama.redditslide.ActiveTextView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:textIsSelectable="true"
+
+                    android:textColor="?attr/font"
+
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:id="@+id/sidebar_text"
+                    android:layout_height="match_parent" />
             </LinearLayout>
         </ScrollView>
 </LinearLayout>

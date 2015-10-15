@@ -141,9 +141,11 @@ public class CommentPage extends Fragment {
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DataShare.sharedComments = comments.comments;
-              Intent i = new Intent(getActivity(), CommentSearch.class);
-              startActivityForResult(i, 1);
+                if(comments.comments != null) {
+                    DataShare.sharedComments = comments.comments;
+                    Intent i = new Intent(getActivity(), CommentSearch.class);
+                    startActivityForResult(i, 1);
+                }
 
             }
         });

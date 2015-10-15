@@ -18,13 +18,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +44,7 @@ import com.koushikdutta.ion.Ion;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
@@ -72,7 +73,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class SubredditOverview extends ActionBarActivity  {
+public class SubredditOverview extends OverviewBase {
 
 
     Toolbar toolbar;
@@ -254,7 +255,104 @@ public class SubredditOverview extends ActionBarActivity  {
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 {
+                    String sub = usedArray.get(pager.getCurrentItem());
+                    if (!sub.equals("frontpage") && !sub.equals("all")) {
+                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                    }
+
+                }
+            }
+        });
+    
+
+    }
+
+    public void doSubOnlyStuff(Subreddit subreddit) {
+        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            final String text = subreddit.getDataNode().get("description_html").asText();
+            final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverview.this, "slideforreddit");
+        } else {
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+        }
+        ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+
+        ((TextView) findViewById(R.id.subscribers)).setText("" + subreddit.getSubscriberCount() + " subscribers");
+
+    }
+
+    public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+
+        @Override
+        public void onPostExecute(Subreddit subreddit) {
+            doSubOnlyStuff(subreddit);
+        }
+
+        @Override
+        protected Subreddit doInBackground(String... params) {
+            return Authentication.reddit.getSubreddit(params[0]);
+        }
+    }
+
+    public void doSubSidebar(final String subreddit){
+        if(!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+            if(drawerLayout != null)
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
+
+            new AsyncGetSubreddit().execute(subreddit);
+            findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
+            ((TextView)findViewById(R.id.sub_infotitle)).setText(subreddit);
+            View dialoglayout = findViewById(R.id.sidebarsub);
+            CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //reset check adapter
+                }
+            });
+            if (SubredditStorage.getPins() == null) {
+                c.setChecked(false);
+
+            } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
+                c.setChecked(true);
+            } else {
+                c.setChecked(false);
+            }
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        SubredditStorage.addPin(subreddit);
+                    } else {
+                        SubredditStorage.removePin(subreddit);
+                    }
+                    subToDo = subreddit;
+                    new SubredditStorageNoContext().execute(SubredditOverview.this);
+                }
+            });
+            c.setHighlightColor(new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit, true).getColor());
+
+
+            if(subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") ){
+                dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
+                dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+
+            } else {
+                dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(SubredditOverview.this, Wiki.class);
+                        i.putExtra("subreddit", subreddit);
+                        startActivity(i);
+                    }
+                });
+
+            }
+            findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     final String subreddit = usedArray.get(pager.getCurrentItem());
 
                     int style = new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit);
@@ -266,26 +364,7 @@ public class SubredditOverview extends ActionBarActivity  {
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText("/r/" + subreddit);
                     title.setBackgroundColor(Pallete.getColor(subreddit));
-                    CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                    c.setHighlightColor(new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit, true).getColor());
-                    if (SubredditStorage.getPins() == null) {
-                        c.setChecked(false);
 
-                    } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                        c.setChecked(true);
-                    }
-                    c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if (isChecked) {
-                                SubredditStorage.addPin(subreddit);
-                            } else {
-                                SubredditStorage.removePin(subreddit);
-                            }
-                            subToDo = subreddit;
-                            new SubredditStorageNoContext().execute(SubredditOverview.this);
-                        }
-                    });
                     {
                         final View body = dialoglayout.findViewById(R.id.body2);
                         body.setVisibility(View.INVISIBLE);
@@ -529,7 +608,6 @@ public class SubredditOverview extends ActionBarActivity  {
                                         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
                                         pager.setAdapter(adapter);
                                         pager.setCurrentItem(current);
-                                        tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(0)));
 
 
                                     }
@@ -539,26 +617,7 @@ public class SubredditOverview extends ActionBarActivity  {
                             }
                         }
                     }
-                    if(subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") ){
-                        dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
-                        dialoglayout.findViewById(R.id.sidebar).setVisibility(View.GONE);
 
-                    } else {
-                        dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(SubredditOverview.this, Wiki.class);
-                                i.putExtra("subreddit", subreddit);
-                                startActivity(i);
-                            }
-                        });
-                        dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new ShowPopupSidebar().execute(subreddit);
-                            }
-                        });
-                    }
                     dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -569,10 +628,12 @@ public class SubredditOverview extends ActionBarActivity  {
                     });
                     builder.setView(dialoglayout);
                     builder.show();
-                }
-            }
-        });
 
+                }
+            });
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+        }
     }
 
     public int[] getColors(int c) {
@@ -831,7 +892,7 @@ public class SubredditOverview extends ActionBarActivity  {
         }
     }
 
-    public int[] getMainColors(){
+    public int[] getMainColors() {
         return new int[]{
                 getResources().getColor(R.color.md_red_500),
                 getResources().getColor(R.color.md_pink_500),
@@ -853,6 +914,7 @@ public class SubredditOverview extends ActionBarActivity  {
                 getResources().getColor(R.color.md_grey_500),
                 getResources().getColor(R.color.md_blue_grey_500)};
     }
+
     public int[][] getSecondaryColors() {
         return new int[][]{
                 new int[]{
@@ -1070,10 +1132,8 @@ public class SubredditOverview extends ActionBarActivity  {
 
     public OverviewPagerAdapter adapter;
 
-    public ViewPager pager;
     public TabLayout tabs;
 
-    public List<String> usedArray;
 
     public void setDataSet(List<String> data) {
         if (data != null) {
@@ -1094,6 +1154,7 @@ public class SubredditOverview extends ActionBarActivity  {
 
             }
 
+            doSubSidebar(usedArray.get(0));
             findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(0)));
@@ -1184,7 +1245,7 @@ public class SubredditOverview extends ActionBarActivity  {
                 }
             }
         };
-       AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
         builder.setTitle("Choose a Sorting Type");
         builder.setItems(
                 new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, l2);
@@ -1208,6 +1269,7 @@ public class SubredditOverview extends ActionBarActivity  {
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             if (getCurrentFragment() != object) {
@@ -1215,6 +1277,7 @@ public class SubredditOverview extends ActionBarActivity  {
             }
             super.setPrimaryItem(container, position, object);
         }
+
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
             pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1225,6 +1288,7 @@ public class SubredditOverview extends ActionBarActivity  {
 
                 @Override
                 public void onPageSelected(int position) {
+                    doSubSidebar(usedArray.get(position));
                     hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                     header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1283,10 +1347,11 @@ public class SubredditOverview extends ActionBarActivity  {
         }
     }
 
+    boolean restart;
+
 
     public View hea;
 
-    public DrawerLayout drawerLayout;
 
     public void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
@@ -1435,6 +1500,18 @@ public class SubredditOverview extends ActionBarActivity  {
                     final String subreddit = usedArray.get(pager.getCurrentItem());
                     title.setBackgroundColor(Pallete.getDefaultColor());
 
+                    CheckBox single = (CheckBox) dialoglayout.findViewById(R.id.single);
+
+
+                    single.setChecked(Reddit.single);
+                    single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            restart = true;
+                            Reddit.single = isChecked;
+                            Reddit.colors.edit().putBoolean("Single", isChecked).apply();
+                        }
+                    });
                     dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1702,6 +1779,16 @@ public class SubredditOverview extends ActionBarActivity  {
                     });
 
                     builder.setView(dialoglayout);
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            if (restart) {
+                                ((Reddit) getApplication()).startMain();
+
+                                finish();
+                            }
+                        }
+                    });
                     builder.show();
                 }
             }
@@ -1721,7 +1808,7 @@ public class SubredditOverview extends ActionBarActivity  {
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
                     final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                  //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
                     landscape.setValue(Reddit.dpWidth, false);
 
 
@@ -1737,7 +1824,6 @@ public class SubredditOverview extends ActionBarActivity  {
 
                         }
                     });
-
 
 
                 } else {
@@ -1772,10 +1858,10 @@ public class SubredditOverview extends ActionBarActivity  {
             }
         });*/
         ArrayList<String> copy = new ArrayList<String>();
-        if(SubredditStorage.alphabeticalSubscriptions != null)
-        for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            copy.add(s);
-        }
+        if (SubredditStorage.alphabeticalSubscriptions != null)
+            for (String s : SubredditStorage.alphabeticalSubscriptions) {
+                copy.add(s);
+            }
 
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
         l.setAdapter(adapter);
