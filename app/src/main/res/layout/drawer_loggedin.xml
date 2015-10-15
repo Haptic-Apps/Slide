@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:padding="16dp"
-            android:text="Welcome back,"
+            android:text="@string/drawer_welcome"
             android:textColor="#fff"
             android:textSize="16sp" />
 

@@ -35,13 +35,20 @@
 	<string name="theme_edit_global">Edit global theme settings</string>
 	<string name="theme_edit_card">Edit CardView</string>
 
-    <!-- For editting the submission card layout -->
+    <!-- For editing the submission card layout -->
     <string name="theme_card_reset">RESET</string>
     <string name="theme_card_actionbar">Show actionbar</string>
     <string name="theme_card_preview">Large image preview</string>
     <string name="theme_card_infobar">Info bar visible</string>
 
+    <!-- Settings for Multi-column view -->
+    <string name="multi_column_title">Multi-Column Settings</string>
+    <string name="multi_column_landscape">LANDSCAPE</string>
+    <!-- Currently not implemented -->
+    <string name="multi_column_portrait">PORTRAIT SETTINGS COMING SOON</string>
+
 	<!-- Drawer items -->
+	<string name="drawer_welcome">Welcome back,</string>
 	<string name="drawer_login">Log in</string>
 	<string name="drawer_logout">LOG OUT</string>
 	<string name="drawer_profile">Profile</string>
@@ -67,8 +74,22 @@
     <string name="profile_karma_comment">comment karma</string>
     <string name="profile_message">Private message</string>
 
-    <!-- Comments -->
+    <!-- Post text options  share save hide report-->
+    <string name="post_gild">Gild post</string>
+    <!-- Currently not implemented -->
+    <string name="post_hide">Hide post</string>
+    <string name="post_report">Report post</string>
+    <string name="post_save">Save post</string>
+    <string name="post_share">Share post</string>
+
+    <!-- Comment text options -->
     <string name="comment_gild">Gild comment</string>
+    <!-- currently not implemented -->
+    <string name="comment_hide">Hide comment</string>
     <string name="comment_report">Report comment</string>
     <string name="comment_share">Share comment</string>
+
+    <!-- Tutorial view -->
+    <string name="tutorial_skip">SKIP</string>
+    <string name="tutorial_agree">I AGREE</string>
 </resources>
