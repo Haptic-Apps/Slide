@@ -47,7 +47,7 @@
     <!-- Currently not implemented -->
     <string name="multi_column_portrait">PORTRAIT SETTINGS COMING SOON</string>
 
-	<!-- Drawer items -->
+	<!-- Drawer items (That's the one on the left) -->
 	<string name="drawer_welcome">Welcome back,</string>
 	<string name="drawer_login">Log in</string>
 	<string name="drawer_logout">LOG OUT</string>
@@ -57,6 +57,12 @@
 	<string name="drawer_grid">Grid layout</string>
 	<string name="drawer_goto_profile">Go to profile</string>
 	<string name="drawer_settings">Settings</string>
+
+    <!-- Sidebar items (That's the one on the right) -->
+    <string name="sidebar_pinned">PINNED</string>
+    <string name="sidebar_subscribed">SUBSCRIBED</string>
+    <string name="sidebar_wiki">View wiki</string>
+    <string name="sidebar_theme">Subreddit theme settings</string>
 
 	<!-- Crash reporting screen -->
 	<string name="crash_title">Slide has crashed.</string>
@@ -70,9 +76,12 @@
     <string name="submit_image_select">SELECT AN IMAGE</string>
 
     <!-- User profile -->
+    <string name="profile_yours">Your profile</string>
     <string name="profile_karma_link">link karma</string>
     <string name="profile_karma_comment">comment karma</string>
     <string name="profile_message">Private message</string>
+    <string name="profile_saved">Saved posts</string>
+    <string name="profile_upvoted">Upvoted posts</string>
 
     <!-- Post text options  share save hide report-->
     <string name="post_gild">Gild post</string>
@@ -92,4 +101,5 @@
     <!-- Tutorial view -->
     <string name="tutorial_skip">SKIP</string>
     <string name="tutorial_agree">I AGREE</string>
+    <string name="tutorial_swipe">Swipe between subreddits!</string>
 </resources>
