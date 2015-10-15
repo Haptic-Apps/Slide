@@ -825,8 +825,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hiddenPersons.contains(name)) {
                     hiddenPersons.remove(name);
                 }
+                if(hidden.contains(name)) {
                     hidden.remove(name);
                     i++;
+                }
                 i += unhideNumber(ignored, 0);
             }
         }

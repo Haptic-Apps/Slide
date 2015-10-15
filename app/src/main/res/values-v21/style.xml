@@ -13,4 +13,21 @@
                 <item name="android:fragmentEnterTransition">@android:transition/fade</item>
                 <item name="android:windowBackground">@color/black</item>
         </style>
+
+        <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
+                <item name="android:windowIsTranslucent">true</item>
+
+                <item name="android:windowSharedElementsUseOverlay">false</item>
+
+                <item name="colorAccent">@color/md_amber_A200</item>
+
+        </style>
+        <style name="swipestylelight" parent="Theme.AppCompat.NoActionBar">
+                <item name="android:windowIsTranslucent">true</item>
+
+                <item name="android:windowSharedElementsUseOverlay">false</item>
+
+                <item name="colorAccent">@color/md_amber_A200</item>
+
+        </style>
 </resources>

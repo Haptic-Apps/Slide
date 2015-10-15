@@ -106,12 +106,12 @@ public class PopulateSubmissionViewHolder {
         if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
             if (big || fullscreen) {
-                Glide.with(mContext).load(url).crossFade().into(holder.leadImage);
+                Glide.with(mContext).load(url).into(holder.leadImage);
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Glide.with(mContext).load(url).crossFade().into(holder.thumbImage);
+                Glide.with(mContext).load(url).into(holder.thumbImage);
 
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
@@ -123,13 +123,13 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
             if ((big || fullscreen) && !blurry) {
-                Glide.with(mContext).load(url).crossFade().into(holder.leadImage);
+                Glide.with(mContext).load(url).into(holder.leadImage);
 
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Glide.with(mContext).load(url).crossFade().into(holder.thumbImage);
+                Glide.with(mContext).load(url).into(holder.thumbImage);
 
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
@@ -140,7 +140,7 @@ public class PopulateSubmissionViewHolder {
 
             if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                 bigAtEnd = false;
-                Glide.with(mContext).load(submission.getThumbnail()).crossFade().into(holder.thumbImage);
+                Glide.with(mContext).load(submission.getThumbnail()).into(holder.thumbImage);
 
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);

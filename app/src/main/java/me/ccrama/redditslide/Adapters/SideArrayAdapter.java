@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.OverviewBase;
 import me.ccrama.redditslide.Activities.SubredditOverview;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
@@ -112,8 +113,8 @@ final TextView t =
                     inte.putExtra("subreddit", subreddit);
                     getContext().startActivity(inte);
                 } else {
-                    ((SubredditOverview) getContext()).pager.setCurrentItem(((SubredditOverview) getContext()).usedArray.indexOf(fitems.get(position)));
-                    ((SubredditOverview) getContext()).drawerLayout.closeDrawers();
+                    ((OverviewBase) getContext()).pager.setCurrentItem(((OverviewBase) getContext()).usedArray.indexOf(fitems.get(position)));
+                    ((OverviewBase) getContext()).drawerLayout.closeDrawers();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
