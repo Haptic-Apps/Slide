@@ -5,6 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Generic text used anywhere -->
+    <string name="generic_ok">OK</string>
+
     <!-- Text for the example submissions
          Used in the edit card view screen  -->
     <string name="example_domain">imgur</string>
@@ -19,7 +22,7 @@
 	<!-- Used when viewing a thread -->
 	<string name="thread_reply_submit">SUBMIT</string>
 	<string name="thread_reply_discard">DISCARD</string>
-	<string name="thread_properties_seperator">  •  </string>
+	<string name="thread_properties_seperator">"  •  "</string>
 
 	<!-- Theme settings -->
 	<string name="theme_light">Light</string>
@@ -32,7 +35,13 @@
 	<string name="theme_edit_global">Edit global theme settings</string>
 	<string name="theme_edit_card">Edit CardView</string>
 
-	<!-- Drawer text -->
+    <!-- For editting the submission card layout -->
+    <string name="theme_card_reset">RESET</string>
+    <string name="theme_card_actionbar">Show actionbar</string>
+    <string name="theme_card_preview">Large image preview</string>
+    <string name="theme_card_infobar">Info bar visible</string>
+
+	<!-- Drawer items -->
 	<string name="drawer_login">Log in</string>
 	<string name="drawer_logout">LOG OUT</string>
 	<string name="drawer_profile">Profile</string>
@@ -41,4 +50,25 @@
 	<string name="drawer_grid">Grid layout</string>
 	<string name="drawer_goto_profile">Go to profile</string>
 	<string name="drawer_settings">Settings</string>
+
+	<!-- Crash reporting screen -->
+	<string name="crash_title">Slide has crashed.</string>
+    <string name="crash_report">Report bug on GitHub</string>
+    <string name="crash_restart">Restart App</string>
+
+    <!-- New submissions -->
+    <string name="submit_text">SELF TEXT</string>
+    <string name="submit_link">LINK</string>
+    <string name="submit_image">IMAGE</string>
+    <string name="submit_image_select">SELECT AN IMAGE</string>
+
+    <!-- User profile -->
+    <string name="profile_karma_link">link karma</string>
+    <string name="profile_karma_comment">comment karma</string>
+    <string name="profile_message">Private message</string>
+
+    <!-- Comments -->
+    <string name="comment_gild">Gild comment</string>
+    <string name="comment_report">Report comment</string>
+    <string name="comment_share">Share comment</string>
 </resources>

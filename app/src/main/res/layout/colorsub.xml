@@ -172,7 +172,7 @@
                         app:selectedColorIndex="5" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="RESET"
+                        android:text="@string/theme_card_reset"
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/reset"
