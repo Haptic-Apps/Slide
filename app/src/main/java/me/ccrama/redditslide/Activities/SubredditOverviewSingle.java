@@ -345,7 +345,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 }
             });
 
-        }
+        } 
         findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
