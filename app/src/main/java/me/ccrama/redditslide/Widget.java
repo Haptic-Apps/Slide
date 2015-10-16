@@ -13,14 +13,14 @@ import me.ccrama.redditslide.Activities.OpenContent;
 public class Widget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        for (int i = 0; i < appWidgetIds.length; ++i) {
+        for (int appWidgetId : appWidgetIds) {
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
             // set intent for widget service that will create the views
             Intent serviceIntent = new Intent(context, StackWidgetService.class);
-            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME))); // embed extras so they don't get ignored
-            remoteViews.setRemoteAdapter(appWidgetIds[i], R.id.vertical_content, serviceIntent);
+            remoteViews.setRemoteAdapter(appWidgetId, R.id.vertical_content, serviceIntent);
             //todo remoteViews.setEmptyView(R.id.vertical_content, R.id.stackWidgetEmptyView);
 
             Intent configIntent = new Intent(context, OpenContent.class);
@@ -30,7 +30,7 @@ public class Widget extends AppWidgetProvider {
             remoteViews.setOnClickPendingIntent(R.id.card, configPendingIntent);
             appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
             // update widget
-            appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
+            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }

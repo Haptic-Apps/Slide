@@ -47,7 +47,7 @@ public class PopulateSubmissionViewHolder {
     boolean upvoted;
     boolean downvoted;
 
-    public void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen) {
+    public PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen) {
         if (HasSeen.getSeen(submission.getFullName())) {
             holder.itemView.setAlpha(0.7f);
         } else {

@@ -106,7 +106,7 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
                         Intent i = new Intent(mContext, Sendmessage.class);
                         i.putExtra("name", comment.getAuthor());
                         i.putExtra("reply", true);
-                        ((Activity) mContext).startActivity(i);
+                        mContext.startActivity(i);
                     } else {
                         CommentMessage m = (CommentMessage) comment;
                         new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
@@ -129,7 +129,7 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
                         Intent i = new Intent(mContext, Sendmessage.class);
                         i.putExtra("name", comment.getAuthor());
                         i.putExtra("reply", true);
-                        ((Activity) mContext).startActivity(i);
+                        mContext.startActivity(i);
                     } else {
                         CommentMessage m = (CommentMessage) comment;
                         new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());

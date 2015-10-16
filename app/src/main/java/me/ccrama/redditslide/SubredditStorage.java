@@ -12,6 +12,7 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Shortcut;
@@ -171,9 +172,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         String pins = subscriptions.getString("pins" + Authentication.name, "");
 
         ArrayList<String> newstrings = new ArrayList<>();
-        for (String s : pins.split(",")) {
-            newstrings.add(s);
-        }
+        Collections.addAll(newstrings, pins.split(","));
         if (newstrings.contains(name)) {
             newstrings.remove(name);
 

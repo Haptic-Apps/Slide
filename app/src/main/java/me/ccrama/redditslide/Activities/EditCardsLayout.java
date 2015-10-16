@@ -84,7 +84,7 @@ public class EditCardsLayout extends BaseActivity {
 
             }
         });
-        final List<String> list=new ArrayList<String>();
+        final List<String> list= new ArrayList<>();
         list.add("Big Card");
         list.add("Small Card");
         list.add("List");
@@ -110,8 +110,8 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
-        ArrayAdapter<String> adp= new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,list);
+        ArrayAdapter<String> adp= new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, list);
         adp.setDropDownViewResource(R.layout.spinneritem);
         sp.setAdapter(adp);
 

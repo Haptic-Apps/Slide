@@ -161,7 +161,7 @@ public class CommentView extends BaseActivity {
 
         if(Authentication.isLoggedIn) {
 
-            header = (ViewGroup) inflater.inflate(R.layout.drawer_loggedin, l, false);
+            header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             hea = header.findViewById(R.id.back);
             l.addHeaderView(header, null, false);
             ((TextView)header.findViewById(R.id.name)).setText(Authentication.name);
@@ -237,7 +237,7 @@ public class CommentView extends BaseActivity {
                 }
             });*/
         } else {
-            header = (ViewGroup) inflater.inflate(R.layout.drawer_loggedout, l, false);
+            header = inflater.inflate(R.layout.drawer_loggedout, l, false);
             l.addHeaderView(header, null, false);
 
 
@@ -318,7 +318,7 @@ public class CommentView extends BaseActivity {
                 Overview.this.startActivityForResult(inte, 3);
             }
         });*/
-            ArrayList<String> copy = new ArrayList<String>();
+            ArrayList<String> copy = new ArrayList<>();
             for (String s : SubredditStorage.alphabeticalSubscriptions) {
                 copy.add(s);
             }

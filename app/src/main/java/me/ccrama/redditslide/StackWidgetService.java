@@ -26,7 +26,7 @@ public class StackWidgetService extends RemoteViewsService {
 }
 
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private List<Submission> submissions = new ArrayList<Submission>();
+    private List<Submission> submissions = new ArrayList<>();
     private Context mContext;
     private int mAppWidgetId;
 
