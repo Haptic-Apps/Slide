@@ -215,10 +215,12 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 {
 
                     if (Reddit.tabletUI) {
-                        DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
-                        Intent i = new Intent(SubredditOverviewSingle.this, Shadowbox.class);
-                        i.putExtra("position", pager.getCurrentItem());
-                        startActivity(i);
+                        if(((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null) {
+                            DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                            Intent i = new Intent(SubredditOverviewSingle.this, Shadowbox.class);
+                            i.putExtra("position", pager.getCurrentItem());
+                            startActivity(i);
+                        }
                     } else {
                         new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
                                 .setTitle("Slide for Reddit Pro")

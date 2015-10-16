@@ -190,10 +190,12 @@ public class SubredditView extends BaseActivity {
             public void onClick(View v) {
                 {
                     if(Reddit.tabletUI) {
-                        DataShare.sharedSubreddit = posts.posts;
-                        Intent i = new Intent(SubredditView.this, Shadowbox.class);
-                        i.putExtra("position", 0);
-                        startActivity(i);
+                        if(posts.posts != null) {
+                            DataShare.sharedSubreddit = posts.posts;
+                            Intent i = new Intent(SubredditView.this, Shadowbox.class);
+                            i.putExtra("position", 0);
+                            startActivity(i);
+                        }
                     } else {
                     new AlertDialogWrapper.Builder(SubredditView.this)
                             .setTitle("Slide for Reddit Pro")
