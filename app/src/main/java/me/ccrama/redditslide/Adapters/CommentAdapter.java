@@ -179,7 +179,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     boolean isSame;
 
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
+    public  class AsyncSave extends AsyncTask<Submission, Void, Void> {
 
         View v;
 
@@ -190,18 +190,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         protected Void doInBackground(Submission... submissions) {
             try {
-                if (saved) {
+                if (submissions[0].saved) {
                     new AccountManager(Authentication.reddit).unsave(submissions[0]);
                     Snackbar.make(v, "Submission unsaved", Snackbar.LENGTH_SHORT).show();
 
-                    saved = false;
+                    submissions[0].saved = false;
                     v = null;
 
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
                     Snackbar.make(v, "Submission saved", Snackbar.LENGTH_SHORT).show();
 
-                    saved = true;
+                    submissions[0].saved = true;
                     v = null;
 
 
@@ -215,7 +215,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
 
-    boolean saved;
 
 
 
@@ -470,7 +469,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return true;
                 }
             });
-            saved = submission.isSaved();
             if(comment.isScoreHidden()){
                 holder.score.setText("[SCORE HIDDEN]");
 
@@ -623,7 +621,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (saved) {
+                            if (submission.saved) {
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Save post");
                             } else {
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
@@ -633,7 +631,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         }
                     });
-                    if (saved) {
+                    if (submission.saved) {
                         ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
                     }
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
