@@ -8,11 +8,6 @@ import android.content.Intent;
 
 import me.ccrama.redditslide.Reddit;
 
-/**
- * Created by carlo_000 on 10/13/2015.
- */
-
-
 
 public class NotificationJobScheduler   {
     private PendingIntent pendingIntent;

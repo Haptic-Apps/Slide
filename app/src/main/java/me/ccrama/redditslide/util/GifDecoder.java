@@ -5,9 +5,6 @@ import android.graphics.Bitmap;
 import java.io.InputStream;
 import java.util.Vector;
 
-/**
- * Created by carlo_000 on 7/20/2015.
- */
 public class GifDecoder {
 
     public static final int STATUS_OK = 0;

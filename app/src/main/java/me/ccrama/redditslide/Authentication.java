@@ -17,9 +17,6 @@ import net.dean.jraw.http.oauth.OAuthHelper;
 
 import java.util.UUID;
 
-/**
- * Created by ccrama on 3/30/2015.
- */
 public class Authentication {
     public static boolean isLoggedIn;
     public static RedditClient reddit;

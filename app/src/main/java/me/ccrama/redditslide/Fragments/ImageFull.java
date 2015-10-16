@@ -31,9 +31,6 @@ import me.ccrama.redditslide.Views.TouchImageView;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-/**
- * Created by ccrama on 6/2/2015.
- */
 public class ImageFull extends Fragment {
 
     @Override

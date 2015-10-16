@@ -1,8 +1,5 @@
 package me.ccrama.redditslide;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class ContentGrabber {
 
 

@@ -17,9 +17,6 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Shortcut;
 
 
-/**
- * Created by ccrama on 5/24/2015.
- */
 public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<String>> {
 
 

@@ -19,9 +19,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class CommentsScreenPopup extends BaseActivity {
     ViewPager pager;
     ArrayList<Submission> posts;

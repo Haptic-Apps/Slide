@@ -3,9 +3,6 @@ package me.ccrama.redditslide;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by ccrama on 7/9/2015.
- */
 public class ColorPreferences {
     private final static String FONT_STYLE = "THEME";
 

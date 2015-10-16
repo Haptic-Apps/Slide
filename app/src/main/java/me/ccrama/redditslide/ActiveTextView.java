@@ -1,8 +1,5 @@
 package me.ccrama.redditslide;
 
-/**
- * Created by ccrama on 9/26/2015.
- */
 /*
  * Copyright 2012 Laurence Dawson
  *

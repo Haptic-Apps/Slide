@@ -17,9 +17,6 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class InboxMessages {
     public ArrayList<Message> posts;
     public Paginator<Message> paginator;

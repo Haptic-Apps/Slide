@@ -21,10 +21,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-/**
- * Created by ccrama on 3/5/2015.
- */
-
 public class Tutorial extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.

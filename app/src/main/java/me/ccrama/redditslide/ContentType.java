@@ -4,9 +4,6 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
-/**
- * Created by ccrama on 5/26/2015.
- */
 public class ContentType {
 
     public static boolean isGif(String s) {
@@ -87,7 +84,7 @@ public class ContentType {
         }
         switch (t) {
             case NSFW:
-                if (isImage(url) && url.contains("gif") == false) {
+                if (isImage(url) && !url.contains("gif")) {
                     return ImageType.NSFW_IMAGE;
                 } else if (isGif(url)) {
                     if (url.contains("gfy"))
@@ -198,6 +195,6 @@ public class ContentType {
     }
 
     public enum ImageType {
-        NSFW_IMAGE, NSFW_GIF, NSFW_GFY, REDDIT, EMBEDDED, LINK, IMAGE_LINK, NSFW_LINK, SELF, GFY, ALBUM, IMAGE, GIF, NONE_GFY, NONE_GIF, NONE, NONE_IMAGE, VIDEO, NONE_URL;
+        NSFW_IMAGE, NSFW_GIF, NSFW_GFY, REDDIT, EMBEDDED, LINK, IMAGE_LINK, NSFW_LINK, SELF, GFY, ALBUM, IMAGE, GIF, NONE_GFY, NONE_GIF, NONE, NONE_IMAGE, VIDEO, NONE_URL
     }
 }

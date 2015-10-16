@@ -7,9 +7,6 @@ import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public TextView title;
     public TextView subreddit;

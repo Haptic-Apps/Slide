@@ -1,9 +1,5 @@
 package me.ccrama.redditslide;
 
-/**
- * Created by ccrama on 10/2/2015.
- */
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;

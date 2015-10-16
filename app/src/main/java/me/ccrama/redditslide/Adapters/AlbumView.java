@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-/**
- * Created by ccrama on 3/1/2015.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;

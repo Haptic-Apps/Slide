@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-/**
- * Created by ccrama on 3/22/2015.
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -79,7 +75,6 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
         new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false);
 
         lastPosition = i;
-        return;
 
     }
 

@@ -5,9 +5,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
-/**
- * Created by carlo_000 on 10/12/2015.
- */
 public class ToastHelpCreation {
     public static void makeToast(View view, String message, Context context){
 

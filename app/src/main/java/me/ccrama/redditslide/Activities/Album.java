@@ -25,9 +25,6 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 
 
-/**
- * Created by ccrama on 3/5/2015.
- */
 public class Album extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-/**
- * Created by ccrama on 3/22/2015.
- */
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -315,7 +311,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
 
         }
-        return;
 
     }
 

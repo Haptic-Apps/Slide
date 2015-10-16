@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-/**
- * Created by ccrama on 3/22/2015.
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -138,7 +134,6 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
                         CommentMessage m = (CommentMessage) comment;
                         new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
                     }
-                    return;
 
                 } else {
                     comment.read = true;

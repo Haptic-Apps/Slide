@@ -32,9 +32,6 @@ import me.ccrama.redditslide.Visuals.StyleView;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class Profile extends BaseActivity {
     Toolbar toolbar;
 

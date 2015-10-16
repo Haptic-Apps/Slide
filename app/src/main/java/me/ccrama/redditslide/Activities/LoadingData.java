@@ -14,9 +14,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class LoadingData extends ActionBarActivity {
 
     public TextView loading;

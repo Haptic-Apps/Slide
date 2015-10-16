@@ -16,9 +16,6 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Pallete;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class Crash extends ActionBarActivity {
 
 

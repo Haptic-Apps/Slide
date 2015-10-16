@@ -9,9 +9,6 @@ import android.widget.RelativeLayout;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
-/**
- * Created by ccrama on 9/18/2015.
- */
 public class CreateCardView {
     public static View CreateView(ViewGroup viewGroup){
         CardEnum  cardEnum = SettingValues.defaultCardView;

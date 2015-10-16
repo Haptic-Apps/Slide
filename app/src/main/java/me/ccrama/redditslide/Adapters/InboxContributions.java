@@ -6,9 +6,6 @@ import net.dean.jraw.paginators.InboxPaginator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class InboxContributions {
     public ArrayList<Message> messages;
     public InboxPaginator paginator;

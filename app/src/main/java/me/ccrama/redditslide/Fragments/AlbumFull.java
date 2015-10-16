@@ -34,9 +34,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 
 
-/**
- * Created by ccrama on 6/2/2015.
- */
 public class AlbumFull extends Fragment {
 
     @Override

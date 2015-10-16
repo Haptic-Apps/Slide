@@ -26,9 +26,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-/**
- * Created by ccrama on 3/5/2015.
- */
 public class Sendmessage extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,10 +55,7 @@ public class Sendmessage extends ActionBarActivity {
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         final String name;
-       reply = false;
-        if(getIntent() != null && getIntent().hasExtra("reply")) {
-            reply = true;
-        }
+        reply = getIntent() != null && getIntent().hasExtra("reply");
         subject= (EditText) findViewById(R.id.subject);
         to = (EditText) findViewById(R.id.to);
         to.requestFocus();

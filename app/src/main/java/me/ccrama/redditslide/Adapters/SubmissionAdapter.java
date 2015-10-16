@@ -1,9 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-/**
- * Created by ccrama on 3/22/2015.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -85,7 +81,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
         new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false);
 
         lastPosition = i;
-        return;
 
     }
 

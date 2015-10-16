@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Pallete;
 
-/**
- * Created by ccrama on 9/19/2015.
- */
 public class SettingValues {
     public static boolean actionBarVisible;
     public static boolean largeThumbnails;
@@ -19,12 +16,12 @@ public class SettingValues {
     public static ColorMatchingMode colorMatchingMode;
     public static ColorIndicator colorIndicator;
     public static Pallete.ThemeEnum theme;
-    public static enum ColorIndicator{
-       CARD_BACKGROUND, TEXT_COLOR, NONE;
+    public enum ColorIndicator{
+       CARD_BACKGROUND, TEXT_COLOR, NONE
 
     }
-    public static enum ColorMatchingMode{
-        ALWAYS_MATCH, MATCH_EXTERNALLY;
+    public enum ColorMatchingMode{
+        ALWAYS_MATCH, MATCH_EXTERNALLY
 
     }
     public static SharedPreferences prefs;

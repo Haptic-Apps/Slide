@@ -6,9 +6,6 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ccrama on 9/17/2015.
- */
 public class SearchPosts {
     public ArrayList<Submission> posts;
     public SubmissionSearchPaginator paginator;

@@ -32,9 +32,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.TouchImageView;
 
 
-/**
- * Created by ccrama on 3/5/2015.
- */
 public class FullscreenImage extends BaseActivity {
 
     /**

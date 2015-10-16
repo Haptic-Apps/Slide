@@ -32,9 +32,6 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
-/**
- * Created by ccrama on 6/2/2015.
- */
 public class GifFull extends Fragment {
 
     @Override

@@ -43,9 +43,6 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.Vote;
 
-/**
- * Created by ccrama on 9/19/2015.
- */
 public class PopulateSubmissionViewHolder {
     boolean upvoted;
     boolean downvoted;
@@ -651,12 +648,7 @@ public class PopulateSubmissionViewHolder {
         Configuration configuration = mC.getResources().getConfiguration();
         int screenWidthDp = configuration.screenWidthDp; //The current width of the available screen space, in dp units, corresponding to screen width resource qualifier.
 
-        if(dp < screenWidthDp / 3){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return dp < screenWidthDp / 3;
     }
     public static void openImage(Activity contextActivity, Submission submission) {
         DataShare.sharedSubmission = submission;
