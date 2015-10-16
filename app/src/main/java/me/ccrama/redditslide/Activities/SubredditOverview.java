@@ -22,6 +22,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -59,6 +60,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
@@ -1455,6 +1457,8 @@ public class SubredditOverview extends OverviewBase {
 
         final EditText e = ((EditText) header.findViewById(R.id.sort));
 
+
+        e.setFilters(new InputFilter[]{new SubredditInputFilter()});
 
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 

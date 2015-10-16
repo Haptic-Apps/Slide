@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -47,8 +48,8 @@ public class PopulateSubmissionViewHolder {
     boolean upvoted;
     boolean downvoted;
 
-    public void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen) {
-        if (HasSeen.getSeen(submission.getFullName())) {
+    public void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full) {
+        if (HasSeen.getSeen(submission.getFullName()) && !full) {
             holder.itemView.setAlpha(0.7f);
         } else {
             holder.itemView.setAlpha(1.0f);
@@ -103,13 +104,22 @@ public class PopulateSubmissionViewHolder {
         if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
             if (big || fullscreen) {
-                Glide.with(mContext).load(url).into(holder.leadImage);
+                if(full){
+                    Ion.with(holder.leadImage).load(url);
+
+                } else {
+                    Glide.with(mContext).load(url).into(holder.leadImage);
+                }
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Glide.with(mContext).load(url).into(holder.thumbImage);
+                if(full){
+                    Ion.with(holder.thumbImage).load(url);
 
+                } else {
+                    Glide.with(mContext).load(url).into(holder.thumbImage);
+                }
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
                 bigAtEnd = false;
@@ -120,14 +130,22 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
             if ((big || fullscreen) && !blurry) {
-                Glide.with(mContext).load(url).into(holder.leadImage);
+                if(full){
+                    Ion.with(holder.leadImage).load(url);
 
+                } else {
+                    Glide.with(mContext).load(url).into(holder.leadImage);
+                }
                 holder.imageArea.setVisibility(View.VISIBLE);
                 holder.previewContent.setVisibility(View.GONE);
                 bigAtEnd = true;
             } else {
-                Glide.with(mContext).load(url).into(holder.thumbImage);
+                if(full){
+                    Ion.with(holder.thumbImage).load(url);
 
+                } else {
+                    Glide.with(mContext).load(url).into(holder.thumbImage);
+                }
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
                 bigAtEnd = false;
@@ -137,8 +155,12 @@ public class PopulateSubmissionViewHolder {
 
             if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                 bigAtEnd = false;
-                Glide.with(mContext).load(submission.getThumbnail()).into(holder.thumbImage);
+                if(full){
+                    Ion.with(holder.thumbImage).load(url);
 
+                } else {
+                    Glide.with(mContext).load(url).into(holder.thumbImage);
+                }
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
             } else {

@@ -72,7 +72,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
             }
         });
 
-        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false);
+        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false);
 
         lastPosition = i;
 
