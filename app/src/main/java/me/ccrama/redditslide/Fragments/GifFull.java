@@ -49,7 +49,7 @@ public class GifFull extends Fragment {
             if (isVisibleToUser) // If we are becoming visible, then...
             {
                 ((MediaVideoView) gif).start();
-                gif.setVisibility(View.GONE);
+                gif.setVisibility(View.VISIBLE);
 
             }
         }
