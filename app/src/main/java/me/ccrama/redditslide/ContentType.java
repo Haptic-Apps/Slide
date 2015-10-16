@@ -42,17 +42,16 @@ public class ContentType {
     }
 
     public static String getLastPartofUrl(String s2) {
-        String s = s2;
-        if (s.endsWith("/")) {
-            return getLastPartofUrl(s.substring(0, s.length() - 1));
+        if (s2.endsWith("/")) {
+            return getLastPartofUrl(s2.substring(0, s2.length() - 1));
         }
-        if (s.contains("?")) {
-            String f = s.substring(s.lastIndexOf("/") + 1, s.lastIndexOf("?"));
+        if (s2.contains("?")) {
+            String f = s2.substring(s2.lastIndexOf("/") + 1, s2.lastIndexOf("?"));
             Log.v("Slide", f);
             return f;
         } else {
-            if (s.lastIndexOf("/") < s.length()) {
-                String f = s.substring(s.lastIndexOf("/") + 1, s.length());
+            if (s2.lastIndexOf("/") < s2.length()) {
+                String f = s2.substring(s2.lastIndexOf("/") + 1, s2.length());
                 Log.v("Slide", f);
                 return f;
 

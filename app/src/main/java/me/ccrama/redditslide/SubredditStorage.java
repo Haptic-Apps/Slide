@@ -146,9 +146,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
         if(!subscriptions.contains("pins" + Authentication.name)) {
 
-            String pins = name;
-            subscriptions.edit().putString("pins" + Authentication.name, pins.toLowerCase()).apply();
-            Log.v("Slide", "PIN ADDED FOR " + pins.toLowerCase());
+            subscriptions.edit().putString("pins" + Authentication.name, name.toLowerCase()).apply();
+            Log.v("Slide", "PIN ADDED FOR " + name.toLowerCase());
 
         } else {
             String pins = subscriptions.getString("pins" + Authentication.name, "");
