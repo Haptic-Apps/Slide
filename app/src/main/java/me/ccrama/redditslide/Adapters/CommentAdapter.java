@@ -42,6 +42,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
@@ -295,6 +296,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public void doLongClick(CommentViewHolder holder, Comment comment){
+        if (currentSelectedItem.contains(comment.getFullName())) {
+            doUnHighlighted(holder, comment);
+        } else {
+            doHighlighted(holder, comment);
+        }
+    }
+
+    public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode){
+        if (currentSelectedItem.contains(comment.getFullName())) {
+            doUnHighlighted(holder, comment);
+        } else {
+
+            doOnClick(holder, baseNode, comment);
+        }
+    }
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
 
@@ -449,11 +467,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
-                    } else {
-                        doHighlighted(holder, comment);
-                    }
+                  if(Reddit.swap){
+                      doOnClick(holder, comment, baseNode);
+                  } else {
+                      doLongClick(holder, comment);
+                  }
                     return true;
                 }
             });
@@ -461,10 +479,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
+                    if(Reddit.swap){
+                        doOnClick(holder, comment, baseNode);
+
                     } else {
-                        doHighlighted(holder, comment);
+                        doLongClick(holder, comment);
                     }
                     return true;
                 }
@@ -519,22 +538,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
+                    if(Reddit.swap){
+                        doLongClick(holder, comment);
                     } else {
-
-                        doOnClick(holder, baseNode, comment);
+                        doOnClick(holder, comment, baseNode);
                     }
                 }
             });
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
+                    if(Reddit.swap){
+                        doLongClick(holder, comment);
                     } else {
-
-                        doOnClick(holder, baseNode, comment);
+                        doOnClick(holder, comment, baseNode);
                     }
                 }
             });

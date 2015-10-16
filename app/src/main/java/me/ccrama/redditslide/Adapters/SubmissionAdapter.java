@@ -75,7 +75,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
     int lastPosition = -1;
 
-    public  class AsyncSave extends AsyncTask<Submission, Void, Void> {
+    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
 
         View v;
 
@@ -210,7 +210,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
                 builder.setView(dialoglayout);
                 builder.show();
-                return false;
+                return true;
             }
         });
 

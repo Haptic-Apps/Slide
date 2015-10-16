@@ -123,7 +123,7 @@ public class SettingsTheme extends ActionBarActivity {
                         overridePendingTransition(0, 0);
 
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -255,6 +255,8 @@ public class SettingsTheme extends ActionBarActivity {
 
                 });
 
+
+
                 colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int c) {
@@ -265,6 +267,8 @@ public class SettingsTheme extends ActionBarActivity {
 
                     }
                 });
+
+                colorPicker.setSelectedColor(                        getResources().getColor(R.color.md_deep_orange_500));
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {

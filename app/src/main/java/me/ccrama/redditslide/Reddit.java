@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
@@ -38,6 +39,13 @@ import me.ccrama.redditslide.util.IabResult;
 public class Reddit extends Application implements Application.ActivityLifecycleCallbacks {
     public static IabHelper mHelper;
     public static boolean single;
+    public static boolean swap;
+    public static boolean album;
+    public static boolean image;
+    public static boolean video;
+    public static boolean gif;
+    public static boolean web;
+
 
     boolean closed = false;
 
@@ -125,6 +133,13 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         }
     }
 
+    public static void defaultShare(String url, Context c){
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(c.getPackageManager()) != null) {
+            c.startActivity(intent);
+        }
+    }
     public static int notificationTime;
 
     public static NotificationJobScheduler notifications;
@@ -193,6 +208,13 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         }
 
         single = colors.getBoolean("Single", false);
+        swap = colors.getBoolean("Swap", false);
+        web = colors.getBoolean("web", true);
+        image = colors.getBoolean("image", true);
+        album = colors.getBoolean("album", true);
+        gif = colors.getBoolean("gif", true);
+        video = colors.getBoolean("video", true);
+
         int height = this.getResources().getConfiguration().screenWidthDp;
 
         int width = this.getResources().getConfiguration().screenHeightDp;

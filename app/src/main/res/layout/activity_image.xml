@@ -12,6 +12,7 @@
     <me.ccrama.redditslide.Views.TouchImageView
         android:id="@+id/submission_image"
         android:layout_width="match_parent"
+        android:src="@drawable/chameleon"
         android:layout_alignParentTop="true"
 
         android:layout_height="match_parent"
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/submission_image"
         android:layout_height="48dp"
+        android:gravity="right"
         android:layout_marginTop="-48dp"
         android:weightSum="4">
 
@@ -44,23 +46,7 @@
 
             android:src="@drawable/save" />
 
-        <ImageView
-            android:id="@+id/external"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:padding="10dp"
 
-            android:src="@drawable/openexternal" />
-
-        <ImageView
-            android:id="@+id/exitComment"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:padding="10dp"
-
-            android:src="@drawable/close" />
 
     </LinearLayout>
 
