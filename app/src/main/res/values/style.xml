@@ -12,13 +12,13 @@
     </style>
     <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A700</item>
 
     </style>
     <style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
 
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A700</item>
 
     </style>
     <style name="spinnerItemStyle">
@@ -26,126 +26,126 @@
         <item name="android:textStyle">bold</item>
     </style>
     <style name="yellow_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_yellow_A200</item>
+        <item name="colorAccent">@color/md_yellow_A700</item>
 
     </style>
     <style name="white_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_blue_grey_100</item>
+        <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
     <style name="white_amoled" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_blue_grey_100</item>
+        <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
     <style name="white_light" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_blue_grey_100</item>
+        <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
     <style name="amber_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A700</item>
 
     </style>
     <style name="blue_dark" parent="Theme.DARK" >
-        <item name="colorAccent">@color/md_blue_A200</item>
+        <item name="colorAccent">@color/md_blue_A700</item>
 
     </style>
     <style name="lightblue_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_light_blue_A200</item>
+        <item name="colorAccent">@color/md_light_blue_A700</item>
 
     </style>
     <style name="deeporange_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_deep_orange_A200</item>
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
 
     </style>
     <style name="cyan_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_cyan_A200</item>
+        <item name="colorAccent">@color/md_cyan_A700</item>
 
     </style>
     <style name="green_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_green_A200</item>
+        <item name="colorAccent">@color/md_green_A700</item>
 
     </style>
     <style name="indigo_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_indigo_A200</item>
+        <item name="colorAccent">@color/md_indigo_A700</item>
 
     </style>
     <style name="lime_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_lime_A200</item>
+        <item name="colorAccent">@color/md_lime_A700</item>
 
     </style>
 
 
     <style name="yellow_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_yellow_A200</item>
+        <item name="colorAccent">@color/md_yellow_A700</item>
 
     </style>
     <style name="amber_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A700</item>
 
     </style>
     <style name="blue_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_blue_A200</item>
+        <item name="colorAccent">@color/md_blue_A700</item>
 
     </style>
     <style name="lightblue_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_light_blue_A200</item>
+        <item name="colorAccent">@color/md_light_blue_A700</item>
 
     </style>
     <style name="deeporange_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_deep_orange_A200</item>
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
 
     </style>
     <style name="cyan_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_cyan_A200</item>
+        <item name="colorAccent">@color/md_cyan_A700</item>
 
     </style>
     <style name="green_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_green_A200</item>
+        <item name="colorAccent">@color/md_green_A700</item>
 
     </style>
     <style name="indigo_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_indigo_A200</item>
+        <item name="colorAccent">@color/md_indigo_A700</item>
 
     </style>
     <style name="lime_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_lime_A200</item>
+        <item name="colorAccent">@color/md_lime_A700</item>
 
     </style>
 
 
     <style name="yellow_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_yellow_A200</item>
+        <item name="colorAccent">@color/md_yellow_A700</item>
     </style>
     <style name="amber_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A700</item>
 
     </style>
     <style name="blue_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_blue_A200</item>
+        <item name="colorAccent">@color/md_blue_A700</item>
 
     </style>
     <style name="lightblue_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_light_blue_A200</item>
+        <item name="colorAccent">@color/md_light_blue_A700</item>
 
     </style>
     <style name="deeporange_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_deep_orange_A200</item>
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
 
     </style>
     <style name="cyan_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_cyan_A200</item>
+        <item name="colorAccent">@color/md_cyan_A700</item>
 
     </style>
     <style name="green_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_green_A200</item>
+        <item name="colorAccent">@color/md_green_A700</item>
 
     </style>
     <style name="indigo_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_indigo_A200</item>
+        <item name="colorAccent">@color/md_indigo_A700</item>
 
     </style>
     <style name="lime_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_lime_A200</item>
+        <item name="colorAccent">@color/md_lime_A700</item>
 
     </style>
     <style name="FontStyle.Medium">

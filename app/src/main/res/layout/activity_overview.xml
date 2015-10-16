@@ -112,5 +112,11 @@
         android:orientation="vertical">
 
     </ListView>
+    <include
+        layout="@layout/subinfo"
+        android:layout_height="match_parent"
+        android:layout_width="300dp"
+        android:layout_gravity="end"
+        />
 </android.support.v4.widget.DrawerLayout>
 

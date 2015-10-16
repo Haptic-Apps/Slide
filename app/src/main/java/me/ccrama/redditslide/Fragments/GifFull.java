@@ -46,11 +46,14 @@ public class GifFull extends Fragment {
             if (!isVisibleToUser)   // If we are becoming invisible, then...
             {
                 ((MediaVideoView) gif).pause();
+                gif.setVisibility(View.GONE);
             }
 
             if (isVisibleToUser) // If we are becoming visible, then...
             {
                 ((MediaVideoView) gif).start();
+                gif.setVisibility(View.GONE);
+
             }
         }
     }

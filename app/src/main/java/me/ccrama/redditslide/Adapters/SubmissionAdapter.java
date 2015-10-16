@@ -82,7 +82,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
             }
         });
 
-        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false);
+        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false);
 
         lastPosition = i;
         return;
