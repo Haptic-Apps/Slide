@@ -300,7 +300,7 @@ public class MakeTextviewClickable {
 
             rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n") );
 
-            rawHTML.replace(search, "<font color='red'>" + search + "</font>" );
+            rawHTML = rawHTML.replace(search, "<font color='red'>" + search + "</font>" );
 
             this.c = c;
 
