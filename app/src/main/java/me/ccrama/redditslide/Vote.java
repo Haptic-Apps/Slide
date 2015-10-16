@@ -11,6 +11,9 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.VoteDirection;
 
+/**
+ * Created by ccrama on 9/19/2015.
+ */
 public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
     VoteDirection direction;

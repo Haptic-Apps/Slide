@@ -1,5 +1,8 @@
 package me.ccrama.redditslide;
 
+/**
+ * Created by ccrama on 3/1/2015.
+ */
 public class TimeUtils {
 
     private static final int SECOND_MILLIS = 1000;

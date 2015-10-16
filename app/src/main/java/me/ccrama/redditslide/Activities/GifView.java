@@ -31,6 +31,9 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
+/**
+ * Created by ccrama on 3/5/2015.
+ */
 public class GifView extends BaseActivity {
 
     public ProgressBar loader;

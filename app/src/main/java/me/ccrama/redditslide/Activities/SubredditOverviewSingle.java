@@ -72,6 +72,9 @@ import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
 
+/**
+ * Created by ccrama on 9/17/2015.
+ */
 public class SubredditOverviewSingle extends OverviewBase  {
 
 

@@ -1,5 +1,9 @@
 package me.ccrama.redditslide.Notifications;
 
+/**
+ * Created by carlo_000 on 10/13/2015.
+ */
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;

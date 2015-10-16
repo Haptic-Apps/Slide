@@ -6,6 +6,9 @@ import android.graphics.Color;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
+/**
+ * Created by ccrama on 9/18/2015.
+ */
 public class Pallete {
     public int fontColor;
     public int backgroundColor;

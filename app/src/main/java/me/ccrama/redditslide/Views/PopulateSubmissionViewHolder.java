@@ -44,6 +44,9 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.Vote;
 
+/**
+ * Created by ccrama on 9/19/2015.
+ */
 public class PopulateSubmissionViewHolder {
     boolean upvoted;
     boolean downvoted;

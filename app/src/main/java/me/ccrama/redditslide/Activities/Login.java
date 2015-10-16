@@ -29,6 +29,9 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
 
+/**
+ * Created by ccrama on 5/27/2015.
+ */
 public class Login extends BaseActivity {
     public Toolbar toolbar;
     public static String CLIENT_ID = "KI2Nl9A_ouG9Qw";

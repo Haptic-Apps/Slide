@@ -10,6 +10,9 @@ import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 
+/**
+ * Created by ccrama on 9/27/2015.
+ */
 public class OpenRedditLink {
     public OpenRedditLink(Context c, String url){
 

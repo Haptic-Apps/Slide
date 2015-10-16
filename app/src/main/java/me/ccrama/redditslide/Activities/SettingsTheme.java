@@ -24,6 +24,9 @@ import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
 
+/**
+ * Created by ccrama on 3/5/2015.
+ */
 public class SettingsTheme extends ActionBarActivity {
 
 

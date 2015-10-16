@@ -25,6 +25,9 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * Created by vishna on 22/07/15.
+ */
 public class MediaVideoView extends SurfaceView
         implements MediaController.MediaPlayerControl {
     private String TAG = "VideoView";

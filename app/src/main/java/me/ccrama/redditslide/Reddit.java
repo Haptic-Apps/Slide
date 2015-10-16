@@ -32,6 +32,9 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 
+/**
+ * Created by ccrama on 9/17/2015.
+ */
 public class Reddit extends Application implements Application.ActivityLifecycleCallbacks {
     public static IabHelper mHelper;
     public static boolean single;

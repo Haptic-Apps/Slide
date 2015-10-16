@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 
+/**
+ * Created by ccrama on 5/5/2015.
+ */
 public class AutoMarkupTextView extends TextView {
 
     public AutoMarkupTextView(Context context, AttributeSet attrs, int defStyle) {

@@ -9,6 +9,9 @@ import codetail.graphics.drawables.LollipopDrawable;
 import codetail.graphics.drawables.LollipopDrawablesCompat;
 import me.ccrama.redditslide.R;
 
+/**
+ * Created by carlo_000 on 10/12/2015.
+ */
 public class RippleDraw {
     public static void forceRippleAnimation(View view, Context c) {
         view.setBackgroundDrawable(getDrawable2(R.drawable.ripple, c));

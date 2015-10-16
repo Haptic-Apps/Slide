@@ -44,6 +44,9 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
+/**
+ * Created by ccrama on 3/5/2015.
+ */
 public class Submit extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

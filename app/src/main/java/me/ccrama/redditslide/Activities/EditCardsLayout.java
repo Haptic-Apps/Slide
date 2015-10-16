@@ -24,6 +24,9 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
+/**
+ * Created by ccrama on 9/17/2015.
+ */
 public class EditCardsLayout extends BaseActivity {
 
     TabLayout tabs;

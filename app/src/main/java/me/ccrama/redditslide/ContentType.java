@@ -4,6 +4,9 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
+/**
+ * Created by ccrama on 5/26/2015.
+ */
 public class ContentType {
 
     public static boolean isGif(String s) {

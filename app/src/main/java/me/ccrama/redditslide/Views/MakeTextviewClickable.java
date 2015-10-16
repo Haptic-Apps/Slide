@@ -28,6 +28,9 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Pallete;
 
+/**
+ * Created by ccrama on 7/17/2015.
+ */
 public class MakeTextviewClickable {
 
     public String getDomainName(String url) throws URISyntaxException {

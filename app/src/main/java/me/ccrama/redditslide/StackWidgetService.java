@@ -16,6 +16,9 @@ import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 
+/**
+ * Created by ccrama on 10/2/2015.
+ */
 public class StackWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {

@@ -8,6 +8,9 @@ import android.util.Log;
 
 import me.ccrama.redditslide.OpenRedditLink;
 
+/**
+ * Created by ccrama on 9/28/2015.
+ */
 public class OpenContent extends Activity {
     @Override
     public void onCreate(Bundle savedInstance){

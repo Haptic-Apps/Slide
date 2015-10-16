@@ -6,6 +6,9 @@ import net.dean.jraw.paginators.UserContributionPaginator;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by ccrama on 9/17/2015.
+ */
 public class UserContributions {
     public ArrayList<Contribution> posts;
     public UserContributionPaginator paginator;

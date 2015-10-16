@@ -25,6 +25,9 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
+/**
+ * Created by ccrama on 3/5/2015.
+ */
 public class Settings extends ActionBarActivity {
 
     @Override

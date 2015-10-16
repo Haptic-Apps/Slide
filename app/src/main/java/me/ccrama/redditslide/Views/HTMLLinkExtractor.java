@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created by ccrama on 5/17/2015.
+ */
 public class HTMLLinkExtractor {
 
     private Pattern patternTag, patternLink;

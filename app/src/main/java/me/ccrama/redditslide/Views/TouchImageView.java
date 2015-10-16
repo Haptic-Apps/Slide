@@ -1,5 +1,9 @@
 package me.ccrama.redditslide.Views;
 
+/**
+ * Created by ccrama on 5/26/2015.
+ */
+
 
 import android.annotation.TargetApi;
 import android.content.Context;

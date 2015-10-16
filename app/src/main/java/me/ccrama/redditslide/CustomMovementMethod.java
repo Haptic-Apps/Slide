@@ -1,5 +1,9 @@
 package me.ccrama.redditslide;
 
+/**
+ * Created by ccrama on 7/18/2015.
+ */
+
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;

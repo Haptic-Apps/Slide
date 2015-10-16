@@ -16,6 +16,9 @@ import java.util.concurrent.ExecutionException;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Reddit;
 
+/**
+ * Created by ccrama on 9/17/2015.
+ */
 public class MultiredditPosts {
     public ArrayList<Submission> posts;
     public MultiRedditPaginator paginator;

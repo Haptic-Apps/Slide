@@ -17,6 +17,9 @@ import net.dean.jraw.http.oauth.OAuthHelper;
 
 import java.util.UUID;
 
+/**
+ * Created by ccrama on 3/30/2015.
+ */
 public class Authentication {
     public static boolean isLoggedIn;
     public static RedditClient reddit;
@@ -64,8 +67,7 @@ public class Authentication {
                     refresh = oAuthHelper.getRefreshToken();
                     reddit.authenticate(finalData);
                     if (reddit.isAuthenticated()) {
-                        final String name = reddit.me().getFullName();
-                        Authentication.name = name;
+                        Authentication.name = reddit.me().getFullName();
                         Authentication.isLoggedIn = true;
 
 

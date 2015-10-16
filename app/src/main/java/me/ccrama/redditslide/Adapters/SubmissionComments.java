@@ -15,6 +15,9 @@ import java.util.concurrent.ExecutionException;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 
+/**
+ * Created by ccrama on 9/17/2015.
+ */
 public class SubmissionComments {
     public ArrayList<CommentNode> comments;
     public CommentNode baseComment;

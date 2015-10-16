@@ -6,6 +6,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ * Created by carlo_000 on 10/13/2015.
+ */
 public class StartOnBoot extends BroadcastReceiver {
 
     @Override

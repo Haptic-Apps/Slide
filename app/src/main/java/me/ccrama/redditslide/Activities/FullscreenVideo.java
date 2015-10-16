@@ -14,6 +14,9 @@ import android.webkit.WebView;
 import me.ccrama.redditslide.R;
 
 
+/**
+ * Created by ccrama on 3/5/2015.
+ */
 public class FullscreenVideo extends BaseActivity {
 
     /**

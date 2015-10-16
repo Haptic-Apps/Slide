@@ -1,5 +1,8 @@
 package me.ccrama.redditslide;
 
+/**
+ * Created by ccrama on 7/19/2015.
+ */
 public class HasSeen {
 
     public static boolean getSeen(String fullname){

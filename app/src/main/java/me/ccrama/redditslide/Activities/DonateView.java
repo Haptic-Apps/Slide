@@ -24,6 +24,9 @@ import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.Purchase;
 
 
+/**
+ * Created by carlo_000 on 5/26/2015.
+ */
 public class DonateView extends ActionBarActivity {
 
 

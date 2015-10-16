@@ -10,6 +10,9 @@ import java.util.Arrays;
 import me.ccrama.redditslide.Activities.SubredditOverview;
 
 
+/**
+ * Created by ccrama on 5/24/2015.
+ */
 public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, ArrayList<String>> {
 
 
