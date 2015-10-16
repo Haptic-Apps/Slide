@@ -179,6 +179,7 @@ public class CommentPage extends Fragment {
             if (context.isEmpty()) {
 
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                if(DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
                 rv.setAdapter(adapter);
 

@@ -104,88 +104,165 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <ImageView
                             android:id="@+id/thumbimage"
                             android:layout_width="wrap_content"
                             android:maxWidth="66dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
                             android:layout_height="66dp"
+                            android:layout_alignParentRight="true"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
                             android:src="@drawable/chameleon" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toRightOf="@+id/thumbimage"
-                        android:padding="8dp">
-
-                        <TextView
-
-                            android:id="@+id/title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Chameleons are Cool!"
-                            android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitlec"
-
-
-                            />
-
-
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_toLeftOf="@+id/thumbimage"
+                            android:layout_marginLeft="8dp"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
-                                android:id="@+id/subreddit"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:paddingRight="5dp"
-                                android:text="/r/animals"
 
+                                android:id="@+id/title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Chameleons are Cool!"
                                 android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardinfoc"
+                                android:textSize="?attr/font_cardtitlec"
 
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/information"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="6 hours ago"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfoc"/>
-                            <include
-                                android:id="@+id/nsfw"
-                                layout="@layout/nsfw"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
 
                                 />
 
-                            <include
-                                android:id="@+id/pinned"
-                                layout="@layout/stickied"
+
+                            <com.wefika.flowlayout.FlowLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:orientation="horizontal">
 
-                                android:src="@drawable/pinned" />
+                                <TextView
+                                    android:id="@+id/subreddit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:paddingRight="5dp"
+                                    android:text="/r/animals"
+
+                                    android:textColor="?attr/font"
+                                    android:textSize="?attr/font_cardinfoc"
+
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/information"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:alpha=".56"
+
+
+                                    android:gravity="center_vertical"
+                                    android:text="6 hours ago"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfoc"/>
+                                <include
+                                    android:id="@+id/nsfw"
+                                    layout="@layout/nsfw"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+
+                                    />
+
+                                <include
+                                    android:id="@+id/pinned"
+                                    layout="@layout/stickied"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+
+                                    android:src="@drawable/pinned" />
+
+                                <TextView
+                                    android:id="@+id/contenttitle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:textStyle="bold"
+
+                                    android:text="imgur"
+                                    android:textColor="?attr/font"
+                                    android:textSize="?attr/font_cardinfoc" />
+
+                                <TextView
+                                    android:id="@+id/contenturl"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+
+                                    android:alpha=".56"
+                                    android:text="imgur.com/a/alskfdj"
+                                    android:textColor="?attr/font"
+                                    android:textSize="?attr/font_cardinfoc"
+
+                                    />
+
+
+                            </com.wefika.flowlayout.FlowLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                >
+
+                                <TextView
+                                    android:id="@+id/score"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:alpha=".56"
+
+                                    android:gravity="center_vertical"
+                                    android:text="204 points"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfo" />
+
+                                <TextView
+                                    android:id="@+id/comments"
+                                    android:paddingLeft="8dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:alpha=".56"
+
+                                    android:gravity="center_vertical"
+                                    android:text="402 comments"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfo" />
+                            </LinearLayout>
+
                         </LinearLayout>
+                        <ImageView
+                            android:id="@+id/menu"
+                            android:layout_width="28dp"
+                            android:layout_height="36dp"
+                            android:layout_toLeftOf="@+id/thumbimage"
+                            android:visibility="gone"
+                            android:layout_centerVertical="true"
+                            android:tint="?attr/tint"
+                            android:background="?android:selectableItemBackgroundBorderless"
 
+                            android:paddingRight="8dp"
+                            android:src="@drawable/more" />
 
-                    </LinearLayout>
-
-                </RelativeLayout>
+                    </RelativeLayout>
                     <LinearLayout
                         android:id="@+id/previewContent"
                         android:layout_width="match_parent"
@@ -208,39 +285,48 @@
                                 android:paddingLeft="16dp"
                                 android:background="?android:selectableItemBackground"
 
-                                android:paddingRight="16dp">
+                                >
 
 
 
-                                <LinearLayout
+
+                                <RelativeLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:layout_gravity="center_vertical"
+                                    android:layout_height="36dp"
+                                    android:orientation="horizontal"
+                                    android:id="@+id/actionbar"
 
-                                    android:gravity="center_vertical"
-                                    android:orientation="horizontal">
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp">
 
-                                    <TextView
-                                        android:id="@+id/contenttitle"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="imgur"
-                                        android:textColor="?attr/font"
-                                        android:textSize="?attr/font_cardtitlec" />
 
-                                    <TextView
-                                        android:id="@+id/contenturl"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="5dp"
 
-                                        android:alpha=".56"
-                                        android:text="imgur.com/a/alskfdj"
-                                        android:textColor="?attr/font"
-                                        android:textSize="?attr/font_cardinfoc"
+                                    <ImageView
+                                        android:id="@+id/downvote"
+                                        android:layout_width="36dp"
+                                        android:layout_height="36dp"
+                                        android:visibility="gone"
+                                        android:tint="?attr/tint"
+                                        android:background="?android:selectableItemBackgroundBorderless"
 
-                                        />
-                                </LinearLayout>
+                                        android:layout_toLeftOf="@+id/upvote"
+                                        android:padding="8dp"
+                                        android:src="@drawable/downvote" />
+
+                                    <ImageView
+                                        android:id="@+id/upvote"
+                                        android:layout_width="36dp"                                        android:visibility="gone"
+
+                                        android:layout_height="36dp"
+                                        android:tint="?attr/tint"
+                                        android:background="?android:selectableItemBackgroundBorderless"
+
+                                        android:padding="8dp"
+                                        android:src="@drawable/upvoted" />
+
+
+
+                                </RelativeLayout>
 
                             </LinearLayout>
 
@@ -248,84 +334,6 @@
                     </LinearLayout>
 
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:orientation="horizontal"
-                        android:id="@+id/actionbar"
-
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
-                            android:padding="8dp">
-
-                            <TextView
-                                android:id="@+id/score"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="204 points"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo" />
-
-                            <TextView
-                                android:id="@+id/comments"
-                                android:paddingLeft="8dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="402 comments"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/downvote"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
-
-                            android:layout_toLeftOf="@+id/upvote"
-                            android:padding="8dp"
-                            android:src="@drawable/downvote" />
-
-                        <ImageView
-                            android:id="@+id/upvote"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_toLeftOf="@+id/menu"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
-
-                            android:padding="8dp"
-                            android:src="@drawable/upvoted" />
-
-                        <ImageView
-                            android:id="@+id/menu"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_alignParentRight="true"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
-
-                            android:padding="8dp"
-                            android:src="@drawable/more" />
-
-
-                    </RelativeLayout>
                 </LinearLayout>
 
             </LinearLayout>

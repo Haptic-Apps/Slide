@@ -96,7 +96,26 @@ public class SubredditOverviewSingle extends OverviewBase  {
     }
 
     String subToDo;
-
+    @Override
+    public void onBackPressed() {
+        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
+        builder.setTitle("Confirm exit");
+        builder.setMessage("Do you really want to exit Slide?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
+        return;
+    }
     public void resetAdapter() {
 
         runOnUiThread(new Runnable() {
