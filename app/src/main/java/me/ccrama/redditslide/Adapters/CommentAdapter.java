@@ -31,6 +31,7 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Vote;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -97,6 +99,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         hiddenPersons = new ArrayList<>();
         replie = new ArrayList<>();
+        up = new ArrayList<>();
+        down = new ArrayList<>();
 
 
         isSame = false;
@@ -313,6 +317,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
 
@@ -332,6 +337,66 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final int finalPos = nextPos;
             final int finalPos1 = pos;
+
+            if(comment.getVote() == VoteDirection.UPVOTE){
+                if(!up.contains(comment.getFullName())){
+                    up.add(comment.getFullName());
+                }
+            } else if(comment.getVote() == VoteDirection.DOWNVOTE){
+                if(!down.contains(comment.getFullName())){
+                    down.add(comment.getFullName());
+                }
+            }
+
+            if(up.contains(comment.getFullName())){
+                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+            } else if(down.contains(comment.getFullName())){
+                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+
+            } else {
+                holder.score.setTextColor(holder.content.getCurrentTextColor());
+            }
+
+            holder.upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(up.contains(comment.getFullName())){
+                        new Vote(v, mContext).execute(comment);
+                        up.remove(comment.getFullName());
+                        holder.score.setTextColor(holder.content.getCurrentTextColor());
+
+                    } else if(down.contains(comment.getFullName())){
+                        new Vote(true, v, mContext).execute(comment);
+                        up.add(comment.getFullName());
+
+                        down.remove(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                    } else {
+                        up.add(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                    }
+                }
+            });
+            holder.downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (down.contains(comment.getFullName())) {
+                        new Vote(v, mContext).execute(comment);
+                        down.remove(comment.getFullName());
+                        holder.score.setTextColor(holder.content.getCurrentTextColor());
+
+                    } else if (up.contains(comment.getFullName())) {
+                        new Vote(true, v, mContext).execute(comment);
+                        down.add(comment.getFullName());
+                        up.remove(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+
+                    } else {
+                        down.add(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                    }
+                }
+            });
 
           /*  if(baseNode.hasMoreComments() && !hasLoaded.contains(baseNode.getComment().getFullName())){
                 holder.loadMore.setVisibility(View.VISIBLE);
