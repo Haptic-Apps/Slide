@@ -158,6 +158,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         colors = getSharedPreferences("COLOR", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
+        Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
         //new SetupIAB().execute();
 
@@ -192,6 +193,8 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             colors.edit().clear().apply();
             seen.edit().clear().apply();
             hidden.edit().clear().apply();
+            Hidden.hidden.edit().clear().apply();
+
             Authentication.authentication.edit().clear().apply();
             SubredditStorage.subscriptions.edit().clear().apply();
             getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
@@ -204,6 +207,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             seen = getSharedPreferences("SEEN", 0);
             hidden = getSharedPreferences("HIDDEN", 0);
             seen.edit().putBoolean("RESET", true).apply();
+            Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
         }
 

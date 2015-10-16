@@ -5,6 +5,7 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -153,6 +155,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                         mContext.startActivity(i);
                     }
                 });
+
                 dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -209,12 +212,34 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                 title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
 
                 builder.setView(dialoglayout);
-                builder.show();
-                return true;
+                final Dialog d = builder.show();
+                dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int pos = dataSet.indexOf(submission);
+                        final Submission old = dataSet.get(pos);
+                        dataSet.remove(submission);
+                        notifyItemRemoved(pos);
+                        d.dismiss();
+                        Hidden.setHidden( old);
+
+                        Snackbar.make(listView, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dataSet.add(pos, old);
+                                notifyItemInserted(pos);
+                                Hidden.undoHidden(old);
+
+                            }
+                        }).show();
+
+
+                    }
+                });                return true;
             }
         });
 
-        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false);
+        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView);
 
         lastPosition = i;
         return;

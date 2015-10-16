@@ -5,11 +5,13 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -89,7 +92,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
             }
         });
 
-        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false);
+        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -109,6 +112,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                         mContext.startActivity(i);
                     }
                 });
+
                 dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -165,8 +169,30 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                 title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
 
                 builder.setView(dialoglayout);
-                builder.show();
-                return true;
+                final Dialog d = builder.show();
+                dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int pos = dataSet.posts.indexOf(submission);
+                        final Submission old  = dataSet.posts.get(pos);
+                        dataSet.posts.remove(submission);
+                        notifyItemRemoved(pos);
+                        d.dismiss();
+                        Hidden.setHidden(old);
+
+                        Snackbar.make(listView, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dataSet.posts.add(pos, old);
+                                notifyItemInserted(pos);
+                                Hidden.undoHidden(old);
+
+                            }
+                        }).show();
+
+
+                    }
+                });                return true;
             }
         });
         lastPosition = i;

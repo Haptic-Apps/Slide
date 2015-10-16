@@ -1,41 +1,51 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.Html;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.bumptech.glide.Glide;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.koushikdutta.ion.Ion;
 
+import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -51,7 +61,7 @@ public class PopulateSubmissionViewHolder {
     boolean upvoted;
     boolean downvoted;
 
-    public void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full) {
+    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview) {
         if (HasSeen.getSeen(submission.getFullName()) && !full) {
             holder.itemView.setAlpha(0.7f);
         } else {
@@ -69,8 +79,106 @@ public class PopulateSubmissionViewHolder {
         holder.itemView.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openPopup(holder, submission, (Activity) mContext);
-            }
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                title.setText(submission.getTitle());
+
+                ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
+                ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
+                dialoglayout.findViewById(R.id.userpopup).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra("profile", submission.getAuthor());
+                        mContext.startActivity(i);
+                    }
+                });
+
+                dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, SubredditView.class);
+                        i.putExtra("subreddit", submission.getSubredditName());
+                        mContext.startActivity(i);
+                    }
+                });
+
+
+
+                dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (submission.saved) {
+                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Save post");
+                        } else {
+                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+
+                        }
+                        new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
+
+                    }
+                });
+                if (submission.saved) {
+                    ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                }
+                dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String urlString = submission.getUrl();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
+                        try {
+                            mContext.startActivity(intent);
+                        } catch (ActivityNotFoundException ex) {
+                            intent.setPackage(null);
+                            mContext.startActivity(intent);
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
+                        clipboard.setText("http://reddit.com" + submission.getPermalink());
+                        Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                if (!Authentication.isLoggedIn) {
+                    dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
+                    dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
+
+                }
+                title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+
+                builder.setView(dialoglayout);
+                final Dialog d = builder.show();
+                dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int pos = posts.indexOf(submission);
+                       final T t = posts.get(pos);
+                        posts.remove(submission);
+
+                        recyclerview.getAdapter().notifyItemRemoved(pos);
+                        d.dismiss();
+                        Hidden.setHidden((Contribution) t);
+
+                        Snackbar.make(recyclerview, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                posts.add(pos,t);
+                                recyclerview.getAdapter().notifyItemInserted(pos);
+                              Hidden.undoHidden((Contribution) t);
+
+                            }
+                        }).show();
+
+
+                    }
+                });            }
         });
 
         holder.comments.setText(submission.getCommentCount() + " comments");
@@ -405,53 +513,6 @@ public class PopulateSubmissionViewHolder {
         return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 
-    public static void openPopup(SubmissionViewHolder holder, final Submission s, final Activity mContext) {
-        if (SettingValues.actionBarVisible) {
-            PopupMenu popup = new PopupMenu(mContext, holder.itemView.findViewById(R.id.menu));
-            popup.getMenu().add("Copy permalink").setNumericShortcut('1');
-            popup.getMenu().add("Author profile").setNumericShortcut('2');
-            popup.getMenu().add("Go to subreddit").setNumericShortcut('3');
-
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getNumericShortcut()) {
-                        case '1': {
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                            clipboard.setText("http://reddit.com" + s.getPermalink());
-                            Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                        case '2': {
-                            //    Intent i = new Intent(mContext, Profile.class);
-                            //   i.putExtra("name", s.getAuthor());
-                            //  mContext.startActivity(i);
-                        }
-                        break;
-                        case '3': {
-                            //    Intent inte = new Intent(mContext, SingleSubredditViewNew.class);
-                            //    inte.putExtra("subreddit", s.getSubredditName());
-                            //    mContext.startActivity(inte);
-
-                        }
-                        break;
-
-                    }
-
-                    return true;
-                }
-            });
-
-            popup.show();
-        } else {
-            if (holder.actionBar.getVisibility() == View.GONE) {
-                holder.actionBar.setVisibility(View.VISIBLE);
-            } else {
-                holder.actionBar.setVisibility(View.GONE);
-
-            }
-        }
-
-    }
 
 
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {

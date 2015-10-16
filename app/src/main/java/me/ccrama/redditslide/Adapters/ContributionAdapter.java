@@ -5,10 +5,12 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
@@ -45,13 +48,15 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     static int COMMENT = 1;
+
     @Override
     public int getItemViewType(int position) {
-        if (dataSet.get(position) instanceof  Comment)//IS COMMENT
+        if (dataSet.get(position) instanceof Comment)//IS COMMENT
             return COMMENT;
 
         return 2;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
@@ -65,8 +70,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
     }
-
-
 
 
     public ContributionAdapter(Context mContext, ContributionPosts dataSet, RecyclerView listView) {
@@ -123,6 +126,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             mContext.startActivity(i);
                         }
                     });
+
+
                     dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -179,11 +184,38 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
 
                     builder.setView(dialoglayout);
-                    builder.show();
+                    final Dialog d = builder.show();
+                    dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           final int pos = dataSet.indexOf(submission);
+                            final Contribution old  = dataSet.get(pos);
+                            dataSet.remove(submission);
+                            notifyItemRemoved(pos);
+                            d.dismiss();
+
+                            Hidden.setHidden(old);
+
+
+                            Snackbar.make(listView, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dataSet.add(pos, old);
+                                    notifyItemInserted(pos);
+                                    Hidden.undoHidden(old);
+
+                                }
+                            }).show();
+
+
+
+
+                        }
+                    });
                     return true;
                 }
             });
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -206,7 +238,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else {
                 holder.gild.setVisibility(View.GONE);
             }
-           holder.title.setText(comment.getSubmissionTitle());
+            holder.title.setText(comment.getSubmissionTitle());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

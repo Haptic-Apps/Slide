@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.Reddit;
 
 /**
@@ -103,12 +104,18 @@ public class SubredditPosts {
                     } else {
                         posts.addAll(paginator.next());
                     }
-                    return posts ;
                 } catch (NetworkException e){
 
                 }
             }
-            return null;
+            if(posts != null){
+                for(Submission s : posts){
+                    if(Hidden.isHidden(s)){
+                        posts.remove(s);
+                    }
+                }
+            }
+            return posts;
         }
     }
 

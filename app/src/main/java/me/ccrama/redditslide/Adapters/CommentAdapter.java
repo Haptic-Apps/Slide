@@ -372,6 +372,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         down.remove(comment.getFullName());
                         holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
                     } else {
+                        new Vote(true, v, mContext).execute(comment);
+
                         up.add(comment.getFullName());
                         holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
                     }
@@ -386,12 +388,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         holder.score.setTextColor(holder.content.getCurrentTextColor());
 
                     } else if (up.contains(comment.getFullName())) {
-                        new Vote(true, v, mContext).execute(comment);
+                        new Vote(false, v, mContext).execute(comment);
                         down.add(comment.getFullName());
                         up.remove(comment.getFullName());
                         holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
 
                     } else {
+                        new Vote(false,v, mContext).execute(comment);
+
                         down.add(comment.getFullName());
                         holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
                     }
@@ -649,7 +653,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.itemView.findViewById(R.id.dot).setVisibility(View.GONE);
             }
         } else {
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, mContext, true, true);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, mContext, true, true, null, null);
 
             if (Authentication.isLoggedIn) {
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
@@ -691,6 +695,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mContext.startActivity(i);
                         }
                     });
+                    dialoglayout.findViewById(R.id.hide).setVisibility(View.GONE);
                     dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
