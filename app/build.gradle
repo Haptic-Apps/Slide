@@ -55,7 +55,7 @@ dependencies {
     compile 'uz.shift:colorpicker:0.5@aar'
     compile 'com.android.support:customtabs:+'
     compile 'com.android.support:recyclerview-v7:+'
-    compile 'com.android.support:design:23.+'
+    compile 'com.android.support:design:+'
     compile 'com.github.rey5137:material:1.2.1'
 
     compile 'com.android.support:cardview-v7:+'
