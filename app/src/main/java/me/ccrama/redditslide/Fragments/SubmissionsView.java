@@ -4,7 +4,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
@@ -27,7 +26,27 @@ public class SubmissionsView extends Fragment {
     public View v;
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView rv;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
 
+        super.onConfigurationChanged(newConfig);
+        int currentOrientation = getResources().getConfiguration().orientation;
+
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE){
+            if(Reddit.tabletUI) {
+                final StaggeredGridLayoutManager mLayoutManager;
+                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                rv.setLayoutManager(mLayoutManager);
+            }
+
+
+        }
+        else {
+            final PreCachingLayoutManager mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
+            rv.setLayoutManager(mLayoutManager);
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

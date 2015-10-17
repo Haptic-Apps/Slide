@@ -100,22 +100,29 @@ public class SubredditPosts {
             if (paginator.hasNext()) {
                 try {
                     if (reset) {
-                        posts = new ArrayList<>(paginator.next());
+                        posts = new ArrayList<>();
+                        for(Submission s : paginator.next()) {
+                            if(!Hidden.isHidden(s)) {
+                                posts.add(s);
+                            }
+                        }
                     } else {
-                        posts.addAll(paginator.next());
+                        for(Submission s : paginator.next()) {
+                            if(!Hidden.isHidden(s)) {
+                                posts.add(s);
+                            }
+                        }
                     }
+
+                    return posts;
+
+
                 } catch (NetworkException e){
 
                 }
             }
-            if(posts != null){
-                for(Submission s : posts){
-                    if(Hidden.isHidden(s)){
-                        posts.remove(s);
-                    }
-                }
-            }
-            return posts;
+
+            return null;
         }
     }
 
