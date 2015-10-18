@@ -87,6 +87,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
     public static boolean tabletUI;
     public static Sorting defaultSorting;
+    public static CommentSort defaultCommentSorting;
     public static TimePeriod timePeriod;
     public static SharedPreferences colors;
     public static int themeBack;
@@ -148,13 +149,12 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     public void onCreate() {
         super.onCreate();
         registerActivityLifecycleCallbacks(this);
-        defaultSorting = Sorting.HOT;
-        timePeriod = TimePeriod.DAY;
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
-
-
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
+        defaultSorting = SettingValues.defaultSorting;
+        timePeriod = SettingValues.timePeriod;
+        defaultCommentSorting = SettingValues.defaultCommentSorting;
         colors = getSharedPreferences("COLOR", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
@@ -273,8 +273,6 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     }
 
     public boolean active;
-
-    public static CommentSort defaultCommentSorting;
 
     public static SharedPreferences seen;
     public LoadingData loader;
