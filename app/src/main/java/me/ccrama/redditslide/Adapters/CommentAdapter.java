@@ -14,14 +14,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -31,6 +29,7 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,11 +41,13 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Vote;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -96,6 +97,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         hiddenPersons = new ArrayList<>();
         replie = new ArrayList<>();
+        up = new ArrayList<>();
+        down = new ArrayList<>();
 
 
         isSame = false;
@@ -295,6 +298,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public void doLongClick(CommentViewHolder holder, Comment comment){
+        if (currentSelectedItem.contains(comment.getFullName())) {
+            doUnHighlighted(holder, comment);
+        } else {
+            doHighlighted(holder, comment);
+        }
+    }
+
+    public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode){
+        if (currentSelectedItem.contains(comment.getFullName())) {
+            doUnHighlighted(holder, comment);
+        } else {
+
+            doOnClick(holder, baseNode, comment);
+        }
+    }
+
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
 
@@ -314,6 +335,70 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final int finalPos = nextPos;
             final int finalPos1 = pos;
+
+            if(comment.getVote() == VoteDirection.UPVOTE){
+                if(!up.contains(comment.getFullName())){
+                    up.add(comment.getFullName());
+                }
+            } else if(comment.getVote() == VoteDirection.DOWNVOTE){
+                if(!down.contains(comment.getFullName())){
+                    down.add(comment.getFullName());
+                }
+            }
+
+            if(up.contains(comment.getFullName())){
+                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+            } else if(down.contains(comment.getFullName())){
+                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+
+            } else {
+                holder.score.setTextColor(holder.content.getCurrentTextColor());
+            }
+
+            holder.upvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(up.contains(comment.getFullName())){
+                        new Vote(v, mContext).execute(comment);
+                        up.remove(comment.getFullName());
+                        holder.score.setTextColor(holder.content.getCurrentTextColor());
+
+                    } else if(down.contains(comment.getFullName())){
+                        new Vote(true, v, mContext).execute(comment);
+                        up.add(comment.getFullName());
+
+                        down.remove(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                    } else {
+                        new Vote(true, v, mContext).execute(comment);
+
+                        up.add(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                    }
+                }
+            });
+            holder.downvote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (down.contains(comment.getFullName())) {
+                        new Vote(v, mContext).execute(comment);
+                        down.remove(comment.getFullName());
+                        holder.score.setTextColor(holder.content.getCurrentTextColor());
+
+                    } else if (up.contains(comment.getFullName())) {
+                        new Vote(false, v, mContext).execute(comment);
+                        down.add(comment.getFullName());
+                        up.remove(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+
+                    } else {
+                        new Vote(false,v, mContext).execute(comment);
+
+                        down.add(comment.getFullName());
+                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                    }
+                }
+            });
 
           /*  if(baseNode.hasMoreComments() && !hasLoaded.contains(baseNode.getComment().getFullName())){
                 holder.loadMore.setVisibility(View.VISIBLE);
@@ -421,9 +506,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onClick(View v) {
                             String urlString = "http://reddit.com" + submission.getPermalink() +comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
 
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                            clipboard.setText(urlString);
-                            Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                            Reddit.defaultShareText(urlString, mContext);
                         }
                     });
                     if (!Authentication.isLoggedIn) {
@@ -449,11 +532,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
-                    } else {
-                        doHighlighted(holder, comment);
-                    }
+                  if(Reddit.swap){
+                      doOnClick(holder, comment, baseNode);
+                  } else {
+                      doLongClick(holder, comment);
+                  }
                     return true;
                 }
             });
@@ -461,10 +544,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
+                    if(Reddit.swap){
+                        doOnClick(holder, comment, baseNode);
+
                     } else {
-                        doHighlighted(holder, comment);
+                        doLongClick(holder, comment);
                     }
                     return true;
                 }
@@ -519,22 +603,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
+                    if(Reddit.swap){
+                        doLongClick(holder, comment);
                     } else {
-
-                        doOnClick(holder, baseNode, comment);
+                        doOnClick(holder, comment, baseNode);
                     }
                 }
             });
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (currentSelectedItem.contains(comment.getFullName())) {
-                        doUnHighlighted(holder, comment);
+                    if(Reddit.swap){
+                        doLongClick(holder, comment);
                     } else {
-
-                        doOnClick(holder, baseNode, comment);
+                        doOnClick(holder, comment, baseNode);
                     }
                 }
             });
@@ -567,7 +649,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.itemView.findViewById(R.id.dot).setVisibility(View.GONE);
             }
         } else {
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, mContext, true, true);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, mContext, true, true, null, null);
 
             if (Authentication.isLoggedIn) {
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
@@ -609,6 +691,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mContext.startActivity(i);
                         }
                     });
+                    dialoglayout.findViewById(R.id.hide).setVisibility(View.GONE);
                     dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -652,9 +735,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                            clipboard.setText("http://reddit.com" + submission.getPermalink());
-                            Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
                         }
                     });
                     if (!Authentication.isLoggedIn) {

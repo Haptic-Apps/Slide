@@ -4,8 +4,8 @@ import android.app.ActivityManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -20,7 +20,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsGeneral extends ActionBarActivity {
+public class SettingsGeneral extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -37,20 +37,111 @@ public class SettingsGeneral extends ActionBarActivity {
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription("General Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
+        {
+            CheckBox single = (CheckBox) findViewById(R.id.single);
 
-        CheckBox single = (CheckBox) findViewById(R.id.single);
+            single.setChecked(Reddit.single);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.single = isChecked;
+                    Reddit.colors.edit().putBoolean("Single", isChecked).apply();
 
-        single.setChecked(Reddit.single);
-        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.single = isChecked;
-                Reddit.colors.edit().putBoolean("Single", isChecked).apply();
+                }
+            });
+        }
+        {
+            CheckBox check = (CheckBox) findViewById(R.id.swapGesture);
 
-            }
-        });
+            check.setChecked(Reddit.swap);
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.swap = isChecked;
+                    Reddit.colors.edit().putBoolean("Swap", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            CheckBox check = (CheckBox) findViewById(R.id.web);
+
+            check.setChecked(Reddit.web);
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.web = isChecked;
+                    Reddit.colors.edit().putBoolean("web", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            CheckBox check = (CheckBox) findViewById(R.id.image);
+
+            check.setChecked(Reddit.image);
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.image = isChecked;
+                    Reddit.colors.edit().putBoolean("image", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            CheckBox check = (CheckBox) findViewById(R.id.gif);
+
+            check.setChecked(Reddit.gif);
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.gif = isChecked;
+                    Reddit.colors.edit().putBoolean("gif", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            CheckBox check = (CheckBox) findViewById(R.id.album);
+
+            check.setChecked(Reddit.album);
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.album = isChecked;
+                    Reddit.colors.edit().putBoolean("album", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            CheckBox check = (CheckBox) findViewById(R.id.video);
+
+            check.setChecked(Reddit.video);
+            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.video = isChecked;
+                    Reddit.colors.edit().putBoolean("video", isChecked).apply();
+
+                }
+            });
+        }
+
+
+
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }

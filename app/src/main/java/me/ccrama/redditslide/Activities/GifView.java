@@ -407,15 +407,9 @@ public class GifView extends BaseActivity {
 
                 try {
                     URL url = new URL(params[0]);
-            /* Open a connection to that URL. */
                     URLConnection ucon = url.openConnection();
-
-            /*
-             * Define InputStreams to read from the URLConnection.
-             */
                     ucon.setReadTimeout(5000);
                     ucon.setConnectTimeout(10000);
-
                     InputStream is = ucon.getInputStream();
                     BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
 
@@ -436,13 +430,11 @@ public class GifView extends BaseActivity {
                     inStream.close();
                     Notification.Builder notif = new Notification.Builder(GifView.this)
                             .setContentTitle("GIF Saved")
-                            .setContentText(DataShare.sharedSubmission.getTitle())
-                            .setSmallIcon(R.drawable.appicon);
+                            .setSmallIcon(R.drawable.notif);
 
 
                     NotificationManager mNotificationManager =
                             (NotificationManager) getSystemService(GifView.this.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
                     mNotificationManager.notify(1, notif.build());
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,12 +1,15 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsCallback;
@@ -38,6 +41,13 @@ import me.ccrama.redditslide.util.IabResult;
 public class Reddit extends Application implements Application.ActivityLifecycleCallbacks {
     public static IabHelper mHelper;
     public static boolean single;
+    public static boolean swap;
+    public static boolean album;
+    public static boolean image;
+    public static boolean video;
+    public static boolean gif;
+    public static boolean web;
+
 
     boolean closed = false;
 
@@ -79,6 +89,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
     public static boolean tabletUI;
     public static Sorting defaultSorting;
+    public static CommentSort defaultCommentSorting;
     public static TimePeriod timePeriod;
     public static SharedPreferences colors;
     public static int themeBack;
@@ -125,6 +136,27 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         }
     }
 
+    public static void forceRestart(Context context){
+        Intent mStartActivity = new Intent(context, LoadingData.class);
+        int mPendingIntentId = 123456;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+    }
+    public static void defaultShareText(String url, Context c){
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
+        c.startActivity(Intent.createChooser(sharingIntent, "Share using"));
+    }
+    public static void defaultShare(String url, Context c){
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(c.getPackageManager()) != null) {
+            c.startActivity(intent);
+        }
+    }
     public static int notificationTime;
 
     public static NotificationJobScheduler notifications;
@@ -133,16 +165,16 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     public void onCreate() {
         super.onCreate();
         registerActivityLifecycleCallbacks(this);
-        defaultSorting = Sorting.HOT;
-        timePeriod = TimePeriod.DAY;
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
-
-
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
+        defaultSorting = SettingValues.defaultSorting;
+        timePeriod = SettingValues.timePeriod;
+        defaultCommentSorting = SettingValues.defaultCommentSorting;
         colors = getSharedPreferences("COLOR", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
+        Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
         //new SetupIAB().execute();
 
@@ -177,6 +209,8 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             colors.edit().clear().apply();
             seen.edit().clear().apply();
             hidden.edit().clear().apply();
+            Hidden.hidden.edit().clear().apply();
+
             Authentication.authentication.edit().clear().apply();
             SubredditStorage.subscriptions.edit().clear().apply();
             getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
@@ -189,10 +223,18 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             seen = getSharedPreferences("SEEN", 0);
             hidden = getSharedPreferences("HIDDEN", 0);
             seen.edit().putBoolean("RESET", true).apply();
+            Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
         }
 
         single = colors.getBoolean("Single", false);
+        swap = colors.getBoolean("Swap", false);
+        web = colors.getBoolean("web", true);
+        image = colors.getBoolean("image", true);
+        album = colors.getBoolean("album", true);
+        gif = colors.getBoolean("gif", true);
+        video = colors.getBoolean("video", true);
+
         int height = this.getResources().getConfiguration().screenWidthDp;
 
         int width = this.getResources().getConfiguration().screenHeightDp;
@@ -247,8 +289,6 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     }
 
     public boolean active;
-
-    public static CommentSort defaultCommentSorting;
 
     public static SharedPreferences seen;
     public LoadingData loader;

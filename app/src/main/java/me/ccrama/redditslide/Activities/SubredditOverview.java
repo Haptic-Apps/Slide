@@ -33,6 +33,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -50,6 +51,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import me.ccrama.redditslide.ActiveTextView;
@@ -60,6 +62,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
@@ -78,6 +81,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class SubredditOverview extends OverviewBase {
 
 
+    public int toGoto = 0;
     Toolbar toolbar;
 
     @Override
@@ -142,6 +146,23 @@ public class SubredditOverview extends OverviewBase {
         pager.setCurrentItem(current);
     }
 
+    public void chooseAccounts(){
+        final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
+         new AlertDialogWrapper.Builder(SubredditOverview.this)
+                .setTitle("Switch Account")
+                .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> tokens =  new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                        Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).apply();
+                        Log.v("Slide", " CHOSEN IS " + accounts.get(which) + " AND TOKEN IS " + tokens.get(which) + " AND SHARED PREFS SAYS " + Authentication.authentication.getString("lasttoken", ""));
+
+                        Reddit.forceRestart(SubredditOverview.this);
+
+                    }
+                }).create().show();
+    }
+
     View header;
 
     @Override
@@ -158,6 +179,9 @@ public class SubredditOverview extends OverviewBase {
         setContentView(R.layout.activity_overview);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
+        if(getIntent()!= null && getIntent().hasExtra("pageTo"))
+        toGoto = getIntent().getIntExtra("pageTo", 0);
+
         if (DataShare.notifs != null) {
 
             final Submission s = DataShare.notifs;
@@ -1186,6 +1210,7 @@ public class SubredditOverview extends OverviewBase {
             tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(0)));
 
         }
+        pager.setCurrentItem(toGoto);
 
     }
 
@@ -1269,12 +1294,30 @@ public class SubredditOverview extends OverviewBase {
                         reloadSubs();
                         break;
                 }
+                SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
+                SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
+                SettingValues.defaultSorting = Reddit.defaultSorting;
+                SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
+        int i = Reddit.defaultSorting == Sorting.HOT ? 0
+                : Reddit.defaultSorting == Sorting.NEW ? 1
+                : Reddit.defaultSorting == Sorting.RISING ? 2
+                : Reddit.defaultSorting == Sorting.TOP ?
+                (Reddit.timePeriod == TimePeriod.HOUR ? 3
+                        : Reddit.timePeriod == TimePeriod.DAY ? 4
+                        : Reddit.timePeriod == TimePeriod.WEEK ? 5
+                        : Reddit.timePeriod == TimePeriod.MONTH ? 6
+                        : Reddit.timePeriod == TimePeriod.YEAR ? 7
+                        : 8)
+                : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
+                (Reddit.timePeriod == TimePeriod.HOUR ? 9
+                        : 10)
+                : 0;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
         builder.setTitle("Choose a Sorting Type");
-        builder.setItems(
-                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, l2);
+        builder.setSingleChoiceItems(
+                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, i, l2);
         builder.show();
 
     }
@@ -1321,6 +1364,7 @@ public class SubredditOverview extends OverviewBase {
                 @Override
                 public void onPageSelected(int position) {
                     doSubSidebar(usedArray.get(position));
+                    if(hea != null)
                     hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                     header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1419,8 +1463,7 @@ public class SubredditOverview extends OverviewBase {
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Authentication.authentication.edit().remove("lasttoken").apply();
-                    ((Reddit) SubredditOverview.this.getApplicationContext()).restart();
+                 chooseAccounts();
                 }
             });
             /*header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
@@ -1456,7 +1499,13 @@ public class SubredditOverview extends OverviewBase {
                     SubredditOverview.this.startActivity(inte);
                 }
             });
-
+            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(SubredditOverview.this, Login.class);
+                    SubredditOverview.this.startActivity(inte);
+                }
+            });
         } else {
             header = inflater.inflate(R.layout.drawer_loggedout, l, false);
             l.addHeaderView(header, null, false);

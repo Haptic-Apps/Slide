@@ -29,11 +29,11 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/general"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:orientation="horizontal"
             android:background="?android:selectableItemBackground"
-            android:id="@+id/general"
+            android:orientation="horizontal"
 
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
@@ -52,17 +52,210 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
-                android:buttonTint="?attr/tint"
-                android:background="?android:selectableItemBackground"
-
-                android:backgroundTint="?attr/tint"
                 android:layout_marginTop="8dp"
-                android:textColorHint="?attr/font"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Single Mode"
                 android:textColor="?attr/font"
-                android:text="Single Mode" />
+                android:textColorHint="?attr/font" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/swap"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/swap"
+                android:tint="?attr/tint" />
+
+            <CheckBox
+                android:id="@+id/swapGesture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Swap tap and long press actions in comments"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+        </LinearLayout>
+       
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:alpha=".5"
+            android:background="?attr/tint" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="LINK HANDLING"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
 
+            <CheckBox
+                android:id="@+id/web"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Internal web browser"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+
+            <CheckBox
+                android:id="@+id/gif"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Internal gif view"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+
+            <CheckBox
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Internal image view"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+
+            <CheckBox
+                android:id="@+id/video"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Internal video view"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+
+            <CheckBox
+                android:id="@+id/album"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:drawableTint="?attr/tint"
+                android:backgroundTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:buttonTint="?attr/tint"
+                android:text="Internal album view"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

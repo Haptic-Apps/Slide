@@ -5,6 +5,7 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +14,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -34,6 +33,7 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -50,9 +50,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     public String subreddit;
 
 
+
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = CreateCardView.CreateView( viewGroup, subreddit);
+        View v = CreateCardView.CreateView( viewGroup, subreddit.toLowerCase(), subreddit.toLowerCase());
 
         return new SubmissionViewHolder(v);
 
@@ -70,12 +71,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     }
 
 
+
     boolean isSame;
 
 
     int lastPosition = -1;
 
-    public  class AsyncSave extends AsyncTask<Submission, Void, Void> {
+    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
 
         View v;
 
@@ -113,6 +115,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     public void onBindViewHolder(final SubmissionViewHolder holder, final int i) {
 
         final Submission submission = dataSet.get(i);
+        CreateCardView.resetColorCard(holder.itemView);
+                CreateCardView.colorCard(submission.getSubredditName(), holder.itemView, subreddit);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -153,6 +157,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                         mContext.startActivity(i);
                     }
                 });
+
                 dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -196,9 +201,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                        clipboard.setText("http://reddit.com" + submission.getPermalink());
-                        Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
                     }
                 });
                 if (!Authentication.isLoggedIn) {
@@ -209,12 +213,34 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                 title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
 
                 builder.setView(dialoglayout);
-                builder.show();
-                return false;
+                final Dialog d = builder.show();
+                dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int pos = dataSet.indexOf(submission);
+                        final Submission old = dataSet.get(pos);
+                        dataSet.remove(submission);
+                        notifyItemRemoved(pos);
+                        d.dismiss();
+                        Hidden.setHidden( old);
+
+                        Snackbar.make(listView, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dataSet.add(pos, old);
+                                notifyItemInserted(pos);
+                                Hidden.undoHidden(old);
+
+                            }
+                        }).show();
+
+
+                    }
+                });                return true;
             }
         });
 
-        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false);
+        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView);
 
         lastPosition = i;
 

@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -27,7 +27,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsTheme extends ActionBarActivity {
+public class SettingsTheme extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +123,7 @@ public class SettingsTheme extends ActionBarActivity {
                         overridePendingTransition(0, 0);
 
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -255,6 +255,8 @@ public class SettingsTheme extends ActionBarActivity {
 
                 });
 
+
+
                 colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int c) {
@@ -265,6 +267,8 @@ public class SettingsTheme extends ActionBarActivity {
 
                     }
                 });
+
+                colorPicker.setSelectedColor(                        getResources().getColor(R.color.md_deep_orange_500));
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {
@@ -322,7 +326,16 @@ public class SettingsTheme extends ActionBarActivity {
         });
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     public int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{

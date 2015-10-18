@@ -59,6 +59,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
@@ -1262,12 +1263,30 @@ public class SubredditOverviewSingle extends OverviewBase  {
                         reloadSubs();
                         break;
                 }
+                SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
+                SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
+                SettingValues.defaultSorting = Reddit.defaultSorting;
+                SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
-       AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
+        int i = Reddit.defaultSorting == Sorting.HOT ? 0
+                : Reddit.defaultSorting == Sorting.NEW ? 1
+                : Reddit.defaultSorting == Sorting.RISING ? 2
+                : Reddit.defaultSorting == Sorting.TOP ?
+                (Reddit.timePeriod == TimePeriod.HOUR ? 3
+                        : Reddit.timePeriod == TimePeriod.DAY ? 4
+                        : Reddit.timePeriod == TimePeriod.WEEK ? 5
+                        : Reddit.timePeriod == TimePeriod.MONTH ? 6
+                        : Reddit.timePeriod == TimePeriod.YEAR ? 7
+                        : 8)
+                : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
+                (Reddit.timePeriod == TimePeriod.HOUR ? 9
+                        : 10)
+                : 0;
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
         builder.setTitle("Choose a Sorting Type");
-        builder.setItems(
-                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, l2);
+        builder.setSingleChoiceItems(
+                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, i, l2);
         builder.show();
 
     }

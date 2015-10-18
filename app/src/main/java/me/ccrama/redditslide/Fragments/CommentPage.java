@@ -31,6 +31,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -71,20 +72,27 @@ public class CommentPage extends Fragment {
                         Reddit.defaultCommentSorting = CommentSort.OLD;
                         reloadSubs();
                         break;
-
                 }
+                SettingValues.prefs.edit().putString("defaultCommentSorting", Reddit.defaultCommentSorting.name()).apply();
+                SettingValues.defaultCommentSorting = Reddit.defaultCommentSorting;
             }
         };
+        int i = Reddit.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
+                : Reddit.defaultCommentSorting == CommentSort.TOP ? 1
+                : Reddit.defaultCommentSorting == CommentSort.QA ? 2
+                : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
+                : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
+                : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
+                : 1;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
         builder.setTitle("Choose a Sorting Type");
-        builder.setItems(
+        builder.setSingleChoiceItems(
                 new String[]{"Best",
                         "Top",
                         "Q&A (AMA)",
-
                         "New",
                         "Controversial",
-                        "Old"},
+                        "Old"}, i,
                 l2);
         builder.show();
 

@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:text="Log in"
+            android:text="Add an account"
             android:textColor="?attr/font"
             android:gravity="center_vertical"
             android:layout_height="match_parent" />

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.ccrama.redditslide" >
+    package="me.ccrama.redditslide">
 
     <application
-        android:allowBackup="true"
         android:name=".Reddit"
+        android:allowBackup="true"
 
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
-        android:theme="@style/yellow_dark" >
+        android:theme="@style/yellow_dark">
         <activity
             android:name=".Activities.LoadingData"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,104 +21,208 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SubredditOverview"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".Activities.Album"/>
-        <activity android:name=".Activities.FullscreenImage"/>
-        <activity android:name=".Activities.CommentSearch"/>
+        <activity
+            android:name=".Activities.SubredditOverview"
+            android:configChanges="keyboardHidden|orientation|screenSize"
 
-        <activity android:name=".Activities.GifView"/>
-        <activity android:name=".Activities.FullscreenVideo"/>
-        <activity android:name=".Activities.Wiki"/>
-        <activity android:name=".Activities.CommentsScreen"/>
-        <activity android:name=".Activities.SubredditView"/>
-        <activity android:name=".Activities.MultiredditOverview"/>
-        <activity android:name=".Activities.Profile"/>
-        <activity android:name=".Activities.Sendmessage"/>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Activities.Album"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.FullscreenImage"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.CommentSearch"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
-        <activity android:label="SlideIntent" android:name=".Activities.OpenContent">
-        <intent-filter android:label="Slide">
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <category android:name="android.intent.category.BROWSABLE"/>
-            <data android:host="www.reddit.com" android:scheme="http"/>
-            <data android:host="reddit.com" android:scheme="https"/>
+        <activity
+            android:name=".Activities.GifView"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.FullscreenVideo"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Wiki"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.CommentsScreen"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.SubredditView"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.MultiredditOverview"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Profile"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Sendmessage"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
-            <data android:host="i.reddit.com" android:scheme="http"/>
-            <data android:host="m.reddit.com" android:scheme="http"/>
-            <data android:host="www.reddit.com" android:scheme="https"/>
-            <data android:host="i.reddit.com" android:scheme="https"/>
-            <data android:host="m.reddit.com" android:scheme="https"/>
-            <data android:host="np.reddit.com" android:scheme="http"/>
-            <data android:host="reddit.com" android:scheme="http"/>
+        <activity
+            android:name=".Activities.OpenContent"
+            android:label="SlideIntent">
+            <intent-filter android:label="Slide">
+                <action android:name="android.intent.action.VIEW" />
 
-            <data android:host="np.reddit.com" android:scheme="https"/>
-            <data android:host="redd.it" android:scheme="https"/>
-            <data android:host="redd.it" android:scheme="http"/>
-            <data android:host="www.redd.it" android:scheme="https"/>
-            <data android:host="www.redd.it" android:scheme="http"/>
-        </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.reddit.com"
+                    android:scheme="http" />
+                <data
+                    android:host="reddit.com"
+                    android:scheme="https" />
+
+                <data
+                    android:host="i.reddit.com"
+                    android:scheme="http" />
+                <data
+                    android:host="m.reddit.com"
+                    android:scheme="http" />
+                <data
+                    android:host="www.reddit.com"
+                    android:scheme="https" />
+                <data
+                    android:host="i.reddit.com"
+                    android:scheme="https" />
+                <data
+                    android:host="m.reddit.com"
+                    android:scheme="https" />
+                <data
+                    android:host="np.reddit.com"
+                    android:scheme="http" />
+                <data
+                    android:host="reddit.com"
+                    android:scheme="http" />
+
+                <data
+                    android:host="np.reddit.com"
+                    android:scheme="https" />
+                <data
+                    android:host="redd.it"
+                    android:scheme="https" />
+                <data
+                    android:host="redd.it"
+                    android:scheme="http" />
+                <data
+                    android:host="www.redd.it"
+                    android:scheme="https" />
+                <data
+                    android:host="www.redd.it"
+                    android:scheme="http" />
+            </intent-filter>
         </activity>
-        <activity android:name=".Activities.SettingsGeneral"/>
+        <activity
+            android:name=".Activities.SettingsGeneral"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
-        <activity android:name=".Activities.CommentsScreenSingle"/>
-        <activity android:name=".Activities.Inbox"/>
-        <activity android:name=".Activities.Submit"/>
-        <activity android:name=".Activities.Tutorial"/>
-        <activity android:name=".Activities.DonateView"/>
-        <activity android:name=".Activities.Shadowbox"/>
-        <activity android:name=".Activities.Crash"/>
-        <activity android:name=".Activities.SubredditOverviewSingle"/>
-        <activity android:name=".Activities.Settings"/>
-        <activity android:name=".Activities.SettingsTheme"/>
+        <activity
+            android:name=".Activities.CommentsScreenSingle"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Inbox"
+            android:configChanges="keyboardHidden|orientation|screenSize"
 
-        <activity android:name=".Activities.CommentsScreenPopup"
-            android:theme="@style/Theme.AppCompat.Dialog.Alert"/>
+            />
+        <activity
+            android:name=".Activities.Submit"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Tutorial"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.DonateView"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Shadowbox"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Crash"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.SubredditOverviewSingle"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.Settings"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.SettingsTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
-        <activity android:name=".Activities.EditCardsLayout"/>
+        <activity
+            android:name=".Activities.CommentsScreenPopup"
+            android:configChanges="keyboardHidden|orientation|screenSize"
 
-        <activity android:name=".Activities.Login"/>
+            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
+
+        <activity
+            android:name=".Activities.EditCardsLayout"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+
+        <activity
+            android:name=".Activities.Login"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".Activities.Shortcut">
             <intent-filter>
-            <action android:name="android.intent.action.CREATE_SHORTCUT"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-        </intent-filter>
-     </activity>
-       <!-- <receiver android:name=".Widget" android:label="Frontpage Widget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
-        </receiver>
-        <service android:name="StackWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false" />!-->
+        </activity>
+        <!-- <receiver android:name=".Widget" android:label="Frontpage Widget">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+             </intent-filter>
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
+         </receiver>
+         <service android:name="StackWidgetService"
+             android:permission="android.permission.BIND_REMOTEVIEWS"
+             android:exported="false" />!-->
 
-        <uses-library android:required="false" android:name="com.sec.android.app.multiwindow"> </uses-library>
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
-        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W" android:resource="@dimen/app_defaultsize_w" />
+        <uses-library
+            android:name="com.sec.android.app.multiwindow"
+            android:required="false"></uses-library>
 
-        <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:resource="@dimen/app_defaultsize_h" />
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+            android:resource="@dimen/app_defaultsize_w" />
 
-        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:resource="@dimen/app_minimumsize_w" />
+        <meta-data
+            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+            android:resource="@dimen/app_defaultsize_h" />
+
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+            android:resource="@dimen/app_minimumsize_w" />
+
         <receiver android:name=".Notifications.CheckForMail">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h" />
-        <receiver android:name=".Notifications.StartOnBoot"
+        <meta-data
+            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+            android:resource="@dimen/app_minimumsize_h" />
+        <receiver
+            android:name=".Notifications.StartOnBoot"
             android:enabled="false">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

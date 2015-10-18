@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 
 
 public class AlbumView extends ArrayAdapter<JsonElement> {
@@ -79,9 +80,13 @@ public class AlbumView extends ArrayAdapter<JsonElement> {
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(getContext(), FullscreenImage.class);
-                myIntent.putExtra("url", url);
-                getContext().startActivity(myIntent);
+                if(Reddit.image) {
+                    Intent myIntent = new Intent(getContext(), FullscreenImage.class);
+                    myIntent.putExtra("url", url);
+                    getContext().startActivity(myIntent);
+                } else {
+                    Reddit.defaultShare(url, getContext());
+                }
             }
         });
 
