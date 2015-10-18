@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.OverviewBase;
-import me.ccrama.redditslide.Activities.SubredditOverview;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Pallete;

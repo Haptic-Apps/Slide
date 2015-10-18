@@ -175,6 +175,6 @@ public class TouchEffectsAnimator {
     }
 
     interface InterpolatedTimeCallback {
-        public void onTimeUpdate(float interpolatedTime);
+        void onTimeUpdate(float interpolatedTime);
     }
 }

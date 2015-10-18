@@ -45,17 +45,16 @@ public class ContentType {
     }
 
     public static String getLastPartofUrl(String s2) {
-        String s = s2;
-        if (s.endsWith("/")) {
-            return getLastPartofUrl(s.substring(0, s.length() - 1));
+        if (s2.endsWith("/")) {
+            return getLastPartofUrl(s2.substring(0, s2.length() - 1));
         }
-        if (s.contains("?")) {
-            String f = s.substring(s.lastIndexOf("/") + 1, s.lastIndexOf("?"));
+        if (s2.contains("?")) {
+            String f = s2.substring(s2.lastIndexOf("/") + 1, s2.lastIndexOf("?"));
             Log.v("Slide", f);
             return f;
         } else {
-            if (s.lastIndexOf("/") < s.length()) {
-                String f = s.substring(s.lastIndexOf("/") + 1, s.length());
+            if (s2.lastIndexOf("/") < s2.length()) {
+                String f = s2.substring(s2.lastIndexOf("/") + 1, s2.length());
                 Log.v("Slide", f);
                 return f;
 
@@ -87,7 +86,7 @@ public class ContentType {
         }
         switch (t) {
             case NSFW:
-                if (isImage(url) && url.contains("gif") == false) {
+                if (isImage(url) && !url.contains("gif")) {
                     return ImageType.NSFW_IMAGE;
                 } else if (isGif(url)) {
                     if (url.contains("gfy"))
@@ -198,6 +197,6 @@ public class ContentType {
     }
 
     public enum ImageType {
-        NSFW_IMAGE, NSFW_GIF, NSFW_GFY, REDDIT, EMBEDDED, LINK, IMAGE_LINK, NSFW_LINK, SELF, GFY, ALBUM, IMAGE, GIF, NONE_GFY, NONE_GIF, NONE, NONE_IMAGE, VIDEO, NONE_URL;
+        NSFW_IMAGE, NSFW_GIF, NSFW_GFY, REDDIT, EMBEDDED, LINK, IMAGE_LINK, NSFW_LINK, SELF, GFY, ALBUM, IMAGE, GIF, NONE_GFY, NONE_GIF, NONE, NONE_IMAGE, VIDEO, NONE_URL
     }
 }

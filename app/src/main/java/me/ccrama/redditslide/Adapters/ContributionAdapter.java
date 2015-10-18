@@ -250,7 +250,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         }
-        return;
 
     }
 

@@ -48,7 +48,7 @@ public class Crash extends ActionBarActivity {
 
 
                         if(Authentication.refresh != null )
-                        baseurl.replace(Authentication.refresh, "[AUTOHRIZATION TOKEN]");
+                        baseurl = baseurl.replace(Authentication.refresh, "[AUTOHRIZATION TOKEN]");
                         Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(baseurl));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

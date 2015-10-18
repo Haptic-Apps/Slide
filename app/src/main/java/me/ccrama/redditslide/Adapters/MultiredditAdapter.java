@@ -193,7 +193,6 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
             }
         });
         lastPosition = i;
-        return;
 
     }
 

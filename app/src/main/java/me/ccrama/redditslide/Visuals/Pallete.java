@@ -114,7 +114,7 @@ public class Pallete {
     public ThemeEnum theme;
 
 
-    public static enum ThemeEnum{
+    public enum ThemeEnum{
         DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff")),
         LIGHT("Light",Color.parseColor("#e8e8e8"), Color.parseColor("#ffffff"), Color.parseColor("#ff414141") ),
         AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"));

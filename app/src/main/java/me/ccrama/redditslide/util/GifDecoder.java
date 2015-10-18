@@ -171,7 +171,7 @@ public class GifDecoder {
         if (frameCount <= 0)
             return null;
         n = n % frameCount;
-        return ((GifFrame) frames.elementAt(n)).image;
+        return frames.elementAt(n).image;
     }
     public int read(InputStream is) {
         init();
@@ -297,7 +297,7 @@ public class GifDecoder {
     protected void init() {
         status = STATUS_OK;
         frameCount = 0;
-        frames = new Vector<GifFrame>();
+        frames = new Vector<>();
         gct = null;
         lct = null;
     }

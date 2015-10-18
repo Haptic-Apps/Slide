@@ -73,7 +73,7 @@ public class Wiki extends BaseActivity {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 values = new WeakHashMap<>();
-                ArrayList<String> toRemove = new ArrayList<String>();
+                ArrayList<String> toRemove = new ArrayList<>();
                 for (String s : pages) {
                     values.put(s, wiki.get(subreddit, s).getDataNode().get("content_html").asText());
                     if (values.get(s).isEmpty() || s.startsWith("config")) {
