@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -138,110 +139,123 @@ public class Submit extends ActionBarActivity {
 
     }
     public String URL;
-    public void setImage(String URL){
+    public void setImage(final String URL){
         this.URL = URL;
 
-        Ion.with(this).load(URL).intoImageView(((ImageView) findViewById(R.id.imagepost)));
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Ion.with((ImageView) findViewById(R.id.imagepost)).load(URL);
+
+            }
+        });
     }
 
     private class AsyncDo extends AsyncTask<Void, Void,Void>{
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if(self.getVisibility() == View.VISIBLE){
+            try {
+                if (self.getVisibility() == View.VISIBLE) {
 
-                try {
-                    String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText)findViewById(R.id.bodytext)).getText().toString(), ((EditText)findViewById(R.id.subreddittext)).getText().toString(), ((EditText)findViewById(R.id.titletext)).getText().toString())).getFullName();
-                    Intent myIntent = new Intent(Submit.this, SubredditView.class);
-                    myIntent.putExtra("position", -1);
-                    myIntent.putExtra("submissionID", s);
-                    Submit.this.startActivity(myIntent);
-                    Submit.this.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                    try {
+                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
+                        Intent myIntent = new Intent(Submit.this, CommentsScreenSingle.class);
+                        myIntent.putExtra("context", s);
+                        Submit.this.startActivity(myIntent);
 
-                    Submit.this.finish();
+                        Submit.this.finish();
 
-                } catch (final ApiException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    finish();
-                                }
-                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                    } catch (final ApiException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                }
-                            }).create().show();
-                        }
-                    });
+                                    }
+                                }).create().show();
+                            }
+                        });
 
+                    }
+                } else if (link.getVisibility() == View.VISIBLE) {
+
+                    try {
+                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(((EditText) findViewById(R.id.urltext)).getText().toString()), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
+                        Intent myIntent = new Intent(Submit.this, CommentsScreenSingle.class);
+                        myIntent.putExtra("context", s);
+                        Submit.this.startActivity(myIntent);
+
+                        Submit.this.finish();
+
+                    } catch (final ApiException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                }).create().show();
+                            }
+                        });
+
+                    }
+                } else if (image.getVisibility() == View.VISIBLE) {
+                    try {
+                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(URL), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
+
+                        Intent myIntent = new Intent(Submit.this, CommentsScreenSingle.class);
+                        myIntent.putExtra("context", s);
+                        Submit.this.startActivity(myIntent);
+
+                        Submit.this.finish();
+
+
+                    } catch (final ApiException e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    }
+                                }).create().show();
+                            }
+                        });
+
+                    }
                 }
-            } else  if(link.getVisibility() == View.VISIBLE){
-                try {
-                    String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText)findViewById(R.id.urltext)).getText().toString(), ((EditText)findViewById(R.id.subreddittext)).getText().toString(), ((EditText)findViewById(R.id.titletext)).getText().toString())).getFullName();
-                    Intent myIntent = new Intent(Submit.this, SubredditView.class);
-                    myIntent.putExtra("position", -1);
-                    myIntent.putExtra("submissionID", s);
-                    Submit.this.startActivity(myIntent);
-                    Submit.this.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
-
-                    Submit.this.finish();
-                } catch (final ApiException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    finish();
-                                }
-                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            }).create().show();
-                        }
-                    });
-
-                }
-            } else  if(image.getVisibility() == View.VISIBLE){
-                try {
-                   String s =  new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(URL, ((EditText)findViewById(R.id.subreddittext)).getText().toString(), ((EditText)findViewById(R.id.titletext)).getText().toString())).getFullName();
-
-                    Intent myIntent = new Intent(Submit.this, SubredditView.class);
-                    myIntent.putExtra("position", -1);
-                    myIntent.putExtra("submissionID", s);
-                    Submit.this.startActivity(myIntent);
-                    Submit.this.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
-
-                    Submit.this.finish();
-
-                } catch (final ApiException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation()+ "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    finish();
-                                }
-                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            }).create().show();
-                        }
-                    });
-
-                }
+            } catch(Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Your URL appears to be invalid. Are you sure you the input is correct?").create().show();
+                    }
+                });
             }
+                return null;
 
-            return null;
         }
     }
     private class UploadImgur extends AsyncTask<Bitmap, Void, JSONObject> {

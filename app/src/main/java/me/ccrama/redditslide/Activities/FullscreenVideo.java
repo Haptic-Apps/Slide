@@ -61,7 +61,7 @@ String url = "";
         } else {
             Log.v("Slide", data);
             Log.v("Sliide", Html.fromHtml(data).toString());
-            String dataurl = Html.fromHtml(data).toString().replace("%2F", "/").replace("%3A", ":").replace("%3F", "?").replace("%3D", "/");
+            String dataurl = Html.fromHtml(data).toString().replace("%2F", "/").replace("%3A", ":").replace("%3F", "?").replace("%3D", "=");
 
             // String cut = dataurl.substring(dataurl.indexOf("src=\""));
             // Log.v("Slide", "FINAL:" + cut.substring(dataurl.indexOf("\"")));

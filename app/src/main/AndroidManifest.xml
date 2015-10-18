@@ -152,6 +152,9 @@
         <activity
             android:name=".Activities.SettingsTheme"
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.SettingsSubreddit"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".Activities.CommentsScreenPopup"
@@ -161,6 +164,9 @@
 
         <activity
             android:name=".Activities.EditCardsLayout"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".DragSort.ListViewDraggingAnimation"
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity

@@ -16,6 +16,7 @@
         android:layout_marginTop="16dp"
 
         android:layout_marginLeft="8dp"
+
         android:layout_marginRight="8dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -44,8 +45,8 @@
                     android:id="@+id/leadimage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:layout_alignParentLeft="true"
+                    android:scaleType="fitCenter"
+
                     android:adjustViewBounds="true"
                     android:src="@drawable/chameleon" />
 
@@ -101,86 +102,129 @@
 
 
                     >
-
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingRight="16dp">
-                        <TextView
-                            android:id="@+id/title"
+                        <LinearLayout
                             android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
-                            android:text="Chameleons are Cool!"
-                            android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle"
-                            />
-
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
+                            android:orientation="vertical"
+                            android:paddingBottom="16dp"
+                            android:layout_toLeftOf="@+id/thumbimage2"
+                            android:paddingLeft="16dp"
+                            android:paddingTop="16dp"
+                            android:paddingRight="16dp">
                             <TextView
-                                android:id="@+id/subreddit"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/title"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:paddingRight="5dp"
-                                android:text="/r/animals"
-
+                                android:paddingBottom="8dp"
+                                android:text="Chameleons are Cool!"
                                 android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardinfo"
-
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/information"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="6 hours ago"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content">
-
-                            <include
-                                android:id="@+id/nsfw"
-                                layout="@layout/nsfw"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-
+                                android:textSize="?attr/font_cardtitle"
                                 />
 
-                            <include
-                                android:id="@+id/pinned"
-                                layout="@layout/stickied"
+
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="8dp"
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:id="@+id/subreddit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:paddingRight="5dp"
+                                    android:text="/r/animals"
+
+                                    android:textColor="?attr/font"
+                                    android:textSize="?attr/font_cardinfo"
+
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/information"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:alpha=".56"
+
+                                    android:gravity="center_vertical"
+                                    android:text="6 hours ago"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfo" />
+                            </LinearLayout>
+
+                            <com.wefika.flowlayout.FlowLayout
+                                android:layout_width="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:src="@drawable/pinned" />
+
+                                android:layout_height="wrap_content">
+
+
+                                <TextView
+                                    android:id="@+id/score"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:alpha=".56"
+
+                                    android:layout_marginRight="8dp"
+                                    android:gravity="center_vertical"
+                                    android:text="204 points"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfo" />
+
+                                <TextView
+                                    android:id="@+id/comments"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="start"
+                                    android:alpha=".56"
+                                    android:layout_marginRight="8dp"
+
+                                    android:gravity="center_vertical"
+                                    android:text="402 comments"
+                                    android:textColor="?attr/font"
+
+                                    android:textSize="?attr/font_cardinfo" />
+
+                                <include
+                                    android:id="@+id/nsfw"
+                                    layout="@layout/nsfw"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="8dp"
+
+                                    />
+
+                                <include
+                                    android:id="@+id/pinned"
+                                    layout="@layout/stickied"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:src="@drawable/pinned" />
+                            </com.wefika.flowlayout.FlowLayout>
                         </LinearLayout>
-                    </LinearLayout>
+                        <ImageView
+                            android:id="@+id/thumbimage2"
+                            android:layout_width="wrap_content"
+                            android:maxWidth="70dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="8dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/chameleon"
+                            android:layout_height="70dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            /></RelativeLayout>
 
                     <LinearLayout
                         android:id="@+id/previewContent"
@@ -208,6 +252,7 @@
                                 android:paddingBottom="8dp"
                                 android:paddingTop="8dp"
                                 android:paddingLeft="16dp"
+                                android:id="@+id/base2"
 
                                 android:paddingRight="16dp">
 
@@ -224,7 +269,6 @@
                                 <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:id="@+id/base2"
 
                                     android:layout_gravity="center_vertical"
 
@@ -260,7 +304,7 @@
                     <RelativeLayout
                         android:id="@+id/actionbar"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="36dp"
                         android:orientation="horizontal"
 
                         android:paddingBottom="8dp"
@@ -268,38 +312,6 @@
                         android:paddingRight="8dp"
                         android:paddingTop="8dp">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:paddingLeft="8dp">
-
-                            <TextView
-                                android:id="@+id/score"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="204 points"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo" />
-
-                            <TextView
-                                android:id="@+id/comments"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="402 comments"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo" />
-                        </LinearLayout>
 
 
 
@@ -311,7 +323,6 @@
                             android:background="?android:selectableItemBackgroundBorderless"
 
                             android:layout_toLeftOf="@+id/upvote"
-                            android:padding="8dp"
                             android:src="@drawable/downvote" />
 
                         <ImageView
@@ -322,7 +333,6 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackgroundBorderless"
 
-                            android:padding="8dp"
                             android:src="@drawable/upvoted" />
 
                         <ImageView
@@ -333,7 +343,6 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackgroundBorderless"
 
-                            android:padding="8dp"
                             android:src="@drawable/more" />
 
                     </RelativeLayout>

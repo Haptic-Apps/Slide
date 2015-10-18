@@ -26,6 +26,14 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
     public static SharedPreferences subscriptions;
     public static Shortcut shortcut;
 
+    public static void setPins(ArrayList<String> pinns) {
+        String finals = "";
+        for (String s : pinns) {
+            finals = finals + s + ",";
+        }
+        subscriptions.edit().putString("pins" + Authentication.name, finals).apply();
+    }
+
 
     public static class GetCollections extends AsyncTask<String, Void, ArrayList<String>> {
 
@@ -68,7 +76,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             ArrayList<String> res = new ArrayList<>(value);
 
             ArrayList<String> test = new ArrayList<>();
-            test.addAll(sortNoValue(res));
+            test.addAll(res);
 
 
             ArrayList<String> newValues = new ArrayList<>();
@@ -113,13 +121,30 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
             return test;
         } else {
-            if (Authentication.isLoggedIn) {
-                finished.addAll(doUpdateSubsSave());
-            } else {
-                finished.addAll(Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts"));
-            }
-            if(params[0].loader != null) {
+            ArrayList<String> test = new ArrayList<>();
 
+            ArrayList<String> newValues = new ArrayList<>();
+            if(!test.contains("frontpage"))
+                test.add("frontpage");
+            if(!test.contains("all"))
+                test.add("all");
+
+            if (Authentication.isLoggedIn) {
+                for (String s : doUpdateSubsSave()) {
+                    if (!test.contains(s)) {
+                        newValues.add(s);
+                    }
+                }
+            } else {
+                for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")){
+                    if (!test.contains(s)) {
+                        newValues.add(s);
+                    }
+                }
+            }
+
+
+            if(params[0].loader != null) {
                 params[0].loader.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -128,8 +153,17 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                     }
                 });
             }
-            subredditsForHome = sort(finished);
-            alphabeticalSubscriptions = sort(new ArrayList<>(subredditsForHome));
+            test.addAll(sortNoValue(newValues));
+            if(test.contains("")){
+                test.remove("");
+            }
+            subredditsForHome = test;
+            DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
+            if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
+                DataShare.notifs = null;
+            }
+
+            alphabeticalSubscriptions = sort(new ArrayList<>(test));
             if(params[0].loader != null) {
 
                 params[0].startMain();
@@ -137,7 +171,10 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             if(shortcut != null){
                 shortcut.doShortcut();
             }
-            return subredditsForHome;
+
+
+
+            return test;
         }
 
     }
@@ -213,6 +250,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
 
         while(pag.hasNext()){
+            Log.v("Slide", "ADDING NEW SUBS");
             for (net.dean.jraw.models.Subreddit s : pag.next()) {
                 finished.add(s.getDisplayName().toLowerCase());
             }

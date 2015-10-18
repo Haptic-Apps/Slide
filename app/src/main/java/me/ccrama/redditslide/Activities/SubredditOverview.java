@@ -59,6 +59,7 @@ import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -95,6 +96,9 @@ public class SubredditOverview extends OverviewBase {
             pager.setCurrentItem(current);
         } else if (requestCode == 1) {
             restartTheme();
+        } else if(requestCode == 3){
+            new SubredditStorageNoContext().execute(SubredditOverview.this);
+
         }
     }
 
@@ -113,6 +117,16 @@ public class SubredditOverview extends OverviewBase {
                 tabs.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
+                int color = Pallete.getColor(subToDo);
+                hea.setBackgroundColor(color);
+                findViewById(R.id.header).setBackgroundColor(color);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.setStatusBarColor(Pallete.getDarkerColor(color));
+                    SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
+
+                }
+
             }
         });
 
@@ -154,7 +168,7 @@ public class SubredditOverview extends OverviewBase {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         ArrayList<String> tokens =  new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                        Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).apply();
+                        Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
                         Log.v("Slide", " CHOSEN IS " + accounts.get(which) + " AND TOKEN IS " + tokens.get(which) + " AND SHARED PREFS SAYS " + Authentication.authentication.getString("lasttoken", ""));
 
                         Reddit.forceRestart(SubredditOverview.this);
@@ -670,9 +684,30 @@ public class SubredditOverview extends OverviewBase {
                     dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(SubredditOverview.this, EditCardsLayout.class);
-                            i.putExtra("subreddit", subreddit);
-                            startActivityForResult(i, 1);
+                            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 1:
+                                            SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
+                                            reloadSubs();
+                                            break;
+                                        case 0:
+                                            SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                            reloadSubs();
+                                            break;
+
+                                    }
+                                }
+                            };
+                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
+                            builder.setTitle("Choose a Layout Type");
+                            builder.setSingleChoiceItems(
+                                    new String[]{"Default Layout", "Alternative Layout"}, i, l2);
+                            builder.show();
+
                         }
                     });
                     builder.setView(dialoglayout);
@@ -1254,9 +1289,6 @@ public class SubredditOverview extends OverviewBase {
                     case 5:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.WEEK;
-                        //TODO WEEK
-
-
                         reloadSubs();
                         break;
                     case 6:
@@ -1449,7 +1481,15 @@ public class SubredditOverview extends OverviewBase {
 
                 }
             });
+            header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(SubredditOverview.this, ListViewDraggingAnimation.class);
+                    SubredditOverview.this.startActivityForResult(inte, 3);
 
+
+                }
+            });
 
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -36,6 +36,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -49,11 +50,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
     public String subreddit;
 
+    boolean custom;
 
 
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = CreateCardView.CreateView( viewGroup, subreddit.toLowerCase(), subreddit.toLowerCase());
+        View v = CreateCardView.CreateView( viewGroup, custom, subreddit.toLowerCase());
 
         return new SubmissionViewHolder(v);
 
@@ -65,6 +67,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
         this.subreddit = subreddit;
         this.listView = listView;
         this.dataSet = dataSet.posts;
+
+        if(SettingValues.prefs.contains("PRESET" + subreddit)){
+            custom = true;
+        } else {
+            custom = false;
+        }
 
         isSame = false;
 
@@ -116,7 +124,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
         final Submission submission = dataSet.get(i);
         CreateCardView.resetColorCard(holder.itemView);
-                CreateCardView.colorCard(submission.getSubredditName(), holder.itemView, subreddit);
+                CreateCardView.colorCard(submission.getSubredditName(), holder.itemView, subreddit, custom);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override

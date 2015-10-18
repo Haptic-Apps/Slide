@@ -118,6 +118,7 @@ public class Authentication {
         protected Void doInBackground(String... subs) {
             try {
                 String token = authentication.getString("lasttoken", "");
+                Log.v("Slide", "TOKEN IS " + token);
                 if (!token.isEmpty()) {
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);

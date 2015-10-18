@@ -250,6 +250,35 @@
             android:gravity="center_vertical"
             android:layout_height="match_parent" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/reorder"
+        android:background="?android:selectableItemBackground"
+
+        android:orientation="horizontal"
+        android:paddingLeft="0dp"
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:paddingLeft="10dp"
+            android:tint="?attr/tint"
+
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/subreddit_listview"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="Reorder pins"
+            android:textColor="?attr/font"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/multi"

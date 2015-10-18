@@ -138,7 +138,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
     public static void forceRestart(Context context){
         Intent mStartActivity = new Intent(context, LoadingData.class);
-        int mPendingIntentId = 123456;
+        int mPendingIntentId = 654321;
         PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);

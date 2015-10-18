@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +19,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 import uz.shift.colorpicker.LineColorPicker;
@@ -27,7 +30,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsTheme extends BaseActivity {
+public class SettingsTheme extends BaseActivityNoAnim {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +135,58 @@ public class SettingsTheme extends BaseActivity {
             }
 
         });
+        //Color matching mode//
+        //Everywhere, not sub//
+        final TextView color = (TextView) findViewById(R.id.colormatchingwhere);
+        color.setText(CreateCardView.getColorMatchingMode(false).toString().replace("_", " ").toLowerCase());
+        findViewById(R.id.colormatchingwhere_touch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
+                //Inflating the Popup using xml file
+                popup.getMenu().add("Always Match");
+                popup.getMenu().add("Match Externally");
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                     CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())),false);
+                        color.setText(CreateCardView.getColorMatchingMode(false).toString().replace("_", " ").toLowerCase());
+
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+        //Color matching type//
+        //card, subreddit, or none//
+        final TextView matchingtype = (TextView) findViewById(R.id.colormatching);
+        matchingtype.setText(CreateCardView.getColorIndicator(false).toString().replace("_", " ").toLowerCase());
+        findViewById(R.id.colormatching_touch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
+                //Inflating the Popup using xml file
+                popup.getMenu().add("Card Background");
+                popup.getMenu().add("Text Color");
+                popup.getMenu().add("None");
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                       CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), false);
+                        matchingtype.setText(CreateCardView.getColorIndicator(false).toString().replace("_", " ").toLowerCase());
+
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

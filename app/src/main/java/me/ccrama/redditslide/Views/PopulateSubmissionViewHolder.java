@@ -206,89 +206,222 @@ public class PopulateSubmissionViewHolder {
             big = false;
         }
         holder.thumbImage.setVisibility(View.VISIBLE);
+        if(!full)
+        ((ImageView)holder.itemView.findViewById(R.id.thumbimage2)).setImageBitmap(null);
+        if(!(SettingValues.infoBar == SettingValues.InfoBar.NONE && !full)) {
 
-        boolean bigAtEnd = false;
-        String submissionURL = submission.getUrl();
-        if (type == ContentType.ImageType.IMAGE) {
-            url = ContentType.getFixedUrl(submission.getUrl());
-            if (big || fullscreen) {
-                if (full) {
-                    Ion.with(holder.leadImage).load(url);
+            boolean bigAtEnd = false;
+            String submissionURL = submission.getUrl();
+            if (type == ContentType.ImageType.IMAGE) {
+                url = ContentType.getFixedUrl(submission.getUrl());
+                if (big || fullscreen) {
+                    if (full) {
+                        Ion.with(holder.leadImage).load(url);
 
+                    } else {
+                        Glide.with(mContext).load(url).into(holder.leadImage);
+                    }
+                    holder.imageArea.setVisibility(View.VISIBLE);
+                    holder.previewContent.setVisibility(View.GONE);
+                    bigAtEnd = true;
                 } else {
-                    Glide.with(mContext).load(url).into(holder.leadImage);
-                }
-                holder.imageArea.setVisibility(View.VISIBLE);
-                holder.previewContent.setVisibility(View.GONE);
-                bigAtEnd = true;
-            } else {
-                if (full) {
-                    Ion.with(holder.thumbImage).load(url);
+                    if (full) {
+                        Ion.with(holder.thumbImage).load(url);
 
+                    } else {
+                        Glide.with(mContext).load(url).into(holder.thumbImage);
+                    }
+                    holder.imageArea.setVisibility(View.GONE);
+                    holder.previewContent.setVisibility(View.VISIBLE);
+                    bigAtEnd = false;
+                }
+            } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
+
+                boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
+                holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
+                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                if ((big || fullscreen) && !blurry) {
+                    if (full) {
+                        Ion.with(holder.leadImage).load(url);
+
+                    } else {
+                        Glide.with(mContext).load(url).into(holder.leadImage);
+                    }
+                    holder.imageArea.setVisibility(View.VISIBLE);
+                    holder.previewContent.setVisibility(View.GONE);
+                    bigAtEnd = true;
                 } else {
-                    Glide.with(mContext).load(url).into(holder.thumbImage);
+                    if (full) {
+                        Ion.with(holder.thumbImage).load(url);
+
+                    } else {
+                        if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL) {
+                            Glide.with(mContext).load(url).into((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+
+                        } else {
+                            Glide.with(mContext).load(url).into(holder.thumbImage);
+                        }
+                    }
+                    holder.imageArea.setVisibility(View.GONE);
+                    holder.previewContent.setVisibility(View.VISIBLE);
+                    bigAtEnd = false;
                 }
-                holder.imageArea.setVisibility(View.GONE);
-                holder.previewContent.setVisibility(View.VISIBLE);
-                bigAtEnd = false;
-            }
-        } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
+            } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+                holder.leadImage.setMinimumHeight(0);
 
-            boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
-            holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
-            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            if ((big || fullscreen) && !blurry) {
-                if (full) {
-                    Ion.with(holder.leadImage).load(url);
+                if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
+                    bigAtEnd = false;
+                    if (full) {
+                        Ion.with(holder.thumbImage).load(url);
 
+                    } else {
+                        if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL) {
+                            Glide.with(mContext).load(url).into((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+
+                        } else {
+                            Glide.with(mContext).load(url).into(holder.thumbImage);
+                        }
+                    }
+                    holder.imageArea.setVisibility(View.GONE);
+                    holder.previewContent.setVisibility(View.VISIBLE);
                 } else {
-                    Glide.with(mContext).load(url).into(holder.leadImage);
+                    bigAtEnd = false;
+                    holder.thumbImage.setVisibility(View.GONE);
+                    holder.imageArea.setVisibility(View.GONE);
+                    holder.previewContent.setVisibility(View.VISIBLE);
                 }
-                holder.imageArea.setVisibility(View.VISIBLE);
-                holder.previewContent.setVisibility(View.GONE);
-                bigAtEnd = true;
-            } else {
-                if (full) {
-                    Ion.with(holder.thumbImage).load(url);
-
-                } else {
-                    Glide.with(mContext).load(url).into(holder.thumbImage);
-                }
-                holder.imageArea.setVisibility(View.GONE);
-                holder.previewContent.setVisibility(View.VISIBLE);
-                bigAtEnd = false;
-            }
-        } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-            holder.leadImage.setMinimumHeight(0);
-
-            if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
-                bigAtEnd = false;
-                if (full) {
-                    Ion.with(holder.thumbImage).load(url);
-
-                } else {
-                    Glide.with(mContext).load(url).into(holder.thumbImage);
-                }
-                holder.imageArea.setVisibility(View.GONE);
-                holder.previewContent.setVisibility(View.VISIBLE);
             } else {
                 bigAtEnd = false;
                 holder.thumbImage.setVisibility(View.GONE);
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
             }
+
+
+            if (bigAtEnd) {
+                holder.thumbImage.setVisibility(View.GONE);
+            }
+            TextView title;
+            TextView info;
+            if (bigAtEnd) {
+                title = holder.textImage;
+                info = holder.subTextImage;
+            } else {
+                title = holder.contentTitle;
+                info = holder.contentURL;
+            }
+            if(SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full){
+                holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
+            } else if(!full){
+                holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+
+            }
+            title.setVisibility(View.VISIBLE);
+            info.setVisibility(View.VISIBLE);
+
+            switch (type) {
+                case NSFW_IMAGE:
+                    title.setText("NSFW image");
+                    break;
+                case NSFW_GIF:
+                    title.setText("NSFW GIF");
+
+                    break;
+                case NSFW_GFY:
+                    title.setText("NSFW GIF");
+
+                    break;
+                case REDDIT:
+                    title.setText("Reddit link");
+
+                    break;
+                case LINK:
+                    title.setText("Link");
+
+                    break;
+                case IMAGE_LINK:
+                    title.setText("Link");
+
+                    break;
+                case NSFW_LINK:
+                    title.setText("NSFW Link");
+
+                    break;
+                case SELF:
+                    title.setVisibility(View.GONE);
+                    info.setVisibility(View.GONE);
+                    if (!bigAtEnd)
+                        holder.previewContent.setVisibility(View.GONE);
+                    break;
+                case GFY:
+                    title.setText("GIF");
+
+                    break;
+                case ALBUM:
+                    title.setText("Album");
+
+
+                    break;
+                case IMAGE:
+                    title.setVisibility(View.GONE);
+                    info.setVisibility(View.GONE);
+                    break;
+                case GIF:
+                    title.setText("GIF");
+
+                    break;
+                case NONE_GFY:
+                    title.setText("GIF");
+
+                    break;
+                case NONE_GIF:
+                    title.setText("GIF");
+
+                    break;
+                case NONE:
+                    title.setText("Title post");
+
+                    break;
+                case NONE_IMAGE:
+                    title.setText("Image");
+
+                    break;
+                case VIDEO:
+                    title.setText("Video");
+
+                    break;
+                case EMBEDDED:
+                    title.setText("Embedded");
+
+                    break;
+                case NONE_URL:
+                    title.setText("Link");
+
+                    break;
+            }
+            View baseView;
+
+            try {
+                info.setText(getDomainName(submission.getUrl()));
+            } catch (URISyntaxException e1) {
+                e1.printStackTrace();
+            }
+            if (bigAtEnd) {
+                baseView = holder.imageArea;
+            } else {
+                baseView = holder.previewContent;
+            }
+            addClickFunctions(holder.imageArea, baseView, type, (Activity) mContext, submission);
+            addClickFunctions(holder.thumbImage, baseView, type, (Activity) mContext, submission);
+            addClickFunctions(holder.leadImage, baseView, type, (Activity) mContext, submission);
+
+            addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission);
         } else {
-            bigAtEnd = false;
-            holder.thumbImage.setVisibility(View.GONE);
             holder.imageArea.setVisibility(View.GONE);
-            holder.previewContent.setVisibility(View.VISIBLE);
+            holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
+            holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+
         }
-
-
-        if (bigAtEnd) {
-            holder.thumbImage.setVisibility(View.GONE);
-        }
-
 
         View pinned = holder.itemView.findViewById(R.id.pinned);
 
@@ -324,104 +457,6 @@ public class PopulateSubmissionViewHolder {
 
         }
 
-        TextView title;
-        TextView info;
-        if (bigAtEnd) {
-            title = holder.textImage;
-            info = holder.subTextImage;
-        } else {
-            title = holder.contentTitle;
-            info = holder.contentURL;
-        }
-        title.setVisibility(View.VISIBLE);
-        info.setVisibility(View.VISIBLE);
-
-        switch (type) {
-            case NSFW_IMAGE:
-                title.setText("NSFW image");
-                break;
-            case NSFW_GIF:
-                title.setText("NSFW GIF");
-
-                break;
-            case NSFW_GFY:
-                title.setText("NSFW GIF");
-
-                break;
-            case REDDIT:
-                title.setText("Reddit link");
-
-                break;
-            case LINK:
-                title.setText("Link");
-
-                break;
-            case IMAGE_LINK:
-                title.setText("Link");
-
-                break;
-            case NSFW_LINK:
-                title.setText("NSFW Link");
-
-                break;
-            case SELF:
-                title.setVisibility(View.GONE);
-                info.setVisibility(View.GONE);
-                if (!bigAtEnd)
-                    holder.previewContent.setVisibility(View.GONE);
-                break;
-            case GFY:
-                title.setText("GIF");
-
-                break;
-            case ALBUM:
-                title.setText("Album");
-
-
-                break;
-            case IMAGE:
-                title.setVisibility(View.GONE);
-                info.setVisibility(View.GONE);
-                break;
-            case GIF:
-                title.setText("GIF");
-
-                break;
-            case NONE_GFY:
-                title.setText("GIF");
-
-                break;
-            case NONE_GIF:
-                title.setText("GIF");
-
-                break;
-            case NONE:
-                title.setText("Title post");
-
-                break;
-            case NONE_IMAGE:
-                title.setText("Image");
-
-                break;
-            case VIDEO:
-                title.setText("Video");
-
-                break;
-            case EMBEDDED:
-                title.setText("Embedded");
-
-                break;
-            case NONE_URL:
-                title.setText("Link");
-
-                break;
-        }
-
-        try {
-            info.setText(getDomainName(submission.getUrl()));
-        } catch (URISyntaxException e1) {
-            e1.printStackTrace();
-        }
 
 
         try {
@@ -486,18 +521,8 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setVisibility(View.GONE);
 
             }
-            View baseView;
 
-            if (bigAtEnd) {
-                baseView = holder.imageArea;
-            } else {
-                baseView = holder.previewContent;
-            }
-            addClickFunctions(holder.imageArea, baseView, type, (Activity) mContext, submission);
-            addClickFunctions(holder.thumbImage, baseView, type, (Activity) mContext, submission);
-            addClickFunctions(holder.leadImage, baseView, type, (Activity) mContext, submission);
 
-            addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission);
 
         } catch (Exception e) {
 

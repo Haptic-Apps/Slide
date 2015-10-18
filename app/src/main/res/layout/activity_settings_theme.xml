@@ -23,9 +23,13 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <RelativeLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
 
+        android:orientation="vertical"
         android:layout_height="match_parent"
         >
 
@@ -46,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="-24dp"
+            android:layout_gravity="right"
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_below="@+id/card"
@@ -138,6 +143,99 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/colormatching_touch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
 
-    </RelativeLayout>
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/color"
+                android:tint="?attr/tint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingRight="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Subreddit Color Indicator"
+                    android:textStyle="bold"
+                    android:textColor="?attr/font"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Card"
+                    android:id="@+id/colormatching"
+                    android:textColor="?attr/font"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/colormatchingwhere_touch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/theme"
+                android:tint="?attr/tint" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingRight="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Where to Show Color Indicator"
+                    android:textColor="?attr/font"
+                    android:textStyle="bold"
+
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Everywhere"
+                    android:id="@+id/colormatchingwhere"
+
+                    android:textColor="?attr/font"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

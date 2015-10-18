@@ -36,7 +36,7 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
             ArrayList<String> res = new ArrayList<>(value);
 
             ArrayList<String> test = new ArrayList<>();
-            test.addAll(sortNoValue(res));
+            test.addAll(res);
 
             ArrayList<String> newValues = new ArrayList<>();
             if(!test.contains("frontpage"))

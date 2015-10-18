@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+
         android:layout_marginBottom="1dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -42,7 +43,7 @@
                     android:id="@+id/leadimage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
 
                     android:adjustViewBounds="true"
                     android:src="@drawable/chameleon" />
@@ -99,18 +100,17 @@
 
 
                     >
-
-
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:orientation="horizontal"
                         android:layout_height="wrap_content">
+
                         <LinearLayout
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:paddingBottom="8dp"
+                            android:layout_toLeftOf="@+id/thumbimage2"
                             android:paddingLeft="8dp"
                             android:paddingTop="8dp"
                             android:paddingRight="8dp">
@@ -157,10 +157,14 @@
 
                                     android:textSize="?attr/font_cardinfoc" />
                             </LinearLayout>
-                            <LinearLayout
+
+                            <com.wefika.flowlayout.FlowLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_marginTop="4dp"
+
+                                android:layout_height="wrap_content">
+
+
                                 <TextView
                                     android:id="@+id/score"
                                     android:layout_width="wrap_content"
@@ -168,12 +172,12 @@
                                     android:layout_gravity="start"
                                     android:alpha=".56"
 
+                                    android:layout_marginRight="4dp"
                                     android:gravity="center_vertical"
                                     android:text="204 points"
                                     android:textColor="?attr/font"
 
-                                    android:textSize="?attr/font_cardinfoc"
-                                    />
+                                    android:textSize="?attr/font_cardinfoc" />
 
                                 <TextView
                                     android:id="@+id/comments"
@@ -181,28 +185,45 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="start"
                                     android:alpha=".56"
+                                    android:layout_marginRight="8dp"
 
-                                    android:layout_marginLeft="8dp"
                                     android:gravity="center_vertical"
                                     android:text="402 comments"
                                     android:textColor="?attr/font"
 
-                                    android:textSize="?attr/font_cardinfoc"
+                                    android:textSize="?attr/font_cardinfoc" />
+
+                                <include
+                                    android:id="@+id/nsfw"
+                                    layout="@layout/nsfw"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="8dp"
+
                                     />
-                            </LinearLayout>
+
+                                <include
+                                    android:id="@+id/pinned"
+                                    layout="@layout/stickied"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:src="@drawable/pinned" />
+                            </com.wefika.flowlayout.FlowLayout>
                         </LinearLayout>
                         <ImageView
-                            android:id="@+id/thumbimage"
+                            android:id="@+id/thumbimage2"
                             android:layout_width="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:maxWidth="60dp"
+                            android:maxWidth="50dp"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="8dp"
-                            android:layout_height="60dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/chameleon"
+                            android:layout_height="50dp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/chameleon" />
-                    </RelativeLayout>
+                            /></RelativeLayout>
+
                     <LinearLayout
                         android:id="@+id/previewContent"
                         android:layout_width="match_parent"
@@ -223,22 +244,29 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:maxHeight="82dp"
-                                android:id="@+id/body2"
                                 android:orientation="horizontal"
                                 android:background="?android:selectableItemBackground"
 
-                                android:paddingBottom="8dp"
-                                android:paddingTop="8dp"
+                                android:paddingBottom="4dp"
+                                android:paddingTop="4dp"
                                 android:paddingLeft="8dp"
+                                android:id="@+id/base2"
 
-                                android:paddingRight="8dp">
+                                android:paddingRight="16dp">
 
+                                <ImageView
+                                    android:id="@+id/thumbimage"
+                                    android:layout_width="wrap_content"
+                                    android:maxWidth="40dp"
+                                    android:layout_marginRight="8dp"
+                                    android:layout_height="40dp"
+                                    android:adjustViewBounds="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/chameleon" />
 
-
-                                <com.wefika.flowlayout.FlowLayout
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:id="@+id/base2"
 
                                     android:layout_gravity="center_vertical"
 
@@ -248,9 +276,7 @@
                                     <TextView
                                         android:id="@+id/contenttitle"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-
-                                        android:gravity="center_vertical"
+                                        android:layout_height="wrap_content"
                                         android:text="imgur"
                                         android:textColor="?attr/font"
                                         android:textStyle="bold"
@@ -259,33 +285,14 @@
                                     <TextView
                                         android:id="@+id/contenturl"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="match_parent"
-
-                                        android:gravity="center_vertical"
-                                        android:alpha=".56"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginLeft="8dp"
-                                        android:layout_marginRight="8dp"
+                                        android:alpha=".56"
 
                                         android:text="imgur.com/a/alskfdj"
                                         android:textColor="?attr/font"
                                         android:textSize="?attr/font_cardinfoc" />
-                                    <include
-                                        android:id="@+id/nsfw"
-                                        layout="@layout/nsfw"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginRight="8dp"
-
-                                        />
-
-                                    <include
-                                        android:id="@+id/pinned"
-                                        layout="@layout/stickied"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:src="@drawable/pinned" />
-                                </com.wefika.flowlayout.FlowLayout>
+                                </LinearLayout>
 
                             </LinearLayout>
 
@@ -296,7 +303,7 @@
                     <RelativeLayout
                         android:id="@+id/actionbar"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="36dp"
                         android:orientation="horizontal"
 
                         android:paddingBottom="8dp"
@@ -315,7 +322,6 @@
                             android:background="?android:selectableItemBackground"
 
                             android:layout_toLeftOf="@+id/upvote"
-                            android:padding="8dp"
                             android:src="@drawable/downvote" />
 
                         <ImageView
@@ -326,7 +332,6 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
-                            android:padding="8dp"
                             android:src="@drawable/upvoted" />
 
                         <ImageView
@@ -337,7 +342,6 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
-                            android:padding="8dp"
                             android:src="@drawable/more" />
 
                     </RelativeLayout>

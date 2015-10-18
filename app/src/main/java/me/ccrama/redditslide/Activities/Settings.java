@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends BaseActivity {
+public class Settings extends BaseActivityNoAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -79,6 +79,13 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsGeneral.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.subtheme).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsSubreddit.class);
                 startActivityForResult(i, 2);
             }
         });
@@ -157,6 +164,14 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, EditCardsLayout.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.preset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, EditCardsLayout.class);
+                i.putExtra("secondary", "yes");
                 startActivityForResult(i, 2);
             }
         });

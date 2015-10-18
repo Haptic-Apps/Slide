@@ -20,7 +20,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsGeneral extends BaseActivity {
+public class SettingsGeneral extends BaseActivityNoAnim {
 
 
     public void onCreate(Bundle savedInstanceState) {

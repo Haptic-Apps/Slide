@@ -63,6 +63,7 @@ public class SubredditView extends BaseActivity {
     public DrawerLayout drawerLayout;
     SwipeRefreshLayout mSwipeRefreshLayout;
     RecyclerView rv;
+
     public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -85,6 +86,7 @@ public class SubredditView extends BaseActivity {
             return null;
         }
     }
+
     public void restartTheme() {
         Intent intent = this.getIntent();
         startActivity(intent);
@@ -92,17 +94,19 @@ public class SubredditView extends BaseActivity {
         finish();
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == 2) {
             // Make sure the request was successful
-            adapter = new SubmissionAdapter(this, posts, rv, subreddit );
+            adapter = new SubmissionAdapter(this, posts, rv, subreddit);
             rv.setAdapter(adapter);
         } else if (requestCode == 1) {
             restartTheme();
         }
     }
+
     public String subreddit;
 
     @Override
@@ -129,7 +133,7 @@ public class SubredditView extends BaseActivity {
         getSupportActionBar().setTitle(subreddit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);
@@ -148,7 +152,7 @@ public class SubredditView extends BaseActivity {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new SubredditPosts(subreddit);
-        adapter = new SubmissionAdapter(this, posts, rv, subreddit );
+        adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);
 
         doSubSidebar(subreddit);
@@ -177,7 +181,6 @@ public class SubredditView extends BaseActivity {
         );
 
 
-
         findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,34 +193,34 @@ public class SubredditView extends BaseActivity {
             @Override
             public void onClick(View v) {
                 {
-                    if(Reddit.tabletUI) {
-                        if(posts.posts != null) {
+                    if (Reddit.tabletUI) {
+                        if (posts.posts != null) {
                             DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
                             i.putExtra("position", 0);
                             startActivity(i);
                         }
                     } else {
-                    new AlertDialogWrapper.Builder(SubredditView.this)
-                            .setTitle("Slide for Reddit Pro")
-                            .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
-                                    "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
-                                    "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
-                                    "Would you like to unlock Slide for Reddit Pro?")
-                            .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                        new AlertDialogWrapper.Builder(SubredditView.this)
+                                .setTitle("Slide for Reddit Pro")
+                                .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
+                                        "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
+                                        "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
+                                        "Would you like to unlock Slide for Reddit Pro?")
+                                .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        try {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                        } catch (android.content.ActivityNotFoundException anfe) {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                        }
                                     }
-                                }
-                            }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                                }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                        }
-                    }).show();
-                }
+                            }
+                        }).show();
+                    }
                 }
             }
         });
@@ -241,6 +244,7 @@ public class SubredditView extends BaseActivity {
             }
         });
     }
+
     public int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
@@ -586,9 +590,11 @@ public class SubredditView extends BaseActivity {
         builder.show();
 
     }
+
     public void reloadSubs() {
-restartTheme();
+        restartTheme();
     }
+
     public void doSubOnlyStuff(Subreddit subreddit) {
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             final String text = subreddit.getDataNode().get("description_html").asText();
@@ -616,14 +622,14 @@ restartTheme();
         }
     }
 
-    public void doSubSidebar(final String subreddit){
-        if(!subreddit.equals("all") && !subreddit.equals("frontpage")) {
-            if(drawerLayout != null)
+    public void doSubSidebar(final String subreddit) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+            if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
             new AsyncGetSubreddit().execute(subreddit);
             findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
-            ((TextView)findViewById(R.id.sub_infotitle)).setText(subreddit);
+            ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
             CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -655,7 +661,7 @@ restartTheme();
             c.setHighlightColor(new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit, true).getColor());
 
 
-            if(subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") ){
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -871,8 +877,8 @@ restartTheme();
 
                             int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                             int i = 0;
-                            for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                if(type.getThemeType() == 0) {
+                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                if (type.getThemeType() == 0) {
                                     arrs[i] = getResources().getColor(type.getColor());
 
                                     i++;
@@ -892,8 +898,8 @@ restartTheme();
                                     public void onClick(View v) {
                                         int color = colorPicker.getColor();
                                         ColorPreferences.Theme t = null;
-                                        for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                            if(getResources().getColor(type.getColor()) == color  && Reddit.themeBack == type.getThemeType()){
+                                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                            if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                                 t = type;
                                                 break;
                                             }
@@ -923,7 +929,6 @@ restartTheme();
                                         }
 
 
-
                                     }
                                 });
 
@@ -946,11 +951,10 @@ restartTheme();
                 }
             });
         } else {
-            if(drawerLayout != null)
+            if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
         }
     }
-
 
 
 }

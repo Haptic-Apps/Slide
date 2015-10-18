@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -81,7 +82,6 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
 
     Toolbar toolbar;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -93,6 +93,9 @@ public class SubredditOverviewSingle extends OverviewBase  {
             pager.setCurrentItem(current);
         } else if (requestCode == 1) {
             restartTheme();
+        } else if(requestCode == 3){
+            new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
+
         }
     }
 
@@ -127,13 +130,23 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 pager.setAdapter(adapter);
+
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
+                int color = usedArray.indexOf(subToDo);
+                hea.setBackgroundColor(color);
+                findViewById(R.id.header).setBackgroundColor(color);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.setStatusBarColor(Pallete.getDarkerColor(color));
+                    SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
+
+                }
+
             }
         });
 
 
     }
-
     public void reloadSubs() {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -641,9 +654,30 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(SubredditOverviewSingle.this, EditCardsLayout.class);
-                        i.putExtra("subreddit", subreddit);
-                        startActivityForResult(i, 1);
+                        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                switch (i) {
+                                    case 1:
+                                        SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
+                                        reloadSubs();
+                                        break;
+                                    case 0:
+                                        SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                        reloadSubs();
+                                        break;
+
+                                }
+                            }
+                        };
+                        int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
+                        builder.setTitle("Choose a Layout Type");
+                        builder.setSingleChoiceItems(
+                                new String[]{"Default Layout", "Alternative Layout"}, i, l2);
+                        builder.show();
+
                     }
                 });
                 builder.setView(dialoglayout);
@@ -1223,7 +1257,6 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     case 5:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.WEEK;
-                        //TODO WEEK
 
 
                         reloadSubs();
@@ -1414,7 +1447,15 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
                 }
             });
+            header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(SubredditOverviewSingle.this, ListViewDraggingAnimation.class);
+                    SubredditOverviewSingle.this.startActivityForResult(inte, 3);
 
+
+                }
+            });
 
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override

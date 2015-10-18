@@ -24,7 +24,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class EditCardsLayout extends BaseActivity {
+public class EditCardsLayout extends BaseActivityNoAnim {
 
     ViewPager pager;
     String subreddit;
@@ -33,8 +33,8 @@ public class EditCardsLayout extends BaseActivity {
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-        if (getIntent() != null && getIntent().hasExtra("subreddit")) {
-            subreddit = getIntent().getExtras().getString("subreddit", "");
+        if (getIntent() != null && getIntent().hasExtra("secondary")) {
+            subreddit = getIntent().getExtras().getString("secondary", "");
         } else {
             subreddit = "";
         }
@@ -52,13 +52,13 @@ public class EditCardsLayout extends BaseActivity {
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();
-        layout.addView(CreateCardView.CreateView(layout, subreddit, subreddit));
+        layout.addView(CreateCardView.CreateView(layout, (!subreddit.isEmpty()), subreddit));
 
         //View type//
         //Cards or List//
 
         final CheckBox cardmode = (CheckBox) findViewById(R.id.cardmode);
-        cardmode.setChecked(CreateCardView.isCard(subreddit));
+        cardmode.setChecked(CreateCardView.isCard(!subreddit.isEmpty()));
 
 
         cardmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -66,10 +66,10 @@ public class EditCardsLayout extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     layout.removeAllViews();
-                    layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout, subreddit, subreddit));
+                    layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout, !subreddit.isEmpty(), subreddit));
                 } else {
                     layout.removeAllViews();
-                    layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, subreddit, subreddit));
+                    layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, !subreddit.isEmpty(), subreddit));
 
                 }
             }
@@ -80,106 +80,24 @@ public class EditCardsLayout extends BaseActivity {
         //Link preview//
         //Big, Infobar, thumb only//
         final TextView infobar = (TextView) findViewById(R.id.infobar);
-        infobar.setText(CreateCardView.getInfoBar(subreddit).toString().replace("_", " ").toLowerCase());
+        infobar.setText(CreateCardView.getInfoBar(!subreddit.isEmpty()).toString().replace("_", " ").toLowerCase());
         findViewById(R.id.infobar_click).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
                 //Inflating the Popup using xml file
                 popup.getMenu().add("Big picture");
+                popup.getMenu().add("Big picture cropped");
                 popup.getMenu().add("Info bar");
                 popup.getMenu().add("Thumbnail");
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        layout.removeAllViews();
-                        layout.addView(CreateCardView.setInfoBarVisible(SettingValues.InfoBar.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), layout, subreddit, subreddit));
-                        infobar.setText(CreateCardView.getInfoBar(subreddit).toString().replace("_", " ").toLowerCase());
-
-                        return true;
-                    }
-                });
-
-                popup.show();
-            }
-        });
-
-        //Too tall//
-        //Crop, show full//
-
-
-        final CheckBox crop = (CheckBox) findViewById(R.id.cropped);
-        crop.setChecked(CreateCardView.getCroppedImage(subreddit));
-
-
-        crop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setCropped(isChecked, layout, subreddit, subreddit));
-
-            }
-        });
-
-        //Actionbar//
-        //Enable, collapse//
-        final CheckBox actionbar = (CheckBox) findViewById(R.id.action);
-        actionbar.setChecked(CreateCardView.isActionBar(subreddit));
-        actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setActionBarVisible(isChecked, layout, subreddit, subreddit));
-
-            }
-        });
-
-        //Color matching mode//
-        //Everywhere, not sub//
-        final TextView color = (TextView) findViewById(R.id.colormatchingwhere);
-        color.setText(CreateCardView.getColorMatchingMode(subreddit).toString().replace("_", " ").toLowerCase());
-        findViewById(R.id.colormatchingwhere_touch).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
-                //Inflating the Popup using xml file
-                popup.getMenu().add("Always Match");
-                popup.getMenu().add("Match Externally");
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        layout.removeAllViews();
-                        layout.addView(CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), layout, subreddit, subreddit));
-                        color.setText(CreateCardView.getColorMatchingMode(subreddit).toString().replace("_", " ").toLowerCase());
-
-                        return true;
-                    }
-                });
-
-                popup.show();
-            }
-        });
-        //Color matching type//
-        //card, subreddit, or none//
-        final TextView matchingtype = (TextView) findViewById(R.id.colormatching);
-        matchingtype.setText(CreateCardView.getColorIndicator(subreddit).toString().replace("_", " ").toLowerCase());
-        findViewById(R.id.colormatching_touch).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
-                //Inflating the Popup using xml file
-                popup.getMenu().add("Card Background");
-                popup.getMenu().add("Text Color");
                 popup.getMenu().add("None");
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         layout.removeAllViews();
-                        layout.addView(CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), layout, subreddit, subreddit));
-                        matchingtype.setText(CreateCardView.getColorIndicator(subreddit).toString().replace("_", " ").toLowerCase());
+                        layout.addView(CreateCardView.setInfoBarVisible(SettingValues.InfoBar.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), layout, !subreddit.isEmpty(), subreddit));
+                        infobar.setText(CreateCardView.getInfoBar(!subreddit.isEmpty()).toString().replace("_", " ").toLowerCase());
 
                         return true;
                     }
@@ -188,6 +106,22 @@ public class EditCardsLayout extends BaseActivity {
                 popup.show();
             }
         });
+
+
+
+        //Actionbar//
+        //Enable, collapse//
+        final CheckBox actionbar = (CheckBox) findViewById(R.id.action);
+        actionbar.setChecked(CreateCardView.isActionBar(!subreddit.isEmpty()));
+        actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setActionBarVisible(isChecked, layout, !subreddit.isEmpty(), subreddit));
+
+            }
+        });
+
 
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,21 +129,14 @@ public class EditCardsLayout extends BaseActivity {
                 SharedPreferences.Editor edit = SettingValues.prefs.edit();
                 edit.remove(subreddit + "actionBarVisible");
                 edit.remove(subreddit + "largeThumbnails");
-                edit.remove(subreddit + "croppedImage");
                 edit.remove(subreddit + "defaultCardView");
                 edit.remove(subreddit + "NSFWPreviews");
-                edit.remove(subreddit + "ccolorMatchingMode");
-                edit.remove(subreddit + "colorIndicator");
                 edit.remove(subreddit + "infoBarType");
                 edit.apply();
                 layout.removeAllViews();
-                layout.addView(CreateCardView.CreateView(layout, subreddit, subreddit));
-                color.setText(CreateCardView.getColorMatchingMode(subreddit).toString().replace("_", " ").toLowerCase());
-                actionbar.setChecked(CreateCardView.isActionBar(subreddit));
-                crop.setChecked(CreateCardView.getCroppedImage(subreddit));
-                infobar.setText(CreateCardView.getInfoBar(subreddit).toString().replace("_", " ").toLowerCase());
-
-                matchingtype.setText(CreateCardView.getColorIndicator(subreddit).toString().replace("_", " ").toLowerCase());
+                layout.addView(CreateCardView.CreateView(layout, !subreddit.isEmpty(), subreddit));
+                actionbar.setChecked(CreateCardView.isActionBar(!subreddit.isEmpty()));
+                infobar.setText(CreateCardView.getInfoBar(!subreddit.isEmpty()).toString().replace("_", " ").toLowerCase());
 
             }
         });

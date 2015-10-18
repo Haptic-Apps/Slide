@@ -6,7 +6,14 @@
     android:layout_height="match_parent"
     android:background="?attr/activity_background"
     android:orientation="vertical">
-
+<!--so card enable/disable
+9:45:18 AM
+3 choices, bigpic(reverts to infobar), infobar, thumbnail
+9:45:29 AM
+Display thumbs left or right if thumb is selected
+9:45:37 AM
+Actionbar collapsible or always visible
+@-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -43,6 +50,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/card"
+            android:orientation="vertical"
             android:layout_marginBottom="20dp"
 
             android:layout_height="wrap_content">
@@ -83,42 +91,6 @@
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/general"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:orientation="horizontal"
-
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/imagedarker"
-                android:tint="?attr/tint" />
-
-            <CheckBox
-                android:id="@+id/cropped"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:selectableItemBackground"
-                android:backgroundTint="?attr/tint"
-                android:button="@null"
-                android:buttonTint="?attr/tint"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:drawableTint="?attr/tint"
-                android:hapticFeedbackEnabled="true"
-                android:text="Crop image height"
-                android:textColor="?attr/font"
-                android:textColorHint="?attr/font" />
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/info"
@@ -136,7 +108,7 @@
                 android:paddingBottom="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp"
-                android:src="@drawable/link"
+                android:src="@drawable/imagedarker"
                 android:tint="?attr/tint" />
 
             <LinearLayout
@@ -152,111 +124,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Link Preview"
+                    android:text="Image Mode"
                     android:textColor="?attr/font"
-                    android:textSize="16dp" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Big picture"
+                    android:text="None"
                     android:id="@+id/infobar"
                     android:textColor="?attr/font"
-                    android:textSize="14dp" />
+                    android:textSize="12dp" />
             </LinearLayout>
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/colormatching_touch"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/color"
-                android:tint="?attr/tint" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingRight="16dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Color matching"
-                android:textColor="?attr/font"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Card"
-                android:id="@+id/colormatching"
-                android:textColor="?attr/font"
-                android:textSize="14dp" />
-</LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/colormatchingwhere_touch"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/theme"
-                android:tint="?attr/tint" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingRight="16dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Where to Color Match"
-                android:textColor="?attr/font"
-                android:textSize="16dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:text="Everywhere"
-                android:id="@+id/colormatchingwhere"
-
-                android:textColor="?attr/font"
-                android:textSize="14dp" />
-</LinearLayout>
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/theme"
@@ -276,7 +159,7 @@
                 android:paddingBottom="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp"
-                android:src="@drawable/hide"
+                android:src="@drawable/ic_visibility_white_36dp"
                 android:tint="?attr/tint" />
 
             <CheckBox
