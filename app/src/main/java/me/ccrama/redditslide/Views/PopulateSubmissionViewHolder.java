@@ -10,14 +10,12 @@ import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.bumptech.glide.Glide;
@@ -141,9 +139,8 @@ public class PopulateSubmissionViewHolder {
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                        clipboard.setText("http://reddit.com" + submission.getPermalink());
-                        Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
                     }
                 });
                 if (!Authentication.isLoggedIn) {
@@ -203,7 +200,11 @@ public class PopulateSubmissionViewHolder {
         ContentType.ImageType type = ContentType.getImageType(submission);
 
         String url = "";
-        boolean big = SettingValues.largeThumbnails;
+
+        boolean big = true;
+        if(SettingValues.infoBar == SettingValues.InfoBar.INFO_BAR || SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL){
+            big = false;
+        }
         holder.thumbImage.setVisibility(View.VISIBLE);
 
         boolean bigAtEnd = false;
@@ -283,9 +284,7 @@ public class PopulateSubmissionViewHolder {
             holder.previewContent.setVisibility(View.VISIBLE);
         }
 
-        if (!SettingValues.infoBar && !fullscreen) {
-            holder.previewContent.setVisibility(View.GONE);
-        }
+
         if (bigAtEnd) {
             holder.thumbImage.setVisibility(View.GONE);
         }
@@ -776,18 +775,22 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openGif(final boolean gfy, Activity contextActivity, Submission submission) {
-        DataShare.sharedSubmission = submission;
+        if(Reddit.gif) {
+            DataShare.sharedSubmission = submission;
 
-        Intent myIntent = new Intent(contextActivity, GifView.class);
-        if (gfy) {
-            myIntent.putExtra("url", "gfy" + submission.getUrl());
+            Intent myIntent = new Intent(contextActivity, GifView.class);
+            if (gfy) {
+                myIntent.putExtra("url", "gfy" + submission.getUrl());
+            } else {
+                myIntent.putExtra("url", "" + submission.getUrl());
+
+            }
+            contextActivity.startActivity(myIntent);
+            contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
         } else {
-            myIntent.putExtra("url", "" + submission.getUrl());
+            Reddit.defaultShare(submission.getUrl(), contextActivity);
 
         }
-        contextActivity.startActivity(myIntent);
-        contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
-
 
     }
 

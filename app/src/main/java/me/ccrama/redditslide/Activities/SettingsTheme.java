@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,7 +27,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsTheme extends ActionBarActivity {
+public class SettingsTheme extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {

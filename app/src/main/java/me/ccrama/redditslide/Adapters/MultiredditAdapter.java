@@ -13,12 +13,10 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -156,9 +154,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                        clipboard.setText("http://reddit.com" + submission.getPermalink());
-                        Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
                     }
                 });
                 if (!Authentication.isLoggedIn) {

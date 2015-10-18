@@ -113,13 +113,13 @@ public class Login extends BaseActivity {
                             builder.setMessage("In order to sync subreddits and settings, Slide will restart");
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    ((Reddit) getApplication()).restart();
+                                   Reddit.forceRestart(Login.this);
                                 }
                             });
                             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                                 @Override
                                 public void onCancel(DialogInterface dialog) {
-                                    ((Reddit) getApplication()).restart();
+                                    Reddit.forceRestart(Login.this);
 
                                 }
                             });

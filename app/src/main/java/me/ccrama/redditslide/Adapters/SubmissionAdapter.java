@@ -14,12 +14,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -52,9 +50,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     public String subreddit;
 
 
+
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = CreateCardView.CreateView( viewGroup, subreddit);
+        View v = CreateCardView.CreateView( viewGroup, subreddit.toLowerCase(), subreddit.toLowerCase());
 
         return new SubmissionViewHolder(v);
 
@@ -70,6 +69,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
         isSame = false;
 
     }
+
 
 
     boolean isSame;
@@ -115,6 +115,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     public void onBindViewHolder(final SubmissionViewHolder holder, final int i) {
 
         final Submission submission = dataSet.get(i);
+        CreateCardView.resetColorCard(holder.itemView);
+                CreateCardView.colorCard(submission.getSubredditName(), holder.itemView, subreddit);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -199,9 +201,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                        clipboard.setText("http://reddit.com" + submission.getPermalink());
-                        Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
                     }
                 });
                 if (!Authentication.isLoggedIn) {

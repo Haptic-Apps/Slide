@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
@@ -21,7 +20,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsGeneral extends ActionBarActivity {
+public class SettingsGeneral extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {

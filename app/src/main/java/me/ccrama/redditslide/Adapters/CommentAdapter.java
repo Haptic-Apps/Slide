@@ -14,14 +14,12 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -508,9 +506,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onClick(View v) {
                             String urlString = "http://reddit.com" + submission.getPermalink() +comment.getFullName().substring(3, comment.getFullName().toString().length()) + "?context=3";
 
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                            clipboard.setText(urlString);
-                            Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                            Reddit.defaultShareText(urlString, mContext);
                         }
                     });
                     if (!Authentication.isLoggedIn) {
@@ -739,9 +735,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                            clipboard.setText("http://reddit.com" + submission.getPermalink());
-                            Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
                         }
                     });
                     if (!Authentication.isLoggedIn) {

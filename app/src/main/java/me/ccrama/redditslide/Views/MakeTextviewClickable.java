@@ -53,16 +53,19 @@ public class MakeTextviewClickable {
 
     public static void openGif(final boolean gfy, Activity contextActivity, String submission) {
 
-        Intent myIntent = new Intent(contextActivity, GifView.class);
-        if (gfy) {
-            myIntent.putExtra("url", "gfy" + submission);
+        if(Reddit.gif) {
+            Intent myIntent = new Intent(contextActivity, GifView.class);
+            if (gfy) {
+                myIntent.putExtra("url", "gfy" + submission);
+            } else {
+                myIntent.putExtra("url", "" + submission);
+
+            }
+            contextActivity.startActivity(myIntent);
+            contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
         } else {
-            myIntent.putExtra("url", "" + submission);
-
+            Reddit.defaultShare(submission, contextActivity);
         }
-        contextActivity.startActivity(myIntent);
-        contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
-
 
     }
 

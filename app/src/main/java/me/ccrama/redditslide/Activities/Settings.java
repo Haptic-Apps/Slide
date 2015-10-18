@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends ActionBarActivity {
+public class Settings extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -133,8 +133,12 @@ public class Settings extends ActionBarActivity {
                         if (checkBox.isChecked()) {
                             Reddit.notificationTime = landscape.getValue();
                             Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
-                            Reddit.notifications.cancel(getApplication());
-                            Reddit.notifications.start(getApplication());
+                            if (Reddit.notifications != null) {
+                                Reddit.notifications.cancel(getApplication());
+                                Reddit.notifications.start(getApplication());
+                            } else {
+                                Reddit.notifications = new NotificationJobScheduler(getApplication());
+                            }
                         }
                     }
                 });

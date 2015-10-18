@@ -1,7 +1,9 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -133,6 +135,20 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         }
     }
 
+    public static void forceRestart(Context context){
+        Intent mStartActivity = new Intent(context, LoadingData.class);
+        int mPendingIntentId = 123456;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+    }
+    public static void defaultShareText(String url, Context c){
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
+        c.startActivity(Intent.createChooser(sharingIntent, "Share using"));
+    }
     public static void defaultShare(String url, Context c){
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);

@@ -118,9 +118,7 @@ public class Authentication {
         protected Void doInBackground(String... subs) {
             try {
                 String token = authentication.getString("lasttoken", "");
-                Log.v("Slide", token);
                 if (!token.isEmpty()) {
-                    Log.v("Slide", "LOGGED IN");
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                     OAuthHelper oAuthHelper = reddit.getOAuthHelper();
@@ -132,6 +130,7 @@ public class Authentication {
                         reddit.authenticate(finalData);
                         if (reddit.isAuthenticated()) {
                             final String name = reddit.me().getFullName();
+                            Log.v("Slide", "LOGGED IN AS " + name);
                             Authentication.name = name;
                             Authentication.isLoggedIn = true;
 

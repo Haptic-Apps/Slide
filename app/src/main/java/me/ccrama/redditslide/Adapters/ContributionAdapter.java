@@ -12,12 +12,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.text.ClipboardManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -33,6 +31,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -171,9 +170,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(mContext.CLIPBOARD_SERVICE);
-                            clipboard.setText("http://reddit.com" + submission.getPermalink());
-                            Toast.makeText(mContext, "URL copied to clipboard", Toast.LENGTH_SHORT).show();
+                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
                         }
                     });
                     if (!Authentication.isLoggedIn) {

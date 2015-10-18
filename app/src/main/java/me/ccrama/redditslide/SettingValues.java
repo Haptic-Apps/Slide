@@ -12,7 +12,7 @@ public class SettingValues {
     public static boolean actionBarVisible;
     public static boolean largeThumbnails;
     public static boolean croppedImage;
-    public static boolean infoBar;
+    public static InfoBar infoBar;
 
     public static CreateCardView.CardEnum defaultCardView;
     public static boolean NSFWPreviews;
@@ -27,6 +27,10 @@ public class SettingValues {
         ALWAYS_MATCH, MATCH_EXTERNALLY;
 
     }
+    public static enum InfoBar{
+        BIG_PICTURE, INFO_BAR, THUMBNAIL;
+
+    }
     public static SharedPreferences prefs;
     public static void setAllValues(SharedPreferences settings){prefs = settings;
         actionBarVisible = settings.getBoolean("actionBarVisible", true);
@@ -34,8 +38,8 @@ public class SettingValues {
         croppedImage = settings.getBoolean("croppedImage", false);
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardView", "LARGE").toUpperCase());
         NSFWPreviews = settings.getBoolean("NSFWPreviews", false);
-        colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("colorMatchingMode", "ALWAYS_MATCH"));
+        colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("ccolorMatchingMode", "MATCH_EXTERNALLY"));
         colorIndicator = ColorIndicator.valueOf(settings.getString("colorIndicator", "CARD_BACKGROUND"));
-        infoBar = settings.getBoolean("infoBar", true);
+        infoBar = InfoBar.valueOf(settings.getString("infoBarType", "BIG_PICTURE"));
     }
 }

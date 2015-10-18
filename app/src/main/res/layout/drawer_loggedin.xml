@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:padding="16dp"
-            android:text="Welcome back,"
+            android:text="Hello,"
             android:textColor="#fff"
             android:textSize="16sp" />
 
@@ -57,7 +57,7 @@
             android:padding="16dp"
             android:background="?android:selectableItemBackground"
 
-            android:text="LOG OUT"
+            android:text="CHANGE ACCOUNTS"
             android:textColor="#fff"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -221,7 +221,35 @@
         />
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/add"
+        android:background="?android:selectableItemBackground"
 
+        android:orientation="horizontal"
+        android:paddingLeft="0dp"
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_width="48dp"
+            android:paddingLeft="10dp"
+            android:tint="?attr/tint"
+
+            android:paddingRight="10dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/add"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="Add an account"
+            android:textColor="?attr/font"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/multi"
