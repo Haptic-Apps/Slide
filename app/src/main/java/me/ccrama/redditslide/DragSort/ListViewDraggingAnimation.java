@@ -18,6 +18,7 @@ package me.ccrama.redditslide.DragSort;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -30,6 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.util.ArrayList;
 
@@ -58,53 +61,69 @@ public class ListViewDraggingAnimation extends BaseActivity {
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             ListViewDraggingAnimation.this.setTaskDescription(new ActivityManager.TaskDescription("Reorder Pins", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
+
         final ArrayList<String> subs = new ArrayList<>(SubredditStorage.getPins());
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.subslist);
+        if(subs != null && !subs.isEmpty()) {
+            final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
 
-        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SubredditStorage.setPins(subs);
-                finish();
-            }
-        });
-        final CustomAdapter adapter = new CustomAdapter(subs,this);
-        //  adapter.setHasStableIds(true);
+            findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SubredditStorage.setPins(subs);
+                    finish();
+                }
+            });
+            final CustomAdapter adapter = new CustomAdapter(subs, this);
+            //  adapter.setHasStableIds(true);
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(null);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setItemAnimator(null);
 
-        DragSortRecycler dragSortRecycler = new DragSortRecycler();
-        dragSortRecycler.setViewHandleId(R.id.name);
-        dragSortRecycler.setFloatingAlpha(0.4f);
-        dragSortRecycler.setAutoScrollSpeed(0.3f);
-        dragSortRecycler.setAutoScrollWindow(0.1f);
+            DragSortRecycler dragSortRecycler = new DragSortRecycler();
+            dragSortRecycler.setViewHandleId(R.id.name);
+            dragSortRecycler.setFloatingAlpha(0.4f);
+            dragSortRecycler.setAutoScrollSpeed(0.3f);
+            dragSortRecycler.setAutoScrollWindow(0.1f);
 
-        dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
-            @Override
-            public void onItemMoved(int from, int to) {
-                String item = subs.remove(from);
-                subs.add(to, item);
-                adapter.notifyDataSetChanged();
+            dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
+                @Override
+                public void onItemMoved(int from, int to) {
+                    String item = subs.remove(from);
+                    subs.add(to, item);
+                    adapter.notifyDataSetChanged();
 
-            }
-        });
+                }
+            });
 
-        dragSortRecycler.setOnDragStateChangedListener(new DragSortRecycler.OnDragStateChangedListener() {
-            @Override
-            public void onDragStart() {
-            }
+            dragSortRecycler.setOnDragStateChangedListener(new DragSortRecycler.OnDragStateChangedListener() {
+                @Override
+                public void onDragStart() {
+                }
 
-            @Override
-            public void onDragStop() {
-            }
-        });
+                @Override
+                public void onDragStop() {
+                }
+            });
 
-        recyclerView.addItemDecoration(dragSortRecycler);
-        recyclerView.addOnItemTouchListener(dragSortRecycler);
-        recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
+            recyclerView.addItemDecoration(dragSortRecycler);
+            recyclerView.addOnItemTouchListener(dragSortRecycler);
+            recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
+        } else {
+            new AlertDialogWrapper.Builder(this).setTitle("No Pins (yet)!").setMessage("You can pin your favorite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check 'PINNED'!")
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            finish();
+                        }
+                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        }
     }
 
 
