@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Account;
 
 import me.ccrama.redditslide.Authentication;
@@ -73,6 +75,16 @@ public class Profile extends BaseActivity {
     }
     public String name;
     public void doClick(){
+        if (account == null) {
+            new AlertDialogWrapper.Builder(Profile.this)
+                    .setTitle("User not found")
+                    .setMessage("Reddit user could not be retrieved.")
+                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    }).show();
+            return;
+        }
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,8 +240,12 @@ public class Profile extends BaseActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            account = Authentication.reddit.getUser(params[0]);
-            return null;
+            try {
+                account = Authentication.reddit.getUser(params[0]);
+            } catch (NetworkException exception) {
+            } finally {
+                return null;
+            }
         }
 
         @Override
