@@ -149,14 +149,14 @@
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
 
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="?attr/card_background">
 
                     <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/picker"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="40dp"
                         app:orientation="horizontal"
 
                         app:selectedColorIndex="0" />
@@ -206,14 +206,14 @@
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body3"
 
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:background="?attr/card_background">
 
                     <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/picker3"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="40dp"
                         app:orientation="horizontal"
 
                         app:selectedColorIndex="0" />
@@ -224,12 +224,12 @@
                         android:layout_width="match_parent"
                         android:text="OK"
                         android:textSize="14dp"
-                        android:layout_alignParentBottom="true"
                         android:id="@+id/ok2"
                         android:background="?android:selectableItemBackground"
 
                         android:textStyle="bold"
                         android:padding="16dp"
+                        android:layout_alignParentBottom="true"
                         android:textColor="?attr/font"
                         android:gravity="right|bottom"
                         android:layout_height="wrap_content" />
