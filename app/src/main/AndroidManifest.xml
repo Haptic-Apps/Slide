@@ -28,37 +28,58 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.Album"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.FullscreenImage"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.CommentSearch"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".Activities.GifView"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.FullscreenVideo"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Wiki"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.CommentsScreen"
+            android:theme="@style/swipeable"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.SubredditView"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.MultiredditOverview"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Profile"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Sendmessage"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
@@ -118,27 +139,40 @@
         </activity>
         <activity
             android:name=".Activities.SettingsGeneral"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".Activities.CommentsScreenSingle"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Inbox"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             />
         <activity
             android:name=".Activities.Submit"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Tutorial"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.DonateView"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Shadowbox"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Crash"
@@ -148,29 +182,42 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.Settings"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.SettingsTheme"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.SettingsSubreddit"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".Activities.CommentsScreenPopup"
+
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:theme="@style/Theme.AppCompat.Dialog.Alert" />
 
         <activity
             android:name=".Activities.EditCardsLayout"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".DragSort.ListViewDraggingAnimation"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".Activities.Login"
+            android:theme="@style/swipeable"
+
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".Activities.Shortcut">
             <intent-filter>

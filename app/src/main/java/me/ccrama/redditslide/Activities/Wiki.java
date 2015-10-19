@@ -23,6 +23,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.Visuals.StyleView;
 
@@ -41,7 +42,7 @@ public class Wiki extends BaseActivity {
         subreddit = getIntent().getExtras().getString("subreddit", "");
 
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
-
+        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_slidetabs);
 
         StyleView.styleActivity(this);
@@ -86,7 +87,23 @@ public class Wiki extends BaseActivity {
                 }
                 pages.removeAll(toRemove);
             } catch(Exception e){
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(Wiki.this).setTitle("No wiki found").setMessage("This subreddit doesn't have a wiki!").setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
+                            }
+                        }).show();
+                    }
+                });
             }
             return null;
         }
