@@ -6,11 +6,11 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -32,6 +32,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 
 /**
@@ -136,7 +137,10 @@ public class AlbumFull extends Fragment {
                                     }
 
 
-                                    ListView v = (ListView) list;
+                                    RecyclerView v = (RecyclerView) list;
+                                    final PreCachingLayoutManager mLayoutManager;
+                                    mLayoutManager = new PreCachingLayoutManager(getContext());
+                                    v.setLayoutManager(mLayoutManager);
                                     v.setAdapter(new AlbumView(getActivity(), jsons));
 
                                 } else {

@@ -3,11 +3,11 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 
 /**
@@ -122,7 +123,10 @@ public class Album extends BaseActivity {
                                         }
 
 
-                                        ListView v = (ListView) findViewById(R.id.images);
+                                        RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                        final PreCachingLayoutManager mLayoutManager;
+                                        mLayoutManager = new PreCachingLayoutManager(Album.this);
+                                        v.setLayoutManager(mLayoutManager);
                                         v.setAdapter(new AlbumView(Album.this, jsons));
 
                                     } else {

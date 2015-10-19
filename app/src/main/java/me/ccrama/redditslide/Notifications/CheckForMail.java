@@ -92,11 +92,15 @@ public class CheckForMail extends BroadcastReceiver {
         }
         @Override
         protected List<Message> doInBackground(Void... params) {
-            if(Authentication.isLoggedIn){
-                InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
-                if(unread.hasNext()){
-                    return unread.next();
+            try {
+                if (Authentication.isLoggedIn) {
+                    InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
+                    if (unread.hasNext()) {
+                        return unread.next();
+                    }
                 }
+            }catch(Exception e){
+
             }
             return null;
         }

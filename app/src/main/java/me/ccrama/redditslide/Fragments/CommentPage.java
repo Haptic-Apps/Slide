@@ -188,7 +188,7 @@ public class CommentPage extends Fragment {
 
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 if(DataShare.sharedSubreddit != null)
-                adapter = new CommentAdapter(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+                adapter = new CommentAdapter(getContext(), comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
                 rv.setAdapter(adapter);
 
             } else {
@@ -244,7 +244,7 @@ public class CommentPage extends Fragment {
 
         if(adapter == null || single){
             if(context != null && !context.equals("NOTHING")) {
-                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
+                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission,getFragmentManager());
                 adapter.currentSelectedItem = context;
                 int i = 1;
                 for(CommentNode n : comments.comments){
@@ -259,7 +259,7 @@ public class CommentPage extends Fragment {
                 }
 
             } else {
-                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission);
+                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission,getFragmentManager());
 
             }
             rv.setAdapter(adapter);

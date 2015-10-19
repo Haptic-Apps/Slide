@@ -1456,7 +1456,6 @@ public class SubredditOverview extends OverviewBase {
         }
     }
 
-    boolean restart;
 
 
     public View hea;
@@ -1465,11 +1464,11 @@ public class SubredditOverview extends OverviewBase {
     public void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
-        View header;
+        final View header;
 
         if (Authentication.isLoggedIn) {
 
-            header = (ViewGroup) inflater.inflate(R.layout.drawer_loggedin, l, false);
+            header =  inflater.inflate(R.layout.drawer_loggedin, l, false);
             hea = header.findViewById(R.id.back);
             l.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
@@ -1490,6 +1489,17 @@ public class SubredditOverview extends OverviewBase {
                     subToDo = usedArray.get(pager.getCurrentItem());
 
 
+                }
+            });
+            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    View body = header.findViewById(R.id.expand_profile);
+                    if(body.getVisibility() == View.GONE){
+                        body.setVisibility(View.VISIBLE);
+                    } else {
+                        body.setVisibility(View.GONE);
+                    }
                 }
             });
 

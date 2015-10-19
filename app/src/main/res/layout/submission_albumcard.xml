@@ -31,7 +31,7 @@
                     android:id="@+id/imagearea"
                     android:layout_height="match_parent">
 
-                    <ListView
+                    <android.support.v7.widget.RecyclerView
 
                         android:id="@+id/images"
                         android:dividerHeight="0dp"

@@ -18,6 +18,8 @@ import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.util.Log;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -47,8 +49,20 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     public static boolean video;
     public static boolean gif;
     public static boolean web;
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        getImageLoader().clearMemoryCache();
+    }
+    public ImageLoader defaultImageLoader;
+    public ImageLoader getImageLoader() {
+        if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
+            ImageLoaderUtils.initImageLoader(getApplicationContext());
+            defaultImageLoader = ImageLoader.getInstance();
+        }
 
-
+        return defaultImageLoader;
+    }
     boolean closed = false;
 
     @Override
