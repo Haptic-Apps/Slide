@@ -62,7 +62,6 @@ import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
@@ -464,17 +463,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                             getResources().getColor(R.color.md_blue_grey_500),
 
                     });
-                    int currentColor = Pallete.getColor(subreddit);
-                    for(int i : colorPicker.getColors()){
-                        for(int i2 : getColors(i)){
-                            if(i2 == currentColor){
-                                colorPicker.setSelectedColor(i);
-                                colorPicker2.setColors(getColors(i));
-                                colorPicker2.setSelectedColor(i2);
-                                break;
-                            }
-                        }
-                    }
+
                     colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                         @Override
                         public void onColorChanged(int c) {
@@ -1588,9 +1577,19 @@ public class SubredditOverviewSingle extends OverviewBase  {
                         .setPositiveButton("Go to user", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
-                                Intent inte = new Intent(SubredditOverviewSingle.this, Profile.class);
-                                inte.putExtra("profile", SantitizeField.sanitizeString(value.toString()));
-                                SubredditOverviewSingle.this.startActivity(inte);
+                                if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
+                                    new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
+                                            .setTitle("Invalid user name")
+                                            .setMessage("Reddit user names can only contain letters, numbers, underscore and dash.")
+                                            .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                }
+                                            }).show();
+                                } else {
+                                    Intent inte = new Intent(SubredditOverviewSingle.this, Profile.class);
+                                    inte.putExtra("profile", value.toString());
+                                    SubredditOverviewSingle.this.startActivity(inte);
+                                }
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
