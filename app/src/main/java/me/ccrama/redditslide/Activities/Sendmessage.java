@@ -64,7 +64,6 @@ public class Sendmessage extends ActionBarActivity {
         }
         subject= (EditText) findViewById(R.id.subject);
         to = (EditText) findViewById(R.id.to);
-        to.requestFocus();
          body = (EditText) findViewById(R.id.body);
         View oldMSG = findViewById(R.id.oldMSG);
 

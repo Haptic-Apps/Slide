@@ -613,12 +613,35 @@ public class SubredditView extends BaseActivity {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
+            if(subreddit != null)
             doSubOnlyStuff(subreddit);
         }
 
         @Override
-        protected Subreddit doInBackground(String... params) {
-            return Authentication.reddit.getSubreddit(params[0]);
+        protected Subreddit doInBackground(final String... params) {
+            try {
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle("Subreddit not found").setMessage("The subreddit " + params[0] + " could not be found. Perhaps it's spelled wrong?").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
+                            }
+                        }).show();
+                    }
+                });
+
+                return null;
+            }
         }
     }
 
