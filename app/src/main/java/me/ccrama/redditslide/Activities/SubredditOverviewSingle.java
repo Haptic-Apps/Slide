@@ -1577,9 +1577,19 @@ public class SubredditOverviewSingle extends OverviewBase  {
                         .setPositiveButton("Go to user", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
-                                Intent inte = new Intent(SubredditOverviewSingle.this, Profile.class);
-                                inte.putExtra("profile", value.toString());
-                                SubredditOverviewSingle.this.startActivity(inte);
+                                if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
+                                    new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
+                                            .setTitle("Invalid user name")
+                                            .setMessage("Reddit user names can only contain letters, numbers, underscore and dash.")
+                                            .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                }
+                                            }).show();
+                                } else {
+                                    Intent inte = new Intent(SubredditOverviewSingle.this, Profile.class);
+                                    inte.putExtra("profile", value.toString());
+                                    SubredditOverviewSingle.this.startActivity(inte);
+                                }
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
