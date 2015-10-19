@@ -22,7 +22,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -63,8 +62,8 @@ import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
@@ -1585,7 +1584,6 @@ public class SubredditOverview extends OverviewBase {
         final EditText e = ((EditText) header.findViewById(R.id.sort));
 
 
-        e.setFilters(new InputFilter[]{new SubredditInputFilter()});
 
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -1613,7 +1611,7 @@ public class SubredditOverview extends OverviewBase {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
                                 Intent inte = new Intent(SubredditOverview.this, Profile.class);
-                                inte.putExtra("profile", value.toString());
+                                inte.putExtra("profile", SantitizeField.sanitizeString(value.toString()));
                                 SubredditOverview.this.startActivity(inte);
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

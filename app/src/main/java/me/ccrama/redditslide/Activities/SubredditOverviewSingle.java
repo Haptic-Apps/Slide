@@ -62,6 +62,7 @@ import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
@@ -1578,7 +1579,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
                                 Intent inte = new Intent(SubredditOverviewSingle.this, Profile.class);
-                                inte.putExtra("profile", value.toString());
+                                inte.putExtra("profile", SantitizeField.sanitizeString(value.toString()));
                                 SubredditOverviewSingle.this.startActivity(inte);
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
