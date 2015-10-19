@@ -464,7 +464,17 @@ public class SubredditOverviewSingle extends OverviewBase  {
                             getResources().getColor(R.color.md_blue_grey_500),
 
                     });
-
+                    int currentColor = Pallete.getColor(subreddit);
+                    for(int i : colorPicker.getColors()){
+                        for(int i2 : getColors(i)){
+                            if(i2 == currentColor){
+                                colorPicker.setSelectedColor(i);
+                                colorPicker2.setColors(getColors(i));
+                                colorPicker2.setSelectedColor(i2);
+                                break;
+                            }
+                        }
+                    }
                     colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                         @Override
                         public void onColorChanged(int c) {

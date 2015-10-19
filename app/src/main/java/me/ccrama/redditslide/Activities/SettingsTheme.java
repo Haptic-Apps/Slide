@@ -309,7 +309,17 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         getResources().getColor(R.color.md_blue_grey_500),
 
                 });
-
+                int currentColor = Pallete.getDefaultColor();
+                for(int i : colorPicker.getColors()){
+                    for(int i2 : getColors(i)){
+                        if(i2 == currentColor){
+                            colorPicker.setSelectedColor(i);
+                            colorPicker2.setColors(getColors(i));
+                            colorPicker2.setSelectedColor(i2);
+                            break;
+                        }
+                    }
+                }
 
 
                 colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
@@ -323,7 +333,6 @@ public class SettingsTheme extends BaseActivityNoAnim {
                     }
                 });
 
-                colorPicker.setSelectedColor(                        getResources().getColor(R.color.md_deep_orange_500));
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {

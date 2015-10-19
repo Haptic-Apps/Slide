@@ -152,6 +152,18 @@ public class Profile extends BaseActivity {
 
                         }
                     });
+
+                    int currentColor = Pallete.getColorUser(name);
+                    for(int i : colorPicker.getColors()){
+                        for(int i2 : getColors(i)){
+                            if(i2 == currentColor){
+                                colorPicker.setSelectedColor(i);
+                                colorPicker2.setColors(getColors(i));
+                                colorPicker2.setSelectedColor(i2);
+                                break;
+                            }
+                        }
+                    }
                     colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                         @Override
                         public void onColorChanged(int i) {
