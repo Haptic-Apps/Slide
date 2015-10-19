@@ -22,6 +22,13 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_marginBottom="18dp"
+            android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -266,34 +273,19 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/info"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/infonew"
-                android:tint="?attr/tint" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="App Info"
-                android:textColor="?attr/font"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-        </LinearLayout>
 
 
     </LinearLayout>
+        </ScrollView>
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:textColor="?attr/font"
+            android:text="Slide v4.2.0     Made with love by /u/ccrama"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 </LinearLayout>
