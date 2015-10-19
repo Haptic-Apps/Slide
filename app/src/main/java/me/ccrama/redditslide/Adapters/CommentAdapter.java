@@ -444,6 +444,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         holder.replyArea.setVisibility(View.VISIBLE);
                         holder.menu.setVisibility(View.GONE);
+                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), ((CommentViewHolder) firstHolder).replyArea, fm);
+
                     }
                 });
                 holder.send.setOnClickListener(new View.OnClickListener() {
@@ -690,6 +692,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         });
 
+                    }
+                });
+                firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
                     }
                 });
             } else {

@@ -122,13 +122,13 @@ public class DoEditorActions {
         baseView.findViewById(R.id.bulletlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wrapNewline("*", editText);
+                insertBefore("*", editText);
             }
         });
         baseView.findViewById(R.id.numlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wrapNewline("1. ", editText);
+                insertBefore("1. ", editText);
             }
         });
         baseView.findViewById(R.id.link).setOnClickListener(new View.OnClickListener() {
@@ -241,7 +241,13 @@ public class DoEditorActions {
                     }
                 }).show();
 
-            } catch (JSONException e) {
+            } catch (Exception e) {
+                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, someting went wrong!").setMessage("Please try again in a few seconds.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
                 e.printStackTrace();
             }
 

@@ -42,6 +42,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -130,6 +131,7 @@ public class Submit extends ActionBarActivity {
             }
         });
 
+        DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.innersend2), getSupportFragmentManager());
 
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
