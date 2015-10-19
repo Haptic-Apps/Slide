@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
 
-    <me.ccrama.redditslide.Views.TouchImageView
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/submission_image"
         android:layout_width="match_parent"
         android:src="@drawable/chameleon"

@@ -19,7 +19,7 @@
         app:cardBackgroundColor="?attr/card_background"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
 
 
         android:layout_height="wrap_content"

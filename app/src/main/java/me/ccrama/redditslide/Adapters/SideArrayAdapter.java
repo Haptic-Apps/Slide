@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.OverviewBase;
-import me.ccrama.redditslide.Activities.SubredditOverview;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
@@ -102,7 +102,7 @@ final TextView t =
         ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
-        final String subreddit = fitems.get(position).replace("Go to " ,"");
+        final String subreddit = SantitizeField.sanitizeString(fitems.get(position).replace("Go to " ,""));
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
        convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
         convertView.setOnClickListener(new View.OnClickListener() {

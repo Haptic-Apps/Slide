@@ -9,10 +9,10 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -40,7 +39,9 @@ import java.net.URLEncoder;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -133,6 +134,7 @@ public class Submit extends ActionBarActivity {
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((FloatingActionButton)findViewById(R.id.send)).hide();
                 new AsyncDo().execute();
                }
         });
@@ -146,7 +148,8 @@ public class Submit extends ActionBarActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Ion.with((ImageView) findViewById(R.id.imagepost)).load(URL);
+                findViewById(R.id.imagepost).setVisibility(View.VISIBLE);
+                ((Reddit)getApplication()).getImageLoader().displayImage(URL, ((ImageView) findViewById(R.id.imagepost)) );
 
             }
         });
@@ -161,9 +164,7 @@ public class Submit extends ActionBarActivity {
 
                     try {
                         String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
-                        Intent myIntent = new Intent(Submit.this, CommentsScreenSingle.class);
-                        myIntent.putExtra("context", s);
-                        Submit.this.startActivity(myIntent);
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" +((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
 
                         Submit.this.finish();
 
@@ -179,6 +180,7 @@ public class Submit extends ActionBarActivity {
                                 }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                                        ((FloatingActionButton)findViewById(R.id.send)).show();
 
                                     }
                                 }).create().show();
@@ -190,9 +192,7 @@ public class Submit extends ActionBarActivity {
 
                     try {
                         String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(((EditText) findViewById(R.id.urltext)).getText().toString()), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
-                        Intent myIntent = new Intent(Submit.this, CommentsScreenSingle.class);
-                        myIntent.putExtra("context", s);
-                        Submit.this.startActivity(myIntent);
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" +((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
 
                         Submit.this.finish();
 
@@ -200,17 +200,33 @@ public class Submit extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
-                                    }
-                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                if(e instanceof ApiException) {
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + ((ApiException) e).getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            finish();
+                                        }
+                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            ((FloatingActionButton) findViewById(R.id.send)).show();
 
-                                    }
-                                }).create().show();
+                                        }
+                                    }).create().show();
+                                } else {
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: Invalid URL\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            finish();
+                                        }
+                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            ((FloatingActionButton) findViewById(R.id.send)).show();
+
+                                        }
+                                    }).create().show();
+                                }
                             }
                         });
 
@@ -219,28 +235,42 @@ public class Submit extends ActionBarActivity {
                     try {
                         String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(URL), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
 
-                        Intent myIntent = new Intent(Submit.this, CommentsScreenSingle.class);
-                        myIntent.putExtra("context", s);
-                        Submit.this.startActivity(myIntent);
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" +((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
 
                         Submit.this.finish();
 
 
-                    } catch (final ApiException e) {
+                    } catch (final Exception e) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
-                                    }
-                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                if(e instanceof ApiException) {
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + ((ApiException) e).getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            finish();
+                                        }
+                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            ((FloatingActionButton) findViewById(R.id.send)).show();
 
-                                    }
-                                }).create().show();
+                                        }
+                                    }).create().show();
+                                } else {
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: Invalid URL\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            finish();
+                                        }
+                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            ((FloatingActionButton) findViewById(R.id.send)).show();
+
+                                        }
+                                    }).create().show();
+                                }
                             }
                         });
 
@@ -250,7 +280,19 @@ public class Submit extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Your URL appears to be invalid. Are you sure you the input is correct?").create().show();
+                        new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("An error occured. Would you like to try again").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ((FloatingActionButton)findViewById(R.id.send)).show();
+
+                            }
+                        }).create().show();
+
                     }
                 });
             }

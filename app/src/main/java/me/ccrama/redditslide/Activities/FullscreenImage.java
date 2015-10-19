@@ -10,13 +10,16 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.ProgressCallback;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,14 +27,13 @@ import java.io.IOException;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Views.TouchImageView;
+import me.ccrama.redditslide.Reddit;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
 public class FullscreenImage extends BaseActivity {
-
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class FullscreenImage extends BaseActivity {
 
         setContentView(R.layout.activity_image);
 
-        final TouchImageView i = (TouchImageView) findViewById(R.id.submission_image);
+        final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
@@ -52,27 +54,37 @@ public class FullscreenImage extends BaseActivity {
             url = url + ".png";
         }
 
-        Ion.with(this).load(url).progress(new ProgressCallback() {
+        ((Reddit) getApplication()).getImageLoader()
+                .loadImage(url, new ImageSize(i.getWidth(), i.getHeight()), DisplayImageOptions.createSimple(),
+                        new SimpleImageLoadingListener() {
+
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                i.setImage(ImageSource.bitmap(loadedImage));
+                            }
 
 
-            @Override
-            public void onProgress(final long downloaded, final long total) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (bar.getVisibility() == View.GONE) {
-                            bar.setVisibility(View.VISIBLE);
-                        }
-                        bar.setProgress((int) ((downloaded * 100) / total));
-                        if (downloaded == total) {
+                        }, new ImageLoadingProgressListener() {
 
-                            bar.setVisibility(View.GONE);
-                        }
-                    }
-                });
+                            @Override
+                            public void onProgressUpdate(String imageUri, View view, final int current, final int total) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (bar.getVisibility() == View.GONE) {
+                                            bar.setVisibility(View.VISIBLE);
+                                        }
+                                        bar.setProgress((int) ((current * 100) / total));
+                                        if (current == total) {
 
-            }
-        }).intoImageView(i);
+                                            bar.setVisibility(View.GONE);
+                                        }
+                                    }
+                                });
+
+
+                            }
+                        });
 
 
         i.setOnClickListener(new View.OnClickListener() {
@@ -86,107 +98,95 @@ public class FullscreenImage extends BaseActivity {
 
         {
             final ImageView iv = (ImageView) findViewById(R.id.share);
+            final String finalUrl = url;
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String localAbsoluteFilePath = saveImageLocally(Ion.with(i).getBitmap());
+                    ((Reddit) getApplication()).getImageLoader()
+                            .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    String localAbsoluteFilePath = saveImageLocally(loadedImage);
 
-                    if ( localAbsoluteFilePath != "") {
+                                    if (localAbsoluteFilePath != "") {
 
-                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                        Uri phototUri = Uri.parse(localAbsoluteFilePath);
+                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                        Uri phototUri = Uri.parse(localAbsoluteFilePath);
 
-                        File file = new File(phototUri.getPath());
+                                        File file = new File(phototUri.getPath());
 
-                        Log.d("Slide", "file path: " + file.getPath());
+                                        Log.d("Slide", "file path: " + file.getPath());
 
-                        if (file.exists()) {
-                            shareIntent.setData(phototUri);
-                            shareIntent.setType("image/png");
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                                        if (file.exists()) {
+                                            shareIntent.setData(phototUri);
+                                            shareIntent.setType("image/png");
+                                            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
 
-                            FullscreenImage.this.startActivity(shareIntent);
-                        } else {
-                            // file create fail
+                                            FullscreenImage.this.startActivity(shareIntent);
+                                        } else {
+                                            // file create fail
+                                        }
+
+
+                                    }
+                                }
+
+
+                            });
+                }
+            });
+            {
+                findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+
+
+                        try {
+                            ((Reddit) getApplication()).getImageLoader()
+                                    .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                        @Override
+                                        public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                                            String localAbsoluteFilePath = saveImageGallery(loadedImage);
+
+                                            MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                                                public void onScanCompleted(String path, Uri uri) {
+                                                    Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
+                                                            .setContentTitle("Photo Saved")
+                                                            .setSmallIcon(R.drawable.notif)
+                                                            .setLargeIcon(loadedImage)
+                                                            .setStyle(new NotificationCompat.BigPictureStyle()
+                                                                    .bigPicture(loadedImage)).build();
+
+                                                    NotificationManager mNotificationManager =
+                                                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                                    mNotificationManager.notify(1, notif);
+
+                                                }
+                                            });
+
+                                        }
+
+                                        ;
+                                    });
+                        } catch (Exception e) {
+                            Log.v("RedditSlide", "COULDN'T DOWNLOAD!");
                         }
 
                     }
-                }
-            });
+
+                });
+            }
+
+
         }
-        {
-            findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v2) {
-
-
-                  try{
-                      final Bitmap b = Ion.with(i).getBitmap();
-
-                      String localAbsoluteFilePath = saveImageGallery(b);
-
-                      MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                            public void onScanCompleted(String path, Uri uri) {
-                                Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
-                                        .setContentTitle("Photo Saved")
-                                        .setSmallIcon(R.drawable.notif)
-                                        .setLargeIcon(b)
-                                        .setStyle(new NotificationCompat.BigPictureStyle()
-                                                .bigPicture(b)).build();
-
-                                NotificationManager mNotificationManager =
-                                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                mNotificationManager.notify(1, notif);
-
-                            }
-                        });
-                    } catch (Exception e) {
-                        Log.v("RedditSlide", "COULDN'T DOWNLOAD!");
-                    }
-                }
-            });
-        }
-
 
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent touchevent) {
-        switch (touchevent.getAction()) {
-            // when user first touches the screen we get x and y coordinate
-            case MotionEvent.ACTION_DOWN: {
-                x1 = touchevent.getX();
-                y1 = touchevent.getY();
-                break;
-            }
-            case MotionEvent.ACTION_UP: {
-                x2 = touchevent.getX();
-                y2 = touchevent.getY();
 
-                //if left to right sweep event on screen
-                if (x1 < x2) {
-                    finish();
-                }
+    private static String saveImageGallery(Bitmap _bitmap) {
 
-                // if right to left sweep event on screen
-                if (x1 > x2) {
-                    finish();
-                }
-
-
-                break;
-            }
-        }
-        return false;
-    }
-
-    float x1, x2;
-    float y1, y2;
-
-    private String saveImageGallery(Bitmap _bitmap) {
-
-        File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES+ File.separator + "Slide");
+        File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + File.separator + "Slide");
         File outputFile = null;
         try {
             outputFile = File.createTempFile("slide", ".png", outputDir);
@@ -206,7 +206,7 @@ public class FullscreenImage extends BaseActivity {
         return outputFile.getAbsolutePath();
     }
 
-    private String saveImageLocally(Bitmap _bitmap) {
+    private static String saveImageLocally(Bitmap _bitmap) {
 
         File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File outputFile = null;

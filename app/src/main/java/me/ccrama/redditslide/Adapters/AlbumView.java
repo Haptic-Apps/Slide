@@ -6,14 +6,13 @@ package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
@@ -23,14 +22,13 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
 
-public class AlbumView extends ArrayAdapter<JsonElement> {
+public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
     ArrayList<JsonElement> users;
 
     Context main;
     ArrayList<String> list;
 
     public AlbumView(Context context, ArrayList<JsonElement> users) {
-        super(context, 0, users);
         main = context;
         this.users = users;
         list = new ArrayList<>();
@@ -39,64 +37,71 @@ public class AlbumView extends ArrayAdapter<JsonElement> {
         }
     }
 
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    {
+        TextView text;
+        TextView body;
+        ImageView image;
+        public ViewHolder(View itemView)
+        {
+            super(itemView);
+            text = (TextView) itemView.findViewById(R.id.imagetitle);
+            body = (TextView) itemView.findViewById(R.id.imageCaption);
+            image = (ImageView) itemView.findViewById(R.id.image);
 
+
+        }
+    }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final JsonElement user = getItem(position);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.album_image, parent, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position)
+    {
+        final JsonElement user = users.get(position) ;
 
         final String url = list.get(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.album_image, parent, false);
 
-        }
-        final ImageView iv = (ImageView) convertView.findViewById(R.id.image);
-
-        if(user.getAsJsonObject().has("height") && !user.getAsJsonObject().getAsJsonObject("height").isJsonNull()) {
-
-            int height = user.getAsJsonObject().getAsJsonObject("height").getAsInt();
-            iv.setMaxHeight(height);
-            iv.setMinimumHeight(height);
-        }
-
-        Glide.with(getContext()).load(url).crossFade().into(iv);
+        ((Reddit)main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
         {
-            TextView tv = (TextView) convertView.findViewById(R.id.imagetitle);
-            tv.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-            if(tv.getText().toString().isEmpty()){
-                tv.setVisibility(View.GONE);
+            holder.text.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+            if(holder.text.getText().toString().isEmpty()){
+                holder.text.setVisibility(View.GONE);
             }
         }
 
         {
-            TextView tv = (TextView) convertView.findViewById(R.id.imageCaption);
-            tv.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-            if(tv.getText().toString().isEmpty()){
-                tv.setVisibility(View.GONE);
+            holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+            if(holder.body.getText().toString().isEmpty()){
+                holder.body.setVisibility(View.GONE);
             }
         }
 
 
-        iv.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Reddit.image) {
-                    Intent myIntent = new Intent(getContext(), FullscreenImage.class);
+                if (Reddit.image) {
+                    Intent myIntent = new Intent(main, FullscreenImage.class);
                     myIntent.putExtra("url", url);
-                    getContext().startActivity(myIntent);
+                    main.startActivity(myIntent);
                 } else {
-                    Reddit.defaultShare(url, getContext());
+                    Reddit.defaultShare(url, main);
                 }
             }
         });
 
 
-        return convertView;
     }
 
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return users == null ? 0 : users.size();
     }
 

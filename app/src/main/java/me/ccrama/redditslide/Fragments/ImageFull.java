@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -13,7 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.koushikdutta.ion.Ion;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.dean.jraw.models.Submission;
 
@@ -27,7 +30,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Views.TouchImageView;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
@@ -42,7 +44,7 @@ public class ImageFull extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_imagecard, container, false);
 
-        TouchImageView image = (TouchImageView) rootView.findViewById(R.id.image);
+        final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
         TextView title = (TextView) rootView.findViewById(R.id.title);
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
@@ -56,17 +58,36 @@ public class ImageFull extends Fragment {
             addClickFunctions(image, rootView, type, getActivity(), s);
 
             url = ContentType.getFixedUrl(s.getUrl());
-            Ion.with(image).load(url);
+            ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                    .loadImage(url,
+                            new SimpleImageLoadingListener() {
+
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    image.setImage(ImageSource.bitmap(loadedImage));
+                                }
+
+
+                            });
         } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
 
             url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            Ion.with(image).load(url);
+            ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                    .loadImage(url,
+                            new SimpleImageLoadingListener() {
 
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    image.setImage(ImageSource.bitmap(loadedImage));
+                                }
+
+
+                            });
 
         } else {
             addClickFunctions(image, rootView, type, getActivity(), s);
             Log.v("Slide", "NO IMAGE");
-            image.setImageBitmap(null);
+            image.recycle();
         }
 
 

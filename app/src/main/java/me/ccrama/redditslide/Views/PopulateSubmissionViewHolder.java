@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.bumptech.glide.Glide;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.koushikdutta.ion.Ion;
 
@@ -219,18 +218,15 @@ public class PopulateSubmissionViewHolder {
                         Ion.with(holder.leadImage).load(url);
 
                     } else {
-                        Glide.with(mContext).load(url).into(holder.leadImage);
+                        ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
                     }
                     holder.imageArea.setVisibility(View.VISIBLE);
                     holder.previewContent.setVisibility(View.GONE);
                     bigAtEnd = true;
                 } else {
-                    if (full) {
-                        Ion.with(holder.thumbImage).load(url);
 
-                    } else {
-                        Glide.with(mContext).load(url).into(holder.thumbImage);
-                    }
+                        ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
+
                     holder.imageArea.setVisibility(View.GONE);
                     holder.previewContent.setVisibility(View.VISIBLE);
                     bigAtEnd = false;
@@ -241,12 +237,8 @@ public class PopulateSubmissionViewHolder {
                 holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                 if ((big || fullscreen) && !blurry) {
-                    if (full) {
-                        Ion.with(holder.leadImage).load(url);
+                    ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
 
-                    } else {
-                        Glide.with(mContext).load(url).into(holder.leadImage);
-                    }
                     holder.imageArea.setVisibility(View.VISIBLE);
                     holder.previewContent.setVisibility(View.GONE);
                     bigAtEnd = true;
@@ -256,10 +248,10 @@ public class PopulateSubmissionViewHolder {
 
                     } else {
                         if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL) {
-                            Glide.with(mContext).load(url).into((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, (ImageView) holder.itemView.findViewById(R.id.thumbimage2));
 
                         } else {
-                            Glide.with(mContext).load(url).into(holder.thumbImage);
+                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
                         }
                     }
                     holder.imageArea.setVisibility(View.GONE);
@@ -276,10 +268,11 @@ public class PopulateSubmissionViewHolder {
 
                     } else {
                         if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL) {
-                            Glide.with(mContext).load(url).into((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, (ImageView) holder.itemView.findViewById(R.id.thumbimage2));
 
                         } else {
-                            Glide.with(mContext).load(url).into(holder.thumbImage);
+                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
+
                         }
                     }
                     holder.imageArea.setVisibility(View.GONE);

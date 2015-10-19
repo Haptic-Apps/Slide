@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Account;
 
 import me.ccrama.redditslide.Authentication;
@@ -70,21 +67,12 @@ public class Profile extends BaseActivity {
 
         setDataSet(new String[]{"overview", "comments", "submitted", "gilded"});
 
+
         new getProfile().execute(name);
 
     }
     public String name;
     public void doClick(){
-        if (account == null) {
-            new AlertDialogWrapper.Builder(Profile.this)
-                    .setTitle("User not found")
-                    .setMessage("Reddit user could not be retrieved.")
-                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    }).show();
-            return;
-        }
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +151,18 @@ public class Profile extends BaseActivity {
 
                     }
                 });
+
+                int currentColor = Pallete.getColorUser(name);
+                for (int i : colorPicker.getColors()) {
+                    for (int i2 : getColors(i)) {
+                        if (i2 == currentColor) {
+                            colorPicker.setSelectedColor(i);
+                            colorPicker2.setColors(getColors(i));
+                            colorPicker2.setSelectedColor(i2);
+                            break;
+                        }
+                    }
+                }
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {
@@ -228,12 +228,8 @@ public class Profile extends BaseActivity {
 
         @Override
         protected Void doInBackground(String... params) {
-            try {
-                account = Authentication.reddit.getUser(params[0]);
-            } catch (NetworkException exception) {
-            } finally {
-                return null;
-            }
+            account = Authentication.reddit.getUser(params[0]);
+            return null;
         }
 
         @Override

@@ -50,6 +50,7 @@
                         android:id="@+id/sidebar"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
+                        android:clickable="true"
                         android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
 
@@ -67,9 +68,12 @@
                             android:src="@drawable/profile" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:clickable="true"
 
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+
 
                             android:textColor="?attr/font"
                             android:id="@+id/userpopup"
@@ -83,6 +87,8 @@
                     <LinearLayout
                         android:id="@+id/gild"
                         android:layout_width="match_parent"
+                        android:clickable="true"
+
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"

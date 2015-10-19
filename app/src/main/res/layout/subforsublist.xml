@@ -18,6 +18,7 @@
             android:adjustViewBounds="true"
             android:layout_marginBottom="8dp"
             android:id="@+id/color"
+
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
 
@@ -26,6 +27,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="49dp"
+            android:background="?attr/card_background"
+
             android:orientation="vertical">
 
             <TextView

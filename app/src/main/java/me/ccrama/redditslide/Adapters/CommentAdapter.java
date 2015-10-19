@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
@@ -81,11 +83,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public Submission submission;
 
-    public CommentAdapter(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission) {
+    public CommentAdapter(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
 
         this.mContext = mContext;
         this.listView = listView;
         this.dataSet = dataSet;
+        this.fm = fm;
 
         this.submission = submission;
         hidden = new ArrayList<>();
@@ -306,6 +309,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public FragmentManager fm;
     public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode){
         if (currentSelectedItem.contains(comment.getFullName())) {
             doUnHighlighted(holder, comment);
@@ -329,8 +333,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final Comment comment = baseNode.getComment();
 
             if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
-                doHighlighted(holder, comment);
-            } else {
+               doHighlighted(holder, comment);
+           } else {
                 doUnHighlighted(holder);
             }
             final int finalPos = nextPos;
@@ -420,17 +424,21 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if(comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())){
                 holder.itemView.findViewById(R.id.you).setVisibility(View.VISIBLE);
             } else {
+                if(holder.itemView.findViewById(R.id.you).getVisibility()==View.VISIBLE)
                 holder.itemView.findViewById(R.id.you).setVisibility(View.GONE);
 
             }
             if(comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())){
                 holder.itemView.findViewById(R.id.op).setVisibility(View.VISIBLE);
             } else {
-                holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
+
+                if(holder.itemView.findViewById(R.id.op).getVisibility()==View.VISIBLE)
+
+                    holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
 
             }
 
-            if (Authentication.isLoggedIn) {
+           if (Authentication.isLoggedIn) {
                 holder.reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -459,9 +467,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
 
             } else {
-                holder.reply.setVisibility(View.GONE);
-                holder.upvote.setVisibility(View.GONE);
-                holder.downvote.setVisibility(View.GONE);
+
+               if(holder.reply.getVisibility()==View.VISIBLE)
+
+                   holder.reply.setVisibility(View.GONE);
+               if(holder.upvote.getVisibility()==View.VISIBLE)
+
+                   holder.upvote.setVisibility(View.GONE);
+               if(holder.downvote.getVisibility()==View.VISIBLE)
+
+                   holder.downvote.setVisibility(View.GONE);
 
             }
 
@@ -510,7 +525,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     if (!Authentication.isLoggedIn) {
-                        dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
+
+                            dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
                     }
                     title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
@@ -526,7 +542,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((TextView) holder.itemView.findViewById(R.id.text)).setText(comment.getAuthorFlair().getText());
 
             } else {
-                holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
+
+                if(holder.itemView.findViewById(R.id.flairbubble).getVisibility()==View.VISIBLE)
+                    holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
 
             }
             holder.content.setOnLongClickListener(new View.OnLongClickListener() {
@@ -563,7 +581,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (baseNode.isTopLevel()) {
                 holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
             } else {
-                holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
+                if(holder.itemView.findViewById(R.id.next).getVisibility()==View.VISIBLE)
+
+                    holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
             }
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
@@ -573,7 +593,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.gild.setVisibility(View.VISIBLE);
                 ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
             } else {
-                holder.gild.setVisibility(View.GONE);
+
+                if(holder.itemView.findViewById(R.id.gild).getVisibility()==View.VISIBLE)
+
+                    holder.gild.setVisibility(View.GONE);
             }
 
             if (hiddenPersons.contains(comment.getFullName())) {
@@ -650,18 +673,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         } else {
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, mContext, true, true, null, null);
-
             if (Authentication.isLoggedIn) {
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.VISIBLE);
+                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm );
+
                         firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 dataSet.refreshLayout.setRefreshing(true);
 
-                                new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.textinner)).getText().toString());
+                                new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
                                 firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
                             }
                         });
@@ -939,6 +963,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> hiddenPersons;
 
     private int getRealPosition(int position) {
+
         int hElements = getHiddenCountUpTo(position);
         int diff = 0;
         for (int i = 0; i < hElements; i++) {

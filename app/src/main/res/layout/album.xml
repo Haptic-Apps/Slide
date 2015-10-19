@@ -23,7 +23,7 @@
 
 
         </android.support.v7.widget.Toolbar>
-        <ListView
+        <android.support.v7.widget.RecyclerView
 
             android:id="@+id/images"
             android:dividerHeight="0dp"
