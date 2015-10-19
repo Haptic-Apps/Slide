@@ -32,6 +32,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -49,6 +50,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import me.ccrama.redditslide.ActiveTextView;
@@ -301,7 +303,22 @@ public class SubredditOverviewSingle extends OverviewBase  {
         });
 
     }
+    public void chooseAccounts(){
+        final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
+        new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
+                .setTitle("Switch Account")
+                .setAdapter(new ArrayAdapter<>(SubredditOverviewSingle.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> tokens =  new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                        Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+                        Log.v("Slide", " CHOSEN IS " + accounts.get(which) + " AND TOKEN IS " + tokens.get(which) + " AND SHARED PREFS SAYS " + Authentication.authentication.getString("lasttoken", ""));
 
+                        Reddit.forceRestart(SubredditOverviewSingle.this);
+
+                    }
+                }).create().show();
+    }
     public void doSubOnlyStuff(Subreddit subreddit){
         if(subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()){
             final String text = subreddit.getDataNode().get("description_html").asText();
@@ -1452,6 +1469,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 public void onClick(View view) {
                     Intent inte = new Intent(SubredditOverviewSingle.this, ListViewDraggingAnimation.class);
                     SubredditOverviewSingle.this.startActivityForResult(inte, 3);
+                    subToDo = usedArray.get(pager.getCurrentItem());
 
 
                 }
@@ -1469,8 +1487,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Authentication.authentication.edit().remove("lasttoken").apply();
-                    ((Reddit) SubredditOverviewSingle.this.getApplicationContext()).restart();
+                    chooseAccounts();
                 }
             });
             /*header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {

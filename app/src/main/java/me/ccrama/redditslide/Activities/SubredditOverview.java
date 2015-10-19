@@ -117,6 +117,7 @@ public class SubredditOverview extends OverviewBase {
                 tabs.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
+
                 int color = Pallete.getColor(subToDo);
                 hea.setBackgroundColor(color);
                 findViewById(R.id.header).setBackgroundColor(color);
@@ -1486,6 +1487,7 @@ public class SubredditOverview extends OverviewBase {
                 public void onClick(View view) {
                     Intent inte = new Intent(SubredditOverview.this, ListViewDraggingAnimation.class);
                     SubredditOverview.this.startActivityForResult(inte, 3);
+                    subToDo = usedArray.get(pager.getCurrentItem());
 
 
                 }

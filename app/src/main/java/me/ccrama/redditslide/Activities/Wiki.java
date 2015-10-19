@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.managers.WikiManager;
 
@@ -89,8 +92,23 @@ public class Wiki extends BaseActivity {
         }
         @Override
         public void onPostExecute(Void d){
-            pager.setAdapter(adapter);
-            tabs.setupWithViewPager(pager);
+            if(adapter != null) {
+                pager.setAdapter(adapter);
+                tabs.setupWithViewPager(pager);
+            } else {
+                new AlertDialogWrapper.Builder(Wiki.this).setTitle("No wiki found").setMessage("This subreddit doesn't have a wiki!").setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                }).show();
+            }
         }
     }
     public WeakHashMap<String, String> values;
