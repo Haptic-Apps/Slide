@@ -44,7 +44,7 @@ public class Crash extends ActionBarActivity {
                 dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String baseurl = "https://github.com/ccrama/Slide/issues/new?title="+ ((EditText)dialoglayout.findViewById(R.id.tite)).getText().toString() + "&labels=auto%20reported%20crash&body=%23%23%20Info%0A"+ ((EditText)dialoglayout.findViewById(R.id.body)).getText().toString() + "%0A%23%23%20Stacktrace%0A```" + stacktrace + "```%0AReported%20via%20Slide%20Crash%20Capture";
+                        String baseurl = "https://github.com/ccrama/Slide/issues/new?title="+ ((EditText)dialoglayout.findViewById(R.id.tite)).getText().toString() + "&labels=auto%20reported%20crash&body=%23%23%20Info%0A"+ ((EditText)dialoglayout.findViewById(R.id.body)).getText().toString() + "%0A%23%23%20Stacktrace%0A```%0A" + stacktrace + "%0A```%0AReported%20via%20Slide%20Crash%20Capture";
 
 
                         if(Authentication.refresh != null )
