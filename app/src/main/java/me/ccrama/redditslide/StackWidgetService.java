@@ -29,7 +29,7 @@ public class StackWidgetService extends RemoteViewsService {
 }
 
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private List<Submission> submissions = new ArrayList<Submission>();
+    private List<Submission> submissions = new ArrayList<>();
     private Context mContext;
     private int mAppWidgetId;
 
@@ -69,9 +69,8 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                 url = submission.getThumbnail();
             }
             try {
-                final String finalUrl = url;
 
-               //todo rv.setImageViewBitmap(R.id.thumbnail, Glide.with(mContext).load(url).asBitmap().);
+                //todo rv.setImageViewBitmap(R.id.thumbnail, Glide.with(mContext).load(url).asBitmap().);
                 rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
 
 

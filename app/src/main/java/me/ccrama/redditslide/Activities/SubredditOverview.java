@@ -1696,7 +1696,7 @@ public class SubredditOverview extends OverviewBase {
                 Overview.this.startActivityForResult(inte, 3);
             }
         });*/
-        ArrayList<String> copy = new ArrayList<String>();
+        ArrayList<String> copy = new ArrayList<>();
         if (SubredditStorage.alphabeticalSubscriptions != null)
             for (String s : SubredditStorage.alphabeticalSubscriptions) {
                 copy.add(s);

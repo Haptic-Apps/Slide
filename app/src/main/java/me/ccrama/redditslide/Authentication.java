@@ -67,8 +67,7 @@ public class Authentication {
                     refresh = oAuthHelper.getRefreshToken();
                     reddit.authenticate(finalData);
                     if (reddit.isAuthenticated()) {
-                        final String name = reddit.me().getFullName();
-                        Authentication.name = name;
+                        Authentication.name = reddit.me().getFullName();
                         Authentication.isLoggedIn = true;
 
 

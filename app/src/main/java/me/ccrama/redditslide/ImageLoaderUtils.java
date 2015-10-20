@@ -76,7 +76,7 @@ public class ImageLoaderUtils {
         } else {
             long currentTime = System.currentTimeMillis();
 
-            if (currentTime - lastClear >= DateUtils.DAY_IN_MILLIS * 1) {
+            if (currentTime - lastClear >= DateUtils.DAY_IN_MILLIS) {
                 ImageLoader.getInstance().clearMemoryCache();
                 ImageLoader.getInstance().clearDiskCache();
                 pref.edit().putLong("lastClear", currentTime).apply();

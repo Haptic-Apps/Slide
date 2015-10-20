@@ -31,7 +31,7 @@ public class HTMLLinkExtractor {
      */
     public ArrayList<HtmlLink> grabHTMLLinks(final String html) {
 
-        ArrayList<HtmlLink> result = new ArrayList<HtmlLink>();
+        ArrayList<HtmlLink> result = new ArrayList<>();
 
         matcherTag = patternTag.matcher(html);
 
@@ -68,8 +68,7 @@ public class HTMLLinkExtractor {
 
        @Override
         public String toString() {
-            return new StringBuffer("Link : ").append(this.link)
-                    .append(" Link Text : ").append(this.linkText).toString();
+            return "Link : " + this.link + " Link Text : " + this.linkText;
         }
 
         public String getLink() {

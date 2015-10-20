@@ -180,7 +180,7 @@ public class MediaVideoView extends SurfaceView
         setFocusable(true);
         setFocusableInTouchMode(true);
         requestFocus();
-        mPendingSubtitleTracks = new Vector<Pair<InputStream, MediaFormat>>();
+        mPendingSubtitleTracks = new Vector<>();
         mCurrentState = STATE_IDLE;
         mTargetState  = STATE_IDLE;
     }

@@ -71,7 +71,7 @@ public class SettingsSubreddit extends BaseActivityNoAnim {
         }
 
         ListView l = (ListView)findViewById(R.id.subslist);
-        ArrayList<String> done = new ArrayList<String>();
+        ArrayList<String> done = new ArrayList<>();
         for(String s : SubredditStorage.alphabeticalSubscriptions){
             if(Pallete.getColor(s) != Pallete.getDefaultColor()){
                 done.add(s);
