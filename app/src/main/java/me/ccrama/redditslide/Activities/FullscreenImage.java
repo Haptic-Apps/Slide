@@ -167,7 +167,6 @@ public class FullscreenImage extends BaseActivity {
 
                                         }
 
-                                        ;
                                     });
                         } catch (Exception e) {
                             Log.v("RedditSlide", "COULDN'T DOWNLOAD!");

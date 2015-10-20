@@ -106,7 +106,6 @@ public class DonateView extends ActionBarActivity {
                 builder.setMessage("Unfortunately, the donation did not go through. Make sure you are connected to the internet and try again! Thank you for your support!");
                 builder.setNeutralButton("Ok", null);
                 builder.show();
-                return;
             }
             else if (purchase.getSku().contains("donation")) {
 

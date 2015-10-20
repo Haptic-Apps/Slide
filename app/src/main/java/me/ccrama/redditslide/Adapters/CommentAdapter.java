@@ -783,7 +783,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
         }
-        return;
 
     }
 

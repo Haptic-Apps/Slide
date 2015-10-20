@@ -76,12 +76,12 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
 
     public interface OnItemMovedListener
     {
-        public void onItemMoved(int from, int to);
+        void onItemMoved(int from, int to);
     }
 
     public interface OnDragStateChangedListener {
-        public void onDragStart();
-        public void onDragStop();
+        void onDragStart();
+        void onDragStop();
     }
 
     private void debugLog(String log)

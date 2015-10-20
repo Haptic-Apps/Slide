@@ -313,7 +313,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
 
         }
-        return;
 
     }
 

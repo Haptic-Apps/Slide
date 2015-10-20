@@ -120,7 +120,6 @@ public class SubredditOverviewSingle extends OverviewBase  {
             }
         });
         builder.show();
-        return;
     }
     public void resetAdapter() {
 

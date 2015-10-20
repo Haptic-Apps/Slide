@@ -138,7 +138,6 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
                         CommentMessage m = (CommentMessage) comment;
                         new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
                     }
-                    return;
 
                 } else {
                     comment.read = true;

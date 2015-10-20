@@ -152,7 +152,6 @@ public class SubredditOverview extends OverviewBase {
         });
         builder.show();
 
-        return;
     }
     public void reloadSubs() {
         int current = pager.getCurrentItem();
