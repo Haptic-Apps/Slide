@@ -22,7 +22,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -64,7 +63,6 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
@@ -96,7 +94,7 @@ public class SubredditOverview extends OverviewBase {
             pager.setCurrentItem(current);
         } else if (requestCode == 1) {
             restartTheme();
-        } else if(requestCode == 3){
+        } else if (requestCode == 3) {
             new SubredditStorageNoContext().execute(SubredditOverview.this);
 
         }
@@ -133,6 +131,7 @@ public class SubredditOverview extends OverviewBase {
 
 
     }
+
     @Override
     public void onBackPressed() {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
@@ -154,6 +153,7 @@ public class SubredditOverview extends OverviewBase {
 
         return;
     }
+
     public void reloadSubs() {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -161,14 +161,14 @@ public class SubredditOverview extends OverviewBase {
         pager.setCurrentItem(current);
     }
 
-    public void chooseAccounts(){
+    public void chooseAccounts() {
         final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
-         new AlertDialogWrapper.Builder(SubredditOverview.this)
+        new AlertDialogWrapper.Builder(SubredditOverview.this)
                 .setTitle("Switch Account")
                 .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<String> tokens =  new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                        ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
                         Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
                         Log.v("Slide", " CHOSEN IS " + accounts.get(which) + " AND TOKEN IS " + tokens.get(which) + " AND SHARED PREFS SAYS " + Authentication.authentication.getString("lasttoken", ""));
 
@@ -194,8 +194,8 @@ public class SubredditOverview extends OverviewBase {
         setContentView(R.layout.activity_overview);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
-        if(getIntent()!= null && getIntent().hasExtra("pageTo"))
-        toGoto = getIntent().getIntExtra("pageTo", 0);
+        if (getIntent() != null && getIntent().hasExtra("pageTo"))
+            toGoto = getIntent().getIntExtra("pageTo", 0);
 
         if (DataShare.notifs != null) {
 
@@ -278,7 +278,7 @@ public class SubredditOverview extends OverviewBase {
 
                     if (Reddit.tabletUI) {
 
-                        if(((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null) {
+                        if (((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null) {
                             DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                             Intent i = new Intent(SubredditOverview.this, Shadowbox.class);
                             i.putExtra("position", pager.getCurrentItem());
@@ -329,7 +329,7 @@ public class SubredditOverview extends OverviewBase {
                 }
             }
         });
-    
+
 
     }
 
@@ -360,14 +360,14 @@ public class SubredditOverview extends OverviewBase {
         }
     }
 
-    public void doSubSidebar(final String subreddit){
-        if(!subreddit.equals("all") && !subreddit.equals("frontpage")) {
-            if(drawerLayout != null)
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
+    public void doSubSidebar(final String subreddit) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+            if (drawerLayout != null)
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
             new AsyncGetSubreddit().execute(subreddit);
             findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
-            ((TextView)findViewById(R.id.sub_infotitle)).setText(subreddit);
+            ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
             CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -399,7 +399,7 @@ public class SubredditOverview extends OverviewBase {
             c.setHighlightColor(new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit, true).getColor());
 
 
-            if(subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") ){
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -477,7 +477,17 @@ public class SubredditOverview extends OverviewBase {
                                 getResources().getColor(R.color.md_blue_grey_500),
 
                         });
-
+                        int currentColor = Pallete.getColor(subreddit);
+                        for (int i : colorPicker.getColors()) {
+                            for (int i2 : getColors(i)) {
+                                if (i2 == currentColor) {
+                                    colorPicker.setSelectedColor(i);
+                                    colorPicker2.setColors(getColors(i));
+                                    colorPicker2.setSelectedColor(i2);
+                                    break;
+                                }
+                            }
+                        }
                         colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                             @Override
                             public void onColorChanged(int c) {
@@ -618,8 +628,8 @@ public class SubredditOverview extends OverviewBase {
 
                             int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                             int i = 0;
-                            for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                if(type.getThemeType() == 0) {
+                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                if (type.getThemeType() == 0) {
                                     arrs[i] = getResources().getColor(type.getColor());
 
                                     i++;
@@ -639,8 +649,8 @@ public class SubredditOverview extends OverviewBase {
                                     public void onClick(View v) {
                                         int color = colorPicker.getColor();
                                         ColorPreferences.Theme t = null;
-                                        for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                            if(getResources().getColor(type.getColor()) == color  && Reddit.themeBack == type.getThemeType()){
+                                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                            if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                                 t = type;
                                                 break;
                                             }
@@ -717,8 +727,8 @@ public class SubredditOverview extends OverviewBase {
                 }
             });
         } else {
-            if(drawerLayout != null)
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+            if (drawerLayout != null)
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
         }
     }
 
@@ -1356,8 +1366,8 @@ public class SubredditOverview extends OverviewBase {
     }
 
     public void restartTheme() {
-        if(Reddit.single){
-            ((Reddit)getApplication()).startMain();
+        if (Reddit.single) {
+            ((Reddit) getApplication()).startMain();
 
             finish();
         } else {
@@ -1397,8 +1407,8 @@ public class SubredditOverview extends OverviewBase {
                 @Override
                 public void onPageSelected(int position) {
                     doSubSidebar(usedArray.get(position));
-                    if(hea != null)
-                    hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                    if (hea != null)
+                        hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                     header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
@@ -1465,7 +1475,7 @@ public class SubredditOverview extends OverviewBase {
     public void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
-        View header;
+        final View header;
 
         if (Authentication.isLoggedIn) {
 
@@ -1505,7 +1515,7 @@ public class SubredditOverview extends OverviewBase {
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                 chooseAccounts();
+                    chooseAccounts();
                 }
             });
             /*header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
@@ -1525,7 +1535,17 @@ public class SubredditOverview extends OverviewBase {
                     Overview.this.startActivity(inte);
                 }
             });*/
-
+            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                        View body = header.findViewById(R.id.expand_profile);
+                                        if(body.getVisibility() == View.GONE){
+                                                body.setVisibility(View.VISIBLE);
+                                            } else {
+                                                body.setVisibility(View.GONE);
+                                            }
+                                    }
+                            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1575,7 +1595,6 @@ public class SubredditOverview extends OverviewBase {
         final EditText e = ((EditText) header.findViewById(R.id.sort));
 
 
-        e.setFilters(new InputFilter[]{new SubredditInputFilter()});
 
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
@@ -1628,7 +1647,7 @@ public class SubredditOverview extends OverviewBase {
             @Override
             public void onClick(View v) {
                 {
-                  Intent i = new Intent(SubredditOverview.this, Settings.class);
+                    Intent i = new Intent(SubredditOverview.this, Settings.class);
                     startActivityForResult(i, 1);
                 }
             }

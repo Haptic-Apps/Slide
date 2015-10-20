@@ -190,7 +190,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         hidden = getSharedPreferences("HIDDEN", 0);
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
-        //new SetupIAB().execute();
+        new SetupIAB().execute();
 
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -241,13 +241,13 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
         }
 
-        single = colors.getBoolean("Single", false);
-        swap = colors.getBoolean("Swap", false);
-        web = colors.getBoolean("web", true);
-        image = colors.getBoolean("image", true);
-        album = colors.getBoolean("album", true);
-        gif = colors.getBoolean("gif", true);
-        video = colors.getBoolean("video", true);
+        single = SettingValues.prefs.getBoolean("Single", false);
+        swap = SettingValues.prefs.getBoolean("Swap", false);
+        web = SettingValues.prefs.getBoolean("web", true);
+        image = SettingValues.prefs.getBoolean("image", true);
+        album = SettingValues.prefs.getBoolean("album", true);
+        gif = SettingValues.prefs.getBoolean("gif", true);
+        video = SettingValues.prefs.getBoolean("video", true);
 
         int height = this.getResources().getConfiguration().screenWidthDp;
 

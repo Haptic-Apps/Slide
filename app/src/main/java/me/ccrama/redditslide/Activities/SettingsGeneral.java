@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -45,7 +46,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.single = isChecked;
-                    Reddit.colors.edit().putBoolean("Single", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("Single", isChecked).apply();
 
                 }
             });
@@ -58,7 +59,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.swap = isChecked;
-                    Reddit.colors.edit().putBoolean("Swap", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("Swap", isChecked).apply();
 
                 }
             });
@@ -71,7 +72,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.web = isChecked;
-                    Reddit.colors.edit().putBoolean("web", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("web", isChecked).apply();
 
                 }
             });
@@ -84,7 +85,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.image = isChecked;
-                    Reddit.colors.edit().putBoolean("image", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("image", isChecked).apply();
 
                 }
             });
@@ -97,7 +98,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.gif = isChecked;
-                    Reddit.colors.edit().putBoolean("gif", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("gif", isChecked).apply();
 
                 }
             });
@@ -110,7 +111,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.album = isChecked;
-                    Reddit.colors.edit().putBoolean("album", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("album", isChecked).apply();
 
                 }
             });
@@ -123,7 +124,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.video = isChecked;
-                    Reddit.colors.edit().putBoolean("video", isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean("video", isChecked).apply();
 
                 }
             });

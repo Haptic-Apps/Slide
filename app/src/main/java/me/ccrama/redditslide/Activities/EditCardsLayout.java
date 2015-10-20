@@ -34,7 +34,7 @@ public class EditCardsLayout extends BaseActivityNoAnim {
 
         super.onCreate(savedInstance);
         if (getIntent() != null && getIntent().hasExtra("secondary")) {
-            subreddit = getIntent().getExtras().getString("secondary", "");
+            subreddit = getIntent().getExtras().getString("secondary", "test");
         } else {
             subreddit = "";
         }

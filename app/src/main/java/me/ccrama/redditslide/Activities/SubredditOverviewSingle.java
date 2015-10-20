@@ -21,7 +21,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -63,7 +62,6 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
@@ -463,7 +461,17 @@ public class SubredditOverviewSingle extends OverviewBase  {
                             getResources().getColor(R.color.md_blue_grey_500),
 
                     });
-
+                    int currentColor = Pallete.getColor(subreddit);
+                    for (int i : colorPicker.getColors()) {
+                    for (int i2 : getColors(i)) {
+                        if (i2 == currentColor) {
+                            colorPicker.setSelectedColor(i);
+                            colorPicker2.setColors(getColors(i));
+                            colorPicker2.setSelectedColor(i2);
+                            break;
+                        }
+                    }
+                }
                     colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                         @Override
                         public void onColorChanged(int c) {
@@ -1447,7 +1455,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
     public void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
-        View header;
+        final View header;
 
         if (Authentication.isLoggedIn) {
 
@@ -1507,7 +1515,17 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     Overview.this.startActivity(inte);
                 }
             });*/
-
+            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    View body = header.findViewById(R.id.expand_profile);
+                    if(body.getVisibility() == View.GONE){
+                        body.setVisibility(View.VISIBLE);
+                    } else {
+                        body.setVisibility(View.GONE);
+                    }
+                }
+            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1549,7 +1567,6 @@ public class SubredditOverviewSingle extends OverviewBase  {
         });
 
         final EditText e = ((EditText) header.findViewById(R.id.sort));
-        e.setFilters(new InputFilter[]{new SubredditInputFilter()});
 
 
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {

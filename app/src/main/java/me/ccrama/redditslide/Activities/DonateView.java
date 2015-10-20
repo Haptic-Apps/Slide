@@ -79,6 +79,7 @@ public class DonateView extends ActionBarActivity {
                 if(Authentication.isLoggedIn){
                     name = Authentication.name;
                 }
+                if(Reddit.mHelper != null)
                 Reddit.mHelper.flagEndAsync();
                 Reddit.mHelper.launchPurchaseFlow(DonateView.this, "donation_" + sl_discrete.getValue(),1, mPurchaseFinishedListener, name);
             }

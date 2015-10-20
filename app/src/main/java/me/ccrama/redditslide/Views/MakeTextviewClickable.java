@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,12 +10,14 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Album;
@@ -100,32 +103,8 @@ public class MakeTextviewClickable {
         return source.subSequence(0, i + 1).toString();
     }
 
-    ArrayList<HTMLLinkExtractor.HtmlLink> links;
     Context c;
 
-    public void ParseTextWithLinks(String rawHTML, TextView comm, Context c) throws URISyntaxException {
-        rawHTML = rawHTML.substring(0, rawHTML.length() - 8);
-
-        rawHTML = trimTrailingWhitespace(rawHTML);
-
-        rawHTML = rawHTML.replace("<li>", "\n•");
-
-
-        this.c = c;
-
-        CharSequence sequence = Html.fromHtml(noTrailingwhiteLines(rawHTML));
-        SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-        URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-        for (URLSpan span : urls) {
-            makeLinkClickable(strBuilder, span, (Activity) c);
-        }
-        comm.setText(strBuilder);
-
-        //TODO  comm.setMovementMethod(CustomMovementMethod.getInstance());
-
-        links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
-
-    }
 
     public static String noTrailingwhiteLines(String text) {
 
@@ -136,7 +115,6 @@ public class MakeTextviewClickable {
     }
 
     public void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
-        comm.refreshDrawableState();
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("del", "strike").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>");
 
@@ -146,14 +124,48 @@ public class MakeTextviewClickable {
 
 
             CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
-            /* DEPRECATED
-            SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-            URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-            for (URLSpan span : urls) {
-                Log.v("Slide", "DOING URL!");
-                makeLinkClickable(strBuilder, span, (Activity) c);
-            }*/
+
             comm.setText(sequence);
+            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
+                @Override
+                public void onLongPressed() {
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(c);
+                    LayoutInflater inflater = c.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.linkmenu, null);
+                    ((TextView) dialoglayout.findViewById(R.id.title)).setText(ActiveTextView.getDomainName(comm.mUrl));
+                    ((TextView) dialoglayout.findViewById(R.id.subtitle)).setText(comm.mUrl);
+
+                    dialoglayout.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(comm.mUrl));
+                            c.startActivity(i);
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.internal).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            comm.callOnClick();
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                            share.putExtra(android.content.Intent.EXTRA_SUBJECT, comm.mUrl);
+                            share.putExtra(android.content.Intent.EXTRA_TEXT, comm.mUrl);
+                            share.setType("text/plain");
+                            c.startActivity(Intent.createChooser(share, "Share"));
+                        }
+                    });
+                    builder.setView(dialoglayout);
+
+                    Dialog alert = builder.create();
+                    alert.setCanceledOnTouchOutside(true);
+                    alert.show();
+                }
+            }, false);
             comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
                 @Override
                 public void onClick(String url) {
@@ -300,16 +312,7 @@ public class MakeTextviewClickable {
                 }
             });
 
-            // Set a long pressed link listener (required if you want to show the additional 
-            // options menu when links are long pressed)
-            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
-                @Override
-                public void onLongPressed() {
 
-                }
-            }, false);
-
-            links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
 
             comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
@@ -319,194 +322,7 @@ public class MakeTextviewClickable {
 
     }
 
-    public void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit, String search) {
-        comm.refreshDrawableState();
-        if (rawHTML.length() > 0) {
-            rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("del", "strike").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>");
-
-            rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n"));
-
-            rawHTML.replace(search, "<font color='red'>" + search + "</font>");
-
-            this.c = c;
-
-
-            CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
-            /* DEPRECATED
-            SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-            URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-            for (URLSpan span : urls) {
-                Log.v("Slide", "DOING URL!");
-                makeLinkClickable(strBuilder, span, (Activity) c);
-            }*/
-            comm.setText(sequence);
-            comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
-                @Override
-                public void onClick(String url) {
-                    // Decide what to do when a link is clicked.
-                    // (This is useful if you want to open an in app-browser)
-                    if (url != null) {
-                        ContentType.ImageType type = ContentType.getImageType(url);
-                        switch (type) {
-                            case NSFW_IMAGE:
-                                openImage(c, url);
-
-
-                                break;
-
-                            case NSFW_GIF:
-
-                                openGif(false, c, url);
-
-
-                                break;
-                            case NSFW_GFY:
-
-                                openGif(true, c, url);
-
-                                break;
-                            case REDDIT:
-                                new OpenRedditLink(c, url);
-                                break;
-                            case LINK:
-
-                            {
-                                if (Reddit.web) {
-                                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
-
-                                    builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                                    builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                                    CustomTabsIntent customTabsIntent = builder.build();
-                                    customTabsIntent.launchUrl(c, Uri.parse(url));
-                                } else {
-                                    Reddit.defaultShare(url, c);
-                                }
-                            }
-                            break;
-                            case IMAGE_LINK: {
-                                if (Reddit.web) {
-                                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
-
-                                    builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                                    builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                                    CustomTabsIntent customTabsIntent = builder.build();
-                                    customTabsIntent.launchUrl(c, Uri.parse(url));
-                                } else {
-                                    Reddit.defaultShare(url, c);
-                                }
-                            }
-                            break;
-                            case NSFW_LINK: {
-                                if (Reddit.web) {
-                                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
-
-                                    builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                                    builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                                    CustomTabsIntent customTabsIntent = builder.build();
-                                    customTabsIntent.launchUrl(c, Uri.parse(url));
-                                } else {
-                                    Reddit.defaultShare(url, c);
-                                }
-                            }
-                            break;
-                            case SELF:
-
-                                break;
-                            case GFY:
-                                openGif(true, c, url);
-
-                                break;
-                            case ALBUM:
-
-                                if (Reddit.album) {
-                                    Intent i = new Intent(c, Album.class);
-                                    i.putExtra("url", url);
-                                    c.startActivity(i);
-                                } else {
-                                    Reddit.defaultShare(url, c);
-
-                                }
-
-
-                                break;
-                            case IMAGE:
-                                openImage(c, url);
-
-                                break;
-                            case GIF:
-                                openGif(false, c, url);
-
-                                break;
-                            case NONE_GFY:
-                                openGif(true, c, url);
-
-                                break;
-                            case NONE_GIF:
-                                openGif(false, c, url);
-
-                                break;
-
-                            case NONE:
-
-                                break;
-                            case NONE_IMAGE:
-                                openImage(c, url);
-
-                                break;
-                            case NONE_URL: {
-                                if(Reddit.web){
-                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
-
-                                builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                                builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                                CustomTabsIntent customTabsIntent = builder.build();
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                                } else {
-                                    Reddit.defaultShare(url, c);
-                                }
-                            }
-                            break;
-                            case VIDEO:
-
-                                if (Reddit.video) {
-                                    Intent intent = new Intent(c, FullscreenVideo.class);
-                                    intent.putExtra("html", url);
-                                    c.startActivity(intent);
-                                } else {
-                                    Reddit.defaultShare(url, c);
-                                }
-
-
-                        }
-
-                    }
-                }
-            });
-
-            // Set a long pressed link listener (required if you want to show the additional
-            // options menu when links are long pressed)
-            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
-                @Override
-                public void onLongPressed() {
-
-                }
-            }, false);
-
-            links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
-
-            comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
-
-
-        }
-
-
-    }
-
-    public void ParseTextWithLinksTextView(String rawHTML, ActiveTextView comm, final Activity c, String subreddit) {
+    public void ParseTextWithLinksTextView(String rawHTML, final ActiveTextView comm, final Activity c, String subreddit) {
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("del", "strike").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>");
             rawHTML = rawHTML.substring(15, rawHTML.lastIndexOf("<!-- SC_ON -->"));
@@ -514,18 +330,48 @@ public class MakeTextviewClickable {
 
             this.c = c;
 
-
-
-            /*DEPRECATED
-            Log.v("Spiral", sequence.toString());
-            SpannableStringBuilder strBuilder = new SpannableStringBuilder(sequence);
-            URLSpan[] urls = strBuilder.getSpans(0, sequence.length(), URLSpan.class);
-            for (URLSpan span : urls) {
-                Log.v("Slide", "DOING URL!");
-                makeLinkClickable(strBuilder, span, (Activity) c);
-            }*/
             CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
             comm.setText(sequence);
+            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
+                @Override
+                public void onLongPressed() {
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(c);
+                    LayoutInflater inflater = c.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.linkmenu, null);
+                    ((TextView) dialoglayout.findViewById(R.id.title)).setText(ActiveTextView.getDomainName(comm.mUrl));
+                    ((TextView) dialoglayout.findViewById(R.id.subtitle)).setText(comm.mUrl);
+
+                    dialoglayout.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Intent.ACTION_VIEW);
+                            i.setData(Uri.parse(comm.mUrl));
+                            c.startActivity(i);
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.internal).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            comm.callOnClick();
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                            share.putExtra(android.content.Intent.EXTRA_SUBJECT, comm.mUrl);
+                            share.putExtra(android.content.Intent.EXTRA_TEXT, comm.mUrl);
+                            share.setType("text/plain");
+                            c.startActivity(Intent.createChooser(share, "Share"));
+                        }
+                    });
+                    builder.setView(dialoglayout);
+
+                    Dialog alert = builder.create();
+                    alert.setCanceledOnTouchOutside(true);
+                    alert.show();
+                }
+            }, false);
             comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
                 @Override
                 public void onClick(String url) {
@@ -676,16 +522,7 @@ public class MakeTextviewClickable {
             });
             comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
-            // Set a long pressed link listener (required if you want to show the additional
-            // options menu when links are long pressed)
-            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
-                @Override
-                public void onLongPressed() {
 
-                }
-            }, false);
-
-            links = new HTMLLinkExtractor().grabHTMLLinks(rawHTML);
 
 
         }

@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.ColorPreferences;
@@ -62,7 +63,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
             ListViewDraggingAnimation.this.setTaskDescription(new ActivityManager.TaskDescription("Reorder Pins", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
-        final ArrayList<String> subs = new ArrayList<>(SubredditStorage.getPins());
+        final List<String> subs = SubredditStorage.getPins();
         if(subs != null && !subs.isEmpty()) {
             final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
@@ -70,11 +71,11 @@ public class ListViewDraggingAnimation extends BaseActivity {
             findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SubredditStorage.setPins(subs);
+                    SubredditStorage.setPins(new ArrayList<>(subs));
                     finish();
                 }
             });
-            final CustomAdapter adapter = new CustomAdapter(subs, this);
+            final CustomAdapter adapter = new CustomAdapter(new ArrayList<>(subs), this);
             //  adapter.setHasStableIds(true);
 
             recyclerView.setAdapter(adapter);

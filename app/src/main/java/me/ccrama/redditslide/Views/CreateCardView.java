@@ -213,17 +213,34 @@ public class CreateCardView {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
             }
             
-            if(SettingValues.infoBar == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
+            if(getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
                 ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(300);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
             switch (getInfoBar(secondary)){
                 case THUMBNAIL:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
+
                     v.findViewById(R.id.base2).setVisibility(View.GONE);
+                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
                     break;
                 case INFO_BAR:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+
                     v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+                    break;
+                case NONE:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+                    v.findViewById(R.id.thumbimage).setVisibility(View.GONE);
+                    v.findViewById(R.id.base2).setVisibility(View.GONE);
+                    break;
+                case BIG_PICTURE:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+                    break;
+                case BIG_PICTURE_CROPPED:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
                     break;
             }
 
