@@ -60,29 +60,28 @@ public class CreateCardView {
     }
     public static void colorCard(String sec, View v,  String subToMatch, boolean secondary){
 
-        String subreddit = (secondary) ? "second" : "";
         subToMatch = subToMatch.toLowerCase();
-        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Pallete.getColor(subreddit) != Pallete.getDefaultColor()) {
+        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Pallete.getColor(sec) != Pallete.getDefaultColor()) {
             resetColorCard(v);
             if (SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
                 switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(subreddit));
+                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(sec));
 
                         break;
                     case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(subreddit));
+                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(sec));
 
                         break;
                 }
             } else if (!subToMatch.equals(sec) && SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
                 switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(subreddit));
+                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(sec));
 
                         break;
                     case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(subreddit));
+                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(sec));
 
                         break;
                 }
