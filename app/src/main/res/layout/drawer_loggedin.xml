@@ -73,7 +73,7 @@
 
 
 
-          
+
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,7 +107,7 @@
 
     </LinearLayout>
 
-   
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:id="@+id/expand_profile"
@@ -277,7 +277,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Support slide"
+            android:text="Support Slide"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -307,7 +307,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Grid layout"
+            android:text="Multi-Column"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
