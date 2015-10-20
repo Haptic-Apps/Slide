@@ -111,13 +111,13 @@ public class CreateCardView {
         if(subreddit.isEmpty()) {
 
 
-            SettingValues.prefs.edit().putString("infoBarNew", b.toString()).apply();
+            SettingValues.prefs.edit().putString("infoBarTypeNew", b.toString()).apply();
 
             SettingValues.infoBar = b;
             return CreateView(parent);
 
         } else {
-            SettingValues.prefs.edit().putString(subreddit + "infoBarNew" , b.toString()).apply();
+            SettingValues.prefs.edit().putString(subreddit + "infoBarTypeNew" , b.toString()).apply();
             return CreateView(parent, secondary, sub);
 
         }
