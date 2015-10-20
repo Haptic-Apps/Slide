@@ -8,6 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Transformation;
 import android.widget.RelativeLayout;
+
 import me.ccrama.redditslide.R;
 
 public class ExpandablePanel extends RelativeLayout {
