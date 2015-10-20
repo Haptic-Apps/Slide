@@ -1500,23 +1500,26 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     chooseAccounts();
                 }
             });
-            /*header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(Overview.this, SavedView.class);
-                    inte.putExtra("type", "Saved");
-                    Overview.this.startActivity(inte);
+                    Intent inte = new Intent(SubredditOverviewSingle.this, SavedView.class);
+                    inte.putExtra("where", "Saved");
+                    inte.putExtra("id", Authentication.name);
+
+                    SubredditOverviewSingle.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.upvoted).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(Overview.this, SavedView.class);
-                    inte.putExtra("type", "Liked");
+                    Intent inte = new Intent(SubredditOverviewSingle.this, SavedView.class);
+                    inte.putExtra("where", "Liked");
+                    inte.putExtra("id", Authentication.name);
 
-                    Overview.this.startActivity(inte);
+                    SubredditOverviewSingle.this.startActivity(inte);
                 }
-            });*/
+            });
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
