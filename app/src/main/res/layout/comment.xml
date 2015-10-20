@@ -440,7 +440,7 @@
                 android:background="?android:selectableItemBackground"
 
                 android:id="@+id/discard"
-                android:text="DISCARD"
+                android:text="@string/thread_reply_discard"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -453,7 +453,7 @@
                 android:background="?android:selectableItemBackground"
 
                 android:padding="4dp"
-                android:text="SUBMIT"
+                android:text="@string/thread_reply_submit"
 
                 android:textSize="14sp"
                 android:textStyle="bold" />

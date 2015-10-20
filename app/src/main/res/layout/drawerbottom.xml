@@ -57,7 +57,7 @@
             android:textStyle="bold"
             android:textColor="?attr/font"
 
-            android:text="Grid layout"
+            android:text="@string/drawer_grid"
             android:gravity="center_vertical"
             android:layout_height="match_parent" />
     </LinearLayout>
