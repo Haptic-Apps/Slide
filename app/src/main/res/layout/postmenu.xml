@@ -153,7 +153,7 @@
 
                             android:id="@+id/savedtext"
 
-                            android:text="Save post"
+                            android:text="@string/post_save"
 
                             android:textSize="16sp" />
 
@@ -184,7 +184,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Gild post"
+                            android:text="@string/post_gild"
 
                             android:textSize="16sp" />
 
@@ -215,7 +215,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Report post"
+                            android:text="@string/post_report"
 
                             android:textSize="16sp" />
 
@@ -245,7 +245,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="Share post"
+                            android:text="@string/post_share"
 
                             android:textSize="16sp" />
 

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Multi-Column Settings"
+                android:text="@string/multi_column_title"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:padding="16dp"
-                        android:text="LANDSCAPE"
+                        android:text="@string/multi_column_landscape"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:textColor="?attr/font"
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:padding="16dp"
-                        android:text="PORTRAIT SETTINGS COMING SOON"
+                        android:text="@string/multi_column_portrait"
                         android:textSize="14dp"
                         android:alpha=".7"
                         android:textStyle="bold"

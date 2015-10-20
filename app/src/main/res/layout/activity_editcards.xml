@@ -40,7 +40,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="RESET"
+                        android:text="@string/theme_card_reset"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:id="@+id/reset"
@@ -81,7 +81,7 @@
                  android:layout_marginTop="8dp"
                  android:textColorHint="?attr/font"
                  android:textColor="?attr/font"
-                 android:text="Show actionbar" />
+                 android:text="@string/theme_card_actionbar" />
              <CheckBox
                  android:id="@+id/flargeimage"
                  android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                  android:layout_marginTop="8dp"
                  android:textColorHint="?attr/font"
                  android:textColor="?attr/font"
-                 android:text="Large image preview" />
+                 android:text="@string/theme_card_preview" />
              <CheckBox
                  android:id="@+id/finfo"
                  android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                  android:layout_marginTop="8dp"
                  android:textColorHint="?attr/font"
                  android:textColor="?attr/font"
-                 android:text="Info bar visible" />
+                 android:text="@string/theme_card_infobar" />
          </LinearLayout>
     </ScrollView>
 

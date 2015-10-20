@@ -84,7 +84,7 @@
                             android:layout_marginTop="8dp"
                             android:textColorHint="?attr/font"
                             android:textColor="?attr/font"
-                            android:text="PINNED" />
+                            android:text="@string/sidebar_pinned" />
                         <CheckBox
                             android:id="@+id/subscribed"
                             android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                             android:layout_marginTop="8dp"
                             android:textColorHint="?attr/font"
                             android:textColor="?attr/font"
-                            android:text="SUBSCRIBED" />
+                            android:text="@string/sidebar_subscribed" />
 
                         <View
                             android:layout_width="match_parent"
@@ -133,7 +133,7 @@
 
                                 android:textColor="?attr/font"
 
-                                android:text="View wiki"
+                                android:text="@string/sidebar_wiki"
 
                                 android:textSize="16sp" />
 
@@ -166,7 +166,7 @@
 
                                 android:textColor="?attr/font"
 
-                                android:text="Subreddit theme settings"
+                                android:text="@string/sidebar_theme"
 
                                 android:textSize="16sp" />
 

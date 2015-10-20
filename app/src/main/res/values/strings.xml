@@ -4,4 +4,102 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Generic text used anywhere -->
+    <string name="generic_ok">OK</string>
+
+    <!-- Text for the example submissions
+         Used in the edit card view screen  -->
+    <string name="example_domain">imgur</string>
+    <string name="example_url">imgur.com/a/alskdfj</string>
+    <string name="example_title">Chameleons are Cool!</string>
+    <string name="example_sub">/r/animals</string>
+    <string name="example_time">6 hours ago</string>
+    <string name="example_points">204 points</string>
+    <string name="example_points_short">+204</string>
+    <string name="example_comments">402 comments</string>
+
+    <!-- Used when viewing a thread -->
+    <string name="thread_reply_submit">SUBMIT</string>
+    <string name="thread_reply_discard">DISCARD</string>
+    <string name="thread_properties_seperator">"  •  "</string>
+
+    <!-- Theme settings -->
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_black">AMOLED Black</string>
+    <string name="theme_default_color">Default color</string>
+    <string name="theme_default_description">This value applies everywhere you have not set a specific color for.</string>
+    <string name="theme_subreddit_color">Change color</string>
+    <string name="theme_accent_color">Accent color</string>
+    <string name="theme_edit_global">Edit global theme settings</string>
+    <string name="theme_edit_card">Edit CardView</string>
+
+    <!-- For editing the submission card layout -->
+    <string name="theme_card_reset">RESET</string>
+    <string name="theme_card_actionbar">Show actionbar</string>
+    <string name="theme_card_preview">Large image preview</string>
+    <string name="theme_card_infobar">Info bar visible</string>
+
+    <!-- Settings for Multi-column view -->
+    <string name="multi_column_title">Multi-Column Settings</string>
+    <string name="multi_column_landscape">LANDSCAPE</string>
+    <!-- Currently not implemented -->
+    <string name="multi_column_portrait">PORTRAIT SETTINGS COMING SOON</string>
+
+    <!-- Drawer items (That's the one on the left) -->
+    <string name="drawer_welcome">Welcome back,</string>
+    <string name="drawer_login">Log in</string>
+    <string name="drawer_logout">LOG OUT</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_multis">Multireddits</string>
+    <string name="drawer_support">Support Slide</string>
+    <string name="drawer_grid">Grid layout</string>
+    <string name="drawer_goto_profile">Go to profile</string>
+    <string name="drawer_settings">Settings</string>
+
+    <!-- Sidebar items (That's the one on the right) -->
+    <string name="sidebar_pinned">PINNED</string>
+    <string name="sidebar_subscribed">SUBSCRIBED</string>
+    <string name="sidebar_wiki">View wiki</string>
+    <string name="sidebar_theme">Subreddit theme settings</string>
+
+    <!-- Crash reporting screen -->
+    <string name="crash_title">Slide has crashed.</string>
+    <string name="crash_report">Report bug on GitHub</string>
+    <string name="crash_restart">Restart App</string>
+
+    <!-- New submissions -->
+    <string name="submit_text">SELF TEXT</string>
+    <string name="submit_link">LINK</string>
+    <string name="submit_image">IMAGE</string>
+    <string name="submit_image_select">SELECT AN IMAGE</string>
+
+    <!-- User profile -->
+    <string name="profile_yours">Your profile</string>
+    <string name="profile_karma_link">link karma</string>
+    <string name="profile_karma_comment">comment karma</string>
+    <string name="profile_message">Private message</string>
+    <string name="profile_saved">Saved posts</string>
+    <string name="profile_upvoted">Upvoted posts</string>
+
+    <!-- Post text options  share save hide report-->
+    <string name="post_gild">Gild post</string>
+    <!-- Currently not implemented -->
+    <string name="post_hide">Hide post</string>
+    <string name="post_report">Report post</string>
+    <string name="post_save">Save post</string>
+    <string name="post_share">Share post</string>
+
+    <!-- Comment text options -->
+    <string name="comment_gild">Gild comment</string>
+    <!-- currently not implemented -->
+    <string name="comment_hide">Hide comment</string>
+    <string name="comment_report">Report comment</string>
+    <string name="comment_share">Share comment</string>
+
+    <!-- Tutorial view -->
+    <string name="tutorial_skip">SKIP</string>
+    <string name="tutorial_agree">I AGREE</string>
+    <string name="tutorial_swipe">Swipe between subreddits!</string>
 </resources>
