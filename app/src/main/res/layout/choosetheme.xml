@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Edit global theme settings"
+                android:text="@string/theme_edit_global"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
 
                             android:textColor="#ffffff"
 
-                            android:text="Dark"
+                            android:text="@string/theme_dark"
 
                             android:textSize="16sp" />
 
@@ -103,7 +103,7 @@
 
                             android:textColor="#ffffff"
 
-                            android:text="AMOLED Black"
+                            android:text="@string/theme_black"
 
                             android:textSize="16sp" />
 
@@ -133,7 +133,7 @@
 
                             android:textColor="#cd000000"
 
-                            android:text="Light"
+                            android:text="@string/theme_light"
 
                             android:textSize="16sp" />
 
@@ -193,7 +193,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Default color"
+                            android:text="@string/theme_default_color"
 
                             android:textSize="16sp" />
 
@@ -224,7 +224,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Accent color"
+                            android:text="@string/theme_accent_color"
 
                             android:textSize="16sp" />
 
@@ -255,7 +255,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Edit CardView"
+                            android:text="@string/theme_edit_card"
 
                             android:textSize="16sp" />
 
@@ -293,7 +293,7 @@
                         app:selectedColorIndex="5" />
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="This value applies everywhere you have not set a specific color for."
+                        android:text="@string/theme_default_description"
                         android:textSize="14dp"
 
                         android:padding="16dp"
@@ -302,7 +302,7 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="OK"
+                        android:text="@string/generic_ok"
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok"
@@ -336,7 +336,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="This value applies everywhere you have not set a specific color for."
+                        android:text="@string/theme_default_description"
                         android:textSize="14dp"
 
                         android:padding="16dp"
@@ -345,7 +345,7 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="OK"
+                        android:text="@string/generic_ok"
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok2"

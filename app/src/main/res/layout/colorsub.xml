@@ -73,7 +73,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Change color"
+                            android:text="@string/theme_subreddit_color"
 
                             android:textSize="16sp" />
 
@@ -104,7 +104,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Accent color"
+                            android:text="@string/theme_accent_color"
 
                             android:textSize="16sp" />
 
@@ -172,7 +172,7 @@
                         app:selectedColorIndex="5" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="RESET"
+                        android:text="@string/theme_card_reset"
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/reset"

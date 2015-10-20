@@ -124,7 +124,7 @@
                                 android:alpha=".56"
 
                                 android:gravity="center_vertical"
-                                android:text="6 hours ago"
+                                android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo"/>

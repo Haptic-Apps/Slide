@@ -76,7 +76,7 @@
                             android:layout_marginLeft="5dp"
 
 
-                            android:text="link karma"
+                            android:text="@string/profile_karma_link"
 
                             android:textSize="16sp" />
 
@@ -112,7 +112,7 @@
                             android:layout_marginLeft="5dp"
 
 
-                            android:text="comment karma"
+                            android:text="@string/profile_karma_comment"
 
                             android:textSize="16sp" />
 
@@ -151,7 +151,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Private message"
+                            android:text="@string/profile_message"
 
                             android:textSize="16sp" />
 
@@ -183,7 +183,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Change color"
+                            android:text="@string/theme_subreddit_color"
 
                             android:textSize="16sp" />
 
@@ -222,7 +222,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="OK"
+                        android:text="@string/generic_ok"
                         android:textSize="14dp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok"
