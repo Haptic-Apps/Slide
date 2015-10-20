@@ -28,6 +28,7 @@ public class CreateCardView {
                 break;
 
         }
+
         doHideObjects(v, false);
         return v;
     }
@@ -47,7 +48,6 @@ public class CreateCardView {
 
         }
         doHideObjects(v, secondary);
-        colorCard(subreddit, v, sub, secondary);
         return v;
     }
 
@@ -62,10 +62,10 @@ public class CreateCardView {
 
         String subreddit = (secondary) ? "second" : "";
         subToMatch = subToMatch.toLowerCase();
-        if (getColorIndicator(secondary) != SettingValues.ColorIndicator.NONE && Pallete.getColor(subreddit) != Pallete.getDefaultColor()) {
+        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Pallete.getColor(subreddit) != Pallete.getDefaultColor()) {
             resetColorCard(v);
-            if (getColorMatchingMode(secondary) == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
-                switch (getColorIndicator(secondary)) {
+            if (SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
+                switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
                         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(subreddit));
 
@@ -75,8 +75,8 @@ public class CreateCardView {
 
                         break;
                 }
-            } else if (!subToMatch.equals(sec) && getColorMatchingMode(secondary) == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
-                switch (getColorIndicator(secondary)) {
+            } else if (!subToMatch.equals(sec) && SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
+                switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
                         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(subreddit));
 
