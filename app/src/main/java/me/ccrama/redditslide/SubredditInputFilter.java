@@ -35,6 +35,6 @@ public class SubredditInputFilter implements InputFilter {
     }
 
     private boolean isCharAllowed(char c) {
-        return Character.isLetter(c) || c == '_' || Character.isAlphabetic(c);
+        return Character.isLetter(c) || c == '_' || Character.isDigit(c);
     }
 }
