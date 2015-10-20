@@ -62,7 +62,6 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
     @Override
     protected ArrayList<String> doInBackground(final Reddit... params) {
-        ArrayList<String> finished = new ArrayList<>();
 
         if(Authentication.isLoggedIn){
             getMultireddits();

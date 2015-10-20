@@ -181,7 +181,7 @@ public class DoEditorActions {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         String s = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
-        s.replace("\n", "\n" + wrapText);
+        s = s.replace("\n", "\n" + wrapText);
         editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
     }
     public static void insertBefore( String wrapText, EditText editText){
@@ -291,7 +291,6 @@ public class DoEditorActions {
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write(data);
                 wr.flush();
-                data = "";
 
                 // Get the response
                 BufferedReader rd = new BufferedReader(

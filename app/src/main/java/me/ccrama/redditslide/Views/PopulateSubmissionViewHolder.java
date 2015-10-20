@@ -210,7 +210,6 @@ public class PopulateSubmissionViewHolder {
         if(!(SettingValues.infoBar == SettingValues.InfoBar.NONE && !full)) {
 
             boolean bigAtEnd = false;
-            String submissionURL = submission.getUrl();
             if (type == ContentType.ImageType.IMAGE) {
                 url = ContentType.getFixedUrl(submission.getUrl());
                 if (big || fullscreen) {

@@ -155,9 +155,6 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
                 return;
             }
 
-            //Movement of finger
-            float totalMovement = fingerY-fingerAnchorY;
-
             if (itemPos == selectedDragItemPos)
             {
                 view.setVisibility(View.INVISIBLE);

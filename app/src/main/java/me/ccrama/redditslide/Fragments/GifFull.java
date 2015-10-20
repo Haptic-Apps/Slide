@@ -24,7 +24,6 @@ import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -68,9 +67,7 @@ public class GifFull extends Fragment {
 
         title.setText(s.getTitle());
         desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
-        ContentType.ImageType type = ContentType.getImageType(s);
 
-        String url = "";
         placeholder = rootView.findViewById(R.id.placeholder);
         gif = rootView.findViewById(R.id.gif);
 
@@ -90,7 +87,6 @@ public class GifFull extends Fragment {
                 if (dat.endsWith("v")) {
                     dat = dat.substring(0, dat.length() - 1);
                 }
-                final String finalDat1 = dat;
 
                 new AsyncImageLoader().execute(dat);
             }
