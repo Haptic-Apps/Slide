@@ -87,7 +87,6 @@ public class GifFull extends Fragment {
                 if (dat.endsWith("v")) {
                     dat = dat.substring(0, dat.length() - 1);
                 }
-
                 new AsyncImageLoader().execute(dat);
             }
 
@@ -281,6 +280,7 @@ public class GifFull extends Fragment {
                                 @Override
                                 public void onPrepared(MediaPlayer mp) {
                                     mp.setLooping(true);
+                                    placeholder.setVisibility(View.GONE);
 
 
                                 }
