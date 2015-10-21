@@ -1,22 +1,13 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
-
-import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.GitReporter;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.Pallete;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -38,7 +29,7 @@ public class Crash extends ActionBarActivity {
         findViewById(R.id.report).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LayoutInflater inflater = getLayoutInflater();
+             /*old   LayoutInflater inflater = getLayoutInflater();
                 final View dialogLayout = inflater.inflate(R.layout.sendissue, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Crash.this);
 
@@ -64,7 +55,10 @@ public class Crash extends ActionBarActivity {
                     }
                 });
                 final Dialog dialog = builder.setView(dialogLayout).create();
-                dialog.show();
+                dialog.show();*/
+                Intent i = new Intent(Crash.this, GitReporter.class);
+                i.putExtra("stacktrace", stacktrace);
+                startActivity(i);
             }
         });
 

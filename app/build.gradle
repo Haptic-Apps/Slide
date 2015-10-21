@@ -8,7 +8,7 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 65
+        versionCode 66
         versionName "4.2.1"
         multiDexEnabled true
 
@@ -51,6 +51,7 @@ dependencies {
     compile('com.afollestad.material-dialogs:commons:0.8.2.0@aar') {
         transitive = true
     }
+    compile 'com.github.paolorotolo:gitty_reporter:1.2.1'
 
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'

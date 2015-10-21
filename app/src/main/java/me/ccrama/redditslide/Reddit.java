@@ -204,11 +204,9 @@ public class Reddit extends Application implements Application.ActivityLifecycle
                     t.printStackTrace(printWriter);
                     String s = writer.toString();
                     s = s.replace(";", ",");
-                    s = s.replace("at ", "%0Aat ");
-                    Log.v("Slide", "Slide crashed with " + s);
                     Intent i = new Intent(Reddit.this, Crash.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("stacktrace", s);
+                    i.putExtra("stacktrace", "```" + s + "```");
 
                     startActivity(i);
                 } catch (Throwable t1) {
