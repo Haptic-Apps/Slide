@@ -326,7 +326,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
         }
         ((TextView) findViewById(R.id.sub_title)).setText( subreddit.getPublicDescription());
 
-        ((TextView) findViewById(R.id.subscribers)).setText("" + subreddit.getSubscriberCount() + " subscribers");
+        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
 
     }
 
@@ -1604,9 +1604,9 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 final EditText input = new EditText(SubredditOverviewSingle.this);
 
                 new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
-                        .setTitle("Enter Username")
+                        .setTitle(R.string.user_enter)
                         .setView(input)
-                        .setPositiveButton("Go to user", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
                                 if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {

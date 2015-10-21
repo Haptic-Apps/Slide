@@ -244,6 +244,8 @@
     <string name="wiki_err">No wiki found</string>
     <string name="wiki_err_msg">This subreddit doesn\'t have a wiki!</string>
     <string name="btn_close">Close</string>
+    <string name="title_settings_general">General Settings</string>
+    <string name="subreddit_subscribers">%1$d subscribers</string>
 
     <plurals name="mail_hours">
         <item quantity="one">One hour</item>

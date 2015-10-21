@@ -280,7 +280,7 @@ public class Submit extends ActionBarActivity {
                                                 public void onClick(DialogInterface dialogInterface, int i) {
                                                     finish();
                                                 }
-                                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
