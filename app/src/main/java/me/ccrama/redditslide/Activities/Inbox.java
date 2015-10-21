@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -40,14 +41,11 @@ public class Inbox extends BaseActivity {
         String hour = "";
         String minute = "";
         if (hours > 0)
-            if (hours > 1) {
-                hour = hours + " hours ";
-            } else {
-                hour = hours + " hour ";
-            }
+            hour = Resources.getSystem().getQuantityString(R.plurals.mail_hours, hours, hours);
         if(minutes > 0)
-        minute = minutes + " minutes";
-         return "\n" + hour + minute;
+            minute = Resources.getSystem().getQuantityString(R.plurals.mail_minutes, minutes, minutes);
+
+        return "\n" + hour + minute;
     }
 
     @Override
@@ -65,7 +63,7 @@ public class Inbox extends BaseActivity {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Inbox");
+        getSupportActionBar().setTitle(R.string.title_inbox);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pager = (ViewPager) findViewById(R.id.contentView);
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
@@ -91,13 +89,13 @@ public class Inbox extends BaseActivity {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText("Check for new messages every " + getTime(Reddit.notificationTime));
+                    checkBox.setText(getString(R.string.setting_notifications) + " " + getTime(Reddit.notificationTime));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText("Check for new messages every " + getTime(i1 * 15));
+                        checkBox.setText(getString(R.string.setting_notifications) + " " + getTime(i1 * 15));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

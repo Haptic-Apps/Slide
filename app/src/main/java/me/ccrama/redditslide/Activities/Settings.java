@@ -66,7 +66,7 @@ public class Settings extends BaseActivityNoAnim {
         Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -114,13 +114,13 @@ public class Settings extends BaseActivityNoAnim {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText("Check for new messages every " + Inbox.getTime(Reddit.notificationTime));
+                    checkBox.setText(R.string.setting_notifications + " " + Inbox.getTime(Reddit.notificationTime));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText("Check for new messages every " + Inbox.getTime(i1 * 15));
+                        checkBox.setText(R.string.setting_notifications + " " + Inbox.getTime(i1 * 15));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

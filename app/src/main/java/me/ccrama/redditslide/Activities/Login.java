@@ -41,7 +41,7 @@ public class Login extends BaseActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_login);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Log into Reddit");
+        toolbar.setTitle(R.string.title_login);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -109,9 +109,9 @@ public class Login extends BaseActivity {
                         @Override
                         public void run() {
                             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Login.this);
-                            builder.setTitle("App is restarting");
-                            builder.setMessage("In order to sync subreddits and settings, Slide will restart");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            builder.setTitle(R.string.login_restarting_title);
+                            builder.setMessage(R.string.login_restart_msg);
+                            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                    Reddit.forceRestart(Login.this);
                                 }

@@ -98,14 +98,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
             try {
                 if (submissions[0].isSaved()) {
                     new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    Snackbar.make(v, "Submission unsaved", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
 
                     submissions[0].saved = false;
                     v = null;
 
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
-                    Snackbar.make(v, "Submission saved", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
 
                     submissions[0].saved = true;
                     v = null;
@@ -179,9 +179,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                     @Override
                     public void onClick(View v) {
                         if (saved) {
-                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Save post");
+                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save_post);
                         } else {
-                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
                         }
                         new AsyncSave(holder.itemView).execute(submission);
@@ -189,7 +189,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                     }
                 });
                 if (saved) {
-                    ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                    ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
                 }
                 dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -232,7 +232,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
                         d.dismiss();
                         Hidden.setHidden( old);
 
-                        Snackbar.make(listView, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                        Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 dataSet.add(pos, old);

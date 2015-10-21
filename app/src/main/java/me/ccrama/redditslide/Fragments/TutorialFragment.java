@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,15 +34,15 @@ public class TutorialFragment extends Fragment {
 
     }
     public static String[] titles = new String[]{
-            "Swipe to switch subreddits",
-            "Tap a submission to open in in full view",
-            "Slide up to see comments in full view",
-            "Tap a name to view user",
-            "Hide comments with a single tap",
-            "You can swipe to the next submission in full view",
+            Resources.getSystem().getString(R.string.tutorial_swipe_subreddits),
+            Resources.getSystem().getString(R.string.tutorial_tap_full_view),
+            Resources.getSystem().getString(R.string.tutorial_slide_comments),
+            Resources.getSystem().getString(R.string.tutorial_tap_name),
+            Resources.getSystem().getString(R.string.tutorial_tap_hide),
+            Resources.getSystem().getString(R.string.tutorial_swipe_next),
 
-            "Open content from full view",
-            "Open content from list view"
+            Resources.getSystem().getString(R.string.tutorial_open_full),
+            Resources.getSystem().getString(R.string.tutoiral_open_list)
     };
     public static int[] dataBits = new int[]{
             R.drawable.swipe_subreddit,

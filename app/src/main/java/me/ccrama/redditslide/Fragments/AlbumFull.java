@@ -125,7 +125,7 @@ public class AlbumFull extends Fragment {
 
                             ArrayList<JsonElement> jsons = new ArrayList<>();
 
-                            if ( result.has("album")) {
+                            if (result.has("album")) {
 
                                 JsonObject obj = result.getAsJsonObject("album");
                                 if (obj != null && !obj.isJsonNull() && obj.has("images")) {
@@ -146,10 +146,10 @@ public class AlbumFull extends Fragment {
                                 } else {
 
                                     new AlertDialogWrapper.Builder(getActivity())
-                                            .setTitle("Album not found...")
-                                            .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
+                                            .setTitle(R.string.album_err_not_found)
+                                            .setMessage(R.string.album_err_msg_not_found)
                                             .setCancelable(false)
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                 }
@@ -158,10 +158,10 @@ public class AlbumFull extends Fragment {
                             } else {
 
                                 new AlertDialogWrapper.Builder(getActivity())
-                                        .setTitle("Album not found...")
-                                        .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
+                                        .setTitle(R.string.album_err_not_found)
+                                        .setMessage(R.string.album_err_msg_not_found)
                                         .setCancelable(false)
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                             }

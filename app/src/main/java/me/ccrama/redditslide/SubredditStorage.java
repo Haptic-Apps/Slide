@@ -13,6 +13,7 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import me.ccrama.redditslide.Activities.Shortcut;
 
@@ -94,8 +95,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 params[0].loader.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        params[0].loader.loading.setText("Finding videos of cats");
-
+                        String[] strings = StartupStrings.startupStrings;
+                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);
                     }
                 });
             }
@@ -148,7 +149,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 params[0].loader.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        params[0].loader.loading.setText("Finding videos of cats");
+                        String[] strings = StartupStrings.startupStrings;
+                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);
 
                     }
                 });

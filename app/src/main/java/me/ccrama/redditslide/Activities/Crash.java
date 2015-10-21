@@ -56,7 +56,7 @@ public class Crash extends ActionBarActivity {
                                 "%0AReported%20via%20Slide%20Crash%20Capture";
 
                         if (Authentication.refresh != null)
-                            reportCrashURL = reportCrashURL.replace(Authentication.refresh, "[AUTOHRIZATION TOKEN]");
+                            reportCrashURL = reportCrashURL.replace(Authentication.refresh, "[AUTHORIZATION TOKEN]");
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(reportCrashURL));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

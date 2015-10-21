@@ -162,7 +162,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
-        c.startActivity(Intent.createChooser(sharingIntent, "Share using"));
+        c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }
     public static void defaultShare(String url, Context c){
         Uri webpage = Uri.parse(url);

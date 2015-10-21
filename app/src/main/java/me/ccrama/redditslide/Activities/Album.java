@@ -49,7 +49,7 @@ public class Album extends BaseActivity {
         setContentView(R.layout.album);
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setTitle("Loading album...");
+        b.setTitle(R.string.album_loading);
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -132,10 +132,10 @@ public class Album extends BaseActivity {
                                     } else {
 
                                         new AlertDialogWrapper.Builder(Album.this)
-                                                .setTitle("Album not found...")
-                                                .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
+                                                .setTitle(R.string.album_err_not_found)
+                                                .setMessage(R.string.album_err_msg_not_found)
                                                 .setCancelable(false)
-                                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         finish();
@@ -145,15 +145,15 @@ public class Album extends BaseActivity {
                                 } else {
 
                                     new AlertDialogWrapper.Builder(Album.this)
-                                            .setTitle("Album not found...")
-                                            .setMessage("An error occured when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit")
-                                            .setCancelable(false)
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    finish();
-                                                }
-                                            }).create().show();
+                                            .setTitle(R.string.album_err_not_found)
+                                            .setMessage(R.string.album_err_msg_not_found)
+                                                    .setCancelable(false)
+                                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            finish();
+                                                        }
+                                                    }).create().show();
                                 }
                             }
                         });

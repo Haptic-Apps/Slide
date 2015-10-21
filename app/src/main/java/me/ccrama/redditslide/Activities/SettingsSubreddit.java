@@ -60,7 +60,7 @@ public class SettingsSubreddit extends BaseActivityNoAnim {
         Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle("Subreddit Settings");
+        getSupportActionBar().setTitle(R.string.title_subreddit_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

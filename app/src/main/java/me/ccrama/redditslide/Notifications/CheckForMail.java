@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
@@ -35,9 +36,11 @@ public class CheckForMail extends BroadcastReceiver {
 
         @Override
         public void onPostExecute(List<Message> messages){
+            Resources res = c.getResources();
             if(messages != null && messages.size() > 0) {
                 if (messages.size() == 1) {
                     NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+
 
                     Intent notificationIntent = new Intent(c, Inbox.class);
 
@@ -49,12 +52,16 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.BigTextStyle notiStyle = new
                             NotificationCompat.BigTextStyle();
-                    notiStyle.setBigContentTitle(messages.get(0).getAuthor() + " sent you a message");
+                    notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg) + " " + messages.get(0).getAuthor());
                     notiStyle.bigText(Html.fromHtml(messages.get(0).getBody()));
 
                     Notification notification = new NotificationCompat.Builder(c).setContentIntent(intent)
-                            .setSmallIcon(R.drawable.notif).setTicker("You have new mail!").setWhen(System.currentTimeMillis())
-                            .setAutoCancel(true).setContentTitle(messages.get(0).getSubject() + " from " + messages.get(0).getAuthor())
+                            .setSmallIcon(R.drawable.notif)
+                            .setTicker(res.getQuantityString(R.plurals.mail_notification_title, 1))
+                            .setWhen(System.currentTimeMillis())
+                            .setAutoCancel(true)
+                            .setContentTitle(messages.get(0).getSubject() + " " +
+                                    c.getString(R.string.mail_notification_author) + " " + messages.get(0).getAuthor())
                             .setContentText(Html.fromHtml(messages.get(0).getBody()))
                             .setStyle(notiStyle)
                             .build();
@@ -65,10 +72,10 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.InboxStyle notiStyle = new
                             NotificationCompat.InboxStyle();
-                    notiStyle.setBigContentTitle("You have new mail!");
-                    notiStyle.setSummaryText("You have " + amount + " new messages.");
+                    notiStyle.setBigContentTitle(res.getQuantityString(R.plurals.mail_notification_title, amount, amount));
+                    notiStyle.setSummaryText("");
                     for(Message m : messages) {
-                        notiStyle.addLine("New message from " + m.getAuthor());
+                        notiStyle.addLine(c.getString(R.string.mail_notification_msg) + " " + m.getAuthor());
                     }
 
                     Intent notificationIntent = new Intent(c, Inbox.class);
@@ -82,8 +89,11 @@ public class CheckForMail extends BroadcastReceiver {
 
                     Notification notification = new NotificationCompat.Builder(c)
                             .setContentIntent(intent)
-                            .setSmallIcon(R.drawable.notif).setTicker("You have new mail!").setWhen(System.currentTimeMillis())
-                            .setAutoCancel(true).setContentTitle("You have " + amount + " new messages.")
+                            .setSmallIcon(R.drawable.notif)
+                            .setTicker(res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
+                            .setWhen(System.currentTimeMillis())
+                            .setAutoCancel(true)
+                            .setContentTitle(res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
                             .setStyle(notiStyle)
                             .build();
                     notificationManager.notify(0, notification);

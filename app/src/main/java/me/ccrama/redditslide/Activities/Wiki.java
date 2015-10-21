@@ -90,13 +90,16 @@ public class Wiki extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(Wiki.this).setTitle("No wiki found").setMessage("This subreddit doesn't have a wiki!").setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                finish();
-                            }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        new AlertDialogWrapper.Builder(Wiki.this)
+                                .setTitle(R.string.wiki_err)
+                                .setMessage(R.string.wiki_err_msg)
+                                .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 finish();
@@ -113,13 +116,16 @@ public class Wiki extends BaseActivity {
                 pager.setAdapter(adapter);
                 tabs.setupWithViewPager(pager);
             } else {
-                new AlertDialogWrapper.Builder(Wiki.this).setTitle("No wiki found").setMessage("This subreddit doesn't have a wiki!").setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        finish();
-                    }
-                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                new AlertDialogWrapper.Builder(Wiki.this)
+                        .setTitle(R.string.wiki_err)
+                        .setMessage(R.string.wiki_err_msg)
+                        .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         finish();

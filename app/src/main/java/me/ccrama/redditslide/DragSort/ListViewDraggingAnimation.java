@@ -56,7 +56,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle("Reorder Pins");
+        getSupportActionBar().setTitle(R.string.title_reorder_pins);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
@@ -112,13 +112,15 @@ public class ListViewDraggingAnimation extends BaseActivity {
             recyclerView.addOnItemTouchListener(dragSortRecycler);
             recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
         } else {
-            new AlertDialogWrapper.Builder(this).setTitle("No Pins (yet)!").setMessage("You can pin your favorite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check 'PINNED'!")
+            new AlertDialogWrapper.Builder(this)
+                    .setTitle(R.string.pins_err_title)
+                    .setMessage(R.string.pins_err_msg)
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             finish();
                         }
-                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();

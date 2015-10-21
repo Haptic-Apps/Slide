@@ -82,7 +82,7 @@ public class Shortcut extends Activity {
                         SubredditStorage.shortcut = null;
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Shortcut.this);
 
-                        builder.setTitle("Pick a Subreddit");
+                        builder.setTitle(R.string.subreddit_chooser);
                         builder.setAdapter(new SubredditListingAdapter(Shortcut.this, SubredditStorage.alphabeticalSubscriptions), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

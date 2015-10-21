@@ -75,8 +75,8 @@ public class Submit extends ActionBarActivity {
         setContentView(R.layout.activity_submit);
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setTitle("Submit post");
-        b.setBackgroundColor(Pallete.getColor("alksfjalskjf"));
+        b.setTitle(R.string.title_submit_post);
+        b.setBackgroundColor(Pallete.getColor("alksfjalskjf")); //fixme?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -127,7 +127,7 @@ public class Submit extends ActionBarActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,
-                        "Select Picture"), 1);
+                        getString(R.string.editor_select_img)), 1);
             }
         });
 
@@ -174,12 +174,15 @@ public class Submit extends ActionBarActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        finish();
-                                    }
-                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                new AlertDialogWrapper.Builder(Submit.this)
+                                        .setTitle(R.string.editor_err_title)
+                                        .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.editor_err_retry))
+                                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                finish();
+                                            }
+                                        }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         ((FloatingActionButton)findViewById(R.id.send)).show();
@@ -203,12 +206,15 @@ public class Submit extends ActionBarActivity {
                             @Override
                             public void run() {
                                 if(e instanceof ApiException) {
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + ((ApiException) e).getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    new AlertDialogWrapper.Builder(Submit.this)
+                                            .setTitle(R.string.editor_err_title)
+                                            .setMessage(R.string.misc_err + ": " + e.getExplanation() + "\n" + R.string.editor_err_retry)
+                                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             finish();
                                         }
-                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -216,12 +222,15 @@ public class Submit extends ActionBarActivity {
                                         }
                                     }).create().show();
                                 } else {
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: Invalid URL\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    new AlertDialogWrapper.Builder(Submit.this)
+                                            .setTitle(R.string.editor_err_title)
+                                            .setMessage(R.string.misc_err + ": " + getString(R.string.misc_invalid_url) + "\n" + R.string.editor_err_retry)
+                                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    finish();
+                                                }
+                                            }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -247,12 +256,15 @@ public class Submit extends ActionBarActivity {
                             @Override
                             public void run() {
                                 if(e instanceof ApiException) {
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + ((ApiException) e).getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    new AlertDialogWrapper.Builder(Submit.this)
+                                            .setTitle(R.string.editor_err_title)
+                                            .setMessage(R.string.misc_err + ": " + ((ApiException) e).getExplanation() + "\n" + R.string.editor_err_retry)
+                                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             finish();
                                         }
-                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -260,12 +272,15 @@ public class Submit extends ActionBarActivity {
                                         }
                                     }).create().show();
                                 } else {
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: Invalid URL\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    new AlertDialogWrapper.Builder(Submit.this)
+                                            .setTitle(R.string.editor_err_title)
+                                            .setMessage(R.string.misc_err + ": " + getString(R.string.misc_invalid_url) + "\n" + R.string.editor_err_retry)
+                                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    finish();
+                                                }
+                                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -282,12 +297,15 @@ public class Submit extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("An error occured. Would you like to try again").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        new AlertDialogWrapper.Builder(Submit.this)
+                                .setTitle(R.string.editor_err_title)
+                                .setMessage(R.string.editor_err_retry)
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 ((FloatingActionButton)findViewById(R.id.send)).show();
@@ -324,7 +342,7 @@ public class Submit extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("Uploading image to Imgur...");
+            dialog.setMessage(getString(R.string.editor_uploading_image));
             dialog.setCancelable(false);
             dialog.show();
         }

@@ -106,7 +106,7 @@ public class Authentication {
         @Override
         public void onPostExecute(Void voids){
             if(a.loader != null){
-                a.loader.loading.setText("Updating your subreddits");
+                a.loader.loading.setText(R.string.authentication_updating_subs);
             }
 
                 new SubredditStorage().execute(a);

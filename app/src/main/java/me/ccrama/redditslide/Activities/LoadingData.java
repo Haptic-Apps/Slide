@@ -41,13 +41,13 @@ public class LoadingData extends ActionBarActivity {
 
         } else if(!isNetworkAvailable()) {
               AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this);
-            b.setTitle("Uh oh, Slide couldn't connect to Reddit!");
-            b.setMessage("Please check your internet connection and try again!");
-            b.create().show();
+            b.setTitle(R.string.err_network_title)
+            .setMessage(R.string.err_network_msg)
+            .create().show();
 
                 }
         loading  = (TextView) findViewById(R.id.loading);
-        loading.setText("Connecting to Reddit");
+        loading.setText(R.string.info_connecting);
 
     }
 

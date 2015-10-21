@@ -202,12 +202,9 @@ public class SubredditView extends BaseActivity {
                         }
                     } else {
                         new AlertDialogWrapper.Builder(SubredditView.this)
-                                .setTitle("Slide for Reddit Pro")
-                                .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
-                                        "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
-                                        "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
-                                        "Would you like to unlock Slide for Reddit Pro?")
-                                .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                                .setTitle(R.string.general_pro)
+                                .setMessage(R.string.general_pro_msg)
+                                .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         try {
                                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
@@ -215,7 +212,7 @@ public class SubredditView extends BaseActivity {
                                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                                         }
                                     }
-                                }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
                             }
@@ -227,7 +224,7 @@ public class SubredditView extends BaseActivity {
         findViewById(R.id.info).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastHelpCreation.makeToast(v, "Open Subreddit Settings", SubredditView.this);
+                ToastHelpCreation.makeToast(v, getString(R.string.general_open_settings), SubredditView.this);
                 return false;
             }
         });
@@ -584,11 +581,22 @@ public class SubredditView extends BaseActivity {
                         : 10)
                 : 0;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
-        builder.setTitle("Choose a Sorting Type");
+        builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, i, l2);
+                new String[]{
+                        getString(R.string.sorting_top),
+                        getString(R.string.sorting_new),
+                        getString(R.string.sorting_rising),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
+                }, i, l2);
         builder.show();
-
     }
 
     public void reloadSubs() {
@@ -625,13 +633,16 @@ public class SubredditView extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle("Subreddit not found").setMessage("The subreddit " + params[0] + " could not be found. Perhaps it's spelled wrong?").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                finish();
-                            }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        new AlertDialogWrapper.Builder(SubredditView.this)
+                                .setTitle(R.string.subreddit_err)
+                                .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 finish();

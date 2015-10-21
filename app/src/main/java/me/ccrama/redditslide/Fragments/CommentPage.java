@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -85,15 +86,16 @@ public class CommentPage extends Fragment {
                 : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
                 : 1;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
-        builder.setTitle("Choose a Sorting Type");
+        builder.setTitle(R.string.sorting_choose);
+        Resources res = getActivity().getBaseContext().getResources();
         builder.setSingleChoiceItems(
-                new String[]{"Best",
-                        "Top",
-                        "Q&A (AMA)",
-                        "New",
-                        "Controversial",
-                        "Old"}, i,
-                l2);
+                new String[]{res.getString(R.string.sorting_best),
+                        res.getString(R.string.sorting_top),
+                        res.getString(R.string.sorting_ama),
+                        res.getString(R.string.sorting_new),
+                        res.getString(R.string.sorting_controversial),
+                        res.getString(R.string.sorting_old)},
+                i, l2);
         builder.show();
 
     }
