@@ -67,7 +67,7 @@ public class GifFull extends Fragment {
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
         title.setText(s.getTitle());
-        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
+        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime(), getContext()));
         ContentType.ImageType type = ContentType.getImageType(s);
 
         String url = "";

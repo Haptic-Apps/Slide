@@ -1,5 +1,6 @@
 package me.ccrama.redditslide;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 /**
@@ -13,7 +14,7 @@ public class TimeUtils {
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
 
-    public static String getTimeAgo(long time) {
+    public static String getTimeAgo(long time, Context c) {
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
@@ -24,7 +25,7 @@ public class TimeUtils {
             return null;
         }
 
-        Resources res = Resources.getSystem();
+        Resources res = c.getResources();
 
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {

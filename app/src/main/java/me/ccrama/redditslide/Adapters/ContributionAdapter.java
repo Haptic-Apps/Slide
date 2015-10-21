@@ -228,7 +228,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final Comment comment = (Comment) dataSet.get(i);
             holder.score.setText(comment.getScore() + "");
 
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
 
             new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, comment.getSubredditName());
             if (comment.getTimesGilded() > 0) {

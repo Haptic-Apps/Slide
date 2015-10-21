@@ -589,7 +589,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
             }
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);

@@ -190,7 +190,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             } else {
                 title.setVisibility(View.GONE);
             }
-            ((TextView) dialoglayout.findViewById(R.id.info)).setText(TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
+            ((TextView) dialoglayout.findViewById(R.id.info)).setText(TimeUtils.getTimeAgo(s.getCreatedUtc().getTime(), getBaseContext()));
 
 
             final Dialog dialog = builder.setView(dialoglayout).create();
