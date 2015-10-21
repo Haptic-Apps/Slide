@@ -19,8 +19,6 @@ package me.ccrama.redditslide;
  * limitations under the License.
  */
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,13 +33,10 @@ import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.net.URI;
 
@@ -108,7 +103,7 @@ public class ActiveTextView extends TextView {
                 if(a.length>0){
                     mSpannable.removeSpan(a[0]);
                     setText(mSpannable);
-                    onMeasure(widthMeasureSpec, heightMeasureSpec);
+                    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                 }else
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             }
@@ -121,7 +116,8 @@ public class ActiveTextView extends TextView {
                 if(a.length>0){
                     mSpannable.removeSpan(a[0]);
                     setText(mSpannable);
-                    measure(widthMeasureSpec, heightMeasureSpec);
+
+                    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                 }else
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             }
@@ -211,6 +207,7 @@ public class ActiveTextView extends TextView {
                 if(mLongPressedLinkListener!=null){
                     if(isLinkPending()){
                         // Create the dialog
+                        /*todo
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
                         LayoutInflater inflater = ((Activity)getContext()).getLayoutInflater();
                         final View dialoglayout = inflater.inflate(R.layout.linkmenu, null);
@@ -245,7 +242,7 @@ public class ActiveTextView extends TextView {
 
                         Dialog alert = builder.create();
                         alert.setCanceledOnTouchOutside(true);
-                        alert.show();
+                        alert.show();*/
                     } else
                         mLongPressedLinkListener.onLongPressed();
 

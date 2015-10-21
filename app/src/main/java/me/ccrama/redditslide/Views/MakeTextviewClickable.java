@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,11 +9,7 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -126,46 +121,7 @@ public class MakeTextviewClickable {
             CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
 
             comm.setText(sequence);
-            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
-                @Override
-                public void onLongPressed() {
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(c);
-                    LayoutInflater inflater = c.getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.linkmenu, null);
-                    ((TextView) dialoglayout.findViewById(R.id.title)).setText(ActiveTextView.getDomainName(comm.mUrl));
-                    ((TextView) dialoglayout.findViewById(R.id.subtitle)).setText(comm.mUrl);
 
-                    dialoglayout.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(comm.mUrl));
-                            c.startActivity(i);
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.internal).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            comm.callOnClick();
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent share = new Intent(android.content.Intent.ACTION_SEND);
-                            share.putExtra(android.content.Intent.EXTRA_SUBJECT, comm.mUrl);
-                            share.putExtra(android.content.Intent.EXTRA_TEXT, comm.mUrl);
-                            share.setType("text/plain");
-                            c.startActivity(Intent.createChooser(share, "Share"));
-                        }
-                    });
-                    builder.setView(dialoglayout);
-
-                    Dialog alert = builder.create();
-                    alert.setCanceledOnTouchOutside(true);
-                    alert.show();
-                }
-            }, false);
             comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
                 @Override
                 public void onClick(String url) {
@@ -332,46 +288,6 @@ public class MakeTextviewClickable {
 
             CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
             comm.setText(sequence);
-            comm.setLongPressedLinkListener(new ActiveTextView.OnLongPressedLinkListener() {
-                @Override
-                public void onLongPressed() {
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(c);
-                    LayoutInflater inflater = c.getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.linkmenu, null);
-                    ((TextView) dialoglayout.findViewById(R.id.title)).setText(ActiveTextView.getDomainName(comm.mUrl));
-                    ((TextView) dialoglayout.findViewById(R.id.subtitle)).setText(comm.mUrl);
-
-                    dialoglayout.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(Intent.ACTION_VIEW);
-                            i.setData(Uri.parse(comm.mUrl));
-                            c.startActivity(i);
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.internal).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            comm.callOnClick();
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent share = new Intent(android.content.Intent.ACTION_SEND);
-                            share.putExtra(android.content.Intent.EXTRA_SUBJECT, comm.mUrl);
-                            share.putExtra(android.content.Intent.EXTRA_TEXT, comm.mUrl);
-                            share.setType("text/plain");
-                            c.startActivity(Intent.createChooser(share, "Share"));
-                        }
-                    });
-                    builder.setView(dialoglayout);
-
-                    Dialog alert = builder.create();
-                    alert.setCanceledOnTouchOutside(true);
-                    alert.show();
-                }
-            }, false);
             comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
                 @Override
                 public void onClick(String url) {
