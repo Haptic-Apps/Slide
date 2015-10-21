@@ -328,7 +328,7 @@
             android:tint="?attr/tint"
 
             android:padding="10dp"
-            android:src="@drawable/user" />
+            android:src="@drawable/profile" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -457,7 +457,7 @@
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_insert_photo_white_48dp"
+                    android:src="@drawable/image"
                     android:tint="?attr/tint" />
 
 
@@ -486,7 +486,7 @@
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_bold_white_48dp"
+                    android:src="@drawable/bold"
                     android:tint="?attr/tint" />
 
                 <ImageButton
@@ -500,7 +500,7 @@
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_italic_white_48dp"
+                    android:src="@drawable/italics"
                     android:tint="?attr/tint" />
 
                 <ImageButton
@@ -514,7 +514,7 @@
 
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_list_bulleted_white_48dp"
+                    android:src="@drawable/bullets"
                     android:tint="?attr/tint" />
 
                 <ImageButton
@@ -528,7 +528,7 @@
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_list_numbered_white_48dp"
+                    android:src="@drawable/numbers"
                     android:tint="?attr/tint" />
 
                 <ImageButton
@@ -542,7 +542,7 @@
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_quote_white_48dp"
+                    android:src="@drawable/quotes"
                     android:tint="?attr/tint" />
 
                 <ImageButton
@@ -556,7 +556,7 @@
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_size_white_48dp"
+                    android:src="@drawable/fontsizedarker"
                     android:tint="?attr/tint" />
             </LinearLayout>
         </LinearLayout>

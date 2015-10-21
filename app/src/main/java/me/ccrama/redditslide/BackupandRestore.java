@@ -13,10 +13,10 @@ import java.util.zip.ZipOutputStream;
  * Created by carlo_000 on 10/21/2015.
  */
 public class BackupandRestore {
-    public static String backupSharedPreferences(){
-        File f = new File()
-                /data/data/YOUR_PACKAGE_NAME/shared_prefs/
-    }
+   // public static String backupSharedPreferences(){
+        //File f = new File()
+              //  /data/data/YOUR_PACKAGE_NAME/shared_prefs/
+    //}
     private static boolean zipFolder(String inputFolderPath, String outZipPath) {
         try {
             FileOutputStream fos = new FileOutputStream(outZipPath);

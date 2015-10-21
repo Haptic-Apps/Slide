@@ -38,7 +38,7 @@
             android:paddingBottom="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/sidebar_profile"
+            android:src="@drawable/profile"
             android:layout_height="match_parent" />
         <TextView
             android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
             android:layout_marginLeft="16dp"
             android:tint="?attr/tint"
 
-            android:src="@drawable/user"
+            android:src="@drawable/profile"
             android:layout_height="match_parent" />
         <TextView
             android:layout_width="wrap_content"

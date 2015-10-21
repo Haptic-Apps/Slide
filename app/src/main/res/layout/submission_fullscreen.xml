@@ -474,7 +474,7 @@
                                 android:tint="?attr/tint"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_insert_photo_white_48dp" />
+                                android:src="@drawable/image" />
 
 
                             <ImageButton
@@ -503,7 +503,7 @@
                                 android:cropToPadding="false"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_format_bold_white_48dp" />
+                                android:src="@drawable/bold" />
 
                             <ImageButton
                                 android:id="@+id/italics"
@@ -517,7 +517,7 @@
                                 android:cropToPadding="false"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_format_italic_white_48dp" />
+                                android:src="@drawable/italics" />
 
                             <ImageButton
                                 android:id="@+id/bulletlist"
@@ -531,7 +531,7 @@
                                 android:cropToPadding="false"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_format_list_bulleted_white_48dp" />
+                                android:src="@drawable/bullets" />
 
                             <ImageButton
                                 android:id="@+id/numlist"
@@ -545,7 +545,7 @@
                                 android:cropToPadding="false"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_format_list_numbered_white_48dp" />
+                                android:src="@drawable/numbers" />
 
                             <ImageButton
                                 android:id="@+id/quote"
@@ -559,7 +559,7 @@
                                 android:cropToPadding="false"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_format_quote_white_48dp" />
+                                android:src="@drawable/quotes" />
 
                             <ImageButton
                                 android:id="@+id/size"
@@ -573,7 +573,7 @@
                                 android:cropToPadding="false"
                                 android:padding="8dp"
                                 android:scaleType="fitCenter"
-                                android:src="@drawable/ic_format_size_white_48dp" />
+                                android:src="@drawable/fontsizedarker" />
                         </LinearLayout>
                     </LinearLayout>
 

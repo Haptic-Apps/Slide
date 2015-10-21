@@ -70,6 +70,7 @@ Actionbar collapsible or always visible
                 android:layout_height="match_parent"
                 android:paddingBottom="16dp"
                 android:paddingRight="16dp"
+
                 android:paddingTop="16dp"
                 android:src="@drawable/card"
                 android:tint="?attr/tint" />
@@ -108,7 +109,7 @@ Actionbar collapsible or always visible
                 android:paddingBottom="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp"
-                android:src="@drawable/imagedarker"
+                android:src="@drawable/image"
                 android:tint="?attr/tint" />
 
             <LinearLayout
@@ -159,7 +160,7 @@ Actionbar collapsible or always visible
                 android:paddingBottom="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="16dp"
-                android:src="@drawable/ic_visibility_white_36dp"
+                android:src="@drawable/hide"
                 android:tint="?attr/tint" />
 
             <CheckBox
