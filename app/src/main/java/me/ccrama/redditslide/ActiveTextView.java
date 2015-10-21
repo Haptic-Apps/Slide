@@ -44,7 +44,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class ActiveTextView extends TextView {
 
