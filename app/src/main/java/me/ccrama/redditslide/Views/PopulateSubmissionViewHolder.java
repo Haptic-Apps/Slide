@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.koushikdutta.ion.Ion;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -60,7 +59,7 @@ public class PopulateSubmissionViewHolder {
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview) {
         if (HasSeen.getSeen(submission.getFullName()) && !full) {
-            holder.itemView.setAlpha(0.7f);
+            holder.itemView.setAlpha(0.5f);
         } else {
             holder.itemView.setAlpha(1.0f);
         }
@@ -205,20 +204,21 @@ public class PopulateSubmissionViewHolder {
             big = false;
         }
         holder.thumbImage.setVisibility(View.VISIBLE);
-        if(!full)
-        ((ImageView)holder.itemView.findViewById(R.id.thumbimage2)).setImageBitmap(null);
-        if(!(SettingValues.infoBar == SettingValues.InfoBar.NONE && !full)) {
+        if(!full) {
+            ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)).setImageBitmap(null);
+        }
+            if(!(SettingValues.infoBar == SettingValues.InfoBar.NONE && !full)) {
 
             boolean bigAtEnd = false;
             if (type == ContentType.ImageType.IMAGE) {
                 url = ContentType.getFixedUrl(submission.getUrl());
-                if (big || fullscreen) {
-                    if (full) {
-                        Ion.with(holder.leadImage).load(url);
+                if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full) {
 
-                    } else {
-                        ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
-                    }
+                    ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+
+                }else if (big || fullscreen) {
+                    ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
+
                     holder.imageArea.setVisibility(View.VISIBLE);
                     holder.previewContent.setVisibility(View.GONE);
                     bigAtEnd = true;
@@ -235,24 +235,16 @@ public class PopulateSubmissionViewHolder {
                 boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
                 holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                if ((big || fullscreen) && !blurry) {
+                if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full) {
+                    ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                }else if ((big || fullscreen) && !blurry) {
                     ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
 
                     holder.imageArea.setVisibility(View.VISIBLE);
                     holder.previewContent.setVisibility(View.GONE);
                     bigAtEnd = true;
                 } else {
-                    if (full) {
-                        Ion.with(holder.thumbImage).load(url);
-
-                    } else {
-                        if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL) {
-                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, (ImageView) holder.itemView.findViewById(R.id.thumbimage2));
-
-                        } else {
-                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
-                        }
-                    }
+                    ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
                     holder.imageArea.setVisibility(View.GONE);
                     holder.previewContent.setVisibility(View.VISIBLE);
                     bigAtEnd = false;
@@ -262,17 +254,10 @@ public class PopulateSubmissionViewHolder {
 
                 if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                     bigAtEnd = false;
-                    if (full) {
-                        Ion.with(holder.thumbImage).load(url);
-
-                    } else {
-                        if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL) {
-                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, (ImageView) holder.itemView.findViewById(R.id.thumbimage2));
-
-                        } else {
-                            ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
-
-                        }
+                    if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full) {
+                        ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                    }else {
+                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
                     }
                     holder.imageArea.setVisibility(View.GONE);
                     holder.previewContent.setVisibility(View.VISIBLE);
@@ -288,6 +273,7 @@ public class PopulateSubmissionViewHolder {
                 holder.imageArea.setVisibility(View.GONE);
                 holder.previewContent.setVisibility(View.VISIBLE);
             }
+
 
 
             if (bigAtEnd) {
@@ -406,6 +392,8 @@ public class PopulateSubmissionViewHolder {
             addClickFunctions(holder.imageArea, baseView, type, (Activity) mContext, submission);
             addClickFunctions(holder.thumbImage, baseView, type, (Activity) mContext, submission);
             addClickFunctions(holder.leadImage, baseView, type, (Activity) mContext, submission);
+                if(!full)
+                addClickFunctions(holder.itemView.findViewById(R.id.thumbimage2), baseView, type, (Activity) mContext, submission);
 
             addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission);
         } else {

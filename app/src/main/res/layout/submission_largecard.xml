@@ -162,7 +162,6 @@
 
                             <com.wefika.flowlayout.FlowLayout
                                 android:layout_width="wrap_content"
-                                android:layout_marginTop="4dp"
 
                                 android:layout_height="wrap_content">
 
@@ -304,12 +303,12 @@
                     <RelativeLayout
                         android:id="@+id/actionbar"
                         android:layout_width="match_parent"
-                        android:layout_height="36dp"
+                        android:layout_height="48dp"
                         android:orientation="horizontal"
 
                         android:paddingBottom="8dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
                         android:paddingTop="8dp">
 
 
@@ -319,6 +318,7 @@
                             android:id="@+id/downvote"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:padding="8dp"
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
@@ -332,6 +332,7 @@
                             android:layout_toLeftOf="@+id/menu"
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
+                            android:padding="8dp"
 
                             android:src="@drawable/upvoted" />
 
@@ -342,6 +343,7 @@
                             android:layout_alignParentRight="true"
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
+                            android:padding="8dp"
 
                             android:src="@drawable/more" />
 

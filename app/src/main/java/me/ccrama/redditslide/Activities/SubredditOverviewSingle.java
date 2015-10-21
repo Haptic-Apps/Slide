@@ -462,7 +462,17 @@ public class SubredditOverviewSingle extends OverviewBase  {
                             getResources().getColor(R.color.md_blue_grey_500),
 
                     });
-
+                    int currentColor = Pallete.getColor(subreddit);
+                    for (int i : colorPicker.getColors()) {
+                    for (int i2 : getColors(i)) {
+                        if (i2 == currentColor) {
+                            colorPicker.setSelectedColor(i);
+                            colorPicker2.setColors(getColors(i));
+                            colorPicker2.setSelectedColor(i2);
+                            break;
+                        }
+                    }
+                }
                     colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                         @Override
                         public void onColorChanged(int c) {
@@ -1446,7 +1456,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
     public void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
-        View header;
+        final View header;
 
         if (Authentication.isLoggedIn) {
 
@@ -1489,24 +1499,37 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     chooseAccounts();
                 }
             });
-            /*header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(Overview.this, SavedView.class);
-                    inte.putExtra("type", "Saved");
-                    Overview.this.startActivity(inte);
+                    Intent inte = new Intent(SubredditOverviewSingle.this, SavedView.class);
+                    inte.putExtra("where", "Saved");
+                    inte.putExtra("id", Authentication.name);
+
+                    SubredditOverviewSingle.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.upvoted).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(Overview.this, SavedView.class);
-                    inte.putExtra("type", "Liked");
+                    Intent inte = new Intent(SubredditOverviewSingle.this, SavedView.class);
+                    inte.putExtra("where", "Liked");
+                    inte.putExtra("id", Authentication.name);
 
-                    Overview.this.startActivity(inte);
+                    SubredditOverviewSingle.this.startActivity(inte);
                 }
-            });*/
-
+            });
+            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    View body = header.findViewById(R.id.expand_profile);
+                    if(body.getVisibility() == View.GONE){
+                        body.setVisibility(View.VISIBLE);
+                    } else {
+                        body.setVisibility(View.GONE);
+                    }
+                }
+            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

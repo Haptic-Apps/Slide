@@ -28,6 +28,7 @@ public class CreateCardView {
                 break;
 
         }
+
         doHideObjects(v, false);
         return v;
     }
@@ -47,7 +48,6 @@ public class CreateCardView {
 
         }
         doHideObjects(v, secondary);
-        colorCard(subreddit, v, sub, secondary);
         return v;
     }
 
@@ -60,29 +60,28 @@ public class CreateCardView {
     }
     public static void colorCard(String sec, View v,  String subToMatch, boolean secondary){
 
-        String subreddit = (secondary) ? "second" : "";
         subToMatch = subToMatch.toLowerCase();
-        if (getColorIndicator(secondary) != SettingValues.ColorIndicator.NONE && Pallete.getColor(subreddit) != Pallete.getDefaultColor()) {
+        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Pallete.getColor(sec) != Pallete.getDefaultColor()) {
             resetColorCard(v);
-            if (getColorMatchingMode(secondary) == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
-                switch (getColorIndicator(secondary)) {
+            if (SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
+                switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(subreddit));
+                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(sec));
 
                         break;
                     case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(subreddit));
+                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(sec));
 
                         break;
                 }
-            } else if (!subToMatch.equals(sec) && getColorMatchingMode(secondary) == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
-                switch (getColorIndicator(secondary)) {
+            } else if (!subToMatch.equals(sec) && SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
+                switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(subreddit));
+                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(sec));
 
                         break;
                     case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(subreddit));
+                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(sec));
 
                         break;
                 }
@@ -213,17 +212,34 @@ public class CreateCardView {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
             }
             
-            if(SettingValues.infoBar == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
+            if(getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
                 ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(300);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
             switch (getInfoBar(secondary)){
                 case THUMBNAIL:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
+
                     v.findViewById(R.id.base2).setVisibility(View.GONE);
+                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
                     break;
                 case INFO_BAR:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+
                     v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+                    break;
+                case NONE:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+                    v.findViewById(R.id.thumbimage).setVisibility(View.GONE);
+                    v.findViewById(R.id.base2).setVisibility(View.GONE);
+                    break;
+                case BIG_PICTURE:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+                    break;
+                case BIG_PICTURE_CROPPED:
+                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
                     break;
             }
 

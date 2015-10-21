@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
@@ -32,19 +33,29 @@ public class SubmissionsView extends Fragment {
         super.onConfigurationChanged(newConfig);
         int currentOrientation = getResources().getConfiguration().orientation;
 
+
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE){
+           int i =  ((LinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
             if(Reddit.tabletUI) {
                 final StaggeredGridLayoutManager mLayoutManager;
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
                 rv.setLayoutManager(mLayoutManager);
+                mLayoutManager.scrollToPosition(i);
             }
 
 
         }
         else {
+            int i = 0;
+            int[] firstVisibleItems = null;
+            firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+            if(firstVisibleItems != null && firstVisibleItems.length > 0) {
+                i = firstVisibleItems[0];
+            }
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
+            mLayoutManager.scrollToPosition(i);
         }
     }
     @Override

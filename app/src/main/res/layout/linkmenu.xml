@@ -60,7 +60,7 @@
 
 
                     <LinearLayout
-                        android:id="@+id/external"
+                        android:id="@+id/internal"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
@@ -92,7 +92,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/go"
+                        android:id="@+id/external"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"

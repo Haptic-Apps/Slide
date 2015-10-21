@@ -41,7 +41,11 @@
             android:theme="@style/swipeable"
 
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.SavedView"
+            android:theme="@style/swipeable"
 
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.GifView"
             android:theme="@style/swipeable"
