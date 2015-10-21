@@ -9,7 +9,7 @@ public class ContentGrabber {
     /*Inbox Data*/
     public enum InboxValue{
         INBOX("Inbox"), UNREAD("Unread"), MESSAGES("Messages"), SENT("Sent"), MENTIONS("Mentions");
-        String displayName;
+        final String displayName;
          InboxValue(String s){
             this.displayName = s;
         }

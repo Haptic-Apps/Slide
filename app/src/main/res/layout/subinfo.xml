@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="?attr/card_background"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
 
         <ScrollView
             android:layout_width="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:background="?attr/card_background"
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/sidebarsub"
                 android:orientation="vertical">
 
@@ -32,9 +27,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
-                    android:layout_above="@+id/sub_title"
                     android:text="/r/Android"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
                     <TextView
                         android:id="@+id/subscribers"
@@ -43,16 +37,15 @@
 
                         android:layout_height="wrap_content"
                         android:text="A sub for 2 years"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         />
                     <TextView
                         android:id="@+id/sub_title"
                         android:layout_width="wrap_content"
-                        android:layout_alignParentBottom="true"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         />
 
                 </LinearLayout>
@@ -196,4 +189,3 @@
                     android:layout_height="match_parent" />
             </LinearLayout>
         </ScrollView>
-</LinearLayout>

@@ -10,12 +10,12 @@ import me.ccrama.redditslide.R;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
-    public TextView title;
-    public TextView score;
-    public TextView time;
-    public View gild;
-    public ActiveTextView content;
+class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
+    public final TextView title;
+    public final TextView score;
+    public final TextView time;
+    public final View gild;
+    public final ActiveTextView content;
 
 
     public ProfileCommentViewHolder(View v) {

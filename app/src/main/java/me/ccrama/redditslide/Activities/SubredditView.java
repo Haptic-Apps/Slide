@@ -60,11 +60,11 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class SubredditView extends BaseActivity {
 
 
-    public DrawerLayout drawerLayout;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private DrawerLayout drawerLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
 
-    public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
+    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
@@ -87,7 +87,7 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-    public void restartTheme() {
+    private void restartTheme() {
         Intent intent = this.getIntent();
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
@@ -107,7 +107,7 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-    public String subreddit;
+    private String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,7 +117,7 @@ public class SubredditView extends BaseActivity {
         subreddit = getIntent().getExtras().getString("subreddit", "");
 
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
 
         setContentView(R.layout.activity_singlesubreddit);
 
@@ -158,9 +158,7 @@ public class SubredditView extends BaseActivity {
         doSubSidebar(subreddit);
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         //TODO catch errors
@@ -168,13 +166,8 @@ public class SubredditView extends BaseActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try {
                             posts.loadMore(adapter, true, subreddit);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
                         //TODO catch errors
                     }
                 }
@@ -245,7 +238,7 @@ public class SubredditView extends BaseActivity {
         });
     }
 
-    public int[] getColors(int c) {
+    private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
                     getResources().getColor(R.color.md_red_100),
@@ -478,12 +471,12 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-    public SubmissionAdapter adapter;
+    private SubmissionAdapter adapter;
 
-    public SubredditPosts posts;
+    private SubredditPosts posts;
 
 
-    public void openPopup(View view) {
+    private void openPopup(View view) {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -591,11 +584,11 @@ public class SubredditView extends BaseActivity {
 
     }
 
-    public void reloadSubs() {
+    private void reloadSubs() {
         restartTheme();
     }
 
-    public void doSubOnlyStuff(Subreddit subreddit) {
+    private void doSubOnlyStuff(Subreddit subreddit) {
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
@@ -609,7 +602,7 @@ public class SubredditView extends BaseActivity {
 
     }
 
-    public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
@@ -645,7 +638,7 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-    public void doSubSidebar(final String subreddit) {
+    private void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);

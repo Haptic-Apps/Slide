@@ -30,12 +30,12 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
 
-    public Context mContext;
+    public final Context mContext;
     public ArrayList<Message> dataSet;
-    RecyclerView listView;
+    private final RecyclerView listView;
 
 
-    static int TOP_LEVEL = 1;
+    private static final int TOP_LEVEL = 1;
     @Override
     public int getItemViewType(int position) {
         if (!dataSet.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
@@ -71,9 +71,9 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
     }
 
 
-    boolean isSame;
+    private final boolean isSame;
 
-    public class AsyncSetRead extends AsyncTask<Message, Void, Void> {
+    private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
 
         @Override
         protected Void doInBackground(Message... params) {

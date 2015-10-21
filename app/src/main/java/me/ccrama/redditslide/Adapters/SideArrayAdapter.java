@@ -25,7 +25,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 8/17/2015.
  */
 public class SideArrayAdapter extends ArrayAdapter<String> {
-    List<String> objects;
+    private final List<String> objects;
 
 
     public SideArrayAdapter(Context context, ArrayList<String> objects) {
@@ -35,7 +35,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         fitems = new ArrayList<>(objects);
     }
 
-    public Filter filter;
+    private Filter filter;
     @Override
     public Filter getFilter(){
 
@@ -92,7 +92,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             }
         }
     }
-    public ArrayList<String> fitems;
+    private ArrayList<String> fitems;
     @Override
     public View getView(final int position, View convertView, ViewGroup parent){
         if(convertView == null){

@@ -36,7 +36,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
     }
 
 
-    public static class GetCollections extends AsyncTask<String, Void, ArrayList<String>> {
+    private static class GetCollections extends AsyncTask<String, Void, ArrayList<String>> {
 
         @Override
         protected ArrayList<String> doInBackground(String... strings) {
@@ -239,7 +239,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
       return newstrings;
 
     }
-    public ArrayList<String> doUpdateSubsSave() {
+    private ArrayList<String> doUpdateSubsSave() {
         ArrayList<String> finished = new ArrayList<>();
 
         UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
@@ -257,7 +257,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
         return finished;
     }
-    public void getMultireddits() {
+    private void getMultireddits() {
 
         try {
             multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
@@ -267,7 +267,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
 
     }
-    public static ArrayList<String> sortNoValue(ArrayList<String> subs) {
+    private static ArrayList<String> sortNoValue(ArrayList<String> subs) {
 
         java.util.Collections.sort(subs);
         ArrayList<String> finals = new ArrayList<>();
@@ -277,7 +277,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         return finals;
 
     }
-    public static ArrayList<String> sort(ArrayList<String> subs) {
+    private static ArrayList<String> sort(ArrayList<String> subs) {
         if (subs.contains("all")) {
             subs.remove("all");
         }

@@ -19,6 +19,7 @@ import android.support.customtabs.CustomTabsSession;
 import android.util.Log;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.leakcanary.LeakCanary;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -54,7 +55,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         super.onLowMemory();
         getImageLoader().clearMemoryCache();
     }
-    public ImageLoader defaultImageLoader;
+    private ImageLoader defaultImageLoader;
     public ImageLoader getImageLoader() {
         if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
             ImageLoaderUtils.initImageLoader(getApplicationContext());
@@ -63,7 +64,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
         return defaultImageLoader;
     }
-    boolean closed = false;
+    private boolean closed = false;
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -127,9 +128,9 @@ public class Reddit extends Application implements Application.ActivityLifecycle
         return mCustomTabsSession;
     }
 
-    public boolean isRestarting;
+    private boolean isRestarting;
 
-    public class SetupIAB extends AsyncTask<Void, Void, Void> {
+    private class SetupIAB extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -143,7 +144,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
                     }
                 });
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
             return null;
@@ -178,6 +179,8 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
+
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
@@ -209,7 +212,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
                     i.putExtra("stacktrace", "```" + s + "```");
 
                     startActivity(i);
-                } catch (Throwable t1) {
+                } catch (Throwable ignored) {
                 }
 
                 androidHandler.uncaughtException(thread, t);
@@ -277,14 +280,14 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             notifications = new NotificationJobScheduler(this);
 
         }
-        tabletUI = isPackageInstalled(this, "me.ccrama.slideforreddittabletuiunlock");
+        tabletUI = isPackageInstalled(this);
     }
 
-    public static int defaultDPWidth;
+    private static int defaultDPWidth;
 
     public void startMain() {
         if (active) {
-            Intent i = null;
+            Intent i;
             if (single) {
                 i = new Intent(this, SubredditOverviewSingle.class);
             } else {
@@ -296,6 +299,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             startActivity(i);
             if (loader != null) {
                 loader.finish();
+                loader = null;
             }
         }
     }
@@ -306,14 +310,14 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     public LoadingData loader;
     public static SharedPreferences hidden;
 
-    public static boolean isPackageInstalled(final Context ctx, final String packageName) {
+    private static boolean isPackageInstalled(final Context ctx) {
         boolean result = false;
         try {
             final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo(packageName, 0);
+            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
             if (pi != null && pi.applicationInfo.enabled)
                 result = true;
-        } catch (final Throwable e) {
+        } catch (final Throwable ignored) {
         }
 
         return result;

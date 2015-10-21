@@ -21,8 +21,8 @@ import me.ccrama.redditslide.Reddit;
  */
 public class SubredditPosts {
     public ArrayList<Submission> posts;
-    public SubredditPaginator paginator;
-    public SwipeRefreshLayout refreshLayout;
+    private SubredditPaginator paginator;
+    private SwipeRefreshLayout refreshLayout;
 
     public boolean loading;
     public SubredditPosts(ArrayList<Submission> firstData, SubredditPaginator paginator) {
@@ -33,9 +33,7 @@ public class SubredditPosts {
     public ArrayList<Submission> getPosts(){
         try {
             return new LoadData(true).execute(subreddit).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
@@ -46,7 +44,7 @@ public class SubredditPosts {
         this.subreddit = subreddit;
     }
 
-    public SubmissionAdapter adapter;
+    private SubmissionAdapter adapter;
 
     public void bindAdapter(SubmissionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
@@ -54,14 +52,14 @@ public class SubredditPosts {
         loadMore(a, true, subreddit);
     }
 
-    public void loadMore(SubmissionAdapter adapter, boolean reset, String subreddit) throws ExecutionException, InterruptedException {
+    public void loadMore(SubmissionAdapter adapter, boolean reset, String subreddit) {
         new LoadData(reset).execute(subreddit);
 
 
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
-        boolean reset;
+        final boolean reset;
 
         public LoadData(boolean reset) {
             this.reset = reset;
@@ -102,13 +100,13 @@ public class SubredditPosts {
                     if (reset) {
                         posts = new ArrayList<>();
                         for(Submission s : paginator.next()) {
-                            if(!Hidden.isHidden(s)) {
+                            if(Hidden.isHidden(s)) {
                                 posts.add(s);
                             }
                         }
                     } else {
                         for(Submission s : paginator.next()) {
-                            if(!Hidden.isHidden(s)) {
+                            if(Hidden.isHidden(s)) {
                                 posts.add(s);
                             }
                         }
@@ -117,7 +115,7 @@ public class SubredditPosts {
                     return posts;
 
 
-                } catch (NetworkException e){
+                } catch (NetworkException ignored){
 
                 }
             }

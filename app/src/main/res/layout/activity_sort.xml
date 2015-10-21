@@ -26,7 +26,7 @@
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
             android:text="OK"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
     </android.support.v7.widget.Toolbar>

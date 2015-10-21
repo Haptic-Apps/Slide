@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/imagetitle"
             android:padding="16dp"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textColor="#fff"
             >
 
@@ -51,7 +51,7 @@
             android:id="@+id/imageCaption"
             android:padding="16dp"
 
-            android:textSize="12dp"
+            android:textSize="12sp"
             android:textColor="#fff"
             >
 

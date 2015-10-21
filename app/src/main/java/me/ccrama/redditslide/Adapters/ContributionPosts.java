@@ -19,35 +19,35 @@ import me.ccrama.redditslide.Reddit;
  */
 public class ContributionPosts {
     public ArrayList<Contribution> posts;
-    public UserContributionPaginator paginator;
-    public SwipeRefreshLayout refreshLayout;
+    private UserContributionPaginator paginator;
+    private SwipeRefreshLayout refreshLayout;
 
-    public String where;
+    private final String where;
 
-    public String subreddit;
+    private final String subreddit;
 
     public ContributionPosts(String subreddit, String where) {
         this.subreddit = subreddit;
         this.where = where;
     }
 
-    public ContributionAdapter adapter;
+    private ContributionAdapter adapter;
 
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout=layout;
-        loadMore(a, true, subreddit, where);
+        loadMore(a, subreddit, where);
     }
 
-    public void loadMore(ContributionAdapter adapter, boolean reset, String subreddit, String where) throws ExecutionException, InterruptedException {
+    public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
 
-        new LoadData(reset).execute(subreddit);
+        new LoadData(true).execute(subreddit);
 
 
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
-        boolean reset;
+        final boolean reset;
 
         public LoadData(boolean reset) {
             this.reset = reset;
@@ -84,7 +84,7 @@ public class ContributionPosts {
             if (paginator.hasNext()) {
                 try {
                     return new ArrayList<>(paginator.next());
-                } catch (NetworkException e){
+                } catch (NetworkException ignored){
 
                 }
             }

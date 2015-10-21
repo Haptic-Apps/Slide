@@ -26,8 +26,8 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SavedView extends BaseActivity {
 
 
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SavedView extends BaseActivity {
         final String id = getIntent().getExtras().getString("id", "");
 
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_saved);
         where = getIntent().getExtras().getString("where", "Saved");
@@ -80,9 +80,7 @@ public class SavedView extends BaseActivity {
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         //TODO catch errors
@@ -90,23 +88,18 @@ public class SavedView extends BaseActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try {
-                            posts.loadMore(adapter, true, id, where);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                            posts.loadMore(adapter, id, where);
+
                         //TODO catch errors
                     }
                 }
         );
     }
 
-    public ContributionAdapter adapter;
+    private ContributionAdapter adapter;
 
-    String where;
-    public ContributionPosts posts;
+    private String where;
+    private ContributionPosts posts;
 
 
 

@@ -76,7 +76,7 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
     }
 
 
-    public static ArrayList<String> getPins() {
+    private static ArrayList<String> getPins() {
         ArrayList<String> newstrings = null;
 
         if(SubredditStorage.subscriptions.contains("pins" + Authentication.name)) {
@@ -94,7 +94,7 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
 
     }
 
-    public static ArrayList<String> sortNoValue(ArrayList<String> subs) {
+    private static ArrayList<String> sortNoValue(ArrayList<String> subs) {
 
         java.util.Collections.sort(subs);
         ArrayList<String> finals = new ArrayList<>();
@@ -104,7 +104,7 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
         return finals;
 
     }
-    public static ArrayList<String> sort(ArrayList<String> subs) {
+    private static ArrayList<String> sort(ArrayList<String> subs) {
         if (subs.contains("all")) {
             subs.remove("all");
         }

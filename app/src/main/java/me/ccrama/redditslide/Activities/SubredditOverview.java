@@ -82,8 +82,8 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class SubredditOverview extends OverviewBase {
 
 
-    public int toGoto = 0;
-    Toolbar toolbar;
+    private int toGoto = 0;
+    private Toolbar toolbar;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,7 +102,7 @@ public class SubredditOverview extends OverviewBase {
         }
     }
 
-    String subToDo;
+    private String subToDo;
 
     public void resetAdapter() {
 
@@ -155,14 +155,14 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    public void reloadSubs() {
+    private void reloadSubs() {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setCurrentItem(current);
     }
 
-    public void chooseAccounts() {
+    private void chooseAccounts() {
         final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
         new AlertDialogWrapper.Builder(SubredditOverview.this)
                 .setTitle("Switch Account")
@@ -179,7 +179,7 @@ public class SubredditOverview extends OverviewBase {
                 }).create().show();
     }
 
-    View header;
+    private View header;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -334,7 +334,7 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    public void doSubOnlyStuff(Subreddit subreddit) {
+    private void doSubOnlyStuff(Subreddit subreddit) {
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
@@ -348,7 +348,7 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
@@ -361,7 +361,7 @@ public class SubredditOverview extends OverviewBase {
         }
     }
 
-    public void doSubSidebar(final String subreddit) {
+    private void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
@@ -733,7 +733,7 @@ public class SubredditOverview extends OverviewBase {
         }
     }
 
-    public int[] getColors(int c) {
+    private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
                     getResources().getColor(R.color.md_red_100),
@@ -966,7 +966,7 @@ public class SubredditOverview extends OverviewBase {
         }
     }
 
-    public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
+    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
@@ -1227,12 +1227,12 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    public OverviewPagerAdapter adapter;
+    private OverviewPagerAdapter adapter;
 
-    public TabLayout tabs;
+    private TabLayout tabs;
 
 
-    public void setDataSet(List<String> data) {
+    private void setDataSet(List<String> data) {
         if (data != null) {
             usedArray = data;
             if (adapter == null) {
@@ -1261,7 +1261,7 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    public void openPopup(View view) {
+    private void openPopup(View view) {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -1366,7 +1366,7 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    public void restartTheme() {
+    private void restartTheme() {
         if (Reddit.single) {
             ((Reddit) getApplication()).startMain();
 
@@ -1470,10 +1470,10 @@ public class SubredditOverview extends OverviewBase {
     boolean restart;
 
 
-    public View hea;
+    private View hea;
 
 
-    public void doSidebar() {
+    private void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
         final View header;

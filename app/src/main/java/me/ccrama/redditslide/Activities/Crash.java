@@ -2,7 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
@@ -12,14 +12,14 @@ import me.ccrama.redditslide.R;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Crash extends ActionBarActivity {
+public class Crash extends AppCompatActivity {
 
 
     @Override
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_crash);
 

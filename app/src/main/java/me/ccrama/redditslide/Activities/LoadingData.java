@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -17,7 +17,7 @@ import me.ccrama.redditslide.SubredditStorage;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class LoadingData extends ActionBarActivity {
+public class LoadingData extends AppCompatActivity {
 
     public TextView loading;
     private  boolean isNetworkAvailable() {
@@ -31,7 +31,7 @@ public class LoadingData extends ActionBarActivity {
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("asdf"), true);
 
         ((Reddit)getApplication()).active = true;
         ((Reddit)getApplication()).loader = this;

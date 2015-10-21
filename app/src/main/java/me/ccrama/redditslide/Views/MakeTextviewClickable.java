@@ -37,7 +37,7 @@ public class MakeTextviewClickable {
         return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 
-    public static void openImage(Activity contextActivity, String submission) {
+    private static void openImage(Activity contextActivity, String submission) {
         if (Reddit.image) {
 
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
@@ -49,7 +49,7 @@ public class MakeTextviewClickable {
 
     }
 
-    public static void openGif(final boolean gfy, Activity contextActivity, String submission) {
+    private static void openGif(final boolean gfy, Activity contextActivity, String submission) {
 
         if(Reddit.gif) {
             Intent myIntent = new Intent(contextActivity, GifView.class);
@@ -98,10 +98,10 @@ public class MakeTextviewClickable {
         return source.subSequence(0, i + 1).toString();
     }
 
-    Context c;
+    private Context c;
 
 
-    public static String noTrailingwhiteLines(String text) {
+    private static String noTrailingwhiteLines(String text) {
 
         while (text.charAt(text.length() - 1) == '\n') {
             text = text.substring(0, text.length() - 1);
@@ -446,7 +446,7 @@ public class MakeTextviewClickable {
 
     }
 
-    public static CharSequence trim(CharSequence s) {
+    private static CharSequence trim(CharSequence s) {
         int start = 0;
         int end = s.length();
         while (start < end && Character.isWhitespace(s.charAt(start))) {

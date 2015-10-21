@@ -27,7 +27,7 @@
                 android:paddingTop="16dp"
 
                 android:text="nytimes.com"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/subtitle"
@@ -39,7 +39,7 @@
                 android:background="@color/md_light_green_500"
                 android:paddingLeft="24dp"
                 android:text="nytimes.com"
-                android:textSize="14dp"
+                android:textSize="14sp"
           />
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -54,8 +54,8 @@ import me.ccrama.redditslide.Vote;
  * Created by ccrama on 9/19/2015.
  */
 public class PopulateSubmissionViewHolder {
-    boolean upvoted;
-    boolean downvoted;
+    private boolean upvoted;
+    private boolean downvoted;
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview) {
         if (HasSeen.getSeen(submission.getFullName()) && !full) {
@@ -504,14 +504,14 @@ public class PopulateSubmissionViewHolder {
 
 
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 
 
     }
 
-    public static String getDomainName(String url) throws URISyntaxException {
+    private static String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
         return domain.startsWith("www.") ? domain.substring(4) : domain;
@@ -572,7 +572,7 @@ public class PopulateSubmissionViewHolder {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        openRedditContent(submission.getUrl(), true, contextActivity);
+                        openRedditContent(submission.getUrl(), contextActivity);
                     }
                 });
                 break;
@@ -749,11 +749,11 @@ public class PopulateSubmissionViewHolder {
     }
 
 
-    public static void openRedditContent(String url, boolean internal, Context c) {
+    public static void openRedditContent(String url, Context c) {
         new OpenRedditLink(c, url);
     }
 
-    public static boolean isBlurry(JsonNode s, Context mC, String title) {
+    private static boolean isBlurry(JsonNode s, Context mC, String title) {
         int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
         float density = mC.getResources().getDisplayMetrics().density;
         float dp = pixesl / density;

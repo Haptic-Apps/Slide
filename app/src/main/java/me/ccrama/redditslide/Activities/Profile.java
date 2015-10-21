@@ -38,14 +38,14 @@ import uz.shift.colorpicker.OnColorChangedListener;
  * Created by ccrama on 9/17/2015.
  */
 public class Profile extends BaseActivity {
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);
@@ -73,8 +73,8 @@ public class Profile extends BaseActivity {
         new getProfile().execute(name);
 
     }
-    public String name;
-    public void doClick(){
+    private String name;
+    private void doClick(){
         if (account == null) {
             new AlertDialogWrapper.Builder(Profile.this)
                     .setTitle("User not found")
@@ -234,15 +234,15 @@ public class Profile extends BaseActivity {
         });
     }
 
-    public Account account;
+    private Account account;
 
-    public  class getProfile extends AsyncTask<String, Void, Void>{
+    private class getProfile extends AsyncTask<String, Void, Void>{
 
         @Override
         protected Void doInBackground(String... params) {
             try {
                 account = Authentication.reddit.getUser(params[0]);
-            } catch (NetworkException exception) {
+            } catch (NetworkException ignored) {
             } finally {
                 return null;
             }
@@ -255,7 +255,7 @@ public class Profile extends BaseActivity {
 
         }
     }
-    public int[] getColors(int c) {
+    private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
                     getResources().getColor(R.color.md_red_100),
@@ -488,14 +488,14 @@ public class Profile extends BaseActivity {
         }
     }
 
-    public ProfilePagerAdapter adapter;
+    private ProfilePagerAdapter adapter;
 
-    public ViewPager pager;
-    public TabLayout tabs;
+    private ViewPager pager;
+    private TabLayout tabs;
 
-    public String[] usedArray;
+    private String[] usedArray;
 
-    public void setDataSet(String[] data) {
+    private void setDataSet(String[] data) {
         usedArray = data;
         adapter = new ProfilePagerAdapter(getSupportFragmentManager());
 

@@ -122,8 +122,8 @@ public class CreateCardView {
         }
 
     }
-    public static void setColorMatchingMode(SettingValues.ColorMatchingMode b,  Boolean secondary){
-        String subreddit = (secondary) ? "second" : "";
+    public static void setColorMatchingMode(SettingValues.ColorMatchingMode b){
+        String subreddit = ((Boolean) false) ? "second" : "";
         if(subreddit.isEmpty()) {
 
 
@@ -137,8 +137,8 @@ public class CreateCardView {
         }
 
     }
-    public static void setColorIndicicator(SettingValues.ColorIndicator b,  Boolean secondary){
-        String subreddit = (secondary) ? "second" : "";
+    public static void setColorIndicicator(SettingValues.ColorIndicator b){
+        String subreddit = ((Boolean) false) ? "second" : "";
         if(subreddit.isEmpty()) {
 
 
@@ -168,7 +168,7 @@ public class CreateCardView {
         }
     }
 
-    public static void doHideObjects(View v, Boolean secondary){
+    private static void doHideObjects(View v, Boolean secondary){
         String subreddit = (secondary) ? "second" : "";
         if(subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
@@ -257,13 +257,13 @@ public class CreateCardView {
 
         return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew"  , SettingValues.defaultCardView.toString()));
     }
-    public static SettingValues.ColorIndicator getColorIndicator(Boolean secondary) {
-        String subreddit = (secondary) ? "second" : "";
+    public static SettingValues.ColorIndicator getColorIndicator() {
+        String subreddit = ((Boolean) false) ? "second" : "";
 
         return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew"  , SettingValues.colorIndicator.toString()));
     }
-    public static SettingValues.ColorMatchingMode getColorMatchingMode(Boolean secondary) {
-        String subreddit = (secondary) ? "second" : "";
+    public static SettingValues.ColorMatchingMode getColorMatchingMode() {
+        String subreddit = ((Boolean) false) ? "second" : "";
 
         return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew" , SettingValues.colorMatchingMode.toString()));
     }
@@ -281,7 +281,7 @@ public class CreateCardView {
     public enum CardEnum{
         LARGE("Big Card"),
         LIST("List");
-        String displayName;
+        final String displayName;
         CardEnum(String s){
             this.displayName = s;
         }

@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -29,14 +29,14 @@ import me.ccrama.redditslide.util.Purchase;
 /**
  * Created by carlo_000 on 5/26/2015.
  */
-public class DonateView extends ActionBarActivity {
+public class DonateView extends AppCompatActivity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_donate);
@@ -95,7 +95,7 @@ public class DonateView extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
+    private final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
             = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase)
         {

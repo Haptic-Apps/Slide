@@ -24,8 +24,8 @@ package me.ccrama.redditslide.util;
  * calling {@link #isSuccess()} and {@link #isFailure()}.
  */
 public class IabResult {
-    int mResponse;
-    String mMessage;
+    private final int mResponse;
+    private final String mMessage;
 
     public IabResult(int response, String message) {
         mResponse = response;

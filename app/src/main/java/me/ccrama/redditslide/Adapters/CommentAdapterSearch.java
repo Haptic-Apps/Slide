@@ -40,18 +40,15 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
-    public Context mContext;
-    public List<CommentNode> dataSet;
-    RecyclerView listView;
-    public List<CommentNode> originalDataSet;
-
-
-    private final List<CommentNode> filteredUserList;
+    private final Context mContext;
+    private List<CommentNode> dataSet;
+    private final RecyclerView listView;
+    private final List<CommentNode> originalDataSet;
 
 
     ///... other methods
 
-    String search;
+    private String search;
 
     @Override
     public Filter getFilter() {
@@ -112,16 +109,16 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    public Submission submission;
+    private Submission submission;
 
-    public String subAuthor;
+    private final String subAuthor;
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
         this.listView = listView;
         this.subAuthor = subAuthor;
         this.originalDataSet = dataSet;
-        this.filteredUserList = new ArrayList<>();
+        List<CommentNode> filteredUserList = new ArrayList<>();
 
     }
 
@@ -152,7 +149,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        holder.loadMore.setVisibility(View.VISIBLE);
 
         firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,7 +258,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 conData.putString("fullname", comment.getFullName());
                 Intent intent = new Intent();
                 intent.putExtras(conData);
-                ((Activity) mContext).setResult(((Activity) mContext).RESULT_OK, intent);
+                ((Activity) mContext).setResult(Activity.RESULT_OK, intent);
                 ((Activity) mContext).finish();
             }
         });
@@ -273,7 +269,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 conData.putString("fullname", comment.getFullName());
                 Intent intent = new Intent();
                 intent.putExtras(conData);
-                ((Activity) mContext).setResult(((Activity) mContext).RESULT_OK, intent);
+                ((Activity) mContext).setResult(Activity.RESULT_OK, intent);
                 ((Activity) mContext).finish();
             }
         });

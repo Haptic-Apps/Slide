@@ -22,36 +22,36 @@ import me.ccrama.redditslide.Authentication;
  */
 public class InboxMessages {
     public ArrayList<Message> posts;
-    public Paginator<Message> paginator;
-    public SwipeRefreshLayout refreshLayout;
+    private Paginator<Message> paginator;
+    private SwipeRefreshLayout refreshLayout;
 
     public InboxMessages(ArrayList<Message> firstData, InboxPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
     }
 
-    public String where;
+    private String where;
 
     public InboxMessages(String where) {
         this.where = where;
     }
 
-    public InboxAdapter adapter;
+    private InboxAdapter adapter;
 
     public void bindAdapter(InboxAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout=layout;
-        loadMore(a, true, where);
+        loadMore(a, where);
     }
 
-    public void loadMore(InboxAdapter adapter, boolean reset, String where) throws ExecutionException, InterruptedException {
-        new LoadData(reset).execute(where);
+    public void loadMore(InboxAdapter adapter, String where) {
+        new LoadData(true).execute(where);
 
 
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Message>> {
-        boolean reset;
+        final boolean reset;
 
         public LoadData(boolean reset) {
             this.reset = reset;
@@ -90,7 +90,7 @@ public class InboxMessages {
                         }
                     }
                     return done;
-                } catch (NetworkException e){
+                } catch (NetworkException ignored){
 
                 }
             }

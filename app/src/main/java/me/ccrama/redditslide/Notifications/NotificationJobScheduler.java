@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Reddit;
 
 
 public class NotificationJobScheduler   {
-    private PendingIntent pendingIntent;
+    private final PendingIntent pendingIntent;
 
     public NotificationJobScheduler(Application context) {
         Intent alarmIntent = new Intent(context, CheckForMail.class);

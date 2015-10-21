@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.media.MediaFormat;
 import android.media.MediaPlayer;
@@ -30,7 +29,7 @@ import java.util.Vector;
  */
 public class MediaVideoView extends SurfaceView
         implements MediaController.MediaPlayerControl {
-    private String TAG = "VideoView";
+    private final String TAG = "VideoView";
     // settable by the client
     private Uri mUri;
     private Map<String, String> mHeaders;
@@ -87,7 +86,8 @@ public class MediaVideoView extends SurfaceView
         initVideoView();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) public MediaVideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private MediaVideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initVideoView();
     }
@@ -200,27 +200,20 @@ public class MediaVideoView extends SurfaceView
      * @param uri the URI of the video.
      */
     public void setVideoURI(Uri uri) {
-        setVideoURI(uri, null);
+        setVideoURI(uri);
     }
 
     /**
      * Sets video URI using specific headers.
      *
-     * @param uri     the URI of the video.
      * @param headers the headers for the URI request.
      *                Note that the cross domain redirection is allowed by default, but that can be
      *                changed with key/value pairs through the headers parameter with
      *                "android-allow-cross-domain-redirect" as the key and "0" or "1" as the value
      *                to disallow or allow cross domain redirection.
+     * @param uri     the URI of the video.
      */
-    public void setVideoURI(Uri uri, Map<String, String> headers) {
-        mUri = uri;
-        mHeaders = headers;
-        mSeekWhenPrepared = 0;
-        openVideo();
-        requestLayout();
-        invalidate();
-    }
+
 
     private Vector<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
 
@@ -273,12 +266,7 @@ public class MediaVideoView extends SurfaceView
             // target state that was there before.
             mCurrentState = STATE_PREPARING;
             attachMediaController();
-        } catch (IOException ex) {
-            Log.w(TAG, "Unable to open content: " + mUri, ex);
-            mCurrentState = STATE_ERROR;
-            mTargetState = STATE_ERROR;
-            mErrorListener.onError(mMediaPlayer, MediaPlayer.MEDIA_ERROR_UNKNOWN, 0);
-        } catch (IllegalArgumentException ex) {
+        } catch (IOException | IllegalArgumentException ex) {
             Log.w(TAG, "Unable to open content: " + mUri, ex);
             mCurrentState = STATE_ERROR;
             mTargetState = STATE_ERROR;
@@ -306,7 +294,7 @@ public class MediaVideoView extends SurfaceView
         }
     }
 
-    MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
+    private final MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
             new MediaPlayer.OnVideoSizeChangedListener() {
                 public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
                     mVideoWidth = mp.getVideoWidth();
@@ -318,7 +306,7 @@ public class MediaVideoView extends SurfaceView
                 }
             };
 
-    MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
+    private final MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
         public void onPrepared(MediaPlayer mp) {
             mCurrentState = STATE_PREPARED;
 
@@ -380,7 +368,7 @@ public class MediaVideoView extends SurfaceView
         }
     };
 
-    private MediaPlayer.OnCompletionListener mCompletionListener =
+    private final MediaPlayer.OnCompletionListener mCompletionListener =
             new MediaPlayer.OnCompletionListener() {
                 public void onCompletion(MediaPlayer mp) {
                     mCurrentState = STATE_PLAYBACK_COMPLETED;
@@ -394,7 +382,7 @@ public class MediaVideoView extends SurfaceView
                 }
             };
 
-    private MediaPlayer.OnInfoListener mInfoListener =
+    private final MediaPlayer.OnInfoListener mInfoListener =
             new MediaPlayer.OnInfoListener() {
                 public  boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
                     if (mOnInfoListener != null) {
@@ -404,7 +392,7 @@ public class MediaVideoView extends SurfaceView
                 }
             };
 
-    private MediaPlayer.OnErrorListener mErrorListener =
+    private final MediaPlayer.OnErrorListener mErrorListener =
             new MediaPlayer.OnErrorListener() {
                 public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
                     Log.d(TAG, "Error: " + framework_err + "," + impl_err);
@@ -456,7 +444,7 @@ public class MediaVideoView extends SurfaceView
                 }
             };
 
-    private MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
+    private final MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
             new MediaPlayer.OnBufferingUpdateListener() {
                 public void onBufferingUpdate(MediaPlayer mp, int percent) {
                     mCurrentBufferPercentage = percent;
@@ -508,7 +496,7 @@ public class MediaVideoView extends SurfaceView
         mOnInfoListener = l;
     }
 
-    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback()
+    private final SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback()
     {
         public void surfaceChanged(SurfaceHolder holder, int format,
                                    int w, int h)
@@ -722,42 +710,4 @@ public class MediaVideoView extends SurfaceView
         return mAudioSession;
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-//      if (mSubtitleWidget != null) {
-//         mSubtitleWidget.onAttachedToWindow();
-//      }
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
-//      if (mSubtitleWidget != null) {
-//         mSubtitleWidget.onDetachedFromWindow();
-//      }
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-
-//      if (mSubtitleWidget != null) {
-//         measureAndLayoutSubtitleWidget();
-//      }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-
-//      if (mSubtitleWidget != null) {
-//         final int saveCount = canvas.save();
-//         canvas.translate(getPaddingLeft(), getPaddingTop());
-//         mSubtitleWidget.draw(canvas);
-//         canvas.restoreToCount(saveCount);
-//      }
-    }
 }

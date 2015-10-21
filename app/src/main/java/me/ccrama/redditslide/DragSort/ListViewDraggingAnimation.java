@@ -83,10 +83,10 @@ public class ListViewDraggingAnimation extends BaseActivity {
             recyclerView.setItemAnimator(null);
 
             DragSortRecycler dragSortRecycler = new DragSortRecycler();
-            dragSortRecycler.setViewHandleId(R.id.name);
-            dragSortRecycler.setFloatingAlpha(0.4f);
-            dragSortRecycler.setAutoScrollSpeed(0.3f);
-            dragSortRecycler.setAutoScrollWindow(0.1f);
+            dragSortRecycler.setViewHandleId();
+            dragSortRecycler.setFloatingAlpha();
+            dragSortRecycler.setAutoScrollSpeed();
+            dragSortRecycler.setAutoScrollWindow();
 
             dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
                 @Override
@@ -131,13 +131,13 @@ public class ListViewDraggingAnimation extends BaseActivity {
 
     public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>
     {
-        private Context context;
+        private final Context context;
 
-        private ArrayList<String> items;
+        private final ArrayList<String> items;
 
         public static class ViewHolder extends RecyclerView.ViewHolder
         {
-            TextView text;
+            final TextView text;
             public ViewHolder(View itemView)
             {
                 super(itemView);

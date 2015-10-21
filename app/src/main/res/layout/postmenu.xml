@@ -25,7 +25,7 @@
                 android:maxLines="3"
                 android:ellipsize="end"
                 android:text="Post title here"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <RelativeLayout

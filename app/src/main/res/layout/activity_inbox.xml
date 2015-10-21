@@ -39,6 +39,7 @@
                         android:id="@+id/notifs"
                         android:layout_width="48dp"
                         android:background="?android:selectableItemBackground"
+                        android:tint="@color/white"
 
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"

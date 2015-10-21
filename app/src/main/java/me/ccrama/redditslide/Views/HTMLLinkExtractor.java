@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 /**
  * Created by ccrama on 5/17/2015.
  */
-public class HTMLLinkExtractor {
+class HTMLLinkExtractor {
 
-    private Pattern patternTag, patternLink;
-    private Matcher matcherTag, matcherLink;
+    private final Pattern patternTag;
+    private final Pattern patternLink;
 
     private static final String HTML_A_TAG_PATTERN = "(?i)<a([^>]+)>(.+?)</a>";
     private static final String HTML_A_HREF_TAG_PATTERN =
@@ -33,14 +33,14 @@ public class HTMLLinkExtractor {
 
         ArrayList<HtmlLink> result = new ArrayList<>();
 
-        matcherTag = patternTag.matcher(html);
+        Matcher matcherTag = patternTag.matcher(html);
 
         while (matcherTag.find()) {
 
             String href = matcherTag.group(1); // href
             String linkText = matcherTag.group(2); // link text
 
-            matcherLink = patternLink.matcher(href);
+            Matcher matcherLink = patternLink.matcher(href);
 
             while (matcherLink.find()) {
 

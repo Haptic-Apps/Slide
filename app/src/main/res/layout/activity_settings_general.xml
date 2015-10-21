@@ -115,7 +115,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="LINK HANDLING"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <LinearLayout

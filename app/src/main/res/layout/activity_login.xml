@@ -2,14 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="8dp"
+    android:elevation="8dp"        android:background="@color/black"
+
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/black"
-        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -40,5 +36,4 @@
 
 
         </RelativeLayout>
-    </LinearLayout>
 </FrameLayout>

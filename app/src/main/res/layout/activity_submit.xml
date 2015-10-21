@@ -272,7 +272,7 @@
 
                     android:textStyle="bold"
                     android:layout_marginLeft="6dp"
-                    android:textSize="14dp"
+                    android:textSize="14sp"
                     android:textColor="?attr/font"
                     android:backgroundTint="?attr/tint"
 

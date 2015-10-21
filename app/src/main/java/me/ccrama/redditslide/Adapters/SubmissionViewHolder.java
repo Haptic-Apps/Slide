@@ -11,20 +11,20 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/17/2015.
  */
 public class SubmissionViewHolder extends RecyclerView.ViewHolder {
-    public TextView title;
-    public TextView subreddit;
-    public ImageView leadImage;
-    public TextView textImage;
-    public TextView subTextImage;
-    public View imageArea;
-    public TextView contentTitle;
-    public TextView contentURL;
-    public ImageView thumbImage;
-    public View previewContent;
-    public TextView score;
-    public TextView comments;
-    public View actionBar;
-    public TextView info;
+    public final TextView title;
+    public final TextView subreddit;
+    public final ImageView leadImage;
+    public final TextView textImage;
+    public final TextView subTextImage;
+    public final View imageArea;
+    public final TextView contentTitle;
+    public final TextView contentURL;
+    public final ImageView thumbImage;
+    public final View previewContent;
+    public final TextView score;
+    public final TextView comments;
+    private final View actionBar;
+    public final TextView info;
 
     public SubmissionViewHolder(View v) {
         super(v);

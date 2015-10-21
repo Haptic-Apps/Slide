@@ -23,9 +23,9 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class ContributionsView extends Fragment {
 
 
-    public View v;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private View v;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,9 +57,7 @@ public class ContributionsView extends Fragment {
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         //TODO catch errors
@@ -67,13 +65,8 @@ public class ContributionsView extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try {
-                            posts.loadMore(adapter, true, id, where);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                            posts.loadMore(adapter, id, where);
+
                         //TODO catch errors
                     }
                 }
@@ -81,12 +74,12 @@ public class ContributionsView extends Fragment {
         return v;
     }
 
-    public ContributionAdapter adapter;
+    private ContributionAdapter adapter;
 
-    public ContributionPosts posts;
+    private ContributionPosts posts;
 
-    public String id;
-    public String where;
+    private String id;
+    private String where;
 
 
     @Override

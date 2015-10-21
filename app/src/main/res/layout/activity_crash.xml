@@ -16,7 +16,7 @@
         android:gravity="center"
         android:src="@drawable/sad"
         android:id="@+id/sad"
-        android:textSize="70dp"
+        android:textSize="70sp"
          />
 
     <TextView

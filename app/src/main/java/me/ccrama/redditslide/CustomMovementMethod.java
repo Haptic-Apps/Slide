@@ -22,7 +22,7 @@ import android.widget.TextView;
  * @author Isaac Whitfield
  * @version 25/08/2013
  */
-public class CustomMovementMethod extends LinkMovementMethod {
+class CustomMovementMethod extends LinkMovementMethod {
     @Override
     public boolean canSelectArbitrarily () {
         return true;

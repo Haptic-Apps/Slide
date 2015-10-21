@@ -21,7 +21,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentSearch extends BaseActivity {
-    ArrayList<CommentNode> comments;
+    private ArrayList<CommentNode> comments;
     @Override
     public void onCreate(Bundle savedInstance) {
 

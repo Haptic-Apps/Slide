@@ -40,9 +40,7 @@
                 android:paddingBottom="0dp"
                 android:scrollbars="none">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+
 
                     <LinearLayout
                         android:id="@+id/dots"
@@ -58,7 +56,6 @@
                         android:id="@+id/dot"
                         layout="@layout/dot" />
 
-                </LinearLayout>
 
                 <include
                     android:id="@+id/side"
@@ -227,101 +224,7 @@
 
                     </LinearLayout>
 
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/loadMore"
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
-
-
-                        android:clipChildren="false"
-
-                        android:orientation="vertical"
-
-
-                        android:paddingBottom="0dp"
-
-                        android:scrollbars="none">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-
-                            android:orientation="vertical">
-
-                            <LinearLayout
-
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-
-                                android:orientation="horizontal"
-                                android:paddingBottom="0dp"
-                                android:scrollbars="none">
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-
-                                    android:paddingRight="16dp"
-
-                                    >
-
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="vertical">
-
-                                        <RelativeLayout
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:visibility="gone"
-
-                                            >
-
-
-                                            <LinearLayout
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="30dp"
-                                                android:layout_gravity="center_vertical"
-                                                android:gravity="center_vertical"
-                                                android:orientation="horizontal">
-
-
-                                                <TextView
-                                                    android:id="@+id/loadMoreText"
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:padding="5dp"
-                                                    android:text="Load more children"
-                                                    android:textColor="?attr/font"
-
-                                                    android:textSize="?attr/font_commentinfo" />
-
-                                            </LinearLayout>
-                                        </RelativeLayout>
-
-
-                                    </LinearLayout>
-
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-
                 </LinearLayout>
-
 
             </LinearLayout>
 

@@ -31,8 +31,8 @@ import me.ccrama.redditslide.Visuals.Pallete;
  */
 public class Inbox extends BaseActivity {
 
-    TabLayout tabs;
-    ViewPager pager;
+    private TabLayout tabs;
+    private ViewPager pager;
 
     public static String getTime(int mins) {
         int hours = mins / 60;
@@ -56,7 +56,7 @@ public class Inbox extends BaseActivity {
         super.onCreate(savedInstance);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
 
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_inbox);
 

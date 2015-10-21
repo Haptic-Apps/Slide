@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="?attr/activity_background"
-
-    android:layout_height="match_parent">
-
 
 <LinearLayout
     android:layout_width="match_parent"
+    android:background="?attr/activity_background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
@@ -41,6 +36,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
+                android:tint="@color/white"
 
                 android:background="#00ffffff"
                 android:paddingBottom="12dp"
@@ -88,8 +84,3 @@
         </android.support.v7.widget.RecyclerView>
 </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 </LinearLayout>
-
-
-
-
-</FrameLayout>

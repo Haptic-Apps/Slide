@@ -16,9 +16,9 @@ public class SettingValues {
     public static boolean actionBarVisible;
     public static InfoBar infoBar;
     public static CreateCardView.CardEnum defaultCardView;
-    public static boolean secondaryActionBarVisible;
-    public static InfoBar secondaryInfoBar;
-    public static CreateCardView.CardEnum secondaryDefaultCardView;
+    private static boolean secondaryActionBarVisible;
+    private static InfoBar secondaryInfoBar;
+    private static CreateCardView.CardEnum secondaryDefaultCardView;
     public static Sorting defaultSorting;
     public static TimePeriod timePeriod;
     public static CommentSort defaultCommentSorting;

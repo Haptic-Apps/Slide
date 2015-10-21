@@ -53,7 +53,6 @@
             android:layout_weight="1"
             android:background="?android:selectableItemBackgroundBorderless"
 
-            android:layout_alignParentRight="true"
             android:layout_gravity="right"
             android:padding="15dp"
 
@@ -66,7 +65,6 @@
             android:background="?android:selectableItemBackgroundBorderless"
 
             android:layout_height="56dp"
-            android:layout_alignParentRight="true"
             android:layout_gravity="right"
             android:padding="15dp"
 

@@ -7,9 +7,9 @@ import net.dean.jraw.models.MoreChildren;
 /**
  * Created by ccrama on 10/3/2015.
  */
-public class CommentData {
-    public CommentNode n;
-    public MoreChildren moreChildren;
+class CommentData {
+    private final CommentNode n;
+    private MoreChildren moreChildren;
     public Comment getComment(){
         return n.getComment();
     }
@@ -25,7 +25,7 @@ public class CommentData {
         this.n = n;
         more = true;
     }
-    public boolean more;
+    private final boolean more;
 
     public CommentData(MoreChildren moreChildren, CommentNode n){
         this.moreChildren = moreChildren;
@@ -33,7 +33,7 @@ public class CommentData {
         this.n = n;
 
     }
-    public boolean isCommentNode(){
+    private boolean isCommentNode(){
         return more;
     }
 }

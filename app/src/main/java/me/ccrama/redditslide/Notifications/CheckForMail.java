@@ -25,13 +25,13 @@ import me.ccrama.redditslide.R;
 
 public class CheckForMail extends BroadcastReceiver {
 
-    Context c;
+    private Context c;
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
         new AsyncGetMail().execute();
         }
-    public class AsyncGetMail extends AsyncTask<Void, Void, List<Message>> {
+    private class AsyncGetMail extends AsyncTask<Void, Void, List<Message>> {
 
         @Override
         public void onPostExecute(List<Message> messages){
@@ -99,7 +99,7 @@ public class CheckForMail extends BroadcastReceiver {
                         return unread.next();
                     }
                 }
-            }catch(Exception e){
+            }catch(Exception ignored){
 
             }
             return null;

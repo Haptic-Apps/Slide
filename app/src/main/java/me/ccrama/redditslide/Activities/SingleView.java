@@ -26,8 +26,8 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SingleView extends BaseActivity {
 
 
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SingleView extends BaseActivity {
         final String subreddit = getIntent().getExtras().getString("type", "");
 
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
 
         setContentView(R.layout.activity_singlesubreddit);
 
@@ -77,9 +77,7 @@ public class SingleView extends BaseActivity {
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         //TODO catch errors
@@ -87,22 +85,17 @@ public class SingleView extends BaseActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try {
                             posts.loadMore(adapter, true, subreddit);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
                         //TODO catch errors
                     }
                 }
         );
     }
 
-    public SubmissionAdapter adapter;
+    private SubmissionAdapter adapter;
 
-    public SubredditPosts posts;
+    private SubredditPosts posts;
 
 
 

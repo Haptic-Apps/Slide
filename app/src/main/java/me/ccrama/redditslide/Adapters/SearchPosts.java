@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class SearchPosts {
-    public ArrayList<Submission> posts;
-    public SubmissionSearchPaginator paginator;
+class SearchPosts {
+    private final ArrayList<Submission> posts;
+    private final SubmissionSearchPaginator paginator;
     public SearchPosts(ArrayList<Submission> firstData, SubmissionSearchPaginator paginator){
         posts = firstData;
         this.paginator = paginator;

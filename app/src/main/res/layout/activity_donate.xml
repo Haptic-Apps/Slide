@@ -11,7 +11,6 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_alignParentTop="true"
         android:background="@color/md_light_green_500">
 
 
@@ -47,7 +46,7 @@
                 android:text="$4"
                 android:padding="16dp"
                 android:textColor="@color/md_light_green_500"
-                android:textSize="26dp"
+                android:textSize="26sp"
                />
         <com.rey.material.widget.Slider
             android:id="@+id/slider_sl_discrete"
@@ -86,7 +85,7 @@
                 android:alpha=".6"
                 android:textColor="?attr/font"
                 android:text="Saves "
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:text="660"
                 android:textColor="@color/md_light_green_500"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -103,7 +102,7 @@
                 android:alpha=".6"
                 android:textColor="?attr/font"
                 android:text=" ads from being displayed"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -117,14 +116,14 @@
                 android:text="Supports "
                 android:alpha=".6"
                 android:textColor="?attr/font"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0.4"
                 android:textColor="@color/md_light_green_500"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 android:id="@+id/hours"
                 android:textStyle="bold" />
 
@@ -134,7 +133,7 @@
                 android:alpha=".6"
                 android:textColor="?attr/font"
                 android:text=" hours of development"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -150,7 +149,7 @@
                 android:text="I am a student developer, and am very grateful for your generous donations! They have helped make Slide a (free) reality :) "
                 android:alpha=".6"
                 android:textColor="?attr/font"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
 
         </LinearLayout>

@@ -13,9 +13,9 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 public class WikiPage extends Fragment {
 
 
-    public View v;
+    private View v;
 
-    String text;
+    private String text;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class WikiPage extends Fragment {
         return v;
     }
 
-    public String subreddit;
+    private String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

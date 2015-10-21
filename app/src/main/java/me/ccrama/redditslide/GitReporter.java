@@ -12,7 +12,7 @@ public class GitReporter extends GittyReporter {
 
         // Set where Gitty will send issues.
         // (username, repository name);
-        setTargetRepository("ccrama", "Slide");
+        setTargetRepository("ccrama");
 
         // Set Auth token to open issues if user doesn't have a GitHub account
         // For example, you can register a bot account on GitHub that will open bugs for you.
@@ -23,17 +23,17 @@ public class GitReporter extends GittyReporter {
 
         // Set if User can send bugs with his own GitHub account (default: true)
         // If false, Gitty will always use your Auth token
-        enableUserGitHubLogin(true);
+        enableUserGitHubLogin();
 
         // Set if Gitty can use your Auth token for users without a GitHub account (default: true)
         // If false, Gitty will redirect non registred users to github.com/join
-        enableGuestGitHubLogin(true);
+        enableGuestGitHubLogin();
 
         // Include other relevant info in your bug report (like custom variables)
         setExtraInfo(getIntent().getExtras().getString("stacktrace"));
 
         // Allow users to edit debug info (default: false)
-        canEditDebugInfo(false);
+        canEditDebugInfo();
 
 
     }

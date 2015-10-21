@@ -36,11 +36,11 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-public class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerView.OnItemTouchListener {
+class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerView.OnItemTouchListener {
 
-    final String TAG = "DragSortRecycler";
+    private final String TAG = "DragSortRecycler";
 
-    final boolean DEBUG = false;
+    private final boolean DEBUG = false;
 
     private int dragHandleWidth = 0;
 
@@ -66,10 +66,11 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
     private int viewHandleId = -1;
 
 
-    OnItemMovedListener moveInterface;
+    private OnItemMovedListener moveInterface;
 
     private boolean isDragging;
     @Nullable
+    private
     OnDragStateChangedListener dragStateChangedListener;
 
 
@@ -103,9 +104,9 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
         moveInterface = swif;
     }
 
-    public void setViewHandleId(int id)
+    public void setViewHandleId()
     {
-        viewHandleId = id;
+        viewHandleId = me.ccrama.redditslide.R.id.name;
     }
 
     public void setLeftDragArea(int w)
@@ -113,9 +114,9 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
         dragHandleWidth = w;
     }
 
-    public void setFloatingAlpha(float a)
+    public void setFloatingAlpha()
     {
-        floatingItemAlpha = a;
+        floatingItemAlpha = 0.4f;
     }
 
     public void setFloatingBgColor(int c)
@@ -126,17 +127,17 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
      Set the window at top and bottom of list, must be between 0 and 0.5
      For example 0.1 uses the top and bottom 10% of the lists for scrolling
      */
-    public void setAutoScrollWindow(float w)
+    public void setAutoScrollWindow()
     {
-        autoScrollWindow = w;
+        autoScrollWindow = 0.1f;
     }
 
     /*
     Set the autoscroll speed, default is 0.5
      */
-    public void setAutoScrollSpeed(float speed)
+    public void setAutoScrollSpeed()
     {
-        autoScrollSpeed = speed;
+        autoScrollSpeed = 0.3f;
     }
 
     @Override
@@ -417,7 +418,7 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
     }
 
 
-    Paint bgColor = new Paint();
+    private final Paint bgColor = new Paint();
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         if (floatingItem != null) {
@@ -428,11 +429,7 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
         }
     }
 
-    RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
+    private final RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -448,7 +445,7 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
      * @param position
      * @return True if we can drag the item over this position, False if not.
      */
-    protected boolean canDragOver(int position) {
+    private boolean canDragOver(int position) {
         return true;
     }
 

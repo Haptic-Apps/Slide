@@ -22,13 +22,13 @@ import org.json.JSONObject;
  * Represents an in-app product's listing details.
  */
 public class SkuDetails {
-    String mItemType;
-    String mSku;
-    String mType;
-    String mPrice;
-    String mTitle;
-    String mDescription;
-    String mJson;
+    private final String mItemType;
+    private String mSku;
+    private String mType;
+    private String mPrice;
+    private String mTitle;
+    private String mDescription;
+    private final String mJson;
 
     public SkuDetails(String jsonSkuDetails) throws JSONException {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);

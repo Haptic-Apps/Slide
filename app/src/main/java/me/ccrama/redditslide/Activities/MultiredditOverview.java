@@ -34,14 +34,14 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class MultiredditOverview extends BaseActivity {
-    Toolbar toolbar;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);
@@ -73,7 +73,7 @@ public class MultiredditOverview extends BaseActivity {
 
 
     }
-    public void openPopup(View view) {
+    private void openPopup(View view) {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -179,20 +179,20 @@ public class MultiredditOverview extends BaseActivity {
 
     }
 
-    public void reloadSubs() {
+    private void reloadSubs() {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setCurrentItem(current);
     }
-    public OverviewPagerAdapter adapter;
+    private OverviewPagerAdapter adapter;
 
-    public ViewPager pager;
-    public TabLayout tabs;
+    private ViewPager pager;
+    private TabLayout tabs;
 
-    public List<MultiReddit> usedArray;
+    private List<MultiReddit> usedArray;
 
-    public void setDataSet(List<MultiReddit> data) {
+    private void setDataSet(List<MultiReddit> data) {
         usedArray = data;
         if(usedArray.size() == 0){
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);

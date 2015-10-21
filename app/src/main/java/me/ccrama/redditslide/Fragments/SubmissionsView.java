@@ -24,9 +24,9 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionsView extends Fragment {
 
 
-    public View v;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private View v;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
 
@@ -91,9 +91,7 @@ public class SubmissionsView extends Fragment {
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         //TODO catch errors
@@ -101,13 +99,8 @@ public class SubmissionsView extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try {
                             posts.loadMore(adapter, true, id);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
                         //TODO catch errors
                     }
                 }
@@ -132,13 +125,8 @@ public class SubmissionsView extends Fragment {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
 
                         posts.loading = false;
-                        try {
                             posts.loadMore(adapter, false, posts.subreddit);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+
 
                     }
                 }
@@ -146,15 +134,15 @@ public class SubmissionsView extends Fragment {
         });
         return v;
     }
-    int visibleItemCount;
-    int pastVisiblesItems;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
 
-    int totalItemCount;
-    public SubmissionAdapter adapter;
+    private int totalItemCount;
+    private SubmissionAdapter adapter;
 
     public SubredditPosts posts;
 
-    public String id;
+    private String id;
 
 
     @Override

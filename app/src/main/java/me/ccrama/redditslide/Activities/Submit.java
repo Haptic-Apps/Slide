@@ -10,7 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.MenuItem;
@@ -50,7 +50,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Submit extends ActionBarActivity {
+public class Submit extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -61,15 +61,15 @@ public class Submit extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    View image;
-    View self;
+    private View image;
+    private View self;
 
-    View link;
+    private View link;
 
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_submit);
@@ -142,8 +142,8 @@ public class Submit extends ActionBarActivity {
         });
 
     }
-    public String URL;
-    public void setImage(final String URL){
+    private String URL;
+    private void setImage(final String URL){
         this.URL = URL;
 
 
@@ -359,7 +359,6 @@ public class Submit extends ActionBarActivity {
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write(data);
                 wr.flush();
-                data = "";
 
                 // Get the response
                 BufferedReader rd = new BufferedReader(
@@ -372,9 +371,7 @@ public class Submit extends ActionBarActivity {
                 rd.close();
                 return new JSONObject(stb.toString());
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
@@ -383,7 +380,7 @@ public class Submit extends ActionBarActivity {
         }
 
     }
-    public String getImageLink(Bitmap b) {
+    private String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
 

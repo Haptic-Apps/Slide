@@ -397,29 +397,29 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
     }
 
-    public void setTargetRepository(String user, String repository){
-        this.targetUser = user;
-        this.targetRepository = repository;
+    protected void setTargetRepository(String user){
+        this.targetUser = "ccrama";
+        this.targetRepository = "Slide";
     }
 
-    public void setGuestOAuth2Token(String token){
+    protected void setGuestOAuth2Token(String token){
         this.gitToken = token;
     }
 
-    public void setExtraInfo(String info){
+    protected void setExtraInfo(String info){
         this.extraInfo = info;
     }
 
-    public void enableUserGitHubLogin(boolean enableLogin){
-        this.enableGitHubLogin = enableLogin;
+    protected void enableUserGitHubLogin(){
+        this.enableGitHubLogin = true;
     }
 
-    public void enableGuestGitHubLogin(boolean enableGuest){
-        this.enableGuestGitHubLogin = enableGuest;
+    protected void enableGuestGitHubLogin(){
+        this.enableGuestGitHubLogin = true;
     }
 
-    public void canEditDebugInfo(boolean canEdit){
-        deviceInfoEditText.setEnabled(canEdit);
+    protected void canEditDebugInfo(){
+        deviceInfoEditText.setEnabled(false);
     }
 
     public void setFabColor1(int colorNormal, int colorPressed, int colorRipple){
@@ -495,5 +495,5 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
     }
 
-    public abstract void init(@Nullable Bundle savedInstanceState);
+    protected abstract void init(@Nullable Bundle savedInstanceState);
 }

@@ -28,7 +28,7 @@ public class AutoMarkupTextView extends TextView {
         parseLinks(s);
     }
 
-    public void parseLinks(String s){
+    private void parseLinks(String s){
 
 
 

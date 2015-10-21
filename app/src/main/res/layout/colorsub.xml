@@ -15,7 +15,7 @@
             android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -25,7 +25,7 @@
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
                 android:text="/r/Android"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -173,7 +173,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:text="RESET"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/reset"
                         android:textStyle="bold"
@@ -186,7 +186,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:text="OK"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok"
                         android:textStyle="bold"
@@ -223,7 +223,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:text="OK"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:id="@+id/ok2"
                         android:background="?android:selectableItemBackground"
 

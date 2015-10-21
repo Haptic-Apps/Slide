@@ -19,7 +19,7 @@ public class Agreement extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        return (ViewGroup) inflater.inflate(R.layout.agreement, container, false);
+        return inflater.inflate(R.layout.agreement, container, false);
     }
 
 }

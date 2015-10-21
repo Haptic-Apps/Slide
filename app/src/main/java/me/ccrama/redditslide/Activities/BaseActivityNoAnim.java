@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,7 +14,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 /**
  * Created by ccrama on 8/14/2015.
  */
-public class BaseActivityNoAnim extends ActionBarActivity implements SwipeBackActivityBase {
+public class BaseActivityNoAnim extends AppCompatActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
     @Override
     public void finish() {

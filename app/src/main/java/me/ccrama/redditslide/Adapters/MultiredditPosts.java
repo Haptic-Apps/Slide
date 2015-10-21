@@ -21,36 +21,36 @@ import me.ccrama.redditslide.Reddit;
  */
 public class MultiredditPosts {
     public ArrayList<Submission> posts;
-    public MultiRedditPaginator paginator;
-    public SwipeRefreshLayout refreshLayout;
+    private MultiRedditPaginator paginator;
+    private SwipeRefreshLayout refreshLayout;
 
     public MultiredditPosts(ArrayList<Submission> firstData, MultiRedditPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
     }
 
-    public MultiReddit subreddit;
+    private MultiReddit subreddit;
 
     public MultiredditPosts(MultiReddit subreddit) {
         this.subreddit = subreddit;
     }
 
-    public MultiredditAdapter adapter;
+    private MultiredditAdapter adapter;
 
     public void bindAdapter(MultiredditAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout=layout;
-        loadMore(a, true, subreddit);
+        loadMore(a, subreddit);
     }
 
-    public void loadMore(MultiredditAdapter adapter, boolean reset, MultiReddit subreddit) throws ExecutionException, InterruptedException {
-        new LoadData(reset).execute(subreddit);
+    public void loadMore(MultiredditAdapter adapter, MultiReddit subreddit) {
+        new LoadData(true).execute(subreddit);
 
 
     }
 
     public class LoadData extends AsyncTask<MultiReddit, Void, ArrayList<Submission>> {
-        boolean reset;
+        final boolean reset;
 
         public LoadData(boolean reset) {
             this.reset = reset;
@@ -87,7 +87,7 @@ public class MultiredditPosts {
             if (paginator.hasNext()) {
                 try {
                     return new ArrayList<>(paginator.next());
-                } catch (NetworkException e){
+                } catch (NetworkException ignored){
 
                 }
             }

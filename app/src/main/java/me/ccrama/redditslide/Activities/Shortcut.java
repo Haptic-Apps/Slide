@@ -25,7 +25,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 10/2/2015.
  */
 public class Shortcut extends Activity {
-    String name = "";
+    private String name = "";
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,8 @@ public class Shortcut extends Activity {
             // The result we are passing back from this activity
 
         }
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
+    private static Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;

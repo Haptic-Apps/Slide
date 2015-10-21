@@ -34,7 +34,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
  * Created by ccrama on 8/17/2015.
  */
 public class SettingsSubAdapter extends ArrayAdapter<String> {
-    List<String> objects;
+    private final List<String> objects;
 
 
     public SettingsSubAdapter(Context context, ArrayList<String> objects) {
@@ -365,7 +365,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         });
         return convertView;
     }
-    public int[] getColors(int c) {
+    private int[] getColors(int c) {
         if (c == getContext().getResources().getColor(R.color.md_red_500)) {
             return new int[]{
                     getContext().getResources().getColor(R.color.md_red_100),

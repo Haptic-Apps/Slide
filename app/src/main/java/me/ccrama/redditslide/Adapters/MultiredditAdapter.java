@@ -38,9 +38,9 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolder> {
 
-    public Context mContext;
-    public MultiredditPosts dataSet;
-    RecyclerView listView;
+    public final Context mContext;
+    private final MultiredditPosts dataSet;
+    private final RecyclerView listView;
 
 
 
@@ -60,10 +60,10 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
 
     }
 
-    boolean isSame;
+    private final boolean isSame;
 
 
-    int lastPosition = -1;
+    private int lastPosition = -1;
 
     @Override
     public void onBindViewHolder(final SubmissionViewHolder holder, final int i) {

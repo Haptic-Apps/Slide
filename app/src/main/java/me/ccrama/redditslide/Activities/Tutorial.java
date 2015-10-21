@@ -37,11 +37,6 @@ public class Tutorial extends FragmentActivity {
      */
     private ViewPager mPager;
 
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
-    private PagerAdapter mPagerAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +44,10 @@ public class Tutorial extends FragmentActivity {
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.vp);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        /*
+      The pager adapter, which provides the pages to the view pager widget.
+     */
+        PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         findViewById(R.id.agreement).setVisibility(View.GONE);
 

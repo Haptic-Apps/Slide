@@ -10,7 +10,6 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -20,16 +19,16 @@ import me.ccrama.redditslide.Fragments.CommentPage;
  */
 public class SubmissionComments {
     public ArrayList<CommentNode> comments;
-    public CommentNode baseComment;
-    public SwipeRefreshLayout refreshLayout;
+    private CommentNode baseComment;
+    public final SwipeRefreshLayout refreshLayout;
 
-    public String context;
+    private String context;
 
-    public String fullName;
+    private final String fullName;
     public Submission submission;
-    public CommentPage page;
+    private final CommentPage page;
 
-    public CommentSort defaultSorting = CommentSort.CONFIDENCE;
+    private CommentSort defaultSorting = CommentSort.CONFIDENCE;
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -49,17 +48,17 @@ public class SubmissionComments {
         new LoadData(false).execute(fullName);
 
     }
-    public CommentAdapter adapter;
+    private CommentAdapter adapter;
 
 
-    public void loadMore(CommentAdapter adapter, boolean reset, String subreddit) throws ExecutionException, InterruptedException {
+    public void loadMore(CommentAdapter adapter, String subreddit) {
         this.adapter = adapter;
-        new LoadData(reset).execute(subreddit);
+        new LoadData(true).execute(subreddit);
 
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
-        boolean reset;
+        final boolean reset;
 
         public LoadData(boolean reset) {
             this.reset = reset;
@@ -79,7 +78,7 @@ public class SubmissionComments {
 
         @Override
         protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
-            SubmissionRequest.Builder builder = null;
+            SubmissionRequest.Builder builder;
             if(context == null) {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
             } else {

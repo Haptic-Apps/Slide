@@ -24,9 +24,9 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class MultiredditView extends Fragment {
 
 
-    public View v;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private View v;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,9 +58,7 @@ public class MultiredditView extends Fragment {
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         //TODO catch errors
@@ -68,13 +66,8 @@ public class MultiredditView extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        try {
-                            posts.loadMore(adapter, true, SubredditStorage.multireddits.get(id));
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                            posts.loadMore(adapter, SubredditStorage.multireddits.get(id));
+
                         //TODO catch errors
                     }
                 }
@@ -82,11 +75,11 @@ public class MultiredditView extends Fragment {
         return v;
     }
 
-    public MultiredditAdapter adapter;
+    private MultiredditAdapter adapter;
 
-    public MultiredditPosts posts;
+    private MultiredditPosts posts;
 
-    public int id;
+    private int id;
 
 
     @Override

@@ -41,12 +41,12 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public Context mContext;
+    public final Context mContext;
     public ArrayList<Contribution> dataSet;
-    RecyclerView listView;
+    private final RecyclerView listView;
 
 
-    static int COMMENT = 1;
+    private static final int COMMENT = 1;
 
     @Override
     public int getItemViewType(int position) {
@@ -82,10 +82,10 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    boolean isSame;
+    private final boolean isSame;
 
 
-    int lastPosition = -1;
+    private int lastPosition = -1;
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int i) {

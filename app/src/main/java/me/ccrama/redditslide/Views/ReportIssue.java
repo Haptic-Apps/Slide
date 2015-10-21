@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.R;
 
 //Code from https://github.com/PaoloRotolo/GittyReporter. Used to override the view used by GittyReporter to change the background to black!
-public class ReportIssue extends AsyncTask<String, Integer, String> {
+class ReportIssue extends AsyncTask<String, Integer, String> {
 
-    Context mContext;
-    GittyReporter mActivity;
-    ProgressDialog progress;
+    private final Context mContext;
+    private final GittyReporter mActivity;
+    private ProgressDialog progress;
 
     public ReportIssue (Context context, GittyReporter activity){
         mContext = context;

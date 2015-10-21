@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Sendmessage extends ActionBarActivity {
+public class Sendmessage extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -40,18 +40,18 @@ public class Sendmessage extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    Boolean reply;
-    public PrivateMessage previousMessage;
-    EditText subject;
-    EditText to;
-    String bodytext;
-    String subjecttext;
-    String totext;
-    EditText body;
+    private Boolean reply;
+    private PrivateMessage previousMessage;
+    private EditText subject;
+    private EditText to;
+    private String bodytext;
+    private String subjecttext;
+    private String totext;
+    private EditText body;
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_sendmessage);

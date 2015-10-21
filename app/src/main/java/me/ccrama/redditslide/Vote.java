@@ -16,7 +16,7 @@ import net.dean.jraw.models.VoteDirection;
  */
 public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
-    VoteDirection direction;
+    private final VoteDirection direction;
 
     public Vote(Boolean b, View v, Context c) {
         if (b) {
@@ -29,8 +29,8 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
     }
 
-    View v;
-    Context c;
+    private View v;
+    private Context c;
 
     public Vote(View v, Context c) {
 

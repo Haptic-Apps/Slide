@@ -11,7 +11,7 @@ import android.view.View;
 /**
  * Created by ccrama on 7/20/2015.
  */
-public class AutoHideFAB extends FloatingActionButton.Behavior {
+class AutoHideFAB extends FloatingActionButton.Behavior {
     public AutoHideFAB(Context context, AttributeSet attrs) {
         super();
     }

@@ -23,10 +23,10 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenSingle extends BaseActivity {
-    ViewPager pager;
+    private ViewPager pager;
     OverviewPagerAdapter comments;
-    String subreddit;
-    public class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
+    private String subreddit;
+    private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPostExecute(String s){
@@ -81,8 +81,8 @@ public class CommentsScreenSingle extends BaseActivity {
         }
 
     }
-    public String name;
-    public String context;
+    private String name;
+    private String context;
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 

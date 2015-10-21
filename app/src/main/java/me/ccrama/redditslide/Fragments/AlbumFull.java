@@ -83,7 +83,7 @@ public class AlbumFull extends Fragment {
         });
         return rootView;
     }
-    public String getHash(String s){
+    private String getHash(String s){
         String next = s.substring(s.lastIndexOf("/"), s.length());
         if(next.length() < 5){
             return getHash(s.replace(next, ""));
@@ -92,8 +92,8 @@ public class AlbumFull extends Fragment {
         }
 
     }
-    View list;
-    public String cutEnds(String s){
+    private View list;
+    private String cutEnds(String s){
         if(s.endsWith("/")){
             return s.substring(0, s.length() - 1);
         } else {
@@ -171,9 +171,9 @@ public class AlbumFull extends Fragment {
 
 
     }
-    int i = 0;
+    private int i = 0;
     View placeholder;
-    Submission s;
+    private Submission s;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

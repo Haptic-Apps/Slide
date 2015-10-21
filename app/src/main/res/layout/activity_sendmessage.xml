@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:text="View their message"
             android:textColor="?attr/font"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textAllCaps="true"
             android:id="@+id/oldMSG"
             android:textStyle="bold"
@@ -64,7 +64,7 @@
            android:id="@+id/to"
            android:maxLines="1"
 
-           android:editable="false"
+           android:inputType="none"
 
            android:maxLength="21"
            android:hint="Recipient"
@@ -121,6 +121,8 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/send"
         app:fabSize="normal"
+        android:tint="@color/white"
+
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"

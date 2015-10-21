@@ -20,7 +20,7 @@
             android:paddingRight="@dimen/gittyreporter_card_padding">
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/gittyreporter_title_1"
@@ -107,7 +107,7 @@
             android:paddingRight="@dimen/gittyreporter_card_padding">
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
                     android:id= "@+id/gittyreporter_title_2"
@@ -156,6 +156,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="?attr/font"
                                 android:backgroundTint="?attr/tint"
+                                android:inputType="textPassword"
                                 android:textSize="@dimen/abc_text_size_body_2_material"
                                 android:hint="@string/gittyreporter_login_password"/>
                         </android.support.design.widget.TextInputLayout>

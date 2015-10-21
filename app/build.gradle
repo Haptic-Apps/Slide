@@ -3,6 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "22.0.1"
+        lintOptions {
+            quiet true
+            abortOnError false
+            ignoreWarnings true
+        }
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
@@ -52,6 +57,7 @@ dependencies {
         transitive = true
     }
     compile 'com.github.paolorotolo:gitty_reporter:1.2.1'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
 
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'

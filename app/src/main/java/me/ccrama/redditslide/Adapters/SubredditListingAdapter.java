@@ -19,7 +19,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 8/17/2015.
  */
 public class SubredditListingAdapter extends ArrayAdapter<String> {
-    List<String> objects;
+    private final List<String> objects;
 
 
     public SubredditListingAdapter(Context context, ArrayList<String> objects) {
@@ -29,7 +29,7 @@ public class SubredditListingAdapter extends ArrayAdapter<String> {
     }
 
 
-    public ArrayList<String> fitems;
+    private final ArrayList<String> fitems;
     @Override
     public View getView(final int position, View convertView, ViewGroup parent){
         if(convertView == null){

@@ -77,16 +77,6 @@
                     >
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            >
 
 
 
@@ -106,7 +96,6 @@
                                     android:id="@+id/time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
                                     android:paddingTop="5dp"
                                     android:paddingBottom="5dp"
 
@@ -117,7 +106,6 @@
                                     android:textSize="?attr/font_commentinfo" />
 
                             </LinearLayout>
-                        </RelativeLayout>
 
 
 
@@ -132,7 +120,6 @@
                             android:textSize="?attr/font_commentbody" />
 
 
-                    </LinearLayout>
 
 
 

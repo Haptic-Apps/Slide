@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -36,8 +37,8 @@ import me.ccrama.redditslide.Views.MediaVideoView;
  */
 public class GifView extends BaseActivity {
 
-    public ProgressBar loader;
-    SharedPreferences prefs;
+    private ProgressBar loader;
+    private SharedPreferences prefs;
 
     /**
      * Called when the activity is first created.
@@ -80,14 +81,7 @@ public class GifView extends BaseActivity {
     }
 
 
-    public class AsyncImageLoader extends AsyncTask<String, Void, Void> {
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
+    private class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
 
         @Override
@@ -167,7 +161,6 @@ public class GifView extends BaseActivity {
                                                 String s = result.getAsJsonObject("extraLemmaText").getAsString();
                                                 String extra = "";
                                                 if (s.length() > 19) {
-                                                    extra = "...";
                                                 }
                                             } else {
                                             }
@@ -256,7 +249,6 @@ public class GifView extends BaseActivity {
                                                                     String s = result.getAsJsonObject("extraLemmaText").getAsString();
                                                                     String extra = "";
                                                                     if (s.length() > 19) {
-                                                                        extra = "...";
                                                                     }
                                                                 } else {
                                                                 }
@@ -375,7 +367,6 @@ public class GifView extends BaseActivity {
                                                         String s = result.getAsJsonObject("extraLemmaText").getAsString();
                                                         String extra = "";
                                                         if (s.length() > 19) {
-                                                            extra = "...";
                                                         }
                                                     } else {
                                                     }
@@ -398,7 +389,7 @@ public class GifView extends BaseActivity {
 
     }
 
-    public class SaveGifAsync extends AsyncTask<String, Void, Void> {
+    private class SaveGifAsync extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... params) {
@@ -432,7 +423,7 @@ public class GifView extends BaseActivity {
 
 
                     NotificationManager mNotificationManager =
-                            (NotificationManager) getSystemService(GifView.this.NOTIFICATION_SERVICE);
+                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                     mNotificationManager.notify(1, notif.build());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -443,9 +434,9 @@ public class GifView extends BaseActivity {
     }
 
     class Meta {
-        public String num;
-        public String type;
-        public String ext;
+        public final String num;
+        public final String type;
+        public final String ext;
 
         Meta(String num, String ext, String type) {
             this.num = num;

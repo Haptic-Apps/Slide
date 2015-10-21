@@ -13,34 +13,30 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentViewHolder extends RecyclerView.ViewHolder {
-    public TextView title;
-    public TextView score;
-    public TextView author;
-    public LinearLayout dots;
-    public TextView time;
-    public View loadMore;
-    public TextView loadMoreText;
-    public View gild;
-    public View children;
-    public View more;
-    public View save;
-    public View upvote;
-    public View downvote;
-    public View reply;
-    public View replyArea;
-    public View menu;
-    public ActiveTextView content;
-    public View discard;
-    public View send;
-    public EditText replyLine;
+    private final TextView title;
+    public final TextView score;
+    public final TextView author;
+    public final LinearLayout dots;
+    public final TextView time;
+    public final View gild;
+    public final View children;
+    private final View more;
+    private final View save;
+    public final View upvote;
+    public final View downvote;
+    public final View reply;
+    public final View replyArea;
+    public final View menu;
+    public final ActiveTextView content;
+    public final View discard;
+    public final View send;
+    private final EditText replyLine;
 
 
     public CommentViewHolder(View v) {
         super(v);
         title = (TextView) v.findViewById(R.id.title);
         author = (TextView) v.findViewById(R.id.author);
-        loadMore= v.findViewById(R.id.loadMore);
-        loadMoreText = (TextView) v.findViewById(R.id.loadMoreText);
         score = (TextView) v.findViewById(R.id.score);
         time = (TextView) v.findViewById(R.id.time);
         gild =  v.findViewById(R.id.gild);

@@ -28,7 +28,7 @@ public class FullscreenVideo extends BaseActivity {
         v.loadUrl("about:blank");
         overridePendingTransition(0, R.anim.fade_out);
     }
-    WebView v;
+    private WebView v;
     public void onCreate(Bundle savedInstanceState) {
 
 
@@ -40,7 +40,7 @@ public class FullscreenVideo extends BaseActivity {
 
 
         String data = getIntent().getExtras().getString("html");
-        String url = "";
+        String url;
         if(data.endsWith("/")){
             data = data.substring(0, data.length() -1);
         }

@@ -27,8 +27,8 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivity {
-    ViewPager pager;
-    ArrayList<Submission> posts;
+    private ViewPager pager;
+    private ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
 
     @Override

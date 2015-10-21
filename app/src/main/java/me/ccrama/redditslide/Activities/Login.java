@@ -33,9 +33,9 @@ import me.ccrama.redditslide.Reddit;
  * Created by ccrama on 5/27/2015.
  */
 public class Login extends BaseActivity {
-    public Toolbar toolbar;
-    public static String CLIENT_ID = "KI2Nl9A_ouG9Qw";
-    public static String REDIRECT_URL = "http://www.ccrama.me";
+    private Toolbar toolbar;
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
+    private static final String REDIRECT_URL = "http://www.ccrama.me";
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -78,8 +78,8 @@ public class Login extends BaseActivity {
     }
 
     private final class UserChallengeTask extends AsyncTask<String, Void, OAuthData> {
-        private OAuthHelper mOAuthHelper;
-        private Credentials mCredentials;
+        private final OAuthHelper mOAuthHelper;
+        private final Credentials mCredentials;
 
         public UserChallengeTask(OAuthHelper oAuthHelper, Credentials credentials) {
             Log.v("Slide", "UserChallengeTask()");

@@ -21,10 +21,10 @@ import java.io.IOException;
  */
     /*Adapted from https://github.com/Kennyc1012/Opengur */
 
-public class ImageLoaderUtils {
+class ImageLoaderUtils {
 
     public static ImageLoader imageLoader;
-    public static File getCacheDirectory(Context context) {
+    private static File getCacheDirectory(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return context.getExternalCacheDir();
         }

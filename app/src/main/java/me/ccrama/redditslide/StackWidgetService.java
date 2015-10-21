@@ -30,12 +30,11 @@ public class StackWidgetService extends RemoteViewsService {
 
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private List<Submission> submissions = new ArrayList<>();
-    private Context mContext;
-    private int mAppWidgetId;
+    private final Context mContext;
 
     public StackRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
-        mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        int mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     public void onCreate() {
@@ -110,7 +109,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         return true;
     }
 
-    SubredditPosts posts;
+    private SubredditPosts posts;
 
     public void onDataSetChanged() {
         if (posts == null) {

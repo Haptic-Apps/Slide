@@ -138,7 +138,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
         //Color matching mode//
         //Everywhere, not sub//
         final TextView color = (TextView) findViewById(R.id.colormatchingwhere);
-        color.setText(CreateCardView.getColorMatchingMode(false).toString().replace("_", " ").toLowerCase());
+        color.setText(CreateCardView.getColorMatchingMode().toString().replace("_", " ").toLowerCase());
         findViewById(R.id.colormatchingwhere_touch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,8 +150,8 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                     CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())),false);
-                        color.setText(CreateCardView.getColorMatchingMode(false).toString().replace("_", " ").toLowerCase());
+                     CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
+                        color.setText(CreateCardView.getColorMatchingMode().toString().replace("_", " ").toLowerCase());
 
                         return true;
                     }
@@ -163,7 +163,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
         //Color matching type//
         //card, subreddit, or none//
         final TextView matchingtype = (TextView) findViewById(R.id.colormatching);
-        matchingtype.setText(CreateCardView.getColorIndicator(false).toString().replace("_", " ").toLowerCase());
+        matchingtype.setText(CreateCardView.getColorIndicator().toString().replace("_", " ").toLowerCase());
         findViewById(R.id.colormatching_touch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,8 +176,8 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                       CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), false);
-                        matchingtype.setText(CreateCardView.getColorIndicator(false).toString().replace("_", " ").toLowerCase());
+                       CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
+                        matchingtype.setText(CreateCardView.getColorIndicator().toString().replace("_", " ").toLowerCase());
 
                         return true;
                     }
@@ -400,7 +400,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
 
         return super.onOptionsItemSelected(item);
     }
-    public int[] getColors(int c) {
+    private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
                     getResources().getColor(R.color.md_red_100),

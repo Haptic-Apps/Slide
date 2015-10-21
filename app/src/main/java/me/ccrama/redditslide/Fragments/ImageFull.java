@@ -52,7 +52,7 @@ public class ImageFull extends Fragment {
         desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
         ContentType.ImageType type = ContentType.getImageType(s);
 
-        String url = "";
+        String url;
 
         if (type.toString().toLowerCase().contains("image")) {
             addClickFunctions(image, rootView, type, getActivity(), s);
@@ -109,8 +109,8 @@ public class ImageFull extends Fragment {
         return rootView;
     }
 
-    int i = 0;
-    Submission s;
+    private int i = 0;
+    private Submission s;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -174,7 +174,7 @@ public class ImageFull extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(), true, contextActivity);
+                        PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(), contextActivity);
                     }
                 });
                 break;

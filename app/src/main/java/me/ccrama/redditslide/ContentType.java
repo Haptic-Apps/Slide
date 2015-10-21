@@ -9,15 +9,15 @@ import net.dean.jraw.models.Submission;
  */
 public class ContentType {
 
-    public static boolean isGif(String s) {
+    private static boolean isGif(String s) {
         return (s.contains("gif") || s.contains("gfy") || s.contains("webm") || s.contains("mp4"));
     }
 
-    public static boolean isImage(String s) {
+    private static boolean isImage(String s) {
         return (s.contains("png") || s.contains("jpg") || s.contains("jpeg") || s.contains("imgur"));
     }
 
-    public static boolean isAlbum(String s) {
+    private static boolean isAlbum(String s) {
         return s.contains("imgur") && (s.contains("/a/") || s.contains("gallery") || s.contains("/g/"));
     }
 
@@ -44,7 +44,7 @@ public class ContentType {
         return s;
     }
 
-    public static String getLastPartofUrl(String s2) {
+    private static String getLastPartofUrl(String s2) {
         if (s2.endsWith("/")) {
             return getLastPartofUrl(s2.substring(0, s2.length() - 1));
         }

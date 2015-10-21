@@ -40,7 +40,7 @@ public class FullscreenImage extends BaseActivity {
 
 
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("", true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_image);
 

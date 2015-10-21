@@ -33,6 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
+            android:tint="@color/white"
             android:padding="10dp"
 
             android:src="@drawable/share" />
@@ -43,6 +44,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:padding="10dp"
+            android:tint="@color/white"
 
             android:src="@drawable/save" />
 

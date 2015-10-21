@@ -11,9 +11,9 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/17/2015.
  */
 public class MessageViewHolder extends RecyclerView.ViewHolder {
-    public TextView title;
-    public ActiveTextView content;
-    public TextView time;
+    public final TextView title;
+    public final ActiveTextView content;
+    public final TextView time;
 
     public MessageViewHolder(View v) {
         super(v);

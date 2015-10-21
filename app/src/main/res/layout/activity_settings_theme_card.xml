@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background"
@@ -29,7 +28,7 @@ Actionbar collapsible or always visible
 
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:padding="16dp"
             android:id="@+id/reset"
             android:textStyle="bold"
@@ -45,7 +44,7 @@ Actionbar collapsible or always visible
         android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,7 +126,7 @@ Actionbar collapsible or always visible
                     android:gravity="center_vertical"
                     android:text="Image Mode"
                     android:textColor="?attr/font"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -136,7 +135,7 @@ Actionbar collapsible or always visible
                     android:text="None"
                     android:id="@+id/infobar"
                     android:textColor="?attr/font"
-                    android:textSize="12dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -146,8 +145,6 @@ Actionbar collapsible or always visible
             android:id="@+id/theme"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_above="@+id/dark"
-            android:layout_alignParentBottom="true"
             android:background="?android:selectableItemBackground"
             android:orientation="horizontal"
             android:paddingLeft="16dp"

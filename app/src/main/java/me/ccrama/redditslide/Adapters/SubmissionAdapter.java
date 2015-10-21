@@ -44,13 +44,13 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder> {
 
-    public Context mContext;
+    public final Context mContext;
     public ArrayList<Submission> dataSet;
-    RecyclerView listView;
+    private final RecyclerView listView;
 
-    public String subreddit;
+    private final String subreddit;
 
-    boolean custom;
+    private final boolean custom;
 
 
     @Override
@@ -76,10 +76,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
 
 
-    boolean isSame;
+    private final boolean isSame;
 
 
-    int lastPosition = -1;
+    private int lastPosition = -1;
 
     public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
 

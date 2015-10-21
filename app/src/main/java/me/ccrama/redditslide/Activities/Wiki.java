@@ -32,16 +32,16 @@ import me.ccrama.redditslide.Visuals.StyleView;
  */
 public class Wiki extends BaseActivity {
 
-    TabLayout tabs;
-    ViewPager pager;
-    String subreddit;
+    private TabLayout tabs;
+    private ViewPager pager;
+    private String subreddit;
     @Override
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
         subreddit = getIntent().getExtras().getString("subreddit", "");
 
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_slidetabs);
 
@@ -63,10 +63,10 @@ public class Wiki extends BaseActivity {
 
         new AsyncGetWiki().execute();
     }
-    public Wiki.OverviewPagerAdapter adapter;
-    public List<String> pages;
+    private Wiki.OverviewPagerAdapter adapter;
+    private List<String> pages;
 
-    public class AsyncGetWiki extends AsyncTask<Void, Void, Void>{
+    private class AsyncGetWiki extends AsyncTask<Void, Void, Void>{
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -128,7 +128,7 @@ public class Wiki extends BaseActivity {
             }
         }
     }
-    public WeakHashMap<String, String> values;
+    private WeakHashMap<String, String> values;
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {

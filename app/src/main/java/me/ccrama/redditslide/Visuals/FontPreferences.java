@@ -17,11 +17,11 @@ public class FontPreferences {
         this.context = context;
     }
 
-    protected SharedPreferences open() {
+    private SharedPreferences open() {
         return context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
     }
 
-    protected SharedPreferences.Editor edit() {
+    private SharedPreferences.Editor edit() {
         return open().edit();
     }
 
@@ -38,8 +38,8 @@ public class FontPreferences {
         Medium(R.style.FontStyle_Medium, "Medium"),
         Large(R.style.FontStyle_Large, "Large");
 
-        private int resId;
-        private String title;
+        private final int resId;
+        private final String title;
 
         public int getResId() {
             return resId;

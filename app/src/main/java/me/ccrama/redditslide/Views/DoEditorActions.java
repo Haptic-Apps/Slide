@@ -170,7 +170,7 @@ public class DoEditorActions {
             }
         });
     }
-    public static void wrapString( String wrapText, EditText editText){
+    private static void wrapString(String wrapText, EditText editText){
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().insert(Math.min(start, end), wrapText);
@@ -184,13 +184,13 @@ public class DoEditorActions {
         s = s.replace("\n", "\n" + wrapText);
         editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
     }
-    public static void insertBefore( String wrapText, EditText editText){
+    private static void insertBefore(String wrapText, EditText editText){
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().insert(Math.min(start, end), wrapText);
 
     }
-    public static String getImageLink(Bitmap b) {
+    private static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
 
@@ -198,8 +198,8 @@ public class DoEditorActions {
     }
     private static class UploadImgur extends AsyncTask<Bitmap, Void, JSONObject> {
 
-        Context c;
-        EditText editText;
+        final Context c;
+        final EditText editText;
         public UploadImgur(EditText editText){
             this.c = editText.getContext();
             this.editText = editText;
@@ -303,9 +303,7 @@ public class DoEditorActions {
                 rd.close();
                 return new JSONObject(stb.toString());
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 

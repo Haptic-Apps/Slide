@@ -10,7 +10,7 @@ import me.ccrama.redditslide.Reddit;
  * Created by ccrama on 9/18/2015.
  */
 public class Pallete {
-    public int fontColor;
+    private int fontColor;
     public int backgroundColor;
     public static int getDefaultColor(){
         if(Reddit.colors.contains("DEFAULTCOLOR")){
@@ -28,9 +28,9 @@ public class Pallete {
 
         }
     }
-    public int mainColor;
-    public int accentColor;
-    public static int getColorAccent(final String subreddit){
+    private int mainColor;
+    private int accentColor;
+    private static int getColorAccent(final String subreddit){
         if(Reddit.colors.contains("ACCENT" + subreddit.toLowerCase())) {
 
             return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(), getDefaultColor());
@@ -135,10 +135,10 @@ public class Pallete {
             return fontColor;
         }
 
-        String displayName;
-        int backgroundColor;
-        int cardBackgroundColor;
-        int fontColor;
+        final String displayName;
+        final int backgroundColor;
+        final int cardBackgroundColor;
+        final int fontColor;
         ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor){
             this.displayName = s;
             this.backgroundColor = backgroundColor;

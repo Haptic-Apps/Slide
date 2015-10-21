@@ -64,7 +64,7 @@ public class ActiveTextView extends TextView {
         mLinkSet = false;
     }
     public static String getDomainName(String url)  {
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(url);
             String domain = uri.getHost();
@@ -123,8 +123,8 @@ public class ActiveTextView extends TextView {
             }
         }
     }
-    private boolean mLinkSet, mDisplayMinLongPress;
-    public String mUrl;
+    private boolean mLinkSet;
+    private String mUrl;
     private SpannableStringBuilder mSpannable;
     private ActiveTextView.OnLinkClickedListener mListener;
     private ActiveTextView.OnLongPressedLinkListener mLongPressedLinkListener;
@@ -291,6 +291,6 @@ public class ActiveTextView extends TextView {
      */
     public void setLongPressedLinkListener( ActiveTextView.OnLongPressedLinkListener longPressedLinkListener, boolean minDisplay ){
         this.mLongPressedLinkListener = longPressedLinkListener;
-        this.mDisplayMinLongPress = minDisplay;
+        boolean mDisplayMinLongPress = minDisplay;
     }
 }

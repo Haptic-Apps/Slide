@@ -25,7 +25,7 @@
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
                 android:text="Post title here"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <RelativeLayout

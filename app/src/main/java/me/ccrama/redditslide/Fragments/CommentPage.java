@@ -21,8 +21,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
@@ -37,11 +35,11 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class CommentPage extends Fragment {
 
-    public void reloadSubs(){
+    private void reloadSubs(){
         mSwipeRefreshLayout.setRefreshing(true);
         comments.setSorting(Reddit.defaultCommentSorting);
     }
-    public void openPopup(View view) {
+    private void openPopup(View view) {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -124,12 +122,12 @@ public class CommentPage extends Fragment {
         }
 
     }
-    public View v;
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    RecyclerView rv;
+    private View v;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
 
-    int page;
-    SubmissionComments comments;
+    private int page;
+    private SubmissionComments comments;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -206,13 +204,8 @@ public class CommentPage extends Fragment {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            try {
-                                comments.loadMore(adapter, true, id);
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                                comments.loadMore(adapter, id);
+
                             //TODO catch errors
                         }
                     }
@@ -221,7 +214,7 @@ public class CommentPage extends Fragment {
         return v;
     }
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
-        PreCachingLayoutManagerComments lm;
+        final PreCachingLayoutManagerComments lm;
         public TopSnappedSmoothScroller(Context context, PreCachingLayoutManagerComments lm) {
             super(context);
             this.lm = lm;
@@ -239,7 +232,7 @@ public class CommentPage extends Fragment {
         }
     }
 
-    boolean single;
+    private boolean single;
     public void doData(Boolean b) {
 
         if(adapter == null || single){
@@ -263,11 +256,11 @@ public class CommentPage extends Fragment {
 
             }
             rv.setAdapter(adapter);
-            adapter.reset(getContext(), comments, rv, comments.submission, 1);
+            adapter.reset(getContext(), comments, rv, comments.submission);
 
         } else
         if(!b) {
-            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page), 1);
+            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
         } else {
             adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
 
@@ -276,11 +269,11 @@ public class CommentPage extends Fragment {
 
     }
 
-    public CommentAdapter adapter;
+    private CommentAdapter adapter;
 
-    public String fullname;
-    public String id;
-    public String context;
+    private String fullname;
+    private String id;
+    private String context;
 
 
     @Override

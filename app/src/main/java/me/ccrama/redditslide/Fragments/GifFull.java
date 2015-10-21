@@ -73,7 +73,7 @@ public class GifFull extends Fragment {
 
 
             gif.setVisibility(View.VISIBLE);
-            final MediaVideoView v = (MediaVideoView) rootView.findViewById(R.id.gif);
+            final MediaVideoView v = (MediaVideoView) gif;
             v.clearFocus();
 
 
@@ -109,9 +109,9 @@ public class GifFull extends Fragment {
         return rootView;
     }
 
-      int i = 0;
-    View placeholder;
-    Submission s;
+      private int i = 0;
+    private View placeholder;
+    private Submission s;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,15 +120,8 @@ public class GifFull extends Fragment {
         s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
 
     }
-    public View gif;
-    public class AsyncImageLoader extends AsyncTask<String, Void, Void> {
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
+    private View gif;
+    private class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
 
         @Override

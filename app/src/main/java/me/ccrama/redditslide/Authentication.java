@@ -31,11 +31,11 @@ public class Authentication {
     }
 
     public static String name;
-    public static String CLIENT_ID = "KI2Nl9A_ouG9Qw";
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     public static SharedPreferences authentication;
-    public static String REDIRECT_URL = "http://www.ccrama.me";
-    public static int inboxC;
-    public Reddit a;
+    private static final String REDIRECT_URL = "http://www.ccrama.me";
+    private static int inboxC;
+    private Reddit a;
 
     public Authentication(Context a) {
         if(isNetworkAvailable(a)) {
@@ -96,9 +96,9 @@ public class Authentication {
             return null;
         }
     }
-    public static String refresh;
+    private static String refresh;
 
-    public class VerifyCredentials extends AsyncTask<String, Void, Void> {
+    private class VerifyCredentials extends AsyncTask<String, Void, Void> {
 
 
 

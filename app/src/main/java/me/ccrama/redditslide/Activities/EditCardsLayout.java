@@ -27,7 +27,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class EditCardsLayout extends BaseActivityNoAnim {
 
     ViewPager pager;
-    String subreddit;
+    private String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -39,7 +39,7 @@ public class EditCardsLayout extends BaseActivityNoAnim {
             subreddit = "";
         }
         subreddit = subreddit.toLowerCase();
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit, true).getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_settings_theme_card);
 

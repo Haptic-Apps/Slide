@@ -17,7 +17,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -27,7 +27,7 @@
                     android:background="@color/md_light_green_500"
                     android:padding="24dp"
                     android:text="Report a Crash"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -62,7 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:text="REPORT"
                         android:id="@+id/ok"

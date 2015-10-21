@@ -23,8 +23,8 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenPopup extends BaseActivity {
-    ViewPager pager;
-    ArrayList<Submission> posts;
+    private ViewPager pager;
+    private ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
     @Override
     public void onCreate(Bundle savedInstance) {

@@ -23,10 +23,10 @@ import me.ccrama.redditslide.Reddit;
 
 
 public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
-    ArrayList<JsonElement> users;
+    private final ArrayList<JsonElement> users;
 
-    Context main;
-    ArrayList<String> list;
+    private final Context main;
+    private final ArrayList<String> list;
 
     public AlbumView(Context context, ArrayList<JsonElement> users) {
         main = context;
@@ -39,9 +39,9 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        TextView text;
-        TextView body;
-        ImageView image;
+        final TextView text;
+        final TextView body;
+        final ImageView image;
         public ViewHolder(View itemView)
         {
             super(itemView);

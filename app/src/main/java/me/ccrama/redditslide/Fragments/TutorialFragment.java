@@ -27,12 +27,12 @@ public class TutorialFragment extends Fragment {
 
         return rootView;
     }
-    public void doPage(int i, View container){
+    private void doPage(int i, View container){
         ((TextView) container.findViewById(R.id.submission_title)).setText(titles[i]);
         Ion.with((ImageView) container.findViewById(R.id.image)).load("android.resource://" + getActivity().getPackageName() + "/" + dataBits[i]);
 
     }
-    public static String[] titles = new String[]{
+    private static final String[] titles = new String[]{
             "Swipe to switch subreddits",
             "Tap a submission to open in in full view",
             "Slide up to see comments in full view",
@@ -43,7 +43,7 @@ public class TutorialFragment extends Fragment {
             "Open content from full view",
             "Open content from list view"
     };
-    public static int[] dataBits = new int[]{
+    private static final int[] dataBits = new int[]{
             R.drawable.swipe_subreddit,
             R.drawable.open_post,
             R.drawable.swipe_comments,
@@ -68,7 +68,7 @@ public class TutorialFragment extends Fragment {
         return(f);
     }
 
-    public int getPage() {
+    private int getPage() {
         return(getArguments().getInt("PAGE"));
     }
 }
