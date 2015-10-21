@@ -51,7 +51,7 @@
                 android:textColor="?attr/font"
                 android:id="@+id/selftextradio"
 
-                android:text="SELF TEXT"
+                android:text="@string/submit_text"
                 android:layout_height="wrap_content" />
             <RadioButton
                 android:layout_width="0dp"
@@ -60,7 +60,7 @@
 
                 android:id="@+id/imageradio"
                 android:layout_weight="1"
-                android:text="IMAGE"
+                android:text="@string/submit_image"
                 android:layout_height="wrap_content" />
             <RadioButton
                 android:layout_width="0dp"
@@ -68,7 +68,7 @@
                 android:id="@+id/linkradio"
 
                 android:layout_weight="1"
-                android:text="LINK"
+                android:text="@string/submit_link"
                 android:layout_height="wrap_content" />
         </RadioGroup>
 
@@ -127,7 +127,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="SELECT AN IMAGE"
+                    android:text="@string/submit_image_select"
                     android:id="@+id/selImage"
 
                     android:textStyle="bold"

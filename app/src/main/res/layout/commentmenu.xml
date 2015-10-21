@@ -112,7 +112,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Gild comment"
+                            android:text="@string/comment_gild"
 
                             android:textSize="16sp" />
 
@@ -144,7 +144,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Report post"
+                            android:text="@string/comment_report"
 
                             android:textSize="16sp" />
 
@@ -173,7 +173,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="Share comment"
+                            android:text="@string/comment_share"
 
                             android:textSize="16sp" />
 
