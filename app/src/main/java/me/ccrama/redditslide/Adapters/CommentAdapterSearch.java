@@ -177,7 +177,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().toString().length()) + "?context=3";
+                        String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
 
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -193,7 +193,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().toString().length()) + "?context=3";
+                        String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
 
                         Reddit.defaultShareText(urlString, mContext);
 
@@ -313,7 +313,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
 
         }
-        return;
 
     }
 

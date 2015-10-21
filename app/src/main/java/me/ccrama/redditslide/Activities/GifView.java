@@ -68,11 +68,9 @@ public class GifView extends BaseActivity {
             if (dat.endsWith("v")) {
                 dat = dat.substring(0, dat.length() - 1);
             }
-            final String finalDat1 = dat;
 
             new AsyncImageLoader().execute(dat);
         }
-        final String finalDat = dat;
 
 
         prefs = getSharedPreferences("DATA", 0);

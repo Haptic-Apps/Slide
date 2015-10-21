@@ -68,11 +68,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
         this.listView = listView;
         this.dataSet = dataSet.posts;
 
-        if(SettingValues.prefs.contains("PRESET" + subreddit)){
-            custom = true;
-        } else {
-            custom = false;
-        }
+        custom = SettingValues.prefs.contains("PRESET" + subreddit);
 
         isSame = false;
 
@@ -251,7 +247,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
         new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView);
 
         lastPosition = i;
-        return;
 
     }
 

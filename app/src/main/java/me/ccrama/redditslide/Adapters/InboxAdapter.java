@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.dean.jraw.managers.InboxManager;
-import net.dean.jraw.models.CommentMessage;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
 
@@ -110,9 +109,8 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
                         Intent i = new Intent(mContext, Sendmessage.class);
                         i.putExtra("name", comment.getAuthor());
                         i.putExtra("reply", true);
-                        ((Activity) mContext).startActivity(i);
+                        mContext.startActivity(i);
                     } else {
-                        CommentMessage m = (CommentMessage) comment;
                         new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
                     }
                 } else {
@@ -133,12 +131,10 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
                         Intent i = new Intent(mContext, Sendmessage.class);
                         i.putExtra("name", comment.getAuthor());
                         i.putExtra("reply", true);
-                        ((Activity) mContext).startActivity(i);
+                        mContext.startActivity(i);
                     } else {
-                        CommentMessage m = (CommentMessage) comment;
                         new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
                     }
-                    return;
 
                 } else {
                     comment.read = true;

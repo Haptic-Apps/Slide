@@ -1,14 +1,14 @@
 package me.ccrama.redditslide.Visuals;
 
-        import android.graphics.Canvas;
-        import android.graphics.Paint;
-        import android.graphics.Path;
-        import android.graphics.RectF;
-        import android.view.MotionEvent;
-        import android.view.View;
-        import android.view.animation.Animation;
-        import android.view.animation.DecelerateInterpolator;
-        import android.view.animation.Transformation;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Transformation;
 
 /**
  * User: eluleci
@@ -175,6 +175,6 @@ public class TouchEffectsAnimator {
     }
 
     interface InterpolatedTimeCallback {
-        public void onTimeUpdate(float interpolatedTime);
+        void onTimeUpdate(float interpolatedTime);
     }
 }

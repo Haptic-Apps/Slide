@@ -203,7 +203,7 @@ public class Submit extends ActionBarActivity {
                             @Override
                             public void run() {
                                 if(e instanceof ApiException) {
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + ((ApiException) e).getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             finish();

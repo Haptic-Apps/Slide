@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -51,9 +50,6 @@ public class AlbumFull extends Fragment {
 
         title.setText(s.getTitle());
         desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
-        ContentType.ImageType type = ContentType.getImageType(s);
-
-        String url = "";
 
         list = rootView.findViewById(R.id.images);
 

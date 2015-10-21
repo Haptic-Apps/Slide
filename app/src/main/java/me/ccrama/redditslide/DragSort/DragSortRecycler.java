@@ -76,12 +76,12 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
 
     public interface OnItemMovedListener
     {
-        public void onItemMoved(int from, int to);
+        void onItemMoved(int from, int to);
     }
 
     public interface OnDragStateChangedListener {
-        public void onDragStart();
-        public void onDragStop();
+        void onDragStart();
+        void onDragStop();
     }
 
     private void debugLog(String log)
@@ -154,9 +154,6 @@ public class DragSortRecycler extends RecyclerView.ItemDecoration implements Rec
             if(!canDragOver(itemPos)) {
                 return;
             }
-
-            //Movement of finger
-            float totalMovement = fingerY-fingerAnchorY;
 
             if (itemPos == selectedDragItemPos)
             {

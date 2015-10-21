@@ -10,8 +10,8 @@ import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.ext.LruDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,7 +76,7 @@ public class ImageLoaderUtils {
         } else {
             long currentTime = System.currentTimeMillis();
 
-            if (currentTime - lastClear >= DateUtils.DAY_IN_MILLIS * 1) {
+            if (currentTime - lastClear >= DateUtils.DAY_IN_MILLIS) {
                 ImageLoader.getInstance().clearMemoryCache();
                 ImageLoader.getInstance().clearDiskCache();
                 pref.edit().putLong("lastClear", currentTime).apply();
