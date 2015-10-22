@@ -8,9 +8,9 @@ import android.content.Context;
 public class StartupStrings {
     public static String[] startupStrings(Context context) {
         return new String[]{
-                context.getString(R.string.splash_cats),
-                context.getString(R.string.slash_banana),
-                context.getString(R.string.splash_vine)
+                context.getString(R.string.startup_cats),
+                context.getString(R.string.startup_banana),
+                context.getString(R.string.startup_vine)
         };
     }
 }

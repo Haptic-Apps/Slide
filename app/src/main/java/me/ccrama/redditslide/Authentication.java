@@ -37,13 +37,13 @@ public class Authentication {
     public static int inboxC;
     public Reddit a;
 
-    public Authentication(Context a) {
-        if(isNetworkAvailable(a)) {
+    public Authentication(Context context) {
+        if(isNetworkAvailable(context)) {
             isLoggedIn = false;
-            this.a = (Reddit) a;
+            this.a = (Reddit) context;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0 (by /u/ccrama)"));
             reddit.setLoggingMode(LoggingMode.ALWAYS);
-                new VerifyCredentials().execute();
+                new VerifyCredentials(context).execute();
 
         }
 
@@ -100,6 +100,10 @@ public class Authentication {
     public static String refresh;
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
+        Context mContext;
+        public VerifyCredentials(Context context){
+            mContext = context;
+        }
 
 
 
@@ -109,7 +113,7 @@ public class Authentication {
                 a.loader.loading.setText(R.string.authentication_updating_subs);
             }
 
-                new SubredditStorage().execute(a);
+                new SubredditStorage(mContext).execute(a);
 
 
         }

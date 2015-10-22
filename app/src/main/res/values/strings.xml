@@ -204,9 +204,9 @@
     <string name="settings_theme_text">Text Color</string>
     <string name="settings_theme_none">None</string>
     <string name="subreddit_chooser">Pick a subreddit</string>
-    <string name="splash_cats">Finding videos of cats</string>
-    <string name="slash_banana">Giving Carter a banana</string>
-    <string name="splash_vine">Did it for the vine</string>
+    <string name="startup_cats">Finding videos of cats</string>
+    <string name="startup_banana">Giving Carter a banana</string>
+    <string name="startup_vine">Did it for the vine</string>
     <string name="title_submit_post">Submit post</string>
     <string name="editor_select_img">Select Picture</string>
     <string name="misc_err">Error</string>

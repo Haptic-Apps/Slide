@@ -1,5 +1,6 @@
 package me.ccrama.redditslide;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,6 +14,7 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import me.ccrama.redditslide.Activities.Shortcut;
 
@@ -21,6 +23,15 @@ import me.ccrama.redditslide.Activities.Shortcut;
  * Created by ccrama on 5/24/2015.
  */
 public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<String>> {
+
+    private Context mContext;
+    // Context is only needed to get the startup strings, so it's safe to set it null for all other cases
+    public SubredditStorage() {
+        mContext = null;
+    }
+    public SubredditStorage(Context context) {
+        mContext = context;
+    }
 
 
     public static SharedPreferences subscriptions;
@@ -94,8 +105,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 params[0].loader.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        /*String[] strings = StartupStrings.startupStrings(); //fixme needs more context
-                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);*/
+                        String[] strings = StartupStrings.startupStrings(mContext);
+                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);
                     }
                 });
             }
@@ -148,8 +159,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 params[0].loader.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        /*String[] strings = StartupStrings.startupStrings(); //fixme needs context
-                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);*/
+                        String[] strings = StartupStrings.startupStrings(mContext);
+                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);
 
                     }
                 });
