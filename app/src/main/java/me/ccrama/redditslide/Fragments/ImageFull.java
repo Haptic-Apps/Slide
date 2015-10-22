@@ -26,7 +26,6 @@ import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;

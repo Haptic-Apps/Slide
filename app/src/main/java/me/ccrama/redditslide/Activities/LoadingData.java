@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
 

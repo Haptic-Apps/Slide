@@ -21,7 +21,6 @@ import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;

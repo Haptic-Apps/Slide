@@ -23,7 +23,6 @@ import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OpenRedditLink;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 

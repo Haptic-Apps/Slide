@@ -21,7 +21,6 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.R;
 
 public class CheckForMail extends BroadcastReceiver {
 

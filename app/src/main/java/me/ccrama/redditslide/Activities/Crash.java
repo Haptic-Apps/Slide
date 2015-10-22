@@ -7,7 +7,6 @@ import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.GitReporter;
-import me.ccrama.redditslide.R;
 
 /**
  * Created by ccrama on 9/17/2015.

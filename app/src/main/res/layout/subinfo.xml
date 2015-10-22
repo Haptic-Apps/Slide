@@ -175,9 +175,8 @@
 
 
                 </RelativeLayout>
-                <me.ccrama.redditslide.ActiveTextView
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:textIsSelectable="true"
 
                     android:textColor="?attr/font"

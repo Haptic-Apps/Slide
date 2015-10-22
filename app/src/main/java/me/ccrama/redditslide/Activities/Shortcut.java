@@ -17,7 +17,6 @@ import android.util.Log;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Pallete;
 

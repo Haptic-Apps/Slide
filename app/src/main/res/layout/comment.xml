@@ -18,27 +18,15 @@
         android:elevation="8dp"
         android:orientation="horizontal" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/card_background"
-        android:clipChildren="false"
         android:orientation="vertical"
-        android:paddingBottom="0dp"
-        android:scrollbars="none">
+        >
 
 
-            <LinearLayout
-                android:id="@+id/padd"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-
-                android:orientation="horizontal"
-                android:paddingBottom="0dp"
-                android:scrollbars="none">
 
 
 
@@ -52,48 +40,36 @@
 
                     </LinearLayout>
 
-                    <include
+                    <View
                         android:id="@+id/dot"
-                        layout="@layout/dot" />
+                        android:layout_width="3dp"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@id/dots"
+                         />
 
 
-                <include
-                    android:id="@+id/side"
-                    layout="@layout/dot"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="match_parent"
-                    android:paddingRight="15dp" />
 
 
-                <LinearLayout
-                    android:id="@+id/background"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
 
-                    android:paddingTop="8dp"
-
-                    >
-
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/dot"
+                        android:id="@+id/background"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+
+                        android:paddingTop="8dp"
                         android:orientation="vertical">
 
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            >
 
                             <include
                                 android:id="@+id/children"
                                 layout="@layout/commentnumber"
                                 android:layout_width="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginBottom="-16dp"
 
                                 android:layout_height="16dp"
                                 android:layout_alignParentRight="true"
@@ -106,6 +82,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
+                                android:id="@+id/flow"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal"
                                 android:paddingRight="10dp">
@@ -209,24 +186,22 @@
                                     android:paddingRight="5dp"
                                     android:src="@drawable/pinned" />
                             </com.wefika.flowlayout.FlowLayout>
-                        </RelativeLayout>
 
 
                         <me.ccrama.redditslide.ActiveTextView
                             android:id="@+id/content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="16dp"
+                            android:layout_below="@+id/flow"
+                            android:paddingBottom="8dp"
 
                             android:textColor="?attr/font"
                             android:textSize="?attr/font_commentbody" />
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                </LinearLayout>
 
-            </LinearLayout>
 
 
 
@@ -235,7 +210,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:layout_below="@+id/background"
             android:weightSum="4">
 
             <ImageView
@@ -288,10 +263,11 @@
         <LinearLayout
             android:id="@+id/replyArea"
             android:layout_width="match_parent"
+            android:layout_below="@+id/menu"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="gone">
+            >
 
             <EditText
                 android:id="@+id/replyLine"
@@ -465,7 +441,7 @@
         </LinearLayout>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </LinearLayout>

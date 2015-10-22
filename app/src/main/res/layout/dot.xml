@@ -4,6 +4,7 @@
     android:layout_width="3dp"
     android:id="@+id/ba"
 
+
     android:orientation="vertical"
     android:layout_height="match_parent">
 

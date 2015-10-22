@@ -16,7 +16,6 @@ import android.widget.RadioGroup;
 
 import me.ccrama.redditslide.Fragments.Agreement;
 import me.ccrama.redditslide.Fragments.TutorialFragment;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Pallete;
 

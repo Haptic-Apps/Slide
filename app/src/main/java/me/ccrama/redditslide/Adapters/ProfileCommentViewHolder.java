@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.ActiveTextView;
-import me.ccrama.redditslide.R;
 
 /**
  * Created by ccrama on 9/17/2015.

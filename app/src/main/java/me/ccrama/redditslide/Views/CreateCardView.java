@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -123,7 +122,7 @@ public class CreateCardView {
 
     }
     public static void setColorMatchingMode(SettingValues.ColorMatchingMode b){
-        String subreddit = ((Boolean) false) ? "second" : "";
+        String subreddit = false ? "second" : "";
         if(subreddit.isEmpty()) {
 
 
@@ -138,7 +137,7 @@ public class CreateCardView {
 
     }
     public static void setColorIndicicator(SettingValues.ColorIndicator b){
-        String subreddit = ((Boolean) false) ? "second" : "";
+        String subreddit = false ? "second" : "";
         if(subreddit.isEmpty()) {
 
 
@@ -258,12 +257,12 @@ public class CreateCardView {
         return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew"  , SettingValues.defaultCardView.toString()));
     }
     public static SettingValues.ColorIndicator getColorIndicator() {
-        String subreddit = ((Boolean) false) ? "second" : "";
+        String subreddit = false ? "second" : "";
 
         return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew"  , SettingValues.colorIndicator.toString()));
     }
     public static SettingValues.ColorMatchingMode getColorMatchingMode() {
-        String subreddit = ((Boolean) false) ? "second" : "";
+        String subreddit = false ? "second" : "";
 
         return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew" , SettingValues.colorMatchingMode.toString()));
     }

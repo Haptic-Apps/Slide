@@ -32,8 +32,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import me.ccrama.redditslide.R;
-
 /**
  * Created by carlo_000 on 10/18/2015.
  */
