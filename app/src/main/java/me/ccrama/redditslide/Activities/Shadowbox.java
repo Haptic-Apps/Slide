@@ -16,6 +16,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.GifFull;
 import me.ccrama.redditslide.Fragments.ImageFull;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
 /**

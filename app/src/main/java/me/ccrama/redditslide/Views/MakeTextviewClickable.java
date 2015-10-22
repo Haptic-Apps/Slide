@@ -22,6 +22,7 @@ import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Pallete;
 

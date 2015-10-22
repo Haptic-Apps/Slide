@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 

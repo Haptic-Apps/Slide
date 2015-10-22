@@ -17,6 +17,8 @@ import org.eclipse.egit.github.core.service.LabelService;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.R;
+
 //Code from https://github.com/PaoloRotolo/GittyReporter. Used to override the view used by GittyReporter to change the background to black!
 class ReportIssue extends AsyncTask<String, Integer, String> {
 

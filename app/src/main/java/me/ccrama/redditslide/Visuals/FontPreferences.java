@@ -3,6 +3,8 @@ package me.ccrama.redditslide.Visuals;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import me.ccrama.redditslide.R;
+
 /**
  * Created by ccrama on 7/9/2015.
  */

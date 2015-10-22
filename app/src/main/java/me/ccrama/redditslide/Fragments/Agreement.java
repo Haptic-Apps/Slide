@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.ccrama.redditslide.R;
+
 
 /**
  * Created by ccrama on 6/2/2015.

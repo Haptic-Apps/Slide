@@ -21,6 +21,7 @@ import net.dean.jraw.models.PrivateMessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 

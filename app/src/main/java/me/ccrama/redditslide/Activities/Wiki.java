@@ -22,6 +22,7 @@ import java.util.WeakHashMap;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.Visuals.StyleView;

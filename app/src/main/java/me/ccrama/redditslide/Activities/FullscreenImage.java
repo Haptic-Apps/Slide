@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
 

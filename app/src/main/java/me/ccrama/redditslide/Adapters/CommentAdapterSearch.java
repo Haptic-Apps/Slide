@@ -31,6 +31,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;

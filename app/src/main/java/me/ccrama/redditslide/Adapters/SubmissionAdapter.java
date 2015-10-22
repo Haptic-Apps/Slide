@@ -34,6 +34,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;

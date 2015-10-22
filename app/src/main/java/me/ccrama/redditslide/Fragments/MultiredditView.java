@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;

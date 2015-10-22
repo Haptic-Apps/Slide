@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import me.ccrama.redditslide.ActiveTextView;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 public class WikiPage extends Fragment {

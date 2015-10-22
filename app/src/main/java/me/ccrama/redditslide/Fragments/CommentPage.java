@@ -27,6 +27,7 @@ import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;

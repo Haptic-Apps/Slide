@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.koushikdutta.ion.Ion;
 
+import me.ccrama.redditslide.R;
+
 
 /**
  * Created by ccrama on 6/2/2015.

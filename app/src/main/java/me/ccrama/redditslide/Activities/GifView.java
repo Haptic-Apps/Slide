@@ -27,6 +27,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
