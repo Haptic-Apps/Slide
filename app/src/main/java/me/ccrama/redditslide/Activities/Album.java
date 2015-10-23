@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.GridView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -43,8 +45,12 @@ public class Album extends BaseActivity {
 
     public void onCreate(Bundle savedInstanceState) {
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.album);
 
