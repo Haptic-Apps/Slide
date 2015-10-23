@@ -44,13 +44,17 @@ public class SubmissionsView extends Fragment {
             }
 
 
-        }
-        else {
+        } else {
             int i = 0;
-            int[] firstVisibleItems = null;
-            firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-            if(firstVisibleItems != null && firstVisibleItems.length > 0) {
-                i = firstVisibleItems[0];
+
+            if(rv.getLayoutManager() instanceof  StaggeredGridLayoutManager) {
+                int[] firstVisibleItems = null;
+                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    i = firstVisibleItems[0];
+                }
+            } else {
+                i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
             }
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());

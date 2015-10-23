@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -432,7 +433,7 @@ public class GifView extends BaseActivity {
 
 
                 NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(GifView.this.NOTIFICATION_SERVICE);
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(1, notif.build());
             } catch (Exception e) {
                 e.printStackTrace();

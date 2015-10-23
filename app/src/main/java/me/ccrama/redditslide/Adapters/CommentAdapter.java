@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.net.Uri;
@@ -58,9 +59,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     RecyclerView listView;
     ArrayList<String> up;
     ArrayList<String> down;
-
-
-
 
 
     static int HEADER = 1;
@@ -131,12 +129,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         isSame = false;
         notifyItemRangeInserted(1, users.size() + 1);
 
-        if(currentSelectedItem != null && !currentSelectedItem.isEmpty()){
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 1;
-            for(CommentNode n : users){
+            for (CommentNode n : users) {
 
-                if(n.getComment().getFullName().contains(currentSelectedItem)){
-                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments)listView.getLayoutManager());
+                if (n.getComment().getFullName().contains(currentSelectedItem)) {
+                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments) listView.getLayoutManager());
                     smoothScroller.setTargetPosition(i);
                     (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
                     break;
@@ -167,12 +165,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         isSame = false;
         notifyDataSetChanged();
-        if(currentSelectedItem != null && !currentSelectedItem.isEmpty()){
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 1;
-            for(CommentNode n : users){
+            for (CommentNode n : users) {
 
-                if(n.getComment().getFullName().contains(currentSelectedItem)){
-                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments)listView.getLayoutManager());
+                if (n.getComment().getFullName().contains(currentSelectedItem)) {
+                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments) listView.getLayoutManager());
                     smoothScroller.setTargetPosition(i);
                     (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
                     break;
@@ -184,7 +182,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     boolean isSame;
 
-    public  class AsyncSave extends AsyncTask<Submission, Void, Void> {
+    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
 
         View v;
 
@@ -217,10 +215,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return null;
         }
     }
-
-
-
-
 
 
     public CommentViewHolder currentlySelected;
@@ -265,33 +259,37 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int attributeResourceId = a.getResourceId(0, 0);
         holder.itemView.findViewById(R.id.background).setBackgroundColor(attributeResourceId);
     }
+
     public ArrayList<String> hasLoaded = new ArrayList<>();
+
     public class AsyncLoadMore extends AsyncTask<CommentNode, Void, Integer> {
 
         public int position;
 
         public int holderPos;
+
         public AsyncLoadMore(int position, int holderPos) {
             this.position = position;
             this.holderPos = holderPos;
         }
+
         @Override
-        public void onPostExecute(Integer data){
-            notifyItemRangeInserted(holderPos + 1 , holderPos + 1 + data);
+        public void onPostExecute(Integer data) {
+            notifyItemRangeInserted(holderPos + 1, holderPos + 1 + data);
         }
+
         @Override
         protected Integer doInBackground(CommentNode... params) {
             CommentNode n = params[0];
             n.loadFully(Authentication.reddit);
             ArrayList<CommentNode> finalData = new ArrayList<>();
             for (CommentNode no : n.walkTree()) {
-                if(!no.getComment().getFullName().equals(n.getComment().getFullName())) {
-                    Log.v("Slide", "ADDING " + no.getComment().getBody());
+                if (!no.getComment().getFullName().equals(n.getComment().getFullName())) {
                     finalData.add(no);
                 }
 
             }
-            users.addAll(position , finalData);
+            users.addAll(position, finalData);
 
             for (int i2 = 0; i2 < users.size(); i2++) {
                 keys.put(users.get(i2).getComment().getFullName(), i2);
@@ -300,7 +298,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doLongClick(CommentViewHolder holder, Comment comment){
+    public void doLongClick(CommentViewHolder holder, Comment comment) {
         if (currentSelectedItem.contains(comment.getFullName())) {
             doUnHighlighted(holder, comment);
         } else {
@@ -309,7 +307,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public FragmentManager fm;
-    public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode){
+
+    public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode) {
         if (currentSelectedItem.contains(comment.getFullName())) {
             doUnHighlighted(holder, comment);
         } else {
@@ -339,44 +338,44 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final int finalPos = nextPos;
             final int finalPos1 = pos;
 
-            if(comment.getVote() == VoteDirection.UPVOTE){
-                if(!up.contains(comment.getFullName())){
+            if (comment.getVote() == VoteDirection.UPVOTE) {
+                if (!up.contains(comment.getFullName())) {
                     up.add(comment.getFullName());
                 }
-            } else if(comment.getVote() == VoteDirection.DOWNVOTE){
-                if(!down.contains(comment.getFullName())){
+            } else if (comment.getVote() == VoteDirection.DOWNVOTE) {
+                if (!down.contains(comment.getFullName())) {
                     down.add(comment.getFullName());
                 }
             }
 
-            if(up.contains(comment.getFullName())){
-                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
-            } else if(down.contains(comment.getFullName())){
-                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+            if (up.contains(comment.getFullName())) {
+                holder.score.setTextColor(holder.textColorUp);
+            } else if (down.contains(comment.getFullName())) {
+                holder.score.setTextColor(holder.textColorDown);
 
             } else {
-                holder.score.setTextColor(holder.content.getCurrentTextColor());
+                holder.score.setTextColor(holder.textColorRegular);
             }
 
             holder.upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(up.contains(comment.getFullName())){
+                    if (up.contains(comment.getFullName())) {
                         new Vote(v, mContext).execute(comment);
                         up.remove(comment.getFullName());
-                        holder.score.setTextColor(holder.content.getCurrentTextColor());
+                        holder.score.setTextColor(holder.textColorRegular);
 
-                    } else if(down.contains(comment.getFullName())){
+                    } else if (down.contains(comment.getFullName())) {
                         new Vote(true, v, mContext).execute(comment);
                         up.add(comment.getFullName());
 
                         down.remove(comment.getFullName());
-                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                        holder.score.setTextColor(holder.textColorUp);
                     } else {
                         new Vote(true, v, mContext).execute(comment);
 
                         up.add(comment.getFullName());
-                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                        holder.score.setTextColor(holder.textColorUp);
                     }
                 }
             });
@@ -386,19 +385,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (down.contains(comment.getFullName())) {
                         new Vote(v, mContext).execute(comment);
                         down.remove(comment.getFullName());
-                        holder.score.setTextColor(holder.content.getCurrentTextColor());
+                        holder.score.setTextColor(holder.textColorRegular);
 
                     } else if (up.contains(comment.getFullName())) {
                         new Vote(false, v, mContext).execute(comment);
                         down.add(comment.getFullName());
                         up.remove(comment.getFullName());
-                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                        holder.score.setTextColor(holder.textColorDown);
 
                     } else {
-                        new Vote(false,v, mContext).execute(comment);
+                        new Vote(false, v, mContext).execute(comment);
 
                         down.add(comment.getFullName());
-                        holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                        holder.score.setTextColor(holder.textColorDown);
                     }
                 }
             });
@@ -420,20 +419,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }*/
 
-            if(comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())){
-                holder.itemView.findViewById(R.id.you).setVisibility(View.VISIBLE);
+            if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+                holder.you.setVisibility(View.VISIBLE);
             } else {
-                if(holder.itemView.findViewById(R.id.you).getVisibility()==View.VISIBLE)
-                    holder.itemView.findViewById(R.id.you).setVisibility(View.GONE);
+                if (holder.itemView.findViewById(R.id.you).getVisibility() == View.VISIBLE)
+                    holder.you.setVisibility(View.GONE);
 
             }
-            if(comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())){
-                holder.itemView.findViewById(R.id.op).setVisibility(View.VISIBLE);
+            if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+                holder.op.setVisibility(View.VISIBLE);
             } else {
 
-                if(holder.itemView.findViewById(R.id.op).getVisibility()==View.VISIBLE)
+                if (holder.op.getVisibility() == View.VISIBLE)
 
-                    holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
+                    holder.op.setVisibility(View.GONE);
 
             }
 
@@ -443,7 +442,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         holder.replyArea.setVisibility(View.VISIBLE);
                         holder.menu.setVisibility(View.GONE);
-                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), ((CommentViewHolder) firstHolder).replyArea, fm);
+                        DoEditorActions.doActions(holder.replyLine, holder.replyArea, fm);
 
                     }
                 });
@@ -453,7 +452,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         holder.replyArea.setVisibility(View.GONE);
                         holder.menu.setVisibility(View.VISIBLE);
                         dataSet.refreshLayout.setRefreshing(true);
-                        new ReplyTaskComment(comment, finalPos, finalPos1, baseNode).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                        new ReplyTaskComment(comment, finalPos, finalPos1, baseNode).execute(holder.replyLine.getText().toString());
 
 
                     }
@@ -469,19 +468,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             } else {
 
-                if(holder.reply.getVisibility()==View.VISIBLE)
+                if (holder.reply.getVisibility() == View.VISIBLE)
 
                     holder.reply.setVisibility(View.GONE);
-                if(holder.upvote.getVisibility()==View.VISIBLE)
+                if (holder.upvote.getVisibility() == View.VISIBLE)
 
                     holder.upvote.setVisibility(View.GONE);
-                if(holder.downvote.getVisibility()==View.VISIBLE)
+                if (holder.downvote.getVisibility() == View.VISIBLE)
 
                     holder.downvote.setVisibility(View.GONE);
 
             }
 
-            firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
+            holder.more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -504,7 +503,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String urlString = submission.getUrl() +comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
+                            String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
 
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -520,7 +519,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String urlString = "http://reddit.com" + submission.getPermalink() +comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
+                            String urlString = "http://reddit.com" + submission.getPermalink() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
 
                             Reddit.defaultShareText(urlString, mContext);
                         }
@@ -539,19 +538,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.author.setText(comment.getAuthor());
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
-                holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.VISIBLE);
-                ((TextView) holder.itemView.findViewById(R.id.text)).setText(comment.getAuthorFlair().getText());
+                holder.flairBubble.setVisibility(View.VISIBLE);
+                holder.flairText.setText(comment.getAuthorFlair().getText());
 
             } else {
 
-                if(holder.itemView.findViewById(R.id.flairbubble).getVisibility()==View.VISIBLE)
-                    holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
+                if (holder.flairBubble.getVisibility() == View.VISIBLE)
+                    holder.flairBubble.setVisibility(View.GONE);
 
             }
             holder.content.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if(Reddit.swap){
+                    if (Reddit.swap) {
                         doOnClick(holder, comment, baseNode);
                     } else {
                         doLongClick(holder, comment);
@@ -564,7 +563,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if(Reddit.swap){
+                    if (Reddit.swap) {
                         doOnClick(holder, comment, baseNode);
 
                     } else {
@@ -573,7 +572,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return true;
                 }
             });
-            if(comment.isScoreHidden()){
+            if (comment.isScoreHidden()) {
                 holder.score.setText("[SCORE HIDDEN]");
 
             } else {
@@ -583,7 +582,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (baseNode.isTopLevel()) {
                 holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
             } else {
-                if(holder.itemView.findViewById(R.id.next).getVisibility()==View.VISIBLE)
+                if (holder.itemView.findViewById(R.id.next).getVisibility() == View.VISIBLE)
 
                     holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
@@ -595,14 +594,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
             } else {
 
-                if(holder.itemView.findViewById(R.id.gild).getVisibility()==View.VISIBLE)
+                if (holder.gild.getVisibility() == View.VISIBLE)
 
                     holder.gild.setVisibility(View.GONE);
             }
 
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
-                ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + getChildNumber(baseNode));
+                holder.childrenNumber.setText("+" + getChildNumber(baseNode));
                 //todo maybe   holder.content.setVisibility(View.GONE);
             } else {
                 holder.children.setVisibility(View.GONE);
@@ -627,7 +626,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Reddit.swap){
+                    if (Reddit.swap) {
                         doLongClick(holder, comment);
                     } else {
                         doOnClick(holder, comment, baseNode);
@@ -637,7 +636,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(Reddit.swap){
+                    if (Reddit.swap) {
                         doLongClick(holder, comment);
                     } else {
                         doOnClick(holder, comment, baseNode);
@@ -645,33 +644,35 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
+            holder.dot.setVisibility(View.VISIBLE);
 
-            holder.dots.removeAllViews();
+
+
+               int dwidth =  (int)(3 *  Resources.getSystem().getDisplayMetrics().density);
+                    int width = 0;
             for (int i = 0; i < baseNode.getDepth() - 1; i++) {
-                ((Activity) mContext).getLayoutInflater().inflate(R.layout.dot, holder.dots);
-
+                width += dwidth;
             }
-            holder.itemView.findViewById(R.id.dot).setVisibility(View.VISIBLE);
+            holder.dots.setPadding(width, 0, 0, 0);
 
             if (baseNode.getDepth() - 1 > 0) {
-                View v = holder.itemView.findViewById(R.id.dot);
                 int i22 = baseNode.getDepth() - 2;
                 if (i22 % 5 == 0) {
-                    v.setBackgroundColor(Color.parseColor("#2196F3")); //blue
+                    holder.dot.setBackgroundColor(Color.parseColor("#2196F3")); //blue
                 } else if (i22 % 4 == 0) {
-                    v.setBackgroundColor(Color.parseColor("#4CAF50")); //green
+                    holder.dot.setBackgroundColor(Color.parseColor("#4CAF50")); //green
 
                 } else if (i22 % 3 == 0) {
-                    v.setBackgroundColor(Color.parseColor("#FFC107")); //yellow
+                    holder.dot.setBackgroundColor(Color.parseColor("#FFC107")); //yellow
 
                 } else if (i22 % 2 == 0) {
-                    v.setBackgroundColor(Color.parseColor("#FF9800")); //orange
+                    holder.dot.setBackgroundColor(Color.parseColor("#FF9800")); //orange
 
                 } else {
-                    v.setBackgroundColor(Color.parseColor("#F44336")); //red
+                    holder.dot.setBackgroundColor(Color.parseColor("#F44336")); //red
                 }
             } else {
-                holder.itemView.findViewById(R.id.dot).setVisibility(View.GONE);
+                holder.dot.setVisibility(View.GONE);
             }
         } else {
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, mContext, true, true, null, null);
@@ -680,7 +681,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View v) {
                         firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.VISIBLE);
-                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm );
+                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
 
                         firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -825,12 +826,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int finalPos;
         int finalPos1;
         CommentNode node;
+
         public ReplyTaskComment(Contribution n, int finalPos, int finalPos1, CommentNode node) {
             sub = n;
             this.finalPos = finalPos;
             this.finalPos1 = finalPos1;
             this.node = node;
         }
+
         public ReplyTaskComment(Contribution n) {
             sub = n;
 
@@ -840,11 +843,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onPostExecute(String s) {
             dataSet.refreshLayout.setRefreshing(false);
 
-            if(s != null) {
+            if (s != null) {
 
 
-                    dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
-
+                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
 
 
                 currentSelectedItem = s;
@@ -905,6 +907,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return 1 + (users.size() - getHiddenCount());
         }
     }
+
     private int getHiddenCount() {
 
         return hidden.size();
@@ -916,6 +919,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     }
+
     public void hideAll(CommentNode n, int i) {
         int counter = hideNumber(n, 0);
         notifyItemRangeRemoved(i, counter);
@@ -926,12 +930,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public int unhideNumber(CommentNode n, int i) {
         for (CommentNode ignored : n.walkTree()) {
-            if(!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
+            if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
                 String name = ignored.getComment().getFullName();
                 if (hiddenPersons.contains(name)) {
                     hiddenPersons.remove(name);
                 }
-                if(hidden.contains(name)) {
+                if (hidden.contains(name)) {
                     hidden.remove(name);
                     i++;
                 }
@@ -943,7 +947,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public int hideNumber(CommentNode n, int i) {
         for (CommentNode ignored : n.walkTree()) {
-            if(!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
+            if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
 
                 String fullname = ignored.getComment().getFullName();
                 if (hiddenPersons.contains(fullname)) {
@@ -959,6 +963,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         return i;
     }
+
     public HashMap<String, Integer> keys = new HashMap<>();
     ArrayList<CommentNode> users;
     ArrayList<String> hidden;
@@ -987,10 +992,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     ArrayList<String> replie;
-
-
-
-
 
 
 }
