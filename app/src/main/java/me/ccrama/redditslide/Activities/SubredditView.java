@@ -129,6 +129,7 @@ public class SubredditView extends BaseActivity {
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
         }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setResult(3);
 
         getSupportActionBar().setTitle(subreddit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -471,6 +472,7 @@ public class SubredditView extends BaseActivity {
         }
     }
 
+
     private SubmissionAdapter adapter;
 
     private SubredditPosts posts;
@@ -618,20 +620,24 @@ public class SubredditView extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle("Subreddit not found").setMessage("The subreddit " + params[0] + " could not be found. Perhaps it's spelled wrong?").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                setResult(4);
-                                finish();
-                            }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                setResult(4);
-                                finish();
-                            }
-                        }).show();
+                        try {
+                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle("Subreddit not found").setMessage("The subreddit " + params[0] + " could not be found. Perhaps it's spelled wrong?").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    setResult(4);
+                                    finish();
+                                }
+                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    setResult(4);
+                                    finish();
+                                }
+                            }).show();
+                        } catch (Exception e ){
+
+                        }
                     }
                 });
 

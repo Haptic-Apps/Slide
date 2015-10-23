@@ -13,7 +13,6 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import me.ccrama.redditslide.Activities.Shortcut;
 
@@ -35,25 +34,6 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         subscriptions.edit().putString("pins" + Authentication.name, finals).apply();
     }
 
-
-    private static class GetCollections extends AsyncTask<String, Void, ArrayList<String>> {
-
-        @Override
-        protected ArrayList<String> doInBackground(String... strings) {
-            try {
-
-                List<MultiReddit> reddits = new MultiRedditManager(Authentication.reddit).mine();
-                ArrayList<String> finals = new ArrayList<>();
-                for (MultiReddit m : reddits) {
-                    finals.add(m.getDisplayName());
-
-                }
-                return finals;
-            } catch (ApiException e) {
-                return new ArrayList<>();
-            }
-        }
-    }
 
     public static ArrayList<String> subredditsForHome;
     public static ArrayList<String> alphabeticalSubscriptions;
@@ -77,7 +57,9 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
             ArrayList<String> test = new ArrayList<>();
             test.addAll(res);
-
+            if(test.contains("")){
+                test.remove("");
+            }
 
             ArrayList<String> newValues = new ArrayList<>();
             if(!test.contains("frontpage"))
@@ -128,7 +110,9 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 test.add("frontpage");
             if(!test.contains("all"))
                 test.add("all");
-
+            if(test.contains("")){
+                test.remove("");
+            }
             if (Authentication.isLoggedIn) {
                 for (String s : doUpdateSubsSave()) {
                     if (!test.contains(s)) {
@@ -143,6 +127,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 }
             }
 
+            Log.v("Slide", "SIZE IS " +  newValues.size());
 
             if(params[0].loader != null) {
                 params[0].loader.runOnUiThread(new Runnable() {
@@ -243,13 +228,20 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         ArrayList<String> finished = new ArrayList<>();
 
         UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
-        pag.setLimit(50);
+        pag.setLimit(100);
 
 
         while(pag.hasNext()){
             Log.v("Slide", "ADDING NEW SUBS");
             for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                Log.v("Slide", s.getDisplayName());
                 finished.add(s.getDisplayName().toLowerCase());
+            }
+        }
+        if(finished.size() == 0){
+            for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")){
+                    finished.add(s);
+
             }
         }
 
