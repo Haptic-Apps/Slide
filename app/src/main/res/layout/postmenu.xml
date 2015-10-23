@@ -275,7 +275,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="Hide post"
+                            android:text="@string/submission_hide"
 
                             android:textSize="16sp" />
 

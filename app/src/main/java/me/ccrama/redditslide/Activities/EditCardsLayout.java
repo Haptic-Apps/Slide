@@ -90,7 +90,7 @@ public class EditCardsLayout extends BaseActivityNoAnim {
                 popup.getMenu().add(R.string.card_picture_cropped);
                 popup.getMenu().add(R.string.card_infobar);
                 popup.getMenu().add(R.string.card_thumbnail);
-                popup.getMenu().add(R.string.card_none);
+                popup.getMenu().add(R.string.misc_none);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

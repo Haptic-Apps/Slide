@@ -41,7 +41,7 @@
         android:id="@+id/search"
         android:textColorHint="?attr/font"
         android:backgroundTint="?attr/tint"
-        android:hint="Search submissions"
+        android:hint="@string/search_submissions_hint"
         android:textColor="?attr/font"
         android:layout_height="match_parent"/>
 
@@ -51,8 +51,9 @@
             android:layout_height="48dp">
             <android.support.v7.widget.SwitchCompat
                 android:layout_width="wrap_content"
-                android:text="EVERYWHERE"
-                android:layout_height="match_parent" />
+                android:text="@string/search_everywhere"
+                android:layout_height="match_parent"
+                android:textAllCaps="true"/>
             <TextView
                 android:layout_width="match_parent"
                 android:text="/r/android"

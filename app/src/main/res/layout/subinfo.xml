@@ -84,7 +84,8 @@
                             android:layout_marginTop="8dp"
                             android:textColorHint="?attr/font"
                             android:textColor="?attr/font"
-                            android:text="@string/sidebar_pinned" />
+                            android:text="@string/sidebar_pinned"
+                            android:textAllCaps="true"/>
                         <CheckBox
                             android:id="@+id/subscribed"
                             android:layout_width="match_parent"
@@ -97,6 +98,7 @@
                             android:layout_marginTop="8dp"
                             android:textColorHint="?attr/font"
                             android:textColor="?attr/font"
+                            android:textAllCaps="true"
                             android:text="@string/sidebar_subscribed" />
 
                         <View

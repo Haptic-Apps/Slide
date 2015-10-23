@@ -224,7 +224,7 @@ public class Submit extends ActionBarActivity {
                                 } else {
                                     new AlertDialogWrapper.Builder(Submit.this)
                                             .setTitle(R.string.editor_err_title)
-                                            .setMessage(R.string.misc_err + ": " + getString(R.string.misc_invalid_url) + "\n" + R.string.editor_err_retry)
+                                            .setMessage(R.string.misc_err + ": " + getString(R.string.err_invalid_url) + "\n" + R.string.editor_err_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -274,7 +274,7 @@ public class Submit extends ActionBarActivity {
                                 } else {
                                     new AlertDialogWrapper.Builder(Submit.this)
                                             .setTitle(R.string.editor_err_title)
-                                            .setMessage(R.string.misc_err + ": " + getString(R.string.misc_invalid_url) + "\n" + R.string.editor_err_retry)
+                                            .setMessage(R.string.misc_err + ": " + getString(R.string.err_invalid_url) + "\n" + R.string.editor_err_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {

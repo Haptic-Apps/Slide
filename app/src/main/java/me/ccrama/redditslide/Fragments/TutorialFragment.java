@@ -43,7 +43,7 @@ public class TutorialFragment extends Fragment {
                 context.getString(R.string.tutorial_swipe_next),
 
                 context.getString(R.string.tutorial_open_full),
-                context.getString(R.string.tutoiral_open_list)
+                context.getString(R.string.tutorial_open_list)
         };
     }
 

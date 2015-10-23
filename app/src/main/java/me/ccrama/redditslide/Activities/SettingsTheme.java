@@ -144,8 +144,8 @@ public class SettingsTheme extends BaseActivityNoAnim {
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
                 //Inflating the Popup using xml file
-                popup.getMenu().add(R.string.settings_theme_match_always);
-                popup.getMenu().add(R.string.settings_theme_match_ext);
+                popup.getMenu().add(R.string.theme_match_always);
+                popup.getMenu().add(R.string.theme_match_ext);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -169,9 +169,9 @@ public class SettingsTheme extends BaseActivityNoAnim {
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
                 //Inflating the Popup using xml file
-                popup.getMenu().add(R.string.settings_theme_background);
-                popup.getMenu().add(R.string.settings_theme_text);
-                popup.getMenu().add(R.string.settings_theme_none);
+                popup.getMenu().add(R.string.theme_background);
+                popup.getMenu().add(R.string.theme_text);
+                popup.getMenu().add(R.string.misc_none);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

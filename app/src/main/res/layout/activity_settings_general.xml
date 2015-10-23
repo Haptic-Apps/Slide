@@ -60,7 +60,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Single Mode"
+                android:text="@string/settings_single_mode"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -97,7 +97,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Swap tap and long press actions in comments"
+                android:text="@string/settings_swap_actions"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -114,7 +114,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="LINK HANDLING"
+            android:text="@string/settings_link_handling"
+            android:textAllCaps="true"
             android:textSize="14dp"
             android:textStyle="bold" />
 
@@ -141,7 +142,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Internal web browser"
+                android:text="@string/settings_link_browser"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -169,7 +170,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Internal gif view"
+                android:text="@string/settings_link_gif"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -197,7 +198,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Internal image view"
+                android:text="@string/settings_link_image"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -225,7 +226,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Internal video view"
+                android:text="@string/settings_link_video"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -253,7 +254,7 @@
                 android:backgroundTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
                 android:buttonTint="?attr/tint"
-                android:text="Internal album view"
+                android:text="@string/settings_link_album"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>

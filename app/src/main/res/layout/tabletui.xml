@@ -49,7 +49,8 @@
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:textColor="?attr/font"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"/>
                     <com.rey.material.widget.Slider
                         android:id="@+id/landscape"
                         android:layout_width="match_parent"
@@ -69,6 +70,7 @@
                         android:alpha=".7"
                         android:textStyle="bold"
                         android:textColor="?attr/font"
+                        android:textAllCaps="true"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>

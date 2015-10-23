@@ -114,13 +114,13 @@ public class Settings extends BaseActivityNoAnim {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText(getString(R.string.setting_notifications) + " " + Inbox.getTime(Reddit.notificationTime, getBaseContext()));
+                    checkBox.setText(getString(R.string.settings_notification) + " " + Inbox.getTime(Reddit.notificationTime, getBaseContext()));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText(getString(R.string.setting_notifications) + " " + Inbox.getTime(i1 * 15, getBaseContext()));
+                        checkBox.setText(getString(R.string.settings_notification) + " " + Inbox.getTime(i1 * 15, getBaseContext()));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

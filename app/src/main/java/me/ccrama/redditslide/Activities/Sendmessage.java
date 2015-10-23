@@ -83,7 +83,7 @@ public class Sendmessage extends ActionBarActivity {
                     @Override
                     public void onClick(View v) {
                         AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(Sendmessage.this);
-                        b.setTitle(String.format(getString(R.string.message_author_wrote), name));
+                        b.setTitle(String.format(getString(R.string.mail_author_wrote), name));
                         b.setMessage(previousMessage.getBody());
                         b.create().show();
 

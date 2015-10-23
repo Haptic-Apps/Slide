@@ -28,7 +28,7 @@
             android:textColor="?attr/font"
 
             android:textStyle="bold"
-            android:text="Support Slide for Reddit"
+            android:text="@string/drawer_support"
             android:gravity="center_vertical"
             android:layout_height="match_parent" />
     </LinearLayout>

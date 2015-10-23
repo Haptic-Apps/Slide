@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Mail Notification Settings"
+                android:text="@string/settings_notification_title"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                     <CheckBox
                         android:layout_width="match_parent"
                         android:padding="16dp"
-                        android:text="Check for new mail"
+                        android:text="@string/settings_mail_check"
                         android:backgroundTint="?attr/tint"
                         android:textSize="14dp"
 
@@ -69,7 +69,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:padding="16dp"
-                        android:text="The higher the frequency, the more potential battery Slide will use in the background!"
+                        android:text="@string/settings_mail_info"
                         android:textSize="14dp"
                         android:alpha=".7"
                         android:textColor="?attr/font"

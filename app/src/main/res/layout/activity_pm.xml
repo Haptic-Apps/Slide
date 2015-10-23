@@ -15,7 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="60dp"
-    android:title="Submit a post"
+    android:title="@string/editor_submit"
     android:clipToPadding="false"
     android:paddingRight="16dp"
 
@@ -51,8 +51,9 @@
                 android:textColor="?attr/font"
                 android:id="@+id/selftextradio"
 
-                android:text="@string/submit_text"
-                android:layout_height="wrap_content" />
+                android:text="@string/editor_self"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:textColor="?attr/font"
@@ -60,16 +61,18 @@
 
                 android:id="@+id/imageradio"
                 android:layout_weight="1"
-                android:text="@string/submit_image"
-                android:layout_height="wrap_content" />
+                android:text="@string/editor_image"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"/>
             <RadioButton
                 android:layout_width="0dp"
                 android:textColor="?attr/font"
                 android:id="@+id/linkradio"
 
                 android:layout_weight="1"
-                android:text="@string/submit_link"
-                android:layout_height="wrap_content" />
+                android:text="@string/editor_link"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"/>
         </RadioGroup>
 
         <android.support.design.widget.TextInputLayout
@@ -83,7 +86,7 @@
            android:maxLines="1"
 
            android:maxLength="21"
-           android:hint="Subreddit"
+           android:hint="@string/editor_hint_subreddit"
            android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
@@ -97,7 +100,7 @@
                 android:id="@+id/titletext"
                 android:maxLines="1"
 
-                android:hint="Title"
+                android:hint="@string/editor_title"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
         <LinearLayout
@@ -110,7 +113,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:id="@+id/bodytext"
-                    android:hint="Body (optional)"
+                    android:hint="@string/editor_hint_optional_body"
                     android:textColor="?attr/font"
                     android:imeOptions="actionDone|flagNoEnterAction"
                     android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
@@ -127,7 +130,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="@string/submit_image_select"
+                    android:text="@string/editor_select_img"
                     android:id="@+id/selImage"
 
                     android:textStyle="bold"
@@ -153,7 +156,7 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_width="match_parent"
-                    android:hint="URL"
+                    android:hint="@string/editor_hint_url"
                     android:maxLines="1"
                     android:id="@+id/urltext"
 

@@ -89,13 +89,13 @@ public class Inbox extends BaseActivity {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText(getString(R.string.setting_notifications) + " " + getTime(Reddit.notificationTime, getBaseContext()));
+                    checkBox.setText(getString(R.string.settings_notification) + " " + getTime(Reddit.notificationTime, getBaseContext()));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText(getString(R.string.setting_notifications) + " " + getTime(i1 * 15, getBaseContext()));
+                        checkBox.setText(getString(R.string.settings_notification) + " " + getTime(i1 * 15, getBaseContext()));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Main color"
+                android:text="@string/settings_main_color"
                 android:textColor="?attr/font"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -108,7 +108,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Accent color"
+                android:text="@string/settings_color_accent"
                 android:textColor="?attr/font"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Base theme"
+                android:text="@string/theme_base"
                 android:textColor="?attr/font"
                 android:textSize="16dp"
                 android:textStyle="bold" />
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Subreddit Color Indicator"
+                    android:text="@string/theme_indicator"
                     android:textStyle="bold"
                     android:textColor="?attr/font"
                     android:textSize="16dp" />
@@ -182,7 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Card"
+                    android:text="@string/theme_card"
                     android:id="@+id/colormatching"
                     android:textColor="?attr/font"
                     android:textSize="14dp" />
@@ -218,7 +218,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Where to Show Color Indicator"
+                    android:text="@string/settings_indicator_place"
                     android:textColor="?attr/font"
                     android:textStyle="bold"
 
@@ -228,7 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Everywhere"
+                    android:text="@string/settings_indicator_everywhere"
                     android:id="@+id/colormatchingwhere"
 
                     android:textColor="?attr/font"

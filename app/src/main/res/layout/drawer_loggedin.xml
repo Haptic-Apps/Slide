@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:padding="16dp"
-            android:text="Hello,"
+            android:text="@string/drawer_hello"
             android:textColor="#fff"
             android:textSize="16sp" />
 
@@ -57,7 +57,8 @@
             android:padding="16dp"
             android:background="?android:selectableItemBackground"
 
-            android:text="CHANGE ACCOUNTS"
+            android:text="@string/drawer_change_account"
+            android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -99,7 +100,7 @@
             android:layout_width="wrap_content"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:text="Profile"
+            android:text="@string/drawer_profile"
             android:textColor="?attr/font"
             android:gravity="center_vertical"
             android:layout_height="match_parent" />
@@ -120,7 +121,7 @@
         <TextView
             android:id="@+id/profile"
             android:layout_width="match_parent"
-            android:text="Your profile"
+            android:text="@string/profile_yours"
             android:background="?android:selectableItemBackground"
             android:layout_height="42dp"
             android:textSize="14sp"
@@ -130,7 +131,7 @@
         <TextView
             android:id="@+id/saved"
             android:layout_width="match_parent"
-            android:text="Saved posts"
+            android:text="@string/profile_saved"
             android:layout_height="42dp"
             android:textSize="14sp"
             android:background="?android:selectableItemBackground"
@@ -144,7 +145,7 @@
         <TextView
             android:id="@+id/upvoted"
             android:layout_width="match_parent"
-            android:text="Upvoted posts"
+            android:text="@string/profile_upvoted"
             android:layout_height="42dp"
             android:textSize="14sp"
             android:background="?android:selectableItemBackground"
@@ -156,7 +157,7 @@
         <TextView
             android:id="@+id/submit"
             android:layout_width="match_parent"
-            android:text="Submit"
+            android:text="@string/editor_submit"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
 
@@ -166,7 +167,7 @@
         <TextView
             android:id="@+id/reorder"
             android:layout_width="match_parent"
-            android:text="Reorder your pins"
+            android:text="@string/drawer_reorder_pins"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
 
@@ -176,7 +177,7 @@
         <TextView
             android:id="@+id/add"
             android:layout_width="match_parent"
-            android:text="Add an account"
+            android:text="@string/drawer_add_account"
             android:background="?android:selectableItemBackground"
 
             android:layout_height="42dp"
@@ -213,7 +214,7 @@
             android:gravity="center_vertical"
             android:textColor="?attr/font"
 
-            android:text="Inbox"
+            android:text="@string/title_inbox"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -277,7 +278,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Support Slide"
+            android:text="@string/drawer_support"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -307,7 +308,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Multi-Column"
+            android:text="@string/drawer_multi_column"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -336,7 +337,7 @@
             android:textColor="?attr/font"
 
             android:gravity="center_vertical"
-            android:text="Go to a profile"
+            android:text="@string/drawer_goto_profile"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -383,7 +384,7 @@
         android:id="@+id/sort"
         android:textColor="?attr/font"
         android:textColorHint="?attr/font"
-        android:hint="Search for a subreddit"
+        android:hint="@string/drawer_search"
         android:singleLine="true"
 
         android:layout_marginLeft="16dp"

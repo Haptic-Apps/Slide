@@ -148,7 +148,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:textSize="?attr/font_cardinfo"
-                                    android:text="@string/thread_properties_seperator"
+                                    android:text="@string/submission_properties_seperator"
                                     android:textColor="?attr/font"
 
                                     android:layout_height="wrap_content" />
@@ -167,7 +167,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:textSize="?attr/font_cardinfo"
-                                    android:text="@string/thread_properties_seperator"
+                                    android:text="@string/submission_properties_seperator"
                                     android:textColor="?attr/font"
 
                                     android:layout_height="wrap_content" />
@@ -411,7 +411,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/replyLine"
                             android:textColor="?attr/font"
-                            android:hint="Reply"
+                            android:hint="@string/btn_reply"
                             android:textColorHint="?attr/font"
 
                             android:backgroundTint="?attr/tint"
@@ -431,7 +431,8 @@
                                 android:background="?android:selectableItemBackground"
 
                                 android:id="@+id/discard"
-                                android:text="DISCARD"
+                                android:text="@string/btn_discard"
+                                android:textAllCaps="true"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -444,7 +445,8 @@
                                 android:background="?android:selectableItemBackground"
 
                                 android:padding="4dp"
-                                android:text="@string/thread_reply_submit"
+                                android:text="@string/submission_reply_submit"
+                                android:textAllCaps="true"
 
                                 android:textSize="14sp"
                                 android:textStyle="bold" />

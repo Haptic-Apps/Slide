@@ -110,7 +110,7 @@ public class Authentication {
         @Override
         public void onPostExecute(Void voids){
             if(a.loader != null){
-                a.loader.loading.setText(R.string.authentication_updating_subs);
+                a.loader.loading.setText(R.string.general_updating_subs);
             }
 
                 new SubredditStorage(mContext).execute(a);

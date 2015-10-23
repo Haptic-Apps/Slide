@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Base theme"
+                android:text="@string/theme_base"
                 android:textSize="18dp"
                 android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
 
                             android:textColor="#ffffff"
 
-                            android:text="Dark"
+                            android:text="@string/theme_dark"
 
                             android:textSize="16sp" />
 
@@ -101,7 +101,7 @@
 
                             android:textColor="#ffffff"
 
-                            android:text="AMOLED Black"
+                            android:text="@string/theme_black"
 
                             android:textSize="16sp" />
 
@@ -131,7 +131,7 @@
 
                             android:textColor="#cd000000"
 
-                            android:text="Light"
+                            android:text="@string/theme_light"
 
                             android:textSize="16sp" />
 

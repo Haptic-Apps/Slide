@@ -33,8 +33,9 @@ Actionbar collapsible or always visible
             android:padding="16dp"
             android:id="@+id/reset"
             android:textStyle="bold"
-            android:text="RESET"
+            android:text="@string/btn_reset"
             android:layout_gravity="center_vertical|right"
+            android:textAllCaps="true"
             android:layout_height="wrap_content" />
 
 
@@ -87,7 +88,7 @@ Actionbar collapsible or always visible
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                 android:drawableTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="Card Mode"
+                android:text="@string/settings_card_mode"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
@@ -124,7 +125,7 @@ Actionbar collapsible or always visible
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="Image Mode"
+                    android:text="@string/settings_image"
                     android:textColor="?attr/font"
                     android:textSize="14dp" />
 
@@ -132,7 +133,7 @@ Actionbar collapsible or always visible
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="None"
+                    android:text="@string/misc_none"
                     android:id="@+id/infobar"
                     android:textColor="?attr/font"
                     android:textSize="12dp" />
@@ -175,7 +176,7 @@ Actionbar collapsible or always visible
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                 android:drawableTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="Action Bar Visible"
+                android:text="@string/settings_action_bar"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>

@@ -575,7 +575,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             if(comment.isScoreHidden()){
-                holder.score.setText("[" + mContext.getString(R.string.comment_score_hidden) +"]");
+                String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();;
+                holder.score.setText("[" + scoreText +"]");
 
             } else {
                 holder.score.setText(comment.getScore() + "");

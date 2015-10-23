@@ -296,7 +296,7 @@
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
                                                     android:padding="5dp"
-                                                    android:text="Load more children"
+                                                    android:text="@string/submission_load_comments"
                                                     android:textColor="?attr/font"
 
                                                     android:textSize="?attr/font_commentinfo" />
@@ -395,7 +395,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="?attr/tint"
-                android:hint="Reply"
+                android:hint="@string/btn_reply"
                 android:imeOptions="actionDone|flagNoEnterAction"
                 android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:minHeight="30dp"
@@ -413,10 +413,11 @@
                     android:background="?android:selectableItemBackground"
                     android:padding="4dp"
 
-                    android:text="DISCARD"
+                    android:text="@string/btn_discard"
                     android:textColor="?attr/font"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textAllCaps="true"/>
 
                 <TextView
                     android:id="@+id/send"
@@ -426,9 +427,9 @@
                     android:background="?android:selectableItemBackground"
                     android:padding="4dp"
 
-                    android:text="SUBMIT"
+                    android:text="@string/editor_submit"
                     android:textColor="?attr/font"
-
+                    android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
