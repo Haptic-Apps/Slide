@@ -98,9 +98,16 @@ public class SubredditOverviewSingle extends OverviewBase  {
         } else if(requestCode == 3){
             new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
 
+        }else if(requestCode == 4 && resultCode != RESULT_CANCELED){
+            if(e != null){
+                e.clearFocus();
+                e.setText("");
+                drawerLayout.closeDrawers();
+            }
         }
     }
 
+    EditText e;
     private String subToDo;
     @Override
     public void onBackPressed() {
@@ -1570,7 +1577,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             }
         });
 
-        final EditText e = ((EditText) header.findViewById(R.id.sort));
+         e = ((EditText) header.findViewById(R.id.sort));
         e.setFilters(new InputFilter[]{new SubredditInputFilter()});
 
 

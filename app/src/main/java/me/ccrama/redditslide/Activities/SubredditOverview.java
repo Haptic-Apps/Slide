@@ -99,6 +99,12 @@ public class SubredditOverview extends OverviewBase {
         } else if (requestCode == 3) {
             new SubredditStorageNoContext().execute(SubredditOverview.this);
 
+        } else if(requestCode == 4 && resultCode != 4){
+            if(e != null){
+                e.clearFocus();
+                e.setText("");
+                drawerLayout.closeDrawers();
+            }
         }
     }
 
@@ -133,6 +139,8 @@ public class SubredditOverview extends OverviewBase {
 
 
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -1469,6 +1477,7 @@ public class SubredditOverview extends OverviewBase {
 
     boolean restart;
 
+    EditText e;
 
     private View hea;
 
@@ -1595,8 +1604,7 @@ public class SubredditOverview extends OverviewBase {
                 SubredditOverview.this.startActivity(inte);
             }
         });
-
-        final EditText e = ((EditText) header.findViewById(R.id.sort));
+        e = ((EditText) header.findViewById(R.id.sort));
 
 
         e.setFilters(new InputFilter[]{new SubredditInputFilter()});

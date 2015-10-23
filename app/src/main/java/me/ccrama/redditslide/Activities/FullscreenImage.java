@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -25,7 +27,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -115,7 +116,7 @@ public class FullscreenImage extends BaseActivity {
                                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                                     String localAbsoluteFilePath = saveImageLocally(loadedImage);
 
-                                    if (localAbsoluteFilePath != "") {
+                                    if (localAbsoluteFilePath != "" && localAbsoluteFilePath != null) {
 
                                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                         Uri phototUri = Uri.parse(localAbsoluteFilePath);
@@ -156,21 +157,23 @@ public class FullscreenImage extends BaseActivity {
                                         public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
                                             String localAbsoluteFilePath = saveImageGallery(loadedImage);
 
-                                            MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                                                public void onScanCompleted(String path, Uri uri) {
-                                                    Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
-                                                            .setContentTitle("Photo Saved")
-                                                            .setSmallIcon(R.drawable.notif)
-                                                            .setLargeIcon(loadedImage)
-                                                            .setStyle(new NotificationCompat.BigPictureStyle()
-                                                                    .bigPicture(loadedImage)).build();
+                                            if(localAbsoluteFilePath != null) {
+                                                MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                                                    public void onScanCompleted(String path, Uri uri) {
+                                                        Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
+                                                                .setContentTitle("Photo Saved")
+                                                                .setSmallIcon(R.drawable.notif)
+                                                                .setLargeIcon(loadedImage)
+                                                                .setStyle(new NotificationCompat.BigPictureStyle()
+                                                                        .bigPicture(loadedImage)).build();
 
-                                                    NotificationManager mNotificationManager =
-                                                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                                    mNotificationManager.notify(1, notif);
+                                                        NotificationManager mNotificationManager =
+                                                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                                        mNotificationManager.notify(1, notif);
 
-                                                }
-                                            });
+                                                    }
+                                                });
+                                            }
 
                                         }
 
@@ -189,48 +192,72 @@ public class FullscreenImage extends BaseActivity {
 
     }
 
+    String toReturn;
 
-    private static String saveImageGallery(Bitmap _bitmap) {
+    private String saveImageGallery(final Bitmap _bitmap) {
 
         File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + File.separator + "Slide");
         File outputFile = null;
         try {
             outputFile = File.createTempFile("slide", ".png", outputDir);
-        } catch (IOException e1) {
-            // handle exception
-        }
-
-        try {
             FileOutputStream out = new FileOutputStream(outputFile);
             _bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.close();
+            return outputFile.getAbsolutePath();
+        } catch (Exception e1) {
 
-        } catch (Exception e) {
-            // handle exception
+            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle("Uh oh, something went wrong!")
+                    .setMessage("Would you like to try again?")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            toReturn = saveImageGallery(_bitmap);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            toReturn =  null;
+                            dialog.dismiss();
+                        }
+                    }).show();
+            return toReturn;
         }
 
-        return outputFile.getAbsolutePath();
     }
 
-    private static String saveImageLocally(Bitmap _bitmap) {
+    private String saveImageLocally(final Bitmap _bitmap) {
 
         File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File outputFile = null;
         try {
             outputFile = File.createTempFile("tmp", ".png", outputDir);
-        } catch (IOException e1) {
-            // handle exception
-        }
 
-        try {
             FileOutputStream out = new FileOutputStream(outputFile);
             _bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.close();
 
+            return outputFile.getAbsolutePath();
+
         } catch (Exception e) {
-            // handle exception
+            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle("Uh oh, something went wrong!")
+                    .setMessage("Would you like to try again?")
+                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            toReturn = saveImageLocally(_bitmap);
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            toReturn =  null;
+                        }
+                    }).show();
+            return toReturn;
+
         }
 
-        return outputFile.getAbsolutePath();
     }
 }

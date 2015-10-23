@@ -622,11 +622,13 @@ public class SubredditView extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                setResult(4);
                                 finish();
                             }
                         }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
+                                setResult(4);
                                 finish();
                             }
                         }).show();

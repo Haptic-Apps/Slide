@@ -52,6 +52,7 @@
 
                 android:paddingBottom="12dp"
 
+                android:tint="@color/white"
                 android:paddingTop="12dp"
 
                 android:scaleType="fitCenter"

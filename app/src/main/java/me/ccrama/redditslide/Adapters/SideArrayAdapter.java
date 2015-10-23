@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -111,7 +112,7 @@ final TextView t =
                 if (fitems.get(position).startsWith("Go to ")) {
                     Intent inte = new Intent(getContext(), SubredditView.class);
                     inte.putExtra("subreddit", subreddit);
-                    getContext().startActivity(inte);
+                    ((Activity)getContext()).startActivityForResult(inte,4);
                 } else {
                     ((OverviewBase) getContext()).pager.setCurrentItem(((OverviewBase) getContext()).usedArray.indexOf(fitems.get(position)));
                     ((OverviewBase) getContext()).drawerLayout.closeDrawers();
