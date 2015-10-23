@@ -33,9 +33,12 @@ public class FullscreenVideo extends BaseActivity {
 
 
 // set an exit transition
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_video);
 
 

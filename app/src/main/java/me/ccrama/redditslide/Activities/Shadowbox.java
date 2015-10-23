@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
+import android.view.WindowManager;
 
 import net.dean.jraw.models.Submission;
 
@@ -27,11 +29,13 @@ public class Shadowbox extends BaseActivity {
     private ArrayList<Submission> posts;
     @Override
     public void onCreate(Bundle savedInstance) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstance);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_slide);
 
             posts = DataShare.sharedSubreddit;

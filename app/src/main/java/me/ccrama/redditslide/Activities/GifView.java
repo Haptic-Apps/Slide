@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -12,6 +11,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
@@ -44,9 +45,12 @@ public class GifView extends BaseActivity {
      * Called when the activity is first created.
      */
     public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_gif);
 
         final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
