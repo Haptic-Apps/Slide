@@ -247,6 +247,8 @@ public class CreateCardView {
     }
 
 
+
+
     public static boolean isCard(Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
 

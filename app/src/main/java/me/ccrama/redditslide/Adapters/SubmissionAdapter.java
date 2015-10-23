@@ -244,7 +244,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
             }
         });
 
-        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView);
+        new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView, custom);
 
         lastPosition = i;
 

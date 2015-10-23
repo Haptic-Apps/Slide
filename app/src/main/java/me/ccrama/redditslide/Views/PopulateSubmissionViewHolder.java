@@ -57,7 +57,7 @@ public class PopulateSubmissionViewHolder {
     private boolean upvoted;
     private boolean downvoted;
 
-    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview) {
+    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Context mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same) {
         if (HasSeen.getSeen(submission.getFullName()) && !full) {
             holder.itemView.setAlpha(0.5f);
         } else {
@@ -200,19 +200,19 @@ public class PopulateSubmissionViewHolder {
         String url = "";
 
         boolean big = true;
-        if(SettingValues.infoBar == SettingValues.InfoBar.INFO_BAR || SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL){
+        if(CreateCardView.getInfoBar(same) == SettingValues.InfoBar.INFO_BAR || CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL){
             big = false;
         }
         holder.thumbImage.setVisibility(View.VISIBLE);
         if(!full) {
             ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)).setImageBitmap(null);
         }
-            if(!(SettingValues.infoBar == SettingValues.InfoBar.NONE && !full)) {
+            if(!(CreateCardView.getInfoBar(same) == SettingValues.InfoBar.NONE && !full)) {
 
             boolean bigAtEnd = false;
             if (type == ContentType.ImageType.IMAGE) {
                 url = ContentType.getFixedUrl(submission.getUrl());
-                if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full) {
+                if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
 
                     ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
 
@@ -235,7 +235,7 @@ public class PopulateSubmissionViewHolder {
                 boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
                 holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full) {
+                if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
                     ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
                 }else if ((big || fullscreen) && !blurry) {
                     ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
@@ -254,7 +254,7 @@ public class PopulateSubmissionViewHolder {
 
                 if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                     bigAtEnd = false;
-                    if (SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full) {
+                    if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
                         ((Reddit)mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
                     }else {
                         ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
@@ -288,7 +288,7 @@ public class PopulateSubmissionViewHolder {
                 title = holder.contentTitle;
                 info = holder.contentURL;
             }
-            if(SettingValues.infoBar == SettingValues.InfoBar.THUMBNAIL && !full){
+            if(CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full){
                 holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
             } else if(!full){
                 holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
