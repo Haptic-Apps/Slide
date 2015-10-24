@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -47,8 +48,6 @@ public class MultiredditOverview extends BaseActivity {
         StyleView.styleActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Multireddits");
-        findViewById(R.id.info).setVisibility(View.GONE);
-        findViewById(R.id.menu).setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -66,6 +65,23 @@ public class MultiredditOverview extends BaseActivity {
                 {
                     openPopup(v);
                 }
+            }
+        });
+        findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                i.putExtra("multi", SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
+                startActivity(i);
+                finish();
+            }
+        });
+        findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                startActivity(i);
+                finish();
             }
         });
 
@@ -197,8 +213,16 @@ public class MultiredditOverview extends BaseActivity {
         if(usedArray.size() == 0){
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
             builder.setTitle("No Multireddits (yet)!");
-            builder.setMessage("For now, you will need to create new multireddits on Reddit.com. Coming soon will be in-app multireddit creation, though!");
+            builder.setMessage("Would you like to create one now?");
             builder.setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                    startActivity(i);
+                    finish();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();

@@ -1,5 +1,8 @@
 package me.ccrama.redditslide;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
 
 
@@ -253,6 +257,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
         try {
             multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+
         } catch (ApiException e) {
             e.printStackTrace();
         }
@@ -285,6 +290,31 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         finals.addAll(subs);
         return finals;
 
+    }
+
+    public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
+
+        Context c;
+        public SyncMultireddits(Context c){
+            this.c = c;
+        }
+       @Override
+       public void onPostExecute(Boolean b){
+           Intent i = new Intent(c, MultiredditOverview.class);
+           c.startActivity(i);
+           ((Activity)c).finish();
+       }
+
+        @Override
+        public Boolean doInBackground(Void... params) {
+            try {
+                multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+                return null;
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
 

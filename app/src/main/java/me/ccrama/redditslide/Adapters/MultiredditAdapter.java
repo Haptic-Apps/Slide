@@ -46,7 +46,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
 
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = CreateCardView.CreateView(viewGroup);
+        View v = CreateCardView.CreateView(viewGroup, false, "nomatching");
         return new SubmissionViewHolder(v);
     }
 
@@ -69,6 +69,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
     public void onBindViewHolder(final SubmissionViewHolder holder, final int i) {
 
         final Submission submission = dataSet.posts.get(i);
+        CreateCardView.resetColorCard(holder.itemView);
+        CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "nomatching", false);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override

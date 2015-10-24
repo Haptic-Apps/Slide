@@ -14,30 +14,41 @@
  * limitations under the License.
  */
 
-package me.ccrama.redditslide.DragSort;
+package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import net.dean.jraw.ApiException;
+import net.dean.jraw.http.MultiRedditUpdateRequest;
+import net.dean.jraw.managers.MultiRedditManager;
+import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.MultiSubreddit;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.BaseActivity;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
@@ -45,17 +56,19 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class ListViewDraggingAnimation extends BaseActivity {
+public class CreateMulti extends BaseActivity {
 
     ArrayList<String> subs;
     CustomAdapter adapter;
+    EditText title;
     RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-        setContentView(R.layout.activity_sort);
+        setContentView(R.layout.activity_createmulti);
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
@@ -65,77 +78,108 @@ public class ListViewDraggingAnimation extends BaseActivity {
             }
         });
         setSupportActionBar(b);
-        getSupportActionBar().setTitle("Reorder Pins");
+        getSupportActionBar().setTitle("");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            ListViewDraggingAnimation.this.setTaskDescription(new ActivityManager.TaskDescription("Reorder Pins", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            CreateMulti.this.setTaskDescription(new ActivityManager.TaskDescription("Create a Multi", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
-
-       subs = SubredditStorage.getPins();
-        if (subs != null && !subs.isEmpty()) {
-          recyclerView = (RecyclerView) findViewById(R.id.subslist);
+        title = (EditText) findViewById(R.id.name);
 
 
-            findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SubredditStorage.setPins(new ArrayList<>(subs));
-                    finish();
+        subs = new ArrayList<>();
+        if(getIntent().hasExtra("multi")){
+            String multi = getIntent().getExtras().getString("multi");
+            title.setText(multi);
+            title.setInputType(InputType.TYPE_NULL);
+            for(MultiReddit multiReddit : SubredditStorage.multireddits){
+                if(multiReddit.getDisplayName().equals(multi)){
+                    for(MultiSubreddit sub : multiReddit.getSubreddits()) {
+                        subs.add(sub.getDisplayName().toLowerCase());
+                    }
                 }
-            });
-           adapter = new CustomAdapter(subs);
-            //  adapter.setHasStableIds(true);
+            }
+        }
+        recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setItemAnimator(null);
 
-            DragSortRecycler dragSortRecycler = new DragSortRecycler();
-            dragSortRecycler.setViewHandleId();
-            dragSortRecycler.setFloatingAlpha();
-            dragSortRecycler.setAutoScrollSpeed();
-            dragSortRecycler.setAutoScrollWindow();
-
-            dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
-                @Override
-                public void onItemMoved(int from, int to) {
-                    String item = subs.remove(from);
-                    subs.add(to, item);
-                    adapter.notifyDataSetChanged();
-
-                }
-            });
-
-            dragSortRecycler.setOnDragStateChangedListener(new DragSortRecycler.OnDragStateChangedListener() {
-                @Override
-                public void onDragStart() {
-                }
-
-                @Override
-                public void onDragStop() {
-                }
-            });
-
-            recyclerView.addItemDecoration(dragSortRecycler);
-            recyclerView.addOnItemTouchListener(dragSortRecycler);
-            recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
-        } else {
-            new AlertDialogWrapper.Builder(this).setTitle("No Pins (yet)!").setMessage("You can pin your favorite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check 'PINNED'!")
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (title.getText().toString().isEmpty()) {
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("Title can't be empty").setMessage("Please enter a title for your multireddit").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            title.requestFocus();
+
                         }
-                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    }).show();
+                } else if (subs.size() == 0) {
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("No subs are added").setMessage("Please add some subs by clicking on the + button!").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                } else {
+                    new SaveMulti().execute();
                 }
-            });
-        }
+            }
+        });
+        adapter = new CustomAdapter(subs);
+        //  adapter.setHasStableIds(true);
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 
+    public void doDoneStuff() {
+        Intent i = new Intent(this, MultiredditOverview.class);
+        startActivity(i);
+        finish();
+    }
+
+    public class SaveMulti extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString()).subreddits(subs).build());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new SubredditStorage.SyncMultireddits(CreateMulti.this).execute();
+
+                    }
+                });
+
+
+            } catch (final ApiException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ((FloatingActionButton) findViewById(R.id.send)).show();
+
+                            }
+                        }).create().show();
+                    }
+                });
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
     public void showSelectDialog() {
         final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size()];
@@ -165,7 +209,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
                         }
                         Log.v("Slide", "Done with " + all[which]);
                     }
-                }).setTitle("Select subreddits to pin").setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+                }).setTitle("Select subreddits to add").setPositiveButton("ADD", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 subs = toCheck;

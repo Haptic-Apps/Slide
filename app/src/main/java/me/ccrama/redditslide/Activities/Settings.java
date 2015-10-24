@@ -187,6 +187,13 @@ public class Settings extends BaseActivityNoAnim {
             }
         });
 
+        findViewById(R.id.preset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -176,6 +176,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
     public static NotificationJobScheduler notifications;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -239,6 +240,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
             hidden = getSharedPreferences("HIDDEN", 0);
             seen.edit().putBoolean("RESET", true).apply();
             Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
+
 
         }
 

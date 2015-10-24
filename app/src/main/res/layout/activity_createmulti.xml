@@ -18,14 +18,25 @@
 
 
         >
+        <EditText
+            android:layout_width="wrap_content"
+            android:textColor="?attr/font"
+            android:backgroundTint="?attr/tint"
+            android:hint="Multi name           "
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:maxLength="21"
+            android:id="@+id/name"
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
-            android:text="OK"
+            android:text="SAVE"
             android:textSize="14sp"
             android:textStyle="bold" />
 

@@ -233,6 +233,11 @@
             android:theme="@style/swipeable"
 
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.CreateMulti"
+            android:theme="@style/swipeable"
+
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".Activities.Shortcut">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
@@ -283,6 +288,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <meta-data android:name="com.google.android.backup.api_key"
+            android:value="" />
     </application>
 
 

@@ -1,125 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <FrameLayout
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="?attr/activity_background">
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/activity_background"
-
-    android:layout_height="match_parent">
-
-        <android.support.design.widget.CoordinatorLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:elevation="16dp"
+            android:orientation="vertical">
 
-
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/header"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/orange"
-                android:elevation="16dp"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:clipToPadding="false"
-                    android:minHeight="56dp"
-                    android:paddingRight="16dp"
-                    app:layout_scrollFlags="scroll|enterAlways"
+                android:background="#00000000"
+                android:clipToPadding="false"
+                android:minHeight="56dp"
+                android:paddingRight="16dp"
+                app:layout_scrollFlags="scroll|enterAlways"
 
 
-                    >
+                >
+                <ImageView
+                    android:id="@+id/sorting"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?android:selectableItemBackground"
 
-                    <ImageView
-                        android:id="@+id/menu"
-                        android:layout_width="36dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:background="?android:selectableItemBackground"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
 
-                        android:paddingBottom="12dp"
-                        android:tint="@color/white"
+                    android:scaleType="fitCenter"
 
-                        android:paddingTop="12dp"
+                    android:src="@drawable/sort"
+                    android:tint="@color/white" />
+                <ImageView
+                    android:id="@+id/edit"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?android:selectableItemBackground"
 
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/more" />
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
 
-                    <ImageView
-                        android:id="@+id/sorting"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:background="?android:selectableItemBackground"
+                    android:scaleType="fitCenter"
 
-                        android:paddingBottom="12dp"
-
-                        android:paddingTop="12dp"
-                        android:tint="@color/white"
-
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/sort" />
-
-
-                    <ImageView
-                        android:id="@+id/info"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-
-                        android:tint="@color/white"
-
-                        android:layout_gravity="end|center_vertical"
-                        android:paddingBottom="12dp"
-                        android:paddingTop="12dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/infonew" />
-
-                    <ImageView
-                        android:id="@+id/wiki"
-                        android:layout_width="0dp"
-                        android:layout_height="48dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:tint="@color/white"
-
-                        android:background="#00ffffff"
-                        android:paddingBottom="12dp"
-
-                        android:paddingTop="12dp"
-
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/wiki" />
+                    android:src="@drawable/edit"
+                    android:tint="@color/white" />
 
 
 
-                </android.support.v7.widget.Toolbar>
+                <ImageView
+                    android:id="@+id/create"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?android:selectableItemBackground"
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/sliding_tabs"
-                    android:layout_width="match_parent"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
 
-                    android:layout_height="wrap_content"
-                    android:background="#00000000" />
-            </android.support.design.widget.AppBarLayout>
+                    android:scaleType="fitCenter"
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/contentView"
+                    android:src="@drawable/add_plain"
+                    android:tint="@color/white" />
+
+
+
+
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/activity_background"
- 
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </android.support.design.widget.CoordinatorLayout>
-    </FrameLayout>
+                android:layout_height="wrap_content"
+                android:background="#00000000" />
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/activity_background"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
 
 
 
