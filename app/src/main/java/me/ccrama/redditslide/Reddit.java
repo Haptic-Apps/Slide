@@ -130,6 +130,8 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
     private boolean isRestarting;
 
+
+
     private class SetupIAB extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -283,7 +285,9 @@ public class Reddit extends Application implements Application.ActivityLifecycle
 
         }
         tabletUI = isPackageInstalled(this);
+
     }
+
 
     private static int defaultDPWidth;
 

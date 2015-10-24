@@ -273,6 +273,64 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/back"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/support"
+                android:tint="?attr/tint" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Backup"
+
+                android:textColor="?attr/font"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/restore"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/support"
+                android:tint="?attr/tint" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="Restore"
+
+                android:textColor="?attr/font"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
     </LinearLayout>
