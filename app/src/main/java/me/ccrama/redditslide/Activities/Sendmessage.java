@@ -69,7 +69,7 @@ public class Sendmessage extends AppCompatActivity {
             to.setText(name);
             to.setInputType(InputType.TYPE_NULL);
             if(reply) {
-                b.setTitle("Reply to " + name);
+                b.setTitle(String.format(getString(R.string.mail_reply_to), name));
                 previousMessage = DataShare.sharedMessage;
                 subject.setText("re: " + previousMessage.getSubject() );
 
@@ -80,7 +80,7 @@ public class Sendmessage extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(Sendmessage.this);
-                        b.setTitle(name + " said...");
+                        b.setTitle(String.format(getString(R.string.mail_author_wrote), name));
                         b.setMessage(previousMessage.getBody());
                         b.create().show();
 
@@ -88,14 +88,14 @@ public class Sendmessage extends AppCompatActivity {
                 });
 
             } else {
-                b.setTitle("Send a message to " + name);
+                b.setTitle(String.format(getString(R.string.mail_send_to), name));
                 oldMSG.setVisibility(View.GONE);
             }
 
         } else {
             name = "";
             oldMSG.setVisibility(View.GONE);
-            b.setTitle("Send a message");
+            b.setTitle(R.string.mail_send);
 
         }
 

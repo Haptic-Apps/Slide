@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
 
                             android:textColor="?attr/font"
-                            android:text="Open internally"
+                            android:text="@string/submission_link_internal"
 
                             android:textSize="16sp" />
 
@@ -118,7 +118,7 @@
 
                             android:textColor="?attr/font"
                             android:id="@+id/userpopup"
-                            android:text="Open externally"
+                            android:text="@string/submission_link_extern"
 
                             android:textSize="16sp" />
 
@@ -151,7 +151,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Report post"
+                            android:text="@string/submission_report"
 
                             android:textSize="16sp" />
 
@@ -180,7 +180,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="Share url"
+                            android:text="@string/submission_link_share"
 
                             android:textSize="16sp" />
 

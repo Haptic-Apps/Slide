@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:text="Slide has crashed."
+        android:text="@string/crash_title"
         android:textColor="?attr/font"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="16dp"
-        android:text="Report bug on GitHub"
+        android:text="@string/crash_report"
         android:textSize="14sp"
         android:id="@+id/report"
         android:textAllCaps="true"
@@ -47,7 +47,7 @@
         android:layout_alignParentBottom="true"
         android:padding="16dp"
         android:textAllCaps="true"
-        android:text="Restart App"
+        android:text="@string/crash_restart"
         android:id="@+id/restart"
 
         android:layout_alignParentRight="true"

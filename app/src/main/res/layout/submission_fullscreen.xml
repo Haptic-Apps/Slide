@@ -54,7 +54,7 @@
                         android:id="@+id/textimage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="imgur"
+                        android:text="@string/example_domain"
                         android:textColor="#ffffff"
                         android:textSize="16sp" />
 
@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".56"
 
-                        android:text="imgur.com/a/alskfdj"
+                        android:text="@string/example_url"
                         android:textColor="#ffffff"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -123,7 +123,7 @@
                                     android:visibility="gone"
                                     android:gravity="center_vertical"
                                     android:paddingRight="5dp"
-                                    android:text="/r/animals"
+                                    android:text="@string/example_sub"
 
                                     android:textColor="?attr/font"
                                     android:textSize="?attr/font_cardinfo"
@@ -136,14 +136,14 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="start"
                                     android:gravity="center_vertical"
-                                    android:text="6 hours ago"
+                                    android:text="@string/example_time"
                                     android:textColor="?attr/font"
 
                                     android:textSize="?attr/font_cardinfo" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:textSize="?attr/font_cardinfo"
-                                    android:text="  •  "
+                                    android:text="@string/submission_properties_seperator"
                                     android:textColor="?attr/font"
 
                                     android:layout_height="wrap_content" />
@@ -155,14 +155,14 @@
                                     android:textColor="?attr/font"
 
                                     android:gravity="center_vertical"
-                                    android:text="+204"
+                                    android:text="@string/example_points_short"
                                     android:textStyle="bold"
 
                                     android:textSize="?attr/font_cardinfo" />
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:textSize="?attr/font_cardinfo"
-                                    android:text="  •  "
+                                    android:text="@string/submission_properties_seperator"
                                     android:textColor="?attr/font"
 
                                     android:layout_height="wrap_content" />
@@ -174,7 +174,7 @@
                                     android:textColor="?attr/font"
 
                                     android:gravity="center_vertical"
-                                    android:text="402 comments"
+                                    android:text="@string/example_comments"
 
                                     android:textSize="?attr/font_cardinfo" />
 
@@ -185,7 +185,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textStyle="bold"
-                                android:text="Chameleons are Cool!"
+                                android:text="@string/example_title"
                                 android:textColor="?attr/font"
                                 android:textSize="?attr/font_cardtitle" />
 
@@ -249,7 +249,7 @@
                                         android:id="@+id/contenttitle"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="imgur"
+                                        android:text="@string/example_domain"
                                         android:textColor="?attr/font"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
@@ -260,7 +260,7 @@
                                         android:layout_height="wrap_content"
                                         android:alpha=".56"
 
-                                        android:text="imgur.com/a/alskfdj"
+                                        android:text="@string/example_url"
                                         android:textColor="?attr/font"
                                         android:textSize="14sp" />
                                 </LinearLayout>
@@ -400,7 +400,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/replyLine"
                             android:textColor="?attr/font"
-                            android:hint="Reply"
+                            android:hint="@string/btn_reply"
                             android:textColorHint="?attr/font"
                             android:backgroundTint="?attr/tint"
                             android:imeOptions="actionDone|flagNoEnterAction"
@@ -419,9 +419,10 @@
                                 android:background="?android:selectableItemBackground"
 
                                 android:id="@+id/discard"
-                                android:text="DISCARD"
+                                android:text="@string/btn_discard"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:textAllCaps="true"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -432,7 +433,8 @@
                                 android:background="?android:selectableItemBackground"
 
                                 android:padding="4dp"
-                                android:text="SUBMIT"
+                                android:text="@string/submission_reply_submit"
+                                android:textAllCaps="true"
 
                                 android:textSize="14sp"
                                 android:textStyle="bold" />

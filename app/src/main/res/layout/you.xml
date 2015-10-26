@@ -8,7 +8,8 @@
     android:layout_height="16dp">
 
     <TextView android:layout_width="wrap_content"
-        android:text="YOU"
+        android:text="@string/misc_you"
+        android:textAllCaps="true"
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#fff"

@@ -66,7 +66,7 @@
                         android:id="@+id/textimage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="imgur"
+                        android:text="@string/example_domain"
                         android:textColor="#ffffff"
                         android:textSize="16sp" />
 
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".56"
 
-                        android:text="imgur.com/a/alskfdj"
+                        android:text="@string/example_url"
                         android:textColor="#ffffff"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -133,7 +133,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:paddingRight="5dp"
-                                android:text="/r/animals"
+                                android:text="@string/example_sub"
 
                                 android:textColor="?attr/font"
                                 android:textSize="?attr/font_cardinfo"
@@ -148,7 +148,7 @@
                                 android:alpha=".56"
 
                                 android:gravity="center_vertical"
-                                android:text="6 hours ago"
+                                android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />
@@ -169,7 +169,7 @@
 
                                 android:layout_marginRight="8dp"
                                 android:gravity="center_vertical"
-                                android:text="204 points"
+                                android:text="@string/example_points"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />
@@ -183,7 +183,7 @@
                                 android:layout_marginRight="8dp"
 
                                 android:gravity="center_vertical"
-                                android:text="402 comments"
+                                android:text="@string/example_comments"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />
@@ -272,7 +272,7 @@
                                     android:id="@+id/contenttitle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="imgur"
+                                    android:text="@string/example_domain"
                                     android:textColor="?attr/font"
                                     android:textStyle="bold"
                                     android:textSize="16sp" />
@@ -283,7 +283,7 @@
                                     android:layout_height="wrap_content"
                                     android:alpha=".56"
 
-                                    android:text="imgur.com/a/alskfdj"
+                                    android:text="@string/example_url"
                                     android:textColor="?attr/font"
                                     android:textSize="14sp" />
                             </LinearLayout>
@@ -300,11 +300,11 @@
                     android:layout_height="36dp"
                     android:orientation="horizontal"
 
-                    android:layout_marginBottom="8dp"
 
                     android:paddingLeft="8dp"
+                    android:layout_marginBottom="8dp"
                     android:paddingRight="8dp"
-                   >
+                    >
 
 
 

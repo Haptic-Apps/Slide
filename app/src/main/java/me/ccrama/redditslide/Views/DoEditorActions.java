@@ -44,7 +44,7 @@ public class DoEditorActions {
                 android:id="@+id/link"
 
              */
-    public static void doActions(final EditText editText, View baseView, final FragmentManager fm){
+    public static void doActions(final EditText editText, View baseView, final FragmentManager fm) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +82,7 @@ public class DoEditorActions {
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
                         super.onActivityResult(requestCode, resultCode, data);
 
-                        if(data != null) {
+                        if (data != null) {
                             Uri selectedImageUri = data.getData();
                             Log.v("Slide", "WORKED! " + selectedImageUri.toString());
                             try {
@@ -98,7 +98,7 @@ public class DoEditorActions {
                 };
                 fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                 fm.executePendingTransactions();
-                auxiliary.startActivityForResult(Intent.createChooser(intent, "Select Picture"), 3333);
+                auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
             }
         });
        /*todo baseView.findViewById(R.id.superscript).setOnClickListener(new View.OnClickListener() {
@@ -138,29 +138,32 @@ public class DoEditorActions {
                 layout.setOrientation(LinearLayout.VERTICAL);
 
                 final EditText titleBox = new EditText(editText.getContext());
-                titleBox.setHint("URL");
+                titleBox.setHint(R.string.editor_url);
                 layout.addView(titleBox);
                 titleBox.setTextColor(Color.WHITE);
                 titleBox.setHintTextColor(Color.WHITE);
 
                 final EditText descriptionBox = new EditText(editText.getContext());
-                descriptionBox.setHint("Text");
+                descriptionBox.setHint(R.string.editor_text);
                 layout.addView(descriptionBox);
                 descriptionBox.setTextColor(Color.WHITE);
                 descriptionBox.setHintTextColor(Color.WHITE);
-                layout.setPadding(16,16,16,16);
+                layout.setPadding(16, 16, 16, 16);
 
-                new AlertDialogWrapper.Builder(editText.getContext()).setTitle("Insert link")
-                        .setView(layout).setPositiveButton("INSERT", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        String s= "[" + titleBox.getText().toString() + "](" + descriptionBox.getText().toString()+ ")";
-                        int start = Math.max(editText.getSelectionStart(), 0);
-                        int end = Math.max(editText.getSelectionEnd(), 0);
-                        editText.getText().insert(Math.max(start, end), s);
-                    }
-                }).show();
+                new AlertDialogWrapper.Builder(editText.getContext())
+                        .setTitle(R.string.editor_title_link)
+                        .setView(layout)
+                        .setPositiveButton(R.string.editor_action_link,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        String s = "[" + titleBox.getText().toString() + "](" + descriptionBox.getText().toString() + ")";
+                                        int start = Math.max(editText.getSelectionStart(), 0);
+                                        int end = Math.max(editText.getSelectionEnd(), 0);
+                                        editText.getText().insert(Math.max(start, end), s);
+                                    }
+                                }).show();
             }
         });
         baseView.findViewById(R.id.size).setOnClickListener(new View.OnClickListener() {
@@ -170,37 +173,43 @@ public class DoEditorActions {
             }
         });
     }
-    private static void wrapString(String wrapText, EditText editText){
+
+    public static void wrapString(String wrapText, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().insert(Math.min(start, end), wrapText);
         editText.getText().insert(Math.max(start, end) + wrapText.length(), wrapText);
 
     }
-    public static void wrapNewline( String wrapText, EditText editText){
+
+    public static void wrapNewline(String wrapText, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         String s = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
         s = s.replace("\n", "\n" + wrapText);
         editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
     }
-    private static void insertBefore(String wrapText, EditText editText){
+
+    public static void insertBefore(String wrapText, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().insert(Math.min(start, end), wrapText);
 
     }
-    private static String getImageLink(Bitmap b) {
+
+    public static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
 
         return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
     }
+
     private static class UploadImgur extends AsyncTask<Bitmap, Void, JSONObject> {
 
         final Context c;
         final EditText editText;
-        public UploadImgur(EditText editText){
+
+        public UploadImgur(EditText editText) {
             this.c = editText.getContext();
             this.editText = editText;
             dialog = new ProgressDialog(c);
@@ -223,18 +232,18 @@ public class DoEditorActions {
                 titleBox.setTextColor(Color.WHITE);
 
                 final EditText descriptionBox = new EditText(editText.getContext());
-                descriptionBox.setHint("Title");
+                descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setTextColor(Color.WHITE);
                 descriptionBox.setHintTextColor(Color.WHITE);
 
-                layout.setPadding(16,16,16,16);
+                layout.setPadding(16, 16, 16, 16);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(editText.getContext()).setTitle("Insert link")
-                        .setView(layout).setPositiveButton("INSERT", new DialogInterface.OnClickListener() {
+                new AlertDialogWrapper.Builder(editText.getContext()).setTitle(R.string.editor_title_link)
+                        .setView(layout).setPositiveButton(R.string.editor_action_link, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        String s= "[" + url + "](" + descriptionBox.getText().toString()+ ")";
+                        String s = "[" + url + "](" + descriptionBox.getText().toString() + ")";
                         int start = Math.max(editText.getSelectionStart(), 0);
                         int end = Math.max(editText.getSelectionEnd(), 0);
                         editText.getText().insert(Math.max(start, end), s);
@@ -242,7 +251,7 @@ public class DoEditorActions {
                 }).show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, someting went wrong!").setMessage("Please try again in a few seconds.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_err_title).setMessage(R.string.editor_err_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -256,7 +265,7 @@ public class DoEditorActions {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("Uploading image to Imgur...");
+            dialog.setMessage(c.getString(R.string.editor_uploading_image));
             dialog.setCancelable(false);
             dialog.show();
         }

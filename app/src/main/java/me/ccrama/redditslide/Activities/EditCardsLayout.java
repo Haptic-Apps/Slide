@@ -86,11 +86,11 @@ public class EditCardsLayout extends BaseActivityNoAnim {
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
                 //Inflating the Popup using xml file
-                popup.getMenu().add("Big picture");
-                popup.getMenu().add("Big picture cropped");
-                popup.getMenu().add("Info bar");
-                popup.getMenu().add("Thumbnail");
-                popup.getMenu().add("None");
+                popup.getMenu().add(R.string.card_picture);
+                popup.getMenu().add(R.string.card_picture_cropped);
+                popup.getMenu().add(R.string.card_infobar);
+                popup.getMenu().add(R.string.card_thumbnail);
+                popup.getMenu().add(R.string.misc_none);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

@@ -73,7 +73,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Change color"
+                            android:text="@string/theme_subreddit_color"
 
                             android:textSize="16sp" />
 
@@ -104,7 +104,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Accent color"
+                            android:text="@string/theme_accent_color"
 
                             android:textSize="16sp" />
 
@@ -130,13 +130,9 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
-
                             android:textColor="?attr/font"
-
-                            android:text="Change card type for subreddit"
-
+                            android:text="@string/subreddit_change_card"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -172,12 +168,13 @@
                         app:selectedColorIndex="5" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="RESET"
+                        android:text="@string/btn_reset"
                         android:textSize="14sp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/reset"
                         android:textStyle="bold"
                         android:background="?android:selectableItemBackground"
+                        android:textAllCaps="true"
 
                         android:textColor="?attr/font"
                         android:padding="16dp"
@@ -185,7 +182,7 @@
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_width="wrap_content"
-                        android:text="OK"
+                        android:text="@string/btn_ok"
                         android:textSize="14sp"
                         android:layout_alignParentBottom="true"
                         android:id="@+id/ok"
@@ -222,7 +219,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:text="OK"
+                        android:text="@string/btn_ok"
                         android:textSize="14sp"
                         android:id="@+id/ok2"
                         android:background="?android:selectableItemBackground"

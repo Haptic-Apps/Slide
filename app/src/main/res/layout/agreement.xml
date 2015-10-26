@@ -11,12 +11,12 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp"
-        android:text="Ad-Free and Open Sourced"
+        android:text="@string/tutorial_free_title"
         android:textColor="?attr/font"
         android:textSize="22sp"
         />
     <TextView
-        android:text="Slide for Reddit is free from all in-app advertisements and its source code is publically available on GitHub. This project runs off of your donations, and any contribution is greatly appreciated!"
+        android:text="@string/tutorial_free_msg"
         android:layout_width="match_parent"
         android:padding="16dp"
         android:layout_height="wrap_content"
@@ -30,14 +30,14 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="16dp"
-        android:text="In Development"
+        android:text="@string/tutorial_dev_title"
         android:textColor="?attr/font"
         android:layout_marginTop="16dp"
 
         android:textSize="22sp"
         />
     <TextView
-        android:text="Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free to post to /r/Slide (from the sidebar) if you run into a problem! Thank you!"
+        android:text="@string/tutorial_dev_msg"
         android:layout_width="match_parent"
         android:padding="16dp"
         android:layout_height="wrap_content"

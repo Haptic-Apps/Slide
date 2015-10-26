@@ -195,14 +195,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             try {
                 if (submissions[0].saved) {
                     new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    Snackbar.make(v, "Submission unsaved", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
 
                     submissions[0].saved = false;
                     v = null;
 
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
-                    Snackbar.make(v, "Submission saved", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
 
                     submissions[0].saved = true;
                     v = null;
@@ -573,7 +573,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             if (comment.isScoreHidden()) {
-                holder.score.setText("[SCORE HIDDEN]");
+                String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();;
+                holder.score.setText("[" + scoreText +"]");
 
             } else {
                 holder.score.setText(comment.getScore() + "");
@@ -587,7 +588,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
             }
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime()));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
@@ -738,9 +739,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             if (submission.saved) {
-                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Save post");
+                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save_post);
                             } else {
-                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
                             }
                             new AsyncSave(firstHolder.itemView).execute(submission);
@@ -748,7 +749,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     if (submission.saved) {
-                        ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                        ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
                     }
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                         @Override

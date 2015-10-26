@@ -47,7 +47,9 @@ public class MultiredditOverview extends BaseActivity {
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Multireddits");
+        toolbar.setTitle(R.string.title_multireddits);
+        findViewById(R.id.info).setVisibility(View.GONE);
+        findViewById(R.id.menu).setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -89,7 +91,8 @@ public class MultiredditOverview extends BaseActivity {
 
 
     }
-    private void openPopup(View view) {
+
+    public void openPopup(View view) {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -178,20 +181,33 @@ public class MultiredditOverview extends BaseActivity {
                 : Reddit.defaultSorting == Sorting.RISING ? 2
                 : Reddit.defaultSorting == Sorting.TOP ?
                 (Reddit.timePeriod == TimePeriod.HOUR ? 3
-                : Reddit.timePeriod == TimePeriod.DAY ? 4
-                : Reddit.timePeriod == TimePeriod.WEEK ? 5
-                : Reddit.timePeriod == TimePeriod.MONTH ? 6
-                : Reddit.timePeriod == TimePeriod.YEAR ? 7
-                : 8)
+                        : Reddit.timePeriod == TimePeriod.DAY ? 4
+                        : Reddit.timePeriod == TimePeriod.WEEK ? 5
+                        : Reddit.timePeriod == TimePeriod.MONTH ? 6
+                        : Reddit.timePeriod == TimePeriod.YEAR ? 7
+                        : 8)
                 : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
                 (Reddit.timePeriod == TimePeriod.HOUR ? 9
-                : 10)
+                        : 10)
                 : 0;
+
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MultiredditOverview.this);
-        builder.setTitle("Choose a Sorting Type");
+        builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, i, l2);
+                new String[]{getString(R.string.sorting_hot),
+                        getString(R.string.sorting_new),
+                        getString(R.string.sorting_rising),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
+                }, i, l2);
         builder.show();
+
 
     }
 
@@ -201,7 +217,8 @@ public class MultiredditOverview extends BaseActivity {
         pager.setAdapter(adapter);
         pager.setCurrentItem(current);
     }
-    private OverviewPagerAdapter adapter;
+
+    public OverviewPagerAdapter adapter;
 
     private ViewPager pager;
     private TabLayout tabs;
@@ -210,11 +227,11 @@ public class MultiredditOverview extends BaseActivity {
 
     private void setDataSet(List<MultiReddit> data) {
         usedArray = data;
-        if(usedArray.size() == 0){
+        if (usedArray.size() == 0) {
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
-            builder.setTitle("No Multireddits (yet)!");
-            builder.setMessage("Would you like to create one now?");
-            builder.setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+            builder.setTitle(R.string.multireddit_err_title);
+            builder.setMessage(R.string.multireddit_err_msg);
+            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
@@ -239,13 +256,13 @@ public class MultiredditOverview extends BaseActivity {
         } else {
 
             if (adapter == null) {
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        } else {
-            adapter.notifyDataSetChanged();
-        }
-        pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(2);
-        tabs.setupWithViewPager(pager);
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            } else {
+                adapter.notifyDataSetChanged();
+            }
+            pager.setAdapter(adapter);
+            pager.setOffscreenPageLimit(2);
+            tabs.setupWithViewPager(pager);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = this.getWindow();
@@ -314,10 +331,6 @@ public class MultiredditOverview extends BaseActivity {
             return usedArray.get(position).getDisplayName();
         }
     }
-
-
-
-
 
 
 }
