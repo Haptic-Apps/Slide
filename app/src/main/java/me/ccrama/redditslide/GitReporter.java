@@ -26,7 +26,7 @@ public class GitReporter extends GittyReporter {
         enableUserGitHubLogin();
 
         // Set if Gitty can use your Auth token for users without a GitHub account (default: true)
-        // If false, Gitty will redirect non registred users to github.com/join
+        // If false, Gitty will redirect non registered users to github.com/join
         enableGuestGitHubLogin();
 
         // Include other relevant info in your bug report (like custom variables)
