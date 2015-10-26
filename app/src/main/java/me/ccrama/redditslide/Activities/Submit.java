@@ -175,8 +175,8 @@ public class Submit extends AppCompatActivity {
                             @Override
                             public void run() {
                                 new AlertDialogWrapper.Builder(Submit.this)
-                                        .setTitle(R.string.editor_err_title)
-                                        .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.editor_err_retry))
+                                        .setTitle(R.string.err_title)
+                                        .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.misc_retry))
                                         .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -207,8 +207,8 @@ public class Submit extends AppCompatActivity {
                             public void run() {
                                 if(e instanceof ApiException) {
                                     new AlertDialogWrapper.Builder(Submit.this)
-                                            .setTitle(R.string.editor_err_title)
-                                            .setMessage(R.string.misc_err + ": " + e.getExplanation() + "\n" + R.string.editor_err_retry)
+                                            .setTitle(R.string.err_title)
+                                            .setMessage(R.string.misc_err + ": " + e.getExplanation() + "\n" + R.string.misc_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -223,8 +223,8 @@ public class Submit extends AppCompatActivity {
                                     }).create().show();
                                 } else {
                                     new AlertDialogWrapper.Builder(Submit.this)
-                                            .setTitle(R.string.editor_err_title)
-                                            .setMessage(R.string.misc_err + ": " + getString(R.string.err_invalid_url) + "\n" + R.string.editor_err_retry)
+                                            .setTitle(R.string.err_title)
+                                            .setMessage(R.string.misc_err + ": " + getString(R.string.err_invalid_url) + "\n" + R.string.misc_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -257,8 +257,8 @@ public class Submit extends AppCompatActivity {
                             public void run() {
                                 if(e instanceof ApiException) {
                                     new AlertDialogWrapper.Builder(Submit.this)
-                                            .setTitle(R.string.editor_err_title)
-                                            .setMessage(R.string.misc_err + ": " + ((ApiException) e).getExplanation() + "\n" + R.string.editor_err_retry)
+                                            .setTitle(R.string.err_title)
+                                            .setMessage(R.string.misc_err + ": " + ((ApiException) e).getExplanation() + "\n" + R.string.misc_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -273,8 +273,8 @@ public class Submit extends AppCompatActivity {
                                     }).create().show();
                                 } else {
                                     new AlertDialogWrapper.Builder(Submit.this)
-                                            .setTitle(R.string.editor_err_title)
-                                            .setMessage(R.string.misc_err + ": " + getString(R.string.err_invalid_url) + "\n" + R.string.editor_err_retry)
+                                            .setTitle(R.string.err_title)
+                                            .setMessage(R.string.misc_err + ": " + getString(R.string.err_invalid_url) + "\n" + R.string.misc_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -298,8 +298,8 @@ public class Submit extends AppCompatActivity {
                     @Override
                     public void run() {
                         new AlertDialogWrapper.Builder(Submit.this)
-                                .setTitle(R.string.editor_err_title)
-                                .setMessage(R.string.editor_err_retry)
+                                .setTitle(R.string.err_title)
+                                .setMessage(R.string.misc_retry)
                                 .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
