@@ -41,7 +41,7 @@ public class DonateView extends AppCompatActivity {
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         setContentView(R.layout.activity_donate);
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setTitle("Support Slide for Reddit");
+        t.setTitle(R.string.donate_title);
 
         setSupportActionBar(t);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -55,16 +55,16 @@ public class DonateView extends AppCompatActivity {
         final TextView hours = (TextView) findViewById(R.id.hours);
         final TextView money = (TextView) findViewById(R.id.money);
 
-        ads.setText( sl_discrete.getValue() * 330 + "");
-        hours.setText(String.valueOf((double) 10 / sl_discrete.getValue() ) + "");
+        ads.setText(" " + sl_discrete.getValue() * 330 + " ");
+        hours.setText(" " + String.valueOf((double) 10 / sl_discrete.getValue() ) + "");
         money.setText("$" + sl_discrete.getValue() );
 
 
         sl_discrete.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
             @Override
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
-                ads.setText( newValue * 330 + "");
-                hours.setText(String.valueOf((double) newValue / 10 ) + "");
+                ads.setText(" " + newValue * 330 + " ");
+                hours.setText(" " + String.valueOf((double) newValue / 10 ) + "");
                 money.setText("$" + newValue);
             }
         });
@@ -103,9 +103,9 @@ public class DonateView extends AppCompatActivity {
             if (result.isFailure()) {
                 Log.d("Slide", "Error purchasing: " + result);
                 AlertDialog.Builder builder = new AlertDialog.Builder(DonateView.this);
-                builder.setTitle("Donation unsuccessful :(");
-                builder.setMessage("Unfortunately, the donation did not go through. Make sure you are connected to the internet and try again! Thank you for your support!");
-                builder.setNeutralButton("Ok", null);
+                builder.setTitle(R.string.donate_err_title);
+                builder.setMessage(R.string.donate_err_msg);
+                builder.setNeutralButton(R.string.btn_ok, null);
                 builder.show();
             }
             else if (purchase.getSku().contains("donation")) {
@@ -114,9 +114,9 @@ public class DonateView extends AppCompatActivity {
                     @Override
                     public void run() {
                         AlertDialog.Builder builder = new AlertDialog.Builder(DonateView.this);
-                        builder.setTitle("Donation successful!");
-                        builder.setMessage("Thank you very much for your support of Slide for Reddit! It really means a lot to me. If you encounter any issues, shoot me an email or post to /r/slideforreddit anytime!");
-                        builder.setPositiveButton("You're welcome!", new DialogInterface.OnClickListener() {
+                        builder.setTitle(R.string.donate_success_title);
+                        builder.setMessage(R.string.donate_success_msg);
+                        builder.setPositiveButton(R.string.donate_success_btn, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                DonateView.this.finish();
                             }

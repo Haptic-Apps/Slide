@@ -77,9 +77,9 @@ public class Profile extends BaseActivity {
     private void doClick(){
         if (account == null) {
             new AlertDialogWrapper.Builder(Profile.this)
-                    .setTitle("User not found")
-                    .setMessage("Reddit user could not be retrieved.")
-                    .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.profile_err_title)
+                    .setMessage(R.string.profile_err_msg)
+                    .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         }
                     }).show();

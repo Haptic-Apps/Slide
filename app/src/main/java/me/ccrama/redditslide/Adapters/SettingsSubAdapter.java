@@ -58,8 +58,8 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             new AlertDialogWrapper.Builder(getContext()).setTitle("Do you really want to delete settings for /r/" + subreddit)
-                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+             new AlertDialogWrapper.Builder(getContext()).setTitle(getContext().getString(R.string.settings_delete_sub_settings) + subreddit)
+                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick(DialogInterface dialog, int which) {
                              Pallete.removeColor(subreddit);
@@ -69,7 +69,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                              notifyDataSetChanged();
                          }
                      })
-                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                     .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick(DialogInterface dialog, int which) {
                              dialog.dismiss();
@@ -351,9 +351,10 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                         };
                         int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
-                        builder.setTitle("Choose a Layout Type");
+                        builder.setTitle(R.string.settings_layout_chooser);
                         builder.setSingleChoiceItems(
-                                new String[]{"Default Layout", "Alternative Layout"}, i, l2);
+                                new String[]{getContext().getString(R.string.settings_layout_default),
+                                        getContext().getString(R.string.settings_layout_alternative)}, i, l2);
                         builder.show();
 
                     }

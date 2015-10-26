@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="18dp"
 
-            android:text="Choose a donation amount"
+            android:text="@string/donate_title"
             android:textColor="?attr/font"
             android:textSize="22sp"
 
@@ -67,7 +67,7 @@
             android:alpha=".5"
 
             android:paddingTop="18dp"
-            android:text="This amount..."
+            android:text="@string/donate_amount_title"
             android:textAllCaps="true"
             android:textColor="?attr/font"
             android:textSize="14sp"
@@ -84,14 +84,14 @@
                 android:layout_height="wrap_content"
                 android:alpha=".6"
                 android:textColor="?attr/font"
-                android:text="Saves "
+                android:text="@string/donate_amount_ads1"
                 android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/ads"
                 android:layout_height="wrap_content"
-                android:text="660"
+                android:text=" 660 "
                 android:textColor="@color/md_light_green_500"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:alpha=".6"
                 android:textColor="?attr/font"
-                android:text=" ads from being displayed"
+                android:text="@string/donate_amount_ads2"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Supports "
+                android:text="@string/donate_amount_hours1"
                 android:alpha=".6"
                 android:textColor="?attr/font"
                 android:textSize="18sp" />
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0.4"
+                android:text=" 0.4 "
                 android:textColor="@color/md_light_green_500"
                 android:textSize="24sp"
                 android:id="@+id/hours"
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:alpha=".6"
                 android:textColor="?attr/font"
-                android:text=" hours of development"
+                android:text="@string/donate_amount_hours2"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -146,7 +146,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I am a student developer, and am very grateful for your generous donations! They have helped make Slide a (free) reality :) "
+                android:text="@string/donate_info_student"
                 android:alpha=".6"
                 android:textColor="?attr/font"
                 android:textSize="18sp" />
@@ -160,7 +160,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             android:padding="16dp"
-            android:text="DONATE"
+            android:text="@string/donate_btn"
 
             android:textColor="@color/md_light_green_500"
             android:textAllCaps="true"

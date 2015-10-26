@@ -70,7 +70,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     results.values = nlist;
                     results.count = nlist.size();
                 }
-                nlist.add("Go to " + prefix);
+                nlist.add("Go to " + prefix); //fixme string??
 
             }
             return results;

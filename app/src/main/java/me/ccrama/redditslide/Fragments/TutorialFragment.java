@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,21 +29,24 @@ public class TutorialFragment extends Fragment {
         return rootView;
     }
     private void doPage(int i, View container){
-        ((TextView) container.findViewById(R.id.submission_title)).setText(titles[i]);
+        ((TextView) container.findViewById(R.id.submission_title)).setText(titles(getContext())[i]);
         Ion.with((ImageView) container.findViewById(R.id.image)).load("android.resource://" + getActivity().getPackageName() + "/" + dataBits[i]);
 
     }
-    private static final String[] titles = new String[]{
-            "Swipe to switch subreddits",
-            "Tap a submission to open in in full view",
-            "Slide up to see comments in full view",
-            "Tap a name to view user",
-            "Hide comments with a single tap",
-            "You can swipe to the next submission in full view",
+    public static String[] titles(Context context) {
+        return new String[]{
+                context.getString(R.string.tutorial_swipe_subreddits),
+                context.getString(R.string.tutorial_tap_full_view),
+                context.getString(R.string.tutorial_slide_comments),
+                context.getString(R.string.tutorial_tap_name),
+                context.getString(R.string.tutorial_tap_hide),
+                context.getString(R.string.tutorial_swipe_next),
 
-            "Open content from full view",
-            "Open content from list view"
-    };
+                context.getString(R.string.tutorial_open_full),
+                context.getString(R.string.tutorial_open_list)
+        };
+    }
+
     private static final int[] dataBits = new int[]{
             R.drawable.swipe_subreddit,
             R.drawable.open_post,

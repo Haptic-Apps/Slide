@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingLeft="16dp"
-                android:text="SKIP"
+                android:text="@string/tutorial_skip"
                 android:textAllCaps="true"
 
                 android:textSize="14sp"
@@ -158,7 +158,7 @@
                 android:layout_alignParentRight="true"
                 android:gravity="center"
                 android:paddingRight="16dp"
-                android:text="I AGREE"
+                android:text="@string/tutorial_agree"
                 android:textAllCaps="true"
 
                 android:textSize="14sp"

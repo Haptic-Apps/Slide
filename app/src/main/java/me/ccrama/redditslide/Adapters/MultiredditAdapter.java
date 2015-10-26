@@ -126,9 +126,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                     @Override
                     public void onClick(View v) {
                         if (submission.isSaved()) {
-                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Save post");
+                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save_post);
                         } else {
-                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                            ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
                         }
                         new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
@@ -136,7 +136,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                     }
                 });
                 if (submission.isSaved()) {
-                    ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText("Post saved");
+                    ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
                 }
                 dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -179,7 +179,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                         d.dismiss();
                         Hidden.setHidden(old);
 
-                        Snackbar.make(listView, "Post hidden forever.", Snackbar.LENGTH_LONG).setAction("UNDO", new View.OnClickListener() {
+                        Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 dataSet.posts.add(pos, old);

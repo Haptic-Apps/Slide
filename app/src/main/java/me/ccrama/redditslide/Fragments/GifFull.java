@@ -66,7 +66,8 @@ public class GifFull extends Fragment {
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
         title.setText(s.getTitle());
-        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
+        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime(), getContext()));
+        ContentType.ImageType type = ContentType.getImageType(s);
 
         placeholder = rootView.findViewById(R.id.placeholder);
         gif = rootView.findViewById(R.id.gif);
@@ -172,10 +173,10 @@ public class GifFull extends Fragment {
                                             if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
 
                                                 new AlertDialogWrapper.Builder(getActivity())
-                                                        .setTitle("Gif not found...")
-                                                        .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
+                                                        .setTitle(R.string.gif_err_title)
+                                                        .setMessage(R.string.gif_err_msg)
                                                         .setCancelable(false)
-                                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {
                                                             }
@@ -235,10 +236,10 @@ public class GifFull extends Fragment {
                             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
                                 new AlertDialogWrapper.Builder(getActivity())
-                                        .setTitle("Gif not found...")
-                                        .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
+                                        .setTitle(R.string.gif_err_title)
+                                        .setMessage(R.string.gif_err_msg)
                                         .setCancelable(false)
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                             }

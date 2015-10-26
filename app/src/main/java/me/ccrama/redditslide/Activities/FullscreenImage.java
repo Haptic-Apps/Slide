@@ -161,7 +161,7 @@ public class FullscreenImage extends BaseActivity {
                                                 MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
                                                     public void onScanCompleted(String path, Uri uri) {
                                                         Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
-                                                                .setContentTitle("Photo Saved")
+                                                                .setContentTitle(getString(R.string.info_photo_saved))
                                                                 .setSmallIcon(R.drawable.notif)
                                                                 .setLargeIcon(loadedImage)
                                                                 .setStyle(new NotificationCompat.BigPictureStyle()

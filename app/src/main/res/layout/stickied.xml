@@ -6,13 +6,15 @@
     android:background="@drawable/commentback"
 
     android:layout_height="15dp">
+
     <TextView android:layout_width="wrap_content"
-        android:text="PINNED"
+        android:text="@string/submission_stickied"
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#fff"
         android:textSize="10sp"
         android:textStyle="bold"
+        android:textAllCaps="true"
         android:id="@+id/flairtext"
         android:layout_height="match_parent">
 

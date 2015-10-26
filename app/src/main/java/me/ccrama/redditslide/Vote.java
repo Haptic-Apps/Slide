@@ -49,7 +49,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
-                        Snackbar.make(v, "Vote cast!", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, R.string.vote_cast, Snackbar.LENGTH_SHORT).show();
                         c = null;
                         v = null;
                     }
@@ -57,7 +57,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
             } catch (ApiException e) {
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
-                        Snackbar.make(v, "Error casting vote!", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT).show();
                         c = null;
                         v = null;
                     }
@@ -67,7 +67,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         } else {
             ((Activity) c).runOnUiThread(new Runnable() {
                 public void run() {
-                    Snackbar.make(v, "You must be logged in to vote!", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT).show();
                     c = null;
                     v = null;
                 }

@@ -15,7 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="60dp"
-    android:title="Submit a post"
+    android:title="@string/editor_submit"
     android:clipToPadding="false"
     android:paddingRight="16dp"
 
@@ -67,7 +67,7 @@
            android:inputType="none"
 
            android:maxLength="21"
-           android:hint="Recipient"
+           android:hint="@string/mail_hint_recipient"
            android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
 
@@ -84,7 +84,7 @@
                 android:maxLines="1"
                 android:backgroundTint="?attr/tint"
 
-                android:hint="Subject"
+                android:hint="@string/mail_hint_subject"
                 android:layout_height="wrap_content" >
                 <requestFocus/>
                 </EditText>
@@ -101,8 +101,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:id="@+id/body"
-                    android:hint="Body"           android:backgroundTint="?attr/tint"
-
+                    android:hint="@string/mail_hint_body"
+                    android:backgroundTint="?attr/tint"
                     android:textColor="?attr/font"
                     android:imeOptions="actionDone|flagNoEnterAction"
                     android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
