@@ -36,7 +36,7 @@
         android:id="@+id/search"
         android:textColorHint="?attr/font"
         android:backgroundTint="?attr/tint"
-        android:hint="Search comments"
+        android:hint="@string/search_comments_hint"
         android:textColor="?attr/font"
         android:layout_height="match_parent"/>
     </android.support.v7.widget.Toolbar>

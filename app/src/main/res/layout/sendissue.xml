@@ -26,7 +26,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/md_light_green_500"
                     android:padding="24dp"
-                    android:text="Report a Crash"
+                    android:text="@string/title_report_crash"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:backgroundTint="?attr/tint"
-                        android:hint="Describe the crash in one sentence"
+                        android:hint="@string/crash_title_hint"
                         android:lines="1"
                         android:singleLine="true"
                         android:textColor="?attr/font"
@@ -54,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:backgroundTint="?attr/tint"
-                        android:hint="Describe how one could reproduce the crash"
+                        android:hint="@string/crash_msg_hint"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -64,9 +64,10 @@
                         android:padding="16dp"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:text="REPORT"
+                        android:text="@string/crash_btn"
                         android:id="@+id/ok"
                         android:textColor="?attr/font"
+                        android:textAllCaps="true"
                         />
                 </LinearLayout>
             </LinearLayout>

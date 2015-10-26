@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="Edit main color"
+                android:text="@string/settings_main_color_title"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:text="OK"
+                android:text="@string/btn_ok"
                 android:textSize="14sp"
                 android:id="@+id/ok"
 

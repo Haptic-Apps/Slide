@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="General"
+                android:text="@string/settings_title_general"
                 android:textColor="?attr/font"
 
                 android:textSize="16sp"
@@ -90,7 +90,7 @@
                 android:gravity="center_vertical"
                 android:textColor="?attr/font"
 
-                android:text="Notifications"
+                android:text="@string/settings_title_notifications"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -120,7 +120,7 @@
                 android:textColor="?attr/font"
 
                 android:gravity="center_vertical"
-                android:text="Default Theme"
+                android:text="@string/settings_title_default_theme"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -150,7 +150,7 @@
 
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Default Layout"
+                android:text="@string/settings_title_default_layout"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -179,7 +179,7 @@
 
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Alternative Layout"
+                android:text="@string/settings_title_alternative_layout"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -208,7 +208,7 @@
 
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Subreddit Theme Settings"
+                android:text="@string/sidebar_theme"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -236,7 +236,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Pro"
+                android:text="@string/settings_title_pro"
                 android:textColor="?attr/font"
 
                 android:textSize="16sp"
@@ -266,7 +266,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Support Slide"
+                android:text="@string/drawer_support"
 
                 android:textColor="?attr/font"
                 android:textSize="16sp"

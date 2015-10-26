@@ -41,7 +41,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle("Edit Theme");
+        getSupportActionBar().setTitle(R.string.title_edit_theme);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -144,8 +144,8 @@ public class SettingsTheme extends BaseActivityNoAnim {
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
                 //Inflating the Popup using xml file
-                popup.getMenu().add("Always Match");
-                popup.getMenu().add("Match Externally");
+                popup.getMenu().add(R.string.theme_match_always);
+                popup.getMenu().add(R.string.theme_match_ext);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -169,9 +169,9 @@ public class SettingsTheme extends BaseActivityNoAnim {
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
                 //Inflating the Popup using xml file
-                popup.getMenu().add("Card Background");
-                popup.getMenu().add("Text Color");
-                popup.getMenu().add("None");
+                popup.getMenu().add(R.string.theme_background);
+                popup.getMenu().add(R.string.theme_text);
+                popup.getMenu().add(R.string.misc_none);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

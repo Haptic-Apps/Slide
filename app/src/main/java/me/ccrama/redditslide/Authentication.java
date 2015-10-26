@@ -37,13 +37,13 @@ public class Authentication {
     private static int inboxC;
     private Reddit a;
 
-    public Authentication(Context a) {
-        if(isNetworkAvailable(a)) {
+    public Authentication(Context context) {
+        if(isNetworkAvailable(context)) {
             isLoggedIn = false;
-            this.a = (Reddit) a;
+            this.a = (Reddit) context;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0 (by /u/ccrama)"));
             reddit.setLoggingMode(LoggingMode.ALWAYS);
-                new VerifyCredentials().execute();
+                new VerifyCredentials(context).execute();
 
         }
 
@@ -98,17 +98,21 @@ public class Authentication {
     }
     private static String refresh;
 
-    private class VerifyCredentials extends AsyncTask<String, Void, Void> {
+    public class VerifyCredentials extends AsyncTask<String, Void, Void> {
+        Context mContext;
+        public VerifyCredentials(Context context){
+            mContext = context;
+        }
 
 
 
         @Override
         public void onPostExecute(Void voids){
             if(a.loader != null){
-                a.loader.loading.setText("Updating your subreddits");
+                a.loader.loading.setText(R.string.general_updating_subs);
             }
 
-                new SubredditStorage().execute(a);
+                new SubredditStorage(mContext).execute(a);
 
 
         }

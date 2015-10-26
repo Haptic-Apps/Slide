@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -145,15 +146,15 @@ public class SubredditOverview extends OverviewBase {
     @Override
     public void onBackPressed() {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
-        builder.setTitle("Confirm exit");
-        builder.setMessage("Do you really want to exit Slide?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.general_confirm_exit);
+        builder.setMessage(R.string.general_confirm_exit_msg);
+        builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -173,7 +174,7 @@ public class SubredditOverview extends OverviewBase {
     private void chooseAccounts() {
         final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
         new AlertDialogWrapper.Builder(SubredditOverview.this)
-                .setTitle("Switch Account")
+                .setTitle(R.string.general_switch_acc)
                 .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -224,7 +225,7 @@ public class SubredditOverview extends OverviewBase {
             } else {
                 title.setVisibility(View.GONE);
             }
-            ((TextView) dialoglayout.findViewById(R.id.info)).setText(TimeUtils.getTimeAgo(s.getCreatedUtc().getTime()));
+            ((TextView) dialoglayout.findViewById(R.id.info)).setText(TimeUtils.getTimeAgo(s.getCreatedUtc().getTime(), getBaseContext()));
 
 
             final Dialog dialog = builder.setView(dialoglayout).create();
@@ -269,14 +270,14 @@ public class SubredditOverview extends OverviewBase {
         findViewById(R.id.sorting).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastHelpCreation.makeToast(v, "Change Post Sorting", SubredditOverview.this);
+                ToastHelpCreation.makeToast(v, getString(R.string.sorting_change_sorting), SubredditOverview.this);
                 return false;
             }
         });
         findViewById(R.id.grid).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastHelpCreation.makeToast(v, "Enable Shadowbox Mode", SubredditOverview.this);
+                ToastHelpCreation.makeToast(v, getString(R.string.general_enable_shadowbox), SubredditOverview.this);
                 return false;
             }
         });
@@ -295,20 +296,17 @@ public class SubredditOverview extends OverviewBase {
                         }
                     } else {
                         new AlertDialogWrapper.Builder(SubredditOverview.this)
-                                .setTitle("Slide for Reddit Pro")
-                                .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
-                                        "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
-                                        "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
-                                        "Would you like to unlock Slide for Reddit Pro?")
-                                .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                                .setTitle(R.string.general_pro)
+                                .setMessage(R.string.general_pro_msg)
+                                .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {
                                         try {
                                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        } catch (android.content.ActivityNotFoundException anfe) {
+                                        } catch (ActivityNotFoundException anfe) {
                                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                                         }
                                     }
-                                }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                                }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
 
                             }
@@ -321,7 +319,7 @@ public class SubredditOverview extends OverviewBase {
         findViewById(R.id.info).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastHelpCreation.makeToast(v, "Open Subreddit Settings", SubredditOverview.this);
+                ToastHelpCreation.makeToast(v, getString(R.string.general_open_settings), SubredditOverview.this);
                 return false;
             }
         });
@@ -352,7 +350,7 @@ public class SubredditOverview extends OverviewBase {
         }
         ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
 
-        ((TextView) findViewById(R.id.subscribers)).setText("" + subreddit.getSubscriberCount() + " subscribers");
+        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
 
     }
 
@@ -723,9 +721,10 @@ public class SubredditOverview extends OverviewBase {
                             };
                             int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
                             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
-                            builder.setTitle("Choose a Layout Type");
+                            builder.setTitle(R.string.settings_layout_chooser);
                             builder.setSingleChoiceItems(
-                                    new String[]{"Default Layout", "Alternative Layout"}, i, l2);
+                                    new String[]{getString(R.string.settings_layout_default),
+                                            getString(R.string.settings_layout_alternative)}, i, l2);
                             builder.show();
 
                         }
@@ -1367,9 +1366,21 @@ public class SubredditOverview extends OverviewBase {
                         : 10)
                 : 0;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
-        builder.setTitle("Choose a Sorting Type");
+        builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                new String[]{"Hot", "New", "Rising", "Top This Hour", "Top Today", "Top This Week", "Top This Month", "Top This Year", "Top All Time", "Controversial This Hour", "Controversial Today"}, i, l2);
+                new String[]{
+                        getString(R.string.sorting_top),
+                        getString(R.string.sorting_new),
+                        getString(R.string.sorting_rising),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
+                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
+                }, i, l2);
         builder.show();
 
     }
@@ -1629,16 +1640,16 @@ public class SubredditOverview extends OverviewBase {
                 final EditText input = new EditText(SubredditOverview.this);
 
                 new AlertDialogWrapper.Builder(SubredditOverview.this)
-                        .setTitle("Enter Username")
+                        .setTitle(R.string.user_enter)
                         .setView(input)
-                        .setPositiveButton("Go to user", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
                                 if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
                                     new AlertDialogWrapper.Builder(SubredditOverview.this)
-                                            .setTitle("Invalid user name")
-                                            .setMessage("Reddit user names can only contain letters, numbers, underscore and dash.")
-                                            .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                            .setTitle(R.string.user_invalid)
+                                            .setMessage(R.string.user_invalid_msg)
+                                            .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int whichButton) {
                                                 }
                                             }).show();
@@ -1648,7 +1659,7 @@ public class SubredditOverview extends OverviewBase {
                                     SubredditOverview.this.startActivity(inte);
                                 }
                             }
-                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         // Do nothing.
                     }
@@ -1700,12 +1711,9 @@ public class SubredditOverview extends OverviewBase {
 
                 } else {
                     new AlertDialogWrapper.Builder(SubredditOverview.this)
-                            .setTitle("Slide for Reddit Pro")
-                            .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
-                                    "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
-                                    "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
-                                    "Would you like to unlock Slide for Reddit Pro?")
-                            .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     try {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
@@ -1713,7 +1721,7 @@ public class SubredditOverview extends OverviewBase {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                                     }
                                 }
-                            }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                         }

@@ -199,10 +199,10 @@ public class GifView extends BaseActivity {
                                         if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
 
                                             new AlertDialogWrapper.Builder(GifView.this)
-                                                    .setTitle("Gif not found...")
-                                                    .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
+                                                    .setTitle(R.string.gif_err_title)
+                                                    .setMessage(R.string.gif_err_msg)
                                                     .setCancelable(false)
-                                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             finish();
@@ -314,16 +314,16 @@ public class GifView extends BaseActivity {
                             String obj = "";
                             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
-                                new AlertDialogWrapper.Builder(GifView.this)
-                                        .setTitle("Gif not found...")
-                                        .setMessage("An error occured when loading this gif. Please re-open the gif and retry.")
-                                        .setCancelable(false)
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        }).create().show();
+                                    new AlertDialogWrapper.Builder(GifView.this)
+                                            .setTitle(R.string.gif_err_title)
+                                            .setMessage(R.string.gif_err_msg)
+                                            .setCancelable(false)
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    finish();
+                                                }
+                                            }).create().show();
 
                             } else {
                                 obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
