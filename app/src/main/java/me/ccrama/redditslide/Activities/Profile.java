@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -54,7 +55,9 @@ public class Profile extends BaseActivity {
         toolbar.setTitle(name);
         findViewById(R.id.header).setBackgroundColor(Pallete.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
-        findViewById(R.id.menu).setVisibility(View.GONE);
+        findViewById(R.id.edit).setVisibility(View.GONE);
+        ((ImageView)findViewById(R.id.create)).setImageDrawable(getResources().getDrawable(R.drawable.infonew));
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -85,7 +88,7 @@ public class Profile extends BaseActivity {
                     }).show();
             return;
         }
-        findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = getLayoutInflater();

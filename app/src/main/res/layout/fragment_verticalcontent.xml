@@ -13,7 +13,6 @@
         <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:orientation="vertical"
-            android:paddingTop="16dp"
             android:clipToPadding="false"
         android:id="@+id/vertical_content"
         android:layout_height="match_parent"

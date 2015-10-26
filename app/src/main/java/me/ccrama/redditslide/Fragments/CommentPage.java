@@ -147,7 +147,7 @@ public class CommentPage extends Fragment {
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(comments.comments != null) {
+                if (comments.comments != null) {
                     DataShare.sharedComments = comments.comments;
                     DataShare.subAuthor = comments.submission.getAuthor();
                     Intent i = new Intent(getActivity(), CommentSearch.class);
@@ -164,6 +164,41 @@ public class CommentPage extends Fragment {
             toolbar.setBackgroundColor(Pallete.getColor(id));
 
 
+      /* STARTING IT  v.findViewById(R.id.fab).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+
+
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+
+                        View body = v.findViewById(R.id.body);
+                        int cx = (view.getLeft() + view.getRight()) / 2;
+                        int cy = (view.getTop() + view.getBottom()) / 2;
+
+// get the final radius for the clipping circle
+                        int finalRadius = body.getWidth();
+
+// create and start the animator for this view
+// (the start radius is zero)
+                        SupportAnimator anim =  io.codetail.animation.ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
+                        anim.start();
+                        break;
+
+                    case MotionEvent.ACTION_DOWN:
+                        view.setLayoutParams(params);
+                        break;
+                }
+
+                return true;
+            }
+        });*/
             v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

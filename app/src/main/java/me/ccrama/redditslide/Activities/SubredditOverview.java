@@ -298,7 +298,7 @@ public class SubredditOverview extends OverviewBase {
                                 .setTitle("Slide for Reddit Pro")
                                 .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
                                         "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
-                                        "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\n" +
+                                        "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), App Settings Backup, and much more coming soon!\n\n" +
                                         "Would you like to unlock Slide for Reddit Pro?")
                                 .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int whichButton) {

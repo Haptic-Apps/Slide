@@ -16,10 +16,10 @@ import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.leakcanary.LeakCanary;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -41,7 +41,7 @@ import me.ccrama.redditslide.util.IabResult;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Reddit extends Application implements Application.ActivityLifecycleCallbacks {
+public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
     public static IabHelper mHelper;
     public static boolean single;
     public static boolean swap;
@@ -182,7 +182,7 @@ public class Reddit extends Application implements Application.ActivityLifecycle
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
+
 
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);

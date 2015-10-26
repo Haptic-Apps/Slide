@@ -158,9 +158,9 @@
         <item name="font_cardinfoc">9sp</item>
         <item name="font_cardtitlem">12sp</item>
         <item name="font_cardinfom">8sp</item>
-        <item name="font_commenttitle">10sp</item>
-        <item name="font_commentinfo">8sp</item>
-        <item name="font_commentbody">12sp</item>
+        <item name="font_commenttitle">12sp</item>
+        <item name="font_commentinfo">12sp</item>
+        <item name="font_commentbody">14sp</item>
     </style>
     <style name="FontStyle">
     </style>

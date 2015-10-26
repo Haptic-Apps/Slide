@@ -82,7 +82,7 @@
             <com.wefika.flowlayout.FlowLayout
                 android:id="@+id/flow"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"

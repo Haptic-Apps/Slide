@@ -182,17 +182,19 @@ public class CreateMulti extends BaseActivity {
     }
 
     public void showSelectDialog() {
-        final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size()];
+        final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size() - 2];
         final List<String> s2 = new ArrayList<>(subs);
         boolean[] checked = new boolean[all.length];
 
         int i = 0;
         for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            all[i] = s;
-            if (s2.contains(s)) {
-                checked[i] = true;
+            if(!(s.equals("all") || s.equals("frontpage"))) {
+                all[i] = s;
+                if (s2.contains(s)) {
+                    checked[i] = true;
+                }
+                i++;
             }
-            i++;
         }
         final ArrayList<String> toCheck = new ArrayList<>();
 
