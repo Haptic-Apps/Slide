@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="8dp"        android:background="@color/black"
+
+    android:fitsSystemWindows="true">
+
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/dblue"
+            android:clipToPadding="false"
+            android:minHeight="56dp"
+            android:paddingRight="16dp"
+
+            >
+
+
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <WebView
+                android:layout_width="match_parent"
+                android:id="@+id/web"
+                android:layout_height="match_parent" />
+
+
+        </RelativeLayout>
+</FrameLayout>

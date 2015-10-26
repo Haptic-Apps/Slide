@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="#000000"
+    android:orientation="vertical">
+
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/submission_image"
+        android:layout_width="match_parent"
+        android:src="@drawable/chameleon"
+        android:layout_alignParentTop="true"
+
+        android:layout_height="match_parent"
+
+        android:transitionName="profile" />
+
+    <LinearLayout
+        android:id="@+id/gifheader"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/submission_image"
+        android:layout_height="48dp"
+        android:gravity="right"
+        android:layout_marginTop="-48dp"
+        android:weightSum="4">
+
+        <ImageView
+            android:id="@+id/share"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:tint="@color/white"
+            android:padding="10dp"
+
+            android:src="@drawable/share" />
+
+        <ImageView
+            android:id="@+id/save"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:tint="@color/white"
+
+            android:src="@drawable/save" />
+
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:indeterminate="false"
+
+        android:max="100"
+        android:progress="50" />
+</RelativeLayout>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="?attr/card_background"
+        app:cardCornerRadius="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_light_green_500"
+                android:padding="24dp"
+                android:text="Multi-Column Settings"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/body"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+
+                    android:paddingTop="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:text="LANDSCAPE"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="?attr/font"
+                        android:layout_height="wrap_content" />
+                    <com.rey.material.widget.Slider
+                        android:id="@+id/landscape"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        app:sl_discreteMode="true"
+                        android:padding="8dp"
+                        app:sl_maxValue="7"
+                        app:sl_minValue="1"
+                        app:sl_secondaryColor="?attr/tint"
+                         />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:text="PORTRAIT SETTINGS COMING SOON"
+                        android:textSize="14sp"
+                        android:alpha=".7"
+                        android:textStyle="bold"
+                        android:textColor="?attr/font"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

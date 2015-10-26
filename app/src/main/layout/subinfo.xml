@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="?attr/card_background"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sidebarsub"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/md_light_green_500"
+                    android:id="@+id/header_sub"
+                    android:orientation="vertical"
+
+                    android:paddingTop="16dp"
+
+                    android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/sub_infotitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="/r/Android"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/subscribers"
+                        android:layout_width="wrap_content"
+                        android:paddingLeft="16dp"
+
+                        android:layout_height="wrap_content"
+                        android:text="A sub for 2 years"
+                        android:textSize="14sp"
+                        />
+                    <TextView
+                        android:id="@+id/sub_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
+                        android:textSize="14sp"
+                        />
+
+                </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/body"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+
+                        android:paddingTop="8dp">
+
+                        <CheckBox
+                            android:id="@+id/pinned"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:buttonTint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
+
+                            android:backgroundTint="?attr/tint"
+                            android:layout_marginTop="8dp"
+                            android:textColorHint="?attr/font"
+                            android:textColor="?attr/font"
+                            android:text="PINNED" />
+                        <CheckBox
+                            android:id="@+id/subscribed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:buttonTint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
+
+                            android:backgroundTint="?attr/tint"
+                            android:layout_marginTop="8dp"
+                            android:textColorHint="?attr/font"
+                            android:textColor="?attr/font"
+                            android:text="SUBSCRIBED" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:alpha=".8"
+                            android:background="?attr/tint" />
+
+                        <LinearLayout
+                            android:id="@+id/wiki"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center_vertical"
+                            android:background="?android:selectableItemBackground"
+
+                            android:orientation="horizontal"
+                            android:paddingRight="16dp">
+
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="match_parent"
+                                android:alpha=".86"
+                                android:tint="?attr/tint"
+
+                                android:padding="12dp"
+                                android:src="@drawable/wiki" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+
+                                android:textColor="?attr/font"
+
+                                android:text="View wiki"
+
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/sub_theme"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center_vertical"
+                            android:background="?android:selectableItemBackground"
+
+                            android:orientation="horizontal"
+                            android:paddingRight="16dp">
+
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="match_parent"
+                                android:alpha=".86"
+                                android:tint="?attr/tint"
+                                android:id="@+id/colorExpandFrom"
+                                android:padding="12dp"
+                                android:src="@drawable/color" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+
+                                android:textColor="?attr/font"
+
+                                android:text="Subreddit theme settings"
+
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:alpha=".8"
+                            android:background="?attr/tint" />
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:textIsSelectable="true"
+
+                    android:textColor="?attr/font"
+
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:padding="16dp"
+                    android:id="@+id/sidebar_text"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </ScrollView>

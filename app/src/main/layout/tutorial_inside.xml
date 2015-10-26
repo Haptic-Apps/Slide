@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/phone"
+        android:layout_marginTop="30dp"
+        android:id="@+id/imageold"
+        android:layout_height="400dp" />
+    <ImageView
+
+        android:layout_width="182dp"
+        android:id="@+id/image"
+        android:layout_marginTop="63dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_height="324dp"
+        />
+
+    <TextView
+
+        android:id="@+id/submission_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+
+        android:paddingTop="20dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="Swipe between subreddits!"
+        android:gravity="center"
+        android:layout_below="@+id/imageold"
+        android:textColor="?attr/font"
+        android:textSize="20sp"
+
+
+        />
+</RelativeLayout>

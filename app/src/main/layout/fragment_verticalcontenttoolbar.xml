@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="?attr/activity_background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:elevation="16dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:clipToPadding="false"
+            android:minHeight="56dp"
+            android:paddingRight="16dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+
+
+            >
+
+
+
+
+            <ImageView
+                android:id="@+id/sorting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:tint="@color/white"
+
+                android:background="#00ffffff"
+                android:paddingBottom="12dp"
+
+                android:paddingTop="12dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/sort" />
+
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+
+                android:background="#00ffffff"
+                android:paddingBottom="12dp"
+
+                android:tint="@color/white"
+                android:paddingTop="12dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/search" />
+
+
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+    <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
+        android:id="@+id/activity_main_swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+            android:background="?attr/activity_background"
+        android:id="@+id/vertical_content"
+        android:layout_height="match_parent"
+            >
+        </android.support.v7.widget.RecyclerView>
+</me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+</LinearLayout>

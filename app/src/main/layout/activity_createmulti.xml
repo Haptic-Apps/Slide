@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_light_blue_500"
+        android:clipToPadding="false"
+        android:minHeight="56dp"
+        android:paddingRight="16dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+
+
+        >
+        <EditText
+            android:layout_width="wrap_content"
+            android:textColor="?attr/font"
+            android:backgroundTint="?attr/tint"
+            android:hint="Multi name           "
+            android:inputType="textCapWords"
+            android:maxLines="1"
+            android:maxLength="21"
+            android:id="@+id/name"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center_vertical|right"
+            android:padding="16dp"
+            android:text="SAVE"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/subslist"
+        android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_height="match_parent"
+        android:background="?attr/activity_background"
+        android:orientation="vertical">
+
+
+    </android.support.v7.widget.RecyclerView>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/add"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/add_plain"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
