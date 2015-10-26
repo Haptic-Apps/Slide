@@ -133,7 +133,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         boolean hasErrors = false;
 
         if (TextUtils.isEmpty(userName.getText())){
-            setError(userName, "Please enter a vaild username");
+            setError(userName, getString(R.string.gitty_username_invalid));
 
             hasErrors = true;
         } else {
@@ -141,7 +141,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(userPassword.getText())) {
-            setError(userPassword, "Please enter a vaild password");
+            setError(userPassword, getString(R.string.gitty_password_invalid));
 
             hasErrors = true;
         } else {
@@ -158,7 +158,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         boolean hasErrors = false;
 
         if (TextUtils.isEmpty(bugTitleEditText.getText())) {
-            setError(bugTitleEditText, "Please enter a valid title");
+            setError(bugTitleEditText, getString(R.string.gitty_title_invalid));
 
             hasErrors = true;
         } else {
@@ -166,7 +166,7 @@ public abstract class GittyReporter extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(bugDescriptionEditText.getText())) {
-            setError(bugDescriptionEditText, "Please describe your issue");
+            setError(bugDescriptionEditText, getString(R.string.gitty_desc_invalid));
 
             hasErrors = true;
         } else {

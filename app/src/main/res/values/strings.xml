@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">Slide</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
@@ -14,21 +12,8 @@
     <string name="general_open_settings">Open Subreddit Settings</string>
     <string name="general_updating_subs">Updating your subreddits</string>
 
-    <!-- Text for the example submissions
-         Used in the edit card view screen  -->
-    <string name="example_domain">imgur</string>
-    <string name="example_url">imgur.com/a/duARTe</string>
-    <string name="example_title">Chameleons are Cool!</string>
-    <string name="example_sub">/r/animals</string>
-    <string name="example_time">6 hours ago</string>
-    <string name="example_points">204 points</string>
-    <string name="example_points_short">+204</string>
-    <string name="example_comments">402 comments</string>
-
-
     <!-- Used when viewing a thread -->
     <string name="submission_reply_submit">Submit</string>
-    <string name="submission_properties_seperator">"  •  "</string>
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
     <string name="submission_save_post">Save post</string>
@@ -189,7 +174,6 @@
     <string name="editor_title_link">Insert link</string>
     <string name="editor_action_link">INSERT</string>
     <string name="editor_title">Title</string>
-    <string name="editor_err_title">Uh oh, something went wrong!</string>
     <string name="editor_err_msg">Please try again in a few seconds.</string>
     <string name="editor_uploading_image">Uploading image to imgur</string>
     <string name="editor_self">Self text</string>
@@ -200,7 +184,6 @@
     <string name="editor_hint_optional_body">Body (optional)</string>
     <string name="editor_hint_url">URL</string>
     <string name="editor_submit">Submit a post</string>
-    <string name="editor_err_retry">Would you like to try again?</string>
     <string name="editor_hint_subreddit">Subreddit</string>
 
     <!-- General information / information without a category -->
@@ -210,13 +193,15 @@
 
     <!-- General errors / errors without a category -->
     <string name="err_network_title">Uh oh, Slide couldn\'t connect to Reddit!</string>
+    <string name="err_title">Uh oh, something went wrong!</string>
     <string name="err_network_msg">Please check your internet connection and try again!</string>
     <string name="err_invalid_url">Invalid URL</string>
 
 
-    <!-- Gif errors -->
-    <string name="gif_err_title">Gif not found</string>
+    <!-- Gif -->
+    <string name="gif_err_title">GIF not found</string>
     <string name="gif_err_msg">An error occurred when loading this gif. Please re-open the gif and retry.</string>
+    <string name="gif_saved">GIF Saved</string>
 
 
     <!-- Pin errors -->
@@ -232,6 +217,11 @@
     <!-- Multireddit errors -->
     <string name="multireddit_err_title">No Multireddits (yet)!</string>
     <string name="multireddit_err_msg">For now, you will need to create new multireddits on Reddit.com. Coming soon will be in-app multireddit creation, though!</string>
+    <string name="multireddit_title_empty">Title can\'t be empty</string>
+    <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
+    <string name="multireddit_no_subs">No subs are added</string>
+    <string name="multireddit_no_subs_msg">Please add some subs by clicking on the + button!</string>
+    <string name="multireddit_selector">Select subreddits to add</string>
 
 
     <!-- Album errors/information -->
@@ -304,6 +294,7 @@
     <string name="misc_score_hidden">score hidden</string>
     <string name="misc_you">you</string>
     <string name="misc_none">None</string>
+    <string name="misc_retry">Would you like to try again?</string>
 
 
     <!-- Goto User -->
@@ -325,6 +316,7 @@
     <string name="btn_undo">Undo</string>
     <string name="btn_reply">Reply</string>
     <string name="btn_discard">Discard</string>
+    <string name="btn_add">ADD</string>
 
 
     <!-- Vote -->
@@ -406,8 +398,16 @@
     <string name="donate_success_btn">You\'re welcome!</string>
 
 
+    <!-- GitHub crash reporter -->
+    <string name="gitty_username_invalid">Please enter a valid username</string>
+    <string name="gitty_password_invalid">Please enter a valid password</string>
+    <string name="gitty_title_invalid">Please enter a valid title</string>
+    <string name="gitty_desc_invalid">Please describe your issue</string>
+
+
     <!-- Time -->
     <string name="time_just_now">just now</string>
+
     <plurals name="time_minutes">
         <item quantity="one">a minute ago</item>
         <item quantity="other">%d minutes ago</item>

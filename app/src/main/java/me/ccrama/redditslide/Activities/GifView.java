@@ -432,7 +432,7 @@ public class GifView extends BaseActivity {
                 outStream.close();
                 inStream.close();
                 Notification.Builder notif = new Notification.Builder(GifView.this)
-                        .setContentTitle("GIF Saved")
+                        .setContentTitle(getString(R.string.gif_saved))
                         .setSmallIcon(R.drawable.notif);
 
 
