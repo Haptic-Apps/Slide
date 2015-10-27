@@ -13,7 +13,6 @@
     <string name="general_updating_subs">Updating your subreddits</string>
 
     <!-- Used when viewing a thread -->
-    <string name="submission_reply_submit">Submit</string>
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
     <string name="submission_save_post">Save post</string>
@@ -254,6 +253,7 @@
     <string name="mail_notification_msg">New message from</string>
     <string name="mail_reply_to">Reply to %1$s</string>
     <string name="mail_notification_author">from</string>
+    <string name="mail_theirs">View their message</string>
 
     <plurals name="mail_notification_title">
         <item quantity="one">You have one new mail!</item>
@@ -321,6 +321,7 @@
     <string name="btn_reset">Reset</string>
     <string name="btn_retry">Try again</string>
     <string name="btn_save">SAVE</string>
+    <string name="btn_submit">Submit</string>
     <string name="btn_sure">Sure!</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
@@ -331,6 +332,9 @@
     <string name="backup_restoring">Restoring your Settings</string>
     <string name="backup_restore_settings">Setting Restore Successful!</string>
     <string name="backup_restarting">App will now restart.</string>
+    <string name="backup_info">Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server.</string>
+    <string name="backup_btn">Backup</string>
+    <string name="backup_btn_restore">Restore</string>
 
 
     <!-- Vote -->
@@ -388,11 +392,13 @@
 
     <!-- Settings titles -->
     <string name="settings_title_alternative_layout">Alternative Layout</string>
+    <string name="settings_title_backup">Backup</string>
     <string name="settings_title_default_layout">Default Layout</string>
     <string name="settings_title_default_theme">Default Theme</string>
     <string name="settings_title_general">General</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_pro">Pro</string>
+    <string name="settings_title_sub_theme">Subreddit Theme Settings</string>
 
 
     <!-- Text in Donation-Activity -->

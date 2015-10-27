@@ -433,7 +433,7 @@
                                 android:background="?android:selectableItemBackground"
 
                                 android:padding="4dp"
-                                android:text="@string/submission_reply_submit"
+                                android:text="@string/btn_submit"
                                 android:textAllCaps="true"
 
                                 android:textSize="14sp"

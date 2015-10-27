@@ -208,7 +208,7 @@
 
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Subreddit Theme Settings"
+                android:text="@string/settings_title_sub_theme"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -296,7 +296,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Backup"
+                android:text="@string/settings_title_backup"
 
                 android:textColor="?attr/font"
                 android:textSize="16sp"
@@ -308,13 +308,14 @@
         </ScrollView>
         <TextView
             android:layout_width="match_parent"
+            android:id="@+id/settings_version"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:paddingBottom="5dp"
             android:textColor="?attr/font"
-            android:text="Slide v4.2.2"
+            android:text="Slide vX.X.X"
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
