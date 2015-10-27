@@ -168,7 +168,8 @@ public class ListViewDraggingAnimation extends BaseActivity {
                         }
                         Log.v("Slide", "Done with " + all[which]);
                     }
-                }).setTitle("Select subreddits to pin").setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
+                }).setTitle(R.string.pin_select)
+                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 subs = toCheck;

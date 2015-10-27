@@ -40,7 +40,7 @@
             android:padding="16dp"
             android:textColor="?attr/font"
             android:textSize="16dp"
-            android:text="Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server."
+            android:text="@string/backup_info"
             android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Backup"
+                android:text="@string/backup_btn"
 
                 android:textColor="?attr/font"
                 android:textSize="16sp"
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Restore"
+                android:text="@string/backup_btn_restore"
 
                 android:textColor="?attr/font"
                 android:textSize="16sp"
