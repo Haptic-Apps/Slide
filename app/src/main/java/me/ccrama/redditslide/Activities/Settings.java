@@ -23,6 +23,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -92,6 +93,8 @@ public class Settings extends BaseActivityNoAnim  {
                 }
             }
         });
+        SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
+        SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
         findViewById(R.id.general).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -76,7 +76,8 @@ public class FullscreenImage extends BaseActivity {
 
                             @Override
                             public void onProgressUpdate(String imageUri, View view, final int current, final int total) {
-                                runOnUiThread(new Runnable() {
+                                runOnUiThread(
+                                        new Runnable() {
                                     @Override
                                     public void run() {
                                         if (bar.getVisibility() == View.GONE) {

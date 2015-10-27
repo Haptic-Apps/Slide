@@ -103,8 +103,6 @@ public class MultiredditOverview extends BaseActivity {
                         break;
                     case 1:
                         Reddit.defaultSorting = Sorting.NEW;
-
-
                         reloadSubs();
                         break;
                     case 2:
@@ -117,56 +115,42 @@ public class MultiredditOverview extends BaseActivity {
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.HOUR;
 
-
                         reloadSubs();
                         break;
                     case 4:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.DAY;
 
-
                         reloadSubs();
                         break;
                     case 5:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.WEEK;
-                        //TODO WEEK
-
-
                         reloadSubs();
                         break;
                     case 6:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.MONTH;
-
                         reloadSubs();
                         break;
                     case 7:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.YEAR;
-
-
                         reloadSubs();
                         break;
                     case 8:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.ALL;
-
-
                         reloadSubs();
                         break;
                     case 9:
                         Reddit.defaultSorting = Sorting.CONTROVERSIAL;
                         Reddit.timePeriod = TimePeriod.HOUR;
-
-
                         reloadSubs();
                         break;
                     case 10:
                         Reddit.defaultSorting = Sorting.CONTROVERSIAL;
                         Reddit.timePeriod = TimePeriod.DAY;
-
-
                         reloadSubs();
                         break;
                 }
@@ -202,7 +186,7 @@ public class MultiredditOverview extends BaseActivity {
                         getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
                         getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
                         getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
-                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
+                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day)
                 }, i, l2);
         builder.show();
 

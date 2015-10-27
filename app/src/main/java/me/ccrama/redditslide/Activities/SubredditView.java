@@ -555,8 +555,7 @@ public class SubredditView extends BaseActivity {
                         reloadSubs();
                         break;
                 }
-                SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
-                SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
+
                 SettingValues.defaultSorting = Reddit.defaultSorting;
                 SettingValues.timePeriod = Reddit.timePeriod;
             }
