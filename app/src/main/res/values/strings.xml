@@ -24,7 +24,9 @@
     <string name="submission_link_share">Share url</string>
     <string name="submission_hide">Hide post</string>
     <string name="submission_report">Report post</string>
-    <string name="submission_load_comments">Load more children</string>
+    <string name="submission_gild">Gild post</string>
+    <string name="submission_save">Save post</string>
+    <string name="submission_share">Share post</string>
     <plurals name="submission_points">
         <item quantity="one">one point</item>
         <item quantity="other">%d points</item>
@@ -39,12 +41,9 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_black">AMOLED Black</string>
-    <string name="theme_default_color">Default color</string>
-    <string name="theme_default_description">This value applies everywhere you have not set a specific color for.</string>
+    <string name="theme_default_color">Main color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
-    <string name="theme_edit_global">Edit global theme settings</string>
-    <string name="theme_edit_card">Edit CardView</string>
     <string name="theme_background">Card Background</string>
     <string name="theme_base">Base theme</string>
     <string name="theme_card">Card</string>
@@ -55,8 +54,7 @@
 
 
     <!-- For editing the submission card layout -->
-    <string name="card_actionbar">Show actionbar</string>
-    <string name="card_preview">Large image preview</string>
+    <string name="card_actionbar">Action Bar visible</string>
     <string name="card_picture">Big picture</string>
     <string name="card_picture_cropped">Big picture cropped</string>
     <string name="card_infobar">Info bar</string>
@@ -76,7 +74,6 @@
     <string name="drawer_profile">Profile</string>
     <string name="drawer_multis">Multireddits</string>
     <string name="drawer_support">Support Slide</string>
-    <string name="drawer_grid">Grid layout</string>
     <string name="drawer_goto_profile">Go to profile</string>
     <string name="drawer_settings">Settings</string>
     <string name="drawer_reorder_pins">Reorder your pins</string>
@@ -110,17 +107,8 @@
     <string name="profile_message">Private message</string>
     <string name="profile_saved">Saved posts</string>
     <string name="profile_upvoted">Upvoted posts</string>
-    <string name="profile_color_chooser">Choose profile color</string>
     <string name="profile_err_title">User not found</string>
     <string name="profile_err_msg">Reddit user could not be retrieved.</string>
-
-
-    <!-- Post options (share save hide report gild)-->
-    <string name="post_gild">Gild post</string>
-    <string name="post_hide">Hide post</string>
-    <string name="post_report">Report post</string>
-    <string name="post_save">Save post</string>
-    <string name="post_share">Share post</string>
 
 
     <!-- Comment text options -->
@@ -145,7 +133,7 @@
     <string name="tutorial_free_title">Ad-Free and Open Sourced</string>
     <string name="tutorial_free_msg">Slide for Reddit is free from all in-app advertisements and its source code is publicly available on GitHub. This project runs off of your donations, and any contribution is greatly appreciated!</string>
     <string name="tutorial_dev_title">In Development</string>
-    <string name="tutorial_dev_msg">Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free to post to /r/Slide (from the sidebar) if you run into a problem! Thank you!</string>
+    <string name="tutorial_dev_msg">Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free to post to /r/Slideforreddit if you run into a problem! Thank you!</string>
 
 
     <!-- Sorting options -->
@@ -364,7 +352,6 @@
 
     <!-- Settings -->
     <string name="settings_accent_title">Edit accent color</string>
-    <string name="settings_action_bar">Action Bar Visible</string>
     <string name="settings_card_mode">Card Mode</string>
     <string name="settings_color_accent">Accent color</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/</string>
@@ -382,10 +369,8 @@
     <string name="settings_link_video">Internal video view</string>
     <string name="settings_mail_check">Check for new mail</string>
     <string name="settings_mail_info">The higher the frequency, the more potential battery Slide will use in the background!</string>
-    <string name="settings_main_color">Main color</string>
     <string name="settings_main_color_title">Edit main color</string>
     <string name="settings_notification">Check for new messages every</string>
-    <string name="settings_notification_title">Mail Notification Settings</string>
     <string name="settings_single_mode">Single Mode</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
 
@@ -393,17 +378,15 @@
     <!-- Settings titles -->
     <string name="settings_title_alternative_layout">Alternative Layout</string>
     <string name="settings_title_backup">Backup</string>
-    <string name="settings_title_default_layout">Default Layout</string>
     <string name="settings_title_default_theme">Default Theme</string>
     <string name="settings_title_general">General</string>
-    <string name="settings_title_notifications">Notifications</string>
+    <string name="settings_title_notifications">Mail Notification Settings</string>
     <string name="settings_title_pro">Pro</string>
     <string name="settings_title_sub_theme">Subreddit Theme Settings</string>
 
 
     <!-- Text in Donation-Activity -->
     <string name="donate_amount_title">This amount…</string>
-    <string name="donate_amount_chooser">Choose a donation amount</string>
     <string name="donate_info_student">I am a student developer, and am very grateful for your generous donations! They have helped make Slide a (free) reality :)</string>
     <string name="donate_btn">Donate</string>
     <string name="donate_amount_ads1">Saves</string>

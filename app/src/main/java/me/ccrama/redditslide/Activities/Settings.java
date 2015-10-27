@@ -81,7 +81,7 @@ public class Settings extends BaseActivityNoAnim  {
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             Settings.this.setTaskDescription(new ActivityManager.TaskDescription("Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
-        version.setText("Slide v" + BuildConfig.VERSION_CODE);
+        version.setText("Slide v" + BuildConfig.VERSION_NAME);
 
         findViewById(R.id.pro).setOnClickListener(new View.OnClickListener() {
             @Override

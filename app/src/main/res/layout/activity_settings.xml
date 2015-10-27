@@ -90,7 +90,7 @@
                 android:gravity="center_vertical"
                 android:textColor="?attr/font"
 
-                android:text="@string/settings_notification_title"
+                android:text="@string/settings_title_notifications"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>

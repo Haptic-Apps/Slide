@@ -174,7 +174,7 @@ Actionbar collapsible or always visible
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                 android:drawableTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="@string/settings_action_bar"
+                android:text="@string/card_actionbar"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
         </LinearLayout>
