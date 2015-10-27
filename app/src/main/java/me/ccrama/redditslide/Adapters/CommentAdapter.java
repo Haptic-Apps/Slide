@@ -220,7 +220,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public CommentViewHolder currentlySelected;
     public String currentSelectedItem = "";
 
-    public void doHighlighted(CommentViewHolder holder, Comment n) {
+    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected);
         }
@@ -228,22 +228,179 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.dots.setVisibility(View.GONE);
         int color = Pallete.getColor(n.getSubredditName());
         currentSelectedItem = n.getFullName();
-        holder.menu.setBackgroundColor(color);
-        holder.replyArea.setBackgroundColor(color);
 
-        holder.menu.setVisibility(View.VISIBLE);
-        holder.replyArea.setVisibility(View.GONE);
+        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+        final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
+
+                View reply = baseView.findViewById(R.id.reply);
+        View send = baseView.findViewById(R.id.send);
+
+       final View menu = baseView.findViewById(R.id.menu);
+        final View replyArea = baseView.findViewById(R.id.replyArea);
+
+        final View more = baseView.findViewById(R.id.more);
+        final View upvote = baseView.findViewById(R.id.upvote);
+        final View downvote = baseView.findViewById(R.id.downvote);
+        View discard = baseView.findViewById(R.id.discard);
+        final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
+        if (Authentication.isLoggedIn) {
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replyArea.setVisibility(View.VISIBLE);
+                    menu.setVisibility(View.GONE);
+                    DoEditorActions.doActions(replyLine, replyArea, fm);
+
+                }
+            });
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    replyArea.setVisibility(View.GONE);
+                    menu.setVisibility(View.VISIBLE);
+                    dataSet.refreshLayout.setRefreshing(true);
+                    new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
+
+
+                }
+            });
+            discard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menu.setVisibility(View.VISIBLE);
+
+                    replyArea.setVisibility(View.GONE);
+                }
+            });
+
+        } else {
+
+            if (reply.getVisibility() == View.VISIBLE)
+
+                reply.setVisibility(View.GONE);
+            if (upvote.getVisibility() == View.VISIBLE)
+
+                upvote.setVisibility(View.GONE);
+            if (downvote.getVisibility() == View.VISIBLE)
+
+                downvote.setVisibility(View.GONE);
+
+        }
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.commentmenu, null);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                title.setText(n.getBody());
+
+                ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + n.getAuthor());
+                dialoglayout.findViewById(R.id.userpopup).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra("profile", n.getAuthor());
+                        mContext.startActivity(i);
+                    }
+                });
+
+
+                dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String urlString = submission.getUrl() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
+                        try {
+                            mContext.startActivity(intent);
+                        } catch (ActivityNotFoundException ex) {
+                            intent.setPackage(null);
+                            mContext.startActivity(intent);
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String urlString = "http://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+
+                        Reddit.defaultShareText(urlString, mContext);
+                    }
+                });
+                if (!Authentication.isLoggedIn) {
+
+                    dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
+
+                }
+                title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+
+                builder.setView(dialoglayout);
+                builder.show();
+            }
+        });
+        upvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (up.contains(n.getFullName())) {
+                    new Vote(v, mContext).execute(n);
+                    up.remove(n.getFullName());
+                    holder.score.setTextColor(holder.textColorRegular);
+
+                } else if (down.contains(n.getFullName())) {
+                    new Vote(true, v, mContext).execute(n);
+                    up.add(n.getFullName());
+
+                    down.remove(n.getFullName());
+                    holder.score.setTextColor(holder.textColorUp);
+                } else {
+                    new Vote(true, v, mContext).execute(n);
+
+                    up.add(n.getFullName());
+                    holder.score.setTextColor(holder.textColorUp);
+                }
+            }
+        });
+        downvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (down.contains(n.getFullName())) {
+                    new Vote(v, mContext).execute(n);
+                    down.remove(n.getFullName());
+                    holder.score.setTextColor(holder.textColorRegular);
+
+                } else if (up.contains(n.getFullName())) {
+                    new Vote(false, v, mContext).execute(n);
+                    down.add(n.getFullName());
+                    up.remove(n.getFullName());
+                    holder.score.setTextColor(holder.textColorDown);
+
+                } else {
+                    new Vote(false, v, mContext).execute(n);
+
+                    down.add(n.getFullName());
+                    holder.score.setTextColor(holder.textColorDown);
+                }
+            }
+        });
+        menu.setBackgroundColor(color);
+        replyArea.setBackgroundColor(color);
+
+        menu.setVisibility(View.VISIBLE);
+        replyArea.setVisibility(View.GONE);
         holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
     public void doUnHighlighted(CommentViewHolder holder) {
-        holder.menu.setVisibility(View.GONE);
-        holder.replyArea.setVisibility(View.GONE);
+
         holder.dots.setVisibility(View.VISIBLE);
 
+        holder.menuArea.removeAllViews();
         TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit(submission.getSubredditName(), true).getBaseId(), new int[]{R.attr.card_background});
         int attributeResourceId = a.getResourceId(0, 0);
-        holder.replyArea.setVisibility(View.GONE);
 
         holder.itemView.findViewById(R.id.background).setBackgroundColor(attributeResourceId);
     }
@@ -251,8 +408,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doUnHighlighted(CommentViewHolder holder, Comment comment) {
         currentlySelected = null;
         currentSelectedItem = "";
-        holder.menu.setVisibility(View.GONE);
-        holder.replyArea.setVisibility(View.GONE);
+       holder.menuArea.removeAllViews();
         holder.dots.setVisibility(View.VISIBLE);
 
         TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit(submission.getSubredditName(), true).getBaseId(), new int[]{R.attr.card_background});
@@ -298,11 +454,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doLongClick(CommentViewHolder holder, Comment comment) {
+    public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
         if (currentSelectedItem.contains(comment.getFullName())) {
             doUnHighlighted(holder, comment);
         } else {
-            doHighlighted(holder, comment);
+            doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
         }
     }
 
@@ -326,18 +482,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int nextPos = pos - 1;
 
             nextPos = getRealPosition(nextPos);
+            final int finalPos = nextPos;
+            final int finalPos1 = pos;
 
             final CommentNode baseNode = users.get(nextPos);
             final Comment comment = baseNode.getComment();
 
             if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
-                doHighlighted(holder, comment);
+                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
             } else {
                 doUnHighlighted(holder);
             }
-            final int finalPos = nextPos;
-            final int finalPos1 = pos;
-
+            
             if (comment.getVote() == VoteDirection.UPVOTE) {
                 if (!up.contains(comment.getFullName())) {
                     up.add(comment.getFullName());
@@ -357,68 +513,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.score.setTextColor(holder.textColorRegular);
             }
 
-            holder.upvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (up.contains(comment.getFullName())) {
-                        new Vote(v, mContext).execute(comment);
-                        up.remove(comment.getFullName());
-                        holder.score.setTextColor(holder.textColorRegular);
-
-                    } else if (down.contains(comment.getFullName())) {
-                        new Vote(true, v, mContext).execute(comment);
-                        up.add(comment.getFullName());
-
-                        down.remove(comment.getFullName());
-                        holder.score.setTextColor(holder.textColorUp);
-                    } else {
-                        new Vote(true, v, mContext).execute(comment);
-
-                        up.add(comment.getFullName());
-                        holder.score.setTextColor(holder.textColorUp);
-                    }
-                }
-            });
-            holder.downvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (down.contains(comment.getFullName())) {
-                        new Vote(v, mContext).execute(comment);
-                        down.remove(comment.getFullName());
-                        holder.score.setTextColor(holder.textColorRegular);
-
-                    } else if (up.contains(comment.getFullName())) {
-                        new Vote(false, v, mContext).execute(comment);
-                        down.add(comment.getFullName());
-                        up.remove(comment.getFullName());
-                        holder.score.setTextColor(holder.textColorDown);
-
-                    } else {
-                        new Vote(false, v, mContext).execute(comment);
-
-                        down.add(comment.getFullName());
-                        holder.score.setTextColor(holder.textColorDown);
-                    }
-                }
-            });
-
-          /*  if(baseNode.hasMoreComments() && !hasLoaded.contains(baseNode.getComment().getFullName())){
-                holder.loadMore.setVisibility(View.VISIBLE);
-                holder.loadMoreText.setText("Load " + baseNode.getMoreChildren().getCount() + " more replies");
-                holder.loadMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        hasLoaded.add(comment.getFullName());
-                        holder.loadMore.setVisibility(View.GONE);
-                        new AsyncLoadMore(finalPos + 1, finalPos1 ).execute(baseNode);
-
-                    }
-                });
-            } else {
-                holder.loadMore.setVisibility(View.GONE);
-
-            }*/
-
+            
             if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
                 holder.you.setVisibility(View.VISIBLE);
             } else {
@@ -436,105 +531,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
 
-            if (Authentication.isLoggedIn) {
-                holder.reply.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.replyArea.setVisibility(View.VISIBLE);
-                        holder.menu.setVisibility(View.GONE);
-                        DoEditorActions.doActions(holder.replyLine, holder.replyArea, fm);
 
-                    }
-                });
-                holder.send.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.replyArea.setVisibility(View.GONE);
-                        holder.menu.setVisibility(View.VISIBLE);
-                        dataSet.refreshLayout.setRefreshing(true);
-                        new ReplyTaskComment(comment, finalPos, finalPos1, baseNode).execute(holder.replyLine.getText().toString());
-
-
-                    }
-                });
-                holder.discard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        holder.menu.setVisibility(View.VISIBLE);
-
-                        holder.replyArea.setVisibility(View.GONE);
-                    }
-                });
-
-            } else {
-
-                if (holder.reply.getVisibility() == View.VISIBLE)
-
-                    holder.reply.setVisibility(View.GONE);
-                if (holder.upvote.getVisibility() == View.VISIBLE)
-
-                    holder.upvote.setVisibility(View.GONE);
-                if (holder.downvote.getVisibility() == View.VISIBLE)
-
-                    holder.downvote.setVisibility(View.GONE);
-
-            }
-
-            holder.more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.commentmenu, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                    title.setText(comment.getBody());
-
-                    ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + comment.getAuthor());
-                    dialoglayout.findViewById(R.id.userpopup).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra("profile", comment.getAuthor());
-                            mContext.startActivity(i);
-                        }
-                    });
-
-
-                    dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
-
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                            try {
-                                mContext.startActivity(intent);
-                            } catch (ActivityNotFoundException ex) {
-                                intent.setPackage(null);
-                                mContext.startActivity(intent);
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String urlString = "http://reddit.com" + submission.getPermalink() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
-
-                            Reddit.defaultShareText(urlString, mContext);
-                        }
-                    });
-                    if (!Authentication.isLoggedIn) {
-
-                        dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
-
-                    }
-                    title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
-
-                    builder.setView(dialoglayout);
-                    builder.show();
-                }
-            });
 
             holder.author.setText(comment.getAuthor());
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
@@ -553,7 +550,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (Reddit.swap) {
                         doOnClick(holder, comment, baseNode);
                     } else {
-                        doLongClick(holder, comment);
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     }
                     return true;
                 }
@@ -567,7 +564,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         doOnClick(holder, comment, baseNode);
 
                     } else {
-                        doLongClick(holder, comment);
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     }
                     return true;
                 }
@@ -628,7 +625,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     if (Reddit.swap) {
-                        doLongClick(holder, comment);
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else {
                         doOnClick(holder, comment, baseNode);
                     }
@@ -638,7 +635,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     if (Reddit.swap) {
-                        doLongClick(holder, comment);
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else {
                         doOnClick(holder, comment, baseNode);
                     }
@@ -791,7 +788,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doOnClick(CommentViewHolder holder, CommentNode baseNode, Comment comment) {
         if (isClicking) {
             isClicking = false;
-            isHolder.menu.setVisibility(View.VISIBLE);
+            holder.menuArea.removeAllViews();
             isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
 
         } else {

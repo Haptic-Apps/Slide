@@ -132,23 +132,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         final Comment comment = baseNode.getComment();
 
 
-        if (Authentication.isLoggedIn) {
-            holder.reply.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.replyArea.setVisibility(View.VISIBLE);
-                    holder.menu.setVisibility(View.GONE);
-                }
-            });
-
-
-        } else {
-            holder.reply.setVisibility(View.GONE);
-            holder.upvote.setVisibility(View.GONE);
-            holder.downvote.setVisibility(View.GONE);
-
-        }
-
 
         firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +201,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         }
 
 
-        holder.score.setText(comment.getScore() + "");
         if (baseNode.isTopLevel()) {
             holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
         } else {
@@ -234,9 +216,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         } else {
             holder.gild.setVisibility(View.GONE);
         }
-        holder.menu.setVisibility(View.GONE);
         holder.children.setVisibility(View.GONE);
-        holder.replyArea.setVisibility(View.GONE);
 
         holder.author.setOnClickListener(new View.OnClickListener() {
             @Override

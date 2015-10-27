@@ -26,7 +26,6 @@ public class GitReporter extends GittyReporter {
         enableUserGitHubLogin();
 
 
-
         // Include other relevant info in your bug report (like custom variables)
         setExtraInfo(getIntent().getExtras().getString("stacktrace"));
 

@@ -202,7 +202,7 @@ public class CreateCardView {
             }
 
             if(SettingValues.infoBar == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
-                ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(300);
+                ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
@@ -213,7 +213,7 @@ public class CreateCardView {
             }
             
             if(getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
-                ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(300);
+                ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }

@@ -107,21 +107,27 @@ public class CreateMulti extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (title.getText().toString().isEmpty()) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("Title can't be empty").setMessage("Please enter a title for your multireddit").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            title.requestFocus();
+                    new AlertDialogWrapper.Builder(CreateMulti.this)
+                            .setTitle(R.string.multireddit_title_empty)
+                            .setMessage(R.string.multireddit_title_empty_msg)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    title.requestFocus();
 
-                        }
-                    }).show();
+                                }
+                            }).show();
                 } else if (subs.size() == 0) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("No subs are added").setMessage("Please add some subs by clicking on the + button!").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                    new AlertDialogWrapper.Builder(CreateMulti.this)
+                            .setTitle(R.string.multireddit_no_subs)
+                            .setMessage(R.string.multireddit_no_subs_msg)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                 } else {
                     new SaveMulti().execute();
                 }
@@ -161,12 +167,15 @@ public class CreateMulti extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("Uh oh, an error occured!").setMessage("Error: " + e.getExplanation() + "\nWould you like to try again?").setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        new AlertDialogWrapper.Builder(CreateMulti.this)
+                                .setTitle(R.string.err_title)
+                                .setMessage(R.string.misc_err + ": " + e.getExplanation() + "\n" + R.string.misc_retry)
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -211,7 +220,7 @@ public class CreateMulti extends BaseActivity {
                         }
                         Log.v("Slide", "Done with " + all[which]);
                     }
-                }).setTitle("Select subreddits to add").setPositiveButton("ADD", new DialogInterface.OnClickListener() {
+                }).setTitle(R.string.multireddit_selector).setPositiveButton(R.string.btn_add, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 subs = toCheck;

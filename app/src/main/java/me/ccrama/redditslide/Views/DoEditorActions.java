@@ -251,7 +251,7 @@ public class DoEditorActions {
                 }).show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_err_title).setMessage(R.string.editor_err_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title).setMessage(R.string.editor_err_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

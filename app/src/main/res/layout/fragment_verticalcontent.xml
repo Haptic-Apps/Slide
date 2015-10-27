@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="?attr/activity_background"
     android:layout_height="match_parent">
 
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
@@ -17,9 +16,7 @@
         android:id="@+id/vertical_content"
         android:layout_height="match_parent"
 
-        android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
-        android:listSelector="@android:color/transparent"
        >
         </android.support.v7.widget.RecyclerView>
 </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>

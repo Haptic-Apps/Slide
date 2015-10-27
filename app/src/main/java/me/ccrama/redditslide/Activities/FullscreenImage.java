@@ -206,16 +206,16 @@ public class FullscreenImage extends BaseActivity {
             return outputFile.getAbsolutePath();
         } catch (Exception e1) {
 
-            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle("Uh oh, something went wrong!")
-                    .setMessage("Would you like to try again?")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle(R.string.err_title)
+                    .setMessage(R.string.misc_retry)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             toReturn = saveImageGallery(_bitmap);
                             dialog.dismiss();
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             toReturn =  null;
@@ -241,15 +241,15 @@ public class FullscreenImage extends BaseActivity {
             return outputFile.getAbsolutePath();
 
         } catch (Exception e) {
-            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle("Uh oh, something went wrong!")
-                    .setMessage("Would you like to try again?")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle(R.string.err_title)
+                    .setMessage(R.string.misc_retry)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             toReturn = saveImageLocally(_bitmap);
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             toReturn =  null;

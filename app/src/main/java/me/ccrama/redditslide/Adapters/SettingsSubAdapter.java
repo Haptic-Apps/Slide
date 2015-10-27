@@ -19,7 +19,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -34,12 +33,12 @@ import uz.shift.colorpicker.OnColorChangedListener;
  * Created by ccrama on 8/17/2015.
  */
 public class SettingsSubAdapter extends ArrayAdapter<String> {
-    private final List<String> objects;
+    private final ArrayList<String> objects;
 
 
     public SettingsSubAdapter(Context context, ArrayList<String> objects) {
         super(context, 0, objects);
-        this.objects = new ArrayList<>(objects);
+        this.objects = objects;
     }
 
     @Override
@@ -171,7 +170,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                             @Override
                             public void onClick(View v) {
                                 Pallete.removeColor(subreddit);
-                              
+
                                 notifyDataSetChanged();
 
                                 int cx = center.getWidth() / 2;
