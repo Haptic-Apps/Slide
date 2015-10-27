@@ -40,7 +40,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:text="View their message"
+            android:text="@string/mail_theirs"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textAllCaps="true"

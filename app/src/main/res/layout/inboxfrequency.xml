@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="@string/settings_notification_title"
+                android:text="@string/settings_title_notifications"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

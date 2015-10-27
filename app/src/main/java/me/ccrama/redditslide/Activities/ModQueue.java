@@ -23,6 +23,7 @@ import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -33,22 +34,6 @@ public class ModQueue extends BaseActivity {
 
     private TabLayout tabs;
     private ViewPager pager;
-
-    public static String getTime(int mins) {
-        int hours = mins / 60;
-        int minutes = mins - (hours * 60);
-        String hour = "";
-        String minute = "";
-        if (hours > 0)
-            if (hours > 1) {
-                hour = hours + " hours ";
-            } else {
-                hour = hours + " hour ";
-            }
-        if(minutes > 0)
-        minute = minutes + " minutes";
-         return "\n" + hour + minute;
-    }
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -65,7 +50,7 @@ public class ModQueue extends BaseActivity {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Inbox");
+        getSupportActionBar().setTitle(R.string.title_inbox);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pager = (ViewPager) findViewById(R.id.contentView);
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
@@ -91,13 +76,15 @@ public class ModQueue extends BaseActivity {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText("Check for new messages every " + getTime(Reddit.notificationTime));
+                    checkBox.setText(getString(R.string.settings_notification) + " " +
+                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getApplicationContext())); //fixme context
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText("Check for new messages every " + getTime(i1 * 15));
+                        checkBox.setText(getString(R.string.settings_notification) + " " +
+                                TimeUtils.getTimeInHoursAndMins(i1 * 15, getApplicationContext())); //fixme context
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

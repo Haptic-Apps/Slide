@@ -101,7 +101,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                 if (prefsdir.exists() && prefsdir.isDirectory()) {
 
                     String[] list = prefsdir.list();
-                    progress = new MaterialDialog.Builder(SettingsBackup.this).title("Backing up your Settings").progress(false, list.length).build();
+                    progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
                     progress.show();
                     for (final String s : list) {
                         if(!s.contains("com.google")) {
@@ -166,12 +166,14 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                         } else {
                             progress.setProgress(progress.getCurrentProgress() + 1);
                             if(progress.getCurrentProgress() == progress.getMaxProgress()){
-                                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle("Backup successful!").setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).show();
+                                new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                        .setTitle(R.string.backup_success)
+                                        .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        }).show();
                             }
                         }
                     }
@@ -183,19 +185,23 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
         findViewById(R.id.restore).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress = new MaterialDialog.Builder(SettingsBackup.this).title("Restoring your Settings").progress(true, 1).build();
+                progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
                 progress.show();
                 appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
             }
         });
         } else {
             new AlertDialogWrapper.Builder(SettingsBackup.this)
-                    .setTitle("Slide for Reddit Pro")
-                    .setMessage("I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\n" +
-                            "This is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\n" +
-                            "Included in this is MultiColumn mode, Shadowbox mode (for image subreddits), App Settings Backup, and much more coming soon!\n\n" +
-                            "Would you like to unlock Slide for Reddit Pro?")
-                    .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.general_pro)
+                    .setMessage(R.string.general_pro_msg)
+                    //avoid that the dialog can be closed
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            finish();
+                        }
+                    })
+                    .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             try {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
@@ -203,16 +209,14 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                             }
                         }
-                    }).setNegativeButton("No thank you", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     finish();
-
                 }
-            }).show();        }
-
-
-
+            }).show();
+        }
     }
+
     DriveFolder appFolder;
     String title;
 
@@ -229,12 +233,14 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                     }
 
                     if(progress.getCurrentProgress() == progress.getMaxProgress()){
-                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle("Backup successful!").setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        }).show();
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle(R.string.backup_success)
+                                .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).show();
                     }
                 }
             };
@@ -311,12 +317,14 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
             super.onPostExecute(result);
             if(progress.getCurrentProgress() == progress.getMaxProgress()){
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle("Setting Restore Successful!").setMessage("App will now restart.").setOnDismissListener(new DialogInterface.OnDismissListener() {
+                new AlertDialogWrapper.Builder(SettingsBackup.this)
+                        .setTitle(R.string.backup_restore_settings)
+                        .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         Reddit.forceRestart(SettingsBackup.this);
                     }
-                }).setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Reddit.forceRestart(SettingsBackup.this);

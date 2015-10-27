@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
@@ -69,6 +71,7 @@ public class Settings extends BaseActivityNoAnim  {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
         setContentView(R.layout.activity_settings);
         Toolbar b = (Toolbar) findViewById(R.id.toolbar);
+        TextView version = (TextView) findViewById(R.id.settings_version);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
         getSupportActionBar().setTitle(R.string.title_settings);
@@ -77,10 +80,8 @@ public class Settings extends BaseActivityNoAnim  {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             Settings.this.setTaskDescription(new ActivityManager.TaskDescription("Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-
-
         }
-
+        version.setText("Slide v" + BuildConfig.VERSION_NAME);
 
         findViewById(R.id.pro).setOnClickListener(new View.OnClickListener() {
             @Override
