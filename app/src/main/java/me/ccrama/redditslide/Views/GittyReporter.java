@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 //Code from https://github.com/PaoloRotolo/GittyReporter. Used to override the view used by GittyReporter to change the background to black!
@@ -487,6 +488,7 @@ public abstract class GittyReporter extends AppCompatActivity {
             s += "\n CPU_ABI2: "        + android.os.Build.CPU_ABI2;
             s += "\n HARDWARE: "        + android.os.Build.HARDWARE;
             s += "\n MANUFACTURER: "    + android.os.Build.MANUFACTURER;
+            s += "\n SLIDE VERSION: "   + BuildConfig.VERSION_CODE;
 
             deviceInfo = s;
         } catch (Exception e) {

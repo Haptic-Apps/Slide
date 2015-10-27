@@ -237,7 +237,7 @@
 
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="Default Sorting"
+                android:text="@string/settings_title_sorting"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
