@@ -20,6 +20,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.TimePeriod;
+
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -94,8 +97,97 @@ public class Settings extends BaseActivityNoAnim  {
                 }
             }
         });
-        SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
-        SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
+        findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                Reddit.defaultSorting = Sorting.HOT;
+                                break;
+                            case 1:
+                                Reddit.defaultSorting = Sorting.NEW;
+                                break;
+                            case 2:
+                                Reddit.defaultSorting = Sorting.RISING;
+                                break;
+                            case 3:
+                                Reddit.defaultSorting = Sorting.TOP;
+                                Reddit.timePeriod = TimePeriod.HOUR;
+                                break;
+                            case 4:
+                                Reddit.defaultSorting = Sorting.TOP;
+                                Reddit.timePeriod = TimePeriod.DAY;
+                                break;
+                            case 5:
+                                Reddit.defaultSorting = Sorting.TOP;
+                                Reddit.timePeriod = TimePeriod.WEEK;
+                                break;
+                            case 6:
+                                Reddit.defaultSorting = Sorting.TOP;
+                                Reddit.timePeriod = TimePeriod.MONTH;
+                                break;
+                            case 7:
+                                Reddit.defaultSorting = Sorting.TOP;
+                                Reddit.timePeriod = TimePeriod.YEAR;
+                                break;
+                            case 8:
+                                Reddit.defaultSorting = Sorting.TOP;
+                                Reddit.timePeriod = TimePeriod.ALL;
+                                break;
+                            case 9:
+                                Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                Reddit.timePeriod = TimePeriod.HOUR;
+                                break;
+                            case 10:
+                                Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                Reddit.timePeriod = TimePeriod.DAY;
+                                break;
+                        }
+                        SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
+                        SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
+                        SettingValues.defaultSorting = Reddit.defaultSorting;
+                        SettingValues.timePeriod = Reddit.timePeriod;
+                    }
+                };
+                int i = Reddit.defaultSorting == Sorting.HOT ? 0
+                        : Reddit.defaultSorting == Sorting.NEW ? 1
+                        : Reddit.defaultSorting == Sorting.RISING ? 2
+                        : Reddit.defaultSorting == Sorting.TOP ?
+                        (Reddit.timePeriod == TimePeriod.HOUR ? 3
+                                : Reddit.timePeriod == TimePeriod.DAY ? 4
+                                : Reddit.timePeriod == TimePeriod.WEEK ? 5
+                                : Reddit.timePeriod == TimePeriod.MONTH ? 6
+                                : Reddit.timePeriod == TimePeriod.YEAR ? 7
+                                : 8)
+                        : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
+                        (Reddit.timePeriod == TimePeriod.HOUR ? 9
+                                : 10)
+                        : 0;
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
+                builder.setTitle(R.string.sorting_choose);
+                builder.setSingleChoiceItems(
+                        new String[]{
+                                getString(R.string.sorting_hot),
+                                getString(R.string.sorting_new),
+                                getString(R.string.sorting_rising),
+                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
+                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
+                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
+                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
+                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
+                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
+                                getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
+                                getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
+                        }, i, l2);
+                builder.show();
+            }
+        });
+
         findViewById(R.id.general).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

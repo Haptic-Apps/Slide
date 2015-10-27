@@ -16,7 +16,6 @@ public class GitReporter extends GittyReporter {
 
         // Set Auth token to open issues if user doesn't have a GitHub account
         // For example, you can register a bot account on GitHub that will open bugs for you.
-        setGuestOAuth2Token(null);
 
 
         // OPTIONAL METHODS

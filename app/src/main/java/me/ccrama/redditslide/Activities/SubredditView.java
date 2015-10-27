@@ -578,7 +578,7 @@ public class SubredditView extends BaseActivity {
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
                 new String[]{
-                        getString(R.string.sorting_top),
+                        getString(R.string.sorting_hot),
                         getString(R.string.sorting_new),
                         getString(R.string.sorting_rising),
                         getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
