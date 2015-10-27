@@ -207,7 +207,7 @@
     <!-- Pin errors -->
     <string name="pins_err_title">No Pins (yet)!</string>
     <string name="pins_err_msg">You can pin your favorite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check \'PINNED\'!</string>
-
+    <string name="pin_select">Select subreddits to pin</string>
 
     <!-- Login strings -->
     <string name="login_restarting_title">App is restarting</string>
@@ -283,18 +283,23 @@
     <string name="title_inbox">Inbox</string>
 
 
-    <!-- Strings displayed at startup -->
-    <string name="startup_cats">Finding videos of cats</string>
+    <!-- Useful strings displayed at startup -->
     <string name="startup_banana">Giving Carter a banana</string>
+    <string name="startup_cats">Finding videos of cats</string>
+    <string name="startup_duARTe">Praising DuARTe</string>
+    <string name="startup_karma">Farming karma</string>
+    <string name="startup_pitchforks">Preparing pitchforks</string>
+    <string name="startup_upvotes">Soliciting upvotes</string>
     <string name="startup_vine">Did it for the vine</string>
 
 
     <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
     <string name="misc_err">Error</string>
+    <string name="misc_none">None</string>
+    <string name="misc_please_wait">Please wait</string>
+    <string name="misc_retry">Would you like to try again?</string>
     <string name="misc_score_hidden">score hidden</string>
     <string name="misc_you">you</string>
-    <string name="misc_none">None</string>
-    <string name="misc_retry">Would you like to try again?</string>
 
 
     <!-- Goto User -->
@@ -305,18 +310,27 @@
 
 
     <!-- Buttons -->
-    <string name="btn_cancel">Cancel</string>
-    <string name="btn_reset">Reset</string>
-    <string name="btn_close">Close</string>
-    <string name="btn_sure">Sure!</string>
-    <string name="btn_no_danks">No thank you</string>
-    <string name="btn_yes">Yes</string>
-    <string name="btn_no">No</string>
-    <string name="btn_ok">OK</string>
-    <string name="btn_undo">Undo</string>
-    <string name="btn_reply">Reply</string>
-    <string name="btn_discard">Discard</string>
     <string name="btn_add">ADD</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_discard">Discard</string>
+    <string name="btn_no">No</string>
+    <string name="btn_no_danks">No thank you</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_reply">Reply</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_retry">Try again</string>
+    <string name="btn_save">SAVE</string>
+    <string name="btn_sure">Sure!</string>
+    <string name="btn_undo">Undo</string>
+    <string name="btn_yes">Yes</string>
+
+
+    <!-- Backup -->
+    <string name="backup_success">Backup successful!</string>
+    <string name="backup_restoring">Restoring your Settings</string>
+    <string name="backup_restore_settings">Setting Restore Successful!</string>
+    <string name="backup_restarting">App will now restart.</string>
 
 
     <!-- Vote -->
@@ -366,7 +380,7 @@
     <string name="settings_mail_info">The higher the frequency, the more potential battery Slide will use in the background!</string>
     <string name="settings_main_color">Main color</string>
     <string name="settings_main_color_title">Edit main color</string>
-    <string name="settings_notification">"Check for new messages every "</string>
+    <string name="settings_notification">Check for new messages every</string>
     <string name="settings_notification_title">Mail Notification Settings</string>
     <string name="settings_single_mode">Single Mode</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
@@ -403,23 +417,37 @@
     <string name="gitty_password_invalid">Please enter a valid password</string>
     <string name="gitty_title_invalid">Please enter a valid title</string>
     <string name="gitty_desc_invalid">Please describe your issue</string>
+    <string name="gitty_uploading">Uploading report on GitHub</string>
+    <string name="gitty_err_upload">Unable to send report</string>
+    <string name="gitty_err_upload_msg">Wrong username or password or invalid access token.</string>
+    <string name="gitty_err_msg">An unexpected error occurred. If the problem persists, contact the app developer.</string>
 
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
 
-    <plurals name="time_minutes">
+    <plurals name="time_minutes_ago">
         <item quantity="one">a minute ago</item>
         <item quantity="other">%d minutes ago</item>
     </plurals>
 
-    <plurals name="time_hours">
+    <plurals name="time_hours_ago">
         <item quantity="one">an hour ago</item>
         <item quantity="other">%d hours ago</item>
     </plurals>
 
-    <plurals name="time_days">
+    <plurals name="time_days_ago">
         <item quantity="one">yesterday</item>
         <item quantity="other">%d days ago</item>
+    </plurals>
+
+    <plurals name="time_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="time_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
     </plurals>
 </resources>

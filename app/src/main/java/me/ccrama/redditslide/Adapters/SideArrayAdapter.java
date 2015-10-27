@@ -103,7 +103,7 @@ final TextView t =
         ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
-        final String subreddit = SantitizeField.sanitizeString(fitems.get(position).replace("Go to " ,""));
+        final String subreddit = SantitizeField.sanitizeString(fitems.get(position).replace("Go to " ,"")); //fixme string
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
        convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
         convertView.setOnClickListener(new View.OnClickListener() {
