@@ -7,7 +7,6 @@
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
     <string name="general_switch_acc">Switch Account</string>
     <string name="general_enable_shadowbox">Enable Shadowbox Mode</string>
-    <string name="general_pro">Slide for Reddit Pro</string>
     <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Open Subreddit Settings</string>
     <string name="general_updating_subs">Updating your subreddits</string>
@@ -318,6 +317,7 @@
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
     <string name="backup_restoring">Restoring your Settings</string>
+    <string name="backup_backing_up">Backing up your Settings</string>
     <string name="backup_restore_settings">Setting Restore Successful!</string>
     <string name="backup_restarting">App will now restart.</string>
     <string name="backup_info">Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server.</string>

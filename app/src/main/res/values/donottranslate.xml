@@ -12,6 +12,8 @@
     <string name="example_points_short">+204</string>
     <string name="example_comments">402 comments</string>
 
+
     <string name="submission_properties_seperator">"  •  "</string>
+    <string name="general_pro">Slide for Reddit Pro</string>
 
 </resources>

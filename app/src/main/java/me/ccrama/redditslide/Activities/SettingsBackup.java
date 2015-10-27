@@ -101,7 +101,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                 if (prefsdir.exists() && prefsdir.isDirectory()) {
 
                     String[] list = prefsdir.list();
-                    progress = new MaterialDialog.Builder(SettingsBackup.this).title("Backing up your Settings").progress(false, list.length).build();
+                    progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
                     progress.show();
                     for (final String s : list) {
                         if(!s.contains("com.google")) {
@@ -194,6 +194,13 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
             new AlertDialogWrapper.Builder(SettingsBackup.this)
                     .setTitle(R.string.general_pro)
                     .setMessage(R.string.general_pro_msg)
+                    //avoid that the dialog can be closed
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            finish();
+                        }
+                    })
                     .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             try {
@@ -205,13 +212,11 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                     }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     finish();
-
                 }
-            }).show();        }
-
-
-
+            }).show();
+        }
     }
+
     DriveFolder appFolder;
     String title;
 
