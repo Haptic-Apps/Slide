@@ -318,7 +318,7 @@ public class GifView extends BaseActivity {
                                             .setTitle(R.string.gif_err_title)
                                             .setMessage(R.string.gif_err_msg)
                                             .setCancelable(false)
-                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     finish();

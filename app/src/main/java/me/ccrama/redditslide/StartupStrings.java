@@ -11,10 +11,10 @@ class StartupStrings {
                 context.getString(R.string.startup_cats),
                 context.getString(R.string.startup_banana),
                 context.getString(R.string.startup_vine),
-                "Praising DuARTe",
-                "Farming karma",
-                "Preparing pitchforks",
-                "Soliciting upvotes"
+                context.getString(R.string.startup_duARTe), //Praise him!
+                context.getString(R.string.startup_karma),
+                context.getString(R.string.startup_pitchforks),
+                context.getString(R.string.startup_upvotes)
         };
     }
 }

@@ -30,15 +30,15 @@ public class TimeUtils {
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
             return res.getString(R.string.time_just_now);
-        } else if (diff < 50 * MINUTE_MILLIS) {
+        } else if (diff < 60 * MINUTE_MILLIS) {
             Integer value = longToInt(diff / MINUTE_MILLIS);
-            return res.getQuantityString(R.plurals.time_minutes, value, value);
+            return res.getQuantityString(R.plurals.time_minutes_ago, value, value);
         } else if (diff < 24 * HOUR_MILLIS) {
             Integer value = longToInt(diff / HOUR_MILLIS);
-            return res.getQuantityString(R.plurals.time_hours, value, value);
+            return res.getQuantityString(R.plurals.time_hours_ago, value, value);
         } else {
             Integer value = longToInt(diff / DAY_MILLIS);
-            return res.getQuantityString(R.plurals.time_days, value, value);
+            return res.getQuantityString(R.plurals.time_days_ago, value, value);
         }
 
     }
@@ -46,4 +46,18 @@ public class TimeUtils {
     private static Integer longToInt(Long temp) {
         return temp.intValue();
     }
+
+    public static String getTimeInHoursAndMins(int mins, Context c){
+        int hours = mins / 60;
+        int minutes = mins - (hours * 60);
+        Resources res = c.getResources();
+        String hour = "";
+        String minute = "";
+        if (hours > 0)
+            hour = res.getQuantityString(R.plurals.time_hours, hours, hours);
+        if(minutes > 0)
+            minute = res.getQuantityString(R.plurals.time_minutes, minutes, minutes);
+        return "\n" + hour + " " + minute;
+    }
+
 }

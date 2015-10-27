@@ -36,7 +36,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
-            android:text="SAVE"
+            android:text="@string/btn_save"
             android:textSize="14sp"
             android:textStyle="bold" />
 

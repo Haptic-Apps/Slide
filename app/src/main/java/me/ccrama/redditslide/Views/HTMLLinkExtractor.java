@@ -68,8 +68,7 @@ class HTMLLinkExtractor {
 
        @Override
         public String toString() {
-            return new StringBuffer("Link : ").append(this.link)
-                    .append(" Link Text : ").append(this.linkText).toString();
+            return "Link : " + this.link + " Link Text : " + this.linkText;
         }
 
         public String getLink() {

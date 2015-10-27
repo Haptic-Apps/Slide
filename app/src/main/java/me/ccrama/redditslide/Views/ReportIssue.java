@@ -35,8 +35,8 @@ class ReportIssue extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progress = ProgressDialog.show(mContext, "Please wait",
-                "Uploading report on GitHub", true);
+        progress = ProgressDialog.show(mContext, mContext.getString(R.string.misc_please_wait),
+                mContext.getString(R.string.gitty_uploading), true);
     }
 
     // This is run in a background thread
@@ -101,9 +101,9 @@ class ReportIssue extends AsyncTask<String, Integer, String> {
         } else if (result.equals("org.eclipse.egit.github.core.client.RequestException: Bad credentials (401)")){
             progress.dismiss();
             new AlertDialog.Builder(mContext)
-                    .setTitle("Unable to send report")
-                    .setMessage("Wrong username or password or invalid access token.")
-                    .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                    .setTitle(mContext.getString(R.string.gitty_err_upload))
+                    .setMessage(mContext.getString(R.string.gitty_err_upload_msg))
+                    .setPositiveButton(mContext.getString(R.string.btn_retry), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // do nothing
                         }
@@ -113,11 +113,11 @@ class ReportIssue extends AsyncTask<String, Integer, String> {
         } else {
             progress.dismiss();
             new AlertDialog.Builder(mContext)
-                    .setTitle("Unable to send report")
-                    .setMessage("An unexpected error occurred. If the problem persists, contact the app developer.")
+                    .setTitle(mContext.getString(R.string.gitty_err_upload))
+                    .setMessage(mContext.getString(R.string.gitty_err_msg))
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            ((Activity)mContext).finish();
+                            ((Activity) mContext).finish();
                         }
                     })
                     .setIcon(R.drawable.gittyreporter_ic_mood_bad_black_24dp)
