@@ -78,7 +78,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle("General Settings");
+        getSupportActionBar().setTitle(R.string.title_settings_general);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));

@@ -76,7 +76,7 @@ public class Submit extends AppCompatActivity {
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setTitle(R.string.title_submit_post);
-        b.setBackgroundColor(Pallete.getColor("alksfjalskjf")); //fixme?
+        b.setBackgroundColor(Pallete.getColor("alksfjalskjf"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);

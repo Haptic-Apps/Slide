@@ -29,6 +29,7 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -216,13 +217,15 @@ public class Settings extends BaseActivityNoAnim  {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText(getString(R.string.settings_notification) + " " + Inbox.getTime(Reddit.notificationTime, getBaseContext()));
+                    checkBox.setText(getString(R.string.settings_notification,
+                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText(getString(R.string.settings_notification) + " " + Inbox.getTime(i1 * 15, getBaseContext()));
+                        checkBox.setText(getString(R.string.settings_notification,
+                                TimeUtils.getTimeInHoursAndMins(i1 * 15, getBaseContext())));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
