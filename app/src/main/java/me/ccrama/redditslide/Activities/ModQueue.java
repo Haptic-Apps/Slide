@@ -76,15 +76,15 @@ public class ModQueue extends BaseActivity {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText(getString(R.string.settings_notification) + " " +
-                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getApplicationContext())); //fixme context
+                    checkBox.setText(getString(R.string.settings_notification,
+                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getApplicationContext())));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText(getString(R.string.settings_notification) + " " +
-                                TimeUtils.getTimeInHoursAndMins(i1 * 15, getApplicationContext())); //fixme context
+                        checkBox.setText(getString(R.string.settings_notification,
+                                TimeUtils.getTimeInHoursAndMins(i1 * 15, getApplicationContext())));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

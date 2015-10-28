@@ -70,7 +70,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     results.values = nlist;
                     results.count = nlist.size();
                 }
-                nlist.add("Go to " + prefix); //fixme string??
+                nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
 
             }
             return results;
@@ -95,24 +95,24 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     }
     private ArrayList<String> fitems;
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent){
-        if(convertView == null){
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
         }
-final TextView t =
-        ((TextView) convertView.findViewById(R.id.name));
+        final TextView t =
+                ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
-        final String subreddit = SantitizeField.sanitizeString(fitems.get(position).replace("Go to " ,"")); //fixme string
+        final String subreddit = SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-       convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (fitems.get(position).startsWith("Go to ")) {
                     Intent inte = new Intent(getContext(), SubredditView.class);
                     inte.putExtra("subreddit", subreddit);
-                    ((Activity)getContext()).startActivityForResult(inte,4);
+                    ((Activity) getContext()).startActivityForResult(inte, 4);
                 } else {
                     ((OverviewBase) getContext()).pager.setCurrentItem(((OverviewBase) getContext()).usedArray.indexOf(fitems.get(position)));
                     ((OverviewBase) getContext()).drawerLayout.closeDrawers();

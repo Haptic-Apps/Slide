@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -34,19 +34,6 @@ public class Inbox extends BaseActivity {
 
     private TabLayout tabs;
     private ViewPager pager;
-
-    public static String getTime(int mins, Context context) {
-        int hours = mins / 60;
-        int minutes = mins - (hours * 60);
-        String hour = "";
-        String minute = "";
-        if (hours > 0)
-            hour = context.getResources().getQuantityString(R.plurals.mail_hours, hours, hours);
-        if(minutes > 0)
-            minute = context.getResources().getQuantityString(R.plurals.mail_minutes, minutes, minutes);
-
-        return "\n" + hour + minute;
-    }
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -89,13 +76,15 @@ public class Inbox extends BaseActivity {
                 } else {
                     checkBox.setChecked(true);
                     landscape.setValue(Reddit.notificationTime / 15, false);
-                    checkBox.setText(getString(R.string.settings_notification) + " " + getTime(Reddit.notificationTime, getBaseContext()));
+                    checkBox.setText(getString(R.string.settings_notification,
+                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
 
                 }
                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                     @Override
                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                        checkBox.setText(getString(R.string.settings_notification) + " " + getTime(i1 * 15, getBaseContext()));
+                        checkBox.setText(getString(R.string.settings_notification,
+                                TimeUtils.getTimeInHoursAndMins(i1 * 15, getBaseContext())));
                     }
                 });
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
