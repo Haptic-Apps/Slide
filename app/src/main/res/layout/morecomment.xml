@@ -1,0 +1,58 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+
+    android:clipChildren="false"
+
+
+    android:orientation="horizontal"
+
+    android:background="?attr/card_background"
+    android:scrollbars="none">
+    <LinearLayout
+        android:id="@+id/dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+
+        android:layout_alignParentTop="true"
+
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/dot"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/dots"
+        android:background="#fff" />
+
+
+            <me.ccrama.redditslide.ActiveTextView
+                android:padding="12dp"
+
+                android:id="@+id/content"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/flow"
+
+                android:text="Load 3 more comments"
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_commentbody" />
+
+
+
+
+
+
+    </LinearLayout>
+

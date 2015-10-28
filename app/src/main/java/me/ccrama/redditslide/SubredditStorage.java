@@ -303,7 +303,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
         setSubreddits(finished);
 
-        
+
 
 
 

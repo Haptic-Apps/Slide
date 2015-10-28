@@ -11,6 +11,7 @@ import net.dean.jraw.models.CommentNode;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterSearch;
+import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
@@ -21,6 +22,8 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentSearch extends BaseActivity {
+
+    private ArrayList<CommentObject> commentsOld;
     private ArrayList<CommentNode> comments;
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -29,7 +32,7 @@ public class CommentSearch extends BaseActivity {
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
-        comments = DataShare.sharedComments;
+        commentsOld = DataShare.sharedComments;
         setContentView(R.layout.activity_filtercomments);
 
         final EditText search = (EditText) findViewById(R.id.search);
@@ -38,6 +41,11 @@ public class CommentSearch extends BaseActivity {
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
+        comments = new ArrayList<>();
+        for(CommentObject o : commentsOld){
+                comments.add(o.getCommentNode());
+
+        }
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv, DataShare.subAuthor);
         rv.setAdapter(adapter);
         search.addTextChangedListener(new TextWatcher() {

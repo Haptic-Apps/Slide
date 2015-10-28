@@ -19,12 +19,12 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
-import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
+import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
@@ -109,9 +109,9 @@ public class CommentPage extends Fragment {
                 adapter.reset(getContext(), comments, rv, comments.submission);
                 adapter.notifyDataSetChanged();
                 int i = 1;
-                for(CommentNode n : comments.comments){
+                for(CommentObject n : comments.comments){
 
-                    if(n.getComment().getFullName().contains(fullname)){
+                    if(n.getCommentNode().getComment().getFullName().contains(fullname)){
                         RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments)rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
@@ -277,9 +277,9 @@ public class CommentPage extends Fragment {
                 adapter = new CommentAdapter(getContext(), comments, rv, comments.submission,getFragmentManager());
                 adapter.currentSelectedItem = context;
                 int i = 1;
-                for(CommentNode n : comments.comments){
+                for(CommentObject n : comments.comments){
 
-                    if(n.getComment().getFullName().contains(context)){
+                    if(n.getCommentNode().getComment().getFullName().contains(context)){
                         RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments)rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);

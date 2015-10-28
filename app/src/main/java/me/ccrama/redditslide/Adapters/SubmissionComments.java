@@ -7,6 +7,7 @@ import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
+import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
  * Created by ccrama on 9/17/2015.
  */
 public class SubmissionComments {
-    public ArrayList<CommentNode> comments;
+    public ArrayList<CommentObject> comments;
     private CommentNode baseComment;
     public final SwipeRefreshLayout refreshLayout;
 
@@ -29,6 +30,7 @@ public class SubmissionComments {
     private final CommentPage page;
 
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
+
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -36,6 +38,7 @@ public class SubmissionComments {
         this.refreshLayout = layout;
         new LoadData(true).execute(fullName);
     }
+
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -43,11 +46,13 @@ public class SubmissionComments {
         this.refreshLayout = layout;
         new LoadData(true).execute(fullName);
     }
-    public void setSorting(CommentSort sort){
+
+    public void setSorting(CommentSort sort) {
         defaultSorting = sort;
         new LoadData(false).execute(fullName);
 
     }
+
     private CommentAdapter adapter;
 
 
@@ -68,18 +73,18 @@ public class SubmissionComments {
         public void onPostExecute(ArrayList<Submission> subs) {
 
 
-            if(adapter != null){
+            if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
-                    page.doData(reset);
+            page.doData(reset);
 
-                    refreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(false);
         }
 
         @Override
         protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
             SubmissionRequest.Builder builder;
-            if(context == null) {
+            if (context == null) {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
             } else {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(3);
@@ -87,16 +92,33 @@ public class SubmissionComments {
             try {
                 submission = Authentication.reddit.getSubmission(builder.build());
                 baseComment = submission.getComments();
-              //  baseComment.loadFully(Authentication.reddit, 6, 30);
+                //  baseComment.loadFully(Authentication.reddit, 6, 30);
                 comments = new ArrayList<>();
+
+                int i = 0;
+                int toPut = -1;
+                MoreChildren toDo = null;
+                CommentNode toDoComment = null;
                 for (CommentNode n : baseComment.walkTree()) {
 
-                    comments.add(n);
+                    CommentObject obj = new CommentObject(n);
+                    if (n.getDepth() <= toPut && toDo != null ) {
+                        obj.setMoreChildren(toDo, toDoComment);
+                        toPut = -1;
+                        toDo = null;
+                    }
+                    comments.add(obj);
 
 
+                    if (n.hasMoreComments()) {
+                        toPut = n.getDepth();
+                        toDo = n.getMoreChildren();
+                        toDoComment = n;
+                    }
+                    i++;
 
                 }
-            } catch (NetworkException e ){
+            } catch (NetworkException e) {
                 //Todo reauthenticate
             }
             return null;
