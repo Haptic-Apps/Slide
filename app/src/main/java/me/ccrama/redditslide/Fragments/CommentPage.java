@@ -41,60 +41,62 @@ public class CommentPage extends Fragment {
         comments.setSorting(Reddit.defaultCommentSorting);
     }
     private void openPopup(View view) {
+        if(comments.comments != null && !comments.comments.isEmpty()) {
 
-        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
-                    case 0:
-                        Reddit.defaultCommentSorting = CommentSort.CONFIDENCE;
-                        reloadSubs();
-                        break;
-                    case 1:
-                        Reddit.defaultCommentSorting = CommentSort.TOP;
-                        reloadSubs();
-                        break;
-                    case 2:
-                        Reddit.defaultCommentSorting = CommentSort.QA;
-                        reloadSubs();
-                        break;
-                    case 3:
-                        Reddit.defaultCommentSorting = CommentSort.NEW;
-                        reloadSubs();
-                        break;
-                    case 4:
-                        Reddit.defaultCommentSorting = CommentSort.CONTROVERSIAL;
-                        reloadSubs();
-                        break;
-                    case 5:
-                        Reddit.defaultCommentSorting = CommentSort.OLD;
-                        reloadSubs();
-                        break;
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (i) {
+                        case 0:
+                            Reddit.defaultCommentSorting = CommentSort.CONFIDENCE;
+                            reloadSubs();
+                            break;
+                        case 1:
+                            Reddit.defaultCommentSorting = CommentSort.TOP;
+                            reloadSubs();
+                            break;
+                        case 2:
+                            Reddit.defaultCommentSorting = CommentSort.QA;
+                            reloadSubs();
+                            break;
+                        case 3:
+                            Reddit.defaultCommentSorting = CommentSort.NEW;
+                            reloadSubs();
+                            break;
+                        case 4:
+                            Reddit.defaultCommentSorting = CommentSort.CONTROVERSIAL;
+                            reloadSubs();
+                            break;
+                        case 5:
+                            Reddit.defaultCommentSorting = CommentSort.OLD;
+                            reloadSubs();
+                            break;
+                    }
+                    SettingValues.prefs.edit().putString("defaultCommentSorting", Reddit.defaultCommentSorting.name()).apply();
+                    SettingValues.defaultCommentSorting = Reddit.defaultCommentSorting;
                 }
-                SettingValues.prefs.edit().putString("defaultCommentSorting", Reddit.defaultCommentSorting.name()).apply();
-                SettingValues.defaultCommentSorting = Reddit.defaultCommentSorting;
-            }
-        };
-        int i = Reddit.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
-                : Reddit.defaultCommentSorting == CommentSort.TOP ? 1
-                : Reddit.defaultCommentSorting == CommentSort.QA ? 2
-                : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
-                : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
-                : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
-                : 1;
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
-        builder.setTitle(R.string.sorting_choose);
-        Resources res = getActivity().getBaseContext().getResources();
-        builder.setSingleChoiceItems(
-                new String[]{res.getString(R.string.sorting_best),
-                        res.getString(R.string.sorting_top),
-                        res.getString(R.string.sorting_ama),
-                        res.getString(R.string.sorting_new),
-                        res.getString(R.string.sorting_controversial),
-                        res.getString(R.string.sorting_old)},
-                i, l2);
-        builder.show();
+            };
+            int i = Reddit.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
+                    : Reddit.defaultCommentSorting == CommentSort.TOP ? 1
+                    : Reddit.defaultCommentSorting == CommentSort.QA ? 2
+                    : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
+                    : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
+                    : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
+                    : 1;
+            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
+            builder.setTitle(R.string.sorting_choose);
+            Resources res = getActivity().getBaseContext().getResources();
+            builder.setSingleChoiceItems(
+                    new String[]{res.getString(R.string.sorting_best),
+                            res.getString(R.string.sorting_top),
+                            res.getString(R.string.sorting_ama),
+                            res.getString(R.string.sorting_new),
+                            res.getString(R.string.sorting_controversial),
+                            res.getString(R.string.sorting_old)},
+                    i, l2);
+            builder.show();
+        }
 
     }
 
