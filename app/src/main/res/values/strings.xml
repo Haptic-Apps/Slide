@@ -7,7 +7,7 @@
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
     <string name="general_switch_acc">Switch Account</string>
     <string name="general_enable_shadowbox">Enable Shadowbox Mode</string>
-    <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in leiu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
+    <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Open Subreddit Settings</string>
     <string name="general_updating_subs">Updating your subreddits</string>
 
@@ -20,7 +20,7 @@
     <string name="submission_stickied">pinned</string>
     <string name="submission_link_internal">Open internally</string>
     <string name="submission_link_extern">Open externally</string>
-    <string name="submission_link_share">Share url</string>
+    <string name="submission_link_share">Share URL</string>
     <string name="submission_hide">Hide post</string>
     <string name="submission_report">Report post</string>
     <string name="submission_gild">Gild post</string>
@@ -186,7 +186,7 @@
 
     <!-- Gif -->
     <string name="gif_err_title">GIF not found</string>
-    <string name="gif_err_msg">An error occurred when loading this gif. Please re-open the gif and retry.</string>
+    <string name="gif_err_msg">An error occurred when loading this GIF. Please re-open the GIF and retry.</string>
     <string name="gif_saved">GIF Saved</string>
 
 
@@ -243,8 +243,8 @@
     <string name="mail_theirs">View their message</string>
 
     <plurals name="mail_notification_title">
-        <item quantity="one">You have one new mail!</item>
-        <item quantity="other">You have %1$d new mails!</item>
+        <item quantity="one">You have one new message!</item>
+        <item quantity="other">You have %1$d new messages!</item>
     </plurals>
     <plurals name="mail_hours">
         <item quantity="one">One hour</item>
@@ -292,8 +292,8 @@
     <!-- Goto User -->
     <string name="user_enter">Enter Username</string>
     <string name="user_btn_goto">Go to user</string>
-    <string name="user_invalid">Invalid user name</string>
-    <string name="user_invalid_msg">Reddit user names can only contain letters, numbers, underscore and dash.</string>
+    <string name="user_invalid">Invalid username</string>
+    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscore and dash.</string>
 
 
     <!-- Buttons -->
@@ -364,7 +364,7 @@
     <string name="settings_layout_default">Default Layout</string>
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_browser">Internal web browser</string>
-    <string name="settings_link_gif">Internal gif view</string>
+    <string name="settings_link_gif">Internal GIF view</string>
     <string name="settings_link_handling">Link handling</string>
     <string name="settings_link_image">Internal image view</string>
     <string name="settings_link_video">Internal video view</string>
@@ -408,7 +408,7 @@
     <string name="gitty_password_invalid">Please enter a valid password</string>
     <string name="gitty_title_invalid">Please enter a valid title</string>
     <string name="gitty_desc_invalid">Please describe your issue</string>
-    <string name="gitty_uploading">Uploading report on GitHub</string>
+    <string name="gitty_uploading">Uploading report to GitHub</string>
     <string name="gitty_err_upload">Unable to send report</string>
     <string name="gitty_err_upload_msg">Wrong username or password or invalid access token.</string>
     <string name="gitty_err_msg">An unexpected error occurred. If the problem persists, contact the app developer.</string>
