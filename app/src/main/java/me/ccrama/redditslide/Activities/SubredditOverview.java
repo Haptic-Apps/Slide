@@ -329,11 +329,12 @@ public class SubredditOverview extends OverviewBase {
             public void onClick(View v) {
 
                 {
-                    String sub = usedArray.get(pager.getCurrentItem());
-                    if (!sub.equals("frontpage") && !sub.equals("all")) {
-                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                    if(usedArray != null) {
+                        String sub = usedArray.get(pager.getCurrentItem());
+                        if (!sub.equals("frontpage") && !sub.equals("all")) {
+                            ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                        }
                     }
-
                 }
             }
         });

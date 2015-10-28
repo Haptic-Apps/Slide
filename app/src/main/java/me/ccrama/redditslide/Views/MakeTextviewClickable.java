@@ -113,8 +113,12 @@ public class MakeTextviewClickable {
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>").replace("</del>", "</strike>").replace("<del>", "<strike>");
 
-            rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n"));
+            try {
+                rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n"));
 
+            } catch (Exception ignored){
+
+            }
             this.c = c;
 
 
