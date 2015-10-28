@@ -36,7 +36,7 @@ public class OpenRedditLink {
 
 
         }
-        if ((parts.length == 3 && !(url.contains("/u/") && url.contains("/user/"))) ) {
+        if ((parts.length == 3 && !url.contains("/u/") && ! url.contains("/user/")) ) {
             Intent intent = new Intent(c, SubredditView.class);
             intent.putExtra("subreddit", parts[2]);
             c.startActivity(intent);

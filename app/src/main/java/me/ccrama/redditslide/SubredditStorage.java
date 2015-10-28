@@ -61,6 +61,16 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
     public static ArrayList<MultiReddit> multireddits;
 
     @Override
+    public void onPostExecute(ArrayList<String> s){
+        if(Authentication.isLoggedIn){AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                doUpdateSubsSaveBackground();
+            }
+        });
+        }
+    }
+    @Override
     protected ArrayList<String> doInBackground(final Reddit... params) {
 
         if(Authentication.isLoggedIn){
@@ -93,7 +103,6 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                         newValues.add(s);
                     }
                 }
-                doUpdateSubsSaveBackground();
             } else {
                 for (String s : doUpdateSubsSave()) {
                     if (!test.contains(s)) {
@@ -168,16 +177,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
             Log.v("Slide", "SIZE IS " +  newValues.size());
 
-            if(params[0].loader != null) {
-                params[0].loader.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String[] strings = StartupStrings.startupStrings(mContext);
-                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);
 
-                    }
-                });
-            }
             test.addAll(sortNoValue(newValues));
             if(test.contains("")){
                 test.remove("");

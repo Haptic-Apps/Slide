@@ -15,6 +15,7 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -109,8 +110,12 @@ public class Authentication {
         @Override
         public void onPostExecute(Void voids){
             if(a.loader != null){
-                a.loader.loading.setText(R.string.general_updating_subs);
-            }
+
+                            String[] strings = StartupStrings.startupStrings(mContext);
+                          a.loader.loading.setText(strings[new Random().nextInt(strings.length)]);
+
+                        }
+
 
                 new SubredditStorage(mContext).execute(a);
 
