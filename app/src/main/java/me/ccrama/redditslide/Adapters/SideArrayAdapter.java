@@ -109,7 +109,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fitems.get(position).startsWith("Go to ")) {
+                if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ")) {
                     Intent inte = new Intent(getContext(), SubredditView.class);
                     inte.putExtra("subreddit", subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);

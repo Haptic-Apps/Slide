@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 
 import net.dean.jraw.ApiException;
@@ -19,11 +20,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
     private final VoteDirection direction;
 
     public Vote(Boolean b, View v, Context c) {
-        if (b) {
-            direction = VoteDirection.UPVOTE;
-        } else {
-            direction = VoteDirection.DOWNVOTE;
-        }
+        direction = b ? VoteDirection.UPVOTE : VoteDirection.DOWNVOTE;
         this.v = v;
         this.c = c;
 
@@ -49,7 +46,11 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
-                        Snackbar.make(v, R.string.vote_cast, Snackbar.LENGTH_SHORT).show();
+                        try {
+                            Snackbar.make(v, R.string.vote_cast, Snackbar.LENGTH_SHORT).show();
+                        } catch (NullPointerException e) {
+                            Log.w("Vote", "Cannot show 'vote cast!' snackbar" + e);
+                        }
                         c = null;
                         v = null;
                     }

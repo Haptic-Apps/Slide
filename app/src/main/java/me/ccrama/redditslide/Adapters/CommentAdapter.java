@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -22,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -250,8 +252,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final View replyArea = baseView.findViewById(R.id.replyArea);
 
         final View more = baseView.findViewById(R.id.more);
-        final View upvote = baseView.findViewById(R.id.upvote);
-        final View downvote = baseView.findViewById(R.id.downvote);
+        final ImageView upvote = (ImageView) baseView.findViewById(R.id.upvote);
+        final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
         if (Authentication.isLoggedIn) {
@@ -360,6 +362,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Vote(v, mContext).execute(n);
                     up.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorRegular);
+                    upvote.clearColorFilter();
 
                 } else if (down.contains(n.getFullName())) {
                     new Vote(true, v, mContext).execute(n);
@@ -367,11 +370,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     down.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorUp);
+                    upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
                 } else {
                     new Vote(true, v, mContext).execute(n);
 
                     up.add(n.getFullName());
                     holder.score.setTextColor(holder.textColorUp);
+                    upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
                 }
             }
         });
@@ -382,18 +387,21 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Vote(v, mContext).execute(n);
                     down.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorRegular);
+                    downvote.clearColorFilter();
 
                 } else if (up.contains(n.getFullName())) {
                     new Vote(false, v, mContext).execute(n);
                     down.add(n.getFullName());
                     up.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorDown);
+                    downvote.setColorFilter(holder.textColorDown);
 
                 } else {
                     new Vote(false, v, mContext).execute(n);
 
                     down.add(n.getFullName());
                     holder.score.setTextColor(holder.textColorDown);
+                    downvote.setColorFilter(holder.textColorDown);
                 }
             }
         });
@@ -615,7 +623,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.score.setTextColor(holder.textColorUp);
             } else if (down.contains(comment.getFullName())) {
                 holder.score.setTextColor(holder.textColorDown);
-
             } else {
                 holder.score.setTextColor(holder.textColorRegular);
             }
