@@ -36,11 +36,11 @@ public class OpenRedditLink {
 
 
         }
-        if ((parts.length == 3 && !url.contains("/u/")) ) {
+        if ((parts.length == 3 && !(url.contains("/u/") && url.contains("/user/"))) ) {
             Intent intent = new Intent(c, SubredditView.class);
             intent.putExtra("subreddit", parts[2]);
             c.startActivity(intent);
-        } else if (url.contains("/u/")) {
+        } else if (url.contains("/u/") || url.contains("/user/")) {
             Intent myIntent = new Intent(c, Profile.class);
             myIntent.putExtra("profile", parts[2]);
             c.startActivity(myIntent);
