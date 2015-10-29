@@ -172,19 +172,28 @@ public class SubredditOverview extends OverviewBase {
     }
 
     private void chooseAccounts() {
-        final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
+        final ArrayList<String> accounts = new ArrayList<>();
+        for(String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())){
+            if(s.contains(":")) {
+                accounts.add(s.split(":")[0]);
+            }
+            else {
+                accounts.add(s);
+            }
+        }
         new AlertDialogWrapper.Builder(SubredditOverview.this)
                 .setTitle(R.string.general_switch_acc)
                 .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(accounts.get(which).contains(":")){
+                            String token = accounts.get(which).split(":")[1];
+                            Authentication.authentication.edit().putString("lasttoken", token).commit();
+                        } else {
+
                             ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
                             Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
 
-                        } else {
-                            String token = accounts.get(which).split(":")[1];
-                            Authentication.authentication.edit().putString("lasttoken", token).commit();
                         }
 
                         Reddit.forceRestart(SubredditOverview.this);
