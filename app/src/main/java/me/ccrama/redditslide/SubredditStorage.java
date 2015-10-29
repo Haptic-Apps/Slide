@@ -96,18 +96,22 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 test.add("frontpage");
             if(!test.contains("all"))
                 test.add("all");
+            realSubs = new ArrayList<>();
 
             if(getSubreddits() != null) {
                 for (String s : getSubreddits()) {
                     if (!test.contains(s)) {
                         newValues.add(s);
                     }
+                    realSubs.add(s.toLowerCase());
                 }
             } else {
                 for (String s : doUpdateSubsSave()) {
                     if (!test.contains(s)) {
                         newValues.add(s);
                     }
+                    realSubs.add(s.toLowerCase());
+
                 }
             }
             if(params[0].loader != null) {
@@ -157,14 +161,17 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                         if (!test.contains(s)) {
                             newValues.add(s);
                         }
+                        realSubs.add(s.toLowerCase());
+
                     }
-                    doUpdateSubsSaveBackground();
 
                 } else {
                     for (String s : doUpdateSubsSave()) {
                         if (!test.contains(s)) {
                             newValues.add(s);
                         }
+                        realSubs.add(s.toLowerCase());
+
                     }
                 }
             } else {
@@ -172,6 +179,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                     if (!test.contains(s)) {
                         newValues.add(s);
                     }
+
                 }
             }
 
@@ -203,6 +211,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         }
 
     }
+
+    public static ArrayList<String> realSubs;
 
 
 

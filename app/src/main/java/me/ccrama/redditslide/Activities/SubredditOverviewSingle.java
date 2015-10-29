@@ -44,6 +44,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.koushikdutta.ion.Ion;
 import com.rey.material.widget.Slider;
 
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
@@ -322,19 +323,47 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     }
                 }).create().show();
     }
-    private void doSubOnlyStuff(Subreddit subreddit){
-        if(subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()){
+    private void doSubOnlyStuff(final Subreddit subreddit) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
+        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
+
             final String text = subreddit.getDataNode().get("description_html").asText();
-                    final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
-                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverviewSingle.this, "slideforreddit");
+            final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverviewSingle.this, "slideforreddit");
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
-        ((TextView) findViewById(R.id.sub_title)).setText( subreddit.getPublicDescription());
+        {
+            CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //reset check adapter
+                }
+            });
+            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                    } else {
+                        new AccountManager(Authentication.reddit).subscribe(subreddit);
+
+                    }
+                    new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
+                }
+            });
+        }
+        ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+        findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
 
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
+        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
     }
+
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit>{
 
@@ -348,253 +377,90 @@ public class SubredditOverviewSingle extends OverviewBase  {
             return Authentication.reddit.getSubreddit(params[0]);
         }
     }
-    private void doSubSidebar(final String subreddit){
-        if(!subreddit.equals("all") && !subreddit.equals("frontpage")) {
-            if(drawerLayout != null)
-
+    private void doSubSidebar(final String subreddit) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+            if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
             new AsyncGetSubreddit().execute(subreddit);
-        findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
-        ((TextView)findViewById(R.id.sub_infotitle)).setText(subreddit);
-        View dialoglayout = findViewById(R.id.sidebarsub);
-        CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-        c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //reset check adapter
-            }
-        });
-        if (SubredditStorage.getPins() == null) {
-            c.setChecked(false);
+            findViewById(R.id.loader).setVisibility(View.VISIBLE);
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+            findViewById(R.id.subscribers).setVisibility(View.GONE);
 
-        } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-            c.setChecked(true);
-        } else {
-            c.setChecked(false);
-        }
-        c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SubredditStorage.addPin(subreddit);
-                } else {
-                    SubredditStorage.removePin(subreddit);
+
+            findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
+            ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
+            View dialoglayout = findViewById(R.id.sidebarsub);
+            {
+                CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                if(!Authentication.isLoggedIn){
+                    c.setVisibility(View.GONE);
                 }
-                subToDo = subreddit;
-                new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
+                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //reset check adapter
+                    }
+                });
+                if (SubredditStorage.getPins() == null) {
+                    c.setChecked(false);
+
+                } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
+                    c.setChecked(true);
+                } else {
+                    c.setChecked(false);
+                }
+                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            SubredditStorage.addPin(subreddit);
+                        } else {
+                            SubredditStorage.removePin(subreddit);
+                        }
+                        subToDo = subreddit;
+                        new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
+                    }
+                });
+                c.setHighlightColor(new ColorPreferences(SubredditOverviewSingle.this).getThemeSubreddit(subreddit, true).getColor());
             }
-        });
-            c.setHighlightColor(new ColorPreferences(SubredditOverviewSingle.this).getThemeSubreddit(subreddit, true).getColor());
 
 
-        if(subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") ){
-            dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
-            dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
+                dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
+                dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
-        } else {
-            dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+            } else {
+                dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(SubredditOverviewSingle.this, Wiki.class);
+                        i.putExtra("subreddit", subreddit);
+                        startActivity(i);
+                    }
+                });
+
+            }
+            findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i = new Intent(SubredditOverviewSingle.this, Wiki.class);
-                    i.putExtra("subreddit", subreddit);
-                    startActivity(i);
-                }
-            });
+                    final String subreddit = usedArray.get(pager.getCurrentItem());
 
-        }
-        findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String subreddit = usedArray.get(pager.getCurrentItem());
-
-                int style = new ColorPreferences(SubredditOverviewSingle.this).getThemeSubreddit(subreddit);
-                final Context contextThemeWrapper = new ContextThemeWrapper(SubredditOverviewSingle.this, style);
-                Log.v("Slide", "STYLE: " + style + " DEFAULT: " + R.style.deeporange_dark);
-                LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
-                final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setText("/r/" + subreddit);
-                title.setBackgroundColor(Pallete.getColor(subreddit));
-
-                {
-                    final View body = dialoglayout.findViewById(R.id.body2);
-                    body.setVisibility(View.INVISIBLE);
-                    final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
-                    dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            int cx = center.getWidth() / 2;
-                            int cy = center.getHeight() / 2;
-
-                            int finalRadius = Math.max(body.getWidth(), body.getHeight());
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Animator anim =
-                                        ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
-                                body.setVisibility(View.VISIBLE);
-                                anim.start();
-                            } else {
-                                body.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    });
-
-                    LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
-                    final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
-
-                    colorPicker.setColors(new int[]{
-                            getResources().getColor(R.color.md_red_500),
-                            getResources().getColor(R.color.md_pink_500),
-                            getResources().getColor(R.color.md_purple_500),
-                            getResources().getColor(R.color.md_deep_purple_500),
-                            getResources().getColor(R.color.md_indigo_500),
-                            getResources().getColor(R.color.md_blue_500),
-                            getResources().getColor(R.color.md_light_blue_500),
-                            getResources().getColor(R.color.md_cyan_500),
-                            getResources().getColor(R.color.md_teal_500),
-                            getResources().getColor(R.color.md_green_500),
-                            getResources().getColor(R.color.md_light_green_500),
-                            getResources().getColor(R.color.md_lime_500),
-                            getResources().getColor(R.color.md_yellow_500),
-                            getResources().getColor(R.color.md_amber_500),
-                            getResources().getColor(R.color.md_orange_500),
-                            getResources().getColor(R.color.md_deep_orange_500),
-                            getResources().getColor(R.color.md_brown_500),
-                            getResources().getColor(R.color.md_grey_500),
-                            getResources().getColor(R.color.md_blue_grey_500),
-
-                    });
-                    int currentColor = Pallete.getColor(subreddit);
-                    for (int i : colorPicker.getColors()) {
-                    for (int i2 : getColors(i)) {
-                        if (i2 == currentColor) {
-                            colorPicker.setSelectedColor(i);
-                            colorPicker2.setColors(getColors(i));
-                            colorPicker2.setSelectedColor(i2);
-                            break;
-                        }
-                    }
-                }
-                    colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-                        @Override
-                        public void onColorChanged(int c) {
-
-                            colorPicker2.setColors(getColors(c));
-                            colorPicker2.setSelectedColor(c);
-
-
-                        }
-                    });
-                    colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
-                        @Override
-                        public void onColorChanged(int i) {
-                            hea.setBackgroundColor(colorPicker2.getColor());
-                            findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Window window = getWindow();
-                                window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
-                                SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
-                            }
-                            title.setBackgroundColor(colorPicker2.getColor());
-                        }
-                    });
-
+                    int style = new ColorPreferences(SubredditOverviewSingle.this).getThemeSubreddit(subreddit);
+                    final Context contextThemeWrapper = new ContextThemeWrapper(SubredditOverviewSingle.this, style);
+                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                    final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setText("/r/" + subreddit);
+                    title.setBackgroundColor(Pallete.getColor(subreddit));
 
                     {
-                        TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
-
-                        // if button is clicked, close the custom dialog
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Pallete.removeColor(subreddit);
-                                hea.setBackgroundColor(Pallete.getDefaultColor());
-                                findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    Window window = getWindow();
-                                    window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-                                    SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
-                                }
-                                title.setBackgroundColor(Pallete.getDefaultColor());
-
-
-                                int cx = center.getWidth() / 2;
-                                int cy = center.getHeight() / 2;
-
-                                int initialRadius = body.getWidth();
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                    Animator anim =
-                                            ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
-
-                                    anim.addListener(new AnimatorListenerAdapter() {
-                                        @Override
-                                        public void onAnimationEnd(Animator animation) {
-                                            super.onAnimationEnd(animation);
-                                            body.setVisibility(View.GONE);
-                                        }
-                                    });
-                                    anim.start();
-
-                                } else {
-                                    body.setVisibility(View.GONE);
-
-                                }
-
-                            }
-                        });
-
-
-                    }
-                    {
-                        TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
-
-                        // if button is clicked, close the custom dialog
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Pallete.setColor(subreddit, colorPicker2.getColor());
-
-                                int cx = center.getWidth() / 2;
-                                int cy = center.getHeight() / 2;
-
-                                int initialRadius = body.getWidth();
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                    Animator anim =
-                                            ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
-
-                                    anim.addListener(new AnimatorListenerAdapter() {
-                                        @Override
-                                        public void onAnimationEnd(Animator animation) {
-                                            super.onAnimationEnd(animation);
-                                            body.setVisibility(View.GONE);
-                                        }
-                                    });
-                                    anim.start();
-
-                                } else {
-                                    body.setVisibility(View.GONE);
-
-                                }
-
-                            }
-                        });
-
-
-                    }
-                }
-                {
-                    {
-
-                        final View body = dialoglayout.findViewById(R.id.body3);
+                        final View body = dialoglayout.findViewById(R.id.body2);
                         body.setVisibility(View.INVISIBLE);
-                        final View center = dialoglayout.findViewById(R.id.colorExpandFrom2);
-                        dialoglayout.findViewById(R.id.color2).setOnClickListener(new View.OnClickListener() {
+                        final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
+                        dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 int cx = center.getWidth() / 2;
@@ -613,39 +479,86 @@ public class SubredditOverviewSingle extends OverviewBase  {
                             }
                         });
 
-                        final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+                        LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+                        final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                        int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
-                        int i = 0;
-                        for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                            if(type.getThemeType() == 0) {
-                                arrs[i] = getResources().getColor(type.getColor());
+                        colorPicker.setColors(new int[]{
+                                getResources().getColor(R.color.md_red_500),
+                                getResources().getColor(R.color.md_pink_500),
+                                getResources().getColor(R.color.md_purple_500),
+                                getResources().getColor(R.color.md_deep_purple_500),
+                                getResources().getColor(R.color.md_indigo_500),
+                                getResources().getColor(R.color.md_blue_500),
+                                getResources().getColor(R.color.md_light_blue_500),
+                                getResources().getColor(R.color.md_cyan_500),
+                                getResources().getColor(R.color.md_teal_500),
+                                getResources().getColor(R.color.md_green_500),
+                                getResources().getColor(R.color.md_light_green_500),
+                                getResources().getColor(R.color.md_lime_500),
+                                getResources().getColor(R.color.md_yellow_500),
+                                getResources().getColor(R.color.md_amber_500),
+                                getResources().getColor(R.color.md_orange_500),
+                                getResources().getColor(R.color.md_deep_orange_500),
+                                getResources().getColor(R.color.md_brown_500),
+                                getResources().getColor(R.color.md_grey_500),
+                                getResources().getColor(R.color.md_blue_grey_500),
 
-                                i++;
+                        });
+                        int currentColor = Pallete.getColor(subreddit);
+                        for (int i : colorPicker.getColors()) {
+                            for (int i2 : getColors(i)) {
+                                if (i2 == currentColor) {
+                                    colorPicker.setSelectedColor(i);
+                                    colorPicker2.setColors(getColors(i));
+                                    colorPicker2.setSelectedColor(i2);
+                                    break;
+                                }
                             }
                         }
+                        colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
+                            @Override
+                            public void onColorChanged(int c) {
 
-                        colorPicker.setColors(arrs);
+                                colorPicker2.setColors(getColors(c));
+                                colorPicker2.setSelectedColor(c);
 
-                        colorPicker.setSelectedColor(new ColorPreferences(SubredditOverviewSingle.this).getFontStyle().getColor());
+
+                            }
+                        });
+                        colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+                            @Override
+                            public void onColorChanged(int i) {
+                                hea.setBackgroundColor(colorPicker2.getColor());
+                                findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    Window window = getWindow();
+                                    window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                    SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+
+                                }
+                                title.setBackgroundColor(colorPicker2.getColor());
+                            }
+                        });
+
 
                         {
-                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok2);
+                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
 
                             // if button is clicked, close the custom dialog
                             dialogButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    int color = colorPicker.getColor();
-                                    ColorPreferences.Theme t = null;
-                                    for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                        if(getResources().getColor(type.getColor()) == color  && Reddit.themeBack == type.getThemeType()){
-                                            t = type;
-                                            break;
-                                        }
-                                    }
+                                    Pallete.removeColor(subreddit);
+                                    hea.setBackgroundColor(Pallete.getDefaultColor());
+                                    findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        Window window = getWindow();
+                                        window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
-                                    new ColorPreferences(SubredditOverviewSingle.this).setFontStyle(t, subreddit);
+                                    }
+                                    title.setBackgroundColor(Pallete.getDefaultColor());
+
 
                                     int cx = center.getWidth() / 2;
                                     int cy = center.getHeight() / 2;
@@ -664,14 +577,48 @@ public class SubredditOverviewSingle extends OverviewBase  {
                                             }
                                         });
                                         anim.start();
+
                                     } else {
                                         body.setVisibility(View.GONE);
-                                    }
-                                    int current = pager.getCurrentItem();
-                                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-                                    pager.setAdapter(adapter);
-                                    pager.setCurrentItem(current);
 
+                                    }
+
+                                }
+                            });
+
+
+                        }
+                        {
+                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
+
+                            // if button is clicked, close the custom dialog
+                            dialogButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Pallete.setColor(subreddit, colorPicker2.getColor());
+
+                                    int cx = center.getWidth() / 2;
+                                    int cy = center.getHeight() / 2;
+
+                                    int initialRadius = body.getWidth();
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                                        Animator anim =
+                                                ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
+
+                                        anim.addListener(new AnimatorListenerAdapter() {
+                                            @Override
+                                            public void onAnimationEnd(Animator animation) {
+                                                super.onAnimationEnd(animation);
+                                                body.setVisibility(View.GONE);
+                                            }
+                                        });
+                                        anim.start();
+
+                                    } else {
+                                        body.setVisibility(View.GONE);
+
+                                    }
 
                                 }
                             });
@@ -679,46 +626,136 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
                         }
                     }
-                }
+                    {
+                        {
 
-                dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+                            final View body = dialoglayout.findViewById(R.id.body3);
+                            body.setVisibility(View.INVISIBLE);
+                            final View center = dialoglayout.findViewById(R.id.colorExpandFrom2);
+                            dialoglayout.findViewById(R.id.color2).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    int cx = center.getWidth() / 2;
+                                    int cy = center.getHeight() / 2;
 
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                switch (i) {
-                                    case 1:
-                                        SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
-                                        reloadSubs();
-                                        break;
-                                    case 0:
-                                        SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
-                                        reloadSubs();
-                                        break;
+                                    int finalRadius = Math.max(body.getWidth(), body.getHeight());
 
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                        Animator anim =
+                                                ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
+                                        body.setVisibility(View.VISIBLE);
+                                        anim.start();
+                                    } else {
+                                        body.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            });
+
+                            final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+
+                            int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
+                            int i = 0;
+                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                if (type.getThemeType() == 0) {
+                                    arrs[i] = getResources().getColor(type.getColor());
+
+                                    i++;
                                 }
                             }
-                        };
-                        int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
-                        builder.setTitle(R.string.settings_layout_chooser);
-                        builder.setSingleChoiceItems(
-                                new String[]{getString(R.string.settings_layout_default),
-                                        getString(R.string.settings_layout_alternative),}, i, l2);
-                        builder.show();
 
+                            colorPicker.setColors(arrs);
+
+                            colorPicker.setSelectedColor(new ColorPreferences(SubredditOverviewSingle.this).getFontStyle().getColor());
+
+                            {
+                                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok2);
+
+                                // if button is clicked, close the custom dialog
+                                dialogButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        int color = colorPicker.getColor();
+                                        ColorPreferences.Theme t = null;
+                                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                            if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                                                t = type;
+                                                break;
+                                            }
+                                        }
+
+                                        new ColorPreferences(SubredditOverviewSingle.this).setFontStyle(t, subreddit);
+
+                                        int cx = center.getWidth() / 2;
+                                        int cy = center.getHeight() / 2;
+
+                                        int initialRadius = body.getWidth();
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                                            Animator anim =
+                                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
+
+                                            anim.addListener(new AnimatorListenerAdapter() {
+                                                @Override
+                                                public void onAnimationEnd(Animator animation) {
+                                                    super.onAnimationEnd(animation);
+                                                    body.setVisibility(View.GONE);
+                                                }
+                                            });
+                                            anim.start();
+                                        } else {
+                                            body.setVisibility(View.GONE);
+                                        }
+                                        int current = pager.getCurrentItem();
+                                        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                                        pager.setAdapter(adapter);
+                                        pager.setCurrentItem(current);
+
+
+                                    }
+                                });
+
+
+                            }
+                        }
                     }
-                });
-                builder.setView(dialoglayout);
-                builder.show();
 
-            }
-        });
+                    dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 1:
+                                            SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
+                                            reloadSubs();
+                                            break;
+                                        case 0:
+                                            SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                            reloadSubs();
+                                            break;
+
+                                    }
+                                }
+                            };
+                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
+                            builder.setTitle(R.string.settings_layout_chooser);
+                            builder.setSingleChoiceItems(
+                                    new String[]{getString(R.string.settings_layout_default),
+                                            getString(R.string.settings_layout_alternative)}, i, l2);
+                            builder.show();
+
+                        }
+                    });
+                    builder.setView(dialoglayout);
+                    builder.show();
+
+                }
+            });
         } else {
-            if(drawerLayout != null)
-
+            if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
         }
     }

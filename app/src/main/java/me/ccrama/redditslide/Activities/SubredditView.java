@@ -19,7 +19,6 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +31,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -597,17 +597,44 @@ public class SubredditView extends BaseActivity {
         restartTheme();
     }
 
-    private void doSubOnlyStuff(Subreddit subreddit) {
+    private void doSubOnlyStuff(final Subreddit subreddit) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
+
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
             new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, "slideforreddit");
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
+        {
+            CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //reset check adapter
+                }
+            });
+            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                    } else {
+                        new AccountManager(Authentication.reddit).subscribe(subreddit);
+
+                    }
+                    new SubredditStorageNoContext().execute(SubredditView.this);
+                }
+            });
+        }
         ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+        findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
 
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
+        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
     }
 
@@ -659,37 +686,46 @@ public class SubredditView extends BaseActivity {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
             new AsyncGetSubreddit().execute(subreddit);
+            findViewById(R.id.loader).setVisibility(View.VISIBLE);
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+            findViewById(R.id.subscribers).setVisibility(View.GONE);
+
+
             findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
-            CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //reset check adapter
+            {
+                CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                if(!Authentication.isLoggedIn){
+                    c.setVisibility(View.GONE);
                 }
-            });
-            if (SubredditStorage.getPins() == null) {
-                c.setChecked(false);
-
-            } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                c.setChecked(true);
-            } else {
-                c.setChecked(false);
-            }
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        SubredditStorage.addPin(subreddit);
-                    } else {
-                        SubredditStorage.removePin(subreddit);
+                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //reset check adapter
                     }
+                });
+                if (SubredditStorage.getPins() == null) {
+                    c.setChecked(false);
 
-                    new SubredditStorageNoContext().execute(SubredditView.this);
+                } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
+                    c.setChecked(true);
+                } else {
+                    c.setChecked(false);
                 }
-            });
-            c.setHighlightColor(new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit, true).getColor());
+                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            SubredditStorage.addPin(subreddit);
+                        } else {
+                            SubredditStorage.removePin(subreddit);
+                        }
+                    }
+                });
+                c.setHighlightColor(new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit, true).getColor());
+            }
 
 
             if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
@@ -713,7 +749,6 @@ public class SubredditView extends BaseActivity {
 
                     int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
                     final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
-                    Log.v("Slide", "STYLE: " + style + " DEFAULT: " + R.style.deeporange_dark);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
@@ -770,9 +805,9 @@ public class SubredditView extends BaseActivity {
 
                         });
                         int currentColor = Pallete.getColor(subreddit);
-                        for(int i : colorPicker.getColors()){
-                            for(int i2 : getColors(i)){
-                                if(i2 == currentColor){
+                        for (int i : colorPicker.getColors()) {
+                            for (int i2 : getColors(i)) {
+                                if (i2 == currentColor) {
                                     colorPicker.setSelectedColor(i);
                                     colorPicker2.setColors(getColors(i));
                                     colorPicker2.setSelectedColor(i2);
@@ -969,7 +1004,6 @@ public class SubredditView extends BaseActivity {
                                             body.setVisibility(View.GONE);
                                         }
 
-
                                     }
                                 });
 
@@ -981,9 +1015,31 @@ public class SubredditView extends BaseActivity {
                     dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(SubredditView.this, EditCardsLayout.class);
-                            i.putExtra("subreddit", subreddit);
-                            startActivityForResult(i, 1);
+                            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    switch (i) {
+                                        case 1:
+                                            SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
+                                            reloadSubs();
+                                            break;
+                                        case 0:
+                                            SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                            reloadSubs();
+                                            break;
+
+                                    }
+                                }
+                            };
+                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
+                            builder.setTitle(R.string.settings_layout_chooser);
+                            builder.setSingleChoiceItems(
+                                    new String[]{getString(R.string.settings_layout_default),
+                                            getString(R.string.settings_layout_alternative)}, i, l2);
+                            builder.show();
+
                         }
                     });
                     builder.setView(dialoglayout);

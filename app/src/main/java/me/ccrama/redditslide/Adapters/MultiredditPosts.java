@@ -79,8 +79,6 @@ public class MultiredditPosts {
             if (reset || paginator == null) {
 
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-
-
                 paginator.setSorting(Reddit.defaultSorting);
                 paginator.setTimePeriod(Reddit.timePeriod);
             }

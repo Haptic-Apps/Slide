@@ -25,7 +25,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,6 +45,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.koushikdutta.ion.Ion;
 import com.rey.material.widget.Slider;
 
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
@@ -173,6 +173,8 @@ public class SubredditOverview extends OverviewBase {
 
     private void chooseAccounts() {
         final ArrayList<String> accounts = new ArrayList<>();
+        final ArrayList<String> names = new ArrayList<>();
+
         for(String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())){
             if(s.contains(":")) {
                 accounts.add(s.split(":")[0]);
@@ -180,14 +182,15 @@ public class SubredditOverview extends OverviewBase {
             else {
                 accounts.add(s);
             }
+            names.add(s);
         }
         new AlertDialogWrapper.Builder(SubredditOverview.this)
                 .setTitle(R.string.general_switch_acc)
                 .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(accounts.get(which).contains(":")){
-                            String token = accounts.get(which).split(":")[1];
+                        if(names.get(which).contains(":")){
+                            String token = names.get(which).split(":")[1];
                             Authentication.authentication.edit().putString("lasttoken", token).commit();
                         } else {
 
@@ -356,17 +359,44 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    private void doSubOnlyStuff(Subreddit subreddit) {
+    private void doSubOnlyStuff(final Subreddit subreddit) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
+
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
             new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverview.this, "slideforreddit");
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
+        {
+            CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //reset check adapter
+                }
+            });
+            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                    } else {
+                        new AccountManager(Authentication.reddit).subscribe(subreddit);
+
+                    }
+                    new SubredditStorageNoContext().execute(SubredditOverview.this);
+                }
+            });
+        }
         ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+        findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
 
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
+        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
     }
 
@@ -380,6 +410,7 @@ public class SubredditOverview extends OverviewBase {
         @Override
         protected Subreddit doInBackground(String... params) {
             return Authentication.reddit.getSubreddit(params[0]);
+
         }
     }
 
@@ -388,38 +419,49 @@ public class SubredditOverview extends OverviewBase {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
-            new AsyncGetSubreddit().execute(subreddit);
+             new AsyncGetSubreddit().execute(subreddit);
+            findViewById(R.id.loader).setVisibility(View.VISIBLE);
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+            findViewById(R.id.subscribers).setVisibility(View.GONE);
+
+
             findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
-            CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //reset check adapter
+            {
+                CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                if(!Authentication.isLoggedIn){
+                    c.setVisibility(View.GONE);
                 }
-            });
-            if (SubredditStorage.getPins() == null) {
-                c.setChecked(false);
-
-            } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                c.setChecked(true);
-            } else {
-                c.setChecked(false);
-            }
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        SubredditStorage.addPin(subreddit);
-                    } else {
-                        SubredditStorage.removePin(subreddit);
+                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //reset check adapter
                     }
-                    subToDo = subreddit;
-                    new SubredditStorageNoContext().execute(SubredditOverview.this);
+                });
+                if (SubredditStorage.getPins() == null) {
+                    c.setChecked(false);
+
+                } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
+                    c.setChecked(true);
+                } else {
+                    c.setChecked(false);
                 }
-            });
-            c.setHighlightColor(new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit, true).getColor());
+                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            SubredditStorage.addPin(subreddit);
+                        } else {
+                            SubredditStorage.removePin(subreddit);
+                        }
+                        subToDo = subreddit;
+                        new SubredditStorageNoContext().execute(SubredditOverview.this);
+                    }
+                });
+                c.setHighlightColor(new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit, true).getColor());
+            }
 
 
             if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
@@ -444,7 +486,6 @@ public class SubredditOverview extends OverviewBase {
 
                     int style = new ColorPreferences(SubredditOverview.this).getThemeSubreddit(subreddit);
                     final Context contextThemeWrapper = new ContextThemeWrapper(SubredditOverview.this, style);
-                    Log.v("Slide", "STYLE: " + style + " DEFAULT: " + R.style.deeporange_dark);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);

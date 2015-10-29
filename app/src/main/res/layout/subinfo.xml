@@ -12,6 +12,17 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/sidebarsub"
                 android:orientation="vertical">
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:indeterminate="true"
+                    android:padding="0dp"
+                    android:id="@+id/loader"
+                    android:layout_marginTop="-7dp"
+                    android:layout_marginBottom="-7dp"
+
+
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -19,7 +30,7 @@
                     android:id="@+id/header_sub"
                     android:orientation="vertical"
 
-                    android:paddingTop="16dp"
+                    android:padding="16dp"
 
                     android:layout_height="wrap_content">
                 <TextView
@@ -110,15 +121,15 @@
                             android:background="?android:selectableItemBackground"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingRight="8dp">
 
                             <ImageView
-                                android:layout_width="56dp"
+                                android:layout_width="36dp"
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:tint="?attr/tint"
 
-                                android:padding="12dp"
+                                android:padding="8dp"
                                 android:src="@drawable/wiki" />
 
                             <TextView
@@ -143,15 +154,15 @@
                             android:background="?android:selectableItemBackground"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingRight="8dp">
 
                             <ImageView
-                                android:layout_width="56dp"
+                                android:layout_width="36dp"
                                 android:layout_height="match_parent"
                                 android:alpha=".86"
                                 android:tint="?attr/tint"
                                 android:id="@+id/colorExpandFrom"
-                                android:padding="12dp"
+                                android:padding="8dp"
                                 android:src="@drawable/color" />
 
                             <TextView
