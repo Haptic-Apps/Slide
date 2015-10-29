@@ -50,7 +50,6 @@
                         android:id="@+id/sidebar"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:clickable="true"
                         android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
 
@@ -69,7 +68,6 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:clickable="true"
 
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"

@@ -49,7 +49,6 @@
                     <LinearLayout
                         android:id="@+id/sidebar"
                         android:layout_width="match_parent"
-                        android:clickable="true"
 
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
@@ -70,7 +69,6 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:clickable="true"
 
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
@@ -88,7 +86,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
-                        android:clickable="true"
 
                         android:background="?android:selectableItemBackground"
 
@@ -107,7 +104,6 @@
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:clickable="true"
 
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
@@ -126,7 +122,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
-                        android:clickable="true"
 
                         android:background="?android:selectableItemBackground"
 
@@ -140,11 +135,10 @@
                             android:padding="12dp"
                             android:tint="?attr/tint"
 
-                            android:src="@drawable/saved" />
+                            android:src="@drawable/sidebar_saved" />
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:clickable="true"
 
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"

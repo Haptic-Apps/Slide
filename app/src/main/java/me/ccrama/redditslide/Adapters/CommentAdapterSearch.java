@@ -143,7 +143,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 title.setText(comment.getBody());
 
                 ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + comment.getAuthor());
-                dialoglayout.findViewById(R.id.userpopup).setOnClickListener(new View.OnClickListener() {
+                dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(mContext, Profile.class);

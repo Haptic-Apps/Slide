@@ -119,7 +119,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
                     ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
-                    dialoglayout.findViewById(R.id.userpopup).setOnClickListener(new View.OnClickListener() {
+                    dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, Profile.class);
@@ -129,7 +129,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     });
 
 
-                    dialoglayout.findViewById(R.id.subpopup).setOnClickListener(new View.OnClickListener() {
+                    dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, SubredditView.class);
