@@ -83,8 +83,8 @@ public class PopulateSubmissionViewHolder {
                 title.setText(submission.getTitle());
 
                 ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
-                ((TextView) dialoglayout.findViewById(R.id.sidebar)).setText("/r/" + submission.getSubredditName());
-                dialoglayout.findViewById(R.id.userpopup).setOnClickListener(new View.OnClickListener() {
+                ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
+                dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(mContext, Profile.class);

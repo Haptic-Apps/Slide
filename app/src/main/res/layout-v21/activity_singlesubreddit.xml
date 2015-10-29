@@ -82,7 +82,7 @@
 
                 android:paddingTop="12dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/grid" />
+                android:src="@drawable/shadowbox" />
 
 
         </android.support.v7.widget.Toolbar>

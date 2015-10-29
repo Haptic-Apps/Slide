@@ -120,7 +120,6 @@ public class ImageFull extends Fragment {
         s = DataShare.sharedSubreddit.get(i);
 
     }
-
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
         switch (type) {
             case NSFW_IMAGE:
@@ -190,6 +189,9 @@ public class ImageFull extends Fragment {
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                             CustomTabsIntent customTabsIntent = builder.build();
+
+
+
                             customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);

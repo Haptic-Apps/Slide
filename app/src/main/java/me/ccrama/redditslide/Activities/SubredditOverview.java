@@ -178,9 +178,14 @@ public class SubredditOverview extends OverviewBase {
                 .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                        Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
-                        Log.v("Slide", " CHOSEN IS " + accounts.get(which) + " AND TOKEN IS " + tokens.get(which) + " AND SHARED PREFS SAYS " + Authentication.authentication.getString("lasttoken", ""));
+                        if(accounts.get(which).contains(":")){
+                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                            Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+
+                        } else {
+                            String token = accounts.get(which).split(":")[1];
+                            Authentication.authentication.edit().putString("lasttoken", token).commit();
+                        }
 
                         Reddit.forceRestart(SubredditOverview.this);
 

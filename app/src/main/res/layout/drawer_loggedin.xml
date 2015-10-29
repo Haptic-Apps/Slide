@@ -47,20 +47,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:padding="16dp"
-            android:background="?android:selectableItemBackground"
 
-            android:text="@string/drawer_change_account"
-            android:textAllCaps="true"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:textStyle="bold" />
     </RelativeLayout>
 
         <LinearLayout
@@ -177,6 +164,16 @@
             android:id="@+id/add"
             android:layout_width="match_parent"
             android:text="@string/drawer_add_account"
+            android:background="?android:selectableItemBackground"
+
+            android:layout_height="42dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"/>
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:text="@string/drawer_change_account"
             android:background="?android:selectableItemBackground"
 
             android:layout_height="42dp"

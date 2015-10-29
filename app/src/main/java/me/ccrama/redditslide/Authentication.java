@@ -15,7 +15,9 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -140,6 +142,13 @@ public class Authentication {
                         if (reddit.isAuthenticated()) {
                             final String name = reddit.me().getFullName();
                             Log.v("Slide", "LOGGED IN AS " + name);
+                            final Set<String> accounts =authentication.getStringSet("accounts", new HashSet<String>());
+                            if(accounts.contains(name)){ //convert to new system
+                                accounts.remove(name);
+                                accounts.add(name + ":" + token);
+                                Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
+
+                            }
                             Authentication.name = name;
                             Authentication.isLoggedIn = true;
 
