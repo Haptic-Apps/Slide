@@ -50,6 +50,10 @@
     <string name="theme_match_always">Always Match</string>
     <string name="theme_match_ext">Match Externally</string>
     <string name="theme_text">Text Color</string>
+    <string name="font_size">Font Size</string>
+    <string name="large">Large</string>
+    <string name="medium">Medium</string>
+    <string name="small">Small</string>
 
 
     <!-- For editing the submission card layout -->

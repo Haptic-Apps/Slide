@@ -4,11 +4,14 @@ import android.app.ActivityManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -51,6 +54,30 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+        final TextView color = (TextView) findViewById(R.id.font);
+        color.setText(new FontPreferences(this).getFontStyle().getTitle());
+        findViewById(R.id.fontsize).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
+                popup.getMenu().add("Large");
+                popup.getMenu().add("Medium");
+                popup.getMenu().add("Small");
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        new FontPreferences(SettingsGeneral.this).setFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
+                        color.setText(new FontPreferences(SettingsGeneral.this).getFontStyle().getTitle());
+
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
         {
             CheckBox check = (CheckBox) findViewById(R.id.swapGesture);
 

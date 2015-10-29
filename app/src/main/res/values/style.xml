@@ -165,26 +165,26 @@
     <style name="FontStyle">
     </style>
     <style name="FontStyle.Small">
-        <item name="font_cardtitle">14sp</item>
+        <item name="font_cardtitle">16sp</item>
         <item name="font_cardinfo">12sp</item>
-        <item name="font_cardtitlec">15sp</item>
-        <item name="font_cardinfoc">9sp</item>
-        <item name="font_cardtitlem">12sp</item>
-        <item name="font_cardinfom">8sp</item>
+        <item name="font_cardtitlec">13sp</item>
+        <item name="font_cardinfoc">7sp</item>
+        <item name="font_cardtitlem">10sp</item>
+        <item name="font_cardinfom">6sp</item>
         <item name="font_commenttitle">10sp</item>
-        <item name="font_commentinfo">8sp</item>
+        <item name="font_commentinfo">10sp</item>
         <item name="font_commentbody">12sp</item>
 
     </style>
     <style name="FontStyle.Large">
         <item name="font_cardtitle">20sp</item>
-        <item name="font_cardinfo">14sp</item>
+        <item name="font_cardinfo">16sp</item>
         <item name="font_cardtitlec">17sp</item>
         <item name="font_cardinfoc">11sp</item>
         <item name="font_cardtitlem">14sp</item>
         <item name="font_cardinfom">10sp</item>
         <item name="font_commenttitle">14sp</item>
-        <item name="font_commentinfo">12sp</item>
+        <item name="font_commentinfo">14sp</item>
         <item name="font_commentbody">16sp</item>
     </style>
     <style name="Theme.LIGHT" parent="swipestylelight">
