@@ -404,12 +404,17 @@ public class SubredditOverview extends OverviewBase {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
+            if(subreddit != null)
             doSubOnlyStuff(subreddit);
         }
 
         @Override
         protected Subreddit doInBackground(String... params) {
-            return Authentication.reddit.getSubreddit(params[0]);
+            try {
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch(Exception e) {
+                return null;
+            }
 
         }
     }

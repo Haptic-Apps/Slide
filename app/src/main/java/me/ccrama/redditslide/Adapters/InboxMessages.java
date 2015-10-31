@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Reddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -45,8 +45,14 @@ public class InboxMessages {
     }
 
     public void loadMore(InboxAdapter adapter, String where) {
-        new LoadData(true).execute(where);
+        if(Reddit.online) {
 
+            new LoadData(true).execute(where);
+
+        } else {
+            adapter.setError(true);
+            refreshLayout.setRefreshing(false);
+        }
 
     }
 
@@ -59,42 +65,59 @@ public class InboxMessages {
 
         @Override
         public void onPostExecute(ArrayList<Message> subs) {
-            if (reset) {
-                posts = subs;
+            if (subs == null) {
+                adapter.setError(true);
             } else {
-                posts.addAll(subs);
-            }
-            ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    refreshLayout.setRefreshing(false);
+                if (reset) {
+                    posts = subs;
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
 
-                    adapter.dataSet = posts;
+                            adapter.dataSet = posts;
 
-                    adapter.notifyDataSetChanged();
+                            adapter.notifyItemRangeInserted(0, posts.size());
 
+                        }
+                    });
+                } else {
+                    final int start = posts.size();
+                    posts.addAll(subs);
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
+
+                            adapter.dataSet = posts;
+
+                            adapter.notifyItemRangeInserted(start, start + posts.size());
+
+                        }
+                    });
                 }
-            });
+            }
         }
 
         @Override
         protected ArrayList<Message> doInBackground(String... subredditPaginators) {
-            if (reset || paginator == null) {
+            try {
+                if (reset || paginator == null) {
                     paginator = new InboxManager(Authentication.reddit).read(where);
-            }
-            if (paginator.hasNext()) {
-                try {
-                   ArrayList<Message> done = new ArrayList<>(paginator.next());
-                    for(Message m : done){
-                        if(m instanceof PrivateMessage){
+                }
+                if (paginator.hasNext()) {
+                        ArrayList<Message> done = new ArrayList<>(paginator.next());
+                        for (Message m : done) {
+                            if (m instanceof PrivateMessage) {
+                            }
                         }
-                    }
-                    return done;
-                } catch (NetworkException ignored){
+                        return done;
 
                 }
+                return null;
+            } catch (Exception e){
+                return null;
             }
-            return null;
         }
     }
 

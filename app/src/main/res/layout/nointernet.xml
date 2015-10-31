@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    app:cardCornerRadius="2dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="?attr/card_background"
+
+>
+
+
+            <TextView
+
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="ERROR LOADING CONTENT"
+                android:textStyle="italic"
+
+                android:textAllCaps="false"
+
+                android:gravity="center"
+                android:padding="16sp"
+                android:textColor="?attr/font"
+
+
+                android:textSize="14sp" />
+
+
+
+
+
+
+</LinearLayout>

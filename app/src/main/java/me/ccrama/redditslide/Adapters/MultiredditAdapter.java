@@ -36,12 +36,20 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolder> {
+public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolder> implements BaseAdapter{
 
     public final Context mContext;
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+    }
 
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
 
 
     @Override

@@ -16,13 +16,12 @@ public class SettingValues {
     public static boolean actionBarVisible;
     public static InfoBar infoBar;
     public static CreateCardView.CardEnum defaultCardView;
-    private static boolean secondaryActionBarVisible;
-    private static InfoBar secondaryInfoBar;
-    private static CreateCardView.CardEnum secondaryDefaultCardView;
     public static Sorting defaultSorting;
     public static TimePeriod timePeriod;
     public static CommentSort defaultCommentSorting;
     public static boolean NSFWPreviews;
+    public static boolean NSFWPosts;
+
     public static ColorMatchingMode colorMatchingMode;
     public static ColorIndicator colorIndicator;
     public static Pallete.ThemeEnum theme;
@@ -43,9 +42,8 @@ public class SettingValues {
         actionBarVisible = settings.getBoolean("actionBarVisibleNew", true);
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         infoBar = InfoBar.valueOf(settings.getString("infoBarTypeNew", "BIG_PICTURE"));
-        secondaryActionBarVisible = settings.getBoolean("secondactionBarVisibleNew", true);
-        secondaryDefaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("seconddefaultCardViewNew", "LARGE").toUpperCase());
-        secondaryInfoBar = InfoBar.valueOf(settings.getString("secondinfoBarTypeNew", "BIG_PICTURE"));
+
+        NSFWPosts = settings.getBoolean("NSFWPostsNew", false);
 
         NSFWPreviews = settings.getBoolean("NSFWPreviewsNew", false);
         colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));

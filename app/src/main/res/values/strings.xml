@@ -378,7 +378,8 @@
     <string name="settings_notification">Check for new messages every %1$s</string>
     <string name="settings_single_mode">Single Mode</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
-
+    <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
+    <string name="settings_disable_nsfw">Hide all NSFW posts</string>
 
     <!-- Settings titles -->
     <string name="settings_title_alternative_layout">Alternative Layout</string>

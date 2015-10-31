@@ -26,6 +26,8 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
+import me.ccrama.redditslide.Activities.FullscreenImage;
+import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
@@ -54,6 +56,10 @@ public class AlbumFull extends Fragment {
         ContentType.ImageType type = ContentType.getImageType(s);
 
         String url = "";
+
+        if(s.getUrl().contains("gallery")){
+            gallery = true;
+        }
 
         list = rootView.findViewById(R.id.images);
 
@@ -87,6 +93,7 @@ public class AlbumFull extends Fragment {
         });
         return rootView;
     }
+    boolean gallery = false;
     private String getHash(String s){
         String next = s.substring(s.lastIndexOf("/"), s.length());
         if(next.length() < 5){
@@ -108,41 +115,52 @@ public class AlbumFull extends Fragment {
 
     private class AsyncImageLoaderAlbum extends AsyncTask<String, Void, Void> {
 
-
-
-
         @Override
         protected Void doInBackground(String... sub) {
-            Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
-            Ion.with(getActivity())
-                    .load("http://api.imgur.com/2/album" + sub[0] + ".json")
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            Log.v("Slide", result.toString());
+            if(gallery){
+                Ion.with(getActivity())
+                        .load("https://imgur.com/gallery/" + sub[0] + ".json")
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                Log.v("Slide", result.toString());
 
 
-                            ArrayList<JsonElement> jsons = new ArrayList<>();
+                                ArrayList<JsonElement> jsons = new ArrayList<>();
 
-                            if (result.has("album")) {
+                                if (result.has("data")) {
 
-                                JsonObject obj = result.getAsJsonObject("album");
-                                if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+                                    if(!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()){
+                                        if(result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")){
+                                            Intent i = new Intent(getActivity(), GifView.class);
+                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                                            startActivity(i);
+                                        } else {
+                                            Intent i = new Intent(getActivity(), FullscreenImage.class);
+                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                                            startActivity(i);
+                                        }
+                                        getActivity().finish();
 
-                                    final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+                                    } else {
 
-                                    for (JsonElement o : jsonAuthorsArray) {
-                                        jsons.add(o);
+                                        JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+                                        if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                                            for (JsonElement o : obj) {
+                                                jsons.add(o);
+                                            }
+
+
+                                            RecyclerView v = (RecyclerView) list;
+                                            final PreCachingLayoutManager mLayoutManager;
+                                            mLayoutManager = new PreCachingLayoutManager(getActivity());
+                                            v.setLayoutManager(mLayoutManager);
+                                            v.setAdapter(new AlbumView(getActivity(), jsons, true));
+
+                                        }
                                     }
-
-
-                                    RecyclerView v = (RecyclerView) list;
-                                    final PreCachingLayoutManager mLayoutManager;
-                                    mLayoutManager = new PreCachingLayoutManager(getContext());
-                                    v.setLayoutManager(mLayoutManager);
-                                    v.setAdapter(new AlbumView(getActivity(), jsons));
-
                                 } else {
 
                                     new AlertDialogWrapper.Builder(getActivity())
@@ -152,23 +170,74 @@ public class AlbumFull extends Fragment {
                                             .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
+                                                    getActivity().finish();
                                                 }
                                             }).create().show();
                                 }
-                            } else {
-
-                                new AlertDialogWrapper.Builder(getActivity())
-                                        .setTitle(R.string.album_err_not_found)
-                                        .setMessage(R.string.album_err_msg_not_found)
-                                        .setCancelable(false)
-                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        }).create().show();
                             }
-                        }
-                    });
+
+                        });
+            } else {
+                Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Ion.with(getActivity())
+                        .load("http://api.imgur.com/2/album" + sub[0] + ".json")
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                Log.v("Slide", result.toString());
+
+
+                                ArrayList<JsonElement> jsons = new ArrayList<>();
+
+                                if (result.has("album")) {
+
+                                    JsonObject obj = result.getAsJsonObject("album");
+                                    if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+
+                                        final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+
+                                        for (JsonElement o : jsonAuthorsArray) {
+                                            jsons.add(o);
+                                        }
+
+
+                                        RecyclerView v = (RecyclerView) list;
+                                        final PreCachingLayoutManager mLayoutManager;
+                                        mLayoutManager = new PreCachingLayoutManager(getActivity());
+                                        v.setLayoutManager(mLayoutManager);
+                                        v.setAdapter(new AlbumView(getActivity(), jsons, false));
+
+                                    } else {
+
+                                        new AlertDialogWrapper.Builder(getActivity())
+                                                .setTitle(R.string.album_err_not_found)
+                                                .setMessage(R.string.album_err_msg_not_found)
+                                                .setCancelable(false)
+                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        getActivity().finish();
+                                                    }
+                                                }).create().show();
+                                    }
+                                } else {
+
+                                    new AlertDialogWrapper.Builder(getActivity())
+                                            .setTitle(R.string.album_err_not_found)
+                                            .setMessage(R.string.album_err_msg_not_found)
+                                            .setCancelable(false)
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    getActivity().finish();
+                                                }
+                                            }).create().show();
+                                }
+                            }
+                        });
+            }
+
             return null;
 
         }

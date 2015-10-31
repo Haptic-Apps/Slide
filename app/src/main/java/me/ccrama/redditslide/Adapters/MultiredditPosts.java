@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.MultiRedditPaginator;
@@ -14,7 +13,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -44,8 +45,14 @@ public class MultiredditPosts {
     }
 
     public void loadMore(MultiredditAdapter adapter, MultiReddit subreddit) {
-        new LoadData(true).execute(subreddit);
+        if(Reddit.online) {
 
+            new LoadData(true).execute(subreddit);
+
+        } else {
+            adapter.setError(true);
+            refreshLayout.setRefreshing(false);
+        }
 
     }
 
@@ -58,38 +65,70 @@ public class MultiredditPosts {
 
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
-            if (reset) {
-                posts = subs;
+            if(subs ==null) {
+                adapter.setError(true);
             } else {
-                posts.addAll(subs);
-            }
-            ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    refreshLayout.setRefreshing(false);
+                if (reset) {
+                    posts = subs;
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
 
-                    adapter.notifyDataSetChanged();
+                            adapter.notifyItemRangeInserted(0, posts.size());
 
+                        }
+                    });
+                } else {
+                    final int start = posts.size();
+                    posts.addAll(subs);
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
+
+                            adapter.notifyItemRangeInserted(start, start + posts.size());
+
+                        }
+                    });
                 }
-            });
+            }
         }
 
         @Override
         protected ArrayList<Submission> doInBackground(MultiReddit... subredditPaginators) {
-            if (reset || paginator == null) {
+            try {
+                if (reset || paginator == null) {
 
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                paginator.setSorting(Reddit.defaultSorting);
-                paginator.setTimePeriod(Reddit.timePeriod);
-            }
-            if (paginator.hasNext()) {
-                try {
-                    return new ArrayList<>(paginator.next());
-                } catch (NetworkException ignored){
-
+                    paginator.setSorting(Reddit.defaultSorting);
+                    paginator.setTimePeriod(Reddit.timePeriod);
                 }
+                if (reset) {
+                    posts = new ArrayList<>();
+                    for (Submission s : paginator.next()) {
+                        if (Hidden.isHidden(s)) {
+                            if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                posts.add(s);
+                            } else if (!s.isNsfw()) {
+                                posts.add(s);
+                            }
+                        }
+                    }
+                } else {
+                    for (Submission s : paginator.next()) {
+                        if (SettingValues.NSFWPosts && s.isNsfw()) {
+                            posts.add(s);
+                        } else if (!s.isNsfw()) {
+                            posts.add(s);
+                        }
+                    }
+                }
+                return posts;
+            }catch (Exception e){
+                return null;
             }
-            return null;
+
         }
     }
 

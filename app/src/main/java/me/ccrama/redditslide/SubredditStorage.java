@@ -77,6 +77,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             getMultireddits();
         }
 
+        realSubs = new ArrayList<>();
 
         ArrayList<String> value = getPins();
 
@@ -96,7 +97,6 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 test.add("frontpage");
             if(!test.contains("all"))
                 test.add("all");
-            realSubs = new ArrayList<>();
 
             if(getSubreddits() != null) {
                 for (String s : getSubreddits()) {
@@ -297,22 +297,26 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         pag.setLimit(100);
 
 
-        while(pag.hasNext()){
-            Log.v("Slide", "ADDING NEW SUBS");
-            for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                Log.v("Slide", s.getDisplayName());
-                finished.add(s.getDisplayName().toLowerCase());
+        try {
+            while (pag.hasNext()) {
+                Log.v("Slide", "ADDING NEW SUBS");
+                for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                    Log.v("Slide", s.getDisplayName());
+                    finished.add(s.getDisplayName().toLowerCase());
+                }
             }
-        }
-        if(finished.size() == 0){
-            for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")){
-                finished.add(s);
+            if (finished.size() == 0) {
+                for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")) {
+                    finished.add(s);
 
+                }
             }
+
+            setSubreddits(finished);
+        } catch (Exception e){
+            //failed;
+            e.printStackTrace();
         }
-
-        setSubreddits(finished);
-
 
 
 

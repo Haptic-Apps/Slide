@@ -42,7 +42,6 @@ import java.util.HashMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -89,11 +88,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
+    CommentPage mPage;
+
     public Submission submission;
 
-    public CommentAdapter(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
+    public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
 
-        this.mContext = mContext;
+        this.mContext = mContext.getContext();
+        mPage = mContext;
         this.listView = listView;
         this.dataSet = dataSet;
         this.fm = fm;
@@ -176,7 +178,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         isSame = false;
-        notifyDataSetChanged();
+        notifyItemRangeInserted(1, users.size());
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 1;
 
@@ -194,6 +196,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     boolean isSame;
+
+    public void setError(boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+    }
 
     public class AsyncSave extends AsyncTask<Submission, Void, Void> {
 
@@ -456,9 +462,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             notifyItemRangeInserted(holderPos, data);
 
-            currentPos = holderPos;
-            toShiftTo= ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
-            shiftFrom= ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+                currentPos = holderPos;
+                toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
+                shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+
 
         }
 
@@ -473,28 +480,31 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int toPut = -1;
             int i = 0;
 
+            if (params.length > 0) {
 
-            for (CommentNode no : params[0].getMoreCommentNode().loadMoreComments(Authentication.reddit)) {
-                if(!keys.containsKey(no.getComment().getFullName())) {
-                    CommentObject obs = new CommentObject(no);
+                params[0].getMoreCommentNode().loadFully(Authentication.reddit);
+                for (CommentNode no : params[0].getMoreCommentNode().walkTree()) {
+                    if (!keys.containsKey(no.getComment().getFullName())) {
+                        CommentObject obs = new CommentObject(no);
 
-                    if(i == toPut && toDo != null){
-                        obs.setMoreChildren(toDo, toDoComment);
-                        toPut = -1;
+                        if (i == toPut && toDo != null) {
+                            obs.setMoreChildren(toDo, toDoComment);
+                            toPut = -1;
+                        }
+
+                        finalData.add(obs);
+
+                        if (no.hasMoreComments()) {
+                            toPut = i + no.getChildren().size() + 1;
+                            toDo = no.getMoreChildren();
+                            toDoComment = no;
+                        }
+                        i++;
                     }
 
-                    finalData.add(obs);
 
-                    if(no.hasMoreComments()){
-                        toPut = i + no.getChildren().size()  + 1 ;
-                        toDo =  no.getMoreChildren();
-                        toDoComment = no;
-                    }
-                    i++;
                 }
 
-
-            }
 
             shifted += i;
             users.addAll(position - 1, finalData);
@@ -503,6 +513,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 keys.put(users.get(i2).getCommentNode().getComment().getFullName(), i2);
             }
             params[0].moreChildren = null;
+            }
             return i;
         }
     }
@@ -541,6 +552,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final int finalPos = nextPos;
             final int finalPos1 = pos;
 
+
             if(pos > toShiftTo){
                 shifted = 0;
             }
@@ -567,12 +579,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final CommentObject prev = users.get(nextPos);
 
-            if(prev.getMoreChildren() != null){
+            if(prev.getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(nextPos -1).getCommentNode().getComment().getFullName())){
                 holder.commentArea.removeAllViews();
                 holder.commentArea.setVisibility(View.VISIBLE);
                 LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                 final View moreComments = inflater.inflate(R.layout.morecomment, holder.commentArea);
-                moreComments.findViewById(R.id.dot).setVisibility(View.VISIBLE);
 
 
                 int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
@@ -580,41 +591,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 for (int i = 0; i < users.get(nextPos).getMoreCommentNode().getDepth() ; i++) {
                     width += dwidth;
                 }
-                ((ActiveTextView)moreComments.findViewById(R.id.content)).setText("Load more comments");
+
                 (moreComments.findViewById(R.id.content)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(currentPos < finalPos1 &&  currentPos != 0) {
-                            new AsyncLoadMore(finalPos + 1 + shifted, finalPos1 + shifted, holder).execute(prev);
-                        } else {
-                            new AsyncLoadMore(finalPos + 1 , finalPos1 , holder).execute(prev);
+                            new AsyncLoadMore( getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
 
-                        }
 
                     }
                 });
 
                 (moreComments.findViewById(R.id.dots)).setPadding(width, 0, 0, 0);
 
-                if (users.get(nextPos).getMoreCommentNode().getDepth() - 1 > 0) {
-                    int i22 = users.get(nextPos).getMoreCommentNode().getDepth() - 1 ;
-                    if (i22 % 5 == 0) {
-                        moreComments.findViewById(R.id.dot).setBackgroundColor(Color.parseColor("#2196F3")); //blue
-                    } else if (i22 % 4 == 0) {
-                        moreComments.findViewById(R.id.dot).setBackgroundColor(Color.parseColor("#4CAF50")); //green
 
-                    } else if (i22 % 3 == 0) {
-                        moreComments.findViewById(R.id.dot).setBackgroundColor(Color.parseColor("#FFC107")); //yellow
-
-                    } else if (i22 % 2 == 0) {
-                        moreComments.findViewById(R.id.dot).setBackgroundColor(Color.parseColor("#FF9800")); //orange
-
-                    } else {
-                        moreComments.findViewById(R.id.dot).setBackgroundColor(Color.parseColor("#F44336")); //red
-                    }
-                } else {
-                    moreComments.findViewById(R.id.dot).setVisibility(View.GONE);
-                }
             } else {
                 holder.commentArea.setVisibility(View.GONE);
             }

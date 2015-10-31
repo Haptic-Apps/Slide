@@ -28,12 +28,18 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
     private final Context main;
     private final ArrayList<String> list;
 
-    public AlbumView(Context context, ArrayList<JsonElement> users) {
+    public AlbumView(Context context, ArrayList<JsonElement> users, boolean gallery) {
         main = context;
         this.users = users;
         list = new ArrayList<>();
-        for (final JsonElement elem : users) {
-            list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+        if(gallery){
+            for (final JsonElement elem : users) {
+                list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
+            }
+        } else {
+            for (final JsonElement elem : users) {
+                list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+            }
         }
     }
 
@@ -68,18 +74,24 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         final String url = list.get(position);
 
         ((Reddit)main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
-        {
-            holder.text.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-            if(holder.text.getText().toString().isEmpty()){
-                holder.text.setVisibility(View.GONE);
+        if(user.getAsJsonObject().has("image")) {
+            {
+                holder.text.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                if (holder.text.getText().toString().isEmpty()) {
+                    holder.text.setVisibility(View.GONE);
+                }
             }
-        }
 
-        {
-            holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-            if(holder.body.getText().toString().isEmpty()){
-                holder.body.setVisibility(View.GONE);
+            {
+                holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                if (holder.body.getText().toString().isEmpty()) {
+                    holder.body.setVisibility(View.GONE);
+                }
             }
+        } else {
+            holder.body.setVisibility(View.GONE);
+            holder.text.setVisibility(View.GONE);
+
         }
 
 

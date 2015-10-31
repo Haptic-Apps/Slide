@@ -13,8 +13,8 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 70
-        versionName "4.2.2"
+        versionCode 71
+        versionName "4.2.5"
         multiDexEnabled = true
 
     }
@@ -71,7 +71,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:+'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'
-
+    compile 'com.sothree.slidinguppanel:library:3.2.0'
     compile 'com.google.android.gms:play-services:+'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'

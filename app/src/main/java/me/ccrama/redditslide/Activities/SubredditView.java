@@ -36,8 +36,6 @@ import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -157,11 +155,8 @@ public class SubredditView extends BaseActivity {
         rv.setAdapter(adapter);
 
         doSubSidebar(subreddit);
-        try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -616,6 +611,7 @@ public class SubredditView extends BaseActivity {
                     //reset check adapter
                 }
             });
+            if(SubredditStorage.realSubs != null)
             c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

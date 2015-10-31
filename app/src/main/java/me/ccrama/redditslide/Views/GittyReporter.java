@@ -77,11 +77,10 @@ public abstract class GittyReporter extends AppCompatActivity {
         userPassword.setTypeface(Typeface.DEFAULT);
         userPassword.setTransformationMethod(new PasswordTransformationMethod());
 
-        if (!enableGuestGitHubLogin){
             githubCheckbox.setChecked(false);
             githubCheckbox.setVisibility(View.GONE);
             registerButton.setVisibility(View.VISIBLE);
-        }
+
 
         githubCheckbox.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {

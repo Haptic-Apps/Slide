@@ -9,6 +9,8 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 
 import java.net.URI;
@@ -218,7 +220,7 @@ public class MakeTextviewClickable {
 
                                 break;
                             case IMAGE:
-                                openImage(c, url);
+ openImage(c, url);
 
                                 break;
                             case GIF:
@@ -281,7 +283,10 @@ public class MakeTextviewClickable {
 
 
     }
-
+    public static float dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+    }
     public void ParseTextWithLinksTextView(String rawHTML, final ActiveTextView comm, final Activity c, String subreddit) {
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>").replace("</del>", "</strike>").replace("<del>", "<strike>");

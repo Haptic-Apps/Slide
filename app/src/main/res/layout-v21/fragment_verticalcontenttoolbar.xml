@@ -3,10 +3,11 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:background="?attr/activity_background"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -23,7 +24,6 @@
             android:clipToPadding="false"
             android:minHeight="56dp"
             android:paddingRight="16dp"
-            app:layout_scrollFlags="scroll|enterAlways"
 
 
             >
@@ -82,4 +82,5 @@
             >
         </android.support.v7.widget.RecyclerView>
 </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+
 </LinearLayout>

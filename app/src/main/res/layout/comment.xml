@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
 
     android:clipChildren="false"
+    android:background="?attr/activity_background"
 
 
     android:orientation="vertical"
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/card_background"
+
         android:orientation="horizontal">
 
 
@@ -34,10 +36,6 @@
             android:id="@+id/dots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-
-            android:layout_alignParentTop="true"
 
             android:orientation="horizontal">
 
@@ -61,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/dot"
+
             android:orientation="vertical"
             android:paddingLeft="8dp"
 
@@ -87,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingRight="10dp">

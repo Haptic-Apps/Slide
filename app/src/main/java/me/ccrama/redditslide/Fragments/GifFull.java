@@ -128,6 +128,7 @@ public class GifFull extends Fragment {
 
         @Override
         protected Void doInBackground(String... sub) {
+
             String s = sub[0];
             if (s.endsWith("v")) {
                 s = s.substring(0, s.length() - 1);

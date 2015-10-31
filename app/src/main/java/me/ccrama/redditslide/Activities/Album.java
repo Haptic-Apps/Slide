@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.GridView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
@@ -17,8 +17,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-
-import net.dean.jraw.models.CommentNode;
 
 import java.util.ArrayList;
 
@@ -50,7 +48,8 @@ public class Album extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.album);
 
@@ -61,48 +60,109 @@ public class Album extends BaseActivity {
 
 
         String rawDat = cutEnds(getIntent().getExtras().getString("url", ""));
+        if(rawDat.contains("gallery")){
+            gallery = true;
+        }
         String rawdat2 = rawDat;
-        if(rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4){
+        if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
             rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
         }
-        if(rawDat.isEmpty()){
+        if (rawDat.isEmpty()) {
             finish();
         } else {
 
-                new AsyncImageLoader().execute(getHash(rawDat));
+            new AsyncImageLoader().execute(getHash(rawDat));
 
         }
 
     }
+    boolean gallery = false;
 
-    private String getHash(String s){
+    private String getHash(String s) {
         String next = s.substring(s.lastIndexOf("/"), s.length());
-        if(next.length() < 5){
+        if (next.length() < 5) {
             return getHash(s.replace(next, ""));
         } else {
             return next;
         }
 
     }
-    private String cutEnds(String s){
-        if(s.endsWith("/")){
+
+    private String cutEnds(String s) {
+        if (s.endsWith("/")) {
             return s.substring(0, s.length() - 1);
         } else {
             return s;
         }
     }
 
-    public GridView gridView;
 
     private class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
-
-        CommentNode top;
-
-
-
         @Override
         protected Void doInBackground(String... sub) {
+            if(gallery){
+                Ion.with(Album.this)
+                        .load("https://imgur.com/gallery/" + sub[0] + ".json")
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                Log.v("Slide", result.toString());
+
+
+                                ArrayList<JsonElement> jsons = new ArrayList<>();
+
+                                if (result.has("data")) {
+
+                                    if(!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()){
+                                        if(result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")){
+                                            Intent i = new Intent(Album.this, GifView.class);
+                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                                            startActivity(i);
+                                        } else {
+                                            Intent i = new Intent(Album.this, FullscreenImage.class);
+                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                                            startActivity(i);
+                                        }
+                                        finish();
+
+                                    } else {
+                                        getSupportActionBar().setTitle("Gallery");
+
+                                        JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+                                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                                        for (JsonElement o : obj) {
+                                            jsons.add(o);
+                                        }
+
+
+                                        RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                        final PreCachingLayoutManager mLayoutManager;
+                                        mLayoutManager = new PreCachingLayoutManager(Album.this);
+                                        v.setLayoutManager(mLayoutManager);
+                                        v.setAdapter(new AlbumView(Album.this, jsons, true));
+
+                                    }
+                                    }
+                                } else {
+
+                                    new AlertDialogWrapper.Builder(Album.this)
+                                            .setTitle(R.string.album_err_not_found)
+                                            .setMessage(R.string.album_err_msg_not_found)
+                                            .setCancelable(false)
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    finish();
+                                                }
+                                            }).create().show();
+                                }
+                                }
+
+                        });
+            } else {
                 Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
                 Ion.with(Album.this)
                         .load("http://api.imgur.com/2/album" + sub[0] + ".json")
@@ -118,6 +178,9 @@ public class Album extends BaseActivity {
                                 if (result.has("album")) {
                                     if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
                                         getSupportActionBar().setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
+                                    } else {
+                                        getSupportActionBar().setTitle("Album");
+
                                     }
                                     JsonObject obj = result.getAsJsonObject("album");
                                     if (obj != null && !obj.isJsonNull() && obj.has("images")) {
@@ -133,7 +196,7 @@ public class Album extends BaseActivity {
                                         final PreCachingLayoutManager mLayoutManager;
                                         mLayoutManager = new PreCachingLayoutManager(Album.this);
                                         v.setLayoutManager(mLayoutManager);
-                                        v.setAdapter(new AlbumView(Album.this, jsons));
+                                        v.setAdapter(new AlbumView(Album.this, jsons, false));
 
                                     } else {
 
@@ -153,16 +216,17 @@ public class Album extends BaseActivity {
                                     new AlertDialogWrapper.Builder(Album.this)
                                             .setTitle(R.string.album_err_not_found)
                                             .setMessage(R.string.album_err_msg_not_found)
-                                                    .setCancelable(false)
-                                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            finish();
-                                                        }
-                                                    }).create().show();
+                                            .setCancelable(false)
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    finish();
+                                                }
+                                            }).create().show();
                                 }
                             }
                         });
+            }
 
             return null;
 

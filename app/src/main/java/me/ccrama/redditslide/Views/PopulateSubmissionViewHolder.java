@@ -212,7 +212,12 @@ public class PopulateSubmissionViewHolder {
         if (!(SettingValues.infoBar == SettingValues.InfoBar.NONE && !full)) {
 
             boolean bigAtEnd = false;
-            if (type == ContentType.ImageType.IMAGE) {
+            if(submission.isNsfw() && !SettingValues.NSFWPreviews){
+                bigAtEnd = false;
+                holder.thumbImage.setVisibility(View.GONE);
+                holder.imageArea.setVisibility(View.GONE);
+                holder.previewContent.setVisibility(View.VISIBLE);
+            } else if (type == ContentType.ImageType.IMAGE) {
                 url = ContentType.getFixedUrl(submission.getUrl());
                 if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
 
@@ -333,8 +338,13 @@ public class PopulateSubmissionViewHolder {
                     break;
 
                 case IMAGE:
-                    title.setVisibility(View.GONE);
-                    info.setVisibility(View.GONE);
+                    if(submission.isNsfw() && !SettingValues.NSFWPreviews){
+                        title.setText(R.string.type_nsfw_img);
+
+                    } else {
+                        title.setVisibility(View.GONE);
+                        info.setVisibility(View.GONE);
+                    }
                     break;
 
                 case GFY:
@@ -503,13 +513,14 @@ public class PopulateSubmissionViewHolder {
     }
 
 
+
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
         switch (type) {
             case NSFW_IMAGE:
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        openImage(contextActivity, submission);
+                            openImage(contextActivity, submission);
 
                     }
                 });
@@ -649,7 +660,8 @@ public class PopulateSubmissionViewHolder {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        openImage(contextActivity, submission);
+                            openImage(contextActivity, submission);
+
 
                     }
                 });

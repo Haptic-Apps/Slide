@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.SubredditPaginator;
 
@@ -15,22 +14,24 @@ import java.util.concurrent.ExecutionException;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditPosts {
-    public ArrayList<Submission> posts;
+    public ArrayList<Submission> posts = null;
     private SubredditPaginator paginator;
     private SwipeRefreshLayout refreshLayout;
 
     public boolean loading;
+
     public SubredditPosts(ArrayList<Submission> firstData, SubredditPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
     }
 
-    public ArrayList<Submission> getPosts(){
+    public ArrayList<Submission> getPosts() {
         try {
             return new LoadData(true).execute(subreddit).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -38,6 +39,7 @@ public class SubredditPosts {
         }
         return new ArrayList<>();
     }
+
     public String subreddit;
 
     public SubredditPosts(String subreddit) {
@@ -46,14 +48,21 @@ public class SubredditPosts {
 
     private SubmissionAdapter adapter;
 
-    public void bindAdapter(SubmissionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
+    public void bindAdapter(SubmissionAdapter a, SwipeRefreshLayout layout) {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, true, subreddit);
     }
 
     public void loadMore(SubmissionAdapter adapter, boolean reset, String subreddit) {
-        new LoadData(reset).execute(subreddit);
+        if (Reddit.online) {
+
+            new LoadData(reset).execute(subreddit);
+
+        } else {
+            adapter.setError(true);
+            refreshLayout.setRefreshing(false);
+        }
 
 
     }
@@ -68,45 +77,72 @@ public class SubredditPosts {
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
 
-            loading = true;
-            if(refreshLayout != null)
-            ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    refreshLayout.setRefreshing(false);
+            if (subs == null || subs.isEmpty()) {
+                adapter.setError(true);
+                refreshLayout.setRefreshing(false);
+            } else {
+                adapter.undoSetError();
+                if (reset) {
+                    posts = subs;
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
 
-                    adapter.dataSet = posts;
+                            adapter.dataSet = posts;
 
-                    adapter.notifyDataSetChanged();
+                            adapter.notifyItemRangeInserted(0, posts.size());
 
+                        }
+                    });
+                } else {
+                    final int start = posts.size();
+                    posts.addAll(subs);
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
+
+                            adapter.dataSet = posts;
+
+                            adapter.notifyItemRangeInserted(start, start + posts.size());
+
+                        }
+                    });
                 }
-            });
+            }
         }
 
         @Override
         protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
-            if (reset || paginator == null) {
-                if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
-                    paginator = new SubredditPaginator(Authentication.reddit);
-                } else {
-                    paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
+            try {
+                if (reset || paginator == null) {
+                    if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
+                        paginator = new SubredditPaginator(Authentication.reddit);
+                    } else {
+                        paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
 
+                    }
+                    paginator.setSorting(Reddit.defaultSorting);
+                    paginator.setTimePeriod(Reddit.timePeriod);
                 }
-                paginator.setSorting(Reddit.defaultSorting);
-                paginator.setTimePeriod(Reddit.timePeriod);
-            }
-            if (paginator.hasNext()) {
-                try {
+                if (paginator.hasNext()) {
                     if (reset) {
                         posts = new ArrayList<>();
-                        for(Submission s : paginator.next()) {
-                            if(Hidden.isHidden(s)) {
-                                posts.add(s);
+                        for (Submission s : paginator.next()) {
+                            if (Hidden.isHidden(s)) {
+                                if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                    posts.add(s);
+                                } else if (!s.isNsfw()) {
+                                    posts.add(s);
+                                }
                             }
                         }
                     } else {
-                        for(Submission s : paginator.next()) {
-                            if(Hidden.isHidden(s)) {
+                        for (Submission s : paginator.next()) {
+                            if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                posts.add(s);
+                            } else if (!s.isNsfw()) {
                                 posts.add(s);
                             }
                         }
@@ -115,12 +151,12 @@ public class SubredditPosts {
                     return posts;
 
 
-                } catch (NetworkException ignored){
-
                 }
-            }
 
-            return null;
+                return null;
+            } catch (Exception e) {
+                return null;
+            }
         }
     }
 

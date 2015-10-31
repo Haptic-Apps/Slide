@@ -54,6 +54,32 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+        {
+            CheckBox single = (CheckBox) findViewById(R.id.nsfw);
+
+            single.setChecked(!SettingValues.NSFWPosts);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !isChecked).apply();
+
+                    SettingValues.NSFWPosts = !isChecked;
+                }
+            });
+        }
+        {
+            CheckBox single = (CheckBox) findViewById(R.id.nsfwrpev);
+
+            single.setChecked(!SettingValues.NSFWPreviews);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();
+                    SettingValues.NSFWPreviews = !isChecked;
+
+                }
+            });
+        }
         final TextView color = (TextView) findViewById(R.id.font);
         color.setText(new FontPreferences(this).getFontStyle().getTitle());
         findViewById(R.id.fontsize).setOnClickListener(new View.OnClickListener() {

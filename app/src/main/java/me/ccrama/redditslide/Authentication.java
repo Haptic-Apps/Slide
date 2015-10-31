@@ -59,15 +59,19 @@ public class Authentication {
             Log.v("Slide", "REAUTH");
             if(isLoggedIn) {
 
-                final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
-                Log.v("Slide", "REAUTH LOGGED IN");
+                    final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+                    Log.v("Slide", "REAUTH LOGGED IN");
 
-                OAuthHelper oAuthHelper = reddit.getOAuthHelper();
-                oAuthHelper.setRefreshToken(refresh);
+                    OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+                    oAuthHelper.setRefreshToken(refresh);
+                OAuthData finalData = null;
                 try {
-                    OAuthData finalData = oAuthHelper.refreshToken(credentials);
+                    finalData = oAuthHelper.refreshToken(credentials);
+                } catch (OAuthException e) {
+                    e.printStackTrace();
+                }
 
-                    refresh = oAuthHelper.getRefreshToken();
+                refresh = oAuthHelper.getRefreshToken();
                     reddit.authenticate(finalData);
                     if (reddit.isAuthenticated()) {
                         Authentication.name = reddit.me().getFullName();
@@ -75,10 +79,8 @@ public class Authentication {
 
 
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.v("Slide", "RESTARTING CREDS");
-                }
+
+
             } else {
                 final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                 OAuthData authData = null;

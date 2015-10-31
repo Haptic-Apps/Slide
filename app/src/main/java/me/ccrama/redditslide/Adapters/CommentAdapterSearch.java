@@ -97,7 +97,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
             adapter.dataSet = new ArrayList<>();
             adapter.dataSet.addAll((ArrayList<CommentNode>) results.values);
-            adapter.notifyDataSetChanged();
+            adapter.notifyItemRangeInserted(0, ((ArrayList<CommentNode>) results.values).size());
         }
     }
 

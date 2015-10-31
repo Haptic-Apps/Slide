@@ -12,8 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Window;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
@@ -75,11 +73,8 @@ public class SingleView extends BaseActivity {
         adapter = new SubmissionAdapter(this, posts, rv , subreddit);
         rv.setAdapter(adapter);
 
-        try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
-import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
@@ -42,7 +42,7 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder> {
+public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder> implements BaseAdapter{
 
     public final Context mContext;
     public ArrayList<Submission> dataSet;
@@ -51,7 +51,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
     private final String subreddit;
 
     private final boolean custom;
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+        Log.v("Slide", "SETTING ADAPTER");
+    }
 
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
 
     @Override
     public SubmissionViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -89,6 +98,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
             this.v = v;
         }
 
+
         @Override
         protected Void doInBackground(Submission... submissions) {
             try {
@@ -108,8 +118,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
 
                 }
-            } catch (ApiException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                return null;
             }
             return null;
         }

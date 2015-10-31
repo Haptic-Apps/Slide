@@ -28,12 +28,20 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 
-public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> {
+public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> implements BaseAdapter{
 
     public final Context mContext;
     public ArrayList<Message> dataSet;
     private final RecyclerView listView;
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+    }
 
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
 
     private static final int TOP_LEVEL = 1;
     @Override

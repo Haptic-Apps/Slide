@@ -246,9 +246,9 @@ public class Profile extends BaseActivity {
             try {
                 account = Authentication.reddit.getUser(params[0]);
             } catch (NetworkException ignored) {
-            } finally {
-                return null;
             }
+            return null;
+
         }
 
         @Override

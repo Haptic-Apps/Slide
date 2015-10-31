@@ -5,10 +5,10 @@
 
     android:clipChildren="false"
 
+    android:background="?attr/card_background"
 
     android:orientation="horizontal"
 
-    android:background="?attr/card_background"
     android:scrollbars="none">
     <LinearLayout
         android:id="@+id/dots"
@@ -25,6 +25,7 @@
     </LinearLayout>
 
 
+
     <View
         android:id="@+id/dot"
         android:layout_width="3dp"
@@ -33,21 +34,25 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/dots"
-        android:background="#fff" />
+        android:background="?attr/tint" />
 
 
-            <me.ccrama.redditslide.ActiveTextView
-                android:padding="12dp"
+            <Button
 
                 android:id="@+id/content"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/flow"
+                android:layout_height="35dp"
 
-                android:text="Load 3 more comments"
+                android:text="Load more comments"
+                android:textAllCaps="false"
+
+                android:paddingLeft="8dp"
                 android:textColor="?attr/font"
-                android:textSize="?attr/font_commentbody" />
+
+
+                android:background="?attr/card_background"
+                android:textSize="?attr/font_commenttitle" />
 
 
 

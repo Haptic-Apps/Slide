@@ -39,7 +39,7 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
 
     public final Context mContext;
     public ArrayList<Contribution> dataSet;
@@ -264,4 +264,13 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+    }
+
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
 }

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <application
         android:name=".Reddit"
         android:allowBackup="true"
@@ -36,6 +37,11 @@
 
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".Activities.Internet"
+            android:theme="@style/swipeable"
+
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".Activities.FullscreenImage"
             android:theme="@style/swipeable"
 
@@ -50,6 +56,11 @@
             android:theme="@style/swipeable"
 
             android:configChanges="keyboardHidden|orientation|screenSize" />
+        <receiver android:name=".ConnectionReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".Activities.GifView"
             android:theme="@style/swipeable"

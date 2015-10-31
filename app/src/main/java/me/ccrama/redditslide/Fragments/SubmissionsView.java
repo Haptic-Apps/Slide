@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.R;
@@ -92,20 +90,13 @@ public class SubmissionsView extends Fragment {
         posts = new SubredditPosts(id);
         adapter = new SubmissionAdapter(getContext(), posts, rv, posts.subreddit );
         rv.setAdapter(adapter);
+        posts.bindAdapter(adapter, mSwipeRefreshLayout);
 
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                             posts.loadMore(adapter, true, id);
-
-                        //TODO catch errors
                     }
                 }
         );

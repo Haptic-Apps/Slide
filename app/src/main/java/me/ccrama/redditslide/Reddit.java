@@ -28,8 +28,10 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.UnknownHostException;
 
 import me.ccrama.redditslide.Activities.Crash;
+import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
@@ -179,6 +181,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static NotificationJobScheduler notifications;
 
 
+
+    public static Boolean online = true;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -196,7 +202,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         hidden = getSharedPreferences("HIDDEN", 0);
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
-        new SetupIAB().execute();
 
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -204,24 +209,31 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable t) {
 
-                try {
-                    Writer writer = new StringWriter();
-                    PrintWriter printWriter = new PrintWriter(writer);
-                    t.printStackTrace(printWriter);
-                    String s = writer.toString();
-                    s = s.replace(";", ",");
-                    Intent i = new Intent(Reddit.this, Crash.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    i.putExtra("stacktrace", "```" + s + "```");
-
+                if(t instanceof UnknownHostException){
+                    Intent i = new Intent(Reddit.this, Internet.class);
                     startActivity(i);
-                } catch (Throwable ignored) {
+                } else {
+                    try {
+                        Writer writer = new StringWriter();
+                        PrintWriter printWriter = new PrintWriter(writer);
+                        t.printStackTrace(printWriter);
+                        String s = writer.toString();
+                        s = s.replace(";", ",");
+                        Intent i = new Intent(Reddit.this, Crash.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("stacktrace", "```" + s + "```");
+
+                        startActivity(i);
+                    } catch (Throwable ignored) {
+                    }
                 }
 
                 androidHandler.uncaughtException(thread, t);
             }
         });
         //END adaptation
+        new SetupIAB().execute();
+
 
         if (!seen.contains("RESET")) {
             colors.edit().clear().apply();

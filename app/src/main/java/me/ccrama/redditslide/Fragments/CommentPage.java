@@ -126,6 +126,7 @@ public class CommentPage extends Fragment {
         }
 
     }
+
     private View v;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView rv;
@@ -141,6 +142,7 @@ public class CommentPage extends Fragment {
             final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
             LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
             v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
+
 
             rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
             final PreCachingLayoutManagerComments mLayoutManager;
@@ -225,7 +227,7 @@ public class CommentPage extends Fragment {
 
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 if(DataShare.sharedSubreddit != null)
-                adapter = new CommentAdapter(getContext(), comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
+                adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
                 rv.setAdapter(adapter);
 
             } else {
@@ -249,6 +251,8 @@ public class CommentPage extends Fragment {
                         }
                     }
             );
+
+
 
         return v;
     }
@@ -276,7 +280,7 @@ public class CommentPage extends Fragment {
 
         if(adapter == null || single){
             if(context != null && !context.equals("NOTHING")) {
-                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission,getFragmentManager());
+                adapter = new CommentAdapter(this, comments, rv, comments.submission,getFragmentManager());
                 adapter.currentSelectedItem = context;
                 int i = 1;
                 for(CommentObject n : comments.comments){
@@ -291,7 +295,7 @@ public class CommentPage extends Fragment {
                 }
 
             } else {
-                adapter = new CommentAdapter(getContext(), comments, rv, comments.submission,getFragmentManager());
+                adapter = new CommentAdapter(this, comments, rv, comments.submission,getFragmentManager());
 
             }
             rv.setAdapter(adapter);
