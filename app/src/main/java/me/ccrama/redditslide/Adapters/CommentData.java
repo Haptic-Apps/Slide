@@ -9,7 +9,7 @@ import net.dean.jraw.models.MoreChildren;
  */
 class CommentData {
     private final CommentNode n;
-    private MoreChildren moreChildren;
+
     public Comment getComment(){
         return n.getComment();
     }
@@ -28,7 +28,7 @@ class CommentData {
     private final boolean more;
 
     public CommentData(MoreChildren moreChildren, CommentNode n){
-        this.moreChildren = moreChildren;
+        MoreChildren moreChildren1 = moreChildren;
         more = false;
         this.n = n;
 

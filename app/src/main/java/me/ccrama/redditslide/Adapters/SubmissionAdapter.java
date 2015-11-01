@@ -79,16 +79,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
         custom = SettingValues.prefs.contains("PRESET" + subreddit);
 
-        isSame = false;
+        boolean isSame = false;
 
     }
 
-
-
-    private final boolean isSame;
-
-
-    private int lastPosition = -1;
 
     public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
 
@@ -256,7 +250,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionViewHolder
 
         new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView, custom);
 
-        lastPosition = i;
+        int lastPosition = i;
 
     }
 

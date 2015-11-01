@@ -33,14 +33,13 @@ import me.ccrama.redditslide.Reddit;
  * Created by ccrama on 5/27/2015.
  */
 public class Login extends BaseActivity {
-    private Toolbar toolbar;
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_login);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_login);
 
         setSupportActionBar(toolbar);

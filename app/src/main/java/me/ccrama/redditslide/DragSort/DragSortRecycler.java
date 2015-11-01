@@ -38,10 +38,6 @@ import android.view.View;
 
 class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerView.OnItemTouchListener {
 
-    private final String TAG = "DragSortRecycler";
-
-    private final boolean DEBUG = false;
-
     private int dragHandleWidth = 0;
 
     private int selectedDragItemPos = -1;
@@ -87,6 +83,8 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
 
     private void debugLog(String log)
     {
+        boolean DEBUG = false;
+        String TAG = "DragSortRecycler";
         if (DEBUG)
             Log.d(TAG, log);
     }
@@ -288,6 +286,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
 
                 if (handleView == null)
                 {
+                    String TAG = "DragSortRecycler";
                     Log.e(TAG, "The view ID " + viewHandleId + " was not found in the RecycleView item");
                     return false;
                 }

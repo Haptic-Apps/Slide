@@ -35,7 +35,7 @@
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:text="Android"
+                android:text="@string/example_sub"
                 android:textColor="?attr/font"
                 android:id="@+id/name"
                 android:textSize="16sp" />

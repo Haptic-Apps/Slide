@@ -24,16 +24,12 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class MultiredditView extends Fragment {
 
 
-    private View v;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView rv;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
+        View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -44,7 +40,7 @@ public class MultiredditView extends Fragment {
             rv.setLayoutManager(mLayoutManager);
         }
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -53,7 +49,7 @@ public class MultiredditView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new MultiredditPosts(SubredditStorage.multireddits.get(id));
-        adapter = new MultiredditAdapter(getContext(), posts, rv );
+        adapter = new MultiredditAdapter(getContext(), posts, rv);
         rv.setAdapter(adapter);
 
         try {
@@ -66,7 +62,7 @@ public class MultiredditView extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                            posts.loadMore(adapter, SubredditStorage.multireddits.get(id));
+                        posts.loadMore(adapter, SubredditStorage.multireddits.get(id));
 
                         //TODO catch errors
                     }

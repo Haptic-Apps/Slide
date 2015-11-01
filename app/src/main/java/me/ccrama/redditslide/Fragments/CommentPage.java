@@ -127,7 +127,6 @@ public class CommentPage extends Fragment {
 
     }
 
-    private View v;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView rv;
 
@@ -141,7 +140,7 @@ public class CommentPage extends Fragment {
             int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
             final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
             LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-            v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
+        View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
 
             rv = ((RecyclerView) v.findViewById(R.id.vertical_content));

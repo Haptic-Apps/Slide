@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:background="@color/md_light_blue_500"
             android:padding="24dp"
-            android:text="/r/Android"
+            android:text="@string/example_sub"
             android:textSize="18sp"
             android:textStyle="bold" />
         <ImageView
@@ -83,15 +83,11 @@
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
                         android:padding="16dp">
 
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -117,7 +113,6 @@
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo"/>
-                        </LinearLayout>
 
 
                     </LinearLayout>

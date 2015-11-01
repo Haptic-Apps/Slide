@@ -19,12 +19,11 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 8/17/2015.
  */
 public class SubredditListingAdapter extends ArrayAdapter<String> {
-    private final List<String> objects;
 
 
     public SubredditListingAdapter(Context context, ArrayList<String> objects) {
         super(context,0,  objects);
-        this.objects = new ArrayList<>(objects);
+        List<String> objects1 = new ArrayList<>(objects);
         fitems = new ArrayList<>(objects);
     }
 

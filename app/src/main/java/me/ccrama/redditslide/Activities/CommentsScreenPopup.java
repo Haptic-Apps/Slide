@@ -23,7 +23,6 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenPopup extends BaseActivity {
-    private ViewPager pager;
     private ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
     @Override
@@ -47,7 +46,7 @@ public class CommentsScreenPopup extends BaseActivity {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
         }
-        pager = (ViewPager) findViewById(R.id.contentView);
+        ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(firstPage);
@@ -59,11 +58,11 @@ public class CommentsScreenPopup extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                    //todo load more
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
-                    }
+                //todo load more
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
+                }
 
             }
 

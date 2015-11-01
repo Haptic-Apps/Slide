@@ -74,12 +74,10 @@ public class InboxAdapter extends RecyclerView.Adapter<MessageViewHolder> implem
         this.listView = listView;
         this.dataSet = dataSet.posts;
 
-        isSame = false;
+        boolean isSame = false;
 
     }
 
-
-    private final boolean isSame;
 
     private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
 

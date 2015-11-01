@@ -1,6 +1,5 @@
 package me.ccrama.redditslide;
 
-import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.PrivateMessage;
 import net.dean.jraw.models.Submission;
 

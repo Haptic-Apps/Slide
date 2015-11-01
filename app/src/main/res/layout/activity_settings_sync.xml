@@ -22,9 +22,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_marginBottom="18dp"
@@ -39,7 +37,7 @@
             android:layout_width="match_parent"
             android:padding="16dp"
             android:textColor="?attr/font"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:text="@string/backup_info"
             android:layout_height="wrap_content" />
         <LinearLayout
@@ -105,5 +103,4 @@
     </LinearLayout>
         </ScrollView>
 
-    </RelativeLayout>
 </LinearLayout>

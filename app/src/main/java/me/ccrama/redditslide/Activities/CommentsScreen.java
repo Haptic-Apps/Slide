@@ -27,7 +27,6 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivity {
-    private ViewPager pager;
     private ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
 
@@ -58,7 +57,7 @@ public class CommentsScreen extends BaseActivity {
             CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(firstPage).getSubredditName())));
 
         }
-        pager = (ViewPager) findViewById(R.id.contentView);
+            ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(firstPage);
@@ -70,13 +69,13 @@ public class CommentsScreen extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                    //todo load more
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
-                        CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
+                //todo load more
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
+                    CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
 
-                    }
+                }
 
             }
 

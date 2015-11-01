@@ -22,8 +22,6 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionsView extends Fragment {
 
 
-    private View v;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView rv;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -63,7 +61,7 @@ public class SubmissionsView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
+        View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
@@ -77,8 +75,7 @@ public class SubmissionsView extends Fragment {
         }
 
 
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -96,7 +93,7 @@ public class SubmissionsView extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                            posts.loadMore(adapter, true, id);
+                        posts.loadMore(adapter, true, id);
                     }
                 }
         );

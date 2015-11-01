@@ -25,7 +25,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * Created by ccrama on 9/17/2015.
  */
 public class Shadowbox extends BaseActivity {
-    private ViewPager pager;
     private ArrayList<Submission> posts;
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -39,7 +38,7 @@ public class Shadowbox extends BaseActivity {
         setContentView(R.layout.activity_slide);
 
             posts = DataShare.sharedSubreddit;
-        pager = (ViewPager) findViewById(R.id.contentView);
+        ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
 

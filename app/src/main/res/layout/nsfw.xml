@@ -6,7 +6,7 @@
     android:background="@drawable/nsfwback"
     android:layout_height="15dp">
     <TextView android:layout_width="wrap_content"
-        android:text="NSFW"
+        android:text="@string/NSFW"
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#fff"

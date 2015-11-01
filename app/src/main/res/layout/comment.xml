@@ -48,9 +48,6 @@
             android:layout_width="3dp"
             android:layout_height="match_parent"
 
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@id/dots"
             android:background="#fff" />
 
 
@@ -58,7 +55,6 @@
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/dot"
 
             android:orientation="vertical"
             android:paddingLeft="8dp"
@@ -216,5 +212,5 @@
         android:layout_width="match_parent"
         android:id="@+id/menuarea"
         android:orientation="vertical"
-        android:layout_height="wrap_content"></LinearLayout>
+        android:layout_height="wrap_content"/>
 </LinearLayout>

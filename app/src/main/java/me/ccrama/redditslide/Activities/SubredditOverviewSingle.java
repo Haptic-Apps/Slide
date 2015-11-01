@@ -83,8 +83,6 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class SubredditOverviewSingle extends OverviewBase  {
 
 
-
-    private Toolbar toolbar;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -177,7 +175,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.activity_overview_single);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
         if (DataShare.notifs != null) {
 

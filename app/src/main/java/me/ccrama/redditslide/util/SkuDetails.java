@@ -22,7 +22,6 @@ import org.json.JSONObject;
  * Represents an in-app product's listing details.
  */
 public class SkuDetails {
-    private final String mItemType;
     private String mSku;
     private String mType;
     private String mPrice;
@@ -35,7 +34,7 @@ public class SkuDetails {
     }
 
     public SkuDetails(String itemType, String jsonSkuDetails) throws JSONException {
-        mItemType = itemType;
+        String mItemType = itemType;
         mJson = jsonSkuDetails;
         JSONObject o = new JSONObject(mJson);
         mSku = o.optString("productId");

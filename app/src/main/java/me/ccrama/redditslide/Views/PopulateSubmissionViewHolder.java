@@ -629,7 +629,13 @@ public class PopulateSubmissionViewHolder {
                 });
                 break;
             case SELF:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
 
+
+                    }
+                });
                 break;
             case GFY:
                 base.setOnClickListener(new View.OnClickListener() {
@@ -695,6 +701,13 @@ public class PopulateSubmissionViewHolder {
                 break;
 
             case NONE:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+
+
+                    }
+                });
 
                 break;
             case NONE_IMAGE:

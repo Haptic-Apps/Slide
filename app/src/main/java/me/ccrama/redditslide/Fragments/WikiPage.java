@@ -13,14 +13,12 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 public class WikiPage extends Fragment {
 
 
-    private View v;
-
     private String text;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.justtext, container, false);
+        View v = inflater.inflate(R.layout.justtext, container, false);
         ActiveTextView body = (ActiveTextView) v.findViewById(R.id.body);
         new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, getActivity(), subreddit);
 

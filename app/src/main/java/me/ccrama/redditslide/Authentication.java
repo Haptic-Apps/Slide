@@ -37,7 +37,6 @@ public class Authentication {
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     public static SharedPreferences authentication;
     private static final String REDIRECT_URL = "http://www.ccrama.me";
-    private static int inboxC;
     private Reddit a;
 
     public Authentication(Context context) {
@@ -177,6 +176,7 @@ public class Authentication {
 
 
                 }
+                int inboxC;
                 if (isLoggedIn)
                     inboxC = reddit.me().getInboxCount();
             } catch(Exception e){

@@ -37,13 +37,10 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     private final Context mContext;
     private List<CommentNode> dataSet;
-    private final RecyclerView listView;
     private final List<CommentNode> originalDataSet;
 
 
     ///... other methods
-
-    private String search;
 
     @Override
     public Filter getFilter() {
@@ -88,7 +85,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            search = constraint.toString();
+            String search = constraint.toString();
 
             adapter.dataSet = new ArrayList<>();
             adapter.dataSet.addAll((ArrayList<CommentNode>) results.values);
@@ -110,7 +107,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
-        this.listView = listView;
+        RecyclerView listView1 = listView;
         this.subAuthor = subAuthor;
         this.originalDataSet = dataSet;
         List<CommentNode> filteredUserList = new ArrayList<>();

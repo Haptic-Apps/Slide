@@ -21,7 +21,6 @@ import me.ccrama.redditslide.Reddit;
  */
 public class SubmissionComments {
     public ArrayList<CommentObject> comments;
-    private CommentNode baseComment;
     public final SwipeRefreshLayout refreshLayout;
 
     private String context;
@@ -98,7 +97,7 @@ public class SubmissionComments {
             }
             try {
                 submission = Authentication.reddit.getSubmission(builder.build());
-                baseComment = submission.getComments();
+                CommentNode baseComment = submission.getComments();
                 //  baseComment.loadFully(Authentication.reddit, 6, 30);
                 comments = new ArrayList<>();
 

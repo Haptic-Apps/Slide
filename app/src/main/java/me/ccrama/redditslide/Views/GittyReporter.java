@@ -42,7 +42,6 @@ public abstract class GittyReporter extends AppCompatActivity {
     private String extraInfo;
     private String gitToken;
     private Boolean enableGitHubLogin = true;
-    private Boolean enableGuestGitHubLogin = true;
 
     @Override
     final protected void onCreate(Bundle savedInstanceState) {
@@ -414,7 +413,7 @@ public abstract class GittyReporter extends AppCompatActivity {
     }
 
     protected void enableGuestGitHubLogin(){
-        this.enableGuestGitHubLogin = true;
+        Boolean enableGuestGitHubLogin = true;
     }
 
     protected void canEditDebugInfo(){

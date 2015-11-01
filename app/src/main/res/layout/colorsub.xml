@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
-                android:text="/r/Android"
+                android:text="@string/example_sub"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

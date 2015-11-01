@@ -84,7 +84,6 @@ public class SubredditOverview extends OverviewBase {
 
 
     private int toGoto = 0;
-    private Toolbar toolbar;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -219,7 +218,7 @@ public class SubredditOverview extends OverviewBase {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.activity_overview);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
         if (getIntent() != null && getIntent().hasExtra("pageTo"))
             toGoto = getIntent().getIntExtra("pageTo", 0);

@@ -32,9 +32,6 @@ import me.ccrama.redditslide.Visuals.Pallete;
  */
 public class Inbox extends BaseActivity {
 
-    private TabLayout tabs;
-    private ViewPager pager;
-
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -46,13 +43,13 @@ public class Inbox extends BaseActivity {
         setContentView(R.layout.activity_inbox);
 
 
-        tabs = (TabLayout) findViewById(R.id.sliding_tabs);
+        TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.title_inbox);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pager = (ViewPager) findViewById(R.id.contentView);
+        ViewPager pager = (ViewPager) findViewById(R.id.contentView);
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

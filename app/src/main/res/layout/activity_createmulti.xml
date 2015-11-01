@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:textColor="?attr/font"
             android:backgroundTint="?attr/tint"
-            android:hint="Multi name           "
+            android:hint="Multi Name       "
             android:inputType="textCapWords"
             android:maxLines="1"
             android:maxLength="21"

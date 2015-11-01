@@ -77,15 +77,10 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.listView = listView;
         this.dataSet = dataSet.posts;
 
-        isSame = false;
+        boolean isSame = false;
 
     }
 
-
-    private final boolean isSame;
-
-
-    private int lastPosition = -1;
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int i) {
@@ -221,7 +216,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
 
-            lastPosition = i;
+            int lastPosition = i;
         } else {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;

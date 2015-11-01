@@ -64,14 +64,10 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
         this.listView = listView;
         this.dataSet = dataSet;
 
-        isSame = false;
+        boolean isSame = false;
 
     }
 
-    private final boolean isSame;
-
-
-    private int lastPosition = -1;
 
     @Override
     public void onBindViewHolder(final SubmissionViewHolder holder, final int i) {
@@ -202,7 +198,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<SubmissionViewHolde
                 });                return true;
             }
         });
-        lastPosition = i;
+        int lastPosition = i;
 
     }
 

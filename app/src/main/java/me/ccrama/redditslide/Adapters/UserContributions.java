@@ -11,10 +11,10 @@ import java.util.List;
  */
 class UserContributions {
     private final ArrayList<Contribution> posts;
-    private final UserContributionPaginator paginator;
+
     public UserContributions(ArrayList<Contribution> firstData, UserContributionPaginator paginator){
         posts = firstData;
-        this.paginator = paginator;
+        UserContributionPaginator paginator1 = paginator;
     }
     public void addData(List<Contribution> data){
         posts.addAll(data);

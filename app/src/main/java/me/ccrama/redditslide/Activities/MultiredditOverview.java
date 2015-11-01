@@ -35,7 +35,6 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class MultiredditOverview extends BaseActivity {
-    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -46,7 +45,7 @@ public class MultiredditOverview extends BaseActivity {
 
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_multireddits);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

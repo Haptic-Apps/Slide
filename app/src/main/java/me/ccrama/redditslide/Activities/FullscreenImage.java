@@ -117,7 +117,7 @@ public class FullscreenImage extends BaseActivity {
                                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                                     String localAbsoluteFilePath = saveImageLocally(loadedImage);
 
-                                    if (localAbsoluteFilePath != "" && localAbsoluteFilePath != null) {
+                                    if (!localAbsoluteFilePath.isEmpty() && localAbsoluteFilePath != null) {
 
                                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                                         Uri phototUri = Uri.parse(localAbsoluteFilePath);

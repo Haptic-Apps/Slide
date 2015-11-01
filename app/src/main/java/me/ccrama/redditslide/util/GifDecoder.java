@@ -30,10 +30,7 @@ class GifDecoder {
     private int bgIndex; // background color index
     private int bgColor; // background color
     private int lastBgColor; // previous bg color
-    private int pixelAspect; // pixel aspect ratio
-    private boolean lctFlag; // local color table flag
     private boolean interlace; // interlace flag
-    private int lctSize; // local color table size
     private int ix;
     private int iy;
     private int iw;
@@ -442,8 +439,8 @@ class GifDecoder {
         iw = readShort();
         ih = readShort();
         int packed = read();
-        lctFlag = (packed & 0x80) != 0; // 1 - local color table flag interlace
-        lctSize = (int) Math.pow(2, (packed & 0x07) + 1);
+        boolean lctFlag = (packed & 0x80) != 0;
+        int lctSize = (int) Math.pow(2, (packed & 0x07) + 1);
         interlace = (packed & 0x40) != 0;
         if (lctFlag) {
             lct = readColorTable(lctSize); // read table
@@ -492,7 +489,7 @@ class GifDecoder {
         // 5 : gct sort flag
         gctSize = 2 << (packed & 7); // 6-8 : gct size
         bgIndex = read(); // background color index
-        pixelAspect = read(); // pixel aspect ratio
+        int pixelAspect = read();
     }
     private void readNetscapeExt() {
         do {

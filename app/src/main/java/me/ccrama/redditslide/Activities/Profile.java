@@ -39,7 +39,6 @@ import uz.shift.colorpicker.OnColorChangedListener;
  * Created by ccrama on 9/17/2015.
  */
 public class Profile extends BaseActivity {
-    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -51,7 +50,7 @@ public class Profile extends BaseActivity {
         setContentView(R.layout.activity_multireddits);
         StyleView.styleActivity(this);
         name = getIntent().getExtras().getString("profile", "");
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(name);
         findViewById(R.id.header).setBackgroundColor(Pallete.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
@@ -491,8 +490,6 @@ public class Profile extends BaseActivity {
         }
     }
 
-    private ProfilePagerAdapter adapter;
-
     private ViewPager pager;
     private TabLayout tabs;
 
@@ -500,7 +497,7 @@ public class Profile extends BaseActivity {
 
     private void setDataSet(String[] data) {
         usedArray = data;
-        adapter = new ProfilePagerAdapter(getSupportFragmentManager());
+        ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
 
         pager.setAdapter(adapter);
         pager.setOffscreenPageLimit(2);

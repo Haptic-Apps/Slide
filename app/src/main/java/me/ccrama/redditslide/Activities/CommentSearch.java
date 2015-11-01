@@ -23,8 +23,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  */
 public class CommentSearch extends BaseActivity {
 
-    private ArrayList<CommentObject> commentsOld;
-    private ArrayList<CommentNode> comments;
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -32,7 +30,7 @@ public class CommentSearch extends BaseActivity {
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
-        commentsOld = DataShare.sharedComments;
+        ArrayList<CommentObject> commentsOld = DataShare.sharedComments;
         setContentView(R.layout.activity_filtercomments);
 
         final EditText search = (EditText) findViewById(R.id.search);
@@ -41,7 +39,7 @@ public class CommentSearch extends BaseActivity {
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
-        comments = new ArrayList<>();
+        ArrayList<CommentNode> comments = new ArrayList<>();
         for(CommentObject o : commentsOld){
                 comments.add(o.getCommentNode());
 

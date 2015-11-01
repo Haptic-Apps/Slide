@@ -20,22 +20,18 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class InboxPage extends Fragment {
 
 
-    private View v;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView rv;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
+        View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
 
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -44,7 +40,7 @@ public class InboxPage extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new InboxMessages(id);
-        adapter = new InboxAdapter(getContext(), posts, rv );
+        adapter = new InboxAdapter(getContext(), posts, rv);
         rv.setAdapter(adapter);
 
         try {
@@ -57,7 +53,7 @@ public class InboxPage extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                            posts.loadMore(adapter, id);
+                        posts.loadMore(adapter, id);
 
                         //TODO catch errors
                     }

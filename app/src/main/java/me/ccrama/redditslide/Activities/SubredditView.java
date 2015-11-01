@@ -59,7 +59,6 @@ public class SubredditView extends BaseActivity {
 
 
     private DrawerLayout drawerLayout;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView rv;
 
     private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
@@ -142,7 +141,7 @@ public class SubredditView extends BaseActivity {
             rv.setLayoutManager(mLayoutManager);
         }
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -162,7 +161,7 @@ public class SubredditView extends BaseActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                            posts.loadMore(adapter, true, subreddit);
+                        posts.loadMore(adapter, true, subreddit);
 
                         //TODO catch errors
                     }

@@ -289,7 +289,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         } else {
             notificationTime = 15;
         }
-        defaultDPWidth = fina / 300;
+        int defaultDPWidth = fina / 300;
         new Authentication(this);
 
         if (notificationTime != -1) {
@@ -300,8 +300,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     }
 
-
-    private static int defaultDPWidth;
 
     public void startMain() {
         if (active) {

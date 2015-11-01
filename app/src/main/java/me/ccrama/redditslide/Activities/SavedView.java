@@ -26,9 +26,6 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SavedView extends BaseActivity {
 
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView rv;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -54,7 +51,7 @@ public class SavedView extends BaseActivity {
 
         getSupportActionBar().setTitle(where);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        rv = ((RecyclerView) findViewById(R.id.vertical_content));
+        RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
@@ -65,7 +62,7 @@ public class SavedView extends BaseActivity {
             rv.setLayoutManager(mLayoutManager);
         }
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -88,7 +85,7 @@ public class SavedView extends BaseActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                            posts.loadMore(adapter, id, where);
+                        posts.loadMore(adapter, id, where);
 
                         //TODO catch errors
                     }
