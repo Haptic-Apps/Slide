@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
 
     android:clipChildren="false"
-    android:background="?attr/activity_background"
+
 
 
     android:orientation="vertical"

@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="?attr/activity_background"
     android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -43,7 +42,6 @@
     <android.support.v7.widget.RecyclerView
         android:orientation="vertical"
         android:clipToPadding="false"
-        android:background="?attr/activity_background"
         android:id="@+id/vertical_content"
 
         android:cacheColorHint="@android:color/transparent"

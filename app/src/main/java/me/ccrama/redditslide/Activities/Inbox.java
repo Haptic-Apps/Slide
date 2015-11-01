@@ -102,7 +102,6 @@ public class Inbox extends BaseActivity {
                 //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
 
                 //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
-                landscape.setValue(Reddit.dpWidth, false);
 
 
                 final Dialog dialog = builder.setView(dialoglayout).create();
@@ -111,14 +110,25 @@ public class Inbox extends BaseActivity {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         if (checkBox.isChecked()) {
-                            Reddit.notificationTime = landscape.getValue();
+                            Reddit.notificationTime = landscape.getValue() * 15;
                             Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
                             Reddit.notifications.cancel(getApplication());
                             Reddit.notifications.start(getApplication());
                         }
                     }
                 });
-
+                dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View d) {
+                        if (checkBox.isChecked()) {
+                            Reddit.notificationTime = landscape.getValue() * 15;
+                            Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                            Reddit.notifications.cancel(getApplication());
+                            Reddit.notifications.start(getApplication());
+                            dialog.dismiss();
+                        }
+                    }
+                });
 
             }
         });

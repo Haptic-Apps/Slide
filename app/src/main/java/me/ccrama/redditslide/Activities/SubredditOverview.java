@@ -144,23 +144,28 @@ public class SubredditOverview extends OverviewBase {
 
     @Override
     public void onBackPressed() {
-        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
-        builder.setTitle(R.string.general_confirm_exit);
-        builder.setMessage(R.string.general_confirm_exit_msg);
-        builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-
+        if(drawerLayout.isDrawerOpen(Gravity.LEFT) || drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+            drawerLayout.closeDrawers();
+        } else if(Reddit.exit) {
+            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
+            builder.setTitle(R.string.general_confirm_exit);
+            builder.setMessage(R.string.general_confirm_exit_msg);
+            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void reloadSubs() {
@@ -249,6 +254,20 @@ public class SubredditOverview extends OverviewBase {
             dialog.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Reddit.hidden.edit().putBoolean(s.getFullName(), true).apply();
+                    dialog.dismiss();
+                }
+            });
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    Reddit.hidden.edit().putBoolean(s.getFullName(), true).apply();
+                    dialog.dismiss();
+                }
+            });
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
                     Reddit.hidden.edit().putBoolean(s.getFullName(), true).apply();
                     dialog.dismiss();
                 }
@@ -422,6 +441,7 @@ public class SubredditOverview extends OverviewBase {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
+            findViewById(R.id.info).setVisibility(View.VISIBLE);
 
              new AsyncGetSubreddit().execute(subreddit);
             findViewById(R.id.loader).setVisibility(View.VISIBLE);
@@ -796,6 +816,8 @@ public class SubredditOverview extends OverviewBase {
                 }
             });
         } else {
+            findViewById(R.id.info).setVisibility(View.VISIBLE);
+
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
         }
@@ -1685,7 +1707,7 @@ public class SubredditOverview extends OverviewBase {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    Intent inte = new Intent(SubredditOverview.this, SubredditOverview.class);
+                    Intent inte = new Intent(SubredditOverview.this, SubredditView.class);
                     inte.putExtra("subreddit", e.getText().toString());
                     SubredditOverview.this.startActivity(inte);
                 }

@@ -9,7 +9,7 @@
         android:focusable="true" android:focusableInTouchMode="true"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="?attr/activity_background">
+        >
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -96,7 +96,7 @@
         android:visibility="invisible"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="?attr/activity_background">
+        >
         <ScrollView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

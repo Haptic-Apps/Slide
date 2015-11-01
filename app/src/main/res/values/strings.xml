@@ -376,7 +376,7 @@
     <string name="settings_mail_info">The higher the frequency, the more potential battery Slide will use in the background!</string>
     <string name="settings_main_color_title">Edit main color</string>
     <string name="settings_notification">Check for new messages every %1$s</string>
-    <string name="settings_single_mode">Single Mode</string>
+    <string name="settings_single_mode">Single Mode\nRemoves swiping between subs</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>

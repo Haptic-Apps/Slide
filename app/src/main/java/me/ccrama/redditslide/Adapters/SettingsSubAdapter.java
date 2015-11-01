@@ -159,7 +159,13 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
 
                         }
                     });
-                 
+
+                    colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int i) {
+                            title.setBackgroundColor(i);
+                        }
+                    });
 
 
                     {
@@ -356,6 +362,12 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                                         getContext().getString(R.string.settings_layout_alternative)}, i, l2);
                         builder.show();
 
+                    }
+                });
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        notifyDataSetChanged();
                     }
                 });
                 builder.setView(dialoglayout);

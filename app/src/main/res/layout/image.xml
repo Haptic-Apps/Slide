@@ -6,7 +6,7 @@
 <android.support.v7.widget.Toolbar
     android:layout_width="match_parent"
 
-    android:background="?attr/activity_background"
+
     android:layout_height="36dp"
     />
 

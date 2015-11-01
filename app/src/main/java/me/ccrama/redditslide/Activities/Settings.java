@@ -25,7 +25,6 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -234,7 +233,8 @@ public class Settings extends BaseActivityNoAnim  {
                         if (!isChecked) {
                             Reddit.notificationTime = -1;
                             Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                            Reddit.notifications.cancel(getApplication());
+                            if(Reddit.notifications != null)
+                                Reddit.notifications.cancel(getApplication());
                         } else {
                             Reddit.notificationTime = 15;
                             landscape.setValue(1, true);
@@ -245,7 +245,6 @@ public class Settings extends BaseActivityNoAnim  {
                 //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
 
                 //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
-                landscape.setValue(Reddit.dpWidth, false);
 
 
                 final Dialog dialog = builder.setView(dialoglayout).create();
@@ -254,14 +253,23 @@ public class Settings extends BaseActivityNoAnim  {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         if (checkBox.isChecked()) {
-                            Reddit.notificationTime = landscape.getValue();
+                            Reddit.notificationTime = landscape.getValue() * 15;
                             Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
-                            if (Reddit.notifications != null) {
-                                Reddit.notifications.cancel(getApplication());
-                                Reddit.notifications.start(getApplication());
-                            } else {
-                                Reddit.notifications = new NotificationJobScheduler(getApplication());
-                            }
+                            Reddit.notifications.cancel(getApplication());
+                            Reddit.notifications.start(getApplication());
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View d) {
+                        if (checkBox.isChecked()) {
+                            Reddit.notificationTime = landscape.getValue() * 15;
+                            Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                            Reddit.notifications.cancel(getApplication());
+                            Reddit.notifications.start(getApplication());
+                            dialog.dismiss();
+
                         }
                     }
                 });

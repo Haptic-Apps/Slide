@@ -13,8 +13,8 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 72
-        versionName "4.2.5"
+        versionCode 73
+        versionName "4.2.5.5"
         multiDexEnabled = true
 
     }
@@ -22,7 +22,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources true
 
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

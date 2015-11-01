@@ -252,11 +252,12 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
             for (Metadata a : result.getMetadataBuffer()) {
                 i++;
                 title = a.getTitle();
-                Log.v("Slide", title);
                 new RetrieveDriveFileContentsAsyncTask(title).execute(a.getDriveId());
 
 
             }
+            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(false, i).build();
+            progress.show();
 
 
 

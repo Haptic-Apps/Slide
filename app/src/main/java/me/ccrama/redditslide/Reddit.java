@@ -52,6 +52,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean video;
     public static boolean gif;
     public static boolean web;
+    public static boolean exit;
+
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -265,6 +267,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         album = SettingValues.prefs.getBoolean("album", true);
         gif = SettingValues.prefs.getBoolean("gif", true);
         video = SettingValues.prefs.getBoolean("video", true);
+        exit = SettingValues.prefs.getBoolean("Exit", true);
 
         int height = this.getResources().getConfiguration().screenWidthDp;
 

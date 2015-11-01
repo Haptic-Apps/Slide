@@ -54,6 +54,21 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+
+        {
+            CheckBox single = (CheckBox) findViewById(R.id.exitcheck);
+
+            single.setChecked(Reddit.exit);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.exit = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Exit", isChecked).apply();
+
+                }
+            });
+        }
+
         {
             CheckBox single = (CheckBox) findViewById(R.id.nsfw);
 
