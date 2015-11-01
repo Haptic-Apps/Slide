@@ -75,7 +75,7 @@ public class MultiredditPosts {
                         public void run() {
                             refreshLayout.setRefreshing(false);
 
-                            adapter.notifyItemRangeInserted(0, posts.size());
+                            adapter.notifyDataSetChanged();
 
                         }
                     });
@@ -87,7 +87,7 @@ public class MultiredditPosts {
                         public void run() {
                             refreshLayout.setRefreshing(false);
 
-                            adapter.notifyItemRangeInserted(start, start + posts.size());
+                            adapter.notifyDataSetChanged();
 
                         }
                     });

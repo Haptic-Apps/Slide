@@ -5,11 +5,9 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
@@ -32,7 +28,6 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -97,7 +92,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
             adapter.dataSet = new ArrayList<>();
             adapter.dataSet.addAll((ArrayList<CommentNode>) results.values);
-            adapter.notifyItemRangeInserted(0, ((ArrayList<CommentNode>) results.values).size());
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -133,61 +128,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-        firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-                final View dialoglayout = inflater.inflate(R.layout.commentmenu, null);
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setText(comment.getBody());
-
-                ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + comment.getAuthor());
-                dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(mContext, Profile.class);
-                        i.putExtra("profile", comment.getAuthor());
-                        mContext.startActivity(i);
-                    }
-                });
-
-
-                dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                        try {
-                            mContext.startActivity(intent);
-                        } catch (ActivityNotFoundException ex) {
-                            intent.setPackage(null);
-                            mContext.startActivity(intent);
-                        }
-                    }
-                });
-                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String urlString = submission.getUrl() + comment.getFullName().substring(3, comment.getFullName().length()) + "?context=3";
-
-                        Reddit.defaultShareText(urlString, mContext);
-
-                    }
-                });
-                if (!Authentication.isLoggedIn) {
-                    dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
-
-                }
-                title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
-
-                builder.setView(dialoglayout);
-                builder.show();
-            }
-        });
 
         String author = comment.getAuthor();
         holder.author.setText(author);

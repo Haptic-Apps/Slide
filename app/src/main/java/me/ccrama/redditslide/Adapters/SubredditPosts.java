@@ -91,7 +91,7 @@ public class SubredditPosts {
 
                             adapter.dataSet = posts;
 
-                            adapter.notifyItemRangeInserted(0, posts.size());
+                            adapter.notifyDataSetChanged();
 
                         }
                     });
@@ -105,7 +105,7 @@ public class SubredditPosts {
 
                             adapter.dataSet = posts;
 
-                            adapter.notifyItemRangeInserted(start, start + posts.size());
+                            adapter.notifyDataSetChanged();
 
                         }
                     });
