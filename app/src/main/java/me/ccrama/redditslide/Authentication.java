@@ -15,6 +15,7 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -32,6 +33,8 @@ public class Authentication {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    public static boolean mod;
 
     public static String name;
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
@@ -74,6 +77,7 @@ public class Authentication {
                     reddit.authenticate(finalData);
                     if (reddit.isAuthenticated()) {
                         Authentication.name = reddit.me().getFullName();
+                        mod = reddit.me().isMod();
                         Authentication.isLoggedIn = true;
 
 
@@ -88,6 +92,7 @@ public class Authentication {
 
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         Authentication.name = "LOGGEDOUT";
+                        mod = false;
 
                     } catch (OAuthException e) {
                         //TODO fail
@@ -102,6 +107,7 @@ public class Authentication {
     }
     private static String refresh;
 
+    public static ArrayList<String> modSubs;
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
         Context mContext;
         public VerifyCredentials(Context context){
@@ -151,6 +157,8 @@ public class Authentication {
 
                             }
                             Authentication.name = name;
+                            mod = reddit.me().isMod();
+
                             Authentication.isLoggedIn = true;
 
 

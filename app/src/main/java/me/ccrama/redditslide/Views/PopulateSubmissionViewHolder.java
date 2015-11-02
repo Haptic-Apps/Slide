@@ -47,6 +47,7 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.Vote;
@@ -72,6 +73,114 @@ public class PopulateSubmissionViewHolder {
 
 
         holder.subreddit.setText(submission.getSubredditName());
+        if(SubredditStorage.modOf.contains(submission.getSubredditName())){
+            holder.itemView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+            holder.itemView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setText(submission.getTitle());
+
+                    ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
+                    ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
+                    dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mContext, Profile.class);
+                            i.putExtra("profile", submission.getAuthor());
+                            mContext.startActivity(i);
+                        }
+                    });
+
+                    dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(mContext, SubredditView.class);
+                            i.putExtra("subreddit", submission.getSubredditName());
+                            mContext.startActivity(i);
+                        }
+                    });
+
+
+                    dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (submission.saved) {
+                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save_post);
+                            } else {
+                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
+
+                            }
+                            new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
+
+                        }
+                    });
+                    if (submission.saved) {
+                        ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
+                    }
+                    dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String urlString = submission.getUrl();
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
+                            try {
+                                mContext.startActivity(intent);
+                            } catch (ActivityNotFoundException ex) {
+                                intent.setPackage(null);
+                                mContext.startActivity(intent);
+                            }
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
+                        }
+                    });
+                    if (!Authentication.isLoggedIn) {
+                        dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
+                        dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
+
+                    }
+                    title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+
+                    builder.setView(dialoglayout);
+                    final Dialog d = builder.show();
+                    dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final int pos = posts.indexOf(submission);
+                            final T t = posts.get(pos);
+                            posts.remove(submission);
+
+                            recyclerview.getAdapter().notifyItemRemoved(pos);
+                            d.dismiss();
+                            Hidden.setHidden((Contribution) t);
+
+                            Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    posts.add(pos, t);
+                                    recyclerview.getAdapter().notifyItemInserted(pos);
+                                    Hidden.undoHidden((Contribution) t);
+
+                                }
+                            }).show();
+
+
+                        }
+                    });
+                }
+            });
+        } else {
+            holder.itemView.findViewById(R.id.mod).setVisibility(View.GONE);
+        }
 
         holder.itemView.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
             @Override

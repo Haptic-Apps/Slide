@@ -423,6 +423,10 @@
     <string name="time_just_now">just now</string>
     <string name="error_loading_content">ERROR LOADING CONTENT</string>
     <string name="NSFW">NSFW</string>
+    <string name="title_mod">Moderator</string>
+    <string name="sidebar_mod">Moderation</string>
+    <string name="modMail">Mod Mail</string>
+    <string name="moderation_modactions">Mod Actions</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">a minute ago</item>
