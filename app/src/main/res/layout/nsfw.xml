@@ -6,14 +6,15 @@
     android:background="@drawable/nsfwback"
     android:layout_height="15dp">
     <TextView android:layout_width="wrap_content"
-        android:text="@string/NSFW"
+        android:text="@string/misc_nsfw"
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="#fff"
         android:textSize="10sp"
         android:textStyle="bold"
         android:id="@+id/flairtext"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:textAllCaps="true">
 
     </TextView>
 

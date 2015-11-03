@@ -46,7 +46,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription("Theme Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
         findViewById(R.id.accent).setOnClickListener(new View.OnClickListener() {
@@ -342,7 +342,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
-                            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription("Theme Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+                            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                         }
 

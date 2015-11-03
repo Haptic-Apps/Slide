@@ -172,7 +172,7 @@
 
                                 android:textColor="?attr/font"
 
-                                android:text="@string/sidebar_theme"
+                                android:text="@string/settings_title_sub_theme"
 
                                 android:textSize="16sp" />
 

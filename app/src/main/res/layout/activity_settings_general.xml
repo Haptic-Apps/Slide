@@ -259,7 +259,7 @@
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="Confirm Exit Dialog"
+                    android:text="@string/settings_confirm_exit"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>
