@@ -9,7 +9,7 @@
     <color name="md_amber_200">#ffe082</color>
     <color name="md_amber_300">#ffd54f</color>
     <color name="darkbg">#303030</color>
-    <color name="lightbg">#d2d2d2</color>
+    <color name="lightbg">#eeeeee</color>
     <color name="md_amber_400">#ffca28</color>
     <color name="md_amber_50">#fff8e1</color>
     <color name="md_amber_500">#ffc107</color>

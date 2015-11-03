@@ -21,5 +21,18 @@ public class ContentGrabber {
         }
 
     }
+    public enum ModValue{
+        NODMAIL("Mod Mail"), MODQUEUE("Modqueue"), REPORTS("Reports"), UNMODERATED("Unmoderated"), SPAM("Spam"), EDITED("Edited");
+        final String displayName;
+        ModValue(String s){
+            this.displayName = s;
+        }
+        public String getDisplayName(){
+            return displayName;
+        }
+        public String getWhereName(){
+            return displayName.toLowerCase();
+        }
 
+    }
 }

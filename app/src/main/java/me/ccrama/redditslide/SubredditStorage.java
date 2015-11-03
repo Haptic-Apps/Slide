@@ -76,6 +76,9 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         if(Authentication.isLoggedIn){
             getMultireddits();
         }
+        if(Authentication.mod){
+            doModOf();
+        }
 
         realSubs = new ArrayList<>();
 
@@ -290,6 +293,36 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         return newstrings;
 
     }
+    public static ArrayList<String> modOf;
+    private ArrayList<String> doModOf() {
+        ArrayList<String> finished = new ArrayList<>();
+
+        UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "moderator");
+        pag.setLimit(100);
+
+
+        try {
+            while (pag.hasNext()) {
+                Log.v("Slide", "ADDING NEW SUBS");
+                for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                    Log.v("Slide", s.getDisplayName());
+                    finished.add(s.getDisplayName().toLowerCase());
+                }
+            }
+
+
+            modOf = (finished);
+        } catch (Exception e){
+            //failed;
+            e.printStackTrace();
+        }
+
+
+
+
+        return finished;
+    }
+
     private ArrayList<String> doUpdateSubsSaveBackground() {
         ArrayList<String> finished = new ArrayList<>();
 

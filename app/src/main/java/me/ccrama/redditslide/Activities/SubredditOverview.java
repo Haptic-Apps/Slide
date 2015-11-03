@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -99,8 +100,8 @@ public class SubredditOverview extends OverviewBase {
         } else if (requestCode == 3) {
             new SubredditStorageNoContext().execute(SubredditOverview.this);
 
-        } else if(requestCode == 4 && resultCode != 4){
-            if(e != null){
+        } else if (requestCode == 4 && resultCode != 4) {
+            if (e != null) {
                 e.clearFocus();
                 e.setText("");
                 drawerLayout.closeDrawers();
@@ -141,12 +142,11 @@ public class SubredditOverview extends OverviewBase {
     }
 
 
-
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT) || drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT) || drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.closeDrawers();
-        } else if(Reddit.exit) {
+        } else if (Reddit.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverview.this);
             builder.setTitle(R.string.general_confirm_exit);
             builder.setMessage(R.string.general_confirm_exit_msg);
@@ -179,11 +179,10 @@ public class SubredditOverview extends OverviewBase {
         final ArrayList<String> accounts = new ArrayList<>();
         final ArrayList<String> names = new ArrayList<>();
 
-        for(String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())){
-            if(s.contains(":")) {
+        for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+            if (s.contains(":")) {
                 accounts.add(s.split(":")[0]);
-            }
-            else {
+            } else {
                 accounts.add(s);
             }
             names.add(s);
@@ -193,7 +192,7 @@ public class SubredditOverview extends OverviewBase {
                 .setAdapter(new ArrayAdapter<>(SubredditOverview.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(names.get(which).contains(":")){
+                        if (names.get(which).contains(":")) {
                             String token = names.get(which).split(":")[1];
                             Authentication.authentication.edit().putString("lasttoken", token).commit();
                         } else {
@@ -364,7 +363,7 @@ public class SubredditOverview extends OverviewBase {
             public void onClick(View v) {
 
                 {
-                    if(usedArray != null) {
+                    if (usedArray != null) {
                         String sub = usedArray.get(pager.getCurrentItem());
                         if (!sub.equals("frontpage") && !sub.equals("all")) {
                             ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
@@ -422,15 +421,15 @@ public class SubredditOverview extends OverviewBase {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if(subreddit != null)
-            doSubOnlyStuff(subreddit);
+            if (subreddit != null)
+                doSubOnlyStuff(subreddit);
         }
 
         @Override
         protected Subreddit doInBackground(String... params) {
             try {
                 return Authentication.reddit.getSubreddit(params[0]);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 return null;
             }
 
@@ -443,7 +442,7 @@ public class SubredditOverview extends OverviewBase {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             findViewById(R.id.info).setVisibility(View.VISIBLE);
 
-             new AsyncGetSubreddit().execute(subreddit);
+            new AsyncGetSubreddit().execute(subreddit);
             findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
@@ -455,7 +454,7 @@ public class SubredditOverview extends OverviewBase {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                if(!Authentication.isLoggedIn){
+                if (!Authentication.isLoggedIn) {
                     c.setVisibility(View.GONE);
                 }
                 c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1642,16 +1641,16 @@ public class SubredditOverview extends OverviewBase {
                 }
             });
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                        View body = header.findViewById(R.id.expand_profile);
-                                        if(body.getVisibility() == View.GONE){
-                                                body.setVisibility(View.VISIBLE);
-                                            } else {
-                                                body.setVisibility(View.GONE);
-                                            }
-                                    }
-                            });
+                @Override
+                public void onClick(View view) {
+                    View body = header.findViewById(R.id.expand_profile);
+                    if (body.getVisibility() == View.GONE) {
+                        body.setVisibility(View.VISIBLE);
+                    } else {
+                        body.setVisibility(View.GONE);
+                    }
+                }
+            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1659,7 +1658,19 @@ public class SubredditOverview extends OverviewBase {
                     SubredditOverview.this.startActivity(inte);
                 }
             });
+            Log.v("Slide", "2 MOD IS " + Authentication.mod);
+            if (Authentication.mod) {
+                header.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(SubredditOverview.this, ModQueue.class);
+                        SubredditOverview.this.startActivity(inte);
+                    }
+                });
 
+            } else {
+                header.findViewById(R.id.mod).setVisibility(View.GONE);
+            }
             header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

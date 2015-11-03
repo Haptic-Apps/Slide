@@ -47,6 +47,11 @@
 
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
+            android:name=".Activities.ModQueue"
+            android:theme="@style/swipeable"
+
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
             android:name=".Activities.CommentSearch"
             android:theme="@style/swipeable"
 

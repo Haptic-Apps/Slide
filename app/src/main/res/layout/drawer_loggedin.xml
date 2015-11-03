@@ -214,6 +214,37 @@
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/mod"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+
+        android:orientation="horizontal"
+        android:paddingLeft="0dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="6dp"
+
+            android:tint="?attr/tint"
+
+            android:padding="10dp"
+            android:src="@drawable/mod" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textColor="?attr/font"
+
+            android:text="@string/sidebar_mod"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 
     <LinearLayout

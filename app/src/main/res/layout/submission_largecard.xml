@@ -312,7 +312,16 @@
 
                         android:layout_toLeftOf="@+id/upvote"
                         android:src="@drawable/downvote" />
+                    <ImageView
+                        android:id="@+id/mod"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:tint="?attr/tint"
+                        android:background="?android:selectableItemBackground"
 
+                        android:layout_toLeftOf="@+id/downvote"
+                        android:padding="8dp"
+                        android:src="@drawable/mod" />
                     <ImageView
                         android:id="@+id/upvote"
                         android:layout_width="36dp"

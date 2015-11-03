@@ -1611,7 +1611,17 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     SubredditOverviewSingle.this.startActivity(inte);
                 }
             });
-
+            if (Authentication.mod) {
+                header.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(SubredditOverviewSingle.this, ModQueue.class);
+                        SubredditOverviewSingle.this.startActivity(inte);
+                    }
+                });
+            } else {
+                header.findViewById(R.id.mod).setVisibility(View.GONE);
+            }
             header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
