@@ -51,7 +51,7 @@ public class SavedView extends BaseActivity {
 
         getSupportActionBar().setTitle(where);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
+        final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
@@ -61,7 +61,31 @@ public class SavedView extends BaseActivity {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
+                visibleItemCount = rv.getLayoutManager().getChildCount();
+                totalItemCount = rv.getLayoutManager().getItemCount();
+                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                    }
+                }
+
+                if (!posts.loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        posts.loading = true;
+                        posts.loadMore(adapter, id, where);
+
+                    }
+                }
+            }
+        });
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
@@ -92,7 +116,10 @@ public class SavedView extends BaseActivity {
                 }
         );
     }
+    private int totalItemCount;
 
+    private int visibleItemCount;
+    private int pastVisiblesItems;
     private ContributionAdapter adapter;
 
     private String where;

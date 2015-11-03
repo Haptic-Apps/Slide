@@ -298,6 +298,7 @@
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:resource="@dimen/app_minimumsize_h" />
+        <meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true"/>
     </application>
 
 

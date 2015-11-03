@@ -73,7 +73,8 @@ public class PopulateSubmissionViewHolder {
 
 
         holder.subreddit.setText(submission.getSubredditName());
-        if(SubredditStorage.modOf.contains(submission.getSubredditName())){
+
+        if(SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName())){
             holder.itemView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
             holder.itemView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                 @Override

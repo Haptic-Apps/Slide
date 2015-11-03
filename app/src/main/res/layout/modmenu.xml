@@ -65,7 +65,7 @@
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/remove" />
+                            android:src="@drawable/pro" />
 
                         <TextView
                             android:layout_width="match_parent"

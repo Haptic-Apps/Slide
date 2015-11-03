@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Window;
 
+import java.util.concurrent.ExecutionException;
+
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
@@ -47,7 +49,7 @@ public class SingleView extends BaseActivity {
         }
         getSupportActionBar().setTitle(subreddit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
+        final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
@@ -57,7 +59,31 @@ public class SingleView extends BaseActivity {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
+                visibleItemCount = rv.getLayoutManager().getChildCount();
+                totalItemCount = rv.getLayoutManager().getItemCount();
+                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                    }
+                }
+
+                if (!posts.loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        posts.loading = true;
+                        posts.loadMore(adapter, false, subreddit);
+
+                    }
+                }
+            }
+        });
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
@@ -70,7 +96,13 @@ public class SingleView extends BaseActivity {
         adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);
 
+        try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -88,7 +120,10 @@ public class SingleView extends BaseActivity {
     private SubmissionAdapter adapter;
 
     private SubredditPosts posts;
+    private int totalItemCount;
 
+    private int visibleItemCount;
+    private int pastVisiblesItems;
 
 
 

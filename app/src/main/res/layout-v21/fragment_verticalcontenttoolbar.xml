@@ -69,6 +69,9 @@
 
 
     </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
         android:layout_width="match_parent"
@@ -81,6 +84,27 @@
         android:layout_height="match_parent"
             >
         </android.support.v7.widget.RecyclerView>
+
+
 </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/fastscroll"
+
+
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@drawable/up"
+                android:id="@+id/up"
+                android:layout_height="36dp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:src="@drawable/down"
+                android:id="@+id/down"
+                android:layout_height="36dp" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -36,6 +36,8 @@ import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.util.concurrent.ExecutionException;
+
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -140,7 +142,31 @@ public class SubredditView extends BaseActivity {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
+                visibleItemCount = rv.getLayoutManager().getChildCount();
+                totalItemCount = rv.getLayoutManager().getItemCount();
+                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                    }
+                }
+
+                if (!posts.loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        posts.loading = true;
+                        posts.loadMore(adapter, false, subreddit);
+
+                    }
+                }
+            }
+        });
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
@@ -154,7 +180,13 @@ public class SubredditView extends BaseActivity {
         rv.setAdapter(adapter);
 
         doSubSidebar(subreddit);
+        try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -229,7 +261,10 @@ public class SubredditView extends BaseActivity {
             }
         });
     }
+    private int totalItemCount;
 
+    private int visibleItemCount;
+    private int pastVisiblesItems;
     private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{

@@ -427,6 +427,8 @@
     <string name="sidebar_mod">Moderation</string>
     <string name="modMail">Mod Mail</string>
     <string name="moderation_modactions">Mod Actions</string>
+    <string name="captcha">Enter the code above</string>
+    <string name="captcha_title">Prove you\'re not a robot</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">a minute ago</item>

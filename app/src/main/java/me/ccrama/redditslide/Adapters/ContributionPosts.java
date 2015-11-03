@@ -53,6 +53,7 @@ public class ContributionPosts {
         }
 
     }
+    public boolean loading;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
         final boolean reset;
@@ -63,37 +64,23 @@ public class ContributionPosts {
 
         @Override
         public void onPostExecute(ArrayList<Contribution> subs) {
-            if(subs == null){
-                adapter.setError(true);
+            if(subs != null) {
+
+                loading = false;
+                if (refreshLayout != null)
+                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            refreshLayout.setRefreshing(false);
+
+                            adapter.dataSet = posts;
+
+                            adapter.notifyDataSetChanged();
+
+                        }
+                    });
             } else {
-                if (reset) {
-                    posts = subs;
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-
-                            adapter.dataSet = posts;
-
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    });
-                } else {
-                    final int start = posts.size();
-                    posts.addAll(subs);
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-
-                            adapter.dataSet = posts;
-
-                            adapter.notifyDataSetChanged();
-
-                        }
-                    });
-                }
+                adapter.setError(true);
 
             }
         }

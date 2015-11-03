@@ -28,7 +28,7 @@ public class ContributionsView extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -67,8 +67,37 @@ public class ContributionsView extends Fragment {
                     }
                 }
         );
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                visibleItemCount = rv.getLayoutManager().getChildCount();
+                totalItemCount = rv.getLayoutManager().getItemCount();
+                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                    }
+                }
+
+                if (!posts.loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        posts.loading = true;
+                        posts.loadMore(adapter, id, where);
+
+                    }
+                }
+            }
+        });
         return v;
     }
+    private int totalItemCount;
+
+    private int visibleItemCount;
+    private int pastVisiblesItems;
 
     private ContributionAdapter adapter;
 

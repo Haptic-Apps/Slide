@@ -60,9 +60,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static int POST = 3;
     @Override
     public int getItemViewType(int position) {
-        if (!dataSet.get(position).getFullName().contains("t1"))//IS COMMENT
+        if (dataSet.get(position).getFullName().contains("t1"))//IS COMMENT
             return COMMENT;
-        if (!dataSet.get(position).getFullName().contains("t4"))//IS MESSAGE
+        if (dataSet.get(position).getFullName().contains("t4"))//IS MESSAGE
             return MESSAGE;
         return POST;
     }

@@ -53,6 +53,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean gif;
     public static boolean web;
     public static boolean exit;
+    public static boolean fastscroll;
 
     @Override
     public void onLowMemory() {

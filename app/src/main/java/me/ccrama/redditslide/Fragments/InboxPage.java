@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public class InboxPage extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
-        RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
@@ -59,9 +60,37 @@ public class InboxPage extends Fragment {
                     }
                 }
         );
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                visibleItemCount = rv.getLayoutManager().getChildCount();
+                totalItemCount = rv.getLayoutManager().getItemCount();
+                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                    }
+                }
+
+                if (!posts.loading) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        posts.loading = true;
+                        posts.loadMore(adapter, id);
+
+                    }
+                }
+            }
+        });
         return v;
     }
+    private int totalItemCount;
 
+    private int visibleItemCount;
+    private int pastVisiblesItems;
     private InboxAdapter adapter;
 
     private InboxMessages posts;
