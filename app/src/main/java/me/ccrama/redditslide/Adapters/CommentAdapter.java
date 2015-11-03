@@ -1072,11 +1072,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public HashMap<String, Integer> keys = new HashMap<>();
-    ArrayList<CommentObject> users;
+    public ArrayList<CommentObject> users;
     ArrayList<String> hidden;
     ArrayList<String> hiddenPersons;
 
-    private int getRealPosition(int position) {
+    public int getRealPosition(int position) {
 
         int hElements = getHiddenCountUpTo(position);
         int diff = 0;

@@ -17,10 +17,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:text="@string/error_loading_content"
+                android:text="@string/err_loading_content"
                 android:textStyle="italic"
 
-                android:textAllCaps="false"
+                android:textAllCaps="true"
 
                 android:gravity="center"
                 android:padding="16sp"

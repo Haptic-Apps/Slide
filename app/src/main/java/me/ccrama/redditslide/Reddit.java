@@ -269,6 +269,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         gif = SettingValues.prefs.getBoolean("gif", true);
         video = SettingValues.prefs.getBoolean("video", true);
         exit = SettingValues.prefs.getBoolean("Exit", true);
+        fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
 
         int height = this.getResources().getConfiguration().screenWidthDp;
 

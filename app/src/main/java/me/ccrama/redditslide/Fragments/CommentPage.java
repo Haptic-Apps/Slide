@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.view.ContextThemeWrapper;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -161,6 +162,47 @@ public class CommentPage extends Fragment {
 
             }
         });
+        if(!Reddit.fastscroll){
+            v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
+        } else {
+            v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(adapter.users != null) {
+                        int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+                        for (int i = pastVisiblesItems; i < adapter.getItemCount(); i++) {
+
+                            if (adapter.users.get(adapter.getRealPosition(i)).getCommentNode().isTopLevel()) {
+                                RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                                smoothScroller.setTargetPosition(i + 1);
+                                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+            v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (adapter.users != null) {
+
+                        int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+                        for (int i = pastVisiblesItems ; i > 0; i--) {
+
+                            if (adapter.users.get(adapter.getRealPosition(i )).getCommentNode().isTopLevel()) {
+                                RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                                smoothScroller.setTargetPosition(i + 1);
+                                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
+        }
             if (getActivity() instanceof BaseActivity) {
                 ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
                 ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);

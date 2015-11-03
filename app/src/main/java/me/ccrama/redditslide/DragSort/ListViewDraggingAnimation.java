@@ -69,7 +69,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            ListViewDraggingAnimation.this.setTaskDescription(new ActivityManager.TaskDescription("Reorder Pins", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            ListViewDraggingAnimation.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_reorder_pins), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
        subs = SubredditStorage.getPins();
@@ -169,7 +169,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
                         Log.v("Slide", "Done with " + all[which]);
                     }
                 }).setTitle(R.string.pin_select)
-                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.btn_save).toUpperCase(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 subs = toCheck;

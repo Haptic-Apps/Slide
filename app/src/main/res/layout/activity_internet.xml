@@ -15,7 +15,7 @@
         android:padding="20dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Uh oh! Looks like you've lost internet connection. Please connect to the internet and go back!"
+        android:text="@string/err_connection_lost"
         android:textSize="18sp"
         android:layout_centerInParent="true"
         android:textStyle="bold" />
@@ -26,7 +26,7 @@
         android:layout_alignParentBottom="true"
         android:padding="16dp"
         android:textAllCaps="true"
-        android:text="GO BACK"
+        android:text="@string/btn_go_back"
         android:id="@+id/restart"
 
         android:layout_alignParentRight="true"

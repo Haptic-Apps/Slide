@@ -280,7 +280,7 @@ public class SubredditOverview extends OverviewBase {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
-            SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription("Homescreen", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor("")));
+            SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_default), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor("")));
 
         }
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);

@@ -39,7 +39,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription("General Settings", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_settings_general), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
         {
             CheckBox single = (CheckBox) findViewById(R.id.single);
@@ -54,7 +54,19 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+        {
+            CheckBox single = (CheckBox) findViewById(R.id.fastscroll);
 
+            single.setChecked(Reddit.fastscroll);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.fastscroll = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
+
+                }
+            });
+        }
         {
             CheckBox single = (CheckBox) findViewById(R.id.exitcheck);
 
@@ -82,6 +94,8 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+
+
         {
             CheckBox single = (CheckBox) findViewById(R.id.nsfwrpev);
 
@@ -101,9 +115,9 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
-                popup.getMenu().add("Large");
-                popup.getMenu().add("Medium");
-                popup.getMenu().add("Small");
+                popup.getMenu().add(getString(R.string.font_large));
+                popup.getMenu().add(getString(R.string.font_medium));
+                popup.getMenu().add(getString(R.string.font_small));
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

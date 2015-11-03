@@ -259,7 +259,43 @@
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="Confirm Exit Dialog"
+                    android:text="@string/settings_confirm_exit"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/fastscroll_click"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/down"
+                    android:tint="?attr/tint" />
+
+                <CheckBox
+                    android:id="@+id/fastscroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:drawableTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="@string/settings_fastscroll"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>

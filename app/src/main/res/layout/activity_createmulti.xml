@@ -36,6 +36,7 @@
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
             android:text="@string/btn_save"
+            android:textAllCaps="true"
             android:textSize="14sp"
             android:textStyle="bold" />
 

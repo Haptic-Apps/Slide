@@ -24,7 +24,7 @@
                 android:padding="24dp"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:text="@string/moderation_modactions"
+                android:text="@string/mod_actions"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
