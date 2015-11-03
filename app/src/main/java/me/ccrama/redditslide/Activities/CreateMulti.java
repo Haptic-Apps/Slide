@@ -82,7 +82,7 @@ public class CreateMulti extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            CreateMulti.this.setTaskDescription(new ActivityManager.TaskDescription("Create a Multi", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            CreateMulti.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_create_multi), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
         title = (EditText) findViewById(R.id.name);
 

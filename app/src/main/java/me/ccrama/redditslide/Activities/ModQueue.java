@@ -102,7 +102,7 @@ public class ModQueue extends BaseActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             if(position == 0){
-                return getString(R.string.modMail);
+                return getString(R.string.mod_mail);
             } else {
                 return SubredditStorage.modOf.get(position - 1);
             }

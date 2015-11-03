@@ -1,6 +1,5 @@
 <resources>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Generic text used anywhere -->
     <string name="general_confirm_exit">Confirm exit</string>
@@ -9,7 +8,6 @@
     <string name="general_enable_shadowbox">Enable Shadowbox Mode</string>
     <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Open Subreddit Settings</string>
-    <string name="general_updating_subs">Updating your subreddits</string>
 
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
@@ -74,7 +72,6 @@
 
 
     <!-- Drawer items (That's the one on the left) -->
-    <string name="drawer_welcome">Welcome back,</string>
     <string name="drawer_login">Log in</string>
     <string name="drawer_logout">LOG OUT</string>
     <string name="drawer_profile">Profile</string>
@@ -88,13 +85,12 @@
     <string name="drawer_change_account">Switch accounts</string>
     <string name="drawer_multi_column">Multi-Column</string>
     <string name="drawer_search">Search for a subreddit</string>
-
+    <string name="drawer_moderation">Moderation</string>
 
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_pinned">pinned</string>
     <string name="sidebar_subscribed">subscribed</string>
     <string name="sidebar_wiki">View wiki</string>
-    <string name="sidebar_theme">Subreddit theme settings</string>
 
 
     <!-- Crash reporting screen -->
@@ -191,6 +187,7 @@
     <string name="err_network_msg">Please check your internet connection and try again!</string>
     <string name="err_invalid_url">Invalid URL</string>
     <string name="err_loading_content">Error loading content</string>
+    <string name="err_connection_lost">Uh oh! Looks like you\'ve lost internet connection. Please connect to the internet and go back!</string>
 
 
     <!-- Gif -->
@@ -265,11 +262,12 @@
     </plurals>
 
 
-    <!-- Titles displayed in action bar / head-->
+    <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_subreddit_settings">Subreddit Settings</string>
     <string name="title_edit_theme">Edit Theme</string>
     <string name="title_submit_post">Submit post</string>
     <string name="title_settings">Settings</string>
+    <string name="title_backup_settings">Backup Settings</string>
     <string name="title_settings_general">General Settings</string>
     <string name="title_report_crash">Report a Crash</string>
     <string name="title_share">Share using</string>
@@ -277,6 +275,10 @@
     <string name="title_reorder_pins">Reorder Pins</string>
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inbox</string>
+    <string name="title_theme_settings">Theme Settings</string>
+    <string name="title_default">Homescreen</string>
+    <string name="title_create_multi">Create a Multi</string>
+    <string name="title_mod">Moderator</string>
 
 
     <!-- Useful strings displayed at startup -->
@@ -317,11 +319,12 @@
     <string name="btn_reply">Reply</string>
     <string name="btn_reset">Reset</string>
     <string name="btn_retry">Try again</string>
-    <string name="btn_save">SAVE</string>
+    <string name="btn_save">Save</string>
     <string name="btn_submit">Submit</string>
     <string name="btn_sure">Sure!</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
+    <string name="btn_go_back">Go back</string>
 
 
     <!-- Backup -->
@@ -339,6 +342,11 @@
     <string name="vote_cast">Vote cast!</string>
     <string name="vote_err">Error casting vote!</string>
     <string name="vote_err_login">You must be logged in to vote!</string>
+
+
+    <!-- Moderation tools -->
+    <string name="mod_mail">Mod Mail</string>
+    <string name="mod_actions">Mod Actions</string>
 
 
     <!-- Subreddit Wiki -->
@@ -388,7 +396,7 @@
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
     <string name="settings_confirm_exit">Confirm Exit Dialog</string>
 
-    <!-- Settings titles -->
+    <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternative Layout</string>
     <string name="settings_title_backup">Backup</string>
     <string name="settings_title_default_theme">Default Theme</string>
@@ -428,10 +436,6 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
-    <string name="title_mod">Moderator</string>
-    <string name="sidebar_mod">Moderation</string>
-    <string name="modMail">Mod Mail</string>
-    <string name="moderation_modactions">Mod Actions</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">a minute ago</item>

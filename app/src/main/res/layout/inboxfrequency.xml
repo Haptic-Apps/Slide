@@ -80,6 +80,7 @@
                         android:background="?android:selectableItemBackground"
                         android:padding="16dp"
                         android:text="@string/btn_save"
+                        android:textAllCaps="true"
                         android:textSize="14sp"
                         android:id="@+id/save"
                         android:textStyle="bold"
