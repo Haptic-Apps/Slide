@@ -14,6 +14,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     public final TextView title;
     public final ActiveTextView content;
     public final TextView time;
+    public final TextView user;
 
     public MessageViewHolder(View v) {
         super(v);
@@ -21,6 +22,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         content = (ActiveTextView) v.findViewById(R.id.content);
         time = (TextView) v.findViewById(R.id.time);
 
+        user = (TextView) v.findViewById(R.id.user);
     }
 
 

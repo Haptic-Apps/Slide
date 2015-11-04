@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.paginators.ModeratorPaginator;
@@ -69,19 +69,9 @@ public class ModeratorPosts {
             if(subs != null) {
 
                 loading = false;
-
-                if (refreshLayout != null)
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
                             refreshLayout.setRefreshing(false);
-
-                            adapter.dataSet = posts;
-
+                            adapter.dataSet = subs;
                             adapter.notifyDataSetChanged();
-
-                        }
-                    });
             } else {
                 adapter.setError(true);
 
@@ -94,9 +84,13 @@ public class ModeratorPosts {
                 if (reset || paginator == null) {
                     paginator = new ModeratorPaginator(Authentication.reddit, subreddit, where);
                 }
+                paginator.setIncludeComments(true);
+                paginator.setIncludeSubmissions(true);
+
                 if (paginator.hasNext()) {
                         ArrayList<PublicContribution> done = new ArrayList<>(paginator.next());
 
+                    Log.v("Slide", done.size() + "SIZE");
                         return done;
 
                 }

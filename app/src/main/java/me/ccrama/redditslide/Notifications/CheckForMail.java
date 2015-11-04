@@ -18,6 +18,7 @@ import android.text.Html;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Inbox;
@@ -105,8 +106,14 @@ public class CheckForMail extends BroadcastReceiver {
             try {
                 if (Authentication.isLoggedIn) {
                     InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
+                    InboxPaginator mod = new InboxPaginator(Authentication.reddit, "modmail");
+
+                    ArrayList<Message> messages = new ArrayList<Message>();
                     if (unread.hasNext()) {
-                        return unread.next();
+                        messages.addAll(unread.next());
+                    }
+                    if (mod.hasNext()) {
+                        messages.addAll( mod.next());
                     }
                 }
             }catch(Exception ignored){

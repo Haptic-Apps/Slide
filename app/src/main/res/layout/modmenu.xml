@@ -47,7 +47,7 @@
 
 
                     <LinearLayout
-                        android:id="@+id/sidebar"
+                        android:id="@+id/report"
                         android:layout_width="match_parent"
 
                         android:layout_height="48dp"
@@ -65,7 +65,7 @@
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/pro" />
+                            android:src="@drawable/report" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -74,15 +74,14 @@
                             android:gravity="center_vertical"
 
                             android:textColor="?attr/font"
-                            android:id="@+id/userpopup"
-                            android:text="/u/ccrama"
+                            android:text="Show User and Mod Reports"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/wiki"
+                        android:id="@+id/approve"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
@@ -100,7 +99,7 @@
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/sub" />
+                            android:src="@drawable/support" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -111,14 +110,14 @@
                             android:id="@+id/subpopup"
                             android:textColor="?attr/font"
 
-                            android:text="/r/Android"
+                            android:text="Approve"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/save"
+                        android:id="@+id/spam"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
@@ -135,7 +134,7 @@
                             android:padding="12dp"
                             android:tint="?attr/tint"
 
-                            android:src="@drawable/sidebar_saved" />
+                            android:src="@drawable/fontsizedarker" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -147,105 +146,13 @@
 
                             android:id="@+id/savedtext"
 
-                            android:text="@string/submission_save"
+                            android:text="Spam"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/gild"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:background="?android:selectableItemBackground"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:tint="?attr/tint"
-
-                            android:padding="12dp"
-                            android:src="@drawable/gild" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:textColor="?attr/font"
-
-                            android:text="@string/submission_gild"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/report"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:visibility="gone"
-                        android:gravity="center_vertical"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:tint="?attr/tint"
-
-                            android:padding="12dp"
-                            android:src="@drawable/report" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:textColor="?attr/font"
-
-                            android:text="@string/submission_report"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/share"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:gravity="center_vertical"
-                        android:background="?android:selectableItemBackground"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:tint="?attr/tint"
-                            android:padding="12dp"
-                            android:src="@drawable/share" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
-                            android:text="@string/submission_share"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/hide"
+                        android:id="@+id/nsfw"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:gravity="center_vertical"
@@ -269,7 +176,99 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="@string/submission_hide"
+                            android:text="NSFW"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/flair"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
+
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:tint="?attr/tint"
+
+                            android:padding="12dp"
+                            android:src="@drawable/ic_format_quote_white_48dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:textColor="?attr/font"
+
+                            android:text="Flair"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/remove"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
+
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:tint="?attr/tint"
+                            android:padding="12dp"
+                            android:src="@drawable/close" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/font"
+
+
+                            android:text="Remove"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ban"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
+                        android:background="?android:selectableItemBackground"
+
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:tint="?attr/tint"
+                            android:padding="12dp"
+                            android:src="@drawable/user" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/font"
+
+
+                            android:text="Ban User"
 
                             android:textSize="16sp" />
 

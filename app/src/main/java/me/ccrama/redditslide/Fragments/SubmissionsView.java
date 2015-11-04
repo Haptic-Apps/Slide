@@ -87,7 +87,7 @@ public class SubmissionsView extends Fragment {
         mSwipeRefreshLayout.setRefreshing(true);
 
         posts = new SubredditPosts(id);
-        adapter = new SubmissionAdapter(getContext(), posts, rv, posts.subreddit );
+        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit );
         rv.setAdapter(adapter);
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);

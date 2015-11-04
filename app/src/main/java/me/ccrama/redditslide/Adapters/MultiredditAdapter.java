@@ -7,7 +7,6 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -38,7 +37,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
 
-    public final Context mContext;
+    public final Activity mContext;
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
     @Override
@@ -69,7 +68,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
          }
     }
 
-    public MultiredditAdapter(Context mContext, MultiredditPosts dataSet, RecyclerView listView) {
+    public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView) {
 
         this.mContext = mContext;
         this.listView = listView;

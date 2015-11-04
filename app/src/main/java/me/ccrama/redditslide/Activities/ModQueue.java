@@ -8,10 +8,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.Fragments.ModPage;
 import me.ccrama.redditslide.R;
@@ -65,7 +65,18 @@ public class ModQueue extends BaseActivity {
             super(fm);
 
         }
+        private Fragment mCurrentFragment;
 
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
+        }
         @Override
         public Fragment getItem(int i) {
 
@@ -81,7 +92,7 @@ public class ModQueue extends BaseActivity {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
-                args.putString("id", ContentGrabber.ModValue.values()[1].getWhereName());
+                args.putString("id", "modqueue");
                 args.putString("subreddit", SubredditStorage.modOf.get(i - 1));
 
                 f.setArguments(args);

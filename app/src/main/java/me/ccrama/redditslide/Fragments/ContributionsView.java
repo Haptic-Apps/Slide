@@ -48,7 +48,7 @@ public class ContributionsView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new ContributionPosts(id, where);
-        adapter = new ContributionAdapter(getContext(), posts, rv);
+        adapter = new ContributionAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
         try {

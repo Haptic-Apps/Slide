@@ -6,6 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
+    android:background="?attr/activity_background"
+
     android:layout_height="match_parent">
 
         <android.support.design.widget.CoordinatorLayout

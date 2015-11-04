@@ -7,7 +7,6 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -44,7 +43,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
 
-    public final Context mContext;
+    public final Activity mContext;
     public ArrayList<Submission> dataSet;
     private final RecyclerView listView;
 
@@ -79,7 +78,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public SubmissionAdapter(Context mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
+    public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
 
         this.mContext = mContext;
         this.subreddit = subreddit;

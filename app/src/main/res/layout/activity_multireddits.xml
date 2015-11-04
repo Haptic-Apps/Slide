@@ -4,6 +4,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
 
+    android:background="?attr/activity_background"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                     android:scaleType="fitCenter"
 
                     android:src="@drawable/sort"
-                    android:tint="@color/white" />
+                    android:tint="?android:attr/textColorPrimary"
+                    />
                 <ImageView
                     android:id="@+id/edit"
                     android:layout_width="48dp"
@@ -63,7 +65,8 @@
                     android:scaleType="fitCenter"
 
                     android:src="@drawable/edit"
-                    android:tint="@color/white" />
+                    android:tint="?android:attr/textColorPrimary"
+                    />
 
 
 
@@ -80,7 +83,8 @@
                     android:scaleType="fitCenter"
 
                     android:src="@drawable/add_plain"
-                    android:tint="@color/white" />
+                    android:tint="?android:attr/textColorPrimary"
+                    />
 
 
 

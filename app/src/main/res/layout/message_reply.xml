@@ -105,7 +105,19 @@
                                     android:text="4 hours ago"
 
                                     android:textSize="?attr/font_commentinfo" />
+                                <TextView
+                                    android:id="@+id/user"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="5dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingBottom="5dp"
 
+                                    android:textColor="?attr/font"
+
+                                    android:text="ccrama"
+
+                                    android:textSize="?attr/font_commentinfo" />
                             </LinearLayout>
 
 

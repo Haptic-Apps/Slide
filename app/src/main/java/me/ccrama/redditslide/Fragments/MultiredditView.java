@@ -49,7 +49,7 @@ public class MultiredditView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new MultiredditPosts(SubredditStorage.multireddits.get(id));
-        adapter = new MultiredditAdapter(getContext(), posts, rv);
+        adapter = new MultiredditAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
         try {

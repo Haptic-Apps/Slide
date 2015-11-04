@@ -40,7 +40,7 @@ public class ModPage extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new ModeratorPosts(id, sub);
-        adapter = new ModeratorAdapter(getContext(), posts, rv);
+        adapter = new ModeratorAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
         try {
@@ -62,7 +62,7 @@ public class ModPage extends Fragment {
         return v;
     }
 
-    private ModeratorAdapter adapter;
+    public ModeratorAdapter adapter;
 
     private ModeratorPosts posts;
 

@@ -188,14 +188,14 @@
     </style>
     <style name="Theme.LIGHT" parent="swipestylelight">
         <item name="activity_background">#d2d2d2</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorPrimary">#b3000000</item>
+        <item name="android:textColorSecondary">#88000000</item>
         <item name="actionMenuTextColor">@android:color/white</item>
 
         <item name="card_background">#ffffff</item>
         <item name="font">#b3000000</item>
         <item name="tint">#de393939</item>
-        <item name="android:windowBackground">@color/lightbg</item>
+        <item name="android:windowBackground">@null</item>
 
         <item name="list_background">#ffffff</item>
 
@@ -204,7 +204,7 @@
         <item name="activity_background">#303030</item>
         <item name="card_background">#424242</item>
         <item name="font">#b3FFFFFF</item>
-        <item name="android:windowBackground">@color/darkbg</item>
+        <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
 
         <item name="tint">#DEffffff</item>
@@ -217,7 +217,7 @@
         <item name="card_background">#000000</item>
         <item name="font">#b3FFFFFF</item>
         <item name="tint">#DEffffff</item>
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
 
         <item name="list_background">#000000</item>

@@ -106,6 +106,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final Message comment = dataSet.get(i);
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
 
+            holder.user.setText(comment.getAuthor());
 
             new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, "");
 

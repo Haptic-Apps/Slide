@@ -7,7 +7,6 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
@@ -42,7 +41,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
 
-    public final Context mContext;
+    public final Activity mContext;
     public ArrayList<PublicContribution> dataSet;
     private final RecyclerView listView;
     @Override
@@ -82,12 +81,13 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
 
+
     }
 
 
 
 
-    public ModeratorAdapter(Context mContext, ModeratorPosts dataSet, RecyclerView listView) {
+    public ModeratorAdapter(Activity mContext, ModeratorPosts dataSet, RecyclerView listView) {
 
         this.mContext = mContext;
         this.listView = listView;
