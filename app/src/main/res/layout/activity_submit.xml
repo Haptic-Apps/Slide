@@ -301,7 +301,7 @@
                 android:layout_height="wrap_content">
                 <EditText
                     android:layout_width="match_parent"
-                    android:hint="@string/editor_hint_url"
+                    android:hint="@string/editor_url"
                     android:maxLines="1"
                     android:backgroundTint="?attr/tint"
 

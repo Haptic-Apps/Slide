@@ -9,6 +9,8 @@ the [Java Reddit API Wrapper](https://github.com/thatJavaNerd/JRAW).
 This is the source repository for Slide, if you were looking to install the app
 it is available to download for free on the Play store
 
+[![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit)
+
 [![Get it on Google Play](
     https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](
     https://play.google.com/store/apps/details?id=me.ccrama.redditslide)

@@ -172,7 +172,6 @@
     <string name="editor_select_img">Select Picture</string>
     <string name="editor_hint_title">Title</string>
     <string name="editor_hint_optional_body">Body (optional)</string>
-    <string name="editor_hint_url">URL</string>
     <string name="editor_submit">Submit a post</string>
     <string name="editor_hint_subreddit">Subreddit</string>
 
