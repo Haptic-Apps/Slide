@@ -20,14 +20,6 @@
   <string name="submission_gild">Gild post</string>
   <string name="submission_save">Save post</string>
   <string name="submission_share">Share post</string>
-  <plurals name="submission_points">
-    <item quantity="one">one point</item>
-    <item quantity="other">%d points</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">one comment</item>
-    <item quantity="other">%d comments</item>
-  </plurals>
   <string name="theme_light">Light</string>
   <string name="theme_dark">Dark</string>
   <string name="theme_black">AMOLED Black</string>
@@ -50,7 +42,6 @@
   <string name="multi_column_landscape">Landscape</string>
   <string name="multi_column_portrait">Portrait settings coming soon</string>
   <string name="drawer_login">Log in</string>
-  <string name="drawer_logout">LOG OUT</string>
   <string name="drawer_profile">Profile</string>
   <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Support Slide</string>
@@ -127,7 +118,6 @@
   <string name="editor_select_img">Select Picture</string>
   <string name="editor_hint_title">Title</string>
   <string name="editor_hint_optional_body">Body (optional)</string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Submit a post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Photo Saved</string>
@@ -168,11 +158,9 @@
   <string name="mail_hint_recipient">Recipient</string>
   <string name="mail_hint_subject">Subject</string>
   <string name="mail_hint_body">Body</string>
-  <string name="mail_send_to">"Send a message to %1$s"</string>
+  <string name="mail_send_to">Send a message to %1$s</string>
   <string name="mail_send">Send a message</string>
-  <string name="mail_notification_msg">New message from</string>
   <string name="mail_reply_to">Reply to %1$s</string>
-  <string name="mail_notification_author">from</string>
   <string name="mail_theirs">View their message</string>
   <plurals name="mail_hours">
     <item quantity="one">One hour</item>
@@ -247,7 +235,6 @@
   <string name="settings_accent_title">Edit accent colour</string>
   <string name="settings_card_mode">Card Mode</string>
   <string name="settings_color_accent">Accent colour</string>
-  <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/</string>
   <string name="settings_image">Image Mode</string>
   <string name="settings_indicator_everywhere">Everywhere</string>
   <string name="settings_indicator_place">Where to Show Colour Indicator</string>
@@ -269,7 +256,6 @@
   <string name="settings_title_backup">Backup</string>
   <string name="settings_title_default_theme">Default Theme</string>
   <string name="settings_title_general">General</string>
-  <string name="settings_title_notifications">Mail Notification Settings</string>
   <string name="settings_title_pro">Pro</string>
   <string name="settings_title_sub_theme">Subreddit Theme Settings</string>
   <string name="donate_amount_title">This amount&#8230;</string>
@@ -293,14 +279,6 @@
   <string name="gitty_err_upload_msg">Wrong username or password or invalid access token.</string>
   <string name="gitty_err_msg">An unexpected error occurred. If the problem persists, contact the app developer.</string>
   <string name="time_just_now">just now</string>
-  <plurals name="time_minutes_ago">
-    <item quantity="one">a minute ago</item>
-    <item quantity="other">%d minutes ago</item>
-  </plurals>
-  <plurals name="time_hours_ago">
-    <item quantity="one">an hour ago</item>
-    <item quantity="other">%d hours ago</item>
-  </plurals>
   <plurals name="time_days_ago">
     <item quantity="one">yesterday</item>
     <item quantity="other">%d days ago</item>

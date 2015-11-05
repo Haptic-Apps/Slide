@@ -20,14 +20,6 @@
   <string name="submission_hide">Bericht verbergen</string>
   <string name="submission_report">Bericht rapporteren</string>
   <string name="submission_save">Bericht opslaan</string>
-  <plurals name="submission_points">
-    <item quantity="one">Één punt</item>
-    <item quantity="other">%d punten</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">Één reactie</item>
-    <item quantity="other">%d reacties</item>
-  </plurals>
   <string name="theme_light">Licht</string>
   <string name="theme_dark">Donker</string>
   <string name="theme_black">AMOLED zwart</string>
@@ -85,7 +77,6 @@
   <string name="editor_image">Afbeelding</string>
   <string name="editor_select_img">Selecteer afbeelding</string>
   <string name="editor_hint_title">Titel</string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Plaats een bericht</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Afbeelding opgeslagen</string>
@@ -140,7 +131,6 @@
   <string name="settings_accent_title">Accentkleur bewerken</string>
   <string name="settings_card_mode">Kaart-modus</string>
   <string name="settings_color_accent">Accentkleur</string>
-  <string name="settings_delete_sub_settings">Wilt u echt instellingen voor /r/ verwijderen</string>
   <string name="settings_image">Afbeelding modus</string>
   <string name="settings_indicator_everywhere">Overal</string>
   <string name="settings_indicator_place">Waar kleuren indicator tonen</string>

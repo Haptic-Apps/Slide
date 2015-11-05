@@ -236,7 +236,7 @@ public class CreateMulti extends BaseActivity {
                         }
                         Log.v("Slide", "Done with " + all[which]);
                     }
-                }).setTitle(R.string.multireddit_selector).setPositiveButton(R.string.btn_add, new DialogInterface.OnClickListener() {
+                }).setTitle(R.string.multireddit_selector).setPositiveButton(getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 subs = toCheck;

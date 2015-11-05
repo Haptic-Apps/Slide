@@ -53,7 +53,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.BigTextStyle notiStyle = new
                             NotificationCompat.BigTextStyle();
-                    notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg) + " " + messages.get(0).getAuthor());
+                    notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg, messages.get(0).getAuthor()));
                     notiStyle.bigText(Html.fromHtml(messages.get(0).getBody()));
 
                     Notification notification = new NotificationCompat.Builder(c).setContentIntent(intent)
@@ -61,11 +61,11 @@ public class CheckForMail extends BroadcastReceiver {
                             .setTicker(res.getQuantityString(R.plurals.mail_notification_title, 1))
                             .setWhen(System.currentTimeMillis())
                             .setAutoCancel(true)
-                            .setContentTitle(messages.get(0).getSubject() + " " +
-                                    c.getString(R.string.mail_notification_author) + " " + messages.get(0).getAuthor())
-                            .setContentText(Html.fromHtml(messages.get(0).getBody()))
-                            .setStyle(notiStyle)
-                            .build();
+                            .setContentTitle(c.getString(R.string.mail_notification_author,
+                                            messages.get(0).getSubject(), messages.get(0).getAuthor()))
+                                            .setContentText(Html.fromHtml(messages.get(0).getBody()))
+                                            .setStyle(notiStyle)
+                                            .build();
                     notificationManager.notify(0, notification);
                 } else {
                     int amount = messages.size();
@@ -76,7 +76,7 @@ public class CheckForMail extends BroadcastReceiver {
                     notiStyle.setBigContentTitle(res.getQuantityString(R.plurals.mail_notification_title, amount, amount));
                     notiStyle.setSummaryText("");
                     for(Message m : messages) {
-                        notiStyle.addLine(c.getString(R.string.mail_notification_msg) + " " + m.getAuthor());
+                        notiStyle.addLine(c.getString(R.string.mail_notification_msg, m.getAuthor()));
                     }
 
                     Intent notificationIntent = new Intent(c, Inbox.class);

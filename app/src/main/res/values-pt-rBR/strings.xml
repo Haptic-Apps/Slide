@@ -20,14 +20,6 @@
   <string name="submission_hide">Ocultar post</string>
   <string name="submission_report">Denunciar post</string>
   <string name="submission_save">Salvar post</string>
-  <plurals name="submission_points">
-    <item quantity="one">um ponto</item>
-    <item quantity="other">%d pontos</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">um comentário</item>
-    <item quantity="other">%d comentários</item>
-  </plurals>
   <string name="theme_light">Claro</string>
   <string name="theme_dark">Escuro</string>
   <string name="theme_black">Preto (para AMOLED)</string>
@@ -45,7 +37,6 @@
   <string name="multi_column_landscape">Paisagem</string>
   <string name="multi_column_portrait">Configurações de Retrato em breve</string>
   <string name="drawer_login">Entrar</string>
-  <string name="drawer_logout">Desconectar</string>
   <string name="drawer_profile">Perfil</string>
   <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Ajude o Slide</string>
@@ -81,7 +72,6 @@
   <string name="editor_select_img">Selecionar imagem</string>
   <string name="editor_hint_title">Título</string>
   <string name="editor_hint_optional_body">Conteúdo (opcional)</string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Enviar post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Imagem Salva</string>

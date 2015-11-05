@@ -57,7 +57,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             new AlertDialogWrapper.Builder(getContext()).setTitle(getContext().getString(R.string.settings_delete_sub_settings) + subreddit)
+             new AlertDialogWrapper.Builder(getContext()).setTitle(getContext().getString(R.string.settings_delete_sub_settings, subreddit))
                      .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                          @Override
                          public void onClick(DialogInterface dialog, int which) {
