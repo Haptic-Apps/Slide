@@ -56,7 +56,7 @@ public class DonateView extends AppCompatActivity {
         final TextView money = (TextView) findViewById(R.id.money);
 
         ads.setText(" " + sl_discrete.getValue() * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 10 / sl_discrete.getValue() ) + "");
+        hours.setText(" " + String.valueOf((double) 10 / sl_discrete.getValue() ) + " ");
         money.setText("$" + sl_discrete.getValue() );
 
 
@@ -64,7 +64,7 @@ public class DonateView extends AppCompatActivity {
             @Override
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
-                hours.setText(" " + String.valueOf((double) newValue / 10 ) + "");
+                hours.setText(" " + String.valueOf((double) newValue / 10 ) + " ");
                 money.setText("$" + newValue);
             }
         });

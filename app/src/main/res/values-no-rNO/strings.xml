@@ -22,14 +22,6 @@
   <string name="submission_gild">Gi gull</string>
   <string name="submission_save">Lagre post</string>
   <string name="submission_share">Del post</string>
-  <plurals name="submission_points">
-    <item quantity="one">ett poeng</item>
-    <item quantity="other">%d poeng</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">en kommentar</item>
-    <item quantity="other">%d kommentarer</item>
-  </plurals>
   <string name="theme_light">Lyst</string>
   <string name="theme_dark">Mørkt</string>
   <string name="theme_black">AMOLED-svart</string>
@@ -52,7 +44,6 @@
   <string name="multi_column_landscape">Landskap</string>
   <string name="multi_column_portrait">Innstillinger for portrett kommer snart</string>
   <string name="drawer_login">Logg inn</string>
-  <string name="drawer_logout">LOGG UT</string>
   <string name="drawer_profile">Profil</string>
   <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Støtt Slide</string>
@@ -129,7 +120,6 @@
   <string name="editor_select_img">Velg bilde</string>
   <string name="editor_hint_title">Tittel</string>
   <string name="editor_hint_optional_body">Tekst (valgfritt)</string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Send inn en post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Foto lagret</string>
@@ -171,11 +161,9 @@
   <string name="mail_hint_recipient">Mottaker</string>
   <string name="mail_hint_subject">Emne</string>
   <string name="mail_hint_body">Meldingstekst</string>
-  <string name="mail_send_to">"Send en melding til %1$s"</string>
+  <string name="mail_send_to">Send en melding til %1$s</string>
   <string name="mail_send">Send en melding</string>
-  <string name="mail_notification_msg">Ny melding fra</string>
   <string name="mail_reply_to">Svar til %1$s</string>
-  <string name="mail_notification_author">fra</string>
   <string name="mail_theirs">Vis deres melding</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Du har en ny post.</item>
@@ -256,7 +244,6 @@
   <string name="settings_accent_title">Endre aksentfarge</string>
   <string name="settings_card_mode">Kortmodus</string>
   <string name="settings_color_accent">Aksentfarge</string>
-  <string name="settings_delete_sub_settings">Vil du slette innstillingene for /r/</string>
   <string name="settings_image">Bildemodus</string>
   <string name="settings_indicator_everywhere">Overalt</string>
   <string name="settings_indicator_place">Hvor fargeindikatoren skal vises</string>
@@ -279,7 +266,6 @@
   <string name="settings_title_backup">Sikkerhetskopiering</string>
   <string name="settings_title_default_theme">Standardtema</string>
   <string name="settings_title_general">Generelt</string>
-  <string name="settings_title_notifications">Innstillinger for postvarsel</string>
   <string name="settings_title_pro">Pro</string>
   <string name="settings_title_sub_theme">Temainnstillinger for subreddit</string>
   <string name="donate_amount_title">Dette beløpet&#8230;</string>
@@ -304,14 +290,6 @@
   <string name="gitty_err_upload_msg">Feil brukernavn eller passord eller ugyldig tilgangsnøkkel.</string>
   <string name="gitty_err_msg">En uventet feil oppstod. Hvis problemet vedvarer, kontakt apputvikleren.</string>
   <string name="time_just_now">akkurat nå</string>
-  <plurals name="time_minutes_ago">
-    <item quantity="one">for ett minutt siden</item>
-    <item quantity="other">for %d minutter siden</item>
-  </plurals>
-  <plurals name="time_hours_ago">
-    <item quantity="one">for en time siden</item>
-    <item quantity="other">for %d timer siden</item>
-  </plurals>
   <plurals name="time_days_ago">
     <item quantity="one">i går</item>
     <item quantity="other">for %d dager siden</item>

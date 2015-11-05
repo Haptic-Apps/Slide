@@ -22,14 +22,6 @@
   <string name="submission_gild">Recompensar post</string>
   <string name="submission_save">Guardar post</string>
   <string name="submission_share">Compartir post</string>
-  <plurals name="submission_points">
-    <item quantity="one">un punto</item>
-    <item quantity="other">%d puntos</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">un comentario</item>
-    <item quantity="other">%d comentarios</item>
-  </plurals>
   <string name="theme_light">Claro</string>
   <string name="theme_dark">Oscuro</string>
   <string name="theme_black">Negro AMOLED</string>
@@ -52,7 +44,6 @@
   <string name="multi_column_landscape">Apaisado</string>
   <string name="multi_column_portrait">Ajustes de apaisado proximamente</string>
   <string name="drawer_login">Iniciar sesión</string>
-  <string name="drawer_logout">CERRAR SESIÓN</string>
   <string name="drawer_profile">Perfil</string>
   <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Apoya Slide</string>
@@ -129,7 +120,6 @@
   <string name="editor_select_img">Seleccionar imagen</string>
   <string name="editor_hint_title">Titulo</string>
   <string name="editor_hint_optional_body">Cuerpo (opcional)</string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Enviar un post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Foto guardada</string>
@@ -171,11 +161,9 @@
   <string name="mail_hint_recipient">Destinatario</string>
   <string name="mail_hint_subject">Sujeto</string>
   <string name="mail_hint_body">Cuerpo</string>
-  <string name="mail_send_to">"Enviar un mensaje a %1$s"</string>
+  <string name="mail_send_to">Enviar un mensaje a %1$s</string>
   <string name="mail_send">Enviar un mensaje</string>
-  <string name="mail_notification_msg">Nuevo mensaje de</string>
   <string name="mail_reply_to">Responder a %1$s</string>
-  <string name="mail_notification_author">desde</string>
   <string name="mail_theirs">Ver su mensaje</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Tienes un correo nuevo!</item>
@@ -256,7 +244,6 @@
   <string name="settings_accent_title">Editar color de acento</string>
   <string name="settings_card_mode">Modo tarjeta</string>
   <string name="settings_color_accent">Color del acento</string>
-  <string name="settings_delete_sub_settings">Seguro que quieres eliminar los ajustes de /r/</string>
   <string name="settings_image">Modo de imagen</string>
   <string name="settings_indicator_everywhere">En todas partes</string>
   <string name="settings_indicator_place">Donde mostrar el indicador de Color</string>
@@ -279,7 +266,6 @@
   <string name="settings_title_backup">Copia de seguridad</string>
   <string name="settings_title_default_theme">Tema predeterminado</string>
   <string name="settings_title_general">General</string>
-  <string name="settings_title_notifications">Ajustes de notificación de correo</string>
   <string name="settings_title_pro">Pro</string>
   <string name="settings_title_sub_theme">Ajustes del tema del subreddit</string>
   <string name="donate_amount_title">Esta cantidad&#8230;</string>
@@ -304,14 +290,6 @@
   <string name="gitty_err_upload_msg">Nombre de usuario o contraseña incorrectos o token de acceso invalido.</string>
   <string name="gitty_err_msg">Se produjo un error inesperado. Si el problema persiste, póngase en contacto con el desarrollador de la aplicación.</string>
   <string name="time_just_now">ahora mismo</string>
-  <plurals name="time_minutes_ago">
-    <item quantity="one">hace un minuto</item>
-    <item quantity="other">Hace %d minutos</item>
-  </plurals>
-  <plurals name="time_hours_ago">
-    <item quantity="one">hace una hora</item>
-    <item quantity="other">hace %d horas</item>
-  </plurals>
   <plurals name="time_days_ago">
     <item quantity="one">ayer</item>
     <item quantity="other">hace %d días</item>

@@ -20,14 +20,6 @@
   <string name="submission_hide">Amagar post</string>
   <string name="submission_report">Reportar post</string>
   <string name="submission_save">Desa el post</string>
-  <plurals name="submission_points">
-    <item quantity="one">un punt</item>
-    <item quantity="other">%d punts</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">un comentari</item>
-    <item quantity="other">%d comentaris</item>
-  </plurals>
   <string name="theme_light">Clar</string>
   <string name="theme_dark">Fosc</string>
   <string name="theme_black">Negre AMOLED</string>

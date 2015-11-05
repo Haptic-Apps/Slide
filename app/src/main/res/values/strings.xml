@@ -25,11 +25,11 @@
     <string name="submission_save">Save post</string>
     <string name="submission_share">Share post</string>
     <plurals name="submission_points">
-        <item quantity="one">one point</item>
+        <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
     </plurals>
     <plurals name="submission_comment_count">
-        <item quantity="one">one comment</item>
+        <item quantity="one">%d comment</item>
         <item quantity="other">%d comments</item>
     </plurals>
 
@@ -73,7 +73,6 @@
 
     <!-- Drawer items (That's the one on the left) -->
     <string name="drawer_login">Log in</string>
-    <string name="drawer_logout">LOG OUT</string>
     <string name="drawer_profile">Profile</string>
     <string name="drawer_multis">Multireddits</string>
     <string name="drawer_support">Support Slide</string>
@@ -240,11 +239,11 @@
     <string name="mail_hint_recipient">Recipient</string>
     <string name="mail_hint_subject">Subject</string>
     <string name="mail_hint_body">Body</string>
-    <string name="mail_send_to">"Send a message to %1$s"</string>
+    <string name="mail_send_to">Send a message to %1$s</string>
     <string name="mail_send">Send a message</string>
-    <string name="mail_notification_msg">New message from</string>
+    <string name="mail_notification_msg">New message from %1$d</string>
     <string name="mail_reply_to">Reply to %1$s</string>
-    <string name="mail_notification_author">from</string>
+    <string name="mail_notification_author">%1$s from %2$s</string>
     <string name="mail_theirs">View their message</string>
 
     <plurals name="mail_notification_title">
@@ -308,7 +307,7 @@
 
 
     <!-- Buttons -->
-    <string name="btn_add">ADD</string>
+    <string name="btn_add">Add</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_close">Close</string>
     <string name="btn_discard">Discard</string>
@@ -367,12 +366,16 @@
     <string name="search_everywhere">Everywhere</string>
     <string name="search_goto">Go to</string>
 
+    <!-- Captcha -->
+    <string name="captcha">Enter the code above</string>
+    <string name="captcha_title">Prove you\'re not a robot</string>
+
 
     <!-- Settings -->
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_card_mode">Card Mode</string>
     <string name="settings_color_accent">Accent color</string>
-    <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/</string>
+    <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s</string>
     <string name="settings_image">Image Mode</string>
     <string name="settings_indicator_everywhere">Everywhere</string>
     <string name="settings_indicator_place">Where to Show Color Indicator</string>
@@ -394,13 +397,14 @@
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
     <string name="settings_confirm_exit">Confirm Exit Dialog</string>
+    <string name="settings_fastscroll">Fast scroll through comments</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternative Layout</string>
     <string name="settings_title_backup">Backup</string>
     <string name="settings_title_default_theme">Default Theme</string>
     <string name="settings_title_general">General</string>
-    <string name="settings_title_notifications">Mail Notification Settings</string>
+    <string name="settings_title_notifications">Notification Settings</string>
     <string name="settings_title_pro">Pro</string>
     <string name="settings_title_sub_theme">Subreddit Theme Settings</string>
     <string name="settings_title_sorting">Default Sorting</string>
@@ -435,22 +439,14 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
-    <string name="error_loading_content">ERROR LOADING CONTENT</string>
-    <string name="NSFW">NSFW</string>
-    <string name="sidebar_mod">Moderation</string>
-    <string name="modMail">Mod Mail</string>
-    <string name="moderation_modactions">Mod Actions</string>
-    <string name="captcha">Enter the code above</string>
-    <string name="captcha_title">Prove you\'re not a robot</string>
-    <string name="settings_fastscroll">Fast scroll through comments</string>
 
     <plurals name="time_minutes_ago">
-        <item quantity="one">a minute ago</item>
+        <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>
     </plurals>
 
     <plurals name="time_hours_ago">
-        <item quantity="one">an hour ago</item>
+        <item quantity="one">%d hour ago</item>
         <item quantity="other">%d hours ago</item>
     </plurals>
 

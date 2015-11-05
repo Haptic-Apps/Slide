@@ -5,6 +5,7 @@
   <string name="general_confirm_exit">Conferma Uscita</string>
   <string name="general_confirm_exit_msg">Vuoi davvero chiudere Slide?</string>
   <string name="general_switch_acc">Cambia Account</string>
+  <string name="general_enable_shadowbox">Abilita modalità Shadowbox</string>
   <string name="general_open_settings">Apri impostazioni per Subreddit</string>
   <string name="submission_save_post">Salva post</string>
   <string name="submission_post_saved">Post salvato</string>
@@ -14,10 +15,6 @@
   <string name="submission_hide">Nascondi post</string>
   <string name="submission_report">Segnala post</string>
   <string name="submission_save">Salva post</string>
-  <plurals name="submission_comment_count">
-    <item quantity="one">un commento</item>
-    <item quantity="other">%d Commenti</item>
-  </plurals>
   <string name="theme_light">Chiaro</string>
   <string name="theme_dark">Scuro</string>
   <string name="theme_black">nero AMOLED</string>
@@ -31,7 +28,6 @@
   <string name="multi_column_title">Impostazioni multi-colonna</string>
   <string name="multi_column_landscape">Orizzontale</string>
   <string name="drawer_login">Accedi</string>
-  <string name="drawer_logout">ESCI</string>
   <string name="drawer_profile">Profilo</string>
   <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Supporta Slide</string>
@@ -82,7 +78,6 @@
   <string name="editor_select_img">Seleziona un\'Immagine</string>
   <string name="editor_hint_title">Titolo</string>
   <string name="editor_hint_optional_body">Corpo (opzionale)</string>
-  <string name="editor_hint_url">URI</string>
   <string name="editor_submit">Invia il post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Foto salvate</string>
@@ -108,5 +103,16 @@
   <string name="type_vid">Video</string>
   <string name="title_settings">Opzioni</string>
   <string name="title_multireddits">Multireddits</string>
+  <string name="misc_nsfw">NSFW</string>
+  <string name="user_enter">Inserisci username</string>
+  <string name="user_invalid">Username non valido</string>
+  <string name="user_invalid_msg">Gli username di Reddit possono contentere solo lettere, numeri, trattini bassi e trattini.</string>
+  <string name="btn_add">AGGIUNGI</string>
+  <string name="btn_cancel">Annulla</string>
+  <string name="btn_close">Chiudi</string>
+  <string name="btn_no">No</string>
+  <string name="btn_no_danks">No, grazie</string>
+  <string name="btn_ok">OK</string>
+  <string name="btn_reply">Rispondi</string>
   <string name="settings_color_accent">Colore particolari</string>
 </resources>

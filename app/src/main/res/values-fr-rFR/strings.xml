@@ -22,14 +22,6 @@
   <string name="submission_gild">Dorer</string>
   <string name="submission_save">Enregistrer le message</string>
   <string name="submission_share">Partager le post</string>
-  <plurals name="submission_points">
-    <item quantity="one">un point</item>
-    <item quantity="other">%d points</item>
-  </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">un commentaire</item>
-    <item quantity="other">%d commentaires</item>
-  </plurals>
   <string name="theme_light">Clair</string>
   <string name="theme_dark">Sombre</string>
   <string name="theme_black">Noir AMOLED</string>
@@ -52,7 +44,6 @@
   <string name="multi_column_landscape">Paysage</string>
   <string name="multi_column_portrait">Paramètres de vue portrait prochainement disponibles</string>
   <string name="drawer_login">Se connecter</string>
-  <string name="drawer_logout">DÉCONNEXION</string>
   <string name="drawer_profile">Profil</string>
   <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Faire un don</string>
@@ -130,7 +121,6 @@ Merci beaucoup !</string>
   <string name="editor_select_img">Sélectionner une image</string>
   <string name="editor_hint_title">Titre </string>
   <string name="editor_hint_optional_body">Corps de texte (facultatif)</string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Envoyer un message</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Photo Enregistrée</string>
@@ -172,11 +162,9 @@ Merci beaucoup !</string>
   <string name="mail_hint_recipient">Destinataire</string>
   <string name="mail_hint_subject">Objet </string>
   <string name="mail_hint_body">Message</string>
-  <string name="mail_send_to">"Envoyer un message à %1$s"</string>
+  <string name="mail_send_to">Envoyer un message à %1$s</string>
   <string name="mail_send">Envoyer un message</string>
-  <string name="mail_notification_msg">Nouveau message de</string>
   <string name="mail_reply_to">Répondre à %1$s</string>
-  <string name="mail_notification_author">de</string>
   <string name="mail_theirs">Voir le message</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Vous avez un nouveau message !</item>
@@ -256,7 +244,6 @@ Merci beaucoup !</string>
   <string name="settings_accent_title">Modifier la couleur d\'accentuation</string>
   <string name="settings_card_mode">Mode Carte</string>
   <string name="settings_color_accent">Couleur d\'accentuation</string>
-  <string name="settings_delete_sub_settings">Voulez-vous supprimer les paramètres de /r/</string>
   <string name="settings_image">Mode Image</string>
   <string name="settings_indicator_everywhere">Partout</string>
   <string name="settings_indicator_place">Où Monter l\'Indicateur Coloré</string>
@@ -279,7 +266,6 @@ Merci beaucoup !</string>
   <string name="settings_title_backup">Sauvegarde</string>
   <string name="settings_title_default_theme">Thème par Défaut</string>
   <string name="settings_title_general">Général</string>
-  <string name="settings_title_notifications">Paramètres de Notification par E-mail</string>
   <string name="settings_title_pro">Pro</string>
   <string name="settings_title_sub_theme">Paramètres de Thème de Subreddit</string>
   <string name="donate_amount_title">Ce montant&#8230;</string>
@@ -304,14 +290,6 @@ Merci beaucoup !</string>
   <string name="gitty_err_upload_msg">Mauvais nom d\'utilisateur, mot de passe, ou jeton d\'accès invalide.</string>
   <string name="gitty_err_msg">Une erreur inattendue s\'est produite. Si le problème persiste, merci de contacter le développeur.</string>
   <string name="time_just_now">à l\'instant</string>
-  <plurals name="time_minutes_ago">
-    <item quantity="one">il y a une minute</item>
-    <item quantity="other">il y a %d minutes</item>
-  </plurals>
-  <plurals name="time_hours_ago">
-    <item quantity="one">il y a une heure</item>
-    <item quantity="other">il y a %d heures</item>
-  </plurals>
   <plurals name="time_days_ago">
     <item quantity="one">hier</item>
     <item quantity="other">il y a %d jours</item>
