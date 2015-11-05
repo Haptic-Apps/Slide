@@ -98,7 +98,6 @@ public class SubmissionComments {
             try {
                 submission = Authentication.reddit.getSubmission(builder.build());
                 CommentNode baseComment = submission.getComments();
-                //  baseComment.loadFully(Authentication.reddit, 6, 30);
                 comments = new ArrayList<>();
 
                 int i = 0;

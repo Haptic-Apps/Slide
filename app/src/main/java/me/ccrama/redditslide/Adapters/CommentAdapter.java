@@ -141,7 +141,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         isSame = false;
-        notifyItemRangeInserted(1, users.size() + 1);
+        notifyDataSetChanged();
 
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 1;
@@ -178,7 +178,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         isSame = false;
-        notifyItemRangeInserted(1, users.size());
+        notifyDataSetChanged();
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 1;
 

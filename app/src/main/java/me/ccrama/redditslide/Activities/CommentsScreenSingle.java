@@ -61,6 +61,7 @@ public class CommentsScreenSingle extends BaseActivity {
         name = getIntent().getExtras().getString("submission", "");
 
         subreddit= getIntent().getExtras().getString("subreddit", "");
+        np = getIntent().getExtras().getBoolean("np", false);
 
         if(subreddit.equals("NOTHING")){
             new AsyncGetSubredditName().execute(name);
@@ -103,6 +104,7 @@ public class CommentsScreenSingle extends BaseActivity {
             args.putString("context", context);
             args.putString("subreddit", subreddit);
             args.putBoolean("single", true);
+            args.putBoolean("np", np);
             f.setArguments(args);
 
             return f;
@@ -121,5 +123,5 @@ public class CommentsScreenSingle extends BaseActivity {
 
 
     }
-
+boolean np;
 }

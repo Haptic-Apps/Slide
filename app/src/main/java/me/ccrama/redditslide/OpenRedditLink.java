@@ -16,10 +16,12 @@ import me.ccrama.redditslide.Activities.SubredditView;
 public class OpenRedditLink {
     public OpenRedditLink(Context c, String url){
 
+        boolean np = url.contains("np");
         url = url.replace("np.","");
         url = url.replace("www.","");
         url = url.replace("http://", "");
         url = url.replace("https://", "");
+        url = url.substring(url.indexOf("redd"), url.length());
 
         if(url.startsWith("/")){
             url = "reddit.com" + url;
@@ -52,6 +54,8 @@ public class OpenRedditLink {
                 Intent i = new Intent(c, CommentsScreenSingle.class);
                 i.putExtra("subreddit", parts[2]);
                 i.putExtra("submission", parts[4]);
+                i.putExtra("np", np);
+                i.putExtra("loadmore", true);
                 String end = parts[6];
                 if(end.contains("?")){
                     end = end.substring(0, end.indexOf("?"));
@@ -63,6 +67,7 @@ public class OpenRedditLink {
                 Intent i = new Intent(c, CommentsScreenSingle.class);
                 i.putExtra("subreddit", "NOTHING");
                 i.putExtra("context",  "NOTHING");
+                i.putExtra("np", np);
 
                 i.putExtra("submission",  parts[1]);
                 c.startActivity(i);
@@ -73,7 +78,7 @@ public class OpenRedditLink {
                 Intent i = new Intent(c, CommentsScreenSingle.class);
                 i.putExtra("subreddit", parts[2]);
                 i.putExtra("context",  "NOTHING");
-
+                i.putExtra("np", np);
                 i.putExtra("submission",  parts[4]);
                 c.startActivity(i);
 

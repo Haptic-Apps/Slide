@@ -133,6 +133,8 @@ public class CommentPage extends Fragment {
 
     private int page;
     private SubmissionComments comments;
+    boolean np;
+    boolean loadMore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,6 +146,26 @@ public class CommentPage extends Fragment {
         View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
 
+        if(!np){
+            v.findViewById(R.id.np).setVisibility(View.GONE);
+        } else {
+            v.findViewById(R.id.np).setBackgroundColor(Pallete.getColor(id));
+
+        }
+        if(!loadMore){
+            v.findViewById(R.id.loadall).setVisibility(View.GONE);
+        } else {
+            v.findViewById(R.id.loadall).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+
+                    comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
+
+                }
+            });
+
+        }
             rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
             final PreCachingLayoutManagerComments mLayoutManager;
             mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
@@ -368,6 +390,8 @@ public class CommentPage extends Fragment {
         page = bundle.getInt("page", 0);
         single = bundle.getBoolean("single", false);
         context = bundle.getString("context", "");
+        np = bundle.getBoolean("np", false);
+        loadMore = !context.isEmpty();
     }
 
 

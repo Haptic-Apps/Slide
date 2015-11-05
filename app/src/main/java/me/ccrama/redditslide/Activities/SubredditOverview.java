@@ -372,6 +372,8 @@ public class SubredditOverview extends OverviewBase {
                 }
             }
         });
+        pager.setCurrentItem(1);
+        pager.setCurrentItem(0); //force redraw and sidebar
 
 
     }
