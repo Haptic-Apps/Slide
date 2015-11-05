@@ -29,6 +29,7 @@ public class OpenRedditLink {
             url = url.substring(0, url.length() - 1);
 
         }
+       url =  url.replace("//", "/");
 
         String[] parts = url.split("/");
         if(parts[parts.length - 1].startsWith("?")){
@@ -44,7 +45,7 @@ public class OpenRedditLink {
             Intent myIntent = new Intent(c, Profile.class);
             myIntent.putExtra("profile", parts[2]);
             c.startActivity(myIntent);
-        } else if (url.contains("redd")) {
+        } else if (url.contains("reddit.com") || url.contains("redd.it")) {
             if (parts.length == 7) {
 
 

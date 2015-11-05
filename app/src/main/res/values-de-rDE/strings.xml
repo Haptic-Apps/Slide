@@ -135,7 +135,6 @@
   <string name="editor_select_img">Bild auswählen</string>
   <string name="editor_hint_title">Titel</string>
   <string name="editor_hint_optional_body">Text (optional) </string>
-  <string name="editor_hint_url">URL</string>
   <string name="editor_submit">Einen Beitrag einreichen</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Foto gespeichert</string>

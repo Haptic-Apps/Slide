@@ -303,9 +303,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
         try {
             while (pag.hasNext()) {
-                Log.v("Slide", "ADDING NEW SUBS");
                 for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                    Log.v("Slide", s.getDisplayName());
                     finished.add(s.getDisplayName().toLowerCase());
                 }
             }

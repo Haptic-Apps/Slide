@@ -62,6 +62,7 @@ public class CreateMulti extends BaseActivity {
     CustomAdapter adapter;
     EditText title;
     RecyclerView recyclerView;
+    String old;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +91,8 @@ public class CreateMulti extends BaseActivity {
         subs = new ArrayList<>();
         if(getIntent().hasExtra("multi")){
             String multi = getIntent().getExtras().getString("multi");
+            old = multi;
             title.setText(multi);
-            title.setInputType(InputType.TYPE_NULL);
             for(MultiReddit multiReddit : SubredditStorage.multireddits){
                 if(multiReddit.getDisplayName().equals(multi)){
                     for(MultiSubreddit sub : multiReddit.getSubreddits()) {
@@ -103,6 +104,12 @@ public class CreateMulti extends BaseActivity {
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
 
+        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,20 +155,29 @@ public class CreateMulti extends BaseActivity {
         finish();
     }
 
+    boolean delete = false;
+
     public class SaveMulti extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString()).subreddits(subs).build());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new SubredditStorage.SyncMultireddits(CreateMulti.this).execute();
+                if(delete){
+                    new MultiRedditManager(Authentication.reddit).delete(old);
 
+                } else {
+                    if (old != null & !old.isEmpty() && !old.equals(title.getText().toString())) {
+                        new MultiRedditManager(Authentication.reddit).rename(old, title.getText().toString());
                     }
-                });
+                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString()).subreddits(subs).build());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new SubredditStorage.SyncMultireddits(CreateMulti.this).execute();
 
+                        }
+                    });
+                }
 
             } catch (final ApiException e) {
                 runOnUiThread(new Runnable() {

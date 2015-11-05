@@ -30,6 +30,8 @@
             android:id="@+id/name"
             android:layout_height="match_parent" />
 
+
+
         <TextView
             android:id="@+id/ok"
             android:layout_width="wrap_content"
@@ -41,7 +43,21 @@
             android:textAllCaps="true"
             android:textSize="14sp"
             android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="?android:selectableItemBackground"
 
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+
+            android:scaleType="fitCenter"
+
+            android:src="@drawable/delete"
+            android:tint="?android:attr/textColorPrimary"
+            />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView

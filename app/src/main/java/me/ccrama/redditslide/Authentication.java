@@ -148,7 +148,6 @@ public class Authentication {
                         reddit.authenticate(finalData);
                         if (reddit.isAuthenticated()) {
                             final String name = reddit.me().getFullName();
-                            Log.v("Slide", "LOGGED IN AS " + name);
                             final Set<String> accounts =authentication.getStringSet("accounts", new HashSet<String>());
                             if(accounts.contains(name)){ //convert to new system
                                 accounts.remove(name);

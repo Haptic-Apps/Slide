@@ -456,6 +456,7 @@ public class SubredditOverview extends OverviewBase {
                 CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
                 if (!Authentication.isLoggedIn) {
                     c.setVisibility(View.GONE);
+                    findViewById(R.id.subscribed).setVisibility(View.GONE);
                 }
                 c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
