@@ -1,4 +1,24 @@
 
+4.2.7 / 2015-11-04
+==================
+
+  * Merge branch 'master' of https://github.com/ccrama/Slide
+  * Almost done with modtools, Bug fixes, Improved light theme
+  * Merge pull request #358 from l3d00m/add_strings
+  * add newest translations, add badge
+  * Comment nav is here
+  * Load more data improvements, Spinner at bottom of lists, Fast comment nav incoming
+  * Merge pull request #342 from l3d00m/master
+  * add more strings and sort strings.xml
+  * merge branch ccrama/master
+  * Start of Modtools
+  * externalize more strings, sort strings.xml
+  * remove '+' from version numbers
+  * Bug fixes, Overdraw fixes, Settings improvements
+  * Revert to regular drawables instead of VectorDrawables, Crash fixes
+  * Fixed KK insta crash, Fix load more crash
+  * Bugfixes, Imgur Gallery support, Improved some settings
+
 4.2.0.1.2 / 2015-10-28
 ==================
 
