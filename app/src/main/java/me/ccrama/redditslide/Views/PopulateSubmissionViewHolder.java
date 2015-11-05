@@ -693,6 +693,8 @@ public class PopulateSubmissionViewHolder {
             }
             View baseView;
 
+            View back = holder.itemView;
+
             try {
                 info.setText(getDomainName(submission.getUrl()));
             } catch (URISyntaxException e1) {
@@ -703,13 +705,13 @@ public class PopulateSubmissionViewHolder {
             } else {
                 baseView = holder.previewContent;
             }
-            addClickFunctions(holder.imageArea, baseView, type, (Activity) mContext, submission);
-            addClickFunctions(holder.thumbImage, baseView, type, (Activity) mContext, submission);
-            addClickFunctions(holder.leadImage, baseView, type, (Activity) mContext, submission);
+            addClickFunctions(holder.imageArea, baseView, type, mContext, submission, back);
+            addClickFunctions(holder.thumbImage, baseView, type,  mContext, submission, back);
+            addClickFunctions(holder.leadImage, baseView, type,  mContext, submission, back);
             if (!full)
-                addClickFunctions(holder.itemView.findViewById(R.id.thumbimage2), baseView, type, (Activity) mContext, submission);
+                addClickFunctions(holder.itemView.findViewById(R.id.thumbimage2), baseView, type, (Activity) mContext, submission, back);
 
-            addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission);
+            addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission, back);
         } else {
             holder.imageArea.setVisibility(View.GONE);
             holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
@@ -830,7 +832,7 @@ public class PopulateSubmissionViewHolder {
     }
 
 
-    private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
+    private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission, final View back) {
         switch (type) {
             case NSFW_IMAGE:
                 base.setOnClickListener(new View.OnClickListener() {
@@ -948,6 +950,10 @@ public class PopulateSubmissionViewHolder {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
+                        if(back != null){
+                            back.performClick();
+                        }
+
 
 
                     }
@@ -1020,8 +1026,9 @@ public class PopulateSubmissionViewHolder {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-
-
+                        if(back != null){
+                            back.performClick();
+                        }
                     }
                 });
 
