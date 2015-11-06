@@ -1,6 +1,11 @@
 
 4.2.9 / 2015-11-06
 ==================
+#it seems git release $tag -c works as well
+
+
+4.2.9 / 2015-11-06
+==================
 
   * updating build tools needed, due to how build tools were updated on my system
   * deleting apk
