@@ -28,7 +28,7 @@
 
     android:orientation="vertical"
         android:layout_height="wrap_content">
-        <TextView android:layout_width="match_parent"
+        <me.ccrama.redditslide.ActiveTextView android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imagetitle"
             android:padding="16dp"
@@ -36,7 +36,7 @@
             android:textColor="#fff"
             >
 
-        </TextView>
+        </me.ccrama.redditslide.ActiveTextView>
 
         <ImageView
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
         android:cropToPadding="false"
         android:adjustViewBounds="true"
         />
-        <TextView android:layout_width="match_parent"
+        <me.ccrama.redditslide.ActiveTextView android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/imageCaption"
             android:padding="16dp"
@@ -55,7 +55,7 @@
             android:textColor="#fff"
             >
 
-        </TextView>
+        </me.ccrama.redditslide.ActiveTextView>
 
 
     </LinearLayout>

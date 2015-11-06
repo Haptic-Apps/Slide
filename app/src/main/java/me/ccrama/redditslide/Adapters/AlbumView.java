@@ -4,6 +4,7 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 3/1/2015.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 
 public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
@@ -45,14 +47,14 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        final TextView text;
-        final TextView body;
+        final ActiveTextView text;
+        final ActiveTextView body;
         final ImageView image;
         public ViewHolder(View itemView)
         {
             super(itemView);
-            text = (TextView) itemView.findViewById(R.id.imagetitle);
-            body = (TextView) itemView.findViewById(R.id.imageCaption);
+            text = (ActiveTextView) itemView.findViewById(R.id.imagetitle);
+            body = (ActiveTextView) itemView.findViewById(R.id.imageCaption);
             image = (ImageView) itemView.findViewById(R.id.image);
 
 
@@ -78,7 +80,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         holder.text.setVisibility(View.VISIBLE);
         if(user.getAsJsonObject().has("image")) {
             {
-                holder.text.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                 new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(),holder.text, (Activity) main, "");
                 if (holder.text.getText().toString().isEmpty()) {
                     holder.text.setVisibility(View.GONE);
                 }
@@ -86,6 +88,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
 
             {
                 holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), holder.body, (Activity) main, "");
+
                 if (holder.body.getText().toString().isEmpty()) {
                     holder.body.setVisibility(View.GONE);
                 }

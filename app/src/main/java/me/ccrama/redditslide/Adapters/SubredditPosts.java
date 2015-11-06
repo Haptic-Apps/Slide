@@ -78,7 +78,7 @@ public class SubredditPosts {
             if(subs != null) {
 
                 loading = false;
-              
+
                 if (refreshLayout != null)
                     (adapter.mContext).runOnUiThread(new Runnable() {
                         @Override
