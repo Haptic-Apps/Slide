@@ -571,7 +571,7 @@ public class PopulateSubmissionViewHolder {
         boolean big = true;
         String subreddit = (same) ? "second" : "";
 
-        SettingValues.InfoBar typ= SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.defaultCardView.toString()).toUpperCase());
+        SettingValues.InfoBar typ= SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()).toUpperCase());
         if (typ == SettingValues.InfoBar.INFO_BAR || typ == SettingValues.InfoBar.THUMBNAIL) {
             big = false;
         }
