@@ -9,6 +9,7 @@ import java.util.Arrays;
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Activities.Wiki;
 
 /**
  * Created by ccrama on 9/27/2015.
@@ -39,6 +40,16 @@ public class OpenRedditLink {
 
 
         }
+        if(url.contains("wiki")){
+            Intent i = new Intent(c, Wiki.class);
+            i.putExtra("subreddit", parts[2]);
+            c.startActivity(i);
+        } else
+        if(url.contains("subreddit")){
+            Intent intent = new Intent(c, SubredditView.class);
+            intent.putExtra("subreddit", parts[2]);
+            c.startActivity(intent);
+        } else
         if (((parts.length == 3 && !url.contains("/u/") && ! url.contains("/user/")) )  || url.contains("search?")) {
             Intent intent = new Intent(c, SubredditView.class);
             intent.putExtra("subreddit", parts[2]);
