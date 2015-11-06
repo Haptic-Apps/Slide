@@ -56,8 +56,9 @@ class ImageLoaderUtils {
                 .diskCache(discCache)
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
                         .resetViewBeforeLoading(true)
+                        .cacheOnDisk(true)
                         .cacheInMemory(true)
-                        .cacheOnDisk(true).build())
+                        .build())
                 .memoryCacheSize(memory)
                 .build();
 

@@ -97,14 +97,18 @@ public class Profile extends BaseActivity {
                 title.setText(name);
                 title.setBackgroundColor(Pallete.getColorUser(name));
 
-                dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(Profile.this, Sendmessage.class);
-                        i.putExtra("name", name);
-                        startActivity(i);
-                    }
-                });
+                if(Authentication.isLoggedIn) {
+                    dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Profile.this, Sendmessage.class);
+                            i.putExtra("name", name);
+                            startActivity(i);
+                        }
+                    });
+                } else {
+                    dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
+                }
 
 
                 final View body = dialoglayout.findViewById(R.id.body2);

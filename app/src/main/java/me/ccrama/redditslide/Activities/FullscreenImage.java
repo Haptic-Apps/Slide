@@ -84,6 +84,7 @@ public class FullscreenImage extends BaseActivity {
                                             bar.setVisibility(View.VISIBLE);
                                         }
                                         bar.setProgress((current * 100) / total);
+                                        Log.v("Slide", "DOING PROGRESS" + (current * 100) / total);
                                         if (current == total) {
 
                                             bar.setVisibility(View.GONE);
