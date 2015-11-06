@@ -58,7 +58,8 @@ public class Pallete {
         return ints;
     }
     public static int getColor(final String subreddit){
-        if(Reddit.colors.contains(subreddit.toLowerCase())) {
+
+        if(subreddit != null && Reddit.colors.contains(subreddit.toLowerCase())) {
             return Reddit.colors.getInt(subreddit.toLowerCase(), getDefaultColor());
         }
         return getDefaultColor();

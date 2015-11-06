@@ -166,10 +166,10 @@ public class CreateMulti extends BaseActivity {
                     new MultiRedditManager(Authentication.reddit).delete(old);
 
                 } else {
-                    if (old != null & !old.isEmpty() && !old.replace(" ", "%20").equals(title.getText().toString().replace(" ", "%20"))) {
-                        new MultiRedditManager(Authentication.reddit).rename(old, title.getText().toString().replace(" ", "%20"));
+                    if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(title.getText().toString().replace(" ", ""))) {
+                        new MultiRedditManager(Authentication.reddit).rename(old, title.getText().toString().replace(" ", ""));
                     }
-                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString().replace(" ", "%20")).subreddits(subs).build());
+                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString().replace(" ", "")).subreddits(subs).build());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

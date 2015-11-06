@@ -111,20 +111,23 @@
             android:layout_alignParentBottom="true"
             android:id="@+id/fastscroll"
             android:background="@drawable/slightshadow"
+            android:weightSum="2"
 
 
             android:layout_height="wrap_content">
             <ImageView
                 android:background="?android:selectableItemBackground"
 
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:src="@drawable/up"
+                android:layout_weight="1"
                 android:id="@+id/up"
                 android:layout_height="36dp" />
             <ImageView
                 android:background="?android:selectableItemBackground"
+                android:layout_weight="1"
 
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:src="@drawable/down"
                 android:id="@+id/down"
                 android:layout_height="36dp" />
