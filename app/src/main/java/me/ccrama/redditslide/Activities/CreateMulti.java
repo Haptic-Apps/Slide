@@ -92,7 +92,7 @@ public class CreateMulti extends BaseActivity {
         if(getIntent().hasExtra("multi")){
             String multi = getIntent().getExtras().getString("multi");
             old = multi;
-            title.setText(multi);
+            title.setText(multi.replace("%20", " "));
             for(MultiReddit multiReddit : SubredditStorage.multireddits){
                 if(multiReddit.getDisplayName().equals(multi)){
                     for(MultiSubreddit sub : multiReddit.getSubreddits()) {
@@ -166,10 +166,10 @@ public class CreateMulti extends BaseActivity {
                     new MultiRedditManager(Authentication.reddit).delete(old);
 
                 } else {
-                    if (old != null & !old.isEmpty() && !old.equals(title.getText().toString())) {
-                        new MultiRedditManager(Authentication.reddit).rename(old, title.getText().toString());
+                    if (old != null & !old.isEmpty() && !old.replace(" ", "%20").equals(title.getText().toString().replace(" ", "%20"))) {
+                        new MultiRedditManager(Authentication.reddit).rename(old, title.getText().toString().replace(" ", "%20"));
                     }
-                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString()).subreddits(subs).build());
+                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString().replace(" ", "%20")).subreddits(subs).build());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
