@@ -892,29 +892,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             isClicking = false;
             holder.menuArea.removeAllViews();
             isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
-
         } else {
-
             if (hiddenPersons.contains(comment.getFullName())) {
                 unhideAll(baseNode, holder.getAdapterPosition() + 1);
                 hiddenPersons.remove(comment.getFullName());
-                //todo maybe         holder.content.setVisibility(View.VISIBLE);
-
+                holder.children.setVisibility(View.GONE);
+                //todo maybe holder.content.setVisibility(View.VISIBLE);
             } else {
-                hideAll(baseNode, holder.getAdapterPosition() + 1
-                );
-                //todo maybe   holder.content.setVisibility(View.GONE);
-
-                hiddenPersons.add(comment.getFullName());
+                int childNumber = getChildNumber(baseNode);
+                if (childNumber > 0) {
+                    hideAll(baseNode, holder.getAdapterPosition() + 1);
+                    hiddenPersons.add(comment.getFullName());
+                    holder.children.setVisibility(View.VISIBLE);
+                    ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
+                    //todo maybe holder.content.setVisibility(View.GONE);
+                }
             }
             clickpos = holder.getAdapterPosition() + 1;
-            if (hiddenPersons.contains(comment.getFullName())) {
-                holder.children.setVisibility(View.VISIBLE);
-                ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + getChildNumber(baseNode));
-            } else {
-                holder.children.setVisibility(View.GONE);
-
-            }
         }
     }
 
@@ -1030,7 +1024,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         listView.setItemAnimator(new FadeInAnimator());
 
         notifyItemRangeRemoved(i, counter);
-
 
     }
 
