@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -10,9 +10,7 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
         app:cardCornerRadius="2dp">
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -141,8 +139,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="24dp"
-                    android:layout_alignTop="@+id/body"
-                    android:layout_alignBottom="@+id/body"
                     android:id="@+id/body2"
 
                     android:layout_height="wrap_content"
@@ -170,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:text="@string/btn_reset"
                         android:textSize="14sp"
-                        android:layout_alignParentBottom="true"
+                        android:layout_below="@+id/picker2"
                         android:id="@+id/reset"
                         android:textStyle="bold"
                         android:background="?android:selectableItemBackground"
@@ -184,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:text="@string/btn_ok"
                         android:textSize="14sp"
-                        android:layout_alignParentBottom="true"
+                        android:layout_below="@+id/picker2"
                         android:id="@+id/ok"
                         android:textStyle="bold"
                         android:background="?android:selectableItemBackground"
@@ -198,12 +194,16 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:padding="24dp"
+                    android:visibility="gone"
 
                     android:layout_alignTop="@+id/body"
                     android:layout_alignBottom="@+id/body"
                     android:id="@+id/body3"
 
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
+
                     android:orientation="vertical"
                     android:background="?attr/card_background">
 
@@ -234,6 +234,5 @@
 
             </RelativeLayout>
         </LinearLayout>
-        </ScrollView>
     </android.support.v7.widget.CardView>
 </LinearLayout>

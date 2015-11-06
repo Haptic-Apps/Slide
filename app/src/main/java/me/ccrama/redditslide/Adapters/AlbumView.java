@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.FullscreenImage;
+import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -101,15 +102,29 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         }
 
 
+        if(url.contains("gif")){
+            holder.body.setVisibility(View.VISIBLE);
+            holder.body.setText(holder.text.getText() + "/nTAP TO LOAD GIF");
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Reddit.image) {
-                    Intent myIntent = new Intent(main, FullscreenImage.class);
-                    myIntent.putExtra("url", url);
-                    main.startActivity(myIntent);
+                if(url.contains("gif")){
+                    if (Reddit.gif) {
+                        Intent myIntent = new Intent(main, GifView.class);
+                        myIntent.putExtra("url", url);
+                        main.startActivity(myIntent);
+                    } else {
+                        Reddit.defaultShare(url, main);
+                    }
                 } else {
-                    Reddit.defaultShare(url, main);
+                    if (Reddit.image) {
+                        Intent myIntent = new Intent(main, FullscreenImage.class);
+                        myIntent.putExtra("url", url);
+                        main.startActivity(myIntent);
+                    } else {
+                        Reddit.defaultShare(url, main);
+                    }
                 }
             }
         });
