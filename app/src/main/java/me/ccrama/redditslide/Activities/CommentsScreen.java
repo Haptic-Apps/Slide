@@ -27,7 +27,7 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivity {
-    private ArrayList<Submission> posts;
+    public ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
 
     @Override
@@ -59,7 +59,8 @@ public class CommentsScreen extends BaseActivity {
         }
             ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
-        pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+            final OverviewPagerAdapter adapter  = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
         pager.setCurrentItem(firstPage);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -76,6 +77,7 @@ public class CommentsScreen extends BaseActivity {
                     CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
 
                 }
+
 
             }
 

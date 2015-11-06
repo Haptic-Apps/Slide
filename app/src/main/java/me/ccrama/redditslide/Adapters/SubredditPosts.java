@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.Reddit;
@@ -49,6 +49,7 @@ public class SubredditPosts {
     public void bindAdapter(SubmissionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout=layout;
+
         loadMore(a, true, subreddit);
     }
 
@@ -57,7 +58,13 @@ public class SubredditPosts {
 
 
     }
+    public void loadMore(CommentsScreen adapter, boolean reset) {
+        this.pagerad = adapter;
+        new LoadData(reset).execute(subreddit);
 
+    }
+
+    CommentsScreen pagerad;
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
         final boolean reset;
 
@@ -71,8 +78,9 @@ public class SubredditPosts {
             if(subs != null) {
 
                 loading = false;
+              
                 if (refreshLayout != null)
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                    (adapter.mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             refreshLayout.setRefreshing(false);

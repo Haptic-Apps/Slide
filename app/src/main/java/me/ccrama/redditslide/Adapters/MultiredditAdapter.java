@@ -7,6 +7,7 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -172,7 +173,20 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                            new AlertDialogWrapper.Builder(mContext).setTitle("Which link would you like to share?")
+                                    .setNegativeButton("Reddit URL", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+
+                                        }
+                                    }).setPositiveButton("Content URL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Reddit.defaultShareText(submission.getUrl(), mContext);
+
+                                }
+                            }).show();
 
                         }
                     });

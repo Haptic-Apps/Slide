@@ -411,7 +411,7 @@ public class SubredditOverview extends OverviewBase {
                 }
             });
         }
-        ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+        ( findViewById(R.id.sub_title)).setVisibility(View.GONE);
         findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
 
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));

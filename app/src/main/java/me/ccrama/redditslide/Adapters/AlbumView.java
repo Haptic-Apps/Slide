@@ -74,6 +74,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         final String url = list.get(position);
 
         ((Reddit)main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
+        holder.body.setVisibility(View.VISIBLE);
+        holder.text.setVisibility(View.VISIBLE);
         if(user.getAsJsonObject().has("image")) {
             {
                 holder.text.setText(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
