@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -400,14 +401,25 @@ public class SubredditOverview extends OverviewBase {
             c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        new AccountManager(Authentication.reddit).unsubscribe(subreddit);
-                    } else {
-                        new AccountManager(Authentication.reddit).subscribe(subreddit);
+                public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        public void onPostExecute(Void voids){
+                            new SubredditStorageNoContext().execute(SubredditOverview.this);
+                             Snackbar.make(header, isChecked?"Subscribed":"Unsubscribed", Snackbar.LENGTH_SHORT);
+                        }
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if (isChecked) {
+                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                            } else {
+                                new AccountManager(Authentication.reddit).subscribe(subreddit);
 
-                    }
-                    new SubredditStorageNoContext().execute(SubredditOverview.this);
+                            }
+                            return null;
+                        }
+                    }.execute();
+
                 }
             });
         }
@@ -477,6 +489,7 @@ public class SubredditOverview extends OverviewBase {
                 c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                         if (isChecked) {
                             SubredditStorage.addPin(subreddit);
                         } else {
