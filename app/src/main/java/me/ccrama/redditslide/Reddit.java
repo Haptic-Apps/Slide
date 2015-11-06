@@ -89,7 +89,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         if (closed && !(activity instanceof Login) && !isRestarting) {
 
-            new Authentication.UpdateToken().execute();
+            new Authentication.UpdateToken(activity).execute();
             closed = false;
 
         }

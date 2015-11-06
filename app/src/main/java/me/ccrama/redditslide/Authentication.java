@@ -1,11 +1,15 @@
 package me.ccrama.redditslide;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.LoggingMode;
@@ -55,23 +59,26 @@ public class Authentication {
     }
     public static class UpdateToken extends  AsyncTask<Void, Void, Void>{
 
+        Context context;
+        public UpdateToken(Context c){
+            this.context = c;
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
             Log.v("Slide", "REAUTH");
             if(isLoggedIn) {
+                try {
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                     Log.v("Slide", "REAUTH LOGGED IN");
 
                     OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+
                     oAuthHelper.setRefreshToken(refresh);
                 OAuthData finalData = null;
-                try {
                     finalData = oAuthHelper.refreshToken(credentials);
-                } catch (OAuthException e) {
-                    e.printStackTrace();
-                }
+
 
                 refresh = oAuthHelper.getRefreshToken();
                     reddit.authenticate(finalData);
@@ -82,7 +89,29 @@ public class Authentication {
 
 
                     }
+                } catch (OAuthException e) {
 
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(context).setTitle("Uh oh, an error occured")
+                                    .setMessage("Reddit could not be reached. Would you like to try again?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            new UpdateToken(context).execute();
+                                        }
+                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Reddit.forceRestart(context);
+                                }
+                            }).show();
+
+                        }
+                    });
+                    e.printStackTrace();
+                }
 
             } else {
                 final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
