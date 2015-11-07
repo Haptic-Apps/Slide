@@ -838,7 +838,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             if (submission.saved) {
-                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save_post);
+                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save);
                             } else {
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 

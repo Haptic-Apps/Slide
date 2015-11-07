@@ -359,7 +359,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                         builder.setTitle(R.string.settings_layout_chooser);
                         builder.setSingleChoiceItems(
                                 new String[]{getContext().getString(R.string.settings_layout_default),
-                                        getContext().getString(R.string.settings_layout_alternative)}, i, l2);
+                                        getContext().getString(R.string.settings_title_alternative_layout)}, i, l2);
                         builder.show();
 
                     }

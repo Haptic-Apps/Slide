@@ -58,7 +58,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     Notification notification = new NotificationCompat.Builder(c).setContentIntent(intent)
                             .setSmallIcon(R.drawable.notif)
-                            .setTicker(res.getQuantityString(R.plurals.mail_notification_title, 1))
+                            .setTicker(res.getQuantityString(R.plurals.mail_notification_title, 1, 1))
                             .setWhen(System.currentTimeMillis())
                             .setAutoCancel(true)
                             .setContentTitle(c.getString(R.string.mail_notification_author,

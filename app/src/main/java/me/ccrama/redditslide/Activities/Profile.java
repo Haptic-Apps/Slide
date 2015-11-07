@@ -69,7 +69,10 @@ public class Profile extends BaseActivity {
 
         pager = (ViewPager) findViewById(R.id.contentView);
 
-        setDataSet(new String[]{"overview", "comments", "submitted", "gilded"});
+        setDataSet(new String[]{getString(R.string.profile_overview),
+                getString(R.string.profile_comments),
+                getString(R.string.profile_submitted),
+                getString(R.string.profile_gilded)});
 
 
         new getProfile().execute(name);

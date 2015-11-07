@@ -190,7 +190,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         @Override
                         public void onClick(View v) {
                             if (saved) {
-                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save_post);
+                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save);
                             } else {
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
