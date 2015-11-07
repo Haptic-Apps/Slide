@@ -6,7 +6,6 @@
   <string name="general_confirm_exit_msg">De seguro que queres saír?</string>
   <string name="general_switch_acc">Trocar contas</string>
   <string name="general_enable_shadowbox">Activar o modo Shadowbox</string>
-  <string name="submission_save_post">Gardar post</string>
   <string name="submission_post_saved">Post gardado</string>
   <string name="submission_info_hidden">Post oculto para sempre.</string>
   <string name="submission_stickied">fixado</string>
@@ -41,10 +40,8 @@
   <string name="multi_column_portrait">Axustes de apaisado proximamente</string>
   <string name="drawer_login">Iniciar sesión</string>
   <string name="drawer_profile">Perfil</string>
-  <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Apoia Slide</string>
   <string name="drawer_goto_profile">Ir ao perfil</string>
-  <string name="drawer_settings">Axustes</string>
   <string name="drawer_reorder_pins">Reordear os teus fixados</string>
   <string name="drawer_add_account">Engadir unha conta</string>
   <string name="drawer_hello">Ola,</string>
@@ -55,7 +52,6 @@
   <string name="sidebar_subscribed">suscrito</string>
   <string name="sidebar_wiki">Ver a wiki</string>
   <string name="profile_yours">O teu perfil</string>
-  <string name="comment_hide">Agochar comentario</string>
   <string name="tutorial_agree">De acordo</string>
   <string name="sorting_hot">Popular</string>
   <string name="sorting_new">Novo</string>
@@ -65,9 +61,6 @@
   <string name="editor_url">URL</string>
   <string name="editor_text">Texto</string>
   <string name="editor_title">Título</string>
-  <string name="editor_link">Ligazón</string>
-  <string name="editor_image">Imaxe</string>
-  <string name="editor_hint_title">Título</string>
   <string name="err_invalid_url">URL inválida</string>
   <string name="type_link">Ligazón</string>
   <string name="type_album">Álbum</string>
@@ -90,7 +83,6 @@
   <string name="btn_undo">Desfacer</string>
   <string name="btn_yes">Sí</string>
   <string name="search_everywhere">En calquer sitio</string>
-  <string name="settings_color_accent">Cor do acento</string>
   <string name="settings_indicator_everywhere">En calquer sitio</string>
   <string name="settings_title_default_theme">Tema predefinido</string>
   <string name="settings_title_general">Xeral</string>

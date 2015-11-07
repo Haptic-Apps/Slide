@@ -10,7 +10,6 @@
   <string name="general_open_settings">Abrir Configurações do Subreddit</string>
   <string name="submission_info_unsaved">Envio não salvo</string>
   <string name="submission_info_saved">Envio salvo</string>
-  <string name="submission_save_post">Salvar post</string>
   <string name="submission_post_saved">Post salvo</string>
   <string name="submission_info_hidden">Post oculto permanentemente.</string>
   <string name="submission_stickied">fixado</string>
@@ -38,10 +37,8 @@
   <string name="multi_column_portrait">Configurações de Retrato em breve</string>
   <string name="drawer_login">Entrar</string>
   <string name="drawer_profile">Perfil</string>
-  <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Ajude o Slide</string>
   <string name="drawer_goto_profile">Ir para o perfil</string>
-  <string name="drawer_settings">Configurações</string>
   <string name="drawer_add_account">Adicionar conta</string>
   <string name="drawer_hello">Olá,</string>
   <string name="drawer_change_account">ALTERAR CONTAS</string>
@@ -67,10 +64,7 @@
   <string name="editor_err_msg">Favor tentar novamente em alguns segundos.</string>
   <string name="editor_uploading_image">Fazendo upload da imagem para o imgur</string>
   <string name="editor_self">Somente texto</string>
-  <string name="editor_link">Link</string>
-  <string name="editor_image">Imagem</string>
   <string name="editor_select_img">Selecionar imagem</string>
-  <string name="editor_hint_title">Título</string>
   <string name="editor_hint_optional_body">Conteúdo (opcional)</string>
   <string name="editor_submit">Enviar post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
@@ -84,5 +78,4 @@
   <string name="type_img">Imagem</string>
   <string name="title_settings">Configurações</string>
   <string name="title_multireddits">Multireddits</string>
-  <string name="settings_color_accent">Cor dos detalhes</string>
 </resources>

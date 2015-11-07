@@ -10,7 +10,6 @@
   <string name="general_open_settings">Abrir Ajustes del Subreddit</string>
   <string name="submission_info_unsaved">Envío no guardado</string>
   <string name="submission_info_saved">Envío guardado</string>
-  <string name="submission_save_post">Guardar post</string>
   <string name="submission_post_saved">Post guardado</string>
   <string name="submission_info_hidden">Post oculto para siempre.</string>
   <string name="submission_stickied">fijado</string>
@@ -22,6 +21,14 @@
   <string name="submission_gild">Recompensar post</string>
   <string name="submission_save">Guardar post</string>
   <string name="submission_share">Compartir post</string>
+  <plurals name="submission_points">
+    <item quantity="one">%d punto</item>
+    <item quantity="other">%d puntos</item>
+  </plurals>
+  <plurals name="submission_comment_count">
+    <item quantity="one">%d comentario</item>
+    <item quantity="other">%d comentarios</item>
+  </plurals>
   <string name="theme_light">Claro</string>
   <string name="theme_dark">Oscuro</string>
   <string name="theme_black">Negro AMOLED</string>
@@ -35,6 +42,10 @@
   <string name="theme_match_always">Igualar siempre</string>
   <string name="theme_match_ext">Igualar externamente</string>
   <string name="theme_text">Color del texto</string>
+  <string name="font_size">Tamaño de la fuente</string>
+  <string name="font_large">Grande</string>
+  <string name="font_medium">Mediana</string>
+  <string name="font_small">Pequeña</string>
   <string name="card_actionbar">Barra de acción visible</string>
   <string name="card_picture">Imagen grande</string>
   <string name="card_picture_cropped">Imagen grande recortada</string>
@@ -45,16 +56,15 @@
   <string name="multi_column_portrait">Ajustes de apaisado proximamente</string>
   <string name="drawer_login">Iniciar sesión</string>
   <string name="drawer_profile">Perfil</string>
-  <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Apoya Slide</string>
   <string name="drawer_goto_profile">Ir al perfil</string>
-  <string name="drawer_settings">Ajustes</string>
   <string name="drawer_reorder_pins">Reordenar tus fijados</string>
   <string name="drawer_add_account">Añadir cuenta</string>
   <string name="drawer_hello">Hola,</string>
   <string name="drawer_change_account">CAMBIAR CUENTAS</string>
   <string name="drawer_multi_column">Multi-Columna</string>
   <string name="drawer_search">Buscar un subreddit</string>
+  <string name="drawer_moderation">Moderación</string>
   <string name="sidebar_pinned">fijado</string>
   <string name="sidebar_subscribed">suscrito</string>
   <string name="sidebar_wiki">Ver wiki</string>
@@ -73,13 +83,12 @@
   <string name="profile_err_title">Usuario no encontrado</string>
   <string name="profile_err_msg">No se pudo recuperar el usuario de Reddit.</string>
   <string name="comment_gild">Recompensar comentario</string>
-  <string name="comment_hide">Ocultar comentario</string>
   <string name="comment_report">Reportar comentario</string>
   <string name="comment_share">Compartir comentario</string>
+  <string name="comment_load_more">Cargar más comentarios</string>
   <string name="tutorial_skip">Omitir</string>
   <string name="tutorial_agree">Acepto</string>
   <string name="tutorial_swipe">Deslízate entre subreddits!</string>
-  <string name="tutorial_swipe_subreddits">Desliza para cambiar subreddits</string>
   <string name="tutorial_tap_full_view">Pulsa sobre un envío para abrir la vista completa</string>
   <string name="tutorial_slide_comments">Desliza hacia arriba para ver comentarios a pantalla completa</string>
   <string name="tutorial_tap_name">Pulsa sobre un nombre para ver al usuario</string>
@@ -115,10 +124,7 @@
   <string name="editor_err_msg">Por favor, vuelve a intentarlo en unos segundos.</string>
   <string name="editor_uploading_image">Subiendo imagen a imgur</string>
   <string name="editor_self">Auto texto</string>
-  <string name="editor_link">Enlace</string>
-  <string name="editor_image">Imagen</string>
   <string name="editor_select_img">Seleccionar imagen</string>
-  <string name="editor_hint_title">Titulo</string>
   <string name="editor_hint_optional_body">Cuerpo (opcional)</string>
   <string name="editor_submit">Enviar un post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
@@ -128,6 +134,8 @@
   <string name="err_title">Vaya... algo salió mal!</string>
   <string name="err_network_msg">Por favor, comprueba tu conexión a Internet e inténtalo de nuevo</string>
   <string name="err_invalid_url">URL inválida</string>
+  <string name="err_loading_content">Error al cargar contenido</string>
+  <string name="err_connection_lost">Uh oh! Parece que has perdido la conexión a internet. Por favor, conectate a internet y vuelve!</string>
   <string name="gif_err_title">GIF no encontrado</string>
   <string name="gif_err_msg">Se ha producido un error al cargar el gif. Vuelve a abrirlo e inténtalo de nuevo.</string>
   <string name="gif_saved">GIF guardado</string>
@@ -163,24 +171,19 @@
   <string name="mail_hint_body">Cuerpo</string>
   <string name="mail_send_to">Enviar un mensaje a %1$s</string>
   <string name="mail_send">Enviar un mensaje</string>
+  <string name="mail_notification_msg">Nuevo mensaje de %1$d</string>
   <string name="mail_reply_to">Responder a %1$s</string>
+  <string name="mail_notification_author">%1$s de %2$s</string>
   <string name="mail_theirs">Ver su mensaje</string>
   <plurals name="mail_notification_title">
-    <item quantity="one">Tienes un correo nuevo!</item>
+    <item quantity="one">¡Tienes un nuevo mensaje!</item>
     <item quantity="other">¡Tienes %1$d mensajes nuevos!</item>
-  </plurals>
-  <plurals name="mail_hours">
-    <item quantity="one">Una hora</item>
-    <item quantity="other">%d horas</item>
-  </plurals>
-  <plurals name="mail_minutes">
-    <item quantity="one">Un minuto</item>
-    <item quantity="other">%d minutos</item>
   </plurals>
   <string name="title_subreddit_settings">Ajustes del Subreddit</string>
   <string name="title_edit_theme">Editar Tema</string>
   <string name="title_submit_post">Enviar post</string>
   <string name="title_settings">Configuración</string>
+  <string name="title_backup_settings">Ajustes de la copia de seguridad</string>
   <string name="title_settings_general">Ajustes generales</string>
   <string name="title_report_crash">Informar de un error</string>
   <string name="title_share">Compartir con</string>
@@ -188,6 +191,10 @@
   <string name="title_reorder_pins">Reordenar Fijados</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Recibidos</string>
+  <string name="title_theme_settings">Ajustes del Tema</string>
+  <string name="title_default">Pantalla de inicio</string>
+  <string name="title_create_multi">Crear un Multi</string>
+  <string name="title_mod">Moderador</string>
   <string name="startup_banana">Dándole una banana a Carter</string>
   <string name="startup_cats">Buscando vídeos de gatos</string>
   <string name="startup_duARTe">Alabando a DuARTe</string>
@@ -201,6 +208,7 @@
   <string name="misc_retry">¿Quieres volver a intentarlo?</string>
   <string name="misc_score_hidden">puntuación oculta</string>
   <string name="misc_you">tú</string>
+  <string name="misc_nsfw">NSFW</string>
   <string name="user_enter">Introduce tu nombre de usuario</string>
   <string name="user_btn_goto">Ir al usuario</string>
   <string name="user_invalid">Nombre de usuario inválido</string>
@@ -220,6 +228,7 @@
   <string name="btn_sure">¡Claro!</string>
   <string name="btn_undo">Deshacer</string>
   <string name="btn_yes">Si</string>
+  <string name="btn_go_back">Retroceder</string>
   <string name="backup_success">¡Copia de seguridad exitosa!</string>
   <string name="backup_restoring">Restaurando tus Ajustes</string>
   <string name="backup_backing_up">Guardando tus Ajustes</string>
@@ -231,6 +240,8 @@
   <string name="vote_cast">¡Voto emitido!</string>
   <string name="vote_err">¡Error al enviar voto!</string>
   <string name="vote_err_login">¡Debes iniciar sesión para poder votar!</string>
+  <string name="mod_mail">Mod Mail</string>
+  <string name="mod_actions">Acciones Mod</string>
   <string name="wiki_err">No se ha encontrado wiki</string>
   <string name="wiki_err_msg">¡Este subreddit no tiene wiki!</string>
   <string name="subreddit_subscribers">%1$d suscriptores</string>
@@ -241,13 +252,15 @@
   <string name="search_comments_hint">Buscar comentarios</string>
   <string name="search_submissions_hint">Buscar envíos</string>
   <string name="search_everywhere">En todas partes</string>
+  <string name="search_goto">Ir a</string>
+  <string name="captcha">Introduce el código siguiente</string>
+  <string name="captcha_title">Demuestra que no eres un robot</string>
   <string name="settings_accent_title">Editar color de acento</string>
   <string name="settings_card_mode">Modo tarjeta</string>
-  <string name="settings_color_accent">Color del acento</string>
+  <string name="settings_delete_sub_settings">Seguro que quieres eliminar los ajustes de /r/%1$s</string>
   <string name="settings_image">Modo de imagen</string>
   <string name="settings_indicator_everywhere">En todas partes</string>
   <string name="settings_indicator_place">Donde mostrar el indicador de Color</string>
-  <string name="settings_layout_alternative">Diseño alternativo</string>
   <string name="settings_layout_chooser">Elegir un tipo de diseño</string>
   <string name="settings_layout_default">Diseño por defecto</string>
   <string name="settings_link_album">Visor interno de álbum</string>
@@ -262,12 +275,18 @@
   <string name="settings_notification">Comprobar nuevos mensajes cada</string>
   <string name="settings_single_mode">Modo simple</string>
   <string name="settings_swap_actions">Intercambiar el toque y la pulsación larga en los comentarios</string>
+  <string name="settings_disable_nsfw_photo">Ocultar todas las fotos NSFW</string>
+  <string name="settings_disable_nsfw">Ocultar todos los posts NSFW</string>
+  <string name="settings_confirm_exit">Mensaje de confirmación de salida</string>
+  <string name="settings_fastscroll">Desplazamiento rápido por los comentarios</string>
   <string name="settings_title_alternative_layout">Diseño alternativo</string>
   <string name="settings_title_backup">Copia de seguridad</string>
   <string name="settings_title_default_theme">Tema predeterminado</string>
   <string name="settings_title_general">General</string>
+  <string name="settings_title_notifications">Ajustes de notificaciones</string>
   <string name="settings_title_pro">Pro</string>
   <string name="settings_title_sub_theme">Ajustes del tema del subreddit</string>
+  <string name="settings_title_sorting">Clasificación por defecto</string>
   <string name="donate_amount_title">Esta cantidad&#8230;</string>
   <string name="donate_info_student">¡Soy un desarrollador estudiante, y estoy muy agradecido con tu generosa donación! Me ha ayudado a hacer que Slide sea una (gratuita) realidad :)</string>
   <string name="donate_btn">Donar</string>
@@ -290,6 +309,14 @@
   <string name="gitty_err_upload_msg">Nombre de usuario o contraseña incorrectos o token de acceso invalido.</string>
   <string name="gitty_err_msg">Se produjo un error inesperado. Si el problema persiste, póngase en contacto con el desarrollador de la aplicación.</string>
   <string name="time_just_now">ahora mismo</string>
+  <plurals name="time_minutes_ago">
+    <item quantity="one">Hace %d minuto</item>
+    <item quantity="other">Hace %d minutos</item>
+  </plurals>
+  <plurals name="time_hours_ago">
+    <item quantity="one">hace %d hora</item>
+    <item quantity="other">Hace %d horas</item>
+  </plurals>
   <plurals name="time_days_ago">
     <item quantity="one">ayer</item>
     <item quantity="other">hace %d días</item>

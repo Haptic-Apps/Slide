@@ -10,7 +10,6 @@
   <string name="general_open_settings">Subreddit-Einstellungen öffnen</string>
   <string name="submission_info_unsaved">Beitrag nicht mehr gespeichert</string>
   <string name="submission_info_saved">Beitrag gespeichert</string>
-  <string name="submission_save_post">Beitrag speichern</string>
   <string name="submission_post_saved">Beitrag gespeichert</string>
   <string name="submission_info_hidden">Beitrag für immer ausgeblendet.</string>
   <string name="submission_stickied">angepinnt</string>
@@ -22,6 +21,8 @@
   <string name="submission_gild">Gold geben</string>
   <string name="submission_save">Beitrag speichern</string>
   <string name="submission_share">Beitrag teilen</string>
+  <string name="submission_load_full">Ganzen Beitrag laden</string>
+  <string name="submission_np_link">Dies ist ein np-Link. Bitte nicht abstimmen oder kommentieren.</string>
   <plurals name="submission_points">
     <item quantity="one">ein Punkt</item>
     <item quantity="other">%d Punkte</item>
@@ -57,10 +58,8 @@
   <string name="multi_column_portrait">Hochformat-Einstellungen kommen bald</string>
   <string name="drawer_login">Anmelden</string>
   <string name="drawer_profile">Profil</string>
-  <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Slide unterstützen</string>
-  <string name="drawer_goto_profile">Zu Profil gehen</string>
-  <string name="drawer_settings">Einstellungen</string>
+  <string name="drawer_goto_profile">Zu einem Benutzerprofil gehen</string>
   <string name="drawer_reorder_pins">Pins umordnen</string>
   <string name="drawer_add_account">Konto hinzufügen</string>
   <string name="drawer_hello">Hallo,</string>
@@ -85,15 +84,17 @@
   <string name="profile_upvoted">Aufgewertete Beiträge</string>
   <string name="profile_err_title">Benutzer nicht gefunden</string>
   <string name="profile_err_msg">Nutzer konnte nicht geladen werden.</string>
+  <string name="profile_overview">Übersicht</string>
+  <string name="profile_comments">Kommentare</string>
+  <string name="profile_submitted">Eingereicht</string>
+  <string name="profile_gilded">Vergoldet</string>
   <string name="comment_gild">Gold geben</string>
-  <string name="comment_hide">Kommentar ausblenden</string>
   <string name="comment_report">Kommentar melden</string>
   <string name="comment_share">Kommentar teilen</string>
   <string name="comment_load_more">Mehr Kommentare laden</string>
   <string name="tutorial_skip">Überspringen</string>
   <string name="tutorial_agree">Ich stimme zu</string>
   <string name="tutorial_swipe">Wische zwischen Subreddits!</string>
-  <string name="tutorial_swipe_subreddits">Wische, um zwischen Subreddits zu wechseln</string>
   <string name="tutorial_tap_full_view">Tippe zur Vollansicht auf einen Beitrag</string>
   <string name="tutorial_slide_comments">Wische nach oben, um Kommentare in der Vollansicht zu sehen</string>
   <string name="tutorial_tap_name">Tippe auf einen Benutznamen, um das Profil anzuzeigen</string>
@@ -129,10 +130,7 @@
   <string name="editor_err_msg">Bitte versuch es in ein paar Sekunden erneut.</string>
   <string name="editor_uploading_image">Bild auf imgur hochladen</string>
   <string name="editor_self">Text-Beitrag</string>
-  <string name="editor_link">Link</string>
-  <string name="editor_image">Bild</string>
   <string name="editor_select_img">Bild auswählen</string>
-  <string name="editor_hint_title">Titel</string>
   <string name="editor_hint_optional_body">Text (optional) </string>
   <string name="editor_submit">Einen Beitrag einreichen</string>
   <string name="editor_hint_subreddit">Subreddit</string>
@@ -145,7 +143,7 @@
   <string name="err_loading_content">Fehler beim Laden des Inhalts</string>
   <string name="err_connection_lost">Oh nein! Sieht so aus als hättest du die Internetverbindung verloren. Bitte verbinde dich mit dem Internet und probiere es erneut!</string>
   <string name="gif_err_title">GIF nicht gefunden</string>
-  <string name="gif_err_msg">Ein Fehler beim laden von diesem gif. Bitte versuchen Sie es noch einmal.</string>
+  <string name="gif_err_msg">Beim Laden des Gif-Bildes ist ein Fehler aufgetreten. Bitte versuche es nochmal und öffne das Gif-Bild erneut.</string>
   <string name="gif_saved">GIF gespeichert</string>
   <string name="pins_err_title">(Noch) Keine Pins!</string>
   <string name="pins_err_msg">Sie können ihre beliebtesten subreddits an den Anfang der subreddit-Liste pinnen. Um dies zu tun, öffnen Sie die \'sidebar\' (indem Sie auf das I Icon klicken oder von der rechten Seite des Bildschirms ziehen) und klicken Sie auf \"PINNED\"!</string>
@@ -187,14 +185,6 @@
     <item quantity="one">Du hast eine neue Mail!</item>
     <item quantity="other">Du hast %1$d neue Mails!</item>
   </plurals>
-  <plurals name="mail_hours">
-    <item quantity="one">Eine Stunde</item>
-    <item quantity="other">%d Stunden</item>
-  </plurals>
-  <plurals name="mail_minutes">
-    <item quantity="one">Eine Minute</item>
-    <item quantity="other">%d Minuten</item>
-  </plurals>
   <string name="title_subreddit_settings">Subreddit-Einstellungen</string>
   <string name="title_edit_theme">Design bearbeiten</string>
   <string name="title_submit_post">Beitrag einreichen</string>
@@ -224,7 +214,7 @@
   <string name="misc_retry">Möchtest du es noch einmal versuchen?</string>
   <string name="misc_score_hidden">Punkte ausgeblendet</string>
   <string name="misc_you">Du</string>
-  <string name="misc_nsfw">Unangemessen</string>
+  <string name="misc_nsfw">NSFW</string>
   <string name="user_enter">Benutzername eingeben</string>
   <string name="user_btn_goto">Gehe zu Nutzer</string>
   <string name="user_invalid">Ungültiger Benutzername</string>
@@ -273,12 +263,10 @@
   <string name="captcha_title">Beweise, dass du kein Roboter bist</string>
   <string name="settings_accent_title">Akzentfarbe bearbeiten</string>
   <string name="settings_card_mode">Kartenansicht</string>
-  <string name="settings_color_accent">Akzentfarbe</string>
   <string name="settings_delete_sub_settings">Möchtest du die Einstellungen für /r/%1$s wirklich löschen?</string>
   <string name="settings_image">Bildmodus</string>
   <string name="settings_indicator_everywhere">Überall</string>
   <string name="settings_indicator_place">Wo soll der Farbindikator angezeigt werden</string>
-  <string name="settings_layout_alternative">Alternative Ansicht</string>
   <string name="settings_layout_chooser">Wähle einen Ansichtstyp</string>
   <string name="settings_layout_default">Standardansicht</string>
   <string name="settings_link_album">Interne Albumansicht</string>
@@ -302,7 +290,7 @@ Deaktiviert das Wischen zwischen den Subreddits</string>
   <string name="settings_title_backup">Sichern</string>
   <string name="settings_title_default_theme">Standarddesign</string>
   <string name="settings_title_general">Allgemein</string>
-  <string name="settings_title_notifications">Einstellungen für Mitteilungen</string>
+  <string name="settings_title_notifications">Benachrichtigungen</string>
   <string name="settings_title_pro">Pro</string>
   <string name="settings_title_sub_theme">Subreddit Design-Einstellungen</string>
   <string name="settings_title_sorting">Standard-Sortierung</string>
