@@ -75,7 +75,7 @@
             android:padding="8dp"
             android:textSize="14sp"
             android:gravity="center"
-            android:text="This is an np link. Please don't vote or comment."
+            android:text="@string/submission_np_link"
             android:layout_height="wrap_content" />
         <TextView
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
             android:background="?android:attr/colorAccent"
             android:textSize="14sp"
             android:gravity="center"
-            android:text="Load full thread"
+            android:text="@string/submission_load_full"
             android:layout_height="wrap_content" />
 
     </android.support.design.widget.AppBarLayout>

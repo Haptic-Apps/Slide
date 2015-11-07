@@ -12,7 +12,6 @@
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
-    <string name="submission_save_post">Save post</string>
     <string name="submission_post_saved">Post saved</string>
     <string name="submission_info_hidden">Post hidden forever.</string>
     <string name="submission_stickied">pinned</string>
@@ -24,6 +23,8 @@
     <string name="submission_gild">Gild post</string>
     <string name="submission_save">Save post</string>
     <string name="submission_share">Share post</string>
+    <string name="submission_load_full">Load full thread</string>
+    <string name="submission_np_link">This is an np link. Please don\'t vote or comment.</string>
     <plurals name="submission_points">
         <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
@@ -74,10 +75,8 @@
     <!-- Drawer items (That's the one on the left) -->
     <string name="drawer_login">Log in</string>
     <string name="drawer_profile">Profile</string>
-    <string name="drawer_multis">Multireddits</string>
     <string name="drawer_support">Support Slide</string>
     <string name="drawer_goto_profile">Go to profile</string>
-    <string name="drawer_settings">Settings</string>
     <string name="drawer_reorder_pins">Reorder your pins</string>
     <string name="drawer_add_account">Add an account</string>
     <string name="drawer_hello">Hello,</string>
@@ -110,11 +109,14 @@
     <string name="profile_upvoted">Upvoted posts</string>
     <string name="profile_err_title">User not found</string>
     <string name="profile_err_msg">Reddit user could not be retrieved.</string>
+    <string name="profile_overview">overview</string>
+    <string name="profile_comments">comments</string>
+    <string name="profile_submitted">submitted</string>
+    <string name="profile_gilded">gilded</string>
 
 
     <!-- Comment text options -->
     <string name="comment_gild">Gild comment</string>
-    <string name="comment_hide">Hide comment</string>
     <string name="comment_report">Report comment</string>
     <string name="comment_share">Share comment</string>
     <string name="comment_load_more">Load more comments</string>
@@ -124,7 +126,6 @@
     <string name="tutorial_skip">Skip</string>
     <string name="tutorial_agree">I agree</string>
     <string name="tutorial_swipe">Swipe between subreddits!</string>
-    <string name="tutorial_swipe_subreddits">Swipe to switch subreddits</string>
     <string name="tutorial_tap_full_view">Tap a submission to open in full view</string>
     <string name="tutorial_slide_comments">Slide up to see comments in full view</string>
     <string name="tutorial_tap_name">Tap a name to view user</string>
@@ -166,10 +167,7 @@
     <string name="editor_err_msg">Please try again in a few seconds.</string>
     <string name="editor_uploading_image">Uploading image to imgur</string>
     <string name="editor_self">Self text</string>
-    <string name="editor_link">Link</string>
-    <string name="editor_image">Image</string>
     <string name="editor_select_img">Select Picture</string>
-    <string name="editor_hint_title">Title</string>
     <string name="editor_hint_optional_body">Body (optional)</string>
     <string name="editor_submit">Submit a post</string>
     <string name="editor_hint_subreddit">Subreddit</string>
@@ -247,18 +245,9 @@
     <string name="mail_theirs">View their message</string>
 
     <plurals name="mail_notification_title">
-        <item quantity="one">You have one new message!</item>
-        <item quantity="other">You have %1$d new messages!</item>
+        <item quantity="one">You have %d new message!</item>
+        <item quantity="other">You have %d new messages!</item>
     </plurals>
-    <plurals name="mail_hours">
-        <item quantity="one">One hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-    <plurals name="mail_minutes">
-        <item quantity="one">One minute</item>
-        <item quantity="other">%d minutes</item>
-    </plurals>
-
 
     <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_subreddit_settings">Subreddit Settings</string>
@@ -374,12 +363,10 @@
     <!-- Settings -->
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_card_mode">Card Mode</string>
-    <string name="settings_color_accent">Accent color</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s</string>
     <string name="settings_image">Image Mode</string>
     <string name="settings_indicator_everywhere">Everywhere</string>
     <string name="settings_indicator_place">Where to Show Color Indicator</string>
-    <string name="settings_layout_alternative">Alternative Layout</string>
     <string name="settings_layout_chooser">Choose a Layout Type</string>
     <string name="settings_layout_default">Default Layout</string>
     <string name="settings_link_album">Internal album view</string>

@@ -161,7 +161,7 @@ public class CommentPage extends Fragment {
                     mSwipeRefreshLayout.setRefreshing(true);
 
                     comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
-
+                    v.findViewById(R.id.loadall).setVisibility(View.GONE);
                 }
             });
 
