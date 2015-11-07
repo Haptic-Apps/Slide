@@ -10,7 +10,6 @@
   <string name="general_open_settings">Ouvrir les paramètres du Subreddit</string>
   <string name="submission_info_unsaved">Message désenregistré</string>
   <string name="submission_info_saved">Message enregistré</string>
-  <string name="submission_save_post">Enregistrer le message</string>
   <string name="submission_post_saved">Message enregistré</string>
   <string name="submission_info_hidden">Message caché pour toujours.</string>
   <string name="submission_stickied">Épinglé</string>
@@ -45,10 +44,8 @@
   <string name="multi_column_portrait">Paramètres de vue portrait prochainement disponibles</string>
   <string name="drawer_login">Se connecter</string>
   <string name="drawer_profile">Profil</string>
-  <string name="drawer_multis">Multireddits</string>
   <string name="drawer_support">Faire un don</string>
   <string name="drawer_goto_profile">Voir le profil</string>
-  <string name="drawer_settings">Paramètres</string>
   <string name="drawer_reorder_pins">Réorganiser les subreddits épinglés</string>
   <string name="drawer_add_account">Ajouter un compte</string>
   <string name="drawer_hello">Bonjour,</string>
@@ -73,13 +70,11 @@
   <string name="profile_err_title">Utilisateur non trouvé</string>
   <string name="profile_err_msg">L\'utilisateur Reddit n\'a pas pu être récupéré.</string>
   <string name="comment_gild">Dorer le commentaire</string>
-  <string name="comment_hide">Masquer le commentaire</string>
   <string name="comment_report">Signaler le commentaire</string>
   <string name="comment_share">Partager le commentaire</string>
   <string name="tutorial_skip">Ignorer</string>
   <string name="tutorial_agree">J\'accepte</string>
   <string name="tutorial_swipe">Glissez d\'un subreddit à l\'autre !</string>
-  <string name="tutorial_swipe_subreddits">Glissez pour changer de subreddit</string>
   <string name="tutorial_tap_full_view">Appuyez sur une publication pour l\'afficher en pleine page</string>
   <string name="tutorial_slide_comments">Glissez vers le haut pour voir les commentaires en pleine page</string>
   <string name="tutorial_tap_name">Appuyez sur un nom pour voir l\'utilisateur</string>
@@ -116,10 +111,7 @@ Merci beaucoup !</string>
   <string name="editor_err_msg">Veuillez réessayer dans quelques secondes.</string>
   <string name="editor_uploading_image">Envoi de l\'image sur imgur</string>
   <string name="editor_self">Texte libre</string>
-  <string name="editor_link">Lien</string>
-  <string name="editor_image">Image</string>
   <string name="editor_select_img">Sélectionner une image</string>
-  <string name="editor_hint_title">Titre </string>
   <string name="editor_hint_optional_body">Corps de texte (facultatif)</string>
   <string name="editor_submit">Envoyer un message</string>
   <string name="editor_hint_subreddit">Subreddit</string>
@@ -169,14 +161,6 @@ Merci beaucoup !</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Vous avez un nouveau message !</item>
     <item quantity="other">Vous avez %1$d nouveaux messages !</item>
-  </plurals>
-  <plurals name="mail_hours">
-    <item quantity="one">Une heure</item>
-    <item quantity="other">%d heures</item>
-  </plurals>
-  <plurals name="mail_minutes">
-    <item quantity="one">Une minute</item>
-    <item quantity="other">%d minutes</item>
   </plurals>
   <string name="title_subreddit_settings">Paramètres de subreddit</string>
   <string name="title_edit_theme">Modifier le thème</string>
@@ -243,11 +227,9 @@ Merci beaucoup !</string>
   <string name="search_everywhere">Partout</string>
   <string name="settings_accent_title">Modifier la couleur d\'accentuation</string>
   <string name="settings_card_mode">Mode Carte</string>
-  <string name="settings_color_accent">Couleur d\'accentuation</string>
   <string name="settings_image">Mode Image</string>
   <string name="settings_indicator_everywhere">Partout</string>
   <string name="settings_indicator_place">Où Monter l\'Indicateur Coloré</string>
-  <string name="settings_layout_alternative">Mise en Page Alternative</string>
   <string name="settings_layout_chooser">Choisir un Type de Disposition</string>
   <string name="settings_layout_default">Disposition par Défaut</string>
   <string name="settings_link_album">Voir les albums en interne</string>

@@ -10,7 +10,6 @@
   <string name="general_open_settings">Obriu la configuració de Subreddits</string>
   <string name="submission_info_unsaved">Missatge no desat</string>
   <string name="submission_info_saved">Missatge guardat</string>
-  <string name="submission_save_post">Desa el post</string>
   <string name="submission_post_saved">Post guardat</string>
   <string name="submission_info_hidden">Post ocult per sempre.</string>
   <string name="submission_stickied">guardat</string>
@@ -41,5 +40,4 @@
   <string name="multi_column_portrait">Configuració d\'apaïsat arribant properament</string>
   <string name="sidebar_pinned">guardat</string>
   <string name="tutorial_tap_hide">Amagar comentaris amb un sol toc</string>
-  <string name="settings_color_accent">Color d\'èmfasi</string>
 </resources>

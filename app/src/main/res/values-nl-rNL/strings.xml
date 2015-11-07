@@ -10,7 +10,6 @@
   <string name="general_open_settings">Open Subreddit instellingen</string>
   <string name="submission_info_unsaved">Bericht niet opgeslagen</string>
   <string name="submission_info_saved">Bericht opgeslagen</string>
-  <string name="submission_save_post">Bericht opslaan</string>
   <string name="submission_post_saved">Bericht opgeslagen</string>
   <string name="submission_info_hidden">Bericht voor altijd verbogen.</string>
   <string name="submission_stickied">gepint</string>
@@ -73,10 +72,7 @@
   <string name="editor_err_msg">Probeer het over een paar seconden weer.</string>
   <string name="editor_uploading_image">Afbeelding uploaden naar imgur</string>
   <string name="editor_self">Zelf tekst</string>
-  <string name="editor_link">Link</string>
-  <string name="editor_image">Afbeelding</string>
   <string name="editor_select_img">Selecteer afbeelding</string>
-  <string name="editor_hint_title">Titel</string>
   <string name="editor_submit">Plaats een bericht</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <string name="info_photo_saved">Afbeelding opgeslagen</string>
@@ -130,11 +126,9 @@
   <string name="search_everywhere">Overal</string>
   <string name="settings_accent_title">Accentkleur bewerken</string>
   <string name="settings_card_mode">Kaart-modus</string>
-  <string name="settings_color_accent">Accentkleur</string>
   <string name="settings_image">Afbeelding modus</string>
   <string name="settings_indicator_everywhere">Overal</string>
   <string name="settings_indicator_place">Waar kleuren indicator tonen</string>
-  <string name="settings_layout_alternative">Alternatieve lay-out</string>
   <string name="settings_layout_chooser">Kies een lay-out type</string>
   <string name="settings_layout_default">Standaard layout</string>
   <string name="settings_link_album">Interne album weergave</string>
