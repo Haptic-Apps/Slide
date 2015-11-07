@@ -655,14 +655,14 @@ public class SubredditView extends BaseActivity {
                         @Override
                         public void onPostExecute(Void voids){
                             new SubredditStorageNoContext().execute(SubredditView.this);
-                            Snackbar.make(rv, isChecked ? "Subscribed" : "Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(rv, isChecked?"Subscribed":"Unsubscribed", Snackbar.LENGTH_SHORT);
                         }
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
-                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
-                            } else {
                                 new AccountManager(Authentication.reddit).subscribe(subreddit);
+                            } else {
+                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
 
                             }
                             return null;
@@ -1079,7 +1079,7 @@ public class SubredditView extends BaseActivity {
                             builder.setTitle(R.string.settings_layout_chooser);
                             builder.setSingleChoiceItems(
                                     new String[]{getString(R.string.settings_layout_default),
-                                            getString(R.string.settings_layout_alternative)}, i, l2);
+                                            getString(R.string.settings_title_alternative_layout)}, i, l2);
                             builder.show();
 
                         }

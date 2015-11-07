@@ -35,7 +35,7 @@ public class TutorialFragment extends Fragment {
     }
     public static String[] titles(Context context) {
         return new String[]{
-                context.getString(R.string.tutorial_swipe_subreddits),
+                context.getString(R.string.tutorial_swipe),
                 context.getString(R.string.tutorial_tap_full_view),
                 context.getString(R.string.tutorial_slide_comments),
                 context.getString(R.string.tutorial_tap_name),

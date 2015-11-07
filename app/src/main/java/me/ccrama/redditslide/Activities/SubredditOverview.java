@@ -407,9 +407,9 @@ public class SubredditOverview extends OverviewBase {
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
-                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
-                            } else {
                                 new AccountManager(Authentication.reddit).subscribe(subreddit);
+                            } else {
+                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
 
                             }
                             return null;
@@ -816,7 +816,7 @@ public class SubredditOverview extends OverviewBase {
                             builder.setTitle(R.string.settings_layout_chooser);
                             builder.setSingleChoiceItems(
                                     new String[]{getString(R.string.settings_layout_default),
-                                            getString(R.string.settings_layout_alternative)}, i, l2);
+                                            getString(R.string.settings_title_alternative_layout)}, i, l2);
                             builder.show();
 
                         }
@@ -827,7 +827,8 @@ public class SubredditOverview extends OverviewBase {
                 }
             });
         } else {
-            findViewById(R.id.info).setVisibility(View.VISIBLE);
+            //Hide info button on frontpage and all
+            findViewById(R.id.info).setVisibility(View.GONE);
 
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);

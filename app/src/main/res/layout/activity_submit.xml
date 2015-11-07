@@ -64,7 +64,7 @@
 
                 android:id="@+id/imageradio"
                 android:layout_weight="1"
-                android:text="@string/editor_image"
+                android:text="@string/type_img"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"/>
             <RadioButton
@@ -73,7 +73,7 @@
                 android:id="@+id/linkradio"
 
                 android:layout_weight="1"
-                android:text="@string/editor_link"
+                android:text="@string/type_link"
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"/>
         </RadioGroup>
@@ -111,7 +111,7 @@
                 android:id="@+id/titletext"
                 android:maxLines="1"
 
-                android:hint="@string/editor_hint_title"
+                android:hint="@string/editor_title"
                 android:layout_height="wrap_content" />
         </android.support.design.widget.TextInputLayout>
         <LinearLayout

@@ -394,7 +394,7 @@ public class CommentPage extends Fragment {
         single = bundle.getBoolean("single", false);
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
-        loadMore = !context.isEmpty();
+        loadMore =  (!context.isEmpty() && !context.equals("NOTHING"));
     }
 
 
