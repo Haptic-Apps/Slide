@@ -9,7 +9,8 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.design.widget.AppBarLayout
+           <android.support.design.widget.AppBarLayout
+               android:theme="@style/Theme.AppCompat"
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
-                android:tint="?android:attr/textColorPrimary"
+
 
                 android:paddingBottom="12dp"
                 android:background="?android:selectableItemBackgroundBorderless"
@@ -55,9 +56,10 @@
                 android:layout_gravity="end|center_vertical"
                 android:background="?android:selectableItemBackgroundBorderless"
 
+                android:tint="@color/white"
                 android:paddingBottom="12dp"
 
-                android:tint="?android:attr/textColorPrimary"
+
                 android:paddingTop="12dp"
 
                 android:scaleType="fitCenter"

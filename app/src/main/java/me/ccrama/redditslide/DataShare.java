@@ -13,7 +13,7 @@ import me.ccrama.redditslide.Adapters.CommentObject;
 public class DataShare {
     public static ArrayList<Submission> sharedSubreddit;
     public static Submission sharedSubmission;
-    public static Submission notifs;
+ //   public static Submission notifs;
     public static PrivateMessage sharedMessage;
     public static ArrayList<CommentObject> sharedComments;
     public static String subAuthor;

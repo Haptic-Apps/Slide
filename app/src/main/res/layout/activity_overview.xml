@@ -18,7 +18,8 @@
            >
 
 
-            <android.support.design.widget.AppBarLayout
+                   <android.support.design.widget.AppBarLayout
+                       android:theme="@style/Theme.AppCompat"
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,6 +31,8 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/ActionBarCompat"
+
                     android:background="#00000000"
                     android:clipToPadding="false"
                     android:minHeight="56dp"
@@ -45,7 +48,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:tint="?android:attr/textColorPrimary"
+
 
                         android:paddingBottom="12dp"
                         android:background="?android:selectableItemBackground"
@@ -61,7 +64,7 @@
                         android:id="@+id/info"
                         android:layout_width="48dp"
                         android:background="?android:selectableItemBackground"
-                        android:tint="?android:attr/textColorPrimary"
+
 
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
@@ -76,7 +79,7 @@
                         android:id="@+id/grid"
                         android:layout_width="48dp"
                         android:background="?android:selectableItemBackground"
-                        android:tint="?android:attr/textColorPrimary"
+
 
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
@@ -90,6 +93,7 @@
                 <android.support.design.widget.TabLayout
                     android:id="@+id/sliding_tabs"
                     android:layout_width="match_parent"
+                    style="@style/ActionBarCompat"
 
                     android:layout_height="wrap_content"
                     android:background="#00000000" />

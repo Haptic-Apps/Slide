@@ -16,7 +16,8 @@
            >
 
 
-            <android.support.design.widget.AppBarLayout
+                   <android.support.design.widget.AppBarLayout
+                       android:theme="@style/Theme.AppCompat"
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

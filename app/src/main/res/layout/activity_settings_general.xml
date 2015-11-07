@@ -16,7 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_light_blue_500"
+            android:background="@color/md_light_blue_500"               android:theme="@style/Theme.AppCompat"
+
             android:clipToPadding="false"
             android:minHeight="56dp"
             android:paddingRight="16dp"

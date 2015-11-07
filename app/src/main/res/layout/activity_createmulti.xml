@@ -21,11 +21,13 @@
         >
         <EditText
             android:layout_width="wrap_content"
-            android:textColor="?attr/font"
-            android:backgroundTint="?attr/tint"
+            android:textColor="#fff"
+            android:backgroundTint="#fff"
+            android:textColorHint="#fff"
             android:hint="Multi Name       "
             android:inputType="textCapWords"
             android:maxLines="1"
+
             android:maxLength="21"
             android:id="@+id/name"
             android:layout_height="match_parent" />
@@ -40,6 +42,7 @@
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
             android:text="@string/btn_save"
+            android:textColor="#fff"
             android:textAllCaps="true"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -56,7 +59,7 @@
             android:scaleType="fitCenter"
 
             android:src="@drawable/delete"
-            android:tint="?android:attr/textColorPrimary"
+
             />
     </android.support.v7.widget.Toolbar>
 

@@ -37,16 +37,13 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.koushikdutta.ion.Ion;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.managers.AccountManager;
-import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -68,7 +65,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.NoSwipingViewPager;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
@@ -184,7 +180,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
         setContentView(R.layout.activity_overview_single);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Slide");
-        if (DataShare.notifs != null) {
+     /*  if (DataShare.notifs != null) {
 
             final Submission s = DataShare.notifs;
             LayoutInflater inflater = getLayoutInflater();
@@ -228,7 +224,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     dialog.dismiss();
                 }
             });
-        }
+        }*/
         if (!Reddit.colors.getBoolean("Tutorial", false)) {
             Intent i = new Intent(SubredditOverviewSingle.this, Tutorial.class);
             startActivity(i);

@@ -17,6 +17,7 @@
         android:paddingRight="16dp"
         app:layout_scrollFlags="scroll|enterAlways"
 
+        android:theme="@style/Theme.AppCompat"
 
         >
 

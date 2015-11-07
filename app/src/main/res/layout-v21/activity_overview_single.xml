@@ -18,7 +18,8 @@
            >
 
 
-            <android.support.design.widget.AppBarLayout
+                   <android.support.design.widget.AppBarLayout
+                       android:theme="@style/Theme.AppCompat"
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +47,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:tint="?android:attr/textColorPrimary"
+
 
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
@@ -66,7 +67,7 @@
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
-                        android:tint="?android:attr/textColorPrimary"
+
 
                         android:scaleType="fitCenter"
                         android:src="@drawable/infonew" />
@@ -77,7 +78,7 @@
                         android:id="@+id/grid"
                         android:layout_width="48dp"
                         android:background="?android:selectableItemBackgroundBorderless"
-                        android:tint="?android:attr/textColorPrimary"
+
 
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"

@@ -10,7 +10,6 @@ import android.util.Log;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
-import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
@@ -131,10 +130,10 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 test.remove("");
             }
             subredditsForHome = test;
-            DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
-            if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
-                DataShare.notifs = null;
-            }
+          //  DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
+           // if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
+           //     DataShare.notifs = null;
+          //  }
 
             alphabeticalSubscriptions = sort(new ArrayList<>(test));
             if(params[0].loader != null) {
@@ -194,10 +193,10 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 test.remove("");
             }
             subredditsForHome = test;
-            DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
+           /* DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
             if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
                 DataShare.notifs = null;
-            }
+            }*/
 
             alphabeticalSubscriptions = sort(new ArrayList<>(test));
             if(params[0].loader != null) {

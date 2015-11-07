@@ -17,7 +17,8 @@
         android:layout_height="match_parent">
 
 
-        <android.support.design.widget.AppBarLayout
+               <android.support.design.widget.AppBarLayout
+                   android:theme="@style/Theme.AppCompat"
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +51,7 @@
                     android:scaleType="fitCenter"
 
                     android:src="@drawable/sort"
-                    android:tint="?android:attr/textColorPrimary"
+
                     />
                 <ImageView
                     android:id="@+id/edit"
@@ -65,7 +66,7 @@
                     android:scaleType="fitCenter"
 
                     android:src="@drawable/edit"
-                    android:tint="?android:attr/textColorPrimary"
+
                     />
 
 
@@ -82,8 +83,9 @@
 
                     android:scaleType="fitCenter"
 
+                    android:tint="@color/white"
                     android:src="@drawable/add_plain"
-                    android:tint="?android:attr/textColorPrimary"
+
                     />
 
 

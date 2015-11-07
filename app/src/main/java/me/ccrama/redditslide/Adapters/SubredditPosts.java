@@ -110,9 +110,29 @@ public class SubredditPosts {
                 paginator.setSorting(Reddit.defaultSorting);
                 paginator.setTimePeriod(Reddit.timePeriod);
             }
-            if (paginator.hasNext()) {
+            if (paginator != null && paginator.hasNext()) {
                 if (reset) {
                     posts = new ArrayList<>();
+                    try {
+                        for (Submission c : paginator.next()) {
+                            Submission s = c;
+                            if (Hidden.isHidden(s)) {
+                                if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                    posts.add(s);
+                                } else if (!s.isNsfw()) {
+                                    posts.add(s);
+                                }
+                            }
+
+                        }
+                    } catch(Exception ignored){
+                        //gets caught above
+                    }
+                } else {
+                    if(posts == null)
+                        posts = new ArrayList<>();
+
+                    try{
                     for (Submission c : paginator.next()) {
                             Submission s =  c;
                             if (Hidden.isHidden(s)) {
@@ -124,20 +144,8 @@ public class SubredditPosts {
                             }
 
                     }
-                } else {
-                    if(posts == null)
-                        posts = new ArrayList<>();
-
-                    for (Submission c : paginator.next()) {
-                            Submission s =  c;
-                            if (Hidden.isHidden(s)) {
-                                if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
-                                } else if (!s.isNsfw()) {
-                                    posts.add(s);
-                                }
-                            }
-
+                    } catch(Exception ignored){
+                        //gets caught above
                     }
                 }
             }

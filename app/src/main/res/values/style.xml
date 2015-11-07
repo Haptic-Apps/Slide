@@ -212,9 +212,17 @@
         <item name="list_background">#303030</item>
     </style>
 
+    <style name="ActionBarCompat">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+
+    </style>
+
     <style name="Theme.AMOLED" parent="swipestyle">
         <item name="activity_background">#0e0e0e</item>
         <item name="card_background">#000000</item>
+
+
         <item name="font">#b3FFFFFF</item>
         <item name="tint">#DEffffff</item>
         <item name="android:windowBackground">@null</item>

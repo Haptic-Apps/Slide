@@ -15,7 +15,8 @@
            >
 
 
-            <android.support.design.widget.AppBarLayout
+                   <android.support.design.widget.AppBarLayout
+                       android:theme="@style/Theme.AppCompat"
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
                         android:id="@+id/notifs"
                         android:layout_width="48dp"
                         android:background="?android:selectableItemBackground"
-                        android:tint="?android:attr/textColorPrimary"
+
 
 
                         android:layout_height="48dp"

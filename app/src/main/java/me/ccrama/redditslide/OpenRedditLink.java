@@ -22,7 +22,6 @@ public class OpenRedditLink {
         url = url.replace("www.","");
         url = url.replace("http://", "");
         url = url.replace("https://", "");
-        url = url.substring(url.indexOf("redd"), url.length());
 
         if(url.startsWith("/")){
             url = "reddit.com" + url;

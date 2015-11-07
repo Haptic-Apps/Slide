@@ -12,6 +12,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:theme="@style/Theme.AppCompat"
+
         android:background="@color/md_light_green_500">
 
 

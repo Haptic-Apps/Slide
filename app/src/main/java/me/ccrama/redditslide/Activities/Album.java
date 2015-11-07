@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +25,7 @@ import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
 
 /**
@@ -55,6 +57,7 @@ public class Album extends BaseActivity {
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setTitle(R.string.album_loading);
+        ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

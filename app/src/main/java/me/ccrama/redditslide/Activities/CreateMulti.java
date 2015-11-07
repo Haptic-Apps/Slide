@@ -19,6 +19,7 @@ package me.ccrama.redditslide.Activities;
 import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -52,6 +53,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -71,7 +73,10 @@ public class CreateMulti extends BaseActivity {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
         setContentView(R.layout.activity_createmulti);
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
+
         b.setBackgroundColor(Pallete.getDefaultColor());
+        ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
+
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

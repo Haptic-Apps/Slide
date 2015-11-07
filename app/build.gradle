@@ -13,10 +13,10 @@ android {
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 23
-        versionCode 73
-        versionName "4.2.5.5"
+        versionCode 75
+        versionName "4.3"
         multiDexEnabled = true
 
     }

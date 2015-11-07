@@ -21,7 +21,8 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
-    <android.support.design.widget.AppBarLayout
+           <android.support.design.widget.AppBarLayout
+               android:theme="@style/Theme.AppCompat"
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
 
                 android:paddingBottom="12dp"
 
-                android:tint="?android:attr/textColorPrimary"
+
                 android:paddingTop="12dp"
 
                 android:scaleType="fitCenter"
@@ -63,7 +64,7 @@
                 android:id="@+id/info"
                 android:layout_width="48dp"
                 android:background="?android:selectableItemBackground"
-                android:tint="?android:attr/textColorPrimary"
+
 
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
@@ -76,7 +77,7 @@
                 android:id="@+id/grid"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:tint="?android:attr/textColorPrimary"
+
                 android:layout_gravity="end|center_vertical"
                 android:paddingBottom="12dp"
                 android:background="?android:selectableItemBackground"
