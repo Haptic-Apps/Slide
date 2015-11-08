@@ -43,6 +43,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.managers.AccountManager;
@@ -66,6 +67,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
@@ -1479,7 +1481,7 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    private void restartTheme() {
+    public void restartTheme() {
         if (Reddit.single) {
             ((Reddit) getApplication()).startMain();
 
@@ -1631,6 +1633,15 @@ public class SubredditOverview extends OverviewBase {
                 @Override
                 public void onClick(View view) {
                     chooseAccounts();
+                }
+            });
+            header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title("Syncing Subscriptions")
+                           .progress(true, 100)
+                           .cancelable(false).show();
+                   new SubredditStorageFromContext(SubredditOverview.this, d).execute((Reddit) getApplication());
                 }
             });
             header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {

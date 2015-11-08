@@ -16,7 +16,6 @@ import net.dean.jraw.http.LoggingMode;
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
-import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
 import java.util.ArrayList;
@@ -93,26 +92,29 @@ public class Authentication {
 
                     }
                 } catch (Exception e) {
+                    try {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(context).setTitle("Uh oh, an error occured")
+                                        .setMessage("Reddit could not be reached. Would you like to try again?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new UpdateToken(context).execute();
+                                            }
+                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Reddit.forceRestart(context);
+                                    }
+                                }).show();
 
-                    ((Activity) context).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(context).setTitle("Uh oh, an error occured")
-                                    .setMessage("Reddit could not be reached. Would you like to try again?")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new UpdateToken(context).execute();
-                                        }
-                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Reddit.forceRestart(context);
-                                }
-                            }).show();
+                            }
+                        });
+                    } catch (Exception ignored){
 
-                        }
-                    });
+                    }
                     e.printStackTrace();
                 }
 
@@ -127,6 +129,7 @@ public class Authentication {
                         mod = false;
 
                     } catch (Exception e) {
+                        try {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -147,6 +150,9 @@ public class Authentication {
                             }
                         });
                         //TODO fail
+                        } catch (Exception ignored){
+//whelp crap
+                        }
                     }
                     reddit.authenticate(authData);
                 }
@@ -215,7 +221,7 @@ public class Authentication {
 
 
                         }
-                    } catch (OAuthException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -228,6 +234,7 @@ public class Authentication {
                         Authentication.name = "LOGGEDOUT";
 
                     } catch (Exception e) {
+                        try {
                         ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -247,6 +254,9 @@ public class Authentication {
                                 }).show();
                             }
                         });
+                        } catch (Exception ignored){
+
+                        }
                         //TODO fail
                     }
                     reddit.authenticate(authData);

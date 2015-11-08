@@ -64,7 +64,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         if(Authentication.isLoggedIn){AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                doUpdateSubsSaveBackground();
+                //doUpdateSubsSaveBackground();
             }
         });
         }

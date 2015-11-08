@@ -180,6 +180,16 @@
             android:textSize="14sp"
             android:gravity="center_vertical"
             android:orientation="horizontal"/>
+        <TextView
+            android:id="@+id/sync"
+            android:layout_width="match_parent"
+            android:text="Sync Your Subreddits"
+            android:background="?android:selectableItemBackground"
+
+            android:layout_height="42dp"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"/>
 
     </LinearLayout>
 

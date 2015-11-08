@@ -24,7 +24,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -41,6 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.managers.AccountManager;
@@ -64,6 +64,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.NoSwipingViewPager;
@@ -322,16 +323,32 @@ public class SubredditOverviewSingle extends OverviewBase  {
         });
 
     }
-    private void chooseAccounts(){
-        final ArrayList<String> accounts = new ArrayList<>(Authentication.authentication.getStringSet("accounts", new HashSet<String>()));
+    private void chooseAccounts() {
+        final ArrayList<String> accounts = new ArrayList<>();
+        final ArrayList<String> names = new ArrayList<>();
+
+        for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+            if (s.contains(":")) {
+                accounts.add(s.split(":")[0]);
+            } else {
+                accounts.add(s);
+            }
+            names.add(s);
+        }
         new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
                 .setTitle(R.string.general_switch_acc)
                 .setAdapter(new ArrayAdapter<>(SubredditOverviewSingle.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<String> tokens =  new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                        Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
-                        Log.v("Slide", " CHOSEN IS " + accounts.get(which) + " AND TOKEN IS " + tokens.get(which) + " AND SHARED PREFS SAYS " + Authentication.authentication.getString("lasttoken", ""));
+                        if (names.get(which).contains(":")) {
+                            String token = names.get(which).split(":")[1];
+                            Authentication.authentication.edit().putString("lasttoken", token).commit();
+                        } else {
+
+                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                            Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+
+                        }
 
                         Reddit.forceRestart(SubredditOverviewSingle.this);
 
@@ -1435,7 +1452,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
     }
 
-    private void restartTheme() {
+    public void restartTheme() {
         if(!Reddit.single){
             ((Reddit)getApplication()).startMain();
 
@@ -1577,7 +1594,15 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     SubredditOverviewSingle.this.startActivity(inte);
                 }
             });
-
+            header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Dialog d = new MaterialDialog.Builder(SubredditOverviewSingle.this).title("Syncing Subscriptions")
+                            .progress(true, 100)
+                            .cancelable(false).show();
+                    new SubredditStorageFromContext(SubredditOverviewSingle.this, d).execute((Reddit) getApplication());
+                }
+            });
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

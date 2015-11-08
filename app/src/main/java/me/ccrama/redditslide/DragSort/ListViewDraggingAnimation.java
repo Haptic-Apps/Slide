@@ -74,7 +74,39 @@ public class ListViewDraggingAnimation extends BaseActivity {
 
        subs = SubredditStorage.getPins();
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(null);
 
+        DragSortRecycler dragSortRecycler = new DragSortRecycler();
+        dragSortRecycler.setViewHandleId();
+        dragSortRecycler.setFloatingAlpha();
+        dragSortRecycler.setAutoScrollSpeed();
+        dragSortRecycler.setAutoScrollWindow();
+
+
+        dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
+            @Override
+            public void onItemMoved(int from, int to) {
+                String item = subs.remove(from);
+                subs.add(to, item);
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+
+        dragSortRecycler.setOnDragStateChangedListener(new DragSortRecycler.OnDragStateChangedListener() {
+            @Override
+            public void onDragStart() {
+            }
+
+            @Override
+            public void onDragStop() {
+            }
+        });
+
+        recyclerView.addItemDecoration(dragSortRecycler);
+        recyclerView.addOnItemTouchListener(dragSortRecycler);
+        recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
         if (subs != null && !subs.isEmpty()) {
 
 
@@ -89,39 +121,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
             //  adapter.setHasStableIds(true);
 
             recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setItemAnimator(null);
 
-            DragSortRecycler dragSortRecycler = new DragSortRecycler();
-            dragSortRecycler.setViewHandleId();
-            dragSortRecycler.setFloatingAlpha();
-            dragSortRecycler.setAutoScrollSpeed();
-            dragSortRecycler.setAutoScrollWindow();
-
-
-            dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
-                @Override
-                public void onItemMoved(int from, int to) {
-                    String item = subs.remove(from);
-                    subs.add(to, item);
-                    adapter.notifyDataSetChanged();
-
-                }
-            });
-
-            dragSortRecycler.setOnDragStateChangedListener(new DragSortRecycler.OnDragStateChangedListener() {
-                @Override
-                public void onDragStart() {
-                }
-
-                @Override
-                public void onDragStop() {
-                }
-            });
-
-            recyclerView.addItemDecoration(dragSortRecycler);
-            recyclerView.addOnItemTouchListener(dragSortRecycler);
-            recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
         } else {
             subs = new ArrayList<>();
             new AlertDialogWrapper.Builder(this)
@@ -164,6 +164,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
         final ArrayList<String> toCheck = new ArrayList<>();
 
 
+        if(subs != null)
         toCheck.addAll(subs);
         new AlertDialogWrapper.Builder(this)
                 .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
@@ -184,6 +185,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
                 Log.v("Slide", subs.size() + "SIZE ");
                 adapter = new CustomAdapter(subs);
                 recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
 
             }
         }).show();
