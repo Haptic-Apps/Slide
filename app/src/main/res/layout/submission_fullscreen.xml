@@ -345,7 +345,7 @@
                             android:id="@+id/upvote"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:layout_toLeftOf="@+id/more"
+                            android:layout_toLeftOf="@+id/downvote"
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
@@ -359,7 +359,7 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
-                            android:layout_toLeftOf="@+id/downvote"
+                            android:layout_toLeftOf="@+id/upvote"
                             android:padding="8dp"
                             android:src="@drawable/reply" />
                         <ImageView
@@ -368,7 +368,7 @@
                             android:layout_height="36dp"
                             android:background="?android:selectableItemBackground"
 
-                            android:layout_toLeftOf="@+id/upvote"
+                            android:layout_toLeftOf="@+id/more"
                             android:padding="8dp"
                             android:tint="?attr/tint"
 

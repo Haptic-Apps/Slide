@@ -262,6 +262,21 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
+        if (up.contains(n.getFullName())) {
+            holder.score.setTextColor(holder.textColorUp);
+            upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+
+        } else if (down.contains(n.getFullName())) {
+            holder.score.setTextColor(holder.textColorDown);
+            downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
+
+        } else {
+            holder.score.setTextColor(holder.textColorRegular);
+            downvote.clearColorFilter();
+            upvote.clearColorFilter();
+
+        }
+
         if (Authentication.isLoggedIn) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -610,10 +625,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (up.contains(comment.getFullName())) {
                 holder.score.setTextColor(holder.textColorUp);
+
             } else if (down.contains(comment.getFullName())) {
                 holder.score.setTextColor(holder.textColorDown);
+
             } else {
                 holder.score.setTextColor(holder.textColorRegular);
+
             }
 
 

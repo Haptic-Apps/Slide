@@ -289,102 +289,102 @@
 
                         android:layout_height="wrap_content" />
                     </LinearLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:paddingRight="16dp"
-                        android:paddingLeft="8dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingRight="16dp"
+                    android:paddingLeft="8dp"
 
-                        android:gravity="center_vertical"
-                        android:layout_height="wrap_content">
-                        <include
-                            android:id="@+id/nsfw"
-                            layout="@layout/nsfw"
-                            android:layout_centerVertical="true"
-                            android:layout_width="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+                    <include
+                        android:id="@+id/nsfw"
+                        layout="@layout/nsfw"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_height="wrap_content"
 
-                            />
+                        />
 
-                        <include
-                            android:id="@+id/pinned"
-                            layout="@layout/stickied"
-                            android:layout_centerVertical="true"
+                    <include
+                        android:id="@+id/pinned"
+                        layout="@layout/stickied"
+                        android:layout_centerVertical="true"
 
-                            android:layout_toRightOf="@+id/nsfw"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/nsfw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
 
-                            android:src="@drawable/pinned" />
-                        <include
-                            android:id="@+id/flairbubble"
-                            layout="@layout/flair"
-                            android:layout_toRightOf="@+id/pinned"
-                            android:layout_centerVertical="true"
+                        android:src="@drawable/pinned" />
+                    <include
+                        android:id="@+id/flairbubble"
+                        layout="@layout/flair"
+                        android:layout_toRightOf="@+id/pinned"
+                        android:layout_centerVertical="true"
 
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
 
-                            android:src="@drawable/pinned" />
-                        <ImageView
-                            android:id="@+id/more"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                        android:src="@drawable/pinned" />
+                    <ImageView
+                        android:id="@+id/more"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:tint="?attr/tint"
+                        android:background="?android:selectableItemBackgroundBorderless"
 
-                            android:layout_alignParentRight="true"
-                            android:padding="8dp"
-                            android:src="@drawable/more" />
+                        android:layout_alignParentRight="true"
+                        android:padding="8dp"
+                        android:src="@drawable/more" />
 
-                        <ImageView
-                            android:id="@+id/upvote"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_toLeftOf="@+id/more"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                    <ImageView
+                        android:id="@+id/upvote"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_toLeftOf="@+id/downvote"
+                        android:tint="?attr/tint"
+                        android:background="?android:selectableItemBackgroundBorderless"
 
 
-                            android:padding="8dp"
-                            android:src="@drawable/upvoted" />
-                        <ImageView
-                            android:id="@+id/reply"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                        android:padding="8dp"
+                        android:src="@drawable/upvoted" />
+                    <ImageView
+                        android:id="@+id/reply"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:tint="?attr/tint"
+                        android:background="?android:selectableItemBackgroundBorderless"
 
-                            android:layout_toLeftOf="@+id/downvote"
-                            android:padding="8dp"
-                            android:src="@drawable/reply" />
-                        <ImageView
-                            android:id="@+id/downvote"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                        android:layout_toLeftOf="@+id/upvote"
+                        android:padding="8dp"
+                        android:src="@drawable/reply" />
+                    <ImageView
+                        android:id="@+id/downvote"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?android:selectableItemBackgroundBorderless"
 
-                            android:layout_toLeftOf="@+id/upvote"
-                            android:padding="8dp"
-                            android:tint="?attr/tint"
+                        android:layout_toLeftOf="@+id/more"
+                        android:padding="8dp"
+                        android:tint="?attr/tint"
 
-                            android:src="@drawable/downvote" />
+                        android:src="@drawable/downvote" />
+                    <ImageView
+                        android:id="@+id/mod"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:tint="?attr/tint"
+                        android:background="?android:selectableItemBackgroundBorderless"
 
-                        <ImageView
-                            android:id="@+id/mod"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                        android:layout_toLeftOf="@+id/reply"
+                        android:padding="8dp"
+                        android:src="@drawable/mod" />
 
-                            android:layout_toLeftOf="@+id/reply"
-                            android:padding="8dp"
-                            android:src="@drawable/mod" />
-                    </RelativeLayout>
+                </RelativeLayout>
 
 
                     <LinearLayout

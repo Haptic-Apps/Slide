@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
@@ -29,11 +30,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.Crash;
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.LoadingData;
-import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.SubredditOverview;
 import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -60,7 +62,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         super.onLowMemory();
         getImageLoader().clearMemoryCache();
     }
+
     private ImageLoader defaultImageLoader;
+
     public ImageLoader getImageLoader() {
         if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
             ImageLoaderUtils.initImageLoader(getApplicationContext());
@@ -69,34 +73,92 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         return defaultImageLoader;
     }
+
     private boolean closed = false;
 
-    @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+    public static final long BACKGROUND_DELAY = 500;
+
+
+    public interface Listener {
+        public void onBecameForeground();
+
+        public void onBecameBackground();
     }
 
-    @Override
-    public void onActivityDestroyed(Activity activity) {
+    private boolean mInBackground = true;
+    private final List<Listener> listeners = new ArrayList<Listener>();
+    private final Handler mBackgroundDelayHandler = new Handler();
+    private Runnable mBackgroundTransition;
+
+
+    public void registerListener(Listener listener) {
+        listeners.add(listener);
     }
 
-    @Override
-    public void onActivityPaused(Activity activity) {
-        closed = true;
+    public void unregisterListener(Listener listener) {
+        listeners.remove(listener);
+    }
+
+    public boolean isInBackground() {
+        return mInBackground;
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
+        if (mBackgroundTransition != null) {
+            mBackgroundDelayHandler.removeCallbacks(mBackgroundTransition);
+            mBackgroundTransition = null;
+        }
 
-        if (closed && !(activity instanceof Login) && !isRestarting) {
+        if (mInBackground) {
+            mInBackground = false;
+            notifyOnBecameForeground();
 
             new Authentication.UpdateToken(activity).execute();
-            closed = false;
 
         }
     }
 
+    private void notifyOnBecameForeground() {
+        for (Listener listener : listeners) {
+            try {
+                listener.onBecameForeground();
+            } catch (Exception e) {
+            }
+        }
+    }
+
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+    public void onActivityPaused(Activity activity) {
+        if (!mInBackground && mBackgroundTransition == null) {
+            mBackgroundTransition = new Runnable() {
+                @Override
+                public void run() {
+                    mInBackground = true;
+                    mBackgroundTransition = null;
+                    notifyOnBecameBackground();
+                }
+            };
+            mBackgroundDelayHandler.postDelayed(mBackgroundTransition, BACKGROUND_DELAY);
+        }
+    }
+
+    private void notifyOnBecameBackground() {
+        for (Listener listener : listeners) {
+            try {
+                listener.onBecameBackground();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     }
 
     @Override
@@ -104,7 +166,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     @Override
-    public void onActivityStopped(Activity activity) {
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
     }
 
     public static boolean tabletUI;
@@ -136,7 +202,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private boolean isRestarting;
 
 
-
     private class SetupIAB extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -158,31 +223,33 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public static void forceRestart(Context context){
+    public static void forceRestart(Context context) {
         Intent mStartActivity = new Intent(context, LoadingData.class);
         int mPendingIntentId = 654321;
-        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
         System.exit(0);
     }
-    public static void defaultShareText(String url, Context c){
+
+    public static void defaultShareText(String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }
-    public static void defaultShare(String url, Context c){
+
+    public static void defaultShare(String url, Context c) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         if (intent.resolveActivity(c.getPackageManager()) != null) {
             c.startActivity(intent);
         }
     }
+
     public static int notificationTime;
 
     public static NotificationJobScheduler notifications;
-
 
 
     public static Boolean online = true;
@@ -212,7 +279,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable t) {
 
-                if(t instanceof UnknownHostException){
+                if (t instanceof UnknownHostException) {
                     Intent i = new Intent(Reddit.this, Internet.class);
                     startActivity(i);
                 } else {
@@ -312,7 +379,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             if (single) {
                 i = new Intent(this, SubredditOverviewSingle.class);
             } else {
-               i = new Intent(this, SubredditOverview.class);
+                i = new Intent(this, SubredditOverview.class);
             }
             Log.v("Slide", "starting new");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

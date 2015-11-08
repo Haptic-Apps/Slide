@@ -75,8 +75,7 @@ import me.ccrama.redditslide.Vote;
  * Created by ccrama on 9/19/2015.
  */
 public class PopulateSubmissionViewHolder {
-    private boolean upvoted;
-    private boolean downvoted;
+
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same) {
         if (HasSeen.getSeen(submission.getFullName()) && !full) {
@@ -552,14 +551,32 @@ public class PopulateSubmissionViewHolder {
         } else {
             holder.score.setText(res.getQuantityString(R.plurals.submission_points, score, score));
         }
-        if (Authentication.isLoggedIn) {
+
+        final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
+        final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
+        if (Authentication.isLoggedIn &&! submission.voted()) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
+                downvotebutton.clearColorFilter();
+
+                submission.setVote(true);
+                submission.setVoted(true);
                 holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
                 holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                upvotebutton.clearColorFilter();
 
+                submission.setVote(false);
+                submission.setVoted(true);
             } else {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
+                downvotebutton.clearColorFilter();
+                upvotebutton.clearColorFilter();
+                submission.setVote(false);
+                submission.setVoted(false);
+
             }
         }
 
@@ -569,7 +586,7 @@ public class PopulateSubmissionViewHolder {
         String url = "";
 
         boolean big = true;
-        String subreddit = (same) ? "second" : "";
+        final String subreddit = (same) ? "second" : "";
 
         SettingValues.InfoBar typ= SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()).toUpperCase());
         if (typ == SettingValues.InfoBar.INFO_BAR || typ == SettingValues.InfoBar.THUMBNAIL) {
@@ -809,14 +826,8 @@ public class PopulateSubmissionViewHolder {
 
         try {
 
-            if (submission.getVote() == VoteDirection.UPVOTE) {
-                upvoted = true;
-            } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
-                downvoted = true;
-            }
 
-            final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
-            final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
+
             final TextView points = holder.score;
             final TextView comments = holder.comments;
             if (Authentication.isLoggedIn) {
@@ -824,21 +835,29 @@ public class PopulateSubmissionViewHolder {
                     downvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (!upvoted && !downvoted) {
-                                downvoted = true;
+                            if (! submission.voted()) {
                                 points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
 
+                                submission.setVote(false);
+                                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                submission.setVoted(true);
 
                                 new Vote(false, points, mContext).execute(submission);
-                            } else if (!downvoted && upvoted) {
+                            } else if (submission.voted() && submission.getIsUpvoted()) {
                                 new Vote(false, points, mContext).execute(submission);
-                                downvoted = true;
                                 points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
-                                upvoted = false;
-                            } else if (!upvoted && downvoted) {
+                                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                upvotebutton.clearColorFilter();
+                                submission.setVoted(true);
+                                submission.setVote(false);
+
+                            } else if (submission.voted()  && !submission.getIsUpvoted()) {
                                 new Vote(points, mContext).execute(submission);
                                 points.setTextColor(comments.getCurrentTextColor());
-                                downvoted = false;
+                                downvotebutton.clearColorFilter();
+                                submission.setVoted(false);
+                                submission.setVote(false);
+
                             }
                         }
                     });
@@ -847,19 +866,30 @@ public class PopulateSubmissionViewHolder {
                     upvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (!upvoted && !downvoted) {
-                                upvoted = true;
+                            if (! submission.voted()) {
+                                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                submission.setVote(true);
+                                submission.setVoted(true);
+
                                 new Vote(true, points, mContext).execute(submission);
                                 points.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
-                            } else if (!upvoted && downvoted) {
+                            } else if (submission.voted() && !submission.getIsUpvoted()) {
                                 new Vote(true, points, mContext).execute(submission);
                                 points.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
-                                upvoted = true;
-                                downvoted = false;
-                            } else if (upvoted && !downvoted) {
+                                submission.setVote(true);
+                                submission.setVoted(true);
+
+                                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                downvotebutton.clearColorFilter();
+
+                            } else if (submission.voted()  && submission.getIsUpvoted()) {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
-                                upvoted = false;
+                                submission.setVote(false);
+                                submission.setVoted(false);
+
+                                upvotebutton.clearColorFilter();
+
                             }
                         }
                     });

@@ -306,7 +306,7 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
-                            android:layout_toLeftOf="@+id/downvote"
+                            android:layout_toLeftOf="@+id/upvote"
                             android:src="@drawable/mod" />
 
                         <ImageView
@@ -316,14 +316,14 @@
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 
-                            android:layout_toLeftOf="@+id/upvote"
+                            android:layout_toLeftOf="@+id/menu"
                             android:src="@drawable/downvote" />
 
                         <ImageView
                             android:id="@+id/upvote"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:layout_toLeftOf="@+id/menu"
+                            android:layout_toLeftOf="@+id/downvote"
                             android:tint="?attr/tint"
                             android:background="?android:selectableItemBackground"
 

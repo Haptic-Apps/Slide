@@ -107,16 +107,17 @@ public class ListViewDraggingAnimation extends BaseActivity {
         recyclerView.addItemDecoration(dragSortRecycler);
         recyclerView.addOnItemTouchListener(dragSortRecycler);
         recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
+        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SubredditStorage.setPins(new ArrayList<>(subs));
+                finish();
+            }
+        });
         if (subs != null && !subs.isEmpty()) {
 
 
-            findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SubredditStorage.setPins(new ArrayList<>(subs));
-                    finish();
-                }
-            });
+
            adapter = new CustomAdapter(subs);
             //  adapter.setHasStableIds(true);
 
@@ -124,7 +125,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
 
         } else {
             subs = new ArrayList<>();
-           
+
         }
     }
 
