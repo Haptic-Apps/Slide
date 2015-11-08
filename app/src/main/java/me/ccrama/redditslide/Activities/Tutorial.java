@@ -71,6 +71,44 @@ public class Tutorial extends FragmentActivity {
             window.setStatusBarColor(Pallete.getDarkerColor(Color.parseColor("#FF5252")));
         }
         final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radioButton:
+                        mPager.setCurrentItem(0);
+                        break;
+
+                    case R.id.radioButton2:
+                        mPager.setCurrentItem(1);
+                        break;
+
+                    case R.id.radioButton3:
+                        mPager.setCurrentItem(2);
+                        break;
+
+                    case R.id.radioButton4:
+                        mPager.setCurrentItem(3);
+                        break;
+
+                    case R.id.radioButton5:
+                        mPager.setCurrentItem(4);
+                        break;
+
+                    case R.id.radioButton6:
+                        mPager.setCurrentItem(5);
+                        break;
+
+                    case R.id.radioButton7:
+                        mPager.setCurrentItem(6);
+                        break;
+
+                    case R.id.radioButton8:
+                        mPager.setCurrentItem(7);
+                        break;
+                }
+            }
+        });
         mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
