@@ -137,7 +137,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
                 }
-            });
+            }).show();
         }
     }
 
