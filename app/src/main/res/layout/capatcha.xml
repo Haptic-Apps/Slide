@@ -64,11 +64,12 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:text="SUBMIT"
+                android:text="@string/btn_submit"
                 android:textSize="14dp"
                 android:id="@+id/ok"
                 android:textStyle="bold"
                 android:padding="16dp"
+                android:textAllCaps="true"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

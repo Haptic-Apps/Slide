@@ -104,7 +104,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
 
         if(url.contains("gif")){
             holder.body.setVisibility(View.VISIBLE);
-            holder.body.setText(holder.text.getText() + "/nTAP TO LOAD GIF");
+            holder.body.setText(holder.text.getText() + "/n" + main.getString(R.string.submission_tap_gif).toUpperCase());
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

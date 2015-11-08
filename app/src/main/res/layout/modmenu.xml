@@ -74,7 +74,7 @@
                             android:gravity="center_vertical"
 
                             android:textColor="?attr/font"
-                            android:text="Show User and Mod Reports"
+                            android:text="@string/mod_show_user"
 
                             android:textSize="16sp" />
 
@@ -110,7 +110,7 @@
                             android:id="@+id/subpopup"
                             android:textColor="?attr/font"
 
-                            android:text="Approve"
+                            android:text="@string/mod_btn_approve"
 
                             android:textSize="16sp" />
 
@@ -146,7 +146,7 @@
 
                             android:id="@+id/savedtext"
 
-                            android:text="Spam"
+                            android:text="@string/mod_btn_spam"
 
                             android:textSize="16sp" />
 
@@ -176,7 +176,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="NSFW"
+                            android:text="@string/misc_nsfw"
 
                             android:textSize="16sp" />
 
@@ -208,7 +208,7 @@
 
                             android:textColor="?attr/font"
 
-                            android:text="Flair"
+                            android:text="@string/mod_flair"
 
                             android:textSize="16sp" />
 
@@ -238,7 +238,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="Remove"
+                            android:text="@string/btn_remove"
 
                             android:textSize="16sp" />
 
@@ -268,7 +268,7 @@
                             android:textColor="?attr/font"
 
 
-                            android:text="Ban User"
+                            android:text="@string/mod_ban"
 
                             android:textSize="16sp" />
 

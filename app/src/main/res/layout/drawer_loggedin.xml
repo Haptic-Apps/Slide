@@ -183,7 +183,7 @@
         <TextView
             android:id="@+id/sync"
             android:layout_width="match_parent"
-            android:text="Sync Your Subreddits"
+            android:text="@string/drawer_sync_subs"
             android:background="?android:selectableItemBackground"
 
             android:layout_height="42dp"

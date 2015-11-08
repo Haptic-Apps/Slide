@@ -96,14 +96,14 @@ public class Authentication {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(context).setTitle("Uh oh, an error occured")
-                                        .setMessage("Reddit could not be reached. Would you like to try again?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                        .setMessage(R.string.err_no_connection)
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 new UpdateToken(context).execute();
                                             }
-                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Reddit.forceRestart(context);
@@ -130,28 +130,28 @@ public class Authentication {
 
                     } catch (Exception e) {
                         try {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialogWrapper.Builder(context).setTitle("Uh oh, something wennt wrong")
-                                        .setMessage("Slide could not reach Reddit.com. Make sure you're connected to the internet! Would you like to retry?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                new UpdateToken(context).execute();
-                                            }
-                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.forceRestart(context);
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                            .setMessage(R.string.err_no_connection)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    new UpdateToken(context).execute();
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.forceRestart(context);
 
-                                    }
-                                }).show();
-                            }
-                        });
-                        //TODO fail
-                        } catch (Exception ignored){
-//whelp crap
+                                        }
+                                    }).show();
+                                }
+                            });
+                            //TODO fail
+                        } catch (Exception ignored) {
+                            //whelp crap
                         }
                     }
                     reddit.authenticate(authData);
@@ -238,14 +238,14 @@ public class Authentication {
                         ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(mContext).setTitle("Uh oh, something wennt wrong")
-                                        .setMessage("Slide could not reach Reddit.com. Make sure you're connected to the internet! Would you like to retry?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                new UpdateToken(mContext).execute();
-                                            }
-                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                        .setMessage(R.string.err_no_connection)
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        new UpdateToken(mContext).execute();
+                                    }
+                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Reddit.forceRestart(mContext);
