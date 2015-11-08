@@ -71,7 +71,6 @@
 
 
     <!-- Drawer items (That's the one on the left) -->
-    <string name="drawer_login">Log in</string>
     <string name="drawer_profile">Profile</string>
     <string name="drawer_support">Support Slide</string>
     <string name="drawer_goto_profile">Go to profile</string>

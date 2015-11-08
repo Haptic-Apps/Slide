@@ -565,6 +565,6 @@ public class Profile extends BaseActivity {
     }
 
     public boolean isValidUsername(String user) {
-        return user.matches("\\p{Alnum}");
+        return user.matches("^[a-zA-Z0-9_.-]{3,20}$");
     }
 }
