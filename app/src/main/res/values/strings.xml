@@ -1,6 +1,4 @@
 <resources>
-    <string name="hello_world">Hello world!</string>
-
     <!-- Generic text used anywhere -->
     <string name="general_confirm_exit">Confirm exit</string>
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
@@ -73,7 +71,6 @@
 
 
     <!-- Drawer items (That's the one on the left) -->
-    <string name="drawer_login">Log in</string>
     <string name="drawer_profile">Profile</string>
     <string name="drawer_support">Support Slide</string>
     <string name="drawer_goto_profile">Go to profile</string>
@@ -124,7 +121,7 @@
 
     <!-- Tutorial view -->
     <string name="tutorial_skip">Skip</string>
-    <string name="tutorial_agree">I agree</string>
+    <string name="tutorial_agree">Got it</string>
     <string name="tutorial_swipe">Swipe between subreddits!</string>
     <string name="tutorial_tap_full_view">Tap a submission to open in full view</string>
     <string name="tutorial_slide_comments">Slide up to see comments in full view</string>
@@ -292,7 +289,7 @@
     <string name="user_enter">Enter Username</string>
     <string name="user_btn_goto">Go to user</string>
     <string name="user_invalid">Invalid username</string>
-    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscore and dash.</string>
+    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscore and dashes.</string>
 
 
     <!-- Buttons -->
@@ -363,7 +360,7 @@
     <!-- Settings -->
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_card_mode">Card Mode</string>
-    <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s</string>
+    <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
     <string name="settings_image">Image Mode</string>
     <string name="settings_indicator_everywhere">Everywhere</string>
     <string name="settings_indicator_place">Where to Show Color Indicator</string>
@@ -384,7 +381,7 @@
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
     <string name="settings_confirm_exit">Confirm Exit Dialog</string>
-    <string name="settings_fastscroll">Fast scroll through comments</string>
+    <string name="settings_fastscroll">Navigate between parent comments</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternative Layout</string>

@@ -122,7 +122,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.bulletlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBefore("*", editText);
+                insertBefore("* ", editText);
             }
         });
         baseView.findViewById(R.id.numlist).setOnClickListener(new View.OnClickListener() {

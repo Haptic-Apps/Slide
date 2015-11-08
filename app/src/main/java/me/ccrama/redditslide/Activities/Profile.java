@@ -87,6 +87,11 @@ public class Profile extends BaseActivity {
                     .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         }
+                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            onBackPressed();
+                        }
                     }).show();
             return;
         }
@@ -250,6 +255,10 @@ public class Profile extends BaseActivity {
         @Override
         protected Void doInBackground(String... params) {
             try {
+                if (!isValidUsername(params[0])) {
+                    account = null;
+                    return null;
+                }
                 account = Authentication.reddit.getUser(params[0]);
             } catch (NetworkException ignored) {
             }
@@ -555,9 +564,7 @@ public class Profile extends BaseActivity {
         }
     }
 
-
-
-
-
-
+    public boolean isValidUsername(String user) {
+        return user.matches("^[a-zA-Z0-9_.-]{3,20}$");
+    }
 }
