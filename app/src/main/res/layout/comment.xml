@@ -111,7 +111,7 @@
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:text="+49"
+                    android:text="+49 points"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commentinfo"
 
