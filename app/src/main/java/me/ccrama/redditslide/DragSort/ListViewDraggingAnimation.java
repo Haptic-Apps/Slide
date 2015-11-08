@@ -124,20 +124,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
 
         } else {
             subs = new ArrayList<>();
-            new AlertDialogWrapper.Builder(this)
-                    .setTitle(R.string.pins_err_title)
-                    .setMessage(R.string.pins_err_msg)
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
-                        }
-                    }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            }).show();
+           
         }
     }
 
