@@ -655,7 +655,8 @@ public class SubredditView extends BaseActivity {
                         @Override
                         public void onPostExecute(Void voids){
                             new SubredditStorageNoContext().execute(SubredditView.this);
-                            Snackbar.make(rv, isChecked?"Subscribed":"Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(rv, isChecked ? getString(R.string.misc_subscribed) :
+                                    getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
                         @Override
                         protected Void doInBackground(Void... params) {
@@ -692,26 +693,29 @@ public class SubredditView extends BaseActivity {
         protected Subreddit doInBackground(final String... params) {
             try {
                 return Authentication.reddit.getSubreddit(params[0]);
-            } catch (Exception e){
+            } catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(R.string.subreddit_err).setMessage(getString(R.string.subreddit_err_msg, params[0])).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    setResult(4);
-                                    finish();
-                                }
-                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            new AlertDialogWrapper.Builder(SubredditView.this)
+                                    .setTitle(R.string.subreddit_err)
+                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            setResult(4);
+                                            finish();
+                                        }
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                                 @Override
                                 public void onDismiss(DialogInterface dialog) {
                                     setResult(4);
                                     finish();
                                 }
                             }).show();
-                        } catch (Exception e ){
+                        } catch (Exception e) {
 
                         }
                     }

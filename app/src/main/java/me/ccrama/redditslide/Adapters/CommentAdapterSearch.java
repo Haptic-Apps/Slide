@@ -137,6 +137,15 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
+        if (comment.isScoreHidden()) {
+            String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
+
+            holder.score.setText("[" + scoreText + "]");
+
+        } else {
+            holder.score.setText(comment.getScore() + "");
+
+        }
 
         if (baseNode.isTopLevel()) {
             holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);

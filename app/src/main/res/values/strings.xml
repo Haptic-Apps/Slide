@@ -6,6 +6,7 @@
     <string name="general_enable_shadowbox">Enable Shadowbox Mode</string>
     <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Open Subreddit Settings</string>
+    <string name="general_sub_sync">Syncing Subscriptions</string>
 
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
@@ -16,6 +17,9 @@
     <string name="submission_link_internal">Open internally</string>
     <string name="submission_link_extern">Open externally</string>
     <string name="submission_link_share">Share URL</string>
+    <string name="submission_share_title">Which link would you like to share?</string>
+    <string name="submission_share_reddit">Reddit URL</string>
+    <string name="submission_share_content">Content URL</string>
     <string name="submission_hide">Hide post</string>
     <string name="submission_report">Report post</string>
     <string name="submission_gild">Gild post</string>
@@ -23,6 +27,7 @@
     <string name="submission_share">Share post</string>
     <string name="submission_load_full">Load full thread</string>
     <string name="submission_np_link">This is an np link. Please don\'t vote or comment.</string>
+    <string name="submission_tap_gif">Tap to load GIF</string>
     <plurals name="submission_points">
         <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
@@ -81,6 +86,8 @@
     <string name="drawer_multi_column">Multi-Column</string>
     <string name="drawer_search">Search for a subreddit</string>
     <string name="drawer_moderation">Moderation</string>
+    <string name="drawer_sync_subs">Sync your Subreddits</string>
+
 
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_pinned">pinned</string>
@@ -181,6 +188,9 @@
     <string name="err_invalid_url">Invalid URL</string>
     <string name="err_loading_content">Error loading content</string>
     <string name="err_connection_lost">Uh oh! Looks like you\'ve lost internet connection. Please connect to the internet and go back!</string>
+    <string name="err_general">Uh oh, an error occurred</string>
+    <string name="err_no_connection">Reddit could not be reached. Would you like to try again?</string>
+    <string name="err_retry_later">Try again in a minute!</string>
 
 
     <!-- Gif -->
@@ -193,6 +203,7 @@
     <string name="pins_err_title">No Pins (yet)!</string>
     <string name="pins_err_msg">You can pin your favorite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check \'PINNED\'!</string>
     <string name="pin_select">Select subreddits to pin</string>
+
 
     <!-- Login strings -->
     <string name="login_restarting_title">App is restarting</string>
@@ -283,6 +294,9 @@
     <string name="misc_score_hidden">score hidden</string>
     <string name="misc_you">you</string>
     <string name="misc_nsfw">NSFW</string>
+    <string name="misc_subscribed">Subscribed</string>
+    <string name="misc_continue">Continue</string>
+    <string name="misc_unsubscribed">Unsubscribed</string>
 
 
     <!-- Goto User -->
@@ -309,6 +323,7 @@
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_go_back">Go back</string>
+    <string name="btn_remove">Remove</string>
 
 
     <!-- Backup -->
@@ -331,6 +346,23 @@
     <!-- Moderation tools -->
     <string name="mod_mail">Mod Mail</string>
     <string name="mod_actions">Mod Actions</string>
+    <string name="mod_reports">Reports</string>
+    <string name="mod_approve">Do you really want to approve this post?</string>
+    <string name="mod_approved">Post approved.</string>
+    <string name="mod_mark_nsfw">Do you really want to mark this as NSFW?</string>
+    <string name="mod_remove_nsfw">Do you really want to remove the NSFW tag?</string>
+    <string name="mod_flair_post">Flair Post</string>
+    <string name="mod_remove">Do you really want to remove this post? This action cannot be undone.</string>
+    <string name="mod_remove_hint">Removal Reason</string>
+    <string name="mod_remove_hint_msg">Why are you removing this post?</string>
+    <string name="mod_flair">Flair</string>
+    <string name="mod_flair_desc">Add a flair to this post (optional)</string>
+    <string name="mod_flair_hint">Flair text</string>
+    <string name="mod_post_removed">Post removed.</string>
+    <string name="mod_show_user">Show User and Mod Reports</string>
+    <string name="mod_btn_approve">Approve</string>
+    <string name="mod_btn_spam">Spam</string>
+    <string name="mod_ban">Ban User</string>
 
 
     <!-- Subreddit Wiki -->

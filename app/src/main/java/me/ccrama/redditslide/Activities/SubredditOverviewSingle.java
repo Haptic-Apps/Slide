@@ -382,7 +382,8 @@ public class SubredditOverviewSingle extends OverviewBase  {
                         @Override
                         public void onPostExecute(Void voids){
                             new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
-                            Snackbar.make(header, isChecked?"Subscribed":"Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(header, isChecked? getString(R.string.misc_subscribed):
+                                    getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
                         @Override
                         protected Void doInBackground(Void... params) {
@@ -1597,7 +1598,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Dialog d = new MaterialDialog.Builder(SubredditOverviewSingle.this).title("Syncing Subscriptions")
+                    Dialog d = new MaterialDialog.Builder(SubredditOverviewSingle.this).title(R.string.general_sub_sync)
                             .progress(true, 100)
                             .cancelable(false).show();
                     new SubredditStorageFromContext(SubredditOverviewSingle.this, d).execute((Reddit) getApplication());

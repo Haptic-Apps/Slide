@@ -1638,7 +1638,7 @@ public class SubredditOverview extends OverviewBase {
             header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title("Syncing Subscriptions")
+                   Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title(R.string.general_sub_sync)
                            .progress(true, 100)
                            .cancelable(false).show();
                    new SubredditStorageFromContext(SubredditOverview.this, d).execute((Reddit) getApplication());

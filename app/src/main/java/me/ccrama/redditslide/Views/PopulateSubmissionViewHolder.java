@@ -134,7 +134,7 @@ public class PopulateSubmissionViewHolder {
 
                                 @Override
                                 public void onPostExecute(ArrayList<String> data) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Reports").setItems(data.toArray(new CharSequence[data.size()]),
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_reports).setItems(data.toArray(new CharSequence[data.size()]),
                                             new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -150,8 +150,8 @@ public class PopulateSubmissionViewHolder {
                     dialoglayout.findViewById(R.id.approve).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new AlertDialogWrapper.Builder(mContext).setTitle("Do you really want to approve this post?")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_approve)
+                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(final DialogInterface dialog, int which) {
 
@@ -170,10 +170,12 @@ public class PopulateSubmissionViewHolder {
                                                             recyclerview.getAdapter().notifyItemRemoved(pos);
                                                             dialog.dismiss();
                                                         }
-                                                            Snackbar.make(recyclerview, "Post approved.", Snackbar.LENGTH_LONG).show();
+                                                            Snackbar.make(recyclerview, R.string.mod_approved, Snackbar.LENGTH_LONG).show();
 
                                                     } else {
-                                                        new AlertDialogWrapper.Builder(mContext).setTitle("Uh oh, and error occured.").setMessage("Try again in a minute!").show();
+                                                        new AlertDialogWrapper.Builder(mContext)
+                                                                .setTitle(R.string.err_general)
+                                                                .setMessage(R.string.err_retry_later).show();
                                                     }
                                                 }
 
@@ -191,7 +193,7 @@ public class PopulateSubmissionViewHolder {
                                             }.execute();
 
                                         }
-                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -209,8 +211,8 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             if (!submission.isNsfw()) {
-                                new AlertDialogWrapper.Builder(mContext).setTitle("Do you really want to mark this as NSFW?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_mark_nsfw)
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(final DialogInterface dialog, int which) {
                                                 new AsyncTask<Void, Void, Boolean>() {
@@ -221,7 +223,9 @@ public class PopulateSubmissionViewHolder {
                                                             dialog.dismiss();
 
                                                         } else {
-                                                            new AlertDialogWrapper.Builder(mContext).setTitle("Uh oh, and error occured.").setMessage("Try again in a minute!").show();
+                                                            new AlertDialogWrapper.Builder(mContext)
+                                                                    .setTitle(R.string.err_general)
+                                                                    .setMessage(R.string.err_retry_later).show();
                                                         }
                                                     }
                                                     @Override
@@ -237,15 +241,15 @@ public class PopulateSubmissionViewHolder {
                                                     }
                                                 }.execute();
                                             }
-                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
                                     }
                                 }).show();
                             } else {
-                                new AlertDialogWrapper.Builder(mContext).setTitle("Do you really want to remove the NSFW tag?")
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_remove_nsfw)
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(final DialogInterface dialog, int which) {
                                                 new AsyncTask<Void, Void, Boolean>() {
@@ -255,7 +259,9 @@ public class PopulateSubmissionViewHolder {
                                                         if(b){
                                                             dialog.dismiss();
                                                         } else {
-                                                            new AlertDialogWrapper.Builder(mContext).setTitle("Uh oh, and error occured.").setMessage("Try again in a minute!").show();
+                                                            new AlertDialogWrapper.Builder(mContext)
+                                                                    .setTitle(R.string.err_general)
+                                                                    .setMessage(R.string.err_retry_later).show();
                                                         }
                                                     }
                                                     @Override
@@ -272,7 +278,7 @@ public class PopulateSubmissionViewHolder {
                                                 }.execute();
 
                                             }
-                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
@@ -303,8 +309,8 @@ public class PopulateSubmissionViewHolder {
                                         ((Activity) mContext).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                new MaterialDialog.Builder(mContext).title("Flair Post").inputType(InputType.TYPE_CLASS_TEXT)
-                                                        .input("Flair text", "", new MaterialDialog.InputCallback() {
+                                                new MaterialDialog.Builder(mContext).title(R.string.mod_flair_post).inputType(InputType.TYPE_CLASS_TEXT)
+                                                        .input(mContext.getString(R.string.mod_flair_hint), "", new MaterialDialog.InputCallback() {
                                                             @Override
                                                             public void onInput(MaterialDialog dialog, CharSequence out) {
                                                                 input = out.toString();
@@ -343,26 +349,31 @@ public class PopulateSubmissionViewHolder {
                     dialoglayout.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new AlertDialogWrapper.Builder(mContext).setTitle("Do you really want to remove this post? This action cannot be undone.")
-                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_remove)
+                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         String reason;
                                         String flair;
                                         @Override
                                         public void onClick(final DialogInterface dialog, int which) {
-                                            new MaterialDialog.Builder(mContext).title("Removal Reason").input("Why are you removing this post?", "", false, new MaterialDialog.InputCallback() {
-                                                @Override
-                                                public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                                    reason = charSequence.toString();
-                                                }
-                                            }).positiveText("CONTINUE").onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            new MaterialDialog.Builder(mContext)
+                                                    .title(R.string.mod_remove_hint)
+                                                    .input(mContext.getString(R.string.mod_remove_hint_msg), "", false, new MaterialDialog.InputCallback() {
+                                                        @Override
+                                                        public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                                            reason = charSequence.toString();
+                                                        }
+                                                    }).positiveText(R.string.misc_continue).onPositive(new MaterialDialog.SingleButtonCallback() {
                                                 @Override
                                                 public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
-                                                  new MaterialDialog.Builder(mContext).title("Flair").content("Add a flair to this post (optional)").input("Flair text", "", true, new MaterialDialog.InputCallback() {
-                                                      @Override
-                                                      public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                                          flair = charSequence.toString();
-                                                      }
-                                                  }).positiveText("Remove").onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                  new MaterialDialog.Builder(mContext)
+                                                          .title(R.string.mod_flair)
+                                                          .content(R.string.mod_flair_desc)
+                                                          .input(mContext.getString(R.string.mod_flair_hint), "", true, new MaterialDialog.InputCallback() {
+                                                              @Override
+                                                              public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                                                  flair = charSequence.toString();
+                                                              }
+                                                          }).positiveText(R.string.btn_remove).onPositive(new MaterialDialog.SingleButtonCallback() {
                                                       @Override
                                                       public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                                           new AsyncTask<Void, Void, Boolean>() {
@@ -379,9 +390,11 @@ public class PopulateSubmissionViewHolder {
                                                                           recyclerview.getAdapter().notifyItemRemoved(pos);
                                                                       }
 
-                                                                      Snackbar.make(recyclerview, "Post removed.", Snackbar.LENGTH_LONG).show();
+                                                                      Snackbar.make(recyclerview, R.string.mod_post_removed, Snackbar.LENGTH_LONG).show();
                                                                   } else {
-                                                                      new AlertDialogWrapper.Builder(mContext).setTitle("Uh oh, and error occured.").setMessage("Try again in a minute!").show();
+                                                                      new AlertDialogWrapper.Builder(mContext)
+                                                                              .setTitle(R.string.err_general)
+                                                                              .setMessage(R.string.err_retry_later).show();
                                                                   }
                                                               }
 
@@ -409,7 +422,7 @@ public class PopulateSubmissionViewHolder {
                                             }).show();
 
                                         }
-                                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -491,14 +504,14 @@ public class PopulateSubmissionViewHolder {
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialogWrapper.Builder(mContext).setTitle("Which link would you like to share?")
-                                .setNegativeButton("Reddit URL", new DialogInterface.OnClickListener() {
+                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
+                                .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
 
                                     }
-                                }).setPositiveButton("Content URL", new DialogInterface.OnClickListener() {
+                                }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Reddit.defaultShareText(submission.getUrl(), mContext);
