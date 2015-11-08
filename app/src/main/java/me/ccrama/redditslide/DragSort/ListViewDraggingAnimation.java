@@ -73,8 +73,9 @@ public class ListViewDraggingAnimation extends BaseActivity {
         }
 
        subs = SubredditStorage.getPins();
+        recyclerView = (RecyclerView) findViewById(R.id.subslist);
+
         if (subs != null && !subs.isEmpty()) {
-          recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
 
             findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
@@ -122,6 +123,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
             recyclerView.addOnItemTouchListener(dragSortRecycler);
             recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
         } else {
+            subs = new ArrayList<>();
             new AlertDialogWrapper.Builder(this)
                     .setTitle(R.string.pins_err_title)
                     .setMessage(R.string.pins_err_msg)

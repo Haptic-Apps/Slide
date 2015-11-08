@@ -263,7 +263,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
     public static ArrayList<String> getPins() {
         ArrayList<String> newstrings = null;
 
-        if(subscriptions.contains("pins" + Authentication.name)) {
+        if(subscriptions.contains("pins" + Authentication.name) && !subscriptions.getString("pins" + Authentication.name,"").isEmpty()) {
 
             newstrings = new ArrayList<>();
             String pins = subscriptions.getString("pins" + Authentication.name, "");

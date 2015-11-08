@@ -158,7 +158,7 @@ public class DoEditorActions {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        String s = "[" + titleBox.getText().toString() + "](" + descriptionBox.getText().toString() + ")";
+                                        String s = "[" + descriptionBox.getText().toString()+ "](" + titleBox.getText().toString()  + ")";
                                         int start = Math.max(editText.getSelectionStart(), 0);
                                         int end = Math.max(editText.getSelectionEnd(), 0);
                                         editText.getText().insert(Math.max(start, end), s);
@@ -243,7 +243,7 @@ public class DoEditorActions {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        String s = "[" + url + "](" + descriptionBox.getText().toString() + ")";
+                        String s = "[" + descriptionBox.getText().toString() + "](" + url + ")";
                         int start = Math.max(editText.getSelectionStart(), 0);
                         int end = Math.max(editText.getSelectionEnd(), 0);
                         editText.getText().insert(Math.max(start, end), s);

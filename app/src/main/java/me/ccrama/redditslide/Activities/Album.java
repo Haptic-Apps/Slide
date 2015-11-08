@@ -111,12 +111,12 @@ public class Album extends BaseActivity {
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
+                                if(result != null && result.has("data")){
                                 Log.v("Slide", result.toString());
 
 
                                 ArrayList<JsonElement> jsons = new ArrayList<>();
 
-                                if (result.has("data")) {
 
                                     if(!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()){
                                         if(result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")){

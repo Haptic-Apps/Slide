@@ -115,9 +115,9 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
-                popup.getMenu().add(getString(R.string.font_large));
-                popup.getMenu().add(getString(R.string.font_medium));
-                popup.getMenu().add(getString(R.string.font_small));
+                popup.getMenu().add("Large");
+                popup.getMenu().add("Medium");
+                popup.getMenu().add("Small");
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

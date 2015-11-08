@@ -31,6 +31,7 @@ import java.util.UUID;
 public class Authentication {
     public static boolean isLoggedIn;
     public static RedditClient reddit;
+
     private static boolean isNetworkAvailable(Context ac) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) ac.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -47,27 +48,29 @@ public class Authentication {
     private Reddit a;
 
     public Authentication(Context context) {
-        if(isNetworkAvailable(context)) {
+        if (isNetworkAvailable(context)) {
             isLoggedIn = false;
             this.a = (Reddit) context;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0 (by /u/ccrama)"));
             reddit.setLoggingMode(LoggingMode.ALWAYS);
-                new VerifyCredentials(context).execute();
+            new VerifyCredentials(context).execute();
 
         }
 
     }
-    public static class UpdateToken extends  AsyncTask<Void, Void, Void>{
+
+    public static class UpdateToken extends AsyncTask<Void, Void, Void> {
 
         Context context;
-        public UpdateToken(Context c){
+
+        public UpdateToken(Context c) {
             this.context = c;
         }
 
         @Override
         protected Void doInBackground(Void... params) {
             Log.v("Slide", "REAUTH");
-            if(isLoggedIn) {
+            if (isLoggedIn) {
                 try {
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
@@ -76,11 +79,11 @@ public class Authentication {
                     OAuthHelper oAuthHelper = reddit.getOAuthHelper();
 
                     oAuthHelper.setRefreshToken(refresh);
-                OAuthData finalData = null;
+                    OAuthData finalData = null;
                     finalData = oAuthHelper.refreshToken(credentials);
 
 
-                refresh = oAuthHelper.getRefreshToken();
+                    refresh = oAuthHelper.getRefreshToken();
                     reddit.authenticate(finalData);
                     if (reddit.isAuthenticated()) {
                         Authentication.name = reddit.me().getFullName();
@@ -89,9 +92,9 @@ public class Authentication {
 
 
                     }
-                } catch (OAuthException e) {
+                } catch (Exception e) {
 
-                    ((Activity)context).runOnUiThread(new Runnable() {
+                    ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             new AlertDialogWrapper.Builder(context).setTitle("Uh oh, an error occured")
@@ -116,14 +119,33 @@ public class Authentication {
             } else {
                 final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                 OAuthData authData = null;
-                if(reddit != null) {
+                if (reddit != null) {
                     try {
 
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         Authentication.name = "LOGGEDOUT";
                         mod = false;
 
-                    } catch (OAuthException e) {
+                    } catch (Exception e) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(context).setTitle("Uh oh, something wennt wrong")
+                                        .setMessage("Slide could not reach Reddit.com. Make sure you're connected to the internet! Would you like to retry?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new UpdateToken(context).execute();
+                                            }
+                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Reddit.forceRestart(context);
+
+                                    }
+                                }).show();
+                            }
+                        });
                         //TODO fail
                     }
                     reddit.authenticate(authData);
@@ -134,28 +156,30 @@ public class Authentication {
             return null;
         }
     }
+
     private static String refresh;
 
     public static ArrayList<String> modSubs;
+
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
         Context mContext;
-        public VerifyCredentials(Context context){
+
+        public VerifyCredentials(Context context) {
             mContext = context;
         }
 
 
-
         @Override
-        public void onPostExecute(Void voids){
-            if(a.loader != null){
+        public void onPostExecute(Void voids) {
+            if (a.loader != null) {
 
-                            String[] strings = StartupStrings.startupStrings(mContext);
-                          a.loader.loading.setText(strings[new Random().nextInt(strings.length)]);
+                String[] strings = StartupStrings.startupStrings(mContext);
+                a.loader.loading.setText(strings[new Random().nextInt(strings.length)]);
 
-                        }
+            }
 
 
-                new SubredditStorage(mContext).execute(a);
+            new SubredditStorage(mContext).execute(a);
 
 
         }
@@ -173,12 +197,12 @@ public class Authentication {
                     try {
                         OAuthData finalData = oAuthHelper.refreshToken(credentials);
 
-                         refresh = oAuthHelper.getRefreshToken();
+                        refresh = oAuthHelper.getRefreshToken();
                         reddit.authenticate(finalData);
                         if (reddit.isAuthenticated()) {
                             final String name = reddit.me().getFullName();
-                            final Set<String> accounts =authentication.getStringSet("accounts", new HashSet<String>());
-                            if(accounts.contains(name)){ //convert to new system
+                            final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
+                            if (accounts.contains(name)) { //convert to new system
                                 accounts.remove(name);
                                 accounts.add(name + ":" + token);
                                 Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
@@ -193,7 +217,6 @@ public class Authentication {
                         }
                     } catch (OAuthException e) {
                         e.printStackTrace();
-                        Log.v("Slide", "RESTARTING CREDS");
                     }
                 } else {
                     Log.v("Slide", "NOT LOGGED IN");
@@ -204,9 +227,27 @@ public class Authentication {
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         Authentication.name = "LOGGEDOUT";
 
-                    } catch (OAuthException e) {
-                      //TODO fail
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(mContext).setTitle("Uh oh, something wennt wrong")
+                                        .setMessage("Slide could not reach Reddit.com. Make sure you're connected to the internet! Would you like to retry?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new UpdateToken(mContext).execute();
+                                            }
+                                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Reddit.forceRestart(mContext);
+
+                                    }
+                                }).show();
+                            }
+                        });
+                        //TODO fail
                     }
                     reddit.authenticate(authData);
 
@@ -215,8 +256,8 @@ public class Authentication {
                 int inboxC;
                 if (isLoggedIn)
                     inboxC = reddit.me().getInboxCount();
-            } catch(Exception e){
-              //TODO fail
+            } catch (Exception e) {
+                //TODO fail
 
             }
             return null;
