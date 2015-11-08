@@ -67,7 +67,7 @@
     <!-- Settings for Multi-column view -->
     <string name="multi_column_title">Multi-Column Settings</string>
     <string name="multi_column_landscape">Landscape</string>
-    <string name="multi_column_portrait">Portrait settings coming soon</string>
+    <string name="multi_column_portrait">Portrait settings coming eventually</string>
 
 
     <!-- Drawer items (That's the one on the left) -->
