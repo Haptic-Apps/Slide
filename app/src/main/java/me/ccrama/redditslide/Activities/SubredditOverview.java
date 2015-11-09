@@ -402,10 +402,11 @@ public class SubredditOverview extends OverviewBase {
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        public void onPostExecute(Void voids){
+                        public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(SubredditOverview.this);
-                             Snackbar.make(header, isChecked?"Subscribed":"Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(header, isChecked ? "Subscribed" : "Unsubscribed", Snackbar.LENGTH_SHORT);
                         }
+
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
@@ -1639,10 +1640,10 @@ public class SubredditOverview extends OverviewBase {
             header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title(R.string.general_sub_sync)
-                           .progress(true, 100)
-                           .cancelable(false).show();
-                   new SubredditStorageFromContext(SubredditOverview.this, d).execute((Reddit) getApplication());
+                    Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title(R.string.general_sub_sync)
+                            .progress(true, 100)
+                            .cancelable(false).show();
+                    new SubredditStorageFromContext(SubredditOverview.this, d).execute((Reddit) getApplication());
                 }
             });
             header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {

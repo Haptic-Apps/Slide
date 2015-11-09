@@ -3,10 +3,10 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
-    android:background="?attr/activity_background"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -14,34 +14,28 @@
 
         <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
-
+            android:layout_height="match_parent">
 
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/orange"
-                android:theme="@style/Theme.AppCompat"
-
                 android:elevation="16dp"
-                android:orientation="vertical">
+
+                android:orientation="vertical"
+                android:theme="@style/Theme.AppCompat">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
-                   android:layout_width="match_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     android:background="#00000000"
                     android:clipToPadding="false"
                     android:minHeight="56dp"
                     android:paddingRight="16dp"
-                    app:layout_scrollFlags="scroll|enterAlways"
-
-
-                    >
-
+                    app:layout_scrollFlags="scroll|enterAlways">
 
 
                     <ImageView
@@ -49,16 +43,11 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-
-
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
-
                         android:paddingTop="12dp"
-
                         android:scaleType="fitCenter"
                         android:src="@drawable/sort" />
-
 
 
                     <ImageView
@@ -69,32 +58,25 @@
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
-
-
                         android:scaleType="fitCenter"
                         android:src="@drawable/infonew" />
-
 
 
                     <ImageView
                         android:id="@+id/grid"
                         android:layout_width="48dp"
-                        android:background="?android:selectableItemBackgroundBorderless"
-
-
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:paddingBottom="12dp"
                         android:paddingTop="12dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/shadowbox"/>
+                        android:src="@drawable/shadowbox" />
                 </android.support.v7.widget.Toolbar>
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/sliding_tabs"
-
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
                     android:background="#00000000" />
             </android.support.design.widget.AppBarLayout>
@@ -112,18 +94,17 @@
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawerlistview"
         android:layout_width="300dp"
-        android:background="?attr/card_background"
         android:layout_height="match_parent"
-
         android:layout_gravity="start"
+        android:background="?attr/card_background"
         android:orientation="vertical">
 
     </ListView>
+
     <include
         layout="@layout/subinfo"
-        android:layout_height="match_parent"
         android:layout_width="300dp"
-        android:layout_gravity="end"
-/>
+        android:layout_height="match_parent"
+        android:layout_gravity="end" />
 </android.support.v4.widget.DrawerLayout>
 
