@@ -81,6 +81,14 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CoordinatorLayout>
+
+        <include
+            layout="@layout/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
     </FrameLayout>
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -98,5 +106,6 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end" />
+
 </android.support.v4.widget.DrawerLayout>
 
