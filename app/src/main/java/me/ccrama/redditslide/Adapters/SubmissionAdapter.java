@@ -144,12 +144,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                     if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
-                        i2.putExtra("page", i);
+                        i2.putExtra("page", holder2.getAdapterPosition());
                         (mContext).startActivity(i2);
 
                     } else {
                         Intent i2 = new Intent(mContext, CommentsScreen.class);
-                        i2.putExtra("page", i);
+                        i2.putExtra("page", holder2.getAdapterPosition());
                         (mContext).startActivity(i2);
                     }
 
