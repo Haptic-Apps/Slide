@@ -1591,6 +1591,7 @@ public class SubredditOverview extends OverviewBase {
 
     private void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
+        l.setDividerHeight(0);
         LayoutInflater inflater = getLayoutInflater();
         final View header;
 
