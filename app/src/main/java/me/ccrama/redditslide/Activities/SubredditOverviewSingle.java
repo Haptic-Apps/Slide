@@ -1847,7 +1847,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Pallete.getColor("alsdkfjasld"));
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        //drawerLayout.setDrawerListener(actionBarDrawerToggle); This line makes the action bar drawable spin on change
 
         e.addTextChangedListener(new TextWatcher() {
             @Override
