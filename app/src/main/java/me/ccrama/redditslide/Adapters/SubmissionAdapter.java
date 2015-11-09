@@ -42,7 +42,7 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
+public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
     public ArrayList<Submission> dataSet;
@@ -51,6 +51,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final String subreddit;
 
     private final boolean custom;
+
     @Override
     public void setError(Boolean b) {
         listView.setAdapter(new ErrorAdapter());
@@ -61,16 +62,18 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void undoSetError() {
         listView.setAdapter(this);
     }
+
     @Override
     public int getItemViewType(int position) {
-        if(position == dataSet.size()){
+        if (position == dataSet.size()) {
             return 5;
         }
         return 1;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if(i == 5){
+        if (i == 5) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new ContributionAdapter.EmptyViewHolder(v);
         } else {
@@ -88,7 +91,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
 
-        Log.v("Slide", subreddit + " CUSTOM IS "+ custom);
+        Log.v("Slide", subreddit + " CUSTOM IS " + custom);
     }
 
 
@@ -130,7 +133,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
 
-        if(holder2 instanceof SubmissionViewHolder) {
+        if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.get(i);
@@ -282,8 +285,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        if(dataSet == null)
-        { return 0;} else {
+        if (dataSet == null) {
+            return 0;
+        } else {
             return dataSet.size() + 1;
         }
     }

@@ -8,11 +8,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -208,6 +211,7 @@ public class SubredditOverview extends OverviewBase {
     }
 
     private View header;
+    private FloatingActionButton postFab;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -287,6 +291,14 @@ public class SubredditOverview extends OverviewBase {
 
         header = findViewById(R.id.header);
         pager = (ViewPager) findViewById(R.id.contentView);
+
+        postFab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
+        postFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Submit.class));
+            }
+        });
 
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();
@@ -402,10 +414,11 @@ public class SubredditOverview extends OverviewBase {
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        public void onPostExecute(Void voids){
+                        public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(SubredditOverview.this);
-                             Snackbar.make(header, isChecked?"Subscribed":"Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(header, isChecked ? "Subscribed" : "Unsubscribed", Snackbar.LENGTH_SHORT);
                         }
+
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
@@ -1546,11 +1559,11 @@ public class SubredditOverview extends OverviewBase {
         @Override
         public Fragment getItem(int i) {
 
-            Fragment f = new SubmissionsView();
+            SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
 
             args.putString("id", usedArray.get(i));
-
+            f.setFab(postFab);
             f.setArguments(args);
 
             return f;
@@ -1639,10 +1652,10 @@ public class SubredditOverview extends OverviewBase {
             header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                   Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title(R.string.general_sub_sync)
-                           .progress(true, 100)
-                           .cancelable(false).show();
-                   new SubredditStorageFromContext(SubredditOverview.this, d).execute((Reddit) getApplication());
+                    Dialog d = new MaterialDialog.Builder(SubredditOverview.this).title(R.string.general_sub_sync)
+                            .progress(true, 100)
+                            .cancelable(false).show();
+                    new SubredditStorageFromContext(SubredditOverview.this, d).execute((Reddit) getApplication());
                 }
             });
             header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {

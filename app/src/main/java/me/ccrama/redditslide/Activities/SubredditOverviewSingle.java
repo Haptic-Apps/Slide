@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -78,7 +79,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class SubredditOverviewSingle extends OverviewBase  {
+public class SubredditOverviewSingle extends OverviewBase {
 
 
     @Override
@@ -92,11 +93,11 @@ public class SubredditOverviewSingle extends OverviewBase  {
             pager.setCurrentItem(current);
         } else if (requestCode == 1) {
             restartTheme();
-        } else if(requestCode == 3){
+        } else if (requestCode == 3) {
             new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
 
-        }else if(requestCode == 4 && resultCode != RESULT_CANCELED){
-            if(e != null){
+        } else if (requestCode == 4 && resultCode != RESULT_CANCELED) {
+            if (e != null) {
                 e.clearFocus();
                 e.setText("");
                 drawerLayout.closeDrawers();
@@ -106,11 +107,12 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
     EditText e;
     private String subToDo;
+
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT) || drawerLayout.isDrawerOpen(Gravity.RIGHT)){
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT) || drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.closeDrawers();
-        } else if(Reddit.exit) {
+        } else if (Reddit.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
             builder.setTitle(R.string.general_confirm_exit);
             builder.setMessage(R.string.general_confirm_exit_msg);
@@ -131,6 +133,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             super.onBackPressed();
         }
     }
+
     public void resetAdapter() {
 
         runOnUiThread(new Runnable() {
@@ -158,6 +161,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
 
     }
+
     private void reloadSubs() {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -241,6 +245,14 @@ public class SubredditOverviewSingle extends OverviewBase  {
         header = findViewById(R.id.header);
         pager = (NoSwipingViewPager) findViewById(R.id.contentView);
 
+        postFab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
+        postFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Submit.class));
+            }
+        });
+
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();
 
@@ -273,7 +285,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 {
 
                     if (Reddit.tabletUI) {
-                        if(((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null) {
+                        if (((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null) {
                             DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                             Intent i = new Intent(SubredditOverviewSingle.this, Shadowbox.class);
                             i.putExtra("position", pager.getCurrentItem());
@@ -314,7 +326,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
                 {
                     String sub = usedArray.get(pager.getCurrentItem());
-                    if(!sub.equals("frontpage") && ! sub.equals("all")) {
+                    if (!sub.equals("frontpage") && !sub.equals("all")) {
                         ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
                     }
 
@@ -323,6 +335,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
         });
 
     }
+
     private void chooseAccounts() {
         final ArrayList<String> accounts = new ArrayList<>();
         final ArrayList<String> names = new ArrayList<>();
@@ -355,6 +368,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     }
                 }).create().show();
     }
+
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
@@ -380,11 +394,12 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        public void onPostExecute(Void voids){
+                        public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(SubredditOverviewSingle.this);
-                            Snackbar.make(header, isChecked? getString(R.string.misc_subscribed):
+                            Snackbar.make(header, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
+
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
@@ -409,10 +424,10 @@ public class SubredditOverviewSingle extends OverviewBase  {
     }
 
 
-    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit>{
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
-        public void onPostExecute(Subreddit subreddit){
+        public void onPostExecute(Subreddit subreddit) {
             doSubOnlyStuff(subreddit);
         }
 
@@ -421,6 +436,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             return Authentication.reddit.getSubreddit(params[0]);
         }
     }
+
     private void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null) {
@@ -440,7 +456,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                if(!Authentication.isLoggedIn){
+                if (!Authentication.isLoggedIn) {
                     c.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
 
@@ -1067,7 +1083,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
         }
     }
 
-    public int[] getMainColors(){
+    public int[] getMainColors() {
         return new int[]{
                 getResources().getColor(R.color.md_red_500),
                 getResources().getColor(R.color.md_pink_500),
@@ -1089,6 +1105,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 getResources().getColor(R.color.md_grey_500),
                 getResources().getColor(R.color.md_blue_grey_500)};
     }
+
     public int[][] getSecondaryColors() {
         return new int[][]{
                 new int[]{
@@ -1307,7 +1324,6 @@ public class SubredditOverviewSingle extends OverviewBase  {
     private OverviewPagerAdapter adapter;
 
 
-
     private void setDataSet(List<String> data) {
         if (data != null) {
             usedArray = data;
@@ -1454,8 +1470,8 @@ public class SubredditOverviewSingle extends OverviewBase  {
     }
 
     public void restartTheme() {
-        if(!Reddit.single){
-            ((Reddit)getApplication()).startMain();
+        if (!Reddit.single) {
+            ((Reddit) getApplication()).startMain();
 
             finish();
         } else {
@@ -1475,6 +1491,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             if (getCurrentFragment() != object) {
@@ -1482,6 +1499,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
             }
             super.setPrimaryItem(container, position, object);
         }
+
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
             pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -1515,11 +1533,11 @@ public class SubredditOverviewSingle extends OverviewBase  {
         @Override
         public Fragment getItem(int i) {
 
-            Fragment f = new SubmissionsView();
+            SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
 
             args.putString("id", usedArray.get(i));
-
+            f.setFab(postFab);
             f.setArguments(args);
 
             return f;
@@ -1552,8 +1570,9 @@ public class SubredditOverviewSingle extends OverviewBase  {
     }
 
 
-     boolean restart;
+    boolean restart;
     private View hea;
+    private FloatingActionButton postFab;
 
 
     private void doSidebar() {
@@ -1634,7 +1653,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                 @Override
                 public void onClick(View view) {
                     View body = header.findViewById(R.id.expand_profile);
-                    if(body.getVisibility() == View.GONE){
+                    if (body.getVisibility() == View.GONE) {
                         body.setVisibility(View.VISIBLE);
                     } else {
                         body.setVisibility(View.GONE);
@@ -1691,9 +1710,8 @@ public class SubredditOverviewSingle extends OverviewBase  {
             }
         });
 
-         e = ((EditText) header.findViewById(R.id.sort));
+        e = ((EditText) header.findViewById(R.id.sort));
         e.setFilters(new InputFilter[]{new SubredditInputFilter()});
-
 
 
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -1765,7 +1783,7 @@ public class SubredditOverviewSingle extends OverviewBase  {
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
                     final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                  //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
                     landscape.setValue(Reddit.dpWidth, false);
 
 
@@ -1781,7 +1799,6 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
                         }
                     });
-
 
 
                 } else {
@@ -1814,10 +1831,10 @@ public class SubredditOverviewSingle extends OverviewBase  {
             }
         });*/
         ArrayList<String> copy = new ArrayList<>();
-        if(SubredditStorage.alphabeticalSubscriptions != null)
-        for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            copy.add(s);
-        }
+        if (SubredditStorage.alphabeticalSubscriptions != null)
+            for (String s : SubredditStorage.alphabeticalSubscriptions) {
+                copy.add(s);
+            }
 
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
         l.setAdapter(adapter);
@@ -1867,9 +1884,5 @@ public class SubredditOverviewSingle extends OverviewBase  {
 
             }
         });
-
-
     }
-
-
 }
