@@ -132,11 +132,13 @@ public class SubmissionsView extends Fragment {
 
                     }
                 }
-                if (dy <= 0 && fab.getId() != 0) {
-                    fab.show();
+                if (fab != null) {
+                    if (dy <= 0 && fab.getId() != 0) {
+                        fab.show();
 
-                } else
-                    fab.hide();
+                    } else
+                        fab.hide();
+                }
             }
         });
         return v;
@@ -165,6 +167,7 @@ public class SubmissionsView extends Fragment {
         this.fab.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                fab.setId(0);
                 fab.setVisibility(View.INVISIBLE);
                 fab.hide();
                 return true;
