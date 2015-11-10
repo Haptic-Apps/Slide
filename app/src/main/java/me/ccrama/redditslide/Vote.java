@@ -18,16 +18,14 @@ import net.dean.jraw.models.VoteDirection;
 public class Vote extends AsyncTask<PublicContribution, Void, Void> {
 
     private final VoteDirection direction;
-
+    private View v;
+    private Context c;
     public Vote(Boolean b, View v, Context c) {
         direction = b ? VoteDirection.UPVOTE : VoteDirection.DOWNVOTE;
         this.v = v;
         this.c = c;
 
     }
-
-    private View v;
-    private Context c;
 
     public Vote(View v, Context c) {
 

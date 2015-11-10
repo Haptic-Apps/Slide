@@ -20,30 +20,28 @@ import me.ccrama.redditslide.SettingValues;
  * Created by ccrama on 9/17/2015.
  */
 public class ContributionPosts {
+    private final String where;
+    private final String subreddit;
     public ArrayList<Contribution> posts;
+    public boolean loading;
     private UserContributionPaginator paginator;
     private SwipeRefreshLayout refreshLayout;
-
-    private final String where;
-
-    private final String subreddit;
+    private ContributionAdapter adapter;
 
     public ContributionPosts(String subreddit, String where) {
         this.subreddit = subreddit;
         this.where = where;
     }
 
-    private ContributionAdapter adapter;
-
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, subreddit, where);
     }
 
     public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
 
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
@@ -53,7 +51,6 @@ public class ContributionPosts {
         }
 
     }
-    public boolean loading;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
         final boolean reset;
@@ -64,7 +61,7 @@ public class ContributionPosts {
 
         @Override
         public void onPostExecute(ArrayList<Contribution> subs) {
-            if(subs != null) {
+            if (subs != null) {
 
                 loading = false;
                 if (refreshLayout != null)

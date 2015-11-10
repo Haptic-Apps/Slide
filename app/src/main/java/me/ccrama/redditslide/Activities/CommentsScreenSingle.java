@@ -23,31 +23,12 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenSingle extends BaseActivity {
-    private ViewPager pager;
     OverviewPagerAdapter comments;
+    boolean np;
+    private ViewPager pager;
     private String subreddit;
-    private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPostExecute(String s){
-            subreddit = s;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
-
-            }
-            pager = (ViewPager) findViewById(R.id.contentView);
-
-            context = getIntent().getExtras().getString("context", "");
-            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-
-        }
-        @Override
-        protected String doInBackground(String... params) {
-            return Authentication.reddit.getSubmission(params[0]).getSubredditName();
-        }
-    }
+    private String name;
+    private String context;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -60,10 +41,10 @@ public class CommentsScreenSingle extends BaseActivity {
         StyleView.styleActivity(this);
         name = getIntent().getExtras().getString("submission", "");
 
-        subreddit= getIntent().getExtras().getString("subreddit", "");
+        subreddit = getIntent().getExtras().getString("subreddit", "");
         np = getIntent().getExtras().getBoolean("np", false);
 
-        if(subreddit.equals("NOTHING")){
+        if (subreddit.equals("NOTHING")) {
             new AsyncGetSubredditName().execute(name);
         } else {
 
@@ -82,8 +63,30 @@ public class CommentsScreenSingle extends BaseActivity {
         }
 
     }
-    private String name;
-    private String context;
+
+    private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPostExecute(String s) {
+            subreddit = s;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
+                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
+
+            }
+            pager = (ViewPager) findViewById(R.id.contentView);
+
+            context = getIntent().getExtras().getString("context", "");
+            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return Authentication.reddit.getSubmission(params[0]).getSubredditName();
+        }
+    }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -97,8 +100,8 @@ public class CommentsScreenSingle extends BaseActivity {
 
             Fragment f = new CommentPage();
             Bundle args = new Bundle();
-            if(name.contains("t3"))
-            name = name.substring(3, name.length());
+            if (name.contains("t3"))
+                name = name.substring(3, name.length());
 
             args.putString("id", name);
             args.putString("context", context);
@@ -116,12 +119,10 @@ public class CommentsScreenSingle extends BaseActivity {
         @Override
         public int getCount() {
 
-                return 1;
+            return 1;
 
         }
 
 
-
     }
-boolean np;
 }

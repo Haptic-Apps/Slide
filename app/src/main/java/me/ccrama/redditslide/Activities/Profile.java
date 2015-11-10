@@ -40,6 +40,12 @@ import uz.shift.colorpicker.OnColorChangedListener;
  */
 public class Profile extends BaseActivity {
 
+    private String name;
+    private Account account;
+    private ViewPager pager;
+    private TabLayout tabs;
+    private String[] usedArray;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -55,7 +61,7 @@ public class Profile extends BaseActivity {
         findViewById(R.id.header).setBackgroundColor(Pallete.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
         findViewById(R.id.edit).setVisibility(View.GONE);
-        ((ImageView)findViewById(R.id.create)).setImageDrawable(getResources().getDrawable(R.drawable.infonew));
+        ((ImageView) findViewById(R.id.create)).setImageDrawable(getResources().getDrawable(R.drawable.infonew));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -78,8 +84,8 @@ public class Profile extends BaseActivity {
         new getProfile().execute(name);
 
     }
-    private String name;
-    private void doClick(){
+
+    private void doClick() {
         if (account == null) {
             new AlertDialogWrapper.Builder(Profile.this)
                     .setTitle(R.string.profile_err_title)
@@ -88,11 +94,11 @@ public class Profile extends BaseActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         }
                     }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            onBackPressed();
-                        }
-                    }).show();
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    onBackPressed();
+                }
+            }).show();
             return;
         }
         findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
@@ -105,7 +111,7 @@ public class Profile extends BaseActivity {
                 title.setText(name);
                 title.setBackgroundColor(Pallete.getColorUser(name));
 
-                if(Authentication.isLoggedIn) {
+                if (Authentication.isLoggedIn) {
                     dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -248,31 +254,6 @@ public class Profile extends BaseActivity {
         });
     }
 
-    private Account account;
-
-    private class getProfile extends AsyncTask<String, Void, Void>{
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                if (!isValidUsername(params[0])) {
-                    account = null;
-                    return null;
-                }
-                account = Authentication.reddit.getUser(params[0]);
-            } catch (NetworkException ignored) {
-            }
-            return null;
-
-        }
-
-        @Override
-        public void onPostExecute(Void voidd){
-
-            doClick();
-
-        }
-    }
     private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
@@ -506,11 +487,6 @@ public class Profile extends BaseActivity {
         }
     }
 
-    private ViewPager pager;
-    private TabLayout tabs;
-
-    private String[] usedArray;
-
     private void setDataSet(String[] data) {
         usedArray = data;
         ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
@@ -520,8 +496,34 @@ public class Profile extends BaseActivity {
         tabs.setupWithViewPager(pager);
 
 
+    }
 
+    public boolean isValidUsername(String user) {
+        return user.matches("^[a-zA-Z0-9_.-]{3,20}$");
+    }
 
+    private class getProfile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                if (!isValidUsername(params[0])) {
+                    account = null;
+                    return null;
+                }
+                account = Authentication.reddit.getUser(params[0]);
+            } catch (NetworkException ignored) {
+            }
+            return null;
+
+        }
+
+        @Override
+        public void onPostExecute(Void voidd) {
+
+            doClick();
+
+        }
     }
 
     public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
@@ -562,9 +564,5 @@ public class Profile extends BaseActivity {
         public CharSequence getPageTitle(int position) {
             return usedArray[position];
         }
-    }
-
-    public boolean isValidUsername(String user) {
-        return user.matches("^[a-zA-Z0-9_.-]{3,20}$");
     }
 }

@@ -32,6 +32,8 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
  * Created by ccrama on 3/5/2015.
  */
 public class Album extends BaseActivity {
+    boolean gallery = false;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -63,7 +65,7 @@ public class Album extends BaseActivity {
 
 
         String rawDat = cutEnds(getIntent().getExtras().getString("url", ""));
-        if(rawDat.contains("gallery")){
+        if (rawDat.contains("gallery")) {
             gallery = true;
         }
         String rawdat2 = rawDat;
@@ -79,7 +81,6 @@ public class Album extends BaseActivity {
         }
 
     }
-    boolean gallery = false;
 
     private String getHash(String s) {
         String next = s.substring(s.lastIndexOf("/"), s.length());
@@ -104,22 +105,22 @@ public class Album extends BaseActivity {
 
         @Override
         protected Void doInBackground(String... sub) {
-            if(gallery){
+            if (gallery) {
                 Ion.with(Album.this)
                         .load("https://imgur.com/gallery/" + sub[0] + ".json")
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-                                if(result != null && result.has("data")){
-                                Log.v("Slide", result.toString());
+                                if (result != null && result.has("data")) {
+                                    Log.v("Slide", result.toString());
 
 
-                                ArrayList<JsonElement> jsons = new ArrayList<>();
+                                    ArrayList<JsonElement> jsons = new ArrayList<>();
 
 
-                                    if(!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()){
-                                        if(result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")){
+                                    if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
+                                        if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
                                             Intent i = new Intent(Album.this, GifView.class);
                                             i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                                             startActivity(i);
@@ -134,20 +135,20 @@ public class Album extends BaseActivity {
                                         getSupportActionBar().setTitle("Gallery");
 
                                         JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+                                        if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
-                                        for (JsonElement o : obj) {
-                                            jsons.add(o);
+                                            for (JsonElement o : obj) {
+                                                jsons.add(o);
+                                            }
+
+
+                                            RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                            final PreCachingLayoutManager mLayoutManager;
+                                            mLayoutManager = new PreCachingLayoutManager(Album.this);
+                                            v.setLayoutManager(mLayoutManager);
+                                            v.setAdapter(new AlbumView(Album.this, jsons, true));
+
                                         }
-
-
-                                        RecyclerView v = (RecyclerView) findViewById(R.id.images);
-                                        final PreCachingLayoutManager mLayoutManager;
-                                        mLayoutManager = new PreCachingLayoutManager(Album.this);
-                                        v.setLayoutManager(mLayoutManager);
-                                        v.setAdapter(new AlbumView(Album.this, jsons, true));
-
-                                    }
                                     }
                                 } else {
 
@@ -162,7 +163,7 @@ public class Album extends BaseActivity {
                                                 }
                                             }).create().show();
                                 }
-                                }
+                            }
 
                         });
             } else {

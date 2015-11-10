@@ -45,12 +45,22 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
-    public ArrayList<Submission> dataSet;
     private final RecyclerView listView;
-
     private final String subreddit;
-
     private final boolean custom;
+    public ArrayList<Submission> dataSet;
+
+    public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
+
+        this.mContext = mContext;
+        this.subreddit = subreddit.toLowerCase();
+        this.listView = listView;
+        this.dataSet = dataSet.posts;
+
+        custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
+
+        Log.v("Slide", subreddit + " CUSTOM IS " + custom);
+    }
 
     @Override
     public void setError(Boolean b) {
@@ -79,54 +89,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else {
             View v = CreateCardView.CreateView(viewGroup, custom, subreddit);
             return new SubmissionViewHolder(v);
-        }
-    }
-
-    public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
-
-        this.mContext = mContext;
-        this.subreddit = subreddit.toLowerCase();
-        this.listView = listView;
-        this.dataSet = dataSet.posts;
-
-        custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
-
-        Log.v("Slide", subreddit + " CUSTOM IS " + custom);
-    }
-
-
-    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
-
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (submissions[0].isSaved()) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-
-                    submissions[0].saved = false;
-                    v = null;
-
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
-
-                    submissions[0].saved = true;
-                    v = null;
-
-
-                }
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
         }
     }
 
@@ -289,6 +251,41 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return 0;
         } else {
             return dataSet.size() + 1;
+        }
+    }
+
+    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
+
+        View v;
+
+        public AsyncSave(View v) {
+            this.v = v;
+        }
+
+
+        @Override
+        protected Void doInBackground(Submission... submissions) {
+            try {
+                if (submissions[0].isSaved()) {
+                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
+                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+
+                    submissions[0].saved = false;
+                    v = null;
+
+                } else {
+                    new AccountManager(Authentication.reddit).save(submissions[0]);
+                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+
+                    submissions[0].saved = true;
+                    v = null;
+
+
+                }
+            } catch (Exception e) {
+                return null;
+            }
+            return null;
         }
     }
 

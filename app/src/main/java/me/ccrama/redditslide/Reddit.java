@@ -46,6 +46,7 @@ import me.ccrama.redditslide.util.IabResult;
  * Created by ccrama on 9/17/2015.
  */
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
+    public static final long BACKGROUND_DELAY = 500;
     public static IabHelper mHelper;
     public static boolean single;
     public static boolean swap;
@@ -58,14 +59,87 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean fastscroll;
     public static boolean fab = true;
     public static boolean hideButton;
+    public static boolean tabletUI;
+    public static Sorting defaultSorting;
+    public static CommentSort defaultCommentSorting;
+    public static TimePeriod timePeriod;
+    public static SharedPreferences colors;
+    public static int themeBack;
+    public static int dpWidth;
+    public static int notificationTime;
+    public static NotificationJobScheduler notifications;
+    public static Boolean online = true;
+    public static SharedPreferences seen;
+    public static SharedPreferences hidden;
+    private static CustomTabsSession mCustomTabsSession;
+    private static CustomTabsClient mClient;
+    private static CustomTabsServiceConnection mConnection;
+    private final List<Listener> listeners = new ArrayList<Listener>();
+    private final Handler mBackgroundDelayHandler = new Handler();
+    public boolean active;
+    public LoadingData loader;
+    private ImageLoader defaultImageLoader;
+    private boolean closed = false;
+    private boolean mInBackground = true;
+    private Runnable mBackgroundTransition;
+    private boolean isRestarting;
+
+    public static CustomTabsSession getSession() {
+        if (mClient == null) {
+            mCustomTabsSession = null;
+        } else if (mCustomTabsSession == null) {
+            mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
+                @Override
+                public void onNavigationEvent(int navigationEvent, Bundle extras) {
+                    Log.w("Slide", "onNavigationEvent: Code = " + navigationEvent);
+                }
+            });
+        }
+        return mCustomTabsSession;
+    }
+
+    public static void forceRestart(Context context) {
+        Intent mStartActivity = new Intent(context, LoadingData.class);
+        int mPendingIntentId = 654321;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+    }
+
+    public static void defaultShareText(String url, Context c) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
+        c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
+    }
+
+    public static void defaultShare(String url, Context c) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(c.getPackageManager()) != null) {
+            c.startActivity(intent);
+        }
+    }
+
+    private static boolean isPackageInstalled(final Context ctx) {
+        boolean result = false;
+        try {
+            final PackageManager pm = ctx.getPackageManager();
+            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
+            if (pi != null && pi.applicationInfo.enabled)
+                result = true;
+        } catch (final Throwable ignored) {
+        }
+
+        return result;
+    }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         getImageLoader().clearMemoryCache();
     }
-
-    private ImageLoader defaultImageLoader;
 
     public ImageLoader getImageLoader() {
         if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
@@ -75,24 +149,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         return defaultImageLoader;
     }
-
-    private boolean closed = false;
-
-
-    public static final long BACKGROUND_DELAY = 500;
-
-
-    public interface Listener {
-        public void onBecameForeground();
-
-        public void onBecameBackground();
-    }
-
-    private boolean mInBackground = true;
-    private final List<Listener> listeners = new ArrayList<Listener>();
-    private final Handler mBackgroundDelayHandler = new Handler();
-    private Runnable mBackgroundTransition;
-
 
     public void registerListener(Listener listener) {
         listeners.add(listener);
@@ -174,88 +230,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onActivityDestroyed(Activity activity) {
     }
-
-    public static boolean tabletUI;
-    public static Sorting defaultSorting;
-    public static CommentSort defaultCommentSorting;
-    public static TimePeriod timePeriod;
-    public static SharedPreferences colors;
-    public static int themeBack;
-
-    public static int dpWidth;
-    private static CustomTabsSession mCustomTabsSession;
-    private static CustomTabsClient mClient;
-    private static CustomTabsServiceConnection mConnection;
-
-    public static CustomTabsSession getSession() {
-        if (mClient == null) {
-            mCustomTabsSession = null;
-        } else if (mCustomTabsSession == null) {
-            mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
-                @Override
-                public void onNavigationEvent(int navigationEvent, Bundle extras) {
-                    Log.w("Slide", "onNavigationEvent: Code = " + navigationEvent);
-                }
-            });
-        }
-        return mCustomTabsSession;
-    }
-
-    private boolean isRestarting;
-
-
-    private class SetupIAB extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
-                mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-                    public void onIabSetupFinished(IabResult result) {
-                        if (!result.isSuccess()) {
-                            Log.d("Slide", "Problem setting up In-app Billing: " + result);
-                        }
-
-                    }
-                });
-            } catch (Exception ignored) {
-
-            }
-            return null;
-        }
-    }
-
-    public static void forceRestart(Context context) {
-        Intent mStartActivity = new Intent(context, LoadingData.class);
-        int mPendingIntentId = 654321;
-        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
-        System.exit(0);
-    }
-
-    public static void defaultShareText(String url, Context c) {
-        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
-        c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
-    }
-
-    public static void defaultShare(String url, Context c) {
-        Uri webpage = Uri.parse(url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        if (intent.resolveActivity(c.getPackageManager()) != null) {
-            c.startActivity(intent);
-        }
-    }
-
-    public static int notificationTime;
-
-    public static NotificationJobScheduler notifications;
-
-
-    public static Boolean online = true;
-
 
     @Override
     public void onCreate() {
@@ -376,7 +350,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     }
 
-
     public void startMain() {
         if (active) {
             Intent i;
@@ -396,25 +369,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public boolean active;
-
-    public static SharedPreferences seen;
-    public LoadingData loader;
-    public static SharedPreferences hidden;
-
-    private static boolean isPackageInstalled(final Context ctx) {
-        boolean result = false;
-        try {
-            final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
-            if (pi != null && pi.applicationInfo.enabled)
-                result = true;
-        } catch (final Throwable ignored) {
-        }
-
-        return result;
-    }
-
     public void restart() {
         isRestarting = true;
 
@@ -426,5 +380,32 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         onCreate();
 
 
+    }
+
+    public interface Listener {
+        public void onBecameForeground();
+
+        public void onBecameBackground();
+    }
+
+    private class SetupIAB extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
+                mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+                    public void onIabSetupFinished(IabResult result) {
+                        if (!result.isSuccess()) {
+                            Log.d("Slide", "Problem setting up In-app Billing: " + result);
+                        }
+
+                    }
+                });
+            } catch (Exception ignored) {
+
+            }
+            return null;
+        }
     }
 }

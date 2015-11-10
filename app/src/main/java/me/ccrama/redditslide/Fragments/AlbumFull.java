@@ -42,6 +42,12 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
  */
 public class AlbumFull extends Fragment {
 
+    boolean gallery = false;
+    View placeholder;
+    private View list;
+    private int i = 0;
+    private Submission s;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,29 +63,28 @@ public class AlbumFull extends Fragment {
 
         String url = "";
 
-        if(s.getUrl().contains("gallery")){
+        if (s.getUrl().contains("gallery")) {
             gallery = true;
         }
 
         list = rootView.findViewById(R.id.images);
 
-            list.setVisibility(View.VISIBLE);
-            String rawDat = cutEnds(s.getUrl());
-            String rawdat2 = rawDat;
-            if(rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4){
-                rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
-            }
-            if(!rawDat.isEmpty()){
+        list.setVisibility(View.VISIBLE);
+        String rawDat = cutEnds(s.getUrl());
+        String rawdat2 = rawDat;
+        if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
+            rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
+        }
+        if (!rawDat.isEmpty()) {
 
-                new AsyncImageLoaderAlbum().execute(getHash(rawDat));
-            }
-
+            new AsyncImageLoaderAlbum().execute(getHash(rawDat));
+        }
 
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
+                if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra("page", i);
                     (getActivity()).startActivity(i2);
@@ -93,31 +98,39 @@ public class AlbumFull extends Fragment {
         });
         return rootView;
     }
-    boolean gallery = false;
-    private String getHash(String s){
+
+    private String getHash(String s) {
         String next = s.substring(s.lastIndexOf("/"), s.length());
-        if(next.length() < 5){
+        if (next.length() < 5) {
             return getHash(s.replace(next, ""));
         } else {
             return next;
         }
 
     }
-    private View list;
-    private String cutEnds(String s){
-        if(s.endsWith("/")){
+
+    private String cutEnds(String s) {
+        if (s.endsWith("/")) {
             return s.substring(0, s.length() - 1);
         } else {
             return s;
         }
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        i = bundle.getInt("page", 0);
+        s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
+
+    }
 
     private class AsyncImageLoaderAlbum extends AsyncTask<String, Void, Void> {
 
         @Override
         protected Void doInBackground(String... sub) {
-            if(gallery){
+            if (gallery) {
                 Ion.with(getActivity())
                         .load("https://imgur.com/gallery/" + sub[0] + ".json")
                         .asJsonObject()
@@ -131,8 +144,8 @@ public class AlbumFull extends Fragment {
 
                                 if (result.has("data")) {
 
-                                    if(!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()){
-                                        if(result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")){
+                                    if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
+                                        if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
                                             Intent i = new Intent(getActivity(), GifView.class);
                                             i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                                             startActivity(i);
@@ -242,17 +255,6 @@ public class AlbumFull extends Fragment {
 
         }
 
-
-    }
-    private int i = 0;
-    View placeholder;
-    private Submission s;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        i = bundle.getInt("page", 0);
-        s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
 
     }
 }

@@ -35,7 +35,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         main = context;
         this.users = users;
         list = new ArrayList<>();
-        if(gallery){
+        if (gallery) {
             for (final JsonElement elem : users) {
                 list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
             }
@@ -46,42 +46,24 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
-        final ActiveTextView text;
-        final ActiveTextView body;
-        final ImageView image;
-        public ViewHolder(View itemView)
-        {
-            super(itemView);
-            text = (ActiveTextView) itemView.findViewById(R.id.imagetitle);
-            body = (ActiveTextView) itemView.findViewById(R.id.imageCaption);
-            image = (ImageView) itemView.findViewById(R.id.image);
-
-
-        }
-    }
-
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.album_image, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position)
-    {
-        final JsonElement user = users.get(position) ;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final JsonElement user = users.get(position);
 
         final String url = list.get(position);
 
-        ((Reddit)main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
+        ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
         holder.body.setVisibility(View.VISIBLE);
         holder.text.setVisibility(View.VISIBLE);
-        if(user.getAsJsonObject().has("image")) {
+        if (user.getAsJsonObject().has("image")) {
             {
-                 new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(),holder.text, (Activity) main, "");
+                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(), holder.text, (Activity) main, "");
                 if (holder.text.getText().toString().isEmpty()) {
                     holder.text.setVisibility(View.GONE);
                 }
@@ -102,14 +84,14 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         }
 
 
-        if(url.contains("gif")){
+        if (url.contains("gif")) {
             holder.body.setVisibility(View.VISIBLE);
             holder.body.setText(holder.text.getText() + "/n" + main.getString(R.string.submission_tap_gif).toUpperCase());
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(url.contains("gif")){
+                if (url.contains("gif")) {
                     if (Reddit.gif) {
                         Intent myIntent = new Intent(main, GifView.class);
                         myIntent.putExtra("url", url);
@@ -132,10 +114,24 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
 
     }
 
-
     @Override
     public int getItemCount() {
         return users == null ? 0 : users.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        final ActiveTextView text;
+        final ActiveTextView body;
+        final ImageView image;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            text = (ActiveTextView) itemView.findViewById(R.id.imagetitle);
+            body = (ActiveTextView) itemView.findViewById(R.id.imageCaption);
+            image = (ImageView) itemView.findViewById(R.id.image);
+
+
+        }
     }
 
 }

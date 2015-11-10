@@ -20,35 +20,36 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:background="@color/md_light_green_500"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:paddingLeft="24dp"
                 android:paddingTop="16dp"
 
                 android:text="nytimes.com"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:paddingBottom="16dp"
                 android:background="@color/md_light_green_500"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingBottom="16dp"
                 android:paddingLeft="24dp"
                 android:text="nytimes.com"
-                android:textSize="14sp"
-          />
+                android:textSize="14sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/body"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
@@ -58,13 +59,12 @@
                     android:paddingTop="8dp">
 
 
-
                     <LinearLayout
                         android:id="@+id/internal"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -72,20 +72,20 @@
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
-                            android:tint="?attr/tint"
-
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/expand" />
+
+                            android:src="@drawable/expand"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
                             android:text="@string/submission_link_internal"
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -95,8 +95,8 @@
                         android:id="@+id/external"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -104,21 +104,21 @@
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
-                            android:tint="?attr/tint"
-
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/openexternal" />
+
+                            android:src="@drawable/openexternal"
+                            android:tint="?attr/tint" />
 
                         <TextView
+                            android:id="@+id/userpopup"
+
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-
-                            android:textColor="?attr/font"
-                            android:id="@+id/userpopup"
                             android:text="@string/submission_link_extern"
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -128,34 +128,35 @@
                         android:id="@+id/report"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:visibility="gone"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
-
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingRight="16dp">
+
+                        android:paddingRight="16dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
-
                             android:padding="12dp"
-                            android:src="@drawable/report" />
+
+                            android:src="@drawable/report"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
-
                             android:text="@string/submission_report"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/share"
                         android:layout_width="match_parent"
@@ -169,18 +170,18 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/share" />
+                            android:src="@drawable/share"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/submission_link_share"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 

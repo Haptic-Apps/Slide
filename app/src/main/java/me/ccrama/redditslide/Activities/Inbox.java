@@ -32,6 +32,8 @@ import me.ccrama.redditslide.Visuals.Pallete;
  */
 public class Inbox extends BaseActivity {
 
+    public Inbox.OverviewPagerAdapter adapter;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -90,8 +92,8 @@ public class Inbox extends BaseActivity {
                         if (!isChecked) {
                             Reddit.notificationTime = -1;
                             Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                            if(Reddit.notifications != null)
-                            Reddit.notifications.cancel(getApplication());
+                            if (Reddit.notifications != null)
+                                Reddit.notifications.cancel(getApplication());
                         } else {
                             Reddit.notificationTime = 15;
                             landscape.setValue(1, true);
@@ -133,8 +135,6 @@ public class Inbox extends BaseActivity {
             }
         });
     }
-
-    public Inbox.OverviewPagerAdapter adapter;
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 

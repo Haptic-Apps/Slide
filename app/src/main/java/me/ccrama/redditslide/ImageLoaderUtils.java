@@ -24,6 +24,7 @@ import java.io.IOException;
 class ImageLoaderUtils {
 
     public static ImageLoader imageLoader;
+
     private static File getCacheDirectory(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             return context.getExternalCacheDir();
@@ -34,10 +35,10 @@ class ImageLoaderUtils {
     public static void initImageLoader(Context context) {
         long discCacheSize = 1024 * 1024;
         DiskCache discCache;
-        File dir = getCacheDirectory(context );
+        File dir = getCacheDirectory(context);
         int threadPoolSize;
-                discCacheSize *= 512;
-                threadPoolSize = 7;
+        discCacheSize *= 512;
+        threadPoolSize = 7;
         if (discCacheSize > 0) {
             try {
                 discCache = new LruDiskCache(dir, new Md5FileNameGenerator(), discCacheSize);

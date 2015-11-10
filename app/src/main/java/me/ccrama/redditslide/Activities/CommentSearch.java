@@ -40,8 +40,8 @@ public class CommentSearch extends BaseActivity {
         mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
-        for(CommentObject o : commentsOld){
-                comments.add(o.getCommentNode());
+        for (CommentObject o : commentsOld) {
+            comments.add(o.getCommentNode());
 
         }
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv, DataShare.subAuthor);
@@ -65,8 +65,6 @@ public class CommentSearch extends BaseActivity {
 
             }
         });
-
-
 
 
     }
