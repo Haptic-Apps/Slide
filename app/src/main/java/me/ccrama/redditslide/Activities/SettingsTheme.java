@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -75,7 +77,6 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 colorPicker.setSelectedColor(new ColorPreferences(SettingsTheme.this).getColor(""));
 
 
-
                 dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -97,7 +98,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         overridePendingTransition(0, 0);
 
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
 
 
                     }
@@ -150,7 +151,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                     CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
+                        CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
                         color.setText(CreateCardView.getColorMatchingMode().toString().replace("_", " ").toLowerCase());
 
                         return true;
@@ -176,7 +177,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                       CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
+                        CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
                         matchingtype.setText(CreateCardView.getColorIndicator().toString().replace("_", " ").toLowerCase());
 
                         return true;
@@ -184,6 +185,15 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 });
 
                 popup.show();
+            }
+        });
+        CheckBox fab = (CheckBox) findViewById(R.id.fab_visible);
+        fab.setChecked(Reddit.fab);
+        fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.fab = isChecked;
+                SettingValues.prefs.edit().putBoolean("Fab", isChecked).apply();
             }
         });
 
@@ -212,7 +222,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                                 overridePendingTransition(0, 0);
 
                                 finish();
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
 
                                 break;
                             }
@@ -235,7 +245,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                                 overridePendingTransition(0, 0);
 
                                 finish();
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
 
                                 break;
                             }
@@ -258,7 +268,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                                 overridePendingTransition(0, 0);
 
                                 finish();
-                                overridePendingTransition(0,0);
+                                overridePendingTransition(0, 0);
 
                                 break;
                             }
@@ -310,9 +320,9 @@ public class SettingsTheme extends BaseActivityNoAnim {
 
                 });
                 int currentColor = Pallete.getDefaultColor();
-                for(int i : colorPicker.getColors()){
-                    for(int i2 : getColors(i)){
-                        if(i2 == currentColor){
+                for (int i : colorPicker.getColors()) {
+                    for (int i2 : getColors(i)) {
+                        if (i2 == currentColor) {
                             colorPicker.setSelectedColor(i);
                             colorPicker2.setColors(getColors(i));
                             colorPicker2.setSelectedColor(i2);
@@ -360,7 +370,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         overridePendingTransition(0, 0);
 
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -379,7 +389,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         overridePendingTransition(0, 0);
 
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -390,6 +400,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
         });
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -400,6 +411,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
 
         return super.onOptionsItemSelected(item);
     }
+
     private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
