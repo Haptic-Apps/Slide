@@ -169,7 +169,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String urlString = submission.getUrl();
+                            String urlString = "https://reddit.com" + submission.getPermalink();
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
