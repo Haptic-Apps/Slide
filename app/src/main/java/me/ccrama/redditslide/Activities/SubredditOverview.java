@@ -8,6 +8,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -26,7 +28,6 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -1772,31 +1773,7 @@ public class SubredditOverview extends OverviewBase {
             public void onClick(View view) {
 
                 final EditText input = new EditText(SubredditOverview.this);
-                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                input.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                            input.setText(String.valueOf(input.getText()).replace(" ", ""));
-                            Editable value = input.getText();
-                            if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                new AlertDialogWrapper.Builder(SubredditOverview.this)
-                                        .setTitle(R.string.user_invalid)
-                                        .setMessage(R.string.user_invalid_msg)
-                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                            }
-                                        }).show();
-                            } else {
-                                Intent inte = new Intent(SubredditOverview.this, Profile.class);
-                                inte.putExtra("profile", value.toString());
-                                SubredditOverview.this.startActivity(inte);
-                            }
-                            return true;
-                        }
-                        return false;
-                    }
-                });
+
                 new AlertDialogWrapper.Builder(SubredditOverview.this)
                         .setTitle(R.string.user_enter)
                         .setView(input)
