@@ -76,7 +76,6 @@ public class EditCardsLayout extends BaseActivityNoAnim {
         });
 
 
-
         //Link preview//
         //Big, Infobar, thumb only//
         final TextView infobar = (TextView) findViewById(R.id.infobar);
@@ -106,7 +105,6 @@ public class EditCardsLayout extends BaseActivityNoAnim {
                 popup.show();
             }
         });
-
 
 
         //Actionbar//
@@ -140,7 +138,6 @@ public class EditCardsLayout extends BaseActivityNoAnim {
 
             }
         });
-
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

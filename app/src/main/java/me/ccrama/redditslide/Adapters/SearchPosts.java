@@ -12,11 +12,12 @@ import java.util.List;
 class SearchPosts {
     private final ArrayList<Submission> posts;
 
-    public SearchPosts(ArrayList<Submission> firstData, SubmissionSearchPaginator paginator){
+    public SearchPosts(ArrayList<Submission> firstData, SubmissionSearchPaginator paginator) {
         posts = firstData;
         SubmissionSearchPaginator paginator1 = paginator;
     }
-    public void addData(List<Submission> data){
+
+    public void addData(List<Submission> data) {
         posts.addAll(data);
     }
 }

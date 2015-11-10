@@ -17,6 +17,7 @@ class GifDecoder {
     private static final int STATUS_OPEN_ERROR = 2;
 
     private static final int MAX_STACK_SIZE = 4096;
+    private final byte[] block = new byte[256]; // current data block
     private InputStream in;
     private int status;
     private int width; // full image width
@@ -41,7 +42,6 @@ class GifDecoder {
     private int lrh;
     private Bitmap image; // current frame
     private Bitmap lastBitmap; // previous frame
-    private final byte[] block = new byte[256]; // current data block
     private int blockSize = 0; // block size last graphic control extension info
     private int dispose = 0; // 0=no action; 1=leave in place; 2=restore to bg; 3=restore to prev
     private int lastDispose = 0;
@@ -56,17 +56,6 @@ class GifDecoder {
     private Vector<GifFrame> frames; // frames read from current file
     private int frameCount;
 
-    private static class GifFrame {
-        public GifFrame(Bitmap im, int del) {
-            image = im;
-            delay = del;
-        }
-
-        public final Bitmap image;
-        public final int delay;
-    }
-
-
     public int getDelay(int n) {
         delay = -1;
         if ((n >= 0) && (n < frameCount)) {
@@ -75,20 +64,18 @@ class GifDecoder {
         return delay;
     }
 
-
     public int getFrameCount() {
         return frameCount;
     }
-
 
     public Bitmap getBitmap() {
         return getFrame(0);
     }
 
-
     public int getLoopCount() {
         return loopCount;
     }
+
     private void setPixels() {
 
         int[] dest = new int[width * height];
@@ -170,12 +157,14 @@ class GifDecoder {
         }
         image = Bitmap.createBitmap(dest, width, height, Bitmap.Config.ARGB_4444);
     }
+
     private Bitmap getFrame(int n) {
         if (frameCount <= 0)
             return null;
         n = n % frameCount;
         return frames.elementAt(n).image;
     }
+
     public int read(InputStream is) {
         init();
         if (is != null) {
@@ -196,6 +185,7 @@ class GifDecoder {
         }
         return status;
     }
+
     private void decodeBitmapData() {
         int nullCode = -1;
         int npix = iw * ih;
@@ -224,7 +214,7 @@ class GifDecoder {
             suffix[code] = (byte) code;
         }
         datum = bits = count = first = top = pi = bi = 0;
-        for (i = 0; i < npix;) {
+        for (i = 0; i < npix; ) {
             if (top == 0) {
                 if (bits < code_size) {
                     // Load bytes until there are enough bits for a code.
@@ -294,9 +284,11 @@ class GifDecoder {
             pixels[i] = 0; // clear missing pixels
         }
     }
+
     private boolean err() {
         return status != STATUS_OK;
     }
+
     private void init() {
         status = STATUS_OK;
         frameCount = 0;
@@ -304,6 +296,7 @@ class GifDecoder {
         gct = null;
         lct = null;
     }
+
     private int read() {
         int curByte = 0;
         try {
@@ -313,6 +306,7 @@ class GifDecoder {
         }
         return curByte;
     }
+
     private int readBlock() {
         blockSize = read();
         int n = 0;
@@ -335,6 +329,7 @@ class GifDecoder {
         }
         return n;
     }
+
     private int[] readColorTable(int ncolors) {
         int nbytes = 3 * ncolors;
         int[] tab = null;
@@ -360,6 +355,7 @@ class GifDecoder {
         }
         return tab;
     }
+
     private void readContents() {
         // read GIF file content blocks
         boolean done = false;
@@ -406,6 +402,7 @@ class GifDecoder {
             }
         }
     }
+
     private void readGraphicControlExt() {
         read(); // block size
         int packed = read(); // packed fields
@@ -418,6 +415,7 @@ class GifDecoder {
         transIndex = read(); // transparent color index
         read(); // block terminator
     }
+
     private void readHeader() {
         String id = "";
         for (int i = 0; i < 6; i++) {
@@ -433,6 +431,7 @@ class GifDecoder {
             bgColor = gct[bgIndex];
         }
     }
+
     private void readBitmap() {
         ix = readShort(); // (sub)image position & size
         iy = readShort();
@@ -478,6 +477,7 @@ class GifDecoder {
         }
         resetFrame();
     }
+
     private void readLSD() {
         // logical screen size
         width = readShort();
@@ -491,6 +491,7 @@ class GifDecoder {
         bgIndex = read(); // background color index
         int pixelAspect = read();
     }
+
     private void readNetscapeExt() {
         do {
             readBlock();
@@ -502,10 +503,12 @@ class GifDecoder {
             }
         } while ((blockSize > 0) && !err());
     }
+
     private int readShort() {
         // read 16-bit value, LSB first
         return read() | (read() << 8);
     }
+
     private void resetFrame() {
         lastDispose = dispose;
         lrx = ix;
@@ -519,10 +522,20 @@ class GifDecoder {
         delay = 0;
         lct = null;
     }
+
     private void skip() {
         do {
             readBlock();
         } while ((blockSize > 0) && !err());
+    }
+
+    private static class GifFrame {
+        public final Bitmap image;
+        public final int delay;
+        public GifFrame(Bitmap im, int del) {
+            image = im;
+            delay = del;
+        }
     }
 }
 

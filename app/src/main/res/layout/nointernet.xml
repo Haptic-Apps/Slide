@@ -1,37 +1,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    app:cardCornerRadius="2dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
     android:layout_margin="8dp"
     app:cardBackgroundColor="?attr/card_background"
+    app:cardCornerRadius="2dp"
 
->
-
-
-            <TextView
-
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:text="@string/err_loading_content"
-                android:textStyle="italic"
-
-                android:textAllCaps="true"
-
-                android:gravity="center"
-                android:padding="16sp"
-                android:textColor="?attr/font"
+    >
 
 
-                android:textSize="14sp" />
+    <TextView
+
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:padding="16sp"
+
+        android:text="@string/err_loading_content"
+
+        android:textAllCaps="true"
+        android:textColor="?attr/font"
+        android:textSize="14sp"
 
 
-
-
+        android:textStyle="italic" />
 
 
 </LinearLayout>

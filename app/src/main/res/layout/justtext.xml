@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="?attr/card_background"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:textIsSelectable="true"
-
-            android:textColor="?attr/font"
+            android:id="@+id/body"
 
             android:layout_width="match_parent"
-            android:textSize="16sp"
+
+            android:layout_height="match_parent"
             android:padding="16dp"
-            android:id="@+id/body"
-            android:layout_height="match_parent" />
+            android:textColor="?attr/font"
+            android:textIsSelectable="true"
+            android:textSize="16sp" />
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

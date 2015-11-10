@@ -1,79 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
-    android:background="?attr/activity_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background">
 
-        <android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-           >
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:elevation="16dp"
+            android:orientation="vertical"
+            android:theme="@style/Theme.AppCompat">
 
-
-                   <android.support.design.widget.AppBarLayout
-                       android:theme="@style/Theme.AppCompat"
-                android:id="@+id/header"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/orange"
-                android:elevation="16dp"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:clipToPadding="false"
-                    android:minHeight="56dp"
-                    android:paddingRight="16dp"
-                    app:layout_scrollFlags="scroll|enterAlways"
+                android:background="#00000000"
+                android:clipToPadding="false"
+                android:minHeight="56dp"
+                android:paddingRight="16dp"
+                app:layout_scrollFlags="scroll|enterAlways"
 
 
-                    >
+                >
 
-                    <ImageView
-                        android:id="@+id/notifs"
-                        android:layout_width="48dp"
-                        android:background="?android:selectableItemBackground"
-
-
-
-                        android:layout_height="48dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:paddingBottom="12dp"
-                        android:paddingTop="12dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/notifs" />
+                <ImageView
+                    android:id="@+id/notifs"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
 
 
+                    android:layout_gravity="end|center_vertical"
+                    android:background="?android:selectableItemBackground"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/notifs" />
 
 
+            </android.support.v7.widget.Toolbar>
 
-
-                </android.support.v7.widget.Toolbar>
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/sliding_tabs"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-                    android:background="#00000000" />
-
-            </android.support.design.widget.AppBarLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/contentView"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
 
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                android:layout_height="wrap_content"
+                android:background="#00000000" />
 
-        </android.support.design.widget.CoordinatorLayout>
-    </FrameLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
 

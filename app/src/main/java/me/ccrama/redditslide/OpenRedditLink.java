@@ -15,41 +15,39 @@ import me.ccrama.redditslide.Activities.Wiki;
  * Created by ccrama on 9/27/2015.
  */
 public class OpenRedditLink {
-    public OpenRedditLink(Context c, String url){
+    public OpenRedditLink(Context c, String url) {
 
         boolean np = url.contains("np");
-        url = url.replace("np.","");
-        url = url.replace("www.","");
+        url = url.replace("np.", "");
+        url = url.replace("www.", "");
         url = url.replace("http://", "");
         url = url.replace("https://", "");
 
-        if(url.startsWith("/")){
+        if (url.startsWith("/")) {
             url = "reddit.com" + url;
         }
         Log.v("Slide", url);
-        if(url.endsWith("/")){
+        if (url.endsWith("/")) {
             url = url.substring(0, url.length() - 1);
 
         }
-       url =  url.replace("//", "/");
+        url = url.replace("//", "/");
 
         String[] parts = url.split("/");
-        if(parts[parts.length - 1].startsWith("?")){
+        if (parts[parts.length - 1].startsWith("?")) {
             parts = Arrays.copyOf(parts, parts.length - 1);
 
 
         }
-        if(url.contains("wiki")){
+        if (url.contains("wiki")) {
             Intent i = new Intent(c, Wiki.class);
             i.putExtra("subreddit", parts[2]);
             c.startActivity(i);
-        } else
-        if(url.contains("subreddit")){
+        } else if (url.contains("subreddit")) {
             Intent intent = new Intent(c, SubredditView.class);
             intent.putExtra("subreddit", parts[2]);
             c.startActivity(intent);
-        } else
-        if (((parts.length == 3 && !url.contains("/u/") && ! url.contains("/user/")) )  || url.contains("search?")) {
+        } else if (((parts.length == 3 && !url.contains("/u/") && !url.contains("/user/"))) || url.contains("search?")) {
             Intent intent = new Intent(c, SubredditView.class);
             intent.putExtra("subreddit", parts[2]);
             c.startActivity(intent);
@@ -67,19 +65,19 @@ public class OpenRedditLink {
                 i.putExtra("np", np);
                 i.putExtra("loadmore", true);
                 String end = parts[6];
-                if(end.contains("?")){
+                if (end.contains("?")) {
                     end = end.substring(0, end.indexOf("?"));
                 }
-                i.putExtra("context",  end);
+                i.putExtra("context", end);
                 c.startActivity(i);
 
-            } else if(parts.length == 2) {
+            } else if (parts.length == 2) {
                 Intent i = new Intent(c, CommentsScreenSingle.class);
                 i.putExtra("subreddit", "NOTHING");
-                i.putExtra("context",  "NOTHING");
+                i.putExtra("context", "NOTHING");
                 i.putExtra("np", np);
 
-                i.putExtra("submission",  parts[1]);
+                i.putExtra("submission", parts[1]);
                 c.startActivity(i);
 
             } else {
@@ -87,9 +85,9 @@ public class OpenRedditLink {
 
                 Intent i = new Intent(c, CommentsScreenSingle.class);
                 i.putExtra("subreddit", parts[2]);
-                i.putExtra("context",  "NOTHING");
+                i.putExtra("context", "NOTHING");
                 i.putExtra("np", np);
-                i.putExtra("submission",  parts[4]);
+                i.putExtra("submission", parts[4]);
                 c.startActivity(i);
 
             }
@@ -97,17 +95,15 @@ public class OpenRedditLink {
 
 
     }
-    public OpenRedditLink(Context c, String submission, String subreddit, String id){
+
+    public OpenRedditLink(Context c, String submission, String subreddit, String id) {
 
 
-                Intent i = new Intent(c, CommentsScreenSingle.class);
-                i.putExtra("subreddit", subreddit);
-                i.putExtra("context",id);
-                i.putExtra("submission",  submission);
-                c.startActivity(i);
-
-
-
+        Intent i = new Intent(c, CommentsScreenSingle.class);
+        i.putExtra("subreddit", subreddit);
+        i.putExtra("context", id);
+        i.putExtra("submission", submission);
+        c.startActivity(i);
 
 
     }

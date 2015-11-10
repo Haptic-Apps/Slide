@@ -12,10 +12,10 @@
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
         android:clipToPadding="false"
-        android:theme="@style/Theme.AppCompat"
-
         android:minHeight="56dp"
+
         android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways"
 
 
@@ -27,326 +27,333 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_marginBottom="18dp"
+            android:layout_height="match_parent"
             android:layout_above="@+id/settings_version"
-            android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            android:layout_marginBottom="18dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/general"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                <LinearLayout
+                    android:id="@+id/general"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/settings"
-                android:tint="?attr/tint" />
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_general"
-                android:textColor="?attr/font"
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/settings"
+                        android:tint="?attr/tint" />
 
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_general"
+                        android:textColor="?attr/font"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/notifications"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                <LinearLayout
+                    android:id="@+id/notifications"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/notifs"
-                android:tint="?attr/tint" />
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="?attr/font"
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/notifs"
+                        android:tint="?attr/tint" />
 
-                android:text="@string/settings_title_notifications"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_notifications"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/theme"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                <LinearLayout
+                    android:id="@+id/theme"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/theme"
-                android:tint="?attr/tint" />
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textColor="?attr/font"
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/theme"
+                        android:tint="?attr/tint" />
 
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_default_theme"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/layout"
+                        android:text="@string/settings_title_default_theme"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/card"
-                android:tint="?attr/tint" />
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="?attr/font"
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/card"
+                        android:tint="?attr/tint" />
 
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_layout_default"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/preset"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_layout_default"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/cardbg"
-                android:tint="?attr/tint" />
+                <LinearLayout
+                    android:id="@+id/preset"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="?attr/font"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_alternative_layout"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/subtheme"
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/cardbg"
+                        android:tint="?attr/tint" />
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/sub"
-                android:tint="?attr/tint" />
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_alternative_layout"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="?attr/font"
+                <LinearLayout
+                    android:id="@+id/subtheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_sub_theme"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/sorting"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/sub"
+                        android:tint="?attr/tint" />
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/sort"
-                android:tint="?attr/tint" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="?attr/font"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_sub_theme"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_sorting"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/pro"
+                <LinearLayout
+                    android:id="@+id/sorting"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/pro"
-                android:tint="?attr/tint" />
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/sort"
+                        android:tint="?attr/tint" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_pro"
-                android:textColor="?attr/font"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
 
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_sorting"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/support"
+                <LinearLayout
+                    android:id="@+id/pro"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/support"
-                android:tint="?attr/tint" />
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/pro"
+                        android:tint="?attr/tint" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/drawer_support"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_pro"
+                        android:textColor="?attr/font"
 
-                android:textColor="?attr/font"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/backup"
+                <LinearLayout
+                    android:id="@+id/support"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/reload"
-                android:tint="?attr/tint" />
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/support"
+                        android:tint="?attr/tint" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/settings_title_backup"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/drawer_support"
 
-                android:textColor="?attr/font"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/backup"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/reload"
+                        android:tint="?attr/tint" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_backup"
+
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
 
-    </LinearLayout>
+            </LinearLayout>
         </ScrollView>
+
         <TextView
-            android:layout_width="match_parent"
             android:id="@+id/settings_version"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:gravity="center"
             android:paddingBottom="5dp"
-            android:textColor="?attr/font"
             android:text="Slide vX.X.X"
-            android:layout_height="wrap_content" />
+            android:textColor="?attr/font"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </LinearLayout>

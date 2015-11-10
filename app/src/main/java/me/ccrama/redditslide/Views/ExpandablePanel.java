@@ -123,6 +123,14 @@ public class ExpandablePanel extends RelativeLayout {
         setMeasuredDimension(width, height);
     }
 
+    public interface OnExpandListener {
+
+        void onExpand(View handle, View content);
+
+        void onCollapse(View handle, View content);
+
+    }
+
     private class PanelToggler implements OnClickListener {
         @Override
         public void onClick(View v) {
@@ -147,9 +155,11 @@ public class ExpandablePanel extends RelativeLayout {
                 @Override
                 public void onAnimationStart(Animation animation) {
                 }
+
                 @Override
                 public void onAnimationRepeat(Animation animation) {
                 }
+
                 @Override
                 public void onAnimationEnd(Animation animation) {
                     mExpanded = !mExpanded;
@@ -189,12 +199,5 @@ public class ExpandablePanel extends RelativeLayout {
         public boolean willChangeBounds() {
             return true;
         }
-    }
-
-    public interface OnExpandListener {
-
-        void onExpand(View handle, View content);
-        void onCollapse(View handle, View content);
-
     }
 }

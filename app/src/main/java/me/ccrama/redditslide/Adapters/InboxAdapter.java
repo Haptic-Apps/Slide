@@ -28,52 +28,12 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 
-public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
-
-    public final Context mContext;
-    public ArrayList<Message> dataSet;
-    private final RecyclerView listView;
-    @Override
-    public void setError(Boolean b) {
-        listView.setAdapter(new ErrorAdapter());
-    }
-
-    @Override
-    public void undoSetError() {
-        listView.setAdapter(this);
-    }
+public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     private static final int TOP_LEVEL = 1;
-    @Override
-    public int getItemViewType(int position) {
-
-        if(position == dataSet.size()){
-            return 5;
-        }
-
-        if (!dataSet.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
-            return TOP_LEVEL;
-
-        return 2;
-    }
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-        if (i == TOP_LEVEL) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
-            return new MessageViewHolder(v);
-        } else if(i == 5){
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
-            return new ContributionAdapter.EmptyViewHolder(v);
-        }  else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_reply, viewGroup, false);
-            return new MessageViewHolder(v);
-
-        }
-
-    }
-
-
+    public final Context mContext;
+    private final RecyclerView listView;
+    public ArrayList<Message> dataSet;
 
     public InboxAdapter(Context mContext, InboxMessages dataSet, RecyclerView listView) {
 
@@ -85,21 +45,50 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
-
-    private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Message... params) {
-            new InboxManager(Authentication.reddit).setRead(params[0], true);
-            return null;
-        }
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
     }
 
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+
+        if (position == dataSet.size()) {
+            return 5;
+        }
+
+        if (!dataSet.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
+            return TOP_LEVEL;
+
+        return 2;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+
+        if (i == TOP_LEVEL) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
+            return new MessageViewHolder(v);
+        } else if (i == 5) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
+            return new ContributionAdapter.EmptyViewHolder(v);
+        } else {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_reply, viewGroup, false);
+            return new MessageViewHolder(v);
+
+        }
+
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
 
-        if(! (holder2 instanceof ContributionAdapter.EmptyViewHolder)) {
+        if (!(holder2 instanceof ContributionAdapter.EmptyViewHolder)) {
 
             final MessageViewHolder holder = (MessageViewHolder) holder2;
 
@@ -172,6 +161,15 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return 0;
         } else {
             return dataSet.size() + 1;
+        }
+    }
+
+    private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Message... params) {
+            new InboxManager(Authentication.reddit).setRead(params[0], true);
+            return null;
         }
     }
 

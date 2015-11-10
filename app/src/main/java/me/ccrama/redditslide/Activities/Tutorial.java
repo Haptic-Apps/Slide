@@ -70,7 +70,7 @@ public class Tutorial extends FragmentActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Pallete.getDarkerColor(Color.parseColor("#FF5252")));
         }
-        final RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
+        final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -117,11 +117,11 @@ public class Tutorial extends FragmentActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(position < 10){
+                if (position < 10) {
                     findViewById(R.id.agreement).setVisibility(View.GONE);
                     findViewById(R.id.menu).setVisibility(View.VISIBLE);
                 }
-                switch (position){
+                switch (position) {
                     case 0:
                         radioGroup.check(R.id.radioButton);
                         break;
@@ -186,7 +186,7 @@ public class Tutorial extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if(position < 8) {
+            if (position < 8) {
                 return TutorialFragment.newInstance(position);
             } else {
                 return new Agreement();

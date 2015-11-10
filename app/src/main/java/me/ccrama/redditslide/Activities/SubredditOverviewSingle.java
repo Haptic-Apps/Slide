@@ -24,6 +24,7 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -82,6 +83,14 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class SubredditOverviewSingle extends OverviewBase {
 
 
+    EditText e;
+    boolean restart;
+    private String subToDo;
+    private View header;
+    private OverviewPagerAdapter adapter;
+    private View hea;
+    private FloatingActionButton postFab;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -104,9 +113,6 @@ public class SubredditOverviewSingle extends OverviewBase {
             }
         }
     }
-
-    EditText e;
-    private String subToDo;
 
     @Override
     public void onBackPressed() {
@@ -168,8 +174,6 @@ public class SubredditOverviewSingle extends OverviewBase {
         pager.setAdapter(adapter);
         pager.setCurrentItem(current);
     }
-
-    private View header;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -421,20 +425,6 @@ public class SubredditOverviewSingle extends OverviewBase {
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
-    }
-
-
-    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
-
-        @Override
-        public void onPostExecute(Subreddit subreddit) {
-            doSubOnlyStuff(subreddit);
-        }
-
-        @Override
-        protected Subreddit doInBackground(String... params) {
-            return Authentication.reddit.getSubreddit(params[0]);
-        }
     }
 
     private void doSubSidebar(final String subreddit) {
@@ -1060,29 +1050,6 @@ public class SubredditOverviewSingle extends OverviewBase {
         }
     }
 
-    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    LayoutInflater inflater = getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
-                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
-                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverviewSingle.this, "slideforreddit");
-
-                    builder.setView(dialoglayout).show();
-
-                }
-            });
-            return null;
-        }
-    }
-
     public int[] getMainColors() {
         return new int[]{
                 getResources().getColor(R.color.md_red_500),
@@ -1321,9 +1288,6 @@ public class SubredditOverviewSingle extends OverviewBase {
 
     }
 
-    private OverviewPagerAdapter adapter;
-
-
     private void setDataSet(List<String> data) {
         if (data != null) {
             usedArray = data;
@@ -1485,96 +1449,6 @@ public class SubredditOverviewSingle extends OverviewBase {
 
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        private Fragment mCurrentFragment;
-
-        public Fragment getCurrentFragment() {
-            return mCurrentFragment;
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if (getCurrentFragment() != object) {
-                mCurrentFragment = ((Fragment) object);
-            }
-            super.setPrimaryItem(container, position, object);
-        }
-
-        public OverviewPagerAdapter(FragmentManager fm) {
-            super(fm);
-            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    doSubSidebar(usedArray.get(position));
-                    hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
-                    header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
-                        SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
-
-                    }
-                    getSupportActionBar().setTitle(usedArray.get(position));
-
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-            SubmissionsView f = new SubmissionsView();
-            Bundle args = new Bundle();
-
-            args.putString("id", usedArray.get(i));
-            f.setFab(postFab);
-            f.setArguments(args);
-
-            return f;
-
-
-        }
-
-
-        @Override
-        public int getCount() {
-            if (usedArray == null) {
-                return 1;
-            } else {
-                return usedArray.size();
-            }
-        }
-
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            if (usedArray != null) {
-                return usedArray.get(position);
-            } else {
-                return "";
-            }
-
-
-        }
-    }
-
-
-    boolean restart;
-    private View hea;
-    private FloatingActionButton postFab;
-
-
     private void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         LayoutInflater inflater = getLayoutInflater();
@@ -1732,7 +1606,31 @@ public class SubredditOverviewSingle extends OverviewBase {
             public void onClick(View view) {
 
                 final EditText input = new EditText(SubredditOverviewSingle.this);
-
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                input.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                            input.setText(String.valueOf(input.getText()).replace(" ", ""));
+                            Editable value = input.getText();
+                            if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
+                                new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
+                                        .setTitle(R.string.user_invalid)
+                                        .setMessage(R.string.user_invalid_msg)
+                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                            }
+                                        }).show();
+                            } else {
+                                Intent inte = new Intent(SubredditOverviewSingle.this, Profile.class);
+                                inte.putExtra("profile", value.toString());
+                                SubredditOverviewSingle.this.startActivity(inte);
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                });
                 new AlertDialogWrapper.Builder(SubredditOverviewSingle.this)
                         .setTitle(R.string.user_enter)
                         .setView(input)
@@ -1758,7 +1656,6 @@ public class SubredditOverviewSingle extends OverviewBase {
                         // Do nothing.
                     }
                 }).show();
-
             }
         });
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
@@ -1884,5 +1781,125 @@ public class SubredditOverviewSingle extends OverviewBase {
 
             }
         });
+    }
+
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+
+        @Override
+        public void onPostExecute(Subreddit subreddit) {
+            doSubOnlyStuff(subreddit);
+        }
+
+        @Override
+        protected Subreddit doInBackground(String... params) {
+            return Authentication.reddit.getSubreddit(params[0]);
+        }
+    }
+
+    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditOverviewSingle.this);
+                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
+                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditOverviewSingle.this, "slideforreddit");
+
+                    builder.setView(dialoglayout).show();
+
+                }
+            });
+            return null;
+        }
+    }
+
+    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+        private Fragment mCurrentFragment;
+
+        public OverviewPagerAdapter(FragmentManager fm) {
+            super(fm);
+            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    doSubSidebar(usedArray.get(position));
+                    hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                    header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getWindow();
+                        window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
+                        SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+
+                    }
+                    getSupportActionBar().setTitle(usedArray.get(position));
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+            SubmissionsView f = new SubmissionsView();
+            Bundle args = new Bundle();
+
+            args.putString("id", usedArray.get(i));
+            f.setFab(postFab);
+            f.setArguments(args);
+
+            return f;
+
+
+        }
+
+
+        @Override
+        public int getCount() {
+            if (usedArray == null) {
+                return 1;
+            } else {
+                return usedArray.size();
+            }
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            if (usedArray != null) {
+                return usedArray.get(position);
+            } else {
+                return "";
+            }
+
+
+        }
     }
 }

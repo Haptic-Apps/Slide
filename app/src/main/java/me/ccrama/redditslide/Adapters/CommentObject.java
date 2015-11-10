@@ -7,14 +7,13 @@ import net.dean.jraw.models.MoreChildren;
  * Created by carlo_000 on 10/27/2015.
  */
 public class CommentObject {
-    private CommentNode commentNode;
     public MoreChildren moreChildren;
+    private CommentNode commentNode;
     private CommentNode moreCommentNode;
 
-    public CommentObject(CommentNode n){
+    public CommentObject(CommentNode n) {
         commentNode = n;
     }
-
 
 
     public CommentNode getCommentNode() {

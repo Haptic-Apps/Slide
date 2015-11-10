@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:background="?attr/activity_background"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/activity_background"
 
     >
 
@@ -17,14 +16,14 @@
         android:layout_height="match_parent">
 
 
-               <android.support.design.widget.AppBarLayout
-                   android:theme="@style/Theme.AppCompat"
+        <android.support.design.widget.AppBarLayout
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/orange"
             android:elevation="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:theme="@style/Theme.AppCompat">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -38,6 +37,7 @@
 
 
                 >
+
                 <ImageView
                     android:id="@+id/sorting"
                     android:layout_width="48dp"
@@ -53,6 +53,7 @@
                     android:src="@drawable/sort"
 
                     />
+
                 <ImageView
                     android:id="@+id/edit"
                     android:layout_width="48dp"
@@ -70,7 +71,6 @@
                     />
 
 
-
                 <ImageView
                     android:id="@+id/create"
                     android:layout_width="48dp"
@@ -83,13 +83,10 @@
 
                     android:scaleType="fitCenter"
 
-                    android:tint="@color/white"
                     android:src="@drawable/add_plain"
+                    android:tint="@color/white"
 
                     />
-
-
-
 
 
             </android.support.v7.widget.Toolbar>

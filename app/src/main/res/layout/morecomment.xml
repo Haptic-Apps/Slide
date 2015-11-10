@@ -3,13 +3,14 @@
 
     android:layout_height="wrap_content"
 
-    android:clipChildren="false"
-
     android:background="?attr/card_background"
+
+    android:clipChildren="false"
 
     android:orientation="horizontal"
 
     android:scrollbars="none">
+
     <LinearLayout
         android:id="@+id/dots"
         android:layout_width="wrap_content"
@@ -21,7 +22,6 @@
     </LinearLayout>
 
 
-
     <View
         android:id="@+id/dot"
         android:layout_width="3dp"
@@ -30,27 +30,23 @@
         android:background="?attr/tint" />
 
 
-            <Button
+    <Button
 
-                android:id="@+id/content"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="?attr/card_background"
 
-                android:text="@string/comment_load_more"
-                android:textAllCaps="false"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
 
-                android:paddingLeft="8dp"
-                android:textColor="?attr/font"
-
-
-                android:background="?attr/card_background"
-                android:textSize="?attr/font_commenttitle" />
+        android:text="@string/comment_load_more"
+        android:textAllCaps="false"
 
 
+        android:textColor="?attr/font"
+        android:textSize="?attr/font_commenttitle" />
 
 
-
-
-    </LinearLayout>
+</LinearLayout>
 
