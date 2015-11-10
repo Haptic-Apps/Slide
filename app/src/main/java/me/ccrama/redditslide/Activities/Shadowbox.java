@@ -26,6 +26,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  */
 public class Shadowbox extends BaseActivity {
     private ArrayList<Submission> posts;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -37,7 +38,7 @@ public class Shadowbox extends BaseActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_slide);
 
-            posts = DataShare.sharedSubreddit;
+        posts = DataShare.sharedSubreddit;
         ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
@@ -54,9 +55,9 @@ public class Shadowbox extends BaseActivity {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f ;
+            Fragment f;
             ContentType.ImageType t = ContentType.getImageType(posts.get(i));
-            switch(t){
+            switch (t) {
 
                 case NSFW_IMAGE: {
                     f = new ImageFull();
@@ -64,150 +65,134 @@ public class Shadowbox extends BaseActivity {
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NSFW_GIF:
-                {
+                break;
+                case NSFW_GIF: {
                     f = new GifFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NSFW_GFY:
-                {
+                break;
+                case NSFW_GFY: {
                     f = new GifFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case REDDIT:
-                {
+                break;
+                case REDDIT: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case EMBEDDED:
-                {
+                break;
+                case EMBEDDED: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
+                break;
                 case LINK: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
+                break;
                 case IMAGE_LINK: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
+                break;
                 case NSFW_LINK: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case SELF:
-                {
+                break;
+                case SELF: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case GFY:
-                {
+                break;
+                case GFY: {
                     f = new GifFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case ALBUM:
-                {
+                break;
+                case ALBUM: {
                     f = new AlbumFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case IMAGE:
-                {
+                break;
+                case IMAGE: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case GIF:
-                {
+                break;
+                case GIF: {
                     f = new GifFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NONE_GFY:
-                {
+                break;
+                case NONE_GFY: {
                     f = new GifFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NONE_GIF:
-                {
+                break;
+                case NONE_GIF: {
                     f = new GifFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NONE:
-                {
+                break;
+                case NONE: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NONE_IMAGE:
-                {
+                break;
+                case NONE_IMAGE: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case VIDEO:
-                {
+                break;
+                case VIDEO: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                case NONE_URL:
-                {
+                break;
+                case NONE_URL: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
-                    break;
-                default:
-                {
+                break;
+                default: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
@@ -231,7 +216,6 @@ public class Shadowbox extends BaseActivity {
                 return posts.size();
             }
         }
-
 
 
     }

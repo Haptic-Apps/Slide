@@ -12,25 +12,26 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/18/2015.
  */
 public class StyleView {
-    public static void styleActivity(Activity a){
+    public static void styleActivity(Activity a) {
         Pallete p = Pallete.getDefaultPallete();
         a.findViewById(R.id.contentView).setBackgroundColor(p.backgroundColor);
     }
 
     public static void styleCard(Pallete subredditPallete, View v) {
         int fontColor = subredditPallete.theme.getFontColor();
-        ((TextView)v.findViewById(R.id.title)).setTextColor(fontColor);
-        ((TextView)v.findViewById(R.id.subreddit)).setTextColor(fontColor);
-        ((TextView)v.findViewById(R.id.information)).setTextColor(fontColor);
-        ((TextView)v.findViewById(R.id.contenttitle)).setTextColor(fontColor);
-        ((TextView)v.findViewById(R.id.contenturl)).setTextColor(fontColor);
-        ((TextView)v.findViewById(R.id.comments)).setTextColor(fontColor);
-        ((TextView)v.findViewById(R.id.score)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.title)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.information)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.contenttitle)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.contenturl)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.comments)).setTextColor(fontColor);
+        ((TextView) v.findViewById(R.id.score)).setTextColor(fontColor);
 
-        ((CardView)v.findViewById(R.id.card)).setCardBackgroundColor(subredditPallete.theme.getCardBackgroundColor());
+        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(subredditPallete.theme.getCardBackgroundColor());
 
     }
-    public static void setPartsofCard(View v, String url){
+
+    public static void setPartsofCard(View v, String url) {
         ContentType.ImageType t = ContentType.getImageType(url);
 
     }

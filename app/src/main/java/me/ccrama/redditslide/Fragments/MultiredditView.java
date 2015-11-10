@@ -24,13 +24,20 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class MultiredditView extends Fragment {
 
 
+    private MultiredditAdapter adapter;
+    private MultiredditPosts posts;
+    private int id;
+    private int totalItemCount;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
@@ -97,16 +104,6 @@ public class MultiredditView extends Fragment {
         return v;
     }
 
-    private MultiredditAdapter adapter;
-
-    private MultiredditPosts posts;
-
-    private int id;
-
-    private int totalItemCount;
-
-    private int visibleItemCount;
-    private int pastVisiblesItems;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -28,17 +28,19 @@ import me.ccrama.redditslide.R;
 public class CheckForMail extends BroadcastReceiver {
 
     private Context c;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
         new AsyncGetMail().execute();
-        }
+    }
+
     private class AsyncGetMail extends AsyncTask<Void, Void, List<Message>> {
 
         @Override
-        public void onPostExecute(List<Message> messages){
+        public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
-            if(messages != null && messages.size() > 0) {
+            if (messages != null && messages.size() > 0) {
                 if (messages.size() == 1) {
                     NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -62,10 +64,10 @@ public class CheckForMail extends BroadcastReceiver {
                             .setWhen(System.currentTimeMillis())
                             .setAutoCancel(true)
                             .setContentTitle(c.getString(R.string.mail_notification_author,
-                                            messages.get(0).getSubject(), messages.get(0).getAuthor()))
-                                            .setContentText(Html.fromHtml(messages.get(0).getBody()))
-                                            .setStyle(notiStyle)
-                                            .build();
+                                    messages.get(0).getSubject(), messages.get(0).getAuthor()))
+                            .setContentText(Html.fromHtml(messages.get(0).getBody()))
+                            .setStyle(notiStyle)
+                            .build();
                     notificationManager.notify(0, notification);
                 } else {
                     int amount = messages.size();
@@ -75,7 +77,7 @@ public class CheckForMail extends BroadcastReceiver {
                             NotificationCompat.InboxStyle();
                     notiStyle.setBigContentTitle(res.getQuantityString(R.plurals.mail_notification_title, amount, amount));
                     notiStyle.setSummaryText("");
-                    for(Message m : messages) {
+                    for (Message m : messages) {
                         notiStyle.addLine(c.getString(R.string.mail_notification_msg, m.getAuthor()));
                     }
 
@@ -101,6 +103,7 @@ public class CheckForMail extends BroadcastReceiver {
                 }
             }
         }
+
         @Override
         protected List<Message> doInBackground(Void... params) {
             try {
@@ -113,10 +116,10 @@ public class CheckForMail extends BroadcastReceiver {
                         messages.addAll(unread.next());
                     }
                     if (mod.hasNext()) {
-                        messages.addAll( mod.next());
+                        messages.addAll(mod.next());
                     }
                 }
-            }catch(Exception ignored){
+            } catch (Exception ignored) {
 
             }
             return null;

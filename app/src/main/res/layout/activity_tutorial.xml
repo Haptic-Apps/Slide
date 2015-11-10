@@ -58,20 +58,20 @@
                     android:id="@+id/radioButton"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/radiosmall"
-                    android:button="@null"
                     android:layout_marginLeft="-5dp"
                     android:layout_marginRight="-5dp"
+                    android:background="@drawable/radiosmall"
+                    android:button="@null"
 
                     android:checked="true" />
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="25dp"
-                    android:layout_marginLeft="-5dp"
-                    android:layout_marginRight="-5dp"
-
                     android:layout_height="25dp"
+                    android:layout_marginLeft="-5dp"
+
+                    android:layout_marginRight="-5dp"
                     android:background="@drawable/radiosmall"
 
                     android:button="@null" />
@@ -99,10 +99,10 @@
                 <RadioButton
                     android:id="@+id/radioButton5"
                     android:layout_width="25dp"
-                    android:layout_marginLeft="-5dp"
-                    android:layout_marginRight="-5dp"
-
                     android:layout_height="25dp"
+                    android:layout_marginLeft="-5dp"
+
+                    android:layout_marginRight="-5dp"
                     android:background="@drawable/radiosmall"
 
                     android:button="@null" />
@@ -110,10 +110,10 @@
                 <RadioButton
                     android:id="@+id/radioButton6"
                     android:layout_width="25dp"
-                    android:layout_marginLeft="-5dp"
-                    android:layout_marginRight="-5dp"
-
                     android:layout_height="25dp"
+                    android:layout_marginLeft="-5dp"
+
+                    android:layout_marginRight="-5dp"
                     android:background="@drawable/radiosmall"
 
                     android:button="@null" />
@@ -128,13 +128,14 @@
                     android:background="@drawable/radiosmall"
 
                     android:button="@null" />
+
                 <RadioButton
                     android:id="@+id/radioButton8"
                     android:layout_width="25dp"
-                    android:layout_marginLeft="-5dp"
-                    android:layout_marginRight="-5dp"
-
                     android:layout_height="25dp"
+                    android:layout_marginLeft="-5dp"
+
+                    android:layout_marginRight="-5dp"
                     android:background="@drawable/radiosmall"
 
                     android:button="@null" />
@@ -147,7 +148,6 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_alignParentBottom="true">
-
 
 
             <TextView

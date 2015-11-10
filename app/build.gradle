@@ -62,7 +62,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     compile files('libs/JRAW-0.7.1.jar')
-    compile ('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
+    compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }
     compile 'com.koushikdutta.ion:ion:2.+'

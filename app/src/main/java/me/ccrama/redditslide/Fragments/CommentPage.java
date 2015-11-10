@@ -37,12 +37,25 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class CommentPage extends Fragment {
 
-    private void reloadSubs(){
+    boolean np;
+    boolean loadMore;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RecyclerView rv;
+    private int page;
+    private SubmissionComments comments;
+    private boolean single;
+    private CommentAdapter adapter;
+    private String fullname;
+    private String id;
+    private String context;
+
+    private void reloadSubs() {
         mSwipeRefreshLayout.setRefreshing(true);
         comments.setSorting(Reddit.defaultCommentSorting);
     }
+
     private void openPopup(View view) {
-        if(comments.comments != null && !comments.comments.isEmpty()) {
+        if (comments.comments != null && !comments.comments.isEmpty()) {
 
             final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -104,18 +117,18 @@ public class CommentPage extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
-            if(data.hasExtra("fullname")){
+        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
+            if (data.hasExtra("fullname")) {
                 String fullname = data.getExtras().getString("fullname");
 
                 adapter.currentSelectedItem = fullname;
                 adapter.reset(getContext(), comments, rv, comments.submission);
                 adapter.notifyDataSetChanged();
                 int i = 1;
-                for(CommentObject n : comments.comments){
+                for (CommentObject n : comments.comments) {
 
-                    if(n.getCommentNode().getComment().getFullName().contains(fullname)){
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments)rv.getLayoutManager());
+                    if (n.getCommentNode().getComment().getFullName().contains(fullname)) {
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
                         break;
@@ -128,31 +141,23 @@ public class CommentPage extends Fragment {
 
     }
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView rv;
-
-    private int page;
-    private SubmissionComments comments;
-    boolean np;
-    boolean loadMore;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-            int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
-            final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
-            LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
 
-        if(!np){
+        if (!np) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
         } else {
             v.findViewById(R.id.np).setBackgroundColor(Pallete.getColor(id));
 
         }
-        if(!loadMore){
+        if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
         } else {
             v.findViewById(R.id.loadall).setOnClickListener(new View.OnClickListener() {
@@ -169,12 +174,12 @@ public class CommentPage extends Fragment {
             });
 
         }
-            rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-            final PreCachingLayoutManagerComments mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
-            rv.setLayoutManager(mLayoutManager);
+        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        final PreCachingLayoutManagerComments mLayoutManager;
+        mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
+        rv.setLayoutManager(mLayoutManager);
 
-            Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,13 +192,13 @@ public class CommentPage extends Fragment {
 
             }
         });
-        if(!Reddit.fastscroll){
+        if (!Reddit.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(adapter.users != null) {
+                    if (adapter.users != null) {
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
                         for (int i = pastVisiblesItems; i < adapter.getItemCount(); i++) {
@@ -215,7 +220,7 @@ public class CommentPage extends Fragment {
 
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
-                        for (int i = pastVisiblesItems -2; i >= 0; i--) {
+                        for (int i = pastVisiblesItems - 2; i >= 0; i--) {
                             if (adapter.users.get(adapter.getRealPosition(i)).getCommentNode().isTopLevel()) {
                                 RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                                 smoothScroller.setTargetPosition(i + 1);
@@ -237,12 +242,12 @@ public class CommentPage extends Fragment {
             }
         });
 
-            if (getActivity() instanceof BaseActivity) {
-                ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
-                ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
-            }
-            toolbar.setBackgroundColor(Pallete.getColor(id));
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
+            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
+        }
+        toolbar.setBackgroundColor(Pallete.getColor(id));
 
 
       /* STARTING IT  v.findViewById(R.id.fab).setOnTouchListener(new View.OnTouchListener() {
@@ -280,59 +285,108 @@ public class CommentPage extends Fragment {
                 return true;
             }
         });*/
-            v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    {
-                        openPopup(v);
-                    }
+        v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                {
+                    openPopup(v);
                 }
-            });
+            }
+        });
 
 
-            mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-            TypedValue typed_value = new TypedValue();
-            getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-            mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        TypedValue typed_value = new TypedValue();
+        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-            mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
 
-            mSwipeRefreshLayout.setRefreshing(true);
-            if (context.isEmpty()) {
+        mSwipeRefreshLayout.setRefreshing(true);
+        if (context.isEmpty()) {
 
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                if(DataShare.sharedSubreddit != null)
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            if (DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
-                rv.setAdapter(adapter);
+            rv.setAdapter(adapter);
+
+        } else {
+            if (context.equals("NOTHING")) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
 
             } else {
-                if (context.equals("NOTHING")) {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-
-                } else {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-                }
-
-
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
             }
 
-            mSwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                                comments.loadMore(adapter, id);
 
-                            //TODO catch errors
-                        }
+        }
+
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        comments.loadMore(adapter, id);
+
+                        //TODO catch errors
                     }
-            );
-
+                }
+        );
 
 
         return v;
     }
+
+    public void doData(Boolean b) {
+
+        if (adapter == null || single) {
+            if (context != null && !context.equals("NOTHING")) {
+                adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
+                adapter.currentSelectedItem = context;
+                int i = 1;
+                for (CommentObject n : comments.comments) {
+
+                    if (n.getCommentNode().getComment().getFullName().contains(context)) {
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                        smoothScroller.setTargetPosition(i);
+                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        break;
+                    }
+                    i++;
+                }
+
+            } else {
+                adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
+
+            }
+            rv.setAdapter(adapter);
+            adapter.reset(getContext(), comments, rv, comments.submission);
+
+        } else if (!b) {
+            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+        } else {
+            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+
+        }
+
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        id = bundle.getString("subreddit", "");
+        fullname = bundle.getString("id", "");
+        page = bundle.getInt("page", 0);
+        single = bundle.getBoolean("single", false);
+        context = bundle.getString("context", "");
+        np = bundle.getBoolean("np", false);
+        loadMore = (!context.isEmpty() && !context.equals("NOTHING"));
+    }
+
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
         final PreCachingLayoutManagerComments lm;
+
         public TopSnappedSmoothScroller(Context context, PreCachingLayoutManagerComments lm) {
             super(context);
             this.lm = lm;
@@ -348,63 +402,6 @@ public class CommentPage extends Fragment {
         protected int getVerticalSnapPreference() {
             return SNAP_TO_START;
         }
-    }
-
-    private boolean single;
-    public void doData(Boolean b) {
-
-        if(adapter == null || single){
-            if(context != null && !context.equals("NOTHING")) {
-                adapter = new CommentAdapter(this, comments, rv, comments.submission,getFragmentManager());
-                adapter.currentSelectedItem = context;
-                int i = 1;
-                for(CommentObject n : comments.comments){
-
-                    if(n.getCommentNode().getComment().getFullName().contains(context)){
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments)rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i);
-                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                        break;
-                    }
-                    i++;
-                }
-
-            } else {
-                adapter = new CommentAdapter(this, comments, rv, comments.submission,getFragmentManager());
-
-            }
-            rv.setAdapter(adapter);
-            adapter.reset(getContext(), comments, rv, comments.submission);
-
-        } else
-        if(!b) {
-            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
-        } else {
-            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
-
-        }
-
-
-    }
-
-    private CommentAdapter adapter;
-
-    private String fullname;
-    private String id;
-    private String context;
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        id = bundle.getString("subreddit", "");
-        fullname = bundle.getString("id", "");
-        page = bundle.getInt("page", 0);
-        single = bundle.getBoolean("single", false);
-        context = bundle.getString("context", "");
-        np = bundle.getBoolean("np", false);
-        loadMore =  (!context.isEmpty() && !context.equals("NOTHING"));
     }
 
 

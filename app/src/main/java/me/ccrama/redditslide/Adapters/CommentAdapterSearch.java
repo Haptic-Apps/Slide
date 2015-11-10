@@ -36,74 +36,15 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private final Context mContext;
-    private List<CommentNode> dataSet;
     private final List<CommentNode> originalDataSet;
+    private final String subAuthor;
 
 
     ///... other methods
-
-    @Override
-    public Filter getFilter() {
-        return new UserFilter(this, originalDataSet);
-    }
-
-    private class UserFilter extends Filter {
-
-        private final CommentAdapterSearch adapter;
-
-        private final List<CommentNode> originalList;
-
-        private final List<CommentNode> filteredList;
-
-        private UserFilter(CommentAdapterSearch adapter, List<CommentNode> originalList) {
-            super();
-            this.adapter = adapter;
-            this.originalList = new LinkedList<>(originalList);
-            this.filteredList = new ArrayList<>();
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            filteredList.clear();
-            final FilterResults results = new FilterResults();
-
-            if (constraint.length() == 0) {
-                filteredList.addAll(originalList);
-            } else {
-                final String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (final CommentNode user : originalList) {
-                    if (user.getComment().getBody().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(user);
-                    }
-                }
-            }
-            results.values = filteredList;
-            results.count = filteredList.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            String search = constraint.toString();
-
-            adapter.dataSet = new ArrayList<>();
-            adapter.dataSet.addAll((ArrayList<CommentNode>) results.values);
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
-        return new CommentViewHolder(v);
-
-    }
-
+    private List<CommentNode> dataSet;
     private Submission submission;
 
-    private final String subAuthor;
+
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
@@ -114,6 +55,17 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
+    @Override
+    public Filter getFilter() {
+        return new UserFilter(this, originalDataSet);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
+        return new CommentViewHolder(v);
+
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
@@ -122,8 +74,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         final CommentNode baseNode = dataSet.get(pos);
         final Comment comment = baseNode.getComment();
-
-
 
 
         String author = comment.getAuthor();
@@ -244,6 +194,52 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             return 0;
         }
         return dataSet.size();
+    }
+
+    private class UserFilter extends Filter {
+
+        private final CommentAdapterSearch adapter;
+
+        private final List<CommentNode> originalList;
+
+        private final List<CommentNode> filteredList;
+
+        private UserFilter(CommentAdapterSearch adapter, List<CommentNode> originalList) {
+            super();
+            this.adapter = adapter;
+            this.originalList = new LinkedList<>(originalList);
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            filteredList.clear();
+            final FilterResults results = new FilterResults();
+
+            if (constraint.length() == 0) {
+                filteredList.addAll(originalList);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (final CommentNode user : originalList) {
+                    if (user.getComment().getBody().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(user);
+                    }
+                }
+            }
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            String search = constraint.toString();
+
+            adapter.dataSet = new ArrayList<>();
+            adapter.dataSet.addAll((ArrayList<CommentNode>) results.values);
+            adapter.notifyDataSetChanged();
+        }
     }
 
 
