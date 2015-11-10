@@ -291,14 +291,18 @@ public class SubredditOverview extends OverviewBase {
 
         header = findViewById(R.id.header);
         pager = (ViewPager) findViewById(R.id.contentView);
-
         postFab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
-        postFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Submit.class));
-            }
-        });
+        if (Reddit.fab) {
+            postFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), Submit.class));
+                }
+            });
+        } else {
+            postFab.hide();
+            postFab.setVisibility(View.INVISIBLE);
+        }
 
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();

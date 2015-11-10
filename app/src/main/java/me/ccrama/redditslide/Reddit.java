@@ -56,6 +56,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean web;
     public static boolean exit;
     public static boolean fastscroll;
+    public static boolean fab = true;
 
     @Override
     public void onLowMemory() {
@@ -329,6 +330,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         single = SettingValues.prefs.getBoolean("Single", false);
+        fab = SettingValues.prefs.getBoolean("Fab", false);
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);
         image = SettingValues.prefs.getBoolean("image", true);
