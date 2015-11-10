@@ -22,24 +22,25 @@ public class SubredditListingAdapter extends ArrayAdapter<String> {
 
 
     public SubredditListingAdapter(Context context, ArrayList<String> objects) {
-        super(context,0,  objects);
+        super(context, 0, objects);
         List<String> objects1 = new ArrayList<>(objects);
         fitems = new ArrayList<>(objects);
     }
 
 
     private final ArrayList<String> fitems;
+
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent){
-        if(convertView == null){
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
         }
-final TextView t =
-        ((TextView) convertView.findViewById(R.id.name));
+        final TextView t =
+                ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-       convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
 
         return convertView;
     }

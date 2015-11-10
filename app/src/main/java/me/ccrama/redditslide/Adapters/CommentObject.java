@@ -11,16 +11,13 @@ public class CommentObject {
     public MoreChildren moreChildren;
     private CommentNode moreCommentNode;
 
-    public CommentObject(CommentNode n){
+    public CommentObject(CommentNode n) {
         commentNode = n;
     }
-
-
 
     public CommentNode getCommentNode() {
         return commentNode;
     }
-
 
     public MoreChildren getMoreChildren() {
         return moreChildren;

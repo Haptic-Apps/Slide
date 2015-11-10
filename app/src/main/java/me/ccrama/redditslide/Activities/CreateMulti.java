@@ -94,13 +94,13 @@ public class CreateMulti extends BaseActivity {
 
 
         subs = new ArrayList<>();
-        if(getIntent().hasExtra("multi")){
+        if (getIntent().hasExtra("multi")) {
             String multi = getIntent().getExtras().getString("multi");
             old = multi;
             title.setText(multi.replace("%20", " "));
-            for(MultiReddit multiReddit : SubredditStorage.multireddits){
-                if(multiReddit.getDisplayName().equals(multi)){
-                    for(MultiSubreddit sub : multiReddit.getSubreddits()) {
+            for (MultiReddit multiReddit : SubredditStorage.multireddits) {
+                if (multiReddit.getDisplayName().equals(multi)) {
+                    for (MultiSubreddit sub : multiReddit.getSubreddits()) {
                         subs.add(sub.getDisplayName().toLowerCase());
                     }
                 }
@@ -167,7 +167,7 @@ public class CreateMulti extends BaseActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                if(delete){
+                if (delete) {
                     new MultiRedditManager(Authentication.reddit).delete(old);
 
                 } else {
@@ -218,7 +218,7 @@ public class CreateMulti extends BaseActivity {
 
         int i = 0;
         for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            if(!(s.equals("all") || s.equals("frontpage"))) {
+            if (!(s.equals("all") || s.equals("frontpage"))) {
                 all[i] = s;
                 if (s2.contains(s)) {
                     checked[i] = true;

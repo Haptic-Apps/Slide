@@ -40,6 +40,7 @@ public class Sendmessage extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private Boolean reply;
     private PrivateMessage previousMessage;
     private EditText subject;
@@ -48,6 +49,7 @@ public class Sendmessage extends AppCompatActivity {
     private String subjecttext;
     private String totext;
     private EditText body;
+
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -59,19 +61,19 @@ public class Sendmessage extends AppCompatActivity {
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         final String name;
         reply = getIntent() != null && getIntent().hasExtra("reply");
-        subject= (EditText) findViewById(R.id.subject);
+        subject = (EditText) findViewById(R.id.subject);
         to = (EditText) findViewById(R.id.to);
-         body = (EditText) findViewById(R.id.body);
+        body = (EditText) findViewById(R.id.body);
         View oldMSG = findViewById(R.id.oldMSG);
 
-        if(getIntent() != null && getIntent().hasExtra("name")) {
+        if (getIntent() != null && getIntent().hasExtra("name")) {
             name = getIntent().getExtras().getString("name", "");
             to.setText(name);
             to.setInputType(InputType.TYPE_NULL);
-            if(reply) {
+            if (reply) {
                 b.setTitle(String.format(getString(R.string.mail_reply_to), name));
                 previousMessage = DataShare.sharedMessage;
-                subject.setText("re: " + previousMessage.getSubject() );
+                subject.setText("re: " + previousMessage.getSubject());
 
                 subject.setInputType(InputType.TYPE_NULL);
 
@@ -110,10 +112,6 @@ public class Sendmessage extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-
-
-
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,18 +125,20 @@ public class Sendmessage extends AppCompatActivity {
         });
 
     }
+
     public String URL;
 
 
-    private class AsyncDo extends AsyncTask<Void, Void,Void>{
+    private class AsyncDo extends AsyncTask<Void, Void, Void> {
 
         @Override
-        public void onPostExecute(Void voids){
+        public void onPostExecute(Void voids) {
             finish();
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
-            if(reply) {
+            if (reply) {
                 try {
                     new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(previousMessage, bodytext);
                 } catch (ApiException e) {
@@ -155,4 +155,4 @@ public class Sendmessage extends AppCompatActivity {
         }
     }
 
-  }
+}

@@ -39,7 +39,7 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
+public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
     public ArrayList<Contribution> dataSet;
@@ -50,7 +50,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if(position == dataSet.size()){
+        if (position == dataSet.size()) {
             return 5;
         }
         if (dataSet.get(position) instanceof Comment)//IS COMMENT
@@ -58,21 +58,23 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         return 2;
     }
+
     public static class EmptyViewHolder extends RecyclerView.ViewHolder {
         public EmptyViewHolder(View itemView) {
             super(itemView);
         }
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         if (i == COMMENT) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
             return new ProfileCommentViewHolder(v);
-        } else if(i == 5){
+        } else if (i == 5) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new EmptyViewHolder(v);
-        }else {
+        } else {
             View v = CreateCardView.CreateView(viewGroup);
             return new SubmissionViewHolder(v);
 
@@ -206,8 +208,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           final int pos = dataSet.indexOf(submission);
-                            final Contribution old  = dataSet.get(pos);
+                            final int pos = dataSet.indexOf(submission);
+                            final Contribution old = dataSet.get(pos);
                             dataSet.remove(submission);
                             notifyItemRemoved(pos);
                             d.dismiss();
@@ -225,8 +227,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }).show();
 
 
-
-
                         }
                     });
                     return true;
@@ -241,7 +241,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
             int lastPosition = i;
-        } else if(firstHolder instanceof  ProfileCommentViewHolder){
+        } else if (firstHolder instanceof ProfileCommentViewHolder) {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;
             final Comment comment = (Comment) dataSet.get(i);

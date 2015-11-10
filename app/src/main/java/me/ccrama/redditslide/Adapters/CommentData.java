@@ -10,30 +10,33 @@ import net.dean.jraw.models.MoreChildren;
 class CommentData {
     private final CommentNode n;
 
-    public Comment getComment(){
+    public Comment getComment() {
         return n.getComment();
     }
-    public String getFullName(){
-        if(isCommentNode()){
+
+    public String getFullName() {
+        if (isCommentNode()) {
             return n.getComment().getFullName();
         } else {
             return n.getComment().getFullName() + "LOAD";
         }
     }
 
-    public CommentData(CommentNode n){
+    public CommentData(CommentNode n) {
         this.n = n;
         more = true;
     }
+
     private final boolean more;
 
-    public CommentData(MoreChildren moreChildren, CommentNode n){
+    public CommentData(MoreChildren moreChildren, CommentNode n) {
         MoreChildren moreChildren1 = moreChildren;
         more = false;
         this.n = n;
 
     }
-    private boolean isCommentNode(){
+
+    private boolean isCommentNode() {
         return more;
     }
 }

@@ -37,13 +37,13 @@ public class ContributionPosts {
 
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, subreddit, where);
     }
 
     public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
 
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
@@ -53,6 +53,7 @@ public class ContributionPosts {
         }
 
     }
+
     public boolean loading;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
@@ -64,7 +65,7 @@ public class ContributionPosts {
 
         @Override
         public void onPostExecute(ArrayList<Contribution> subs) {
-            if(subs != null) {
+            if (subs != null) {
 
                 loading = false;
                 if (refreshLayout != null)

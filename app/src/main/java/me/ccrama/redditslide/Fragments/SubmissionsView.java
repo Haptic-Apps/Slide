@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +25,14 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionsView extends Fragment {
 
 
+    public SubredditPosts posts;
     private RecyclerView rv;
     private FloatingActionButton fab;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private int totalItemCount;
+    private SubmissionAdapter adapter;
+    private String id;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -143,17 +148,6 @@ public class SubmissionsView extends Fragment {
         });
         return v;
     }
-
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-
-    private int totalItemCount;
-    private SubmissionAdapter adapter;
-
-    public SubredditPosts posts;
-
-    private String id;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

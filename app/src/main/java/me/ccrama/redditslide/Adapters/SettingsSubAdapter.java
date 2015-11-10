@@ -57,23 +57,23 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             new AlertDialogWrapper.Builder(getContext()).setTitle(getContext().getString(R.string.settings_delete_sub_settings, subreddit))
-                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                             Pallete.removeColor(subreddit);
-                             SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
-                             dialog.dismiss();
-                             objects.remove(subreddit);
-                             notifyDataSetChanged();
-                         }
-                     })
-                     .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
-                             dialog.dismiss();
-                         }
-                     }).show();
+                new AlertDialogWrapper.Builder(getContext()).setTitle(getContext().getString(R.string.settings_delete_sub_settings, subreddit))
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Pallete.removeColor(subreddit);
+                                SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                dialog.dismiss();
+                                objects.remove(subreddit);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
         });
         convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
@@ -274,8 +274,8 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
 
                         int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                         int i = 0;
-                        for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                            if(type.getThemeType() == 0) {
+                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                            if (type.getThemeType() == 0) {
                                 arrs[i] = getContext().getResources().getColor(type.getColor());
 
                                 i++;
@@ -295,8 +295,8 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                                 public void onClick(View v) {
                                     int color = colorPicker.getColor();
                                     ColorPreferences.Theme t = null;
-                                    for(ColorPreferences.Theme type : ColorPreferences.Theme.values()){
-                                        if(getContext().getResources().getColor(type.getColor()) == color  && Reddit.themeBack == type.getThemeType()){
+                                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                        if (getContext().getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                             t = type;
                                             break;
                                         }
@@ -345,7 +345,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                                 switch (i) {
                                     case 1:
                                         SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
-                                        
+
                                         break;
                                     case 0:
                                         SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
@@ -377,6 +377,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         });
         return convertView;
     }
+
     private int[] getColors(int c) {
         if (c == getContext().getResources().getColor(R.color.md_red_500)) {
             return new int[]{

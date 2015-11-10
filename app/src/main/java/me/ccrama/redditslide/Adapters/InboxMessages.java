@@ -42,12 +42,12 @@ public class InboxMessages {
 
     public void bindAdapter(InboxAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, where);
     }
 
     public void loadMore(InboxAdapter adapter, String where) {
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(where);
 
@@ -57,6 +57,7 @@ public class InboxMessages {
         }
 
     }
+
     public boolean loading;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Message>> {
@@ -74,7 +75,7 @@ public class InboxMessages {
 
                 if (reset) {
                     posts = subs;
-                    
+
                     ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -112,24 +113,24 @@ public class InboxMessages {
                     paginator = new InboxManager(Authentication.reddit).read(where);
                 }
                 if (paginator.hasNext()) {
-                        ArrayList<Message> done = new ArrayList<>();
-                        for (Message m : paginator.next()) {
-                            done.add(m);
-                           if(m.getDataNode().has("replies") &&! m.getDataNode().get("replies").toString().isEmpty() && m.getDataNode().get("replies").has("data") && m.getDataNode().get("replies").get("data").has("children")) {
-                               JsonNode n = m.getDataNode().get("replies").get("data").get("children");
+                    ArrayList<Message> done = new ArrayList<>();
+                    for (Message m : paginator.next()) {
+                        done.add(m);
+                        if (m.getDataNode().has("replies") && !m.getDataNode().get("replies").toString().isEmpty() && m.getDataNode().get("replies").has("data") && m.getDataNode().get("replies").get("data").has("children")) {
+                            JsonNode n = m.getDataNode().get("replies").get("data").get("children");
 
-                               for (JsonNode o : n) {
-                                   done.add(new PrivateMessage(o.get("data")));
-                               }
-
-                           }
+                            for (JsonNode o : n) {
+                                done.add(new PrivateMessage(o.get("data")));
+                            }
 
                         }
-                        return done;
+
+                    }
+                    return done;
 
                 }
                 return null;
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }

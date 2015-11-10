@@ -30,47 +30,223 @@ import java.util.Vector;
  */
 public class MediaVideoView extends SurfaceView
         implements MediaController.MediaPlayerControl {
+    // all possible internal states
+    private static final int STATE_ERROR = -1;
+    private static final int STATE_IDLE = 0;
+    private static final int STATE_PREPARING = 1;
+    private static final int STATE_PREPARED = 2;
+    private static final int STATE_PLAYING = 3;
+    private static final int STATE_PAUSED = 4;
+    private static final int STATE_PLAYBACK_COMPLETED = 5;
     private String TAG = "VideoView";
     // settable by the client
     private Uri mUri;
     private Map<String, String> mHeaders;
-
-    // all possible internal states
-    private static final int STATE_ERROR              = -1;
-    private static final int STATE_IDLE               = 0;
-    private static final int STATE_PREPARING          = 1;
-    private static final int STATE_PREPARED           = 2;
-    private static final int STATE_PLAYING            = 3;
-    private static final int STATE_PAUSED             = 4;
-    private static final int STATE_PLAYBACK_COMPLETED = 5;
-
     // mCurrentState is a VideoView object's current state.
     // mTargetState is the state that a method caller intends to reach.
     // For instance, regardless the VideoView object's current state,
     // calling pause() intends to bring the object to a target state
     // of STATE_PAUSED.
     private int mCurrentState = STATE_IDLE;
-    private int mTargetState  = STATE_IDLE;
+    private int mTargetState = STATE_IDLE;
 
     // All the stuff we need for playing and showing a video
     private SurfaceHolder mSurfaceHolder = null;
     private MediaPlayer mMediaPlayer = null;
-    private int         mAudioSession;
-    private int         mVideoWidth;
-    private int         mVideoHeight;
-    private int         mSurfaceWidth;
-    private int         mSurfaceHeight;
+    private int mAudioSession;
+    private int mVideoWidth;
+    private int mVideoHeight;
+    MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
+            new MediaPlayer.OnVideoSizeChangedListener() {
+                public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                    mVideoWidth = mp.getVideoWidth();
+                    mVideoHeight = mp.getVideoHeight();
+                    if (mVideoWidth != 0 && mVideoHeight != 0) {
+                        getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                        requestLayout();
+                    }
+                }
+            };
+    private int mSurfaceWidth;
+    private int mSurfaceHeight;
     private MediaController mMediaController;
     private MediaPlayer.OnCompletionListener mOnCompletionListener;
     private MediaPlayer.OnPreparedListener mOnPreparedListener;
-    private int         mCurrentBufferPercentage;
+    private int mCurrentBufferPercentage;
     private MediaPlayer.OnErrorListener mOnErrorListener;
     private MediaPlayer.OnInfoListener mOnInfoListener;
-    private int         mSeekWhenPrepared;  // recording the seek position while preparing
-    private boolean     mCanPause;
-    private boolean     mCanSeekBack;
-    private boolean     mCanSeekForward;
+    private int mSeekWhenPrepared;  // recording the seek position while preparing
+    private boolean mCanPause;
+    private boolean mCanSeekBack;
+    private boolean mCanSeekForward;
+    MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
+        public void onPrepared(MediaPlayer mp) {
+            mCurrentState = STATE_PREPARED;
 
+            // Get the capabilities of the player for this stream
+//         Metadata data = mp.getMetadata(MediaPlayer.METADATA_ALL,
+//            MediaPlayer.BYPASS_METADATA_FILTER);
+
+//         if (data != null) {
+//            mCanPause = !data.has(Metadata.PAUSE_AVAILABLE)
+//               || data.getBoolean(Metadata.PAUSE_AVAILABLE);
+//            mCanSeekBack = !data.has(Metadata.SEEK_BACKWARD_AVAILABLE)
+//               || data.getBoolean(Metadata.SEEK_BACKWARD_AVAILABLE);
+//            mCanSeekForward = !data.has(Metadata.SEEK_FORWARD_AVAILABLE)
+//               || data.getBoolean(Metadata.SEEK_FORWARD_AVAILABLE);
+//         } else {
+            mCanPause = mCanSeekBack = mCanSeekForward = true;
+//         }
+
+            if (mOnPreparedListener != null) {
+                mOnPreparedListener.onPrepared(mMediaPlayer);
+            }
+            if (mMediaController != null) {
+                mMediaController.setEnabled(true);
+            }
+            mVideoWidth = mp.getVideoWidth();
+            mVideoHeight = mp.getVideoHeight();
+
+            int seekToPosition = mSeekWhenPrepared;  // mSeekWhenPrepared may be changed after seekTo() call
+            if (seekToPosition != 0) {
+                seekTo(seekToPosition);
+            }
+            if (mVideoWidth != 0 && mVideoHeight != 0) {
+                //Log.i("@@@@", "video size: " + mVideoWidth +"/"+ mVideoHeight);
+                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+                if (mSurfaceWidth == mVideoWidth && mSurfaceHeight == mVideoHeight) {
+                    // We didn't actually change the size (it was already at the size
+                    // we need), so we won't get a "surface changed" callback, so
+                    // start the video here instead of in the callback.
+                    if (mTargetState == STATE_PLAYING) {
+                        start();
+                        if (mMediaController != null) {
+                            mMediaController.show();
+                        }
+                    } else if (!isPlaying() &&
+                            (seekToPosition != 0 || getCurrentPosition() > 0)) {
+                        if (mMediaController != null) {
+                            // Show the media controls when we're paused into a video and make 'em stick.
+                            mMediaController.show(0);
+                        }
+                    }
+                }
+            } else {
+                // We don't know the video size yet, but should start anyway.
+                // The video size might be reported to us later.
+                if (mTargetState == STATE_PLAYING) {
+                    start();
+                }
+            }
+        }
+    };
+    private Vector<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
+    private MediaPlayer.OnCompletionListener mCompletionListener =
+            new MediaPlayer.OnCompletionListener() {
+                public void onCompletion(MediaPlayer mp) {
+                    mCurrentState = STATE_PLAYBACK_COMPLETED;
+                    mTargetState = STATE_PLAYBACK_COMPLETED;
+                    if (mMediaController != null) {
+                        mMediaController.hide();
+                    }
+                    if (mOnCompletionListener != null) {
+                        mOnCompletionListener.onCompletion(mMediaPlayer);
+                    }
+                }
+            };
+    private MediaPlayer.OnInfoListener mInfoListener =
+            new MediaPlayer.OnInfoListener() {
+                public boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
+                    if (mOnInfoListener != null) {
+                        mOnInfoListener.onInfo(mp, arg1, arg2);
+                    }
+                    return true;
+                }
+            };
+    private MediaPlayer.OnErrorListener mErrorListener =
+            new MediaPlayer.OnErrorListener() {
+                public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
+                    Log.d(TAG, "Error: " + framework_err + "," + impl_err);
+                    mCurrentState = STATE_ERROR;
+                    mTargetState = STATE_ERROR;
+                    if (mMediaController != null) {
+                        mMediaController.hide();
+                    }
+
+            /* If an error handler has been supplied, use it and finish. */
+                    if (mOnErrorListener != null) {
+                        if (mOnErrorListener.onError(mMediaPlayer, framework_err, impl_err)) {
+                            return true;
+                        }
+                    }
+
+            /* Otherwise, pop up an error dialog so the user knows that
+             * something bad has happened. Only try and pop up the dialog
+             * if we're attached to a window. When we're going away and no
+             * longer have a window, don't bother showing the user an error.
+             */
+//            if (getWindowToken() != null) {
+//               Resources r = getContext().getResources();
+//               int messageId;
+//
+//               if (framework_err == MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK) {
+//                  messageId = com.android.internal.R.string.VideoView_error_text_invalid_progressive_playback;
+//               } else {
+//                  messageId = com.android.internal.R.string.VideoView_error_text_unknown;
+//               }
+//
+//               new AlertDialogWrapper.Builder(getContext())
+//                  .setMessage(messageId)
+//                  .setPositiveButton(com.android.internal.R.string.VideoView_error_button,
+//                     new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int whichButton) {
+//                                        /* If we get here, there is no onError listener, so
+//                                         * at least inform them that the video is over.
+//                                         */
+//                           if (mOnCompletionListener != null) {
+//                              mOnCompletionListener.onCompletion(mMediaPlayer);
+//                           }
+//                        }
+//                     })
+//                  .setCancelable(false)
+//                  .show();
+//            }
+                    return true;
+                }
+            };
+    private MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
+            new MediaPlayer.OnBufferingUpdateListener() {
+                public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                    mCurrentBufferPercentage = percent;
+                }
+            };
+    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback() {
+        public void surfaceChanged(SurfaceHolder holder, int format,
+                                   int w, int h) {
+            mSurfaceWidth = w;
+            mSurfaceHeight = h;
+            boolean isValidState = (mTargetState == STATE_PLAYING);
+            boolean hasValidSize = (mVideoWidth == w && mVideoHeight == h);
+            if (mMediaPlayer != null && isValidState && hasValidSize) {
+                if (mSeekWhenPrepared != 0) {
+                    seekTo(mSeekWhenPrepared);
+                }
+                start();
+            }
+        }
+
+        public void surfaceCreated(SurfaceHolder holder) {
+            mSurfaceHolder = holder;
+            openVideo();
+        }
+
+        public void surfaceDestroyed(SurfaceHolder holder) {
+            // after we return from this we can't use the surface any more
+            mSurfaceHolder = null;
+            if (mMediaController != null) mMediaController.hide();
+            release(true);
+        }
+    };
 
     public MediaVideoView(Context context) {
         super(context);
@@ -87,7 +263,8 @@ public class MediaVideoView extends SurfaceView
         initVideoView();
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) public MediaVideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public MediaVideoView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initVideoView();
     }
@@ -112,10 +289,10 @@ public class MediaVideoView extends SurfaceView
                 height = heightSpecSize;
 
                 // for compatibility, we adjust size based on aspect ratio
-                if ( mVideoWidth * height  < width * mVideoHeight ) {
+                if (mVideoWidth * height < width * mVideoHeight) {
                     //Log.i("@@@", "image too wide, correcting");
                     width = height * mVideoWidth / mVideoHeight;
-                } else if ( mVideoWidth * height  > width * mVideoHeight ) {
+                } else if (mVideoWidth * height > width * mVideoHeight) {
                     //Log.i("@@@", "image too tall, correcting");
                     height = width * mVideoHeight / mVideoWidth;
                 }
@@ -182,7 +359,7 @@ public class MediaVideoView extends SurfaceView
         requestFocus();
         mPendingSubtitleTracks = new Vector<>();
         mCurrentState = STATE_IDLE;
-        mTargetState  = STATE_IDLE;
+        mTargetState = STATE_IDLE;
     }
 
     /**
@@ -222,15 +399,13 @@ public class MediaVideoView extends SurfaceView
         invalidate();
     }
 
-    private Vector<Pair<InputStream, MediaFormat>> mPendingSubtitleTracks;
-
     public void stopPlayback() {
         if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
             mMediaPlayer = null;
             mCurrentState = STATE_IDLE;
-            mTargetState  = STATE_IDLE;
+            mTargetState = STATE_IDLE;
         }
     }
 
@@ -300,168 +475,11 @@ public class MediaVideoView extends SurfaceView
         if (mMediaPlayer != null && mMediaController != null) {
             mMediaController.setMediaPlayer(this);
             View anchorView = this.getParent() instanceof View ?
-                    (View)this.getParent() : this;
+                    (View) this.getParent() : this;
             mMediaController.setAnchorView(anchorView);
             mMediaController.setEnabled(isInPlaybackState());
         }
     }
-
-    MediaPlayer.OnVideoSizeChangedListener mSizeChangedListener =
-            new MediaPlayer.OnVideoSizeChangedListener() {
-                public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-                    mVideoWidth = mp.getVideoWidth();
-                    mVideoHeight = mp.getVideoHeight();
-                    if (mVideoWidth != 0 && mVideoHeight != 0) {
-                        getHolder().setFixedSize(mVideoWidth, mVideoHeight);
-                        requestLayout();
-                    }
-                }
-            };
-
-    MediaPlayer.OnPreparedListener mPreparedListener = new MediaPlayer.OnPreparedListener() {
-        public void onPrepared(MediaPlayer mp) {
-            mCurrentState = STATE_PREPARED;
-
-            // Get the capabilities of the player for this stream
-//         Metadata data = mp.getMetadata(MediaPlayer.METADATA_ALL,
-//            MediaPlayer.BYPASS_METADATA_FILTER);
-
-//         if (data != null) {
-//            mCanPause = !data.has(Metadata.PAUSE_AVAILABLE)
-//               || data.getBoolean(Metadata.PAUSE_AVAILABLE);
-//            mCanSeekBack = !data.has(Metadata.SEEK_BACKWARD_AVAILABLE)
-//               || data.getBoolean(Metadata.SEEK_BACKWARD_AVAILABLE);
-//            mCanSeekForward = !data.has(Metadata.SEEK_FORWARD_AVAILABLE)
-//               || data.getBoolean(Metadata.SEEK_FORWARD_AVAILABLE);
-//         } else {
-            mCanPause = mCanSeekBack = mCanSeekForward = true;
-//         }
-
-            if (mOnPreparedListener != null) {
-                mOnPreparedListener.onPrepared(mMediaPlayer);
-            }
-            if (mMediaController != null) {
-                mMediaController.setEnabled(true);
-            }
-            mVideoWidth = mp.getVideoWidth();
-            mVideoHeight = mp.getVideoHeight();
-
-            int seekToPosition = mSeekWhenPrepared;  // mSeekWhenPrepared may be changed after seekTo() call
-            if (seekToPosition != 0) {
-                seekTo(seekToPosition);
-            }
-            if (mVideoWidth != 0 && mVideoHeight != 0) {
-                //Log.i("@@@@", "video size: " + mVideoWidth +"/"+ mVideoHeight);
-                getHolder().setFixedSize(mVideoWidth, mVideoHeight);
-                if (mSurfaceWidth == mVideoWidth && mSurfaceHeight == mVideoHeight) {
-                    // We didn't actually change the size (it was already at the size
-                    // we need), so we won't get a "surface changed" callback, so
-                    // start the video here instead of in the callback.
-                    if (mTargetState == STATE_PLAYING) {
-                        start();
-                        if (mMediaController != null) {
-                            mMediaController.show();
-                        }
-                    } else if (!isPlaying() &&
-                            (seekToPosition != 0 || getCurrentPosition() > 0)) {
-                        if (mMediaController != null) {
-                            // Show the media controls when we're paused into a video and make 'em stick.
-                            mMediaController.show(0);
-                        }
-                    }
-                }
-            } else {
-                // We don't know the video size yet, but should start anyway.
-                // The video size might be reported to us later.
-                if (mTargetState == STATE_PLAYING) {
-                    start();
-                }
-            }
-        }
-    };
-
-    private MediaPlayer.OnCompletionListener mCompletionListener =
-            new MediaPlayer.OnCompletionListener() {
-                public void onCompletion(MediaPlayer mp) {
-                    mCurrentState = STATE_PLAYBACK_COMPLETED;
-                    mTargetState = STATE_PLAYBACK_COMPLETED;
-                    if (mMediaController != null) {
-                        mMediaController.hide();
-                    }
-                    if (mOnCompletionListener != null) {
-                        mOnCompletionListener.onCompletion(mMediaPlayer);
-                    }
-                }
-            };
-
-    private MediaPlayer.OnInfoListener mInfoListener =
-            new MediaPlayer.OnInfoListener() {
-                public  boolean onInfo(MediaPlayer mp, int arg1, int arg2) {
-                    if (mOnInfoListener != null) {
-                        mOnInfoListener.onInfo(mp, arg1, arg2);
-                    }
-                    return true;
-                }
-            };
-
-    private MediaPlayer.OnErrorListener mErrorListener =
-            new MediaPlayer.OnErrorListener() {
-                public boolean onError(MediaPlayer mp, int framework_err, int impl_err) {
-                    Log.d(TAG, "Error: " + framework_err + "," + impl_err);
-                    mCurrentState = STATE_ERROR;
-                    mTargetState = STATE_ERROR;
-                    if (mMediaController != null) {
-                        mMediaController.hide();
-                    }
-
-            /* If an error handler has been supplied, use it and finish. */
-                    if (mOnErrorListener != null) {
-                        if (mOnErrorListener.onError(mMediaPlayer, framework_err, impl_err)) {
-                            return true;
-                        }
-                    }
-
-            /* Otherwise, pop up an error dialog so the user knows that
-             * something bad has happened. Only try and pop up the dialog
-             * if we're attached to a window. When we're going away and no
-             * longer have a window, don't bother showing the user an error.
-             */
-//            if (getWindowToken() != null) {
-//               Resources r = getContext().getResources();
-//               int messageId;
-//
-//               if (framework_err == MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK) {
-//                  messageId = com.android.internal.R.string.VideoView_error_text_invalid_progressive_playback;
-//               } else {
-//                  messageId = com.android.internal.R.string.VideoView_error_text_unknown;
-//               }
-//
-//               new AlertDialogWrapper.Builder(getContext())
-//                  .setMessage(messageId)
-//                  .setPositiveButton(com.android.internal.R.string.VideoView_error_button,
-//                     new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int whichButton) {
-//                                        /* If we get here, there is no onError listener, so
-//                                         * at least inform them that the video is over.
-//                                         */
-//                           if (mOnCompletionListener != null) {
-//                              mOnCompletionListener.onCompletion(mMediaPlayer);
-//                           }
-//                        }
-//                     })
-//                  .setCancelable(false)
-//                  .show();
-//            }
-                    return true;
-                }
-            };
-
-    private MediaPlayer.OnBufferingUpdateListener mBufferingUpdateListener =
-            new MediaPlayer.OnBufferingUpdateListener() {
-                public void onBufferingUpdate(MediaPlayer mp, int percent) {
-                    mCurrentBufferPercentage = percent;
-                }
-            };
 
     /**
      * Register a callback to be invoked when the media file
@@ -469,8 +487,7 @@ public class MediaVideoView extends SurfaceView
      *
      * @param l The callback that will be run
      */
-    public void setOnPreparedListener(MediaPlayer.OnPreparedListener l)
-    {
+    public void setOnPreparedListener(MediaPlayer.OnPreparedListener l) {
         mOnPreparedListener = l;
     }
 
@@ -480,8 +497,7 @@ public class MediaVideoView extends SurfaceView
      *
      * @param l The callback that will be run
      */
-    public void setOnCompletionListener(MediaPlayer.OnCompletionListener l)
-    {
+    public void setOnCompletionListener(MediaPlayer.OnCompletionListener l) {
         mOnCompletionListener = l;
     }
 
@@ -493,8 +509,7 @@ public class MediaVideoView extends SurfaceView
      *
      * @param l The callback that will be run
      */
-    public void setOnErrorListener(MediaPlayer.OnErrorListener l)
-    {
+    public void setOnErrorListener(MediaPlayer.OnErrorListener l) {
         mOnErrorListener = l;
     }
 
@@ -508,38 +523,6 @@ public class MediaVideoView extends SurfaceView
         mOnInfoListener = l;
     }
 
-    SurfaceHolder.Callback mSHCallback = new SurfaceHolder.Callback()
-    {
-        public void surfaceChanged(SurfaceHolder holder, int format,
-                                   int w, int h)
-        {
-            mSurfaceWidth = w;
-            mSurfaceHeight = h;
-            boolean isValidState =  (mTargetState == STATE_PLAYING);
-            boolean hasValidSize = (mVideoWidth == w && mVideoHeight == h);
-            if (mMediaPlayer != null && isValidState && hasValidSize) {
-                if (mSeekWhenPrepared != 0) {
-                    seekTo(mSeekWhenPrepared);
-                }
-                start();
-            }
-        }
-
-        public void surfaceCreated(SurfaceHolder holder)
-        {
-            mSurfaceHolder = holder;
-            openVideo();
-        }
-
-        public void surfaceDestroyed(SurfaceHolder holder)
-        {
-            // after we return from this we can't use the surface any more
-            mSurfaceHolder = null;
-            if (mMediaController != null) mMediaController.hide();
-            release(true);
-        }
-    };
-
     /*
      * release the media player in any state
      */
@@ -551,7 +534,7 @@ public class MediaVideoView extends SurfaceView
             mPendingSubtitleTracks.clear();
             mCurrentState = STATE_IDLE;
             if (cleartargetstate) {
-                mTargetState  = STATE_IDLE;
+                mTargetState = STATE_IDLE;
             }
         }
     }
@@ -573,8 +556,7 @@ public class MediaVideoView extends SurfaceView
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean isKeyCodeSupported = keyCode != KeyEvent.KEYCODE_BACK &&
                 keyCode != KeyEvent.KEYCODE_VOLUME_UP &&
                 keyCode != KeyEvent.KEYCODE_VOLUME_DOWN &&

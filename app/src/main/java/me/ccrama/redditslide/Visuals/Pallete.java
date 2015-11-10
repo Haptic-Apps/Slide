@@ -10,36 +10,41 @@ import me.ccrama.redditslide.Reddit;
  * Created by ccrama on 9/18/2015.
  */
 public class Pallete {
-    private int fontColor;
     public int backgroundColor;
-    public static int getDefaultColor(){
-        if(Reddit.colors.contains("DEFAULTCOLOR")){
+    public ThemeEnum theme;
+    private int fontColor;
+    private int mainColor;
+    private int accentColor;
+
+    public static int getDefaultColor() {
+        if (Reddit.colors.contains("DEFAULTCOLOR")) {
             return Reddit.colors.getInt("DEFAULTCOLOR", Color.parseColor("#e64a19"));
         } else {
             return Color.parseColor("#e64a19");
 
         }
     }
-    public static int getDefaultAccent(){
-        if(Reddit.colors.contains("ACCENTCOLOR")){
+
+    public static int getDefaultAccent() {
+        if (Reddit.colors.contains("ACCENTCOLOR")) {
             return Reddit.colors.getInt("ACCENTCOLOR", Color.parseColor("#ff6e40"));
         } else {
             return Color.parseColor("#ff6e40");
 
         }
     }
-    private int mainColor;
-    private int accentColor;
-    private static int getColorAccent(final String subreddit){
-        if(Reddit.colors.contains("ACCENT" + subreddit.toLowerCase())) {
+
+    private static int getColorAccent(final String subreddit) {
+        if (Reddit.colors.contains("ACCENT" + subreddit.toLowerCase())) {
 
             return Reddit.colors.getInt("ACCENT" + subreddit.toLowerCase(), getDefaultColor());
         } else {
             return getDefaultColor();
         }
     }
-    public static int getFontColorUser(final String subreddit){
-        if(Reddit.colors.contains("USER" + subreddit.toLowerCase())) {
+
+    public static int getFontColorUser(final String subreddit) {
+        if (Reddit.colors.contains("USER" + subreddit.toLowerCase())) {
 
             int color = Reddit.colors.getInt("USER" + subreddit.toLowerCase(), getDefaultColor());
             if (color == getDefaultColor()) {
@@ -51,37 +56,44 @@ public class Pallete {
             return 0;
         }
     }
-    public static int[] getColors(String subreddit, Context context){
+
+    public static int[] getColors(String subreddit, Context context) {
         int[] ints = new int[2];
         ints[0] = getColor(subreddit);
         ints[1] = new ColorPreferences(context).getColor(subreddit);
         return ints;
     }
-    public static int getColor(final String subreddit){
 
-        if(subreddit != null && Reddit.colors.contains(subreddit.toLowerCase())) {
+    public static int getColor(final String subreddit) {
+
+        if (subreddit != null && Reddit.colors.contains(subreddit.toLowerCase())) {
             return Reddit.colors.getInt(subreddit.toLowerCase(), getDefaultColor());
         }
         return getDefaultColor();
     }
-    public static void setColor(final String subreddit, int color){
-         Reddit.colors.edit().putInt(subreddit.toLowerCase(), color).apply();
+
+    public static void setColor(final String subreddit, int color) {
+        Reddit.colors.edit().putInt(subreddit.toLowerCase(), color).apply();
     }
-    public static void removeColor(final String subreddit){
+
+    public static void removeColor(final String subreddit) {
         Reddit.colors.edit().remove(subreddit.toLowerCase()).apply();
     }
-    public static int getColorUser(final String username){
-        if(Reddit.colors.contains("USER" + username.toLowerCase())) {
+
+    public static int getColorUser(final String username) {
+        if (Reddit.colors.contains("USER" + username.toLowerCase())) {
 
             return Reddit.colors.getInt("USER" + username.toLowerCase(), getDefaultColor());
         } else {
             return getDefaultColor();
         }
     }
-    public static void setColorUser(final String username, int color){
+
+    public static void setColorUser(final String username, int color) {
         Reddit.colors.edit().putInt("USER" + username.toLowerCase(), color).apply();
     }
-    public static Pallete getSubredditPallete(String subredditname){
+
+    public static Pallete getSubredditPallete(String subredditname) {
         Pallete p = new Pallete();
         p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
         p.fontColor = p.theme.getFontColor();
@@ -91,7 +103,8 @@ public class Pallete {
         return p;
 
     }
-    public static Pallete getDefaultPallete(){
+
+    public static Pallete getDefaultPallete() {
         Pallete p = new Pallete();
         p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
         p.fontColor = p.theme.getFontColor();
@@ -99,6 +112,7 @@ public class Pallete {
         return p;
 
     }
+
     public static int getDarkerColor(String s) {
         int color = getColor(s);
         return getDarkerColor(color);
@@ -112,13 +126,24 @@ public class Pallete {
         color = Color.HSVToColor(hsv);
         return color;
     }
-    public ThemeEnum theme;
 
 
-    public enum ThemeEnum{
+    public enum ThemeEnum {
         DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff")),
-        LIGHT("Light",Color.parseColor("#e8e8e8"), Color.parseColor("#ffffff"), Color.parseColor("#ff414141") ),
+        LIGHT("Light", Color.parseColor("#e8e8e8"), Color.parseColor("#ffffff"), Color.parseColor("#ff414141")),
         AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"));
+
+        final String displayName;
+        final int backgroundColor;
+        final int cardBackgroundColor;
+        final int fontColor;
+
+        ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor) {
+            this.displayName = s;
+            this.backgroundColor = backgroundColor;
+            this.cardBackgroundColor = cardBackgroundColor;
+            this.fontColor = fontColor;
+        }
 
         public String getDisplayName() {
             return displayName;
@@ -134,17 +159,6 @@ public class Pallete {
 
         public int getFontColor() {
             return fontColor;
-        }
-
-        final String displayName;
-        final int backgroundColor;
-        final int cardBackgroundColor;
-        final int fontColor;
-        ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor){
-            this.displayName = s;
-            this.backgroundColor = backgroundColor;
-            this.cardBackgroundColor = cardBackgroundColor;
-            this.fontColor = fontColor;
         }
     }
 

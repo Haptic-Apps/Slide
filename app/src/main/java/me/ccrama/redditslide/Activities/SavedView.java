@@ -46,13 +46,12 @@ public class SavedView extends BaseActivity {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColorUser(id)));
             SavedView.this.setTaskDescription(new ActivityManager.TaskDescription(where + " posts", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColorUser(id)));
-
         }
 
         getSupportActionBar().setTitle(where);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);
@@ -116,6 +115,7 @@ public class SavedView extends BaseActivity {
                 }
         );
     }
+
     private int totalItemCount;
 
     private int visibleItemCount;
@@ -124,9 +124,6 @@ public class SavedView extends BaseActivity {
 
     private String where;
     private ContributionPosts posts;
-
-
-
 
 
 }

@@ -24,7 +24,7 @@ import android.widget.TextView;
  */
 class CustomMovementMethod extends LinkMovementMethod {
     @Override
-    public boolean canSelectArbitrarily () {
+    public boolean canSelectArbitrarily() {
         return true;
     }
 
