@@ -8,8 +8,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -1763,6 +1761,7 @@ public class SubredditOverview extends OverviewBase {
                     Intent inte = new Intent(SubredditOverview.this, SubredditView.class);
                     inte.putExtra("subreddit", e.getText().toString());
                     SubredditOverview.this.startActivity(inte);
+                    e.setText("");
                 }
                 return false;
             }
