@@ -36,7 +36,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends BaseActivityNoAnim  {
+public class Settings extends BaseActivityNoAnim {
 
 
     @Override
@@ -49,8 +49,6 @@ public class Settings extends BaseActivityNoAnim  {
 
             finish();
             overridePendingTransition(0, 0);
-
-
         }
     }
 
@@ -61,11 +59,8 @@ public class Settings extends BaseActivityNoAnim  {
         if (id == android.R.id.home) {
             onBackPressed();
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
     @Override
@@ -233,7 +228,7 @@ public class Settings extends BaseActivityNoAnim  {
                         if (!isChecked) {
                             Reddit.notificationTime = -1;
                             Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                            if(Reddit.notifications != null)
+                            if (Reddit.notifications != null)
                                 Reddit.notifications.cancel(getApplication());
                         } else {
                             Reddit.notificationTime = 15;
@@ -306,7 +301,6 @@ public class Settings extends BaseActivityNoAnim  {
                 startActivityForResult(i, 2);
             }
         });
-
 
 
         findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {

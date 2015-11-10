@@ -28,11 +28,12 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 
-public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
+public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Context mContext;
     public ArrayList<Message> dataSet;
     private final RecyclerView listView;
+
     @Override
     public void setError(Boolean b) {
         listView.setAdapter(new ErrorAdapter());
@@ -44,10 +45,11 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private static final int TOP_LEVEL = 1;
+
     @Override
     public int getItemViewType(int position) {
 
-        if(position == dataSet.size()){
+        if (position == dataSet.size()) {
             return 5;
         }
 
@@ -56,23 +58,23 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         return 2;
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
         if (i == TOP_LEVEL) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
             return new MessageViewHolder(v);
-        } else if(i == 5){
+        } else if (i == 5) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new ContributionAdapter.EmptyViewHolder(v);
-        }  else {
+        } else {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_reply, viewGroup, false);
             return new MessageViewHolder(v);
 
         }
 
     }
-
 
 
     public InboxAdapter(Context mContext, InboxMessages dataSet, RecyclerView listView) {
@@ -99,7 +101,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
 
-        if(! (holder2 instanceof ContributionAdapter.EmptyViewHolder)) {
+        if (!(holder2 instanceof ContributionAdapter.EmptyViewHolder)) {
 
             final MessageViewHolder holder = (MessageViewHolder) holder2;
 

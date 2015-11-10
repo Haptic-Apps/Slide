@@ -21,15 +21,22 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class InboxPage extends Fragment {
 
 
+    private int totalItemCount;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private InboxAdapter adapter;
+    private InboxMessages posts;
+    private String id;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
-            rv.setLayoutManager(mLayoutManager);
+        final PreCachingLayoutManager mLayoutManager;
+        mLayoutManager = new PreCachingLayoutManager(getActivity());
+        rv.setLayoutManager(mLayoutManager);
 
 
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -87,16 +94,6 @@ public class InboxPage extends Fragment {
         });
         return v;
     }
-    private int totalItemCount;
-
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-    private InboxAdapter adapter;
-
-    private InboxMessages posts;
-
-    private String id;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

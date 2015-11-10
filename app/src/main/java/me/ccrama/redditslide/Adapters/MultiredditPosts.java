@@ -40,12 +40,12 @@ public class MultiredditPosts {
 
     public void bindAdapter(MultiredditAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, subreddit);
     }
 
     public void loadMore(MultiredditAdapter adapter, MultiReddit subreddit) {
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
@@ -57,6 +57,7 @@ public class MultiredditPosts {
     }
 
     public boolean loading;
+
     public class LoadData extends AsyncTask<MultiReddit, Void, ArrayList<Submission>> {
         final boolean reset;
 
@@ -66,17 +67,17 @@ public class MultiredditPosts {
 
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
-            if(subs != null) {
+            if (subs != null) {
 
                 loading = false;
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                            adapter.notifyDataSetChanged();
+                ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                        adapter.notifyDataSetChanged();
 
-                        }
-                    });
+                    }
+                });
             } else {
                 adapter.setError(true);
 
@@ -113,7 +114,7 @@ public class MultiredditPosts {
                     }
                 }
                 return posts;
-            }catch (Exception e){
+            } catch (Exception e) {
                 return null;
             }
 

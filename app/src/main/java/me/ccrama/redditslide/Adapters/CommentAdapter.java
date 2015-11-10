@@ -75,7 +75,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (i == HEADER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
             return new SubmissionViewHolder(v);
-        } else if(i == 2){
+        } else if (i == 2) {
 
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
             return new CommentViewHolder(v);
@@ -477,9 +477,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             notifyItemRangeInserted(holderPos, data);
 
-                currentPos = holderPos;
-                toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
-                shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+            currentPos = holderPos;
+            toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
+            shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
 
 
         }
@@ -521,17 +521,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
 
-            shifted += i;
-            users.addAll(position - 1, finalData);
+                shifted += i;
+                users.addAll(position - 1, finalData);
 
-            for (int i2 = 0; i2 < users.size(); i2++) {
-                keys.put(users.get(i2).getCommentNode().getComment().getFullName(), i2);
-            }
-            params[0].moreChildren = null;
+                for (int i2 = 0; i2 < users.size(); i2++) {
+                    keys.put(users.get(i2).getCommentNode().getComment().getFullName(), i2);
+                }
+                params[0].moreChildren = null;
             }
             return i;
         }
     }
+
     public int shiftFrom;
 
     public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
@@ -556,6 +557,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     int shifted;
     int toShiftTo;
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
 
@@ -568,10 +570,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final int finalPos1 = pos;
 
 
-            if(pos > toShiftTo){
+            if (pos > toShiftTo) {
                 shifted = 0;
             }
-            if(pos < shiftFrom ){
+            if (pos < shiftFrom) {
                 shifted = 0;
             }
             final CommentNode baseNode = users.get(nextPos).getCommentNode();
@@ -594,7 +596,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final CommentObject prev = users.get(nextPos);
 
-            if(prev.getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(nextPos -1).getCommentNode().getComment().getFullName())){
+            if (prev.getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(nextPos - 1).getCommentNode().getComment().getFullName())) {
                 holder.commentArea.removeAllViews();
                 holder.commentArea.setVisibility(View.VISIBLE);
                 LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -603,14 +605,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
                 int width = 0;
-                for (int i = 0; i < users.get(nextPos).getMoreCommentNode().getDepth() ; i++) {
+                for (int i = 0; i < users.get(nextPos).getMoreCommentNode().getDepth(); i++) {
                     width += dwidth;
                 }
 
                 (moreComments.findViewById(R.id.content)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                            new AsyncLoadMore( getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
+                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
 
 
                     }
@@ -792,8 +794,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.dot.setVisibility(View.GONE);
             }
-        }  else {
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission,(Activity)mContext, true, true, null, null, false);
+        } else {
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false);
             if (Authentication.isLoggedIn) {
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1009,7 +1011,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int getItemViewType(int position) {
         if (position == 0)
             return HEADER;
-            return 2;
+        return 2;
 
     }
 

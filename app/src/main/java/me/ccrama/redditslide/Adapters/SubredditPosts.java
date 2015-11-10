@@ -25,12 +25,13 @@ public class SubredditPosts {
     private SwipeRefreshLayout refreshLayout;
 
     public boolean loading;
+
     public SubredditPosts(ArrayList<Submission> firstData, SubredditPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
     }
 
-    public ArrayList<Submission> getPosts(){
+    public ArrayList<Submission> getPosts() {
         try {
             return new LoadData(true).execute(subreddit).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -38,6 +39,7 @@ public class SubredditPosts {
         }
         return new ArrayList<>();
     }
+
     public String subreddit;
 
     public SubredditPosts(String subreddit) {
@@ -48,7 +50,7 @@ public class SubredditPosts {
 
     public void bindAdapter(SubmissionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
 
         loadMore(a, true, subreddit);
     }
@@ -58,6 +60,7 @@ public class SubredditPosts {
 
 
     }
+
     public void loadMore(CommentsScreen adapter, boolean reset) {
         this.pagerad = adapter;
         new LoadData(reset).execute(subreddit);
@@ -65,6 +68,7 @@ public class SubredditPosts {
     }
 
     CommentsScreen pagerad;
+
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
         final boolean reset;
 
@@ -75,7 +79,7 @@ public class SubredditPosts {
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
 
-            if(subs != null) {
+            if (subs != null) {
 
                 loading = false;
 
@@ -85,7 +89,7 @@ public class SubredditPosts {
                         public void run() {
                             refreshLayout.setRefreshing(false);
 
-                                adapter.dataSet = posts;
+                            adapter.dataSet = posts;
 
 
                             adapter.notifyDataSetChanged();
@@ -125,16 +129,16 @@ public class SubredditPosts {
                             }
 
                         }
-                    } catch(Exception ignored){
+                    } catch (Exception ignored) {
                         //gets caught above
                     }
                 } else {
-                    if(posts == null)
+                    if (posts == null)
                         posts = new ArrayList<>();
 
-                    try{
-                    for (Submission c : paginator.next()) {
-                            Submission s =  c;
+                    try {
+                        for (Submission c : paginator.next()) {
+                            Submission s = c;
                             if (Hidden.isHidden(s)) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
@@ -143,8 +147,8 @@ public class SubredditPosts {
                                 }
                             }
 
-                    }
-                    } catch(Exception ignored){
+                        }
+                    } catch (Exception ignored) {
                         //gets caught above
                     }
                 }

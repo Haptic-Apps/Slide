@@ -104,6 +104,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     private Submission submission;
 
     private final String subAuthor;
+
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
@@ -122,8 +123,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         final CommentNode baseNode = dataSet.get(pos);
         final Comment comment = baseNode.getComment();
-
-
 
 
         String author = comment.getAuthor();

@@ -29,8 +29,9 @@ public class ModeratorPosts {
     private String where;
 
     private String subreddit;
+
     public ModeratorPosts(String where, String subreddit) {
-        this.where = where; 
+        this.where = where;
         this.subreddit = subreddit;
     }
 
@@ -39,13 +40,13 @@ public class ModeratorPosts {
 
     public void bindAdapter(ModeratorAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, where, subreddit);
     }
 
     public void loadMore(ModeratorAdapter adapter, String where, String subreddit) {
         this.subreddit = subreddit;
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(where);
 
@@ -57,6 +58,7 @@ public class ModeratorPosts {
     }
 
     public boolean loading;
+
     public class LoadData extends AsyncTask<String, Void, ArrayList<PublicContribution>> {
         final boolean reset;
 
@@ -66,12 +68,12 @@ public class ModeratorPosts {
 
         @Override
         public void onPostExecute(ArrayList<PublicContribution> subs) {
-            if(subs != null) {
+            if (subs != null) {
 
                 loading = false;
-                            refreshLayout.setRefreshing(false);
-                            adapter.dataSet = subs;
-                            adapter.notifyDataSetChanged();
+                refreshLayout.setRefreshing(false);
+                adapter.dataSet = subs;
+                adapter.notifyDataSetChanged();
             } else {
                 adapter.setError(true);
 
@@ -88,14 +90,14 @@ public class ModeratorPosts {
                 paginator.setIncludeSubmissions(true);
 
                 if (paginator.hasNext()) {
-                        ArrayList<PublicContribution> done = new ArrayList<>(paginator.next());
+                    ArrayList<PublicContribution> done = new ArrayList<>(paginator.next());
 
                     Log.v("Slide", done.size() + "SIZE");
-                        return done;
+                    return done;
 
                 }
                 return null;
-            } catch (Exception e){
+            } catch (Exception e) {
                 return null;
             }
         }

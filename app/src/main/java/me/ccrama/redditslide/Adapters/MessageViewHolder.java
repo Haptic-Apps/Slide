@@ -24,6 +24,4 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
 
         user = (TextView) v.findViewById(R.id.user);
     }
-
-
 }

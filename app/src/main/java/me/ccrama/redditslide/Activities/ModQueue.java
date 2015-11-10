@@ -54,7 +54,6 @@ public class ModQueue extends BaseActivity {
         findViewById(R.id.notifs).setVisibility(View.GONE);
 
 
-
     }
 
     public ModQueue.OverviewPagerAdapter adapter;
@@ -65,11 +64,13 @@ public class ModQueue extends BaseActivity {
             super(fm);
 
         }
+
         private Fragment mCurrentFragment;
 
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             if (getCurrentFragment() != object) {
@@ -77,10 +78,11 @@ public class ModQueue extends BaseActivity {
             }
             super.setPrimaryItem(container, position, object);
         }
+
         @Override
         public Fragment getItem(int i) {
 
-            if(i == 0){
+            if (i == 0) {
                 Fragment f = new InboxPage();
                 Bundle args = new Bundle();
                 args.putString("id", "moderator");
@@ -112,7 +114,7 @@ public class ModQueue extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if(position == 0){
+            if (position == 0) {
                 return getString(R.string.mod_mail);
             } else {
                 return SubredditStorage.modOf.get(position - 1);

@@ -1541,8 +1541,6 @@ public class SubredditOverviewSingle extends OverviewBase {
             f.setArguments(args);
 
             return f;
-
-
         }
 
 

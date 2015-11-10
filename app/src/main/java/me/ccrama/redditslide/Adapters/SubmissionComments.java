@@ -58,7 +58,7 @@ public class SubmissionComments {
 
     public void loadMore(CommentAdapter adapter, String subreddit) {
         this.adapter = adapter;
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
@@ -107,7 +107,7 @@ public class SubmissionComments {
                 for (CommentNode n : baseComment.walkTree()) {
 
                     CommentObject obj = new CommentObject(n);
-                    if (n.getDepth() <= toPut && toDo != null ) {
+                    if (n.getDepth() <= toPut && toDo != null) {
                         obj.setMoreChildren(toDo, toDoComment);
                         toPut = -1;
                         toDo = null;

@@ -12,6 +12,5 @@ import java.util.List;
 public class OverviewBase extends AppCompatActivity {
     public ViewPager pager;
     public List<String> usedArray;
-
     public DrawerLayout drawerLayout;
 }

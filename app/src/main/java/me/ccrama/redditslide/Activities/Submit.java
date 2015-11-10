@@ -68,6 +68,7 @@ public class Submit extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private View image;
     private View self;
 
@@ -143,14 +144,16 @@ public class Submit extends AppCompatActivity {
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((FloatingActionButton)findViewById(R.id.send)).hide();
+                ((FloatingActionButton) findViewById(R.id.send)).hide();
                 new AsyncDo().execute();
-               }
+            }
         });
 
     }
+
     private String URL;
-    private void setImage(final String URL){
+
+    private void setImage(final String URL) {
         this.URL = URL;
 
 
@@ -158,7 +161,7 @@ public class Submit extends AppCompatActivity {
             @Override
             public void run() {
                 findViewById(R.id.imagepost).setVisibility(View.VISIBLE);
-                ((Reddit)getApplication()).getImageLoader().displayImage(URL, ((ImageView) findViewById(R.id.imagepost)) );
+                ((Reddit) getApplication()).getImageLoader().displayImage(URL, ((ImageView) findViewById(R.id.imagepost)));
 
             }
         });
@@ -166,7 +169,7 @@ public class Submit extends AppCompatActivity {
 
     String trying;
 
-    private class AsyncDo extends AsyncTask<Void, Void,Void>{
+    private class AsyncDo extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -174,7 +177,7 @@ public class Submit extends AppCompatActivity {
                 if (self.getVisibility() == View.VISIBLE) {
 
                     try {
-                        if(Authentication.reddit.needsCaptcha()){
+                        if (Authentication.reddit.needsCaptcha()) {
                             //display capacha
                             final Captcha c = Authentication.reddit.getNewCaptcha();
                             runOnUiThread(new Runnable() {
@@ -201,12 +204,12 @@ public class Submit extends AppCompatActivity {
                                         @Override
                                         public void onClick(View d) {
                                             trying = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
-                                           dialog.dismiss();
+                                            dialog.dismiss();
                                             new AsyncTask<Void, Void, Boolean>() {
                                                 @Override
                                                 protected Boolean doInBackground(Void... params) {
                                                     try {
-                                                       String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying).getFullName();
+                                                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying).getFullName();
                                                         new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
 
                                                     } catch (ApiException e) {
@@ -224,7 +227,7 @@ public class Submit extends AppCompatActivity {
                                                                         }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                                     @Override
                                                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                                                        ((FloatingActionButton)findViewById(R.id.send)).show();
+                                                                        ((FloatingActionButton) findViewById(R.id.send)).show();
 
                                                                     }
                                                                 }).create().show();
@@ -241,14 +244,11 @@ public class Submit extends AppCompatActivity {
                                             }.execute();
 
 
-
-
                                         }
                                     });
 
                                 }
                             });
-
 
 
                         } else {
@@ -272,7 +272,7 @@ public class Submit extends AppCompatActivity {
                                         }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        ((FloatingActionButton)findViewById(R.id.send)).show();
+                                        ((FloatingActionButton) findViewById(R.id.send)).show();
 
                                     }
                                 }).create().show();
@@ -284,7 +284,7 @@ public class Submit extends AppCompatActivity {
 
                     try {
                         String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(((EditText) findViewById(R.id.urltext)).getText().toString()), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
-                        new OpenRedditLink(Submit.this, "reddit.com/r/" +((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
 
                         Submit.this.finish();
 
@@ -292,16 +292,16 @@ public class Submit extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(e instanceof ApiException) {
+                                if (e instanceof ApiException) {
                                     new AlertDialogWrapper.Builder(Submit.this)
                                             .setTitle(R.string.err_title)
                                             .setMessage(R.string.misc_err + ": " + e.getExplanation() + "\n" + R.string.misc_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    finish();
+                                                }
+                                            }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -333,7 +333,7 @@ public class Submit extends AppCompatActivity {
                     try {
                         String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(URL), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
 
-                        new OpenRedditLink(Submit.this, "reddit.com/r/" +((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
 
                         Submit.this.finish();
 
@@ -342,16 +342,16 @@ public class Submit extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if(e instanceof ApiException) {
+                                if (e instanceof ApiException) {
                                     new AlertDialogWrapper.Builder(Submit.this)
                                             .setTitle(R.string.err_title)
                                             .setMessage(R.string.misc_err + ": " + ((ApiException) e).getExplanation() + "\n" + R.string.misc_retry)
                                             .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    finish();
+                                                }
+                                            }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             ((FloatingActionButton) findViewById(R.id.send)).show();
@@ -380,7 +380,7 @@ public class Submit extends AppCompatActivity {
 
                     }
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -395,7 +395,7 @@ public class Submit extends AppCompatActivity {
                                 }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                ((FloatingActionButton)findViewById(R.id.send)).show();
+                                ((FloatingActionButton) findViewById(R.id.send)).show();
 
                             }
                         }).create().show();
@@ -403,7 +403,7 @@ public class Submit extends AppCompatActivity {
                     }
                 });
             }
-                return null;
+            return null;
 
         }
     }
@@ -486,12 +486,14 @@ public class Submit extends AppCompatActivity {
         }
 
     }
+
     private String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.PNG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
 
         return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -507,4 +509,4 @@ public class Submit extends AppCompatActivity {
             }
         }
     }
-  }
+}

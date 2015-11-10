@@ -27,33 +27,34 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class Shortcut extends Activity {
     private String name = "";
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            // The meat of our shortcut
+        // The meat of our shortcut
 
 
-            if(SubredditStorage.alphabeticalSubscriptions == null){
-                SubredditStorage.shortcut = this;
-            } else {
-                doShortcut();
-            }
-
-            // The result we are passing back from this activity
-
+        if (SubredditStorage.alphabeticalSubscriptions == null) {
+            SubredditStorage.shortcut = this;
+        } else {
+            doShortcut();
         }
+
+        // The result we are passing back from this activity
+
+    }
+
     private static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
+            if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
 
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
         } else {
             bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -64,13 +65,8 @@ public class Shortcut extends Activity {
         drawable.draw(canvas);
         return bitmap;
     }
-    public void doShortcut(){
 
-
-
-
-
-
+    public void doShortcut() {
 
 
         runOnUiThread(
@@ -93,7 +89,7 @@ public class Shortcut extends Activity {
                                     bm2 = drawableToBitmap(getResources().getDrawable(R.drawable.matiasduarte));
                                     Log.v("Slide", "NULL IS " + (bm2 == null));
                                 } else {
-                                     src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
+                                    src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
                                     final int overlayColor = Pallete.getColor(name);
                                     final Paint paint = new Paint();
                                     Canvas c;
@@ -111,7 +107,6 @@ public class Shortcut extends Activity {
                                     paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
                                     c.drawBitmap(bm1, 0, 0, paint);
                                 }
-
 
 
                                 shortcutIntent.putExtra("url", "reddit.com/r/" + name);

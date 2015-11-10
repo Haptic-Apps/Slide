@@ -43,9 +43,9 @@
                     android:id="@+id/leadimage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
-
                     android:adjustViewBounds="true"
+
+                    android:scaleType="fitCenter"
                     android:src="@drawable/chameleon" />
 
                 <LinearLayout
@@ -83,264 +83,260 @@
             </RelativeLayout>
 
 
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
 
 
+                >
 
-                <LinearLayout
-
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-
-
-                    >
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingBottom="8dp"
-                            android:layout_toLeftOf="@+id/thumbimage2"
-                            android:paddingLeft="8dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="8dp">
-                            <TextView
-                                android:id="@+id/title"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingBottom="4dp"
-                                android:text="@string/example_title"
-                                android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardtitlec"
-                                />
-
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/subreddit"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:paddingRight="5dp"
-                                    android:text="@string/example_sub"
-
-                                    android:textColor="?attr/font"
-                                    android:textSize="?attr/font_cardinfoc"
-
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:id="@+id/information"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="start"
-                                    android:alpha=".56"
-
-                                    android:gravity="center_vertical"
-                                    android:text="@string/example_time"
-                                    android:textColor="?attr/font"
-
-                                    android:textSize="?attr/font_cardinfoc" />
-                            </LinearLayout>
-
-                            <com.wefika.flowlayout.FlowLayout
-                                android:layout_width="wrap_content"
-                                android:layout_marginTop="4dp"
-
-                                android:layout_height="wrap_content">
-
-
-                                <TextView
-                                    android:id="@+id/score"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="start"
-                                    android:alpha=".56"
-
-                                    android:layout_marginRight="4dp"
-                                    android:gravity="center_vertical"
-                                    android:text="@string/example_points"
-                                    android:textColor="?attr/font"
-
-                                    android:textSize="?attr/font_cardinfoc" />
-
-                                <TextView
-                                    android:id="@+id/comments"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="start"
-                                    android:alpha=".56"
-                                    android:layout_marginRight="8dp"
-
-                                    android:gravity="center_vertical"
-                                    android:text="@string/example_comments"
-                                    android:textColor="?attr/font"
-
-                                    android:textSize="?attr/font_cardinfoc" />
-
-                                <include
-                                    android:id="@+id/nsfw"
-                                    layout="@layout/nsfw"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="8dp"
-
-                                    />
-
-                                <include
-                                    android:id="@+id/pinned"
-                                    layout="@layout/stickied"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-
-                                    android:src="@drawable/pinned" />
-                            </com.wefika.flowlayout.FlowLayout>
-                        </LinearLayout>
-                        <ImageView
-                            android:id="@+id/thumbimage2"
-                            android:layout_width="wrap_content"
-                            android:maxWidth="50dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="8dp"
-                            android:layout_alignParentRight="true"
-                            android:src="@drawable/chameleon"
-                            android:layout_height="50dp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            /></RelativeLayout>
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:id="@+id/previewContent"
                         android:layout_width="match_parent"
+
                         android:layout_height="wrap_content"
-
-                        android:orientation="vertical">
-
-
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:maxHeight="82dp"
-                                android:orientation="horizontal"
-                                android:background="?android:selectableItemBackground"
-
-                                android:paddingBottom="4dp"
-                                android:paddingTop="4dp"
-                                android:paddingLeft="8dp"
-                                android:id="@+id/base2"
-
-                                android:paddingRight="16dp">
-
-                                <ImageView
-                                    android:id="@+id/thumbimage"
-                                    android:layout_width="wrap_content"
-                                    android:maxWidth="40dp"
-                                    android:layout_marginRight="8dp"
-                                    android:layout_height="40dp"
-                                    android:adjustViewBounds="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/chameleon" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-
-                                    android:layout_gravity="center_vertical"
-
-                                    android:gravity="center_vertical"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/contenttitle"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/example_domain"
-                                        android:textColor="?attr/font"
-                                        android:textStyle="bold"
-                                        android:textSize="?attr/font_cardtitlec" />
-
-                                    <TextView
-                                        android:id="@+id/contenturl"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="8dp"
-                                        android:alpha=".56"
-
-                                        android:text="@string/example_url"
-                                        android:textColor="?attr/font"
-                                        android:textSize="?attr/font_cardinfoc" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                    </LinearLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/actionbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:orientation="horizontal"
-
+                        android:layout_toLeftOf="@+id/thumbimage2"
+                        android:orientation="vertical"
                         android:paddingBottom="8dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="8dp">
 
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="4dp"
+                            android:text="@string/example_title"
+                            android:textColor="?attr/font"
+                            android:textSize="?attr/font_cardtitlec" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/subreddit"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:paddingRight="5dp"
+                                android:text="@string/example_sub"
+
+                                android:textColor="?attr/font"
+                                android:textSize="?attr/font_cardinfoc"
+
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/information"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha=".56"
+
+                                android:gravity="center_vertical"
+                                android:text="@string/example_time"
+                                android:textColor="?attr/font"
+
+                                android:textSize="?attr/font_cardinfoc" />
+                        </LinearLayout>
+
+                        <com.wefika.flowlayout.FlowLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginTop="4dp">
+
+
+                            <TextView
+                                android:id="@+id/score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:layout_marginRight="4dp"
+
+                                android:alpha=".56"
+                                android:gravity="center_vertical"
+                                android:text="@string/example_points"
+                                android:textColor="?attr/font"
+
+                                android:textSize="?attr/font_cardinfoc" />
+
+                            <TextView
+                                android:id="@+id/comments"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:layout_marginRight="8dp"
+                                android:alpha=".56"
+
+                                android:gravity="center_vertical"
+                                android:text="@string/example_comments"
+                                android:textColor="?attr/font"
+
+                                android:textSize="?attr/font_cardinfoc" />
+
+                            <include
+                                android:id="@+id/nsfw"
+                                layout="@layout/nsfw"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+
+                                />
+
+                            <include
+                                android:id="@+id/pinned"
+                                layout="@layout/stickied"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:src="@drawable/pinned" />
+                        </com.wefika.flowlayout.FlowLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/thumbimage2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:adjustViewBounds="true"
+                        android:maxWidth="50dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/chameleon" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/previewContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/base2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:maxHeight="82dp"
+
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="16dp"
+
+                        android:paddingTop="4dp">
 
                         <ImageView
-                            android:id="@+id/mod"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:id="@+id/thumbimage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="8dp"
+                            android:adjustViewBounds="true"
+                            android:maxWidth="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/chameleon" />
 
-                            android:layout_toLeftOf="@+id/upvote"
-                            android:src="@drawable/mod" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
 
-                        <ImageView
-                            android:id="@+id/downvote"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                            android:layout_gravity="center_vertical"
 
-                            android:layout_toLeftOf="@+id/menu"
-                            android:src="@drawable/downvote" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/upvote"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_toLeftOf="@+id/downvote"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                            <TextView
+                                android:id="@+id/contenttitle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/example_domain"
+                                android:textColor="?attr/font"
+                                android:textSize="?attr/font_cardtitlec"
+                                android:textStyle="bold" />
 
-                            android:src="@drawable/upvoted" />
+                            <TextView
+                                android:id="@+id/contenturl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:alpha=".56"
 
-                        <ImageView
-                            android:id="@+id/menu"
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_alignParentRight="true"
-                            android:tint="?attr/tint"
-                            android:background="?android:selectableItemBackgroundBorderless"
+                                android:text="@string/example_url"
+                                android:textColor="?attr/font"
+                                android:textSize="?attr/font_cardinfoc" />
+                        </LinearLayout>
 
-                            android:src="@drawable/more" />
+                    </LinearLayout>
 
-                    </RelativeLayout>
                 </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/actionbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:orientation="horizontal"
+
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="8dp">
+
+
+                    <ImageView
+                        android:id="@+id/mod"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_toLeftOf="@+id/upvote"
+                        android:background="?android:selectableItemBackgroundBorderless"
+
+                        android:src="@drawable/mod"
+                        android:tint="?attr/tint" />
+
+                    <ImageView
+                        android:id="@+id/downvote"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_toLeftOf="@+id/menu"
+                        android:background="?android:selectableItemBackgroundBorderless"
+
+                        android:src="@drawable/downvote"
+                        android:tint="?attr/tint" />
+
+                    <ImageView
+                        android:id="@+id/upvote"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_toLeftOf="@+id/downvote"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:src="@drawable/upvoted"
+
+                        android:tint="?attr/tint" />
+
+                    <ImageView
+                        android:id="@+id/menu"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentRight="true"
+                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:src="@drawable/more"
+
+                        android:tint="?attr/tint" />
+
+                </RelativeLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

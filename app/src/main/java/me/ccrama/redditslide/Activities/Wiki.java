@@ -35,6 +35,7 @@ public class Wiki extends BaseActivity {
     private TabLayout tabs;
     private ViewPager pager;
     private String subreddit;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -63,10 +64,11 @@ public class Wiki extends BaseActivity {
 
         new AsyncGetWiki().execute();
     }
+
     private Wiki.OverviewPagerAdapter adapter;
     private List<String> pages;
 
-    private class AsyncGetWiki extends AsyncTask<Void, Void, Void>{
+    private class AsyncGetWiki extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -86,7 +88,7 @@ public class Wiki extends BaseActivity {
                     }
                 }
                 pages.removeAll(toRemove);
-            } catch(Exception e){
+            } catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -110,9 +112,10 @@ public class Wiki extends BaseActivity {
             }
             return null;
         }
+
         @Override
-        public void onPostExecute(Void d){
-            if(adapter != null) {
+        public void onPostExecute(Void d) {
+            if (adapter != null) {
                 pager.setAdapter(adapter);
                 tabs.setupWithViewPager(pager);
             } else {
@@ -120,12 +123,12 @@ public class Wiki extends BaseActivity {
                         .setTitle(R.string.wiki_err)
                         .setMessage(R.string.wiki_err_msg)
                         .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        finish();
-                                    }
-                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         finish();
@@ -134,7 +137,9 @@ public class Wiki extends BaseActivity {
             }
         }
     }
+
     private WeakHashMap<String, String> values;
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {

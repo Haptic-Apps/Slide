@@ -90,8 +90,8 @@ public class Inbox extends BaseActivity {
                         if (!isChecked) {
                             Reddit.notificationTime = -1;
                             Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                            if(Reddit.notifications != null)
-                            Reddit.notifications.cancel(getApplication());
+                            if (Reddit.notifications != null)
+                                Reddit.notifications.cancel(getApplication());
                         } else {
                             Reddit.notificationTime = 15;
                             landscape.setValue(1, true);

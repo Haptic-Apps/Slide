@@ -262,10 +262,12 @@ public class SubredditView extends BaseActivity {
             }
         });
     }
+
     private int totalItemCount;
 
     private int visibleItemCount;
     private int pastVisiblesItems;
+
     private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
@@ -646,18 +648,19 @@ public class SubredditView extends BaseActivity {
                     //reset check adapter
                 }
             });
-            if(SubredditStorage.realSubs != null)
-            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            if (SubredditStorage.realSubs != null)
+                c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        public void onPostExecute(Void voids){
+                        public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(SubredditView.this);
                             Snackbar.make(rv, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
+
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
@@ -685,8 +688,8 @@ public class SubredditView extends BaseActivity {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if(subreddit != null)
-            doSubOnlyStuff(subreddit);
+            if (subreddit != null)
+                doSubOnlyStuff(subreddit);
         }
 
         @Override
@@ -743,7 +746,7 @@ public class SubredditView extends BaseActivity {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                if(!Authentication.isLoggedIn){
+                if (!Authentication.isLoggedIn) {
                     c.setVisibility(View.GONE);
                 }
                 c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

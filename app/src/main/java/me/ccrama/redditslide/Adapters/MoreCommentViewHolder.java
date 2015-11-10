@@ -29,5 +29,4 @@ public class MoreCommentViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-
 }

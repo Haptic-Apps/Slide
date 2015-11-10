@@ -56,35 +56,35 @@ public class DonateView extends AppCompatActivity {
         final TextView money = (TextView) findViewById(R.id.money);
 
         ads.setText(" " + sl_discrete.getValue() * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 10 / sl_discrete.getValue() ) + " ");
-        money.setText("$" + sl_discrete.getValue() );
+        hours.setText(" " + String.valueOf((double) 10 / sl_discrete.getValue()) + " ");
+        money.setText("$" + sl_discrete.getValue());
 
 
         sl_discrete.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
             @Override
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
-                hours.setText(" " + String.valueOf((double) newValue / 10 ) + " ");
+                hours.setText(" " + String.valueOf((double) newValue / 10) + " ");
                 money.setText("$" + newValue);
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String name = "";
-                if(Authentication.isLoggedIn){
+                if (Authentication.isLoggedIn) {
                     name = Authentication.name;
                 }
-                if(Reddit.mHelper != null)
-                Reddit.mHelper.flagEndAsync();
-                Reddit.mHelper.launchPurchaseFlow(DonateView.this, "donation_" + sl_discrete.getValue(),1, mPurchaseFinishedListener, name);
+                if (Reddit.mHelper != null)
+                    Reddit.mHelper.flagEndAsync();
+                Reddit.mHelper.launchPurchaseFlow(DonateView.this, "donation_" + sl_discrete.getValue(), 1, mPurchaseFinishedListener, name);
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -95,10 +95,10 @@ public class DonateView extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     private final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
             = new IabHelper.OnIabPurchaseFinishedListener() {
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase)
-        {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 
             if (result.isFailure()) {
                 Log.d("Slide", "Error purchasing: " + result);
@@ -107,8 +107,7 @@ public class DonateView extends AppCompatActivity {
                 builder.setMessage(R.string.donate_err_msg);
                 builder.setNeutralButton(R.string.btn_ok, null);
                 builder.show();
-            }
-            else if (purchase.getSku().contains("donation")) {
+            } else if (purchase.getSku().contains("donation")) {
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -118,7 +117,7 @@ public class DonateView extends AppCompatActivity {
                         builder.setMessage(R.string.donate_success_msg);
                         builder.setPositiveButton(R.string.donate_success_btn, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                               DonateView.this.finish();
+                                DonateView.this.finish();
                             }
                         });
 
