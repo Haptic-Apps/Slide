@@ -158,7 +158,7 @@ public class DoEditorActions {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        String s = "[" + descriptionBox.getText().toString()+ "](" + titleBox.getText().toString()  + ")";
+                                        String s = "[" + descriptionBox.getText().toString() + "](" + titleBox.getText().toString() + ")";
                                         int start = Math.max(editText.getSelectionStart(), 0);
                                         int end = Math.max(editText.getSelectionEnd(), 0);
                                         editText.getText().insert(Math.max(start, end), s);
@@ -208,15 +208,13 @@ public class DoEditorActions {
 
         final Context c;
         final EditText editText;
-
+        private final ProgressDialog dialog;
+        public Bitmap b;
         public UploadImgur(EditText editText) {
             this.c = editText.getContext();
             this.editText = editText;
             dialog = new ProgressDialog(c);
         }
-
-        private final ProgressDialog dialog;
-        public Bitmap b;
 
         @Override
         protected void onPostExecute(final JSONObject result) {

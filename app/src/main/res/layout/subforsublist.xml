@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
+        android:id="@+id/settings_defaultcolor"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:paddingLeft="16dp"
         android:background="?android:selectableItemBackground"
 
-        android:id="@+id/settings_defaultcolor"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="16dp">
 
         <View
+            android:id="@+id/color"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
-            android:adjustViewBounds="true"
             android:layout_marginBottom="8dp"
-            android:id="@+id/color"
-
             android:layout_marginRight="16dp"
+
             android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
 
             android:background="@drawable/circle" />
 
@@ -31,12 +33,12 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:text="Android"
                 android:textColor="?attr/font"
-                android:id="@+id/name"
                 android:textSize="16sp" />
 
         </LinearLayout>

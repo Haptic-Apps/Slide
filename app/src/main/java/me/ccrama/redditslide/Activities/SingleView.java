@@ -26,6 +26,12 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SingleView extends BaseActivity {
 
 
+    private SubmissionAdapter adapter;
+    private SubredditPosts posts;
+    private int totalItemCount;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -50,7 +56,7 @@ public class SingleView extends BaseActivity {
         getSupportActionBar().setTitle(subreddit);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);
@@ -116,16 +122,6 @@ public class SingleView extends BaseActivity {
                 }
         );
     }
-
-    private SubmissionAdapter adapter;
-
-    private SubredditPosts posts;
-    private int totalItemCount;
-
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-
-
 
 
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="?attr/activity_background"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
 
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
@@ -12,14 +12,12 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:orientation="vertical"
+            android:id="@+id/vertical_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:clipToPadding="false"
-        android:id="@+id/vertical_content"
-        android:layout_height="match_parent"
+            android:divider="@null"
 
-        android:divider="@null"
-       >
-        </android.support.v7.widget.RecyclerView>
-</me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+            android:orientation="vertical"></android.support.v7.widget.RecyclerView>
+    </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 </LinearLayout>

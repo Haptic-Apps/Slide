@@ -1,8 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".SubredditOverview">
-    <item android:id="@+id/action_settings"
-          android:title="@string/title_settings"
-          android:orderInCategory="100"
-          app:showAsAction="never" />
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/title_settings"
+        app:showAsAction="never" />
 </menu>

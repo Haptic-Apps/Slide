@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_checked="true" android:drawable="@drawable/largebutton" />
-    <item android:state_checked="false" android:drawable="@drawable/smallbutton" />
+    <item android:drawable="@drawable/largebutton" android:state_checked="true" />
+    <item android:drawable="@drawable/smallbutton" android:state_checked="false" />
 
 </selector>

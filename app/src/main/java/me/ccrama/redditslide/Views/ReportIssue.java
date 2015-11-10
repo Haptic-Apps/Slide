@@ -26,7 +26,7 @@ class ReportIssue extends AsyncTask<String, Integer, String> {
     private final GittyReporter mActivity;
     private ProgressDialog progress;
 
-    public ReportIssue (Context context, GittyReporter activity){
+    public ReportIssue(Context context, GittyReporter activity) {
         mContext = context;
         mActivity = activity;
     }
@@ -61,7 +61,7 @@ class ReportIssue extends AsyncTask<String, Integer, String> {
             service = new IssueService(new GitHubClient().setCredentials(user, password));
         }
 
-        Issue issue = new Issue().setTitle(bugTitle).setBody(bugDescription + "\n\n" + deviceInfo + "\n\nStacktrace: \n\n" + extraInfo).setLabels( new ArrayList<Label>() {{
+        Issue issue = new Issue().setTitle(bugTitle).setBody(bugDescription + "\n\n" + deviceInfo + "\n\nStacktrace: \n\n" + extraInfo).setLabels(new ArrayList<Label>() {{
 
             try {
                 new LabelService().getLabel(targetUser, targetRepository, "crash");
@@ -98,7 +98,7 @@ class ReportIssue extends AsyncTask<String, Integer, String> {
             } else {
                 ((Activity) mContext).finish();
             }
-        } else if (result.equals("org.eclipse.egit.github.core.client.RequestException: Bad credentials (401)")){
+        } else if (result.equals("org.eclipse.egit.github.core.client.RequestException: Bad credentials (401)")) {
             progress.dismiss();
             new AlertDialog.Builder(mContext)
                     .setTitle(mContext.getString(R.string.gitty_err_upload))

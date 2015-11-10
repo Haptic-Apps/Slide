@@ -1,330 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="?attr/activity_background"
-
-
     android:layout_height="match_parent"
+
+
+    android:background="?attr/activity_background"
     android:orientation="vertical">
 
-<android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
-    android:elevation="5dp"
-    android:theme="@style/Theme.AppCompat"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
-    android:background="@color/md_amber_500"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="60dp"
-    android:title="@string/editor_submit"
-    android:clipToPadding="false"
-    android:paddingRight="16dp"
+        android:background="@color/md_amber_500"
+        android:clipToPadding="false"
+        android:elevation="5dp"
+        android:minHeight="60dp"
+        android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
+        android:title="@string/editor_submit"
 
-    >
-
-
+        >
 
 
-</android.support.v7.widget.Toolbar>
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
-        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="match_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-    android:padding="16dp"
-
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_below="@+id/toolbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RadioGroup
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp"
-            android:weightSum="3"
-            android:layout_height="wrap_content">
-            <RadioButton
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:checked="true"
-                android:textColor="?attr/font"
-                android:id="@+id/selftextradio"
+            android:layout_height="match_parent"
 
-                android:text="@string/editor_self"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"/>
-            <RadioButton
-                android:layout_width="0dp"
-                android:textColor="?attr/font"
-
-
-                android:id="@+id/imageradio"
-                android:layout_weight="1"
-                android:text="@string/type_img"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"/>
-            <RadioButton
-                android:layout_width="0dp"
-                android:textColor="?attr/font"
-                android:id="@+id/linkradio"
-
-                android:layout_weight="1"
-                android:text="@string/type_link"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"/>
-        </RadioGroup>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:textColorHint="?attr/font"
-
-            android:layout_height="wrap_content">
-       <EditText
-           android:layout_width="match_parent"
-           android:backgroundTint="?attr/tint"
-
-           android:textColor="?attr/font"
-
-           android:id="@+id/subreddittext"
-           android:maxLines="1"
-
-           android:maxLength="21"
-           android:hint="@string/editor_hint_subreddit"
-           android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:textColorHint="?attr/font"
-
-            android:layout_height="wrap_content">
-            <EditText
-                android:backgroundTint="?attr/tint"
-
-                android:layout_width="match_parent"
-                android:maxLength="300"
-                android:textColor="?attr/font"
-                android:id="@+id/titletext"
-                android:maxLines="1"
-
-                android:hint="@string/editor_title"
-                android:layout_height="wrap_content" />
-        </android.support.design.widget.TextInputLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
             android:orientation="vertical"
-            android:id="@+id/selftext"
-            android:layout_height="wrap_content">
+            android:padding="16dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <RadioButton
+                    android:id="@+id/selftextradio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+
+                    android:text="@string/editor_self"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/font" />
+
+                <RadioButton
+                    android:id="@+id/imageradio"
+                    android:layout_width="0dp"
+
+
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/type_img"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/font" />
+
+                <RadioButton
+                    android:id="@+id/linkradio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:text="@string/type_link"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/font" />
+            </RadioGroup>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:textColorHint="?attr/font"
+                android:layout_height="wrap_content"
 
-                android:layout_height="wrap_content">
+                android:textColorHint="?attr/font">
+
                 <EditText
+                    android:id="@+id/subreddittext"
                     android:layout_width="match_parent"
-                    android:id="@+id/bodytext"
-                    android:hint="@string/editor_hint_optional_body"
-                    android:textColor="?attr/font"
-                    android:backgroundTint="?attr/tint"
 
-                    android:imeOptions="actionDone|flagNoEnterAction"
-                    android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+
+                    android:backgroundTint="?attr/tint"
+                    android:hint="@string/editor_hint_subreddit"
+
+                    android:maxLength="21"
+                    android:maxLines="1"
+                    android:textColor="?attr/font" />
             </android.support.design.widget.TextInputLayout>
-            <LinearLayout
-                android:id="@+id/innersend2"
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:alpha=".56"
-                android:layout_marginLeft="-6dp"
-                android:layout_marginRight="-6dp"
 
-                android:gravity="center"
-                android:orientation="horizontal"
+                android:textColorHint="?attr/font">
 
-                android:weightSum="8">
+                <EditText
+                    android:id="@+id/titletext"
 
-                <ImageButton
-                    android:id="@+id/imagerep"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:tint="?attr/tint"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/image" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/tint"
+                    android:hint="@string/editor_title"
+                    android:maxLength="300"
+
+                    android:maxLines="1"
+                    android:textColor="?attr/font" />
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/selftext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textColorHint="?attr/font">
+
+                    <EditText
+                        android:id="@+id/bodytext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/tint"
+                        android:hint="@string/editor_hint_optional_body"
+
+                        android:imeOptions="actionDone|flagNoEnterAction"
+                        android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+                        android:textColor="?attr/font" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/innersend2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-6dp"
+                    android:layout_marginRight="-6dp"
+                    android:alpha=".56"
+
+                    android:gravity="center"
+                    android:orientation="horizontal"
+
+                    android:weightSum="8">
+
+                    <ImageButton
+                        android:id="@+id/imagerep"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:height="48dp"
+                        android:background="#00000000"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/image"
+                        android:tint="?attr/tint" />
 
 
-                <ImageButton
-                    android:id="@+id/link"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/link"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
 
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/link" />
+                        android:height="48dp"
+                        android:background="#00000000"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/link"
+                        android:tint="?attr/tint" />
 
-                <ImageButton
-                    android:id="@+id/bold"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/bold"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:height="48dp"
+                        android:background="#00000000"
 
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_bold_white_48dp" />
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_format_bold_white_48dp"
+                        android:tint="?attr/tint" />
 
-                <ImageButton
-                    android:id="@+id/italics"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/italics"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
 
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_italic_white_48dp" />
+                        android:height="48dp"
+                        android:background="#00000000"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_format_italic_white_48dp"
+                        android:tint="?attr/tint" />
 
-                <ImageButton
-                    android:id="@+id/bulletlist"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/bulletlist"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:height="48dp"
+                        android:background="#00000000"
+                        android:cropToPadding="false"
 
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_list_bulleted_white_48dp" />
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_format_list_bulleted_white_48dp"
+                        android:tint="?attr/tint" />
 
-                <ImageButton
-                    android:id="@+id/numlist"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/numlist"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:height="48dp"
+                        android:background="#00000000"
 
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_list_numbered_white_48dp" />
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_format_list_numbered_white_48dp"
+                        android:tint="?attr/tint" />
 
-                <ImageButton
-                    android:id="@+id/quote"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/quote"
+                        android:layout_width="0dp"
 
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_format_quote_white_48dp" />
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:height="48dp"
+                        android:background="#00000000"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_format_quote_white_48dp"
+                        android:tint="?attr/tint" />
 
-                <ImageButton
-                    android:id="@+id/size"
-                    android:tint="?attr/tint"
+                    <ImageButton
+                        android:id="@+id/size"
+                        android:layout_width="0dp"
 
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/fontsizedarker" />
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:height="48dp"
+                        android:background="#00000000"
+                        android:cropToPadding="false"
+                        android:padding="8dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/fontsizedarker"
+                        android:tint="?attr/tint" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/selImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginLeft="6dp"
+                    android:backgroundTint="?attr/tint"
+                    android:text="@string/editor_select_img"
+                    android:textColor="?attr/font"
+                    android:textSize="14sp"
+
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imagepost"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="10dp"
+                    android:adjustViewBounds="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:textColorHint="?attr/font">
+
+                    <EditText
+                        android:id="@+id/urltext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/tint"
+
+                        android:hint="@string/editor_url"
+
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/image"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="@string/editor_select_img"
-                    android:id="@+id/selImage"
-
-                    android:textStyle="bold"
-                    android:layout_marginLeft="6dp"
-                    android:textSize="14sp"
-                    android:textColor="?attr/font"
-                    android:backgroundTint="?attr/tint"
-
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:adjustViewBounds="true"
-                    android:id="@+id/imagepost"
-
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/url"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:textColorHint="?attr/font"
-
-                android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:hint="@string/editor_url"
-                    android:maxLines="1"
-                    android:backgroundTint="?attr/tint"
-
-                    android:id="@+id/urltext"
-
-                    android:layout_height="wrap_content" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-
-    </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/send"
-        app:fabSize="normal"
         android:layout_alignParentRight="true"
-        app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:elevation="6dp"
         android:layout_margin="16dp"
-        app:pressedTranslationZ="12dp"/>
-    </RelativeLayout>
+        android:src="@drawable/send"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
+        app:pressedTranslationZ="12dp" />
+</RelativeLayout>

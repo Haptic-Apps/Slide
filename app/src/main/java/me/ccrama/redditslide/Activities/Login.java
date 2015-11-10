@@ -35,6 +35,7 @@ import me.ccrama.redditslide.Reddit;
 public class Login extends BaseActivity {
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -54,7 +55,7 @@ public class Login extends BaseActivity {
         Log.v("Slide", "Auth URL: " + authorizationUrl);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
-         final WebView webView = (WebView) findViewById(R.id.web);
+        final WebView webView = (WebView) findViewById(R.id.web);
 
         webView.loadUrl(authorizationUrl);
         webView.setWebChromeClient(new WebChromeClient() {
@@ -97,7 +98,7 @@ public class Login extends BaseActivity {
                     SharedPreferences.Editor editor = Authentication.authentication.edit();
                     Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                     accounts.add(Authentication.reddit.me().getFullName());
-                    editor.putStringSet("accounts",accounts );
+                    editor.putStringSet("accounts", accounts);
                     Set<String> tokens = Authentication.authentication.getStringSet("tokens", new HashSet<String>());
                     tokens.add(refreshToken);
                     editor.putStringSet("tokens", tokens);
@@ -112,7 +113,7 @@ public class Login extends BaseActivity {
                             builder.setMessage(R.string.login_restart_msg);
                             builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                   Reddit.forceRestart(Login.this);
+                                    Reddit.forceRestart(Login.this);
                                 }
                             });
                             builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -126,7 +127,6 @@ public class Login extends BaseActivity {
                             builder.show();
                         }
                     });
-
 
 
                 } else {
@@ -143,7 +143,6 @@ public class Login extends BaseActivity {
 
         @Override
         protected void onPostExecute(OAuthData oAuthData) {
-
 
 
         }

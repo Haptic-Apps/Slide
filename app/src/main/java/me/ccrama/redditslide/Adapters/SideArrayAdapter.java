@@ -27,73 +27,25 @@ import me.ccrama.redditslide.Visuals.Pallete;
  */
 public class SideArrayAdapter extends ArrayAdapter<String> {
     private final List<String> objects;
-
+    private Filter filter;
+    private ArrayList<String> fitems;
 
     public SideArrayAdapter(Context context, ArrayList<String> objects) {
-        super(context,0,  objects);
+        super(context, 0, objects);
         this.objects = new ArrayList<>(objects);
         filter = new SubFilter();
         fitems = new ArrayList<>(objects);
     }
 
-    private Filter filter;
     @Override
-    public Filter getFilter(){
+    public Filter getFilter() {
 
-        if(filter == null){
+        if (filter == null) {
             filter = new SubFilter();
         }
         return filter;
     }
 
-    private class SubFilter extends Filter{
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint){
-            FilterResults results = new FilterResults();
-            String prefix = constraint.toString().toLowerCase();
-
-            if (prefix == null || prefix.length() == 0){
-                ArrayList<String> list = new ArrayList<>(objects);
-                results.values = list;
-                results.count = list.size();
-            }else{
-                final ArrayList<String> list = new ArrayList<>(objects);
-                final ArrayList<String> nlist = new ArrayList<>();
-                int count = list.size();
-
-                for (int i = 0; i<count; i++){
-                    final String sub = list.get(i);
-
-                    if(sub.contains(prefix)){
-                        nlist.add(sub);
-                    }
-                    results.values = nlist;
-                    results.count = nlist.size();
-                }
-                nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
-
-            }
-            return results;
-        }
-
-
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            fitems = (ArrayList<String>)results.values;
-            notifyDataSetChanged();
-            clear();
-            if(fitems != null) {
-                int count = fitems.size();
-                for (int i = 0; i < count; i++) {
-                    add(fitems.get(i));
-                    notifyDataSetInvalidated();
-                }
-            }
-        }
-    }
-    private ArrayList<String> fitems;
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -122,5 +74,52 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             }
         });
         return convertView;
+    }
+
+    private class SubFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            String prefix = constraint.toString().toLowerCase();
+
+            if (prefix == null || prefix.length() == 0) {
+                ArrayList<String> list = new ArrayList<>(objects);
+                results.values = list;
+                results.count = list.size();
+            } else {
+                final ArrayList<String> list = new ArrayList<>(objects);
+                final ArrayList<String> nlist = new ArrayList<>();
+                int count = list.size();
+
+                for (int i = 0; i < count; i++) {
+                    final String sub = list.get(i);
+
+                    if (sub.contains(prefix)) {
+                        nlist.add(sub);
+                    }
+                    results.values = nlist;
+                    results.count = nlist.size();
+                }
+                nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
+
+            }
+            return results;
+        }
+
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            fitems = (ArrayList<String>) results.values;
+            notifyDataSetChanged();
+            clear();
+            if (fitems != null) {
+                int count = fitems.size();
+                for (int i = 0; i < count; i++) {
+                    add(fitems.get(i));
+                    notifyDataSetInvalidated();
+                }
+            }
+        }
     }
 }

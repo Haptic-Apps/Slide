@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/menu"
         android:layout_width="match_parent"
@@ -103,8 +105,8 @@
                 android:padding="4dp"
 
                 android:text="@string/btn_submit"
-                android:textColor="?attr/font"
                 android:textAllCaps="true"
+                android:textColor="?attr/font"
 
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -115,9 +117,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:alpha=".56"
             android:layout_marginLeft="-6dp"
             android:layout_marginRight="-6dp"
+            android:alpha=".56"
 
             android:gravity="center"
             android:orientation="horizontal"
@@ -132,25 +134,25 @@
                 android:height="48dp"
                 android:background="#00000000"
                 android:cropToPadding="false"
-                android:tint="?attr/tint"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/image" />
+                android:src="@drawable/image"
+                android:tint="?attr/tint" />
 
 
             <ImageButton
                 android:id="@+id/link"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:tint="?attr/tint"
-
                 android:layout_weight="1"
+
                 android:height="48dp"
                 android:background="#00000000"
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/link" />
+                android:src="@drawable/link"
+                android:tint="?attr/tint" />
 
             <ImageButton
                 android:id="@+id/bold"
@@ -158,27 +160,27 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:height="48dp"
-                android:tint="?attr/tint"
-
                 android:background="#00000000"
+
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_bold_white_48dp" />
+                android:src="@drawable/ic_format_bold_white_48dp"
+                android:tint="?attr/tint" />
 
             <ImageButton
                 android:id="@+id/italics"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:tint="?attr/tint"
-
                 android:layout_weight="1"
+
                 android:height="48dp"
                 android:background="#00000000"
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_italic_white_48dp" />
+                android:src="@drawable/ic_format_italic_white_48dp"
+                android:tint="?attr/tint" />
 
             <ImageButton
                 android:id="@+id/bulletlist"
@@ -187,12 +189,12 @@
                 android:layout_weight="1"
                 android:height="48dp"
                 android:background="#00000000"
-                android:tint="?attr/tint"
-
                 android:cropToPadding="false"
+
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_list_bulleted_white_48dp" />
+                android:src="@drawable/ic_format_list_bulleted_white_48dp"
+                android:tint="?attr/tint" />
 
             <ImageButton
                 android:id="@+id/numlist"
@@ -200,19 +202,18 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:height="48dp"
-                android:tint="?attr/tint"
-
                 android:background="#00000000"
+
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_list_numbered_white_48dp" />
+                android:src="@drawable/ic_format_list_numbered_white_48dp"
+                android:tint="?attr/tint" />
 
             <ImageButton
                 android:id="@+id/quote"
-                android:tint="?attr/tint"
-
                 android:layout_width="0dp"
+
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:height="48dp"
@@ -220,13 +221,13 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_quote_white_48dp" />
+                android:src="@drawable/ic_format_quote_white_48dp"
+                android:tint="?attr/tint" />
 
             <ImageButton
                 android:id="@+id/size"
-                android:tint="?attr/tint"
-
                 android:layout_width="0dp"
+
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:height="48dp"
@@ -234,7 +235,8 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/fontsizedarker" />
+                android:src="@drawable/fontsizedarker"
+                android:tint="?attr/tint" />
         </LinearLayout>
     </LinearLayout>
 

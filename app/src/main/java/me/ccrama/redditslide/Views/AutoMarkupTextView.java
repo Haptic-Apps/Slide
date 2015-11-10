@@ -24,16 +24,11 @@ public class AutoMarkupTextView extends TextView {
         super(context);
     }
 
-    public void addText(String s){
+    public void addText(String s) {
         parseLinks(s);
     }
 
-    private void parseLinks(String s){
-
-
-
-
-
+    private void parseLinks(String s) {
 
 
         setText(s);
@@ -43,8 +38,6 @@ public class AutoMarkupTextView extends TextView {
         //todo this setMovementMethod(new CommentMovementMethod());
 
     }
-
-
 
 
 }

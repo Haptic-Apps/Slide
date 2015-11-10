@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:padding="16dp"
-    android:layout_height="wrap_content" >
-<android.support.v7.widget.CardView
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout"
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:padding="16dp">
 
+    <android.support.v7.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layout"
 
-    android:gravity="center"
-    android:orientation="vertical"
-    cardview:cardBackgroundColor="#000000"
-    cardview:cardCornerRadius="2dp"
-
-    cardview:cardElevation="8dp">
-
-
-
-<LinearLayout
-        android:layout_width="match_parent"
-    android:background="?android:selectableItemBackground"
-
-    android:orientation="vertical"
-        android:layout_height="wrap_content">
-        <me.ccrama.redditslide.ActiveTextView android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imagetitle"
-            android:padding="16dp"
-            android:textSize="14sp"
-            android:textColor="#fff"
-            >
-
-        </me.ccrama.redditslide.ActiveTextView>
-
-        <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/image"
-        android:src="@drawable/chameleon"
-        android:cropToPadding="false"
-        android:adjustViewBounds="true"
-        />
-        <me.ccrama.redditslide.ActiveTextView android:layout_width="match_parent"
+        android:layout_marginBottom="20dp"
+
+
+        android:gravity="center"
+        android:orientation="vertical"
+        cardview:cardBackgroundColor="#000000"
+        cardview:cardCornerRadius="2dp"
+
+        cardview:cardElevation="8dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imageCaption"
-            android:padding="16dp"
 
-            android:textSize="12sp"
-            android:textColor="#fff"
-            >
+            android:background="?android:selectableItemBackground"
+            android:orientation="vertical">
 
-        </me.ccrama.redditslide.ActiveTextView>
+            <me.ccrama.redditslide.ActiveTextView
+                android:id="@+id/imagetitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="#fff"
+                android:textSize="14sp">
+
+            </me.ccrama.redditslide.ActiveTextView>
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false"
+                android:src="@drawable/chameleon" />
+
+            <me.ccrama.redditslide.ActiveTextView
+                android:id="@+id/imageCaption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+
+                android:textColor="#fff"
+                android:textSize="12sp">
+
+            </me.ccrama.redditslide.ActiveTextView>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

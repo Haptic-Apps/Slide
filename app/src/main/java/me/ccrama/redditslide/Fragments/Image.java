@@ -21,6 +21,8 @@ import me.ccrama.redditslide.Reddit;
  */
 public class Image extends Fragment {
 
+    String url;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,27 +33,24 @@ public class Image extends Fragment {
         TextView title = (TextView) rootView.findViewById(R.id.title);
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
-      title.setVisibility(View.GONE);
+        title.setVisibility(View.GONE);
         desc.setVisibility(View.GONE);
 
 
-            ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                    .loadImage(url,
-                            new SimpleImageLoadingListener() {
+        ((Reddit) getContext().getApplicationContext()).getImageLoader()
+                .loadImage(url,
+                        new SimpleImageLoadingListener() {
 
-                                @Override
-                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                    image.setImage(ImageSource.bitmap(loadedImage));
-                                }
-                            });
-
+                            @Override
+                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                image.setImage(ImageSource.bitmap(loadedImage));
+                            }
+                        });
 
 
         return rootView;
     }
 
-
-String url;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

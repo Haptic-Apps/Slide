@@ -10,6 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -19,17 +20,19 @@
             android:text="/r/Android"
             android:textSize="18sp"
             android:textStyle="bold" />
+
         <ImageView
-            android:background="?android:selectableItemBackground"
+            android:id="@+id/ok"
 
             android:layout_width="56dp"
-            android:src="@drawable/close"
+            android:layout_height="56dp"
             android:layout_alignParentRight="true"
-            android:id="@+id/ok"
-            android:padding="16dp"
             android:layout_centerVertical="true"
-            android:layout_height="56dp" />
-</RelativeLayout>
+            android:background="?android:selectableItemBackground"
+            android:padding="16dp"
+            android:src="@drawable/close" />
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
 
@@ -57,87 +60,77 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                     />
-
+                    android:scaleType="centerCrop" />
 
 
             </RelativeLayout>
 
 
+            <LinearLayout
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+
+                >
 
 
                 <LinearLayout
+                    android:layout_width="match_parent"
 
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingRight="5dp"
+                        android:text="/u/ccrama"
+
+                        android:textColor="?attr/font"
+                        android:textSize="?attr/font_cardinfo"
+
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:alpha=".56"
+
+                        android:gravity="center_vertical"
+                        android:text="@string/example_time"
+                        android:textColor="?attr/font"
+
+                        android:textSize="?attr/font_cardinfo" />
+                </LinearLayout>
+
+
+                <me.ccrama.redditslide.ActiveTextView
+                    android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
 
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="?attr/font"
+                    android:textColorLink="@color/md_light_blue_500"
 
-                    >
+                    android:textSize="14sp" />
 
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-
-
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:paddingRight="5dp"
-                                android:text="/u/ccrama"
-
-                                android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardinfo"
-
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/info"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:alpha=".56"
-
-                                android:gravity="center_vertical"
-                                android:text="@string/example_time"
-                                android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo"/>
-                        </LinearLayout>
-
-
-
-                    <me.ccrama.redditslide.ActiveTextView
-                        android:layout_width="match_parent"
-                        android:textSize="14sp"
-                        android:id="@+id/body"
-                        android:paddingBottom="8dp"
-
-                        android:textColorLink="@color/md_light_blue_500"
-                        android:textColor="?attr/font"
-                        android:paddingRight="16dp"
-                        android:paddingLeft="16dp"
-
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
 
-    </LinearLayout>
+</LinearLayout>
 
 
 
