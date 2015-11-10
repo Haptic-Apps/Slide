@@ -108,6 +108,7 @@
                             android:paddingLeft="8dp"
                             android:paddingTop="8dp"
                             android:paddingRight="8dp">
+
                             <TextView
                                 android:id="@+id/title"
                                 android:layout_width="match_parent"
@@ -308,6 +309,17 @@
 
                             android:layout_toLeftOf="@+id/upvote"
                             android:src="@drawable/mod" />
+
+                        <ImageView
+                            android:id="@+id/hide"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:tint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
+
+                            android:layout_toLeftOf="@+id/mod"
+                            android:src="@drawable/hide" />
+
 
                         <ImageView
                             android:id="@+id/downvote"

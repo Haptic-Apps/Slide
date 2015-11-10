@@ -529,30 +529,31 @@ public class PopulateSubmissionViewHolder {
 
                 builder.setView(dialoglayout);
                 final Dialog d = builder.show();
-                dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final int pos = posts.indexOf(submission);
-                        final T t = posts.get(pos);
-                        posts.remove(submission);
+                if(!Reddit.hideButton) {
+                    dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final int pos = posts.indexOf(submission);
+                            final T t = posts.get(pos);
+                            posts.remove(submission);
 
-                        recyclerview.getAdapter().notifyItemRemoved(pos);
-                        d.dismiss();
-                        Hidden.setHidden((Contribution) t);
+                            recyclerview.getAdapter().notifyItemRemoved(pos);
+                            d.dismiss();
+                            Hidden.setHidden((Contribution) t);
 
-                        Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                posts.add(pos, t);
-                                recyclerview.getAdapter().notifyItemInserted(pos);
-                                Hidden.undoHidden((Contribution) t);
-
-                            }
-                        }).show();
-
-
-                    }
-                });
+                            Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    posts.add(pos, t);
+                                    recyclerview.getAdapter().notifyItemInserted(pos);
+                                    Hidden.undoHidden((Contribution) t);
+                                }
+                            }).show();
+                        }
+                    });
+                } else{
+                    dialoglayout.findViewById(R.id.hide).setVisibility(View.GONE);
+                }
             }
         });
         int score = submission.getScore();
@@ -590,6 +591,35 @@ public class PopulateSubmissionViewHolder {
                 submission.setVote(false);
                 submission.setVoted(false);
 
+            }
+        }
+
+        final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+
+        if (hideButton != null) {
+            if (Reddit.hideButton) {
+                hideButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int pos = posts.indexOf(submission);
+                        final T t = posts.get(pos);
+                        posts.remove(submission);
+
+                        recyclerview.getAdapter().notifyItemRemoved(pos);
+                        Hidden.setHidden((Contribution) t);
+
+                        Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                posts.add(pos, t);
+                                recyclerview.getAdapter().notifyItemInserted(pos);
+                                Hidden.undoHidden((Contribution) t);
+                            }
+                        }).show();
+                    }
+                });
+            } else {
+                hideButton.setVisibility(View.GONE);
             }
         }
 

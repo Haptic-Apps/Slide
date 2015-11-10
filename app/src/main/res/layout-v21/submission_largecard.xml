@@ -301,6 +301,18 @@
                     android:layout_marginBottom="8dp"
                     android:paddingRight="8dp"
                     >
+
+                    <ImageView
+                        android:id="@+id/hide"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:tint="?attr/tint"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="8dp"
+
+                        android:layout_toLeftOf="@+id/mod"
+                        android:src="@drawable/hide" />
+
                     <ImageView
                         android:id="@+id/upvote"
                         android:layout_width="36dp"
@@ -311,7 +323,6 @@
                         android:background="?android:selectableItemBackgroundBorderless"
 
                         android:src="@drawable/upvoted" />
-
 
 
                     <ImageView

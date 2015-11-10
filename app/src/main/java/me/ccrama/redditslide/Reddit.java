@@ -57,6 +57,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean exit;
     public static boolean fastscroll;
     public static boolean fab = true;
+    public static boolean hideButton;
 
     @Override
     public void onLowMemory() {
@@ -208,7 +209,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                //mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
+                mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
                 mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
                     public void onIabSetupFinished(IabResult result) {
                         if (!result.isSuccess()) {
@@ -339,6 +340,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         video = SettingValues.prefs.getBoolean("video", true);
         exit = SettingValues.prefs.getBoolean("Exit", true);
         fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
+        hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
 
         int height = this.getResources().getConfiguration().screenWidthDp;
 
