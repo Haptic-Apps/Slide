@@ -310,6 +310,16 @@
                             android:src="@drawable/mod" />
 
                         <ImageView
+                            android:id="@+id/hide"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:tint="?attr/tint"
+                            android:background="?android:selectableItemBackground"
+
+                            android:layout_toLeftOf="@+id/mod"
+                            android:src="@drawable/hide" />
+
+                        <ImageView
                             android:id="@+id/downvote"
                             android:layout_width="36dp"
                             android:layout_height="36dp"
