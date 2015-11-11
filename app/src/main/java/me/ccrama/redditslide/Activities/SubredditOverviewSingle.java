@@ -1723,6 +1723,7 @@ public class SubredditOverviewSingle extends OverviewBase {
                     Intent inte = new Intent(SubredditOverviewSingle.this, SubredditView.class);
                     inte.putExtra("subreddit", e.getText().toString());
                     SubredditOverviewSingle.this.startActivity(inte);
+                    e.setText("");
                 }
                 return false;
             }

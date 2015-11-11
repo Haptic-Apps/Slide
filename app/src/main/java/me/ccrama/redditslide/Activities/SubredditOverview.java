@@ -1762,6 +1762,7 @@ public class SubredditOverview extends OverviewBase {
                     Intent inte = new Intent(SubredditOverview.this, SubredditView.class);
                     inte.putExtra("subreddit", e.getText().toString());
                     SubredditOverview.this.startActivity(inte);
+                    e.setText("");
                 }
                 return false;
             }

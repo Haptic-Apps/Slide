@@ -54,8 +54,10 @@ public class OpenRedditLink {
             intent.putExtra("subreddit", parts[2]);
             c.startActivity(intent);
         } else if (url.contains("/u/") || url.contains("/user/")) {
+            String name = parts[2];
+            if (name.equals("me")) name = Authentication.name;
             Intent myIntent = new Intent(c, Profile.class);
-            myIntent.putExtra("profile", parts[2]);
+            myIntent.putExtra("profile", name);
             c.startActivity(myIntent);
         } else if (url.contains("reddit.com") || url.contains("redd.it")) {
             if (parts.length == 7) {
