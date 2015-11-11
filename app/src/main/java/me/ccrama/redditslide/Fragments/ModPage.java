@@ -20,15 +20,20 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class ModPage extends Fragment {
 
 
+    public ModeratorAdapter adapter;
+    private ModeratorPosts posts;
+    private String id;
+    private String sub;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
-            rv.setLayoutManager(mLayoutManager);
+        final PreCachingLayoutManager mLayoutManager;
+        mLayoutManager = new PreCachingLayoutManager(getActivity());
+        rv.setLayoutManager(mLayoutManager);
 
 
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -61,15 +66,6 @@ public class ModPage extends Fragment {
         );
         return v;
     }
-
-    public ModeratorAdapter adapter;
-
-    private ModeratorPosts posts;
-
-    private String id;
-
-    private String sub;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

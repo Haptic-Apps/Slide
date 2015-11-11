@@ -59,16 +59,15 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/ok"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
                         android:text="@string/crash_btn"
-                        android:id="@+id/ok"
-                        android:textColor="?attr/font"
                         android:textAllCaps="true"
-                        />
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

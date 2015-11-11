@@ -23,8 +23,9 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenPopup extends BaseActivity {
-    private ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
+    private ArrayList<Submission> posts;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -37,7 +38,7 @@ public class CommentsScreenPopup extends BaseActivity {
 
 
         int firstPage = getIntent().getExtras().getInt("page", -1);
-        if(firstPage == -1){
+        if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
             posts = DataShare.sharedSubreddit;
@@ -108,7 +109,6 @@ public class CommentsScreenPopup extends BaseActivity {
                 return posts.size();
             }
         }
-
 
 
     }

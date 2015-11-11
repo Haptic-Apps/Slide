@@ -36,6 +36,11 @@ import me.ccrama.redditslide.Visuals.StyleView;
  */
 public class MultiredditOverview extends BaseActivity {
 
+    public OverviewPagerAdapter adapter;
+    private ViewPager pager;
+    private TabLayout tabs;
+    private List<MultiReddit> usedArray;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -198,13 +203,6 @@ public class MultiredditOverview extends BaseActivity {
         pager.setAdapter(adapter);
         pager.setCurrentItem(current);
     }
-
-    public OverviewPagerAdapter adapter;
-
-    private ViewPager pager;
-    private TabLayout tabs;
-
-    private List<MultiReddit> usedArray;
 
     private void setDataSet(List<MultiReddit> data) {
         usedArray = data;

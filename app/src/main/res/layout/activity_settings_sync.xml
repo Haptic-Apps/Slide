@@ -14,8 +14,8 @@
         android:clipToPadding="false"
         android:minHeight="56dp"
         android:paddingRight="16dp"
-        app:layout_scrollFlags="scroll|enterAlways"
         android:theme="@style/Theme.AppCompat"
+        app:layout_scrollFlags="scroll|enterAlways"
 
 
         >
@@ -24,83 +24,86 @@
     </android.support.v7.widget.Toolbar>
 
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_marginBottom="18dp"
-            android:layout_height="match_parent">
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="18dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:padding="16dp"
-            android:textColor="?attr/font"
-            android:textSize="16sp"
-            android:text="@string/backup_info"
-            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/back"
-
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/reload"
-                android:tint="?attr/tint" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/backup_btn"
-
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/backup_info"
                 android:textColor="?attr/font"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/reload"
+                    android:tint="?attr/tint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/backup_btn"
+
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/restore"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/send"
+                    android:tint="?attr/tint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/backup_btn_restore"
+
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/restore"
-
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/send"
-                android:tint="?attr/tint" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/backup_btn_restore"
-
-                android:textColor="?attr/font"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-        </ScrollView>
+    </ScrollView>
 
 </LinearLayout>

@@ -69,7 +69,7 @@ public class ContentType {
     public static ImageType getImageType(Submission s) {
         Submission.ThumbnailType t = s.getThumbnailType();
         String url = s.getUrl();
-        if(url.startsWith("/")){
+        if (url.startsWith("/")) {
             url = "reddit.com" + url;
         }
         if (s.isSelfPost()) {
@@ -78,10 +78,10 @@ public class ContentType {
             return ImageType.REDDIT;
         }
 
-        if(s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)){
+        if (s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
             return ImageType.EMBEDDED;
         }
-        if(s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")){
+        if (s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")) {
             return ImageType.REDDIT;
         }
         switch (t) {
@@ -150,17 +150,18 @@ public class ContentType {
                 return ImageType.NONE;
         }
     }
+
     public static String getSubmissionFromUrl(String s2) {
         String s = s2;
         int lastIndex = s.lastIndexOf("comments") + 9;
-        if(s.endsWith("/")){
+        if (s.endsWith("/")) {
             s = s.substring(0, s.length() - 1);
         }
         Log.v("Slide", "URL" + s);
         String f = s.substring(lastIndex);
         Log.v("Slide", "URLnew" + f);
 
-        if(f.length() > 6){
+        if (f.length() > 6) {
             f = f.substring(0, s.indexOf("/") + 1);
         }
         Log.v("Slide", f);
@@ -170,7 +171,7 @@ public class ContentType {
 
     public static ImageType getImageType(String url) {
 
-        if(url.startsWith("/")){
+        if (url.startsWith("/")) {
             url = "reddit.com" + url;
         }
         if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("wiki")) {
@@ -189,7 +190,7 @@ public class ContentType {
             if (url.contains("gfy"))
                 return ImageType.GFY;
             return ImageType.GIF;
-        } else  {
+        } else {
             return ImageType.LINK;
 
         }

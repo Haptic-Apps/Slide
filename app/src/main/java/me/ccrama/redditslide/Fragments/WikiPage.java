@@ -14,6 +14,7 @@ public class WikiPage extends Fragment {
 
 
     private String text;
+    private String subreddit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,8 +26,6 @@ public class WikiPage extends Fragment {
 
         return v;
     }
-
-    private String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

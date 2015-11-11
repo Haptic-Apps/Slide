@@ -63,29 +63,12 @@ public class SubredditView extends BaseActivity {
 
     private DrawerLayout drawerLayout;
     private RecyclerView rv;
-
-    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    LayoutInflater inflater = getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SubredditView.this);
-                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
-                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit);
-
-                    builder.setView(dialoglayout).show();
-
-                }
-            });
-            return null;
-        }
-    }
+    private String subreddit;
+    private int totalItemCount;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private SubmissionAdapter adapter;
+    private SubredditPosts posts;
 
     private void restartTheme() {
         Intent intent = this.getIntent();
@@ -106,8 +89,6 @@ public class SubredditView extends BaseActivity {
             restartTheme();
         }
     }
-
-    private String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -262,10 +243,7 @@ public class SubredditView extends BaseActivity {
             }
         });
     }
-    private int totalItemCount;
 
-    private int visibleItemCount;
-    private int pastVisiblesItems;
     private int[] getColors(int c) {
         if (c == getResources().getColor(R.color.md_red_500)) {
             return new int[]{
@@ -499,12 +477,6 @@ public class SubredditView extends BaseActivity {
         }
     }
 
-
-    private SubmissionAdapter adapter;
-
-    private SubredditPosts posts;
-
-
     private void openPopup(View view) {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
@@ -646,18 +618,19 @@ public class SubredditView extends BaseActivity {
                     //reset check adapter
                 }
             });
-            if(SubredditStorage.realSubs != null)
-            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            if (SubredditStorage.realSubs != null)
+                c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        public void onPostExecute(Void voids){
+                        public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(SubredditView.this);
                             Snackbar.make(rv, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
+
                         @Override
                         protected Void doInBackground(Void... params) {
                             if (isChecked) {
@@ -681,51 +654,6 @@ public class SubredditView extends BaseActivity {
 
     }
 
-    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
-
-        @Override
-        public void onPostExecute(Subreddit subreddit) {
-            if(subreddit != null)
-            doSubOnlyStuff(subreddit);
-        }
-
-        @Override
-        protected Subreddit doInBackground(final String... params) {
-            try {
-                return Authentication.reddit.getSubreddit(params[0]);
-            } catch (Exception e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new AlertDialogWrapper.Builder(SubredditView.this)
-                                    .setTitle(R.string.subreddit_err)
-                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            setResult(4);
-                                            finish();
-                                        }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    setResult(4);
-                                    finish();
-                                }
-                            }).show();
-                        } catch (Exception e) {
-
-                        }
-                    }
-                });
-
-                return null;
-            }
-        }
-    }
-
     private void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null)
@@ -743,7 +671,7 @@ public class SubredditView extends BaseActivity {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                if(!Authentication.isLoggedIn){
+                if (!Authentication.isLoggedIn) {
                     c.setVisibility(View.GONE);
                 }
                 c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1096,6 +1024,74 @@ public class SubredditView extends BaseActivity {
         } else {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
+        }
+    }
+
+    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SubredditView.this);
+                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
+                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit);
+
+                    builder.setView(dialoglayout).show();
+
+                }
+            });
+            return null;
+        }
+    }
+
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+
+        @Override
+        public void onPostExecute(Subreddit subreddit) {
+            if (subreddit != null)
+                doSubOnlyStuff(subreddit);
+        }
+
+        @Override
+        protected Subreddit doInBackground(final String... params) {
+            try {
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch (Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new AlertDialogWrapper.Builder(SubredditView.this)
+                                    .setTitle(R.string.subreddit_err)
+                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            setResult(4);
+                                            finish();
+                                        }
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    setResult(4);
+                                    finish();
+                                }
+                            }).show();
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                return null;
+            }
         }
     }
 
