@@ -12,7 +12,6 @@ import android.util.Log;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.RedditClient;
-import net.dean.jraw.http.LoggingMode;
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
@@ -50,8 +49,7 @@ public class Authentication {
         if (isNetworkAvailable(context)) {
             isLoggedIn = false;
             this.a = (Reddit) context;
-            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0 (by /u/ccrama)"));
-            reddit.setLoggingMode(LoggingMode.ALWAYS);
+            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.0"));
             new VerifyCredentials(context).execute();
 
         }
@@ -154,7 +152,34 @@ public class Authentication {
                             //whelp crap
                         }
                     }
-                    reddit.authenticate(authData);
+                    try {
+                        reddit.authenticate(authData);
+                    } catch (Exception e) {
+                        try {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                            .setMessage(R.string.err_no_connection)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    new UpdateToken(context).execute();
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.forceRestart(context);
+
+                                        }
+                                    }).show();
+                                }
+                            });
+                        } catch (Exception ignored){
+
+                        }
+                        //TODO fail
+                    }
                 }
 
 
@@ -219,6 +244,7 @@ public class Authentication {
 
                             Authentication.isLoggedIn = true;
 
+                            return null;
 
                         }
                     } catch (Exception e) {
@@ -232,6 +258,8 @@ public class Authentication {
                     try {
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         Authentication.name = "LOGGEDOUT";
+                        reddit.authenticate(authData);
+                        return null;
 
                     } catch (Exception e) {
                         try {
@@ -259,13 +287,10 @@ public class Authentication {
                         }
                         //TODO fail
                     }
-                    reddit.authenticate(authData);
 
 
                 }
-                int inboxC;
-                if (isLoggedIn)
-                    inboxC = reddit.me().getInboxCount();
+
             } catch (Exception e) {
                 //TODO fail
 

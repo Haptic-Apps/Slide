@@ -72,9 +72,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
     @Override
     protected ArrayList<String> doInBackground(final Reddit... params) {
 
-        if(Authentication.isLoggedIn){
-            getMultireddits();
-        }
+
         if(Authentication.mod){
             doModOf();
         }
@@ -128,6 +126,9 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             test.addAll(sortNoValue(newValues));
             if(test.contains("")){
                 test.remove("");
+            }
+            if(Authentication.isLoggedIn){
+                getMultireddits();
             }
             subredditsForHome = test;
           //  DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);

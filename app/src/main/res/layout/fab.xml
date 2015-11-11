@@ -3,7 +3,10 @@
     android:id="@+id/post_floating_action_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
     android:src="@drawable/ic_add"
     app:elevation="4dp"
+    app:layout_anchorGravity="bottom|right|end"
+
     app:fabSize="normal"
     app:pressedTranslationZ="12dp" />

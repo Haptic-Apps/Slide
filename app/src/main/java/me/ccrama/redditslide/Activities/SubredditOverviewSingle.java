@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -244,14 +243,6 @@ public class SubredditOverviewSingle extends OverviewBase {
 
         header = findViewById(R.id.header);
         pager = (NoSwipingViewPager) findViewById(R.id.contentView);
-
-        postFab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
-        postFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Submit.class));
-            }
-        });
 
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();
@@ -1537,7 +1528,6 @@ public class SubredditOverviewSingle extends OverviewBase {
             Bundle args = new Bundle();
 
             args.putString("id", usedArray.get(i));
-            f.setFab(postFab);
             f.setArguments(args);
 
             return f;
@@ -1572,7 +1562,6 @@ public class SubredditOverviewSingle extends OverviewBase {
 
     boolean restart;
     private View hea;
-    private FloatingActionButton postFab;
 
 
     private void doSidebar() {

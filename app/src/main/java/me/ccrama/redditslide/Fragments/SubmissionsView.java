@@ -1,14 +1,16 @@
 package me.ccrama.redditslide.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,10 @@ import android.view.ViewGroup;
 
 import java.util.concurrent.ExecutionException;
 
+import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -67,8 +71,8 @@ public class SubmissionsView extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
+        View v = ((LayoutInflater)contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
@@ -81,6 +85,15 @@ public class SubmissionsView extends Fragment {
             rv.setLayoutManager(mLayoutManager);
         }
 
+
+       v.findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent inte = new Intent(getActivity(), Submit.class);
+               inte.putExtra("subreddit", id);
+               getActivity().startActivity(inte);
+           }
+       });
 
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
@@ -162,17 +175,6 @@ public class SubmissionsView extends Fragment {
         id = bundle.getString("id", "");
     }
 
-    public void setFab(FloatingActionButton FAB) {
-        this.fab = FAB;
-        this.fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                fab.setId(0);
-                fab.setVisibility(View.INVISIBLE);
-                fab.hide();
-                return true;
-            }
-        });
-    }
+   
 
 }

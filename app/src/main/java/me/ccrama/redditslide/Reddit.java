@@ -366,6 +366,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         if (notificationTime != -1) {
             notifications = new NotificationJobScheduler(this);
+            notifications.start(this);
 
         }
         tabletUI = isPackageInstalled(this);

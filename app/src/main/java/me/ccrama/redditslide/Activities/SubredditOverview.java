@@ -8,14 +8,11 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -211,7 +208,6 @@ public class SubredditOverview extends OverviewBase {
     }
 
     private View header;
-    private FloatingActionButton postFab;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -292,13 +288,6 @@ public class SubredditOverview extends OverviewBase {
         header = findViewById(R.id.header);
         pager = (ViewPager) findViewById(R.id.contentView);
 
-        postFab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
-        postFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Submit.class));
-            }
-        });
 
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();
@@ -1534,7 +1523,7 @@ public class SubredditOverview extends OverviewBase {
                 }
 
                 @Override
-                public void onPageSelected(int position) {
+                public void onPageSelected(final int position) {
                     doSubSidebar(usedArray.get(position));
                     if (hea != null)
                         hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
@@ -1546,8 +1535,8 @@ public class SubredditOverview extends OverviewBase {
 
                     }
                     tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(position)));
-
                 }
+
 
                 @Override
                 public void onPageScrollStateChanged(int state) {
@@ -1563,7 +1552,6 @@ public class SubredditOverview extends OverviewBase {
             Bundle args = new Bundle();
 
             args.putString("id", usedArray.get(i));
-            f.setFab(postFab);
             f.setArguments(args);
 
             return f;
