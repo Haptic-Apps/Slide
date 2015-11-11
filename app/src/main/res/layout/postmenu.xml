@@ -21,9 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
-                android:padding="24dp"
-                android:maxLines="3"
                 android:ellipsize="end"
+                android:maxLines="3"
+                android:padding="24dp"
                 android:text="Post title here"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -34,8 +34,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/body"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
@@ -45,14 +45,13 @@
                     android:paddingTop="8dp">
 
 
-
                     <LinearLayout
                         android:id="@+id/sidebar"
                         android:layout_width="match_parent"
 
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -60,22 +59,22 @@
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
-                            android:tint="?attr/tint"
-
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/profile" />
+
+                            android:src="@drawable/profile"
+                            android:tint="?attr/tint" />
 
                         <TextView
-                            android:layout_width="match_parent"
-
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-
-                            android:textColor="?attr/font"
                             android:id="@+id/userpopup"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:gravity="center_vertical"
                             android:text="/u/ccrama"
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -85,33 +84,33 @@
                         android:id="@+id/wiki"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
-
                         android:background="?android:selectableItemBackground"
+
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
-                            android:tint="?attr/tint"
-
                             android:layout_height="match_parent"
-                            android:alpha=".86"
 
+                            android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/sub" />
+
+                            android:src="@drawable/sub"
+                            android:tint="?attr/tint" />
 
                         <TextView
-                            android:layout_width="match_parent"
-
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-
                             android:id="@+id/subpopup"
-                            android:textColor="?attr/font"
 
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:gravity="center_vertical"
                             android:text="/r/Android"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -121,9 +120,9 @@
                         android:id="@+id/save"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
-
                         android:background="?android:selectableItemBackground"
+
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -133,31 +132,32 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:src="@drawable/sidebar_saved"
 
-                            android:src="@drawable/sidebar_saved" />
+                            android:tint="?attr/tint" />
 
                         <TextView
-                            android:layout_width="match_parent"
-
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-
-                            android:textColor="?attr/font"
-
                             android:id="@+id/savedtext"
 
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:gravity="center_vertical"
+
                             android:text="@string/submission_save"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/gild"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -166,60 +166,62 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
-
                             android:padding="12dp"
-                            android:src="@drawable/gild" />
+
+                            android:src="@drawable/gild"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
-
                             android:text="@string/submission_gild"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/report"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:visibility="gone"
                         android:gravity="center_vertical"
-
                         android:orientation="horizontal"
-                        android:paddingRight="16dp">
+
+                        android:paddingRight="16dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
-
                             android:padding="12dp"
-                            android:src="@drawable/report" />
+
+                            android:src="@drawable/report"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
-
                             android:text="@string/submission_report"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/share"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -228,28 +230,29 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/share" />
+                            android:src="@drawable/share"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/submission_share"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/hide"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -258,18 +261,18 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/hide" />
+                            android:src="@drawable/hide"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/submission_hide"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 

@@ -16,11 +16,13 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
  */
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
+
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.fade_out);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -31,6 +33,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +73,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         Utils.convertActivityToTranslucent(this);
         getSwipeBackLayout().scrollToFinishActivity();
     }
-
-
-
 
 
 }

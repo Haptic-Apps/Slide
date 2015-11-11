@@ -19,6 +19,8 @@ import me.ccrama.redditslide.R;
  */
 public class FullscreenVideo extends BaseActivity {
 
+    private WebView v;
+
     /**
      * Called when the activity is first created.
      */
@@ -28,7 +30,7 @@ public class FullscreenVideo extends BaseActivity {
         v.loadUrl("about:blank");
         overridePendingTransition(0, R.anim.fade_out);
     }
-    private WebView v;
+
     public void onCreate(Bundle savedInstanceState) {
 
 
@@ -44,8 +46,8 @@ public class FullscreenVideo extends BaseActivity {
 
         String data = getIntent().getExtras().getString("html");
         String url;
-        if(data.endsWith("/")){
-            data = data.substring(0, data.length() -1);
+        if (data.endsWith("/")) {
+            data = data.substring(0, data.length() - 1);
         }
         v = (WebView) findViewById(R.id.webgif);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -54,8 +56,8 @@ public class FullscreenVideo extends BaseActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.BLACK);
         }
-        if(!data.contains("cdn.embedly.com")){
-            if(data.contains("?v=")){
+        if (!data.contains("cdn.embedly.com")) {
+            if (data.contains("?v=")) {
 
                 url = "https://www.youtube.com/embed/" + data.substring(data.indexOf("?v=") + 3, data.length());
             } else {
@@ -74,7 +76,7 @@ public class FullscreenVideo extends BaseActivity {
             Log.v("Slide", secondCut);
             url = "http://" + secondCut;
         }
-        WebSettings wbset= v.getSettings();
+        WebSettings wbset = v.getSettings();
         wbset.setJavaScriptEnabled(true);
         v.setWebChromeClient(new WebChromeClient());
 

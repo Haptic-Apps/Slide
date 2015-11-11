@@ -37,12 +37,15 @@ import me.ccrama.redditslide.Views.MediaVideoView;
  */
 public class GifFull extends Fragment {
 
+    private int i = 0;
+    private View placeholder;
+    private Submission s;
+    private View gif;
+
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser)
-    {
+    public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (this.isVisible())
-        {
+        if (this.isVisible()) {
             if (!isVisibleToUser)   // If we are becoming invisible, then...
             {
                 ((MediaVideoView) gif).pause();
@@ -57,6 +60,7 @@ public class GifFull extends Fragment {
             }
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,29 +78,28 @@ public class GifFull extends Fragment {
         gif = rootView.findViewById(R.id.gif);
 
 
-            gif.setVisibility(View.VISIBLE);
-            final MediaVideoView v = (MediaVideoView) gif;
-            v.clearFocus();
+        gif.setVisibility(View.VISIBLE);
+        final MediaVideoView v = (MediaVideoView) gif;
+        v.clearFocus();
 
 
-            String dat = s.getUrl();
+        String dat = s.getUrl();
 
-          
 
-            if (dat.contains("gfy")) {
-                new AsyncGyfcat().execute(dat.substring(3, dat.length()));
-            } else {
-                if (dat.endsWith("v")) {
-                    dat = dat.substring(0, dat.length() - 1);
-                }
-                new AsyncImageLoader().execute(dat);
+        if (dat.contains("gfy")) {
+            new AsyncGyfcat().execute(dat.substring(3, dat.length()));
+        } else {
+            if (dat.endsWith("v")) {
+                dat = dat.substring(0, dat.length() - 1);
             }
+            new AsyncImageLoader().execute(dat);
+        }
 
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
+                if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra("page", i);
                     (getActivity()).startActivity(i2);
@@ -111,9 +114,6 @@ public class GifFull extends Fragment {
         return rootView;
     }
 
-      private int i = 0;
-    private View placeholder;
-    private Submission s;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,7 +122,7 @@ public class GifFull extends Fragment {
         s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
 
     }
-    private View gif;
+
     private class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
 
@@ -137,7 +137,7 @@ public class GifFull extends Fragment {
 
             final String finalS = s;
             Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
-            if(getContext() != null) {
+            if (getContext() != null) {
                 Ion.with(getActivity()).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, final JsonObject result) {
@@ -215,7 +215,6 @@ public class GifFull extends Fragment {
 
     }
 
-    
 
     private class AsyncGyfcat extends AsyncTask<String, Void, Void> {
 

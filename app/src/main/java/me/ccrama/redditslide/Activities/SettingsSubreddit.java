@@ -35,12 +35,12 @@ public class SettingsSubreddit extends BaseActivityNoAnim {
             overridePendingTransition(0, 0);
 
             finish();
-            overridePendingTransition(0,0);
-
+            overridePendingTransition(0, 0);
 
 
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -51,6 +51,7 @@ public class SettingsSubreddit extends BaseActivityNoAnim {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +71,12 @@ public class SettingsSubreddit extends BaseActivityNoAnim {
 
         }
 
-        ListView l = (ListView)findViewById(R.id.subslist);
+        ListView l = (ListView) findViewById(R.id.subslist);
         ArrayList<String> done = new ArrayList<>();
-        for(String s : SubredditStorage.alphabeticalSubscriptions){
-            if(Pallete.getColor(s) != Pallete.getDefaultColor()){
+        for (String s : SubredditStorage.alphabeticalSubscriptions) {
+            if (Pallete.getColor(s) != Pallete.getDefaultColor()) {
                 done.add(s);
-            } else if(SettingValues.prefs.contains("PRESET" + s)){
+            } else if (SettingValues.prefs.contains("PRESET" + s)) {
                 done.add(s);
             }
         }

@@ -28,22 +28,15 @@ import java.util.UUID;
  * Created by ccrama on 3/30/2015.
  */
 public class Authentication {
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
+    private static final String REDIRECT_URL = "http://www.ccrama.me";
     public static boolean isLoggedIn;
     public static RedditClient reddit;
-
-    private static boolean isNetworkAvailable(Context ac) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) ac.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
     public static boolean mod;
-
     public static String name;
-    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     public static SharedPreferences authentication;
-    private static final String REDIRECT_URL = "http://www.ccrama.me";
+    public static ArrayList<String> modSubs;
+    private static String refresh;
     private Reddit a;
 
     public Authentication(Context context) {
@@ -56,6 +49,13 @@ public class Authentication {
 
         }
 
+    }
+
+    private static boolean isNetworkAvailable(Context ac) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) ac.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public static class UpdateToken extends AsyncTask<Void, Void, Void> {
@@ -112,7 +112,7 @@ public class Authentication {
 
                             }
                         });
-                    } catch (Exception ignored){
+                    } catch (Exception ignored) {
 
                     }
                     e.printStackTrace();
@@ -162,10 +162,6 @@ public class Authentication {
             return null;
         }
     }
-
-    private static String refresh;
-
-    public static ArrayList<String> modSubs;
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
         Context mContext;
@@ -235,26 +231,26 @@ public class Authentication {
 
                     } catch (Exception e) {
                         try {
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
-                                        .setMessage(R.string.err_no_connection)
-                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        new UpdateToken(mContext).execute();
-                                    }
-                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.forceRestart(mContext);
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                            .setMessage(R.string.err_no_connection)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    new UpdateToken(mContext).execute();
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.forceRestart(mContext);
 
-                                    }
-                                }).show();
-                            }
-                        });
-                        } catch (Exception ignored){
+                                        }
+                                    }).show();
+                                }
+                            });
+                        } catch (Exception ignored) {
 
                         }
                         //TODO fail

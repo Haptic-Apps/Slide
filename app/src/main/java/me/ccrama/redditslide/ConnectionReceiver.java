@@ -12,14 +12,15 @@ import android.net.NetworkInfo;
 public class ConnectionReceiver extends BroadcastReceiver {
 
 
-    public ConnectionReceiver(){
+    public ConnectionReceiver() {
         super();
     }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         Reddit.online = isOnline(context);
 
-        if(Reddit.online) {
+        if (Reddit.online) {
             new Authentication.UpdateToken(context).execute();
 
         }

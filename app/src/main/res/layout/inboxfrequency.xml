@@ -32,8 +32,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/body"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
@@ -44,18 +44,19 @@
 
 
                     <CheckBox
+                        android:id="@+id/load"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:buttonTint="?attr/tint"
+
                         android:padding="16dp"
                         android:text="@string/settings_mail_check"
-                        android:backgroundTint="?attr/tint"
-                        android:textSize="14sp"
-                        android:background="?android:selectableItemBackground"
-
-                        android:id="@+id/load"
-                        android:textStyle="bold"
-                        android:buttonTint="?attr/tint"
                         android:textColor="?attr/font"
-                        android:layout_height="wrap_content" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <com.rey.material.widget.Slider
                         android:id="@+id/landscape"
                         android:layout_width="match_parent"
@@ -63,29 +64,30 @@
                         android:gravity="center"
                         android:padding="8dp"
                         app:sl_maxValue="96"
-                        app:sl_stepValue="15"
                         app:sl_minValue="1"
                         app:sl_secondaryColor="?attr/tint"
-                         />
+                        app:sl_stepValue="15" />
+
                     <TextView
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha=".7"
                         android:padding="16dp"
                         android:text="@string/settings_mail_info"
-                        android:textSize="14sp"
-                        android:alpha=".7"
                         android:textColor="?attr/font"
-                        android:layout_height="wrap_content" />
+                        android:textSize="14sp" />
+
                     <TextView
+                        android:id="@+id/save"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:background="?android:selectableItemBackground"
                         android:padding="16dp"
                         android:text="@string/btn_save"
                         android:textAllCaps="true"
-                        android:textSize="14sp"
-                        android:id="@+id/save"
-                        android:textStyle="bold"
                         android:textColor="?attr/font"
-                        android:layout_height="wrap_content" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
