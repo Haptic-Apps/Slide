@@ -87,7 +87,7 @@ public class OverviewBase extends AppCompatActivity {
     public String subToDo;
     public OverviewPagerAdapter adapter;
     public TabLayout tabs;
-    private int toGoto = 0;
+    public int toGoto = 0;
 
 
     @Override
