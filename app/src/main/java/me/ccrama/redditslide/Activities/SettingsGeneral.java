@@ -1,17 +1,23 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.TimePeriod;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -41,8 +47,9 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_settings_general), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
+
         {
-            CheckBox single = (CheckBox) findViewById(R.id.single);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.single);
 
             single.setChecked(Reddit.single);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -55,7 +62,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            CheckBox single = (CheckBox) findViewById(R.id.fastscroll);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
 
             single.setChecked(Reddit.fastscroll);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -68,7 +75,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            CheckBox single = (CheckBox) findViewById(R.id.hidebutton);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.hidebutton);
 
             single.setChecked(Reddit.hideButton);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -81,7 +88,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            CheckBox single = (CheckBox) findViewById(R.id.exitcheck);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 
             single.setChecked(Reddit.exit);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -95,7 +102,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
         }
 
         {
-            CheckBox single = (CheckBox) findViewById(R.id.nsfw);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfw);
 
             single.setChecked(!SettingValues.NSFWPosts);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,7 +117,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
 
 
         {
-            CheckBox single = (CheckBox) findViewById(R.id.nsfwrpev);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
             single.setChecked(!SettingValues.NSFWPreviews);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -147,7 +154,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             }
         });
         {
-            CheckBox check = (CheckBox) findViewById(R.id.swapGesture);
+            SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
 
             check.setChecked(Reddit.swap);
             check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -159,74 +166,76 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+        ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);
+
         {
-            CheckBox check = (CheckBox) findViewById(R.id.web);
-
-            check.setChecked(Reddit.web);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.web = isChecked;
-                    SettingValues.prefs.edit().putBoolean("web", isChecked).apply();
+                public void onClick(View v) {
 
+                    final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            switch (i) {
+                                case 0:
+                                    Reddit.defaultSorting = Sorting.HOT;
+                                    break;
+                                case 1:
+                                    Reddit.defaultSorting = Sorting.NEW;
+                                    break;
+                                case 2:
+                                    Reddit.defaultSorting = Sorting.RISING;
+                                    break;
+                                case 3:
+                                    Reddit.defaultSorting = Sorting.TOP;
+                                    Reddit.timePeriod = TimePeriod.HOUR;
+                                    break;
+                                case 4:
+                                    Reddit.defaultSorting = Sorting.TOP;
+                                    Reddit.timePeriod = TimePeriod.DAY;
+                                    break;
+                                case 5:
+                                    Reddit.defaultSorting = Sorting.TOP;
+                                    Reddit.timePeriod = TimePeriod.WEEK;
+                                    break;
+                                case 6:
+                                    Reddit.defaultSorting = Sorting.TOP;
+                                    Reddit.timePeriod = TimePeriod.MONTH;
+                                    break;
+                                case 7:
+                                    Reddit.defaultSorting = Sorting.TOP;
+                                    Reddit.timePeriod = TimePeriod.YEAR;
+                                    break;
+                                case 8:
+                                    Reddit.defaultSorting = Sorting.TOP;
+                                    Reddit.timePeriod = TimePeriod.ALL;
+                                    break;
+                                case 9:
+                                    Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                    Reddit.timePeriod = TimePeriod.HOUR;
+                                    break;
+                                case 10:
+                                    Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                    Reddit.timePeriod = TimePeriod.DAY;
+                                    break;
+                            }
+                            SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
+                            SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
+                            SettingValues.defaultSorting = Reddit.defaultSorting;
+                            SettingValues.timePeriod = Reddit.timePeriod;
+                            ((TextView) findViewById(R.id.sorting_current)).setText(
+                                    Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);
+                        }
+                    };
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneral.this);
+                    builder.setTitle(R.string.sorting_choose);
+                    builder.setSingleChoiceItems(
+                            Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
+                    builder.show();
                 }
             });
         }
-        {
-            CheckBox check = (CheckBox) findViewById(R.id.image);
-
-            check.setChecked(Reddit.image);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.image = isChecked;
-                    SettingValues.prefs.edit().putBoolean("image", isChecked).apply();
-
-                }
-            });
-        }
-        {
-            CheckBox check = (CheckBox) findViewById(R.id.gif);
-
-            check.setChecked(Reddit.gif);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.gif = isChecked;
-                    SettingValues.prefs.edit().putBoolean("gif", isChecked).apply();
-
-                }
-            });
-        }
-        {
-            CheckBox check = (CheckBox) findViewById(R.id.album);
-
-            check.setChecked(Reddit.album);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.album = isChecked;
-                    SettingValues.prefs.edit().putBoolean("album", isChecked).apply();
-
-                }
-            });
-        }
-        {
-            CheckBox check = (CheckBox) findViewById(R.id.video);
-
-            check.setChecked(Reddit.video);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.video = isChecked;
-                    SettingValues.prefs.edit().putBoolean("video", isChecked).apply();
-
-                }
-            });
-        }
-
-
-
 
     }
     @Override

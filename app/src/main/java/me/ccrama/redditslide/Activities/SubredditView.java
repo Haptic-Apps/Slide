@@ -590,36 +590,10 @@ public class SubredditView extends BaseActivity {
                 SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
-        int i = Reddit.defaultSorting == Sorting.HOT ? 0
-                : Reddit.defaultSorting == Sorting.NEW ? 1
-                : Reddit.defaultSorting == Sorting.RISING ? 2
-                : Reddit.defaultSorting == Sorting.TOP ?
-                (Reddit.timePeriod == TimePeriod.HOUR ? 3
-                        : Reddit.timePeriod == TimePeriod.DAY ? 4
-                        : Reddit.timePeriod == TimePeriod.WEEK ? 5
-                        : Reddit.timePeriod == TimePeriod.MONTH ? 6
-                        : Reddit.timePeriod == TimePeriod.YEAR ? 7
-                        : 8)
-                : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
-                (Reddit.timePeriod == TimePeriod.HOUR ? 9
-                        : 10)
-                : 0;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                new String[]{
-                        getString(R.string.sorting_hot),
-                        getString(R.string.sorting_new),
-                        getString(R.string.sorting_rising),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
-                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
-                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
-                }, i, l2);
+                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
         builder.show();
     }
 

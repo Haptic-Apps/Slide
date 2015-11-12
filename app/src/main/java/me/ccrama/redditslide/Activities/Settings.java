@@ -20,14 +20,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
-import net.dean.jraw.paginators.Sorting;
-import net.dean.jraw.paginators.TimePeriod;
-
-import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -75,7 +70,6 @@ public class Settings extends BaseActivityNoAnim  {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
         setContentView(R.layout.activity_settings);
         Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        TextView version = (TextView) findViewById(R.id.settings_version);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
         getSupportActionBar().setTitle(R.string.title_settings);
@@ -85,113 +79,33 @@ public class Settings extends BaseActivityNoAnim  {
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             Settings.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
-        version.setText("Slide v" + BuildConfig.VERSION_NAME);
 
-        findViewById(R.id.pro).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                } catch (android.content.ActivityNotFoundException anfe) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                }
-            }
-        });
-        findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-                                Reddit.defaultSorting = Sorting.HOT;
-                                break;
-                            case 1:
-                                Reddit.defaultSorting = Sorting.NEW;
-                                break;
-                            case 2:
-                                Reddit.defaultSorting = Sorting.RISING;
-                                break;
-                            case 3:
-                                Reddit.defaultSorting = Sorting.TOP;
-                                Reddit.timePeriod = TimePeriod.HOUR;
-                                break;
-                            case 4:
-                                Reddit.defaultSorting = Sorting.TOP;
-                                Reddit.timePeriod = TimePeriod.DAY;
-                                break;
-                            case 5:
-                                Reddit.defaultSorting = Sorting.TOP;
-                                Reddit.timePeriod = TimePeriod.WEEK;
-                                break;
-                            case 6:
-                                Reddit.defaultSorting = Sorting.TOP;
-                                Reddit.timePeriod = TimePeriod.MONTH;
-                                break;
-                            case 7:
-                                Reddit.defaultSorting = Sorting.TOP;
-                                Reddit.timePeriod = TimePeriod.YEAR;
-                                break;
-                            case 8:
-                                Reddit.defaultSorting = Sorting.TOP;
-                                Reddit.timePeriod = TimePeriod.ALL;
-                                break;
-                            case 9:
-                                Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                Reddit.timePeriod = TimePeriod.HOUR;
-                                break;
-                            case 10:
-                                Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                Reddit.timePeriod = TimePeriod.DAY;
-                                break;
-                        }
-                        SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
-                        SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
-                        SettingValues.defaultSorting = Reddit.defaultSorting;
-                        SettingValues.timePeriod = Reddit.timePeriod;
+        View pro = findViewById(R.id.pro);
+        if (Reddit.tabletUI) pro.setVisibility(View.GONE);
+        else {
+            pro.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                     }
-                };
-                int i = Reddit.defaultSorting == Sorting.HOT ? 0
-                        : Reddit.defaultSorting == Sorting.NEW ? 1
-                        : Reddit.defaultSorting == Sorting.RISING ? 2
-                        : Reddit.defaultSorting == Sorting.TOP ?
-                        (Reddit.timePeriod == TimePeriod.HOUR ? 3
-                                : Reddit.timePeriod == TimePeriod.DAY ? 4
-                                : Reddit.timePeriod == TimePeriod.WEEK ? 5
-                                : Reddit.timePeriod == TimePeriod.MONTH ? 6
-                                : Reddit.timePeriod == TimePeriod.YEAR ? 7
-                                : 8)
-                        : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
-                        (Reddit.timePeriod == TimePeriod.HOUR ? 9
-                                : 10)
-                        : 0;
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
-                builder.setTitle(R.string.sorting_choose);
-                builder.setSingleChoiceItems(
-                        new String[]{
-                                getString(R.string.sorting_hot),
-                                getString(R.string.sorting_new),
-                                getString(R.string.sorting_rising),
-                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
-                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
-                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
-                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
-                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
-                                getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
-                                getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
-                                getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
-                        }, i, l2);
-                builder.show();
-            }
-        });
+                }
+            });
+        }
 
         findViewById(R.id.general).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsGeneral.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsAbout.class);
                 startActivityForResult(i, 2);
             }
         });
@@ -202,6 +116,8 @@ public class Settings extends BaseActivityNoAnim  {
                 startActivityForResult(i, 2);
             }
         });
+        ((TextView)findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
+                TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
         findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,7 +149,7 @@ public class Settings extends BaseActivityNoAnim  {
                         if (!isChecked) {
                             Reddit.notificationTime = -1;
                             Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                            if(Reddit.notifications != null)
+                            if (Reddit.notifications != null)
                                 Reddit.notifications.cancel(getApplication());
                         } else {
                             Reddit.notificationTime = 15;
@@ -269,7 +185,8 @@ public class Settings extends BaseActivityNoAnim  {
                             Reddit.notifications.cancel(getApplication());
                             Reddit.notifications.start(getApplication());
                             dialog.dismiss();
-
+                            ((TextView)findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
+                                    TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
                         }
                     }
                 });
@@ -281,6 +198,13 @@ public class Settings extends BaseActivityNoAnim  {
             public void onClick(View v) {
 
                 Intent i = new Intent(Settings.this, SettingsTheme.class);
+                startActivityForResult(i, 2);
+            }
+        });
+        findViewById(R.id.handling).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsHandling.class);
                 startActivityForResult(i, 2);
             }
         });
@@ -307,7 +231,54 @@ public class Settings extends BaseActivityNoAnim  {
             }
         });
 
+        findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                  /*  Intent inte = new Intent(Overview.this, Overview.class);
+                    inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
+                    Overview.this.startActivity(inte);*/
+                if (Reddit.tabletUI) {
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
+                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
 
+                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                    //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
+                    final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
+
+                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    landscape.setValue(Reddit.dpWidth, false);
+
+                    final Dialog dialog = builder.setView(dialoglayout).create();
+                    dialog.show();
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Reddit.dpWidth = landscape.getValue();
+                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getValue()).apply();
+                        }
+                    });
+                } else {
+                    new AlertDialogWrapper.Builder(Settings.this)
+
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    }).show();
+                }
+            }
+        });
 
         findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,7 +287,6 @@ public class Settings extends BaseActivityNoAnim  {
                 Settings.this.startActivity(inte);
             }
         });
-
     }
 
 

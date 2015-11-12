@@ -77,13 +77,12 @@
 
     <!-- Drawer items (That's the one on the left) -->
     <string name="drawer_profile">Profile</string>
-    <string name="drawer_support">Support Slide</string>
+    <string name="drawer_support">Go Pro</string>
     <string name="drawer_goto_profile">Go to profile</string>
     <string name="drawer_reorder_pins">Reorder your pins</string>
     <string name="drawer_add_account">Add an account</string>
     <string name="drawer_hello">Hello,</string>
     <string name="drawer_change_account">Switch accounts</string>
-    <string name="drawer_multi_column">Multi-Column</string>
     <string name="drawer_search">Search for a subreddit</string>
     <string name="drawer_moderation">Moderation</string>
     <string name="drawer_sync_subs">Sync your Subreddits</string>
@@ -409,6 +408,7 @@
     <string name="settings_mail_info">The higher the frequency, the more potential battery Slide will use in the background!</string>
     <string name="settings_main_color_title">Edit main color</string>
     <string name="settings_notification">Check for new messages every %1$s</string>
+    <string name="settings_notification_short">Check every %1$s</string>
     <string name="settings_single_mode">Single Mode\nRemoves swiping between subs</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
@@ -417,16 +417,23 @@
     <string name="settings_fastscroll">Navigate between parent comments</string>
     <string name="settings_floating_action_button">Floating Action Button</string>
     <string name="settings_floating_action_button_visible">Show floating action button</string>
+    <string name="settings_libs">Open-source libraries</string>
+    <string name="settings_bugs">Report Bugs</string>
+    <string name="settings_changelog">View changelog</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternative Layout</string>
-    <string name="settings_title_backup">Backup</string>
-    <string name="settings_title_default_theme">Default Theme</string>
+    <string name="settings_title_backup">Backup &amp; Restore</string>
+    <string name="settings_title_default_theme">Base Theme</string>
     <string name="settings_title_general">General</string>
-    <string name="settings_title_notifications">Notification Settings</string>
-    <string name="settings_title_pro">Pro</string>
+    <string name="settings_title_notifications">Notifications</string>
+    <string name="settings_title_pro">Buy Pro</string>
     <string name="settings_title_sub_theme">Subreddit Theme Settings</string>
     <string name="settings_title_sorting">Default Sorting</string>
+    <string name="settings_title_support">Donate</string>
+    <string name="settings_title_appearance">Appearance</string>
+    <string name="settings_title_about">About</string>
+    <string name="settings_title_multi_column">Multi-Column</string>
 
 
     <!-- Text in Donation-Activity -->
@@ -458,6 +465,7 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
+    <string name="settings_subhead_support">Support</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
