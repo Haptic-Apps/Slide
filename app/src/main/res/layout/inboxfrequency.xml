@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:background="?android:selectableItemBackground"
                         android:padding="16dp"
-                        android:text="@string/btn_save"
+                        android:text="@string/btn_done"
                         android:textAllCaps="true"
                         android:textSize="14sp"
                         android:id="@+id/save"

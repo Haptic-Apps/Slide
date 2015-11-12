@@ -17,7 +17,7 @@
   * Updated translations
 
 4.3.0 / 2015-11-07
-================
+==================
 
   * Don't allow comments with 0 childs to collapse
   * Fixes wrong default for the infoBar
@@ -60,7 +60,7 @@
   * Color voting arrows when pressed
 
 4.2.0 / 2015-10-28
-======================
+==================
 
   * Shadowbox mode progress
   * Default sort moving to Settings

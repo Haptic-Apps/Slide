@@ -311,9 +311,12 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_close">Close</string>
     <string name="btn_discard">Discard</string>
-    <string name="btn_no">No</string>
+    <string name="btn_done">Done</string>
+    <string name="btn_go_back">Go back</string>
     <string name="btn_no_danks">No thank you</string>
+    <string name="btn_no">No</string>
     <string name="btn_ok">OK</string>
+    <string name="btn_remove">Remove</string>
     <string name="btn_reply">Reply</string>
     <string name="btn_reset">Reset</string>
     <string name="btn_retry">Try again</string>
@@ -322,8 +325,6 @@
     <string name="btn_sure">Sure!</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
-    <string name="btn_go_back">Go back</string>
-    <string name="btn_remove">Remove</string>
 
 
     <!-- Backup -->
