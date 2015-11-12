@@ -74,13 +74,21 @@
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
-
-            <me.ccrama.redditslide.Views.NoSwipingViewPager
-                android:id="@+id/contentView"
+            <FrameLayout
+                android:id="@+id/fragment_root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize"
+                >
 
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                <me.ccrama.redditslide.Views.NoSwipingViewPager
+                    android:id="@+id/contentView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            </FrameLayout>
 
         </android.support.design.widget.CoordinatorLayout>
 

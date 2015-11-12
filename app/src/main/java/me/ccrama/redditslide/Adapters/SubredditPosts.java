@@ -74,10 +74,10 @@ public class SubredditPosts {
 
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
+            loading = false;
 
             if(subs != null) {
 
-                loading = false;
 
                 if (refreshLayout != null)
                     (adapter.mContext).runOnUiThread(new Runnable() {

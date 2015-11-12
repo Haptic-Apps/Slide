@@ -84,17 +84,21 @@ public class SubmissionsView extends Fragment {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
+        if (Reddit.fab) {
 
+            fab = (FloatingActionButton)  v.findViewById(R.id.post_floating_action_button);
 
-       v.findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent inte = new Intent(getActivity(), Submit.class);
-               inte.putExtra("subreddit", id);
-               getActivity().startActivity(inte);
-           }
-       });
-
+           fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent inte = new Intent(getActivity(), Submit.class);
+                    inte.putExtra("subreddit", id);
+                    getActivity().startActivity(inte);
+                }
+            });
+        } else {
+            v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
+        }
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
@@ -126,19 +130,22 @@ public class SubmissionsView extends Fragment {
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                visibleItemCount = rv.getLayoutManager().getChildCount();
-                totalItemCount = rv.getLayoutManager().getItemCount();
-                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                } else {
-                    int[] firstVisibleItems = null;
-                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        pastVisiblesItems = firstVisibleItems[0];
-                    }
-                }
+
 
                 if (!posts.loading) {
+
+                    visibleItemCount = rv.getLayoutManager().getChildCount();
+                    totalItemCount = rv.getLayoutManager().getItemCount();
+                    if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                        pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    } else {
+                        int[] firstVisibleItems = null;
+                        firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                            pastVisiblesItems = firstVisibleItems[0];
+                        }
+                    }
+
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(adapter, false, posts.subreddit);
@@ -175,6 +182,6 @@ public class SubmissionsView extends Fragment {
         id = bundle.getString("id", "");
     }
 
-   
+
 
 }
