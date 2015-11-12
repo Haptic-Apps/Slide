@@ -89,6 +89,7 @@ public class OverviewBase extends AppCompatActivity {
     public String subToDo;
     public OverviewPagerAdapter adapter;
     public TabLayout tabs;
+    public int toGoto = 0;
 
 
     @Override
@@ -1076,6 +1077,43 @@ public class OverviewBase extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    public void setDataSet(List<String> data) {
+        if (data != null) {
+            usedArray = data;
+            if (adapter == null) {
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            } else {
+                adapter.notifyDataSetChanged();
+            }
+            pager.setAdapter(adapter);
+            pager.setOffscreenPageLimit(2);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = this.getWindow();
+                window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
+                OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
+
+            }
+            if (!Reddit.single) {
+                tabs.setupWithViewPager(pager);
+
+
+                doSubSidebar(usedArray.get(0));
+                findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
+                // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
+                tabs.setSelectedTabIndicatorColor(new ColorPreferences(OverviewBase.this).getColor(usedArray.get(0)));
+
+
+                pager.setCurrentItem(toGoto);
+            } else {
+                getSupportActionBar().setTitle(usedArray.get(0));
+                doSubSidebar(usedArray.get(0));
+                findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
+                // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
+
+            }
+        }
     }
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
