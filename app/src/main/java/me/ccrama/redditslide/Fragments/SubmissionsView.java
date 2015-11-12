@@ -11,6 +11,7 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,13 +90,13 @@ public class SubmissionsView extends Fragment {
             fab = (FloatingActionButton)  v.findViewById(R.id.post_floating_action_button);
 
            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent inte = new Intent(getActivity(), Submit.class);
-                    inte.putExtra("subreddit", id);
-                    getActivity().startActivity(inte);
-                }
-            });
+               @Override
+               public void onClick(View v) {
+                   Intent inte = new Intent(getActivity(), Submit.class);
+                   inte.putExtra("subreddit", id);
+                   getActivity().startActivity(inte);
+               }
+           });
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
@@ -132,7 +133,7 @@ public class SubmissionsView extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
 
-                if (!posts.loading) {
+                if (!posts.loading && !posts.nomore) {
 
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
@@ -146,7 +147,8 @@ public class SubmissionsView extends Fragment {
                         }
                     }
 
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount ) {
+                        Log.v("Slide", "LOADING MORE" + totalItemCount);
                         posts.loading = true;
                         posts.loadMore(adapter, false, posts.subreddit);
 
@@ -154,10 +156,14 @@ public class SubmissionsView extends Fragment {
                 }
                 if (fab != null) {
                     if (dy <= 0 && fab.getId() != 0 && Reddit.fab) {
+
                         fab.show();
 
-                    } else
+
+                    } else {
                         fab.hide();
+
+                    }
                 }
             }
         });

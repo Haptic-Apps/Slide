@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.SubredditPaginator;
@@ -54,6 +55,7 @@ public class SubredditPosts {
     }
 
     public void loadMore(SubmissionAdapter adapter, boolean reset, String subreddit) {
+        this.adapter = adapter;
         new LoadData(reset).execute(subreddit);
 
 
@@ -63,6 +65,8 @@ public class SubredditPosts {
         new LoadData(reset).execute(subreddit);
 
     }
+
+    public boolean nomore =false;
 
     CommentsScreen pagerad;
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
@@ -76,22 +80,24 @@ public class SubredditPosts {
         public void onPostExecute(ArrayList<Submission> subs) {
             loading = false;
 
-            if(subs != null) {
+            if(subs != null && subs.size() > 0) {
 
+                Log.v("Slide", "DONE LOADING, SIZE IS NOW " + posts.size() );
 
-                if (refreshLayout != null)
                     (adapter.mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            refreshLayout.setRefreshing(false);
+                            if (refreshLayout != null)
 
-                                adapter.dataSet = posts;
+                                refreshLayout.setRefreshing(false);
 
 
                             adapter.notifyDataSetChanged();
 
                         }
                     });
+            } else if(subs != null){
+                nomore= true;
             } else {
                 adapter.setError(true);
 
@@ -148,6 +154,8 @@ public class SubredditPosts {
                         //gets caught above
                     }
                 }
+            } else {
+                nomore = true;
             }
 
             return posts;

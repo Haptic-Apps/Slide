@@ -78,7 +78,6 @@
                 android:id="@+id/fragment_root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
                 >
 
                 <me.ccrama.redditslide.Views.NoSwipingViewPager

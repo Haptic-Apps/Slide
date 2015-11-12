@@ -16,6 +16,7 @@
         android:orientation="vertical"
             android:clipToPadding="false"
         android:id="@+id/vertical_content"
+
         android:layout_height="match_parent"
 
         android:divider="@null"
@@ -27,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="72dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="@dimen/activity_horizontal_margin" />

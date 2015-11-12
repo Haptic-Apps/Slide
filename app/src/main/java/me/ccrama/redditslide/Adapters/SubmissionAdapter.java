@@ -25,8 +25,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
-import java.util.ArrayList;
-
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Profile;
@@ -45,7 +43,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
-    public ArrayList<Submission> dataSet;
+    public SubredditPosts dataSet;
     private final RecyclerView listView;
 
     private final String subreddit;
@@ -65,7 +63,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (position == dataSet.size()) {
+
+        if (position == dataSet.posts.size()  && !dataSet.nomore) {
             return 5;
         }
         return 1;
@@ -73,6 +72,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+
         if (i == 5) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new ContributionAdapter.EmptyViewHolder(v);
@@ -87,7 +87,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.mContext = mContext;
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
-        this.dataSet = dataSet.posts;
+        this.dataSet = dataSet;
 
         custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
 
@@ -136,14 +136,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
-            final Submission submission = dataSet.get(i);
+            final Submission submission = dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, custom);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
-                    DataShare.sharedSubreddit = dataSet;
+                    DataShare.sharedSubreddit = dataSet.posts;
 
                     if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
@@ -252,9 +252,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            final int pos = dataSet.indexOf(submission);
-                            final Submission old = dataSet.get(pos);
-                            dataSet.remove(submission);
+                            final int pos = dataSet.posts.indexOf(submission);
+                            final Submission old = dataSet.posts.get(pos);
+                            dataSet.posts.remove(submission);
                             notifyItemRemoved(pos);
                             d.dismiss();
                             Hidden.setHidden(old);
@@ -262,7 +262,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    dataSet.add(pos, old);
+                                    dataSet.posts.add(pos, old);
                                     notifyItemInserted(pos);
                                     Hidden.undoHidden(old);
 
@@ -276,7 +276,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
 
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView, custom);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, custom);
 
             int lastPosition = i;
         }
@@ -285,10 +285,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        if (dataSet == null) {
+        if (dataSet.posts == null) {
             return 0;
+        } else if(dataSet.nomore) {
+            return dataSet.posts.size() ;
         } else {
-            return dataSet.size() + 1;
+            return dataSet.posts.size() +1;
+
         }
     }
 
