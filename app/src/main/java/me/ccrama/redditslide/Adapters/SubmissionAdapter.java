@@ -208,7 +208,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String urlString = submission.getUrl();
+                            String urlString = "https://reddit.com" + submission.getPermalink();
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
@@ -227,7 +227,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                            Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
 
                                         }
                                     }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {

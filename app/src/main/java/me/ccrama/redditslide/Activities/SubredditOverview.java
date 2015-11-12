@@ -18,6 +18,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,11 +26,14 @@ import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -287,6 +291,7 @@ public class SubredditOverview extends OverviewBase {
 
         header = findViewById(R.id.header);
         pager = (ViewPager) findViewById(R.id.contentView);
+
 
 
         setDataSet(SubredditStorage.subredditsForHome);
@@ -1588,7 +1593,62 @@ public class SubredditOverview extends OverviewBase {
     EditText e;
 
     private View hea;
+    public class GestureDoubleTap extends GestureDetector.SimpleOnGestureListener {
 
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            String name1 = new ColorPreferences(SubredditOverview.this).getFontStyle().getTitle();
+            boolean dark;
+            if(name1.contains("dark") || name1.toLowerCase().contains("amoled")){
+                dark = true;
+            } else {
+                dark =false;
+            }
+
+            String name = new ColorPreferences(SubredditOverview.this).getFontStyle().getTitle().split("_")[1];
+            {
+                if(dark) {
+                    final String newName = name.replace("(", "");
+                    for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                        if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
+                            new ColorPreferences(SubredditOverview.this).setFontStyle(theme);
+                            Reddit.themeBack = theme.getThemeType();
+
+                            Intent i = new Intent(SubredditOverview.this, SubredditOverview.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                            break;
+                        }
+                    }
+                } else {
+                    final String newName = name.replace("(", "");
+                    for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                        if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                            new ColorPreferences(SubredditOverview.this).setFontStyle(theme);
+                            Reddit.themeBack = theme.getThemeType();
+
+                            Intent i = new Intent(SubredditOverview.this, SubredditOverview.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                            break;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+    }
 
     private void doSidebar() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
@@ -1747,6 +1807,7 @@ public class SubredditOverview extends OverviewBase {
                     Intent inte = new Intent(SubredditOverview.this, SubredditView.class);
                     inte.putExtra("subreddit", e.getText().toString());
                     SubredditOverview.this.startActivity(inte);
+                    e.setText("");
                 }
                 return false;
             }
@@ -1757,7 +1818,31 @@ public class SubredditOverview extends OverviewBase {
             public void onClick(View view) {
 
                 final EditText input = new EditText(SubredditOverview.this);
-
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                input.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                            input.setText(String.valueOf(input.getText()).replace(" ", ""));
+                            Editable value = input.getText();
+                            if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
+                                new AlertDialogWrapper.Builder(SubredditOverview.this)
+                                        .setTitle(R.string.user_invalid)
+                                        .setMessage(R.string.user_invalid_msg)
+                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                            }
+                                        }).show();
+                            } else {
+                                Intent inte = new Intent(SubredditOverview.this, Profile.class);
+                                inte.putExtra("profile", value.toString());
+                                SubredditOverview.this.startActivity(inte);
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                });
                 new AlertDialogWrapper.Builder(SubredditOverview.this)
                         .setTitle(R.string.user_enter)
                         .setView(input)
@@ -1866,6 +1951,17 @@ public class SubredditOverview extends OverviewBase {
         l.setAdapter(adapter);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+
+        GestureDoubleTap gestureDoubleTap = new GestureDoubleTap();
+      final GestureDetectorCompat gestureDetector = new GestureDetectorCompat(this, gestureDoubleTap);
+
+        toolbar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return gestureDetector.onTouchEvent(motionEvent);
+            }
+
+        });
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -1873,6 +1969,7 @@ public class SubredditOverview extends OverviewBase {
                 R.string.hello_world,
                 R.string.hello_world
         )
+
 
         {
             public void onDrawerClosed(View view) {

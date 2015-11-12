@@ -146,7 +146,7 @@ public class SubmissionsView extends Fragment {
                     }
                 }
                 if (fab != null) {
-                    if (dy <= 0 && fab.getId() != 0) {
+                    if (dy <= 0 && fab.getId() != 0 && Reddit.fab) {
                         fab.show();
 
                     } else

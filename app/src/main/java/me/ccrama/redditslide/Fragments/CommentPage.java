@@ -227,6 +227,16 @@ public class CommentPage extends Fragment {
                 }
             });
         }
+
+        v.findViewById(R.id.up).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //Scroll to top
+                rv.getLayoutManager().scrollToPosition(0);
+                return true;
+            }
+        });
+
             if (getActivity() instanceof BaseActivity) {
                 ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
                 ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);

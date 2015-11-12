@@ -16,6 +16,7 @@ import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthHelper;
+import net.dean.jraw.models.LoggedInAccount;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ import java.util.UUID;
 public class Authentication {
     public static boolean isLoggedIn;
     public static RedditClient reddit;
+    public  static LoggedInAccount me ;
 
     private static boolean isNetworkAvailable(Context ac) {
         ConnectivityManager connectivityManager
@@ -56,7 +58,10 @@ public class Authentication {
 
     }
 
-    public static class UpdateToken extends AsyncTask<Void, Void, Void> {
+    public void updateToken(Context c){
+        new UpdateToken(c).execute();
+    }
+    public class UpdateToken extends AsyncTask<Void, Void, Void> {
 
         Context context;
 
@@ -66,126 +71,136 @@ public class Authentication {
 
         @Override
         protected Void doInBackground(Void... params) {
-            Log.v("Slide", "REAUTH");
-            if (isLoggedIn) {
-                try {
-
-                    final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
-                    Log.v("Slide", "REAUTH LOGGED IN");
-
-                    OAuthHelper oAuthHelper = reddit.getOAuthHelper();
-
-                    oAuthHelper.setRefreshToken(refresh);
-                    OAuthData finalData = null;
-                    finalData = oAuthHelper.refreshToken(credentials);
-
-
-                    refresh = oAuthHelper.getRefreshToken();
-                    reddit.authenticate(finalData);
-                    if (reddit.isAuthenticated()) {
-                        Authentication.name = reddit.me().getFullName();
-                        mod = reddit.me().isMod();
-                        Authentication.isLoggedIn = true;
-
-
-                    }
-                } catch (Exception e) {
+            if (!name.isEmpty()) {
+                Log.v("Slide", "REAUTH");
+                if (isLoggedIn) {
                     try {
-                        ((Activity) context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                        .setMessage(R.string.err_no_connection)
-                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+
+                        final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+                        Log.v("Slide", "REAUTH LOGGED IN");
+
+                        OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+
+                        oAuthHelper.setRefreshToken(refresh);
+                        OAuthData finalData = oAuthHelper.refreshToken(credentials);
+
+
+                        reddit.authenticate(finalData);
+                        refresh = reddit.getOAuthHelper().getRefreshToken();
+
+                        if (reddit.isAuthenticated()) {
+                            if (me == null) {
+                                Authentication.name = reddit.me().getFullName();
+                                mod = reddit.me().isMod();
+                                Authentication.isLoggedIn = true;
+                            } else {
+                                Authentication.name = me.getFullName();
+                                mod = me.isMod();
+                                Authentication.isLoggedIn = true;
+                            }
+
+
+                        }
+                    } catch (Exception e) {
+                        try {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                            .setMessage(R.string.err_no_connection)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    new UpdateToken(context).execute();
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.forceRestart(context);
+                                        }
+                                    }).show();
+
+                                }
+                            });
+                        } catch (Exception ignored) {
+
+                        }
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
+                    OAuthData authData = null;
+                    if (reddit != null) {
+                        try {
+
+                            authData = reddit.getOAuthHelper().easyAuth(fcreds);
+                            Authentication.name = "LOGGEDOUT";
+                            mod = false;
+
+                        } catch (Exception e) {
+                            try {
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                                .setMessage(R.string.err_no_connection)
+                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        new UpdateToken(context).execute();
+                                                    }
+                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                new UpdateToken(context).execute();
+                                                Reddit.forceRestart(context);
+
                                             }
-                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.forceRestart(context);
+                                        }).show();
                                     }
-                                }).show();
+                                });
+                                //TODO fail
+                            } catch (Exception ignored) {
+                                //whelp crap
+                            }
+                        }
+                        try {
+                            reddit.authenticate(authData);
+                        } catch (Exception e) {
+                            try {
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                                .setMessage(R.string.err_no_connection)
+                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        new UpdateToken(context).execute();
+                                                    }
+                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Reddit.forceRestart(context);
+
+                                            }
+                                        }).show();
+                                    }
+                                });
+                            } catch (Exception ignored) {
 
                             }
-                        });
-                    } catch (Exception ignored){
-
-                    }
-                    e.printStackTrace();
-                }
-
-            } else {
-                final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
-                OAuthData authData = null;
-                if (reddit != null) {
-                    try {
-
-                        authData = reddit.getOAuthHelper().easyAuth(fcreds);
-                        Authentication.name = "LOGGEDOUT";
-                        mod = false;
-
-                    } catch (Exception e) {
-                        try {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                            .setMessage(R.string.err_no_connection)
-                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    new UpdateToken(context).execute();
-                                                }
-                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.forceRestart(context);
-
-                                        }
-                                    }).show();
-                                }
-                            });
                             //TODO fail
-                        } catch (Exception ignored) {
-                            //whelp crap
                         }
                     }
-                    try {
-                        reddit.authenticate(authData);
-                    } catch (Exception e) {
-                        try {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                            .setMessage(R.string.err_no_connection)
-                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    new UpdateToken(context).execute();
-                                                }
-                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.forceRestart(context);
 
-                                        }
-                                    }).show();
-                                }
-                            });
-                        } catch (Exception ignored){
 
-                        }
-                        //TODO fail
-                    }
                 }
-
-
             }
             return null;
+
         }
+
     }
 
     private static String refresh;
@@ -228,10 +243,15 @@ public class Authentication {
                     try {
                         OAuthData finalData = oAuthHelper.refreshToken(credentials);
 
+                      reddit.authenticate(finalData);
                         refresh = oAuthHelper.getRefreshToken();
-                        reddit.authenticate(finalData);
-                        if (reddit.isAuthenticated()) {
-                            final String name = reddit.me().getFullName();
+
+                        Authentication.isLoggedIn = true;
+                       me = reddit.me();
+                        final String name = me.getFullName();
+                        Authentication.name = name;
+
+                     if (reddit.isAuthenticated()) {
                             final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
                             if (accounts.contains(name)) { //convert to new system
                                 accounts.remove(name);
@@ -240,7 +260,7 @@ public class Authentication {
 
                             }
                             Authentication.name = name;
-                            mod = reddit.me().isMod();
+                            mod = me.isMod();
 
                             Authentication.isLoggedIn = true;
 
@@ -258,7 +278,6 @@ public class Authentication {
                     try {
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         Authentication.name = "LOGGEDOUT";
-                        reddit.authenticate(authData);
                         return null;
 
                     } catch (Exception e) {

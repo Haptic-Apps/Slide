@@ -19,10 +19,7 @@ public class ConnectionReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Reddit.online = isOnline(context);
 
-        if(Reddit.online) {
-            new Authentication.UpdateToken(context).execute();
 
-        }
     }
 
 

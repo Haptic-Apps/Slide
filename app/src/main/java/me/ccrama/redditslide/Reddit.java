@@ -56,6 +56,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean web;
     public static boolean exit;
     public static boolean fastscroll;
+    public static boolean fab = true;
+    public static boolean hideButton;
 
     @Override
     public void onLowMemory() {
@@ -115,10 +117,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             mInBackground = false;
             notifyOnBecameForeground();
 
-            new Authentication.UpdateToken(activity).execute();
+            authentication.updateToken(activity);
 
         }
     }
+
+
+
+    public static Authentication authentication;
 
     private void notifyOnBecameForeground() {
         for (Listener listener : listeners) {
@@ -207,7 +213,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                //mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
+                mHelper = new IabHelper(Reddit.this, SecretConstants.base64EncodedPublicKey);
                 mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
                     public void onIabSetupFinished(IabResult result) {
                         if (!result.isSuccess()) {
@@ -329,6 +335,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         single = SettingValues.prefs.getBoolean("Single", false);
+        fab = SettingValues.prefs.getBoolean("Fab", false);
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);
         image = SettingValues.prefs.getBoolean("image", true);
@@ -337,6 +344,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         video = SettingValues.prefs.getBoolean("video", true);
         exit = SettingValues.prefs.getBoolean("Exit", true);
         fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
+        hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
 
         int height = this.getResources().getConfiguration().screenWidthDp;
 
@@ -362,7 +370,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notificationTime = 15;
         }
         int defaultDPWidth = fina / 300;
-        new Authentication(this);
+        authentication = new Authentication(this);
+
 
         if (notificationTime != -1) {
             notifications = new NotificationJobScheduler(this);
