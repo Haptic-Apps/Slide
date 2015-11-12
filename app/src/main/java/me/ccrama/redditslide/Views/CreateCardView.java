@@ -16,10 +16,10 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 9/18/2015.
  */
 public class CreateCardView {
-    public static View CreateView(ViewGroup viewGroup){
-        CardEnum  cardEnum = SettingValues.defaultCardView;
+    public static View CreateView(ViewGroup viewGroup) {
+        CardEnum cardEnum = SettingValues.defaultCardView;
         View v = null;
-        switch(cardEnum){
+        switch (cardEnum) {
             case LARGE:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
                 break;
@@ -32,12 +32,13 @@ public class CreateCardView {
         doHideObjects(v, false);
         return v;
     }
-    public static View CreateView(ViewGroup viewGroup, Boolean secondary, String sub){
+
+    public static View CreateView(ViewGroup viewGroup, Boolean secondary, String sub) {
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
-        CardEnum  cardEnum = CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew" , SettingValues.defaultCardView.toString()).toUpperCase());
+        CardEnum cardEnum = CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString()).toUpperCase());
         View v = null;
-        switch(cardEnum){
+        switch (cardEnum) {
             case LARGE:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
                 break;
@@ -51,14 +52,15 @@ public class CreateCardView {
         return v;
     }
 
-    public static void resetColorCard(View v){
+    public static void resetColorCard(View v) {
         ((TextView) v.findViewById(R.id.subreddit)).setTextColor(((TextView) v.findViewById(R.id.information)).getCurrentTextColor());
         TypedValue background = new TypedValue();
         v.getContext().getTheme().resolveAttribute(R.attr.card_background, background, true);
         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(background.data);
 
     }
-    public static void colorCard(String sec, View v,  String subToMatch, boolean secondary){
+
+    public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
 
         subToMatch = subToMatch.toLowerCase();
         if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Pallete.getColor(sec) != Pallete.getDefaultColor()) {
@@ -88,10 +90,11 @@ public class CreateCardView {
             }
         }
     }
-    public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, Boolean secondary, String sub){
+
+    public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, Boolean secondary, String sub) {
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
-        if(subreddit.isEmpty()) {
+        if (subreddit.isEmpty()) {
             SettingValues.prefs.edit().putString("defaultCardViewNew", cardEnum.name()).apply();
             SettingValues.defaultCardView = cardEnum;
             return CreateView(parent);
@@ -104,10 +107,10 @@ public class CreateCardView {
     }
 
 
-    public static View setInfoBarVisible(SettingValues.InfoBar b, ViewGroup parent, Boolean secondary, String sub){
+    public static View setInfoBarVisible(SettingValues.InfoBar b, ViewGroup parent, Boolean secondary, String sub) {
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
-        if(subreddit.isEmpty()) {
+        if (subreddit.isEmpty()) {
 
 
             SettingValues.prefs.edit().putString("infoBarTypeNew", b.toString()).apply();
@@ -116,30 +119,16 @@ public class CreateCardView {
             return CreateView(parent);
 
         } else {
-            SettingValues.prefs.edit().putString(subreddit + "infoBarTypeNew" , b.toString()).apply();
+            SettingValues.prefs.edit().putString(subreddit + "infoBarTypeNew", b.toString()).apply();
             return CreateView(parent, secondary, sub);
 
         }
 
     }
-    public static void setColorMatchingMode(SettingValues.ColorMatchingMode b){
+
+    public static void setColorIndicicator(SettingValues.ColorIndicator b) {
         String subreddit = false ? "second" : "";
-        if(subreddit.isEmpty()) {
-
-
-            SettingValues.prefs.edit().putString("ccolorMatchingModeNew", b.toString()).apply();
-
-            SettingValues.colorMatchingMode = b;
-
-        } else {
-            SettingValues.prefs.edit().putString(subreddit + "ccolorMatchingModeNew" , b.toString()).apply();
-
-        }
-
-    }
-    public static void setColorIndicicator(SettingValues.ColorIndicator b){
-        String subreddit = false ? "second" : "";
-        if(subreddit.isEmpty()) {
+        if (subreddit.isEmpty()) {
 
 
             SettingValues.prefs.edit().putString("colorIndicatorNew", b.toString()).apply();
@@ -151,31 +140,32 @@ public class CreateCardView {
         }
 
     }
+
     public static View setActionBarVisible(boolean b, ViewGroup parent, Boolean secondary, String sub) {
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
         if (subreddit.isEmpty()) {
 
 
-        SettingValues.prefs.edit().putBoolean("actionBarVisibleNew", b).apply();
-        SettingValues.actionBarVisible = b;
+            SettingValues.prefs.edit().putBoolean("actionBarVisibleNew", b).apply();
+            SettingValues.actionBarVisible = b;
             return CreateView(parent);
 
         } else {
-            SettingValues.prefs.edit().putBoolean(subreddit + "actionBarVisibleNew" , b).apply();
-            return CreateView(parent, secondary, sub );
+            SettingValues.prefs.edit().putBoolean(subreddit + "actionBarVisibleNew", b).apply();
+            return CreateView(parent, secondary, sub);
 
         }
     }
 
-    private static void doHideObjects(View v, Boolean secondary){
+    private static void doHideObjects(View v, Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
-        if(subreddit.isEmpty()) {
+        if (subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
             }
 
-            switch (SettingValues.infoBar){
+            switch (SettingValues.infoBar) {
                 case THUMBNAIL:
                     v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
 
@@ -201,23 +191,23 @@ public class CreateCardView {
                     break;
             }
 
-            if(SettingValues.infoBar == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
+            if (SettingValues.infoBar == SettingValues.InfoBar.BIG_PICTURE_CROPPED) {
                 ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
 
         } else {
-            if (!SettingValues.prefs.getBoolean(subreddit  + "actionBarVisibleNew", SettingValues.actionBarVisible)) {
+            if (!SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible)) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
             }
-            
-            if(getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED){
+
+            if (getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED) {
                 ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
-            switch (getInfoBar(secondary)){
+            switch (getInfoBar(secondary)) {
                 case THUMBNAIL:
                     v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
 
@@ -246,48 +236,68 @@ public class CreateCardView {
         }
     }
 
-
-
-
     public static boolean isCard(Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
 
-        return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew" , SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
+        return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
     }
+
     public static CardEnum getCardView(Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
 
-        return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew"  , SettingValues.defaultCardView.toString()));
+        return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString()));
     }
+
     public static SettingValues.ColorIndicator getColorIndicator() {
         String subreddit = false ? "second" : "";
 
-        return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew"  , SettingValues.colorIndicator.toString()));
+        return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew", SettingValues.colorIndicator.toString()));
     }
+
     public static SettingValues.ColorMatchingMode getColorMatchingMode() {
         String subreddit = false ? "second" : "";
 
-        return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew" , SettingValues.colorMatchingMode.toString()));
+        return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew", SettingValues.colorMatchingMode.toString()));
     }
+
+    public static void setColorMatchingMode(SettingValues.ColorMatchingMode b) {
+        String subreddit = false ? "second" : "";
+        if (subreddit.isEmpty()) {
+
+
+            SettingValues.prefs.edit().putString("ccolorMatchingModeNew", b.toString()).apply();
+
+            SettingValues.colorMatchingMode = b;
+
+        } else {
+            SettingValues.prefs.edit().putString(subreddit + "ccolorMatchingModeNew", b.toString()).apply();
+
+        }
+
+    }
+
     public static SettingValues.InfoBar getInfoBar(Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
 
-        return  SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()));
+        return SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()));
     }
+
     public static boolean isActionBar(Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
 
-        return SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew" , SettingValues.actionBarVisible);
+        return SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible);
     }
 
-    public enum CardEnum{
+    public enum CardEnum {
         LARGE("Big Card"),
         LIST("List");
         final String displayName;
-        CardEnum(String s){
+
+        CardEnum(String s) {
             this.displayName = s;
         }
-        public String getDisplayName(){
+
+        public String getDisplayName() {
             return displayName;
         }
     }

@@ -10,13 +10,16 @@ import net.dean.jraw.models.Submission;
  */
 public class Hidden {
     public static SharedPreferences hidden;
-    public static boolean isHidden(Submission s){
+
+    public static boolean isHidden(Submission s) {
         return !hidden.contains(s.getFullName());
     }
-    public static void setHidden(Contribution s){
+
+    public static void setHidden(Contribution s) {
         hidden.edit().putBoolean(s.getFullName(), true).apply();
     }
-    public static void undoHidden(Contribution s){
+
+    public static void undoHidden(Contribution s) {
         hidden.edit().remove(s.getFullName()).apply();
     }
 

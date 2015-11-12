@@ -23,7 +23,7 @@ public class Crash extends AppCompatActivity {
 
         setContentView(R.layout.activity_crash);
 
-        final String stacktrace  = getIntent().getExtras().getString("stacktrace", "");
+        final String stacktrace = getIntent().getExtras().getString("stacktrace", "");
 
 
         findViewById(R.id.report).setOnClickListener(new View.OnClickListener() {

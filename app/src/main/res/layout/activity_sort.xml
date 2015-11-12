@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
         android:clipToPadding="false"
-        android:theme="@style/Theme.AppCompat"
-
         android:minHeight="56dp"
+
         android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways"
 
 
@@ -37,19 +37,20 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/subslist"
         android:layout_width="match_parent"
-        android:layout_below="@id/toolbar"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
 
         android:orientation="vertical">
 
 
     </android.support.v7.widget.RecyclerView>
+
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
         android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/add_plain"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/add_plain" />
 </RelativeLayout>

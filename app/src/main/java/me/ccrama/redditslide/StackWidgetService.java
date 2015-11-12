@@ -29,8 +29,9 @@ public class StackWidgetService extends RemoteViewsService {
 }
 
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private List<Submission> submissions = new ArrayList<>();
     private final Context mContext;
+    private List<Submission> submissions = new ArrayList<>();
+    private SubredditPosts posts;
 
     public StackRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
@@ -108,8 +109,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public boolean hasStableIds() {
         return true;
     }
-
-    private SubredditPosts posts;
 
     public void onDataSetChanged() {
         if (posts == null) {

@@ -33,6 +33,7 @@ public class FontPreferences {
     public void setFontStyle(FontStyle style) {
         edit().putString(FONT_STYLE, style.name()).commit();
     }
+
     public enum FontStyle {
         Small(R.style.FontStyle_Small, "Small"),
         Medium(R.style.FontStyle_Medium, "Medium"),
@@ -41,17 +42,17 @@ public class FontPreferences {
         private final int resId;
         private final String title;
 
+        FontStyle(int resId, String title) {
+            this.resId = resId;
+            this.title = title;
+        }
+
         public int getResId() {
             return resId;
         }
 
         public String getTitle() {
             return title;
-        }
-
-        FontStyle(int resId, String title) {
-            this.resId = resId;
-            this.title = title;
         }
     }
 }

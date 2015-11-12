@@ -1,60 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawerlayout"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
     android:background="?attr/card_background"
+    android:orientation="vertical">
 
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:background="@color/md_light_blue_500"
-    android:layout_marginBottom="20dp"
-    android:id="@+id/back"
+    <RelativeLayout
+        android:id="@+id/back"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginBottom="20dp"
 
-    android:layout_height="160dp">
-<ImageView
-    android:layout_width="match_parent"
-    android:padding="57dp"
-    android:layout_marginTop="-20dp"
-    android:src="@drawable/slogo"
-    android:layout_height="match_parent" />
+        android:background="@color/md_light_blue_500">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-20dp"
+            android:padding="57dp"
+            android:src="@drawable/slogo" />
 
     </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:id="@+id/profile"
-        android:background="?android:selectableItemBackground"
 
+    <LinearLayout
+        android:id="@+id/profile"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+
+        android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-        android:paddingLeft="0dp"
-        android:layout_height="48dp">
+        android:paddingLeft="0dp">
+
         <ImageView
             android:layout_width="48dp"
-            android:paddingLeft="10dp"
-            android:tint="?attr/tint"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
 
+            android:layout_marginRight="16dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
             android:src="@drawable/profile"
-            android:layout_height="match_parent" />
+            android:tint="?attr/tint" />
+
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:text="@string/drawer_add_account"
             android:textColor="?attr/font"
-            android:gravity="center_vertical"
-            android:layout_height="match_parent" />
-        </LinearLayout>
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/support"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -63,28 +70,29 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="6dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/support" />
+            android:paddingBottom="6dp"
+
+            android:src="@drawable/support"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/drawer_support"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/tablet"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -93,58 +101,62 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="6dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/multicolumn" />
+            android:paddingBottom="6dp"
+
+            android:src="@drawable/multicolumn"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/drawer_multi_column"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingLeft="0dp"
-        android:id="@+id/prof"
-        android:background="?android:selectableItemBackground"
 
-        android:layout_height="48dp">
+    <LinearLayout
+        android:id="@+id/prof"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+
+        android:paddingLeft="0dp">
+
         <ImageView
             android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:tint="?attr/tint"
 
             android:src="@drawable/profile"
-            android:layout_height="match_parent" />
+            android:tint="?attr/tint" />
+
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="14sp"
-            android:textColor="?attr/font"
-
-            android:textStyle="bold"
-            android:text="@string/drawer_goto_profile"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_height="match_parent" />
+
+            android:text="@string/drawer_goto_profile"
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -153,18 +165,18 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/settings" />
+
+            android:src="@drawable/settings"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/title_settings"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -173,25 +185,26 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:alpha=".25"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha=".25"
 
         />
-    <EditText
-        android:layout_width="match_parent"
-        android:id="@+id/sort"
-        android:textColor="?attr/font"
-        android:textColorHint="?attr/font"
-        android:hint="@string/drawer_search"
-        android:singleLine="true"
 
+    <EditText
+        android:id="@+id/sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?attr/tint"
+
+        android:hint="@string/drawer_search"
         android:imeOptions="actionSearch"
 
-        android:backgroundTint="?attr/tint"
-        android:layout_marginRight="16dp"
+        android:singleLine="true"
+        android:textColor="?attr/font"
 
 
-        android:layout_height="wrap_content" />
+        android:textColorHint="?attr/font" />
 </LinearLayout>

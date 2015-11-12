@@ -236,6 +236,7 @@
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -252,6 +253,7 @@
                 android:textAllCaps="true"
                 android:textSize="14sp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
