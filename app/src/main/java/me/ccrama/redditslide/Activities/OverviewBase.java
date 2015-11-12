@@ -1122,17 +1122,29 @@ public class OverviewBase extends AppCompatActivity {
                 @Override
                 public void onPageSelected(int position) {
                     doSubSidebar(usedArray.get(position));
-                    if (hea != null)
+                    if (Reddit.single) {
                         hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
-                    header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
-                        OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+                        header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
+                            OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
 
+                        }
+                        getSupportActionBar().setTitle(usedArray.get(position));
+                    } else {
+
+                        if (hea != null)
+                            hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                        header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
+                            OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+
+                        }
+                        tabs.setSelectedTabIndicatorColor(new ColorPreferences(OverviewBase.this).getColor(usedArray.get(position)));
                     }
-                    tabs.setSelectedTabIndicatorColor(new ColorPreferences(OverviewBase.this).getColor(usedArray.get(position)));
-
                 }
 
                 @Override
