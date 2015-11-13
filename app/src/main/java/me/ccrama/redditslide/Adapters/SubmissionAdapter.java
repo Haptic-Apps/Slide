@@ -94,7 +94,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
-
+        if (i == 0) {
+            if (Reddit.single) {
+                holder2.itemView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single), 0, 0);
+            } else {
+                holder2.itemView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding), 0, 0);
+            }
+        }
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
