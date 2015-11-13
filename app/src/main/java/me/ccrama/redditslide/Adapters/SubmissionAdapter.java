@@ -43,12 +43,22 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
-    public SubredditPosts dataSet;
     private final RecyclerView listView;
-
     private final String subreddit;
-
     private final boolean custom;
+    public SubredditPosts dataSet;
+
+    public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
+
+        this.mContext = mContext;
+        this.subreddit = subreddit.toLowerCase();
+        this.listView = listView;
+        this.dataSet = dataSet;
+
+        custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
+
+        Log.v("Slide", subreddit + " CUSTOM IS " + custom);
+    }
 
     @Override
     public void setError(Boolean b) {
@@ -64,7 +74,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
 
-        if (position == dataSet.posts.size()  && !dataSet.nomore) {
+        if (position == dataSet.posts.size() && !dataSet.nomore) {
             return 5;
         }
         return 1;
@@ -79,54 +89,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else {
             View v = CreateCardView.CreateView(viewGroup, custom, subreddit);
             return new SubmissionViewHolder(v);
-        }
-    }
-
-    public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
-
-        this.mContext = mContext;
-        this.subreddit = subreddit.toLowerCase();
-        this.listView = listView;
-        this.dataSet = dataSet;
-
-        custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
-
-        Log.v("Slide", subreddit + " CUSTOM IS " + custom);
-    }
-
-
-    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
-
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (submissions[0].isSaved()) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-
-                    submissions[0].saved = false;
-                    v = null;
-
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
-
-                    submissions[0].saved = true;
-                    v = null;
-
-
-                }
-            } catch (Exception e) {
-                return null;
-            }
-            return null;
         }
     }
 
@@ -287,11 +249,46 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemCount() {
         if (dataSet.posts == null) {
             return 0;
-        } else if(dataSet.nomore) {
-            return dataSet.posts.size() ;
+        } else if (dataSet.nomore) {
+            return dataSet.posts.size();
         } else {
-            return dataSet.posts.size() +1;
+            return dataSet.posts.size() + 1;
 
+        }
+    }
+
+    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
+
+        View v;
+
+        public AsyncSave(View v) {
+            this.v = v;
+        }
+
+
+        @Override
+        protected Void doInBackground(Submission... submissions) {
+            try {
+                if (submissions[0].isSaved()) {
+                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
+                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+
+                    submissions[0].saved = false;
+                    v = null;
+
+                } else {
+                    new AccountManager(Authentication.reddit).save(submissions[0]);
+                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+
+                    submissions[0].saved = true;
+                    v = null;
+
+
+                }
+            } catch (Exception e) {
+                return null;
+            }
+            return null;
         }
     }
 

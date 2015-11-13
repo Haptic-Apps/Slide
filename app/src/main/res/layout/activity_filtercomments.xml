@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="?attr/activity_background"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
 
 
         >
+
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -26,29 +28,30 @@
             android:background="#00ffffff"
             android:paddingBottom="12dp"
 
-            android:tint="?attr/tint"
             android:paddingTop="12dp"
-
             android:scaleType="fitCenter"
-            android:src="@drawable/search" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:id="@+id/search"
-        android:textColorHint="?attr/font"
-        android:backgroundTint="?attr/tint"
-        android:hint="@string/search_comments_hint"
-        android:textColor="?attr/font"
-        android:layout_height="match_parent"/>
+            android:src="@drawable/search"
+            android:tint="?attr/tint" />
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tint"
+            android:hint="@string/search_comments_hint"
+            android:textColor="?attr/font"
+            android:textColorHint="?attr/font" />
     </android.support.v7.widget.Toolbar>
+
     <android.support.v7.widget.RecyclerView
-        android:orientation="vertical"
-        android:clipToPadding="false"
         android:id="@+id/vertical_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
         android:cacheColorHint="@android:color/transparent"
+        android:clipToPadding="false"
         android:divider="@null"
         android:listSelector="@android:color/transparent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:orientation="vertical" />
 </LinearLayout>

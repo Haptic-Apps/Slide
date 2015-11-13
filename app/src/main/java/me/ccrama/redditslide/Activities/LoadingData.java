@@ -20,7 +20,8 @@ import me.ccrama.redditslide.SubredditStorage;
 public class LoadingData extends AppCompatActivity {
 
     public TextView loading;
-    private  boolean isNetworkAvailable() {
+
+    private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
@@ -33,20 +34,20 @@ public class LoadingData extends AppCompatActivity {
         super.onCreate(savedInstance);
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("asdf"), true);
 
-        ((Reddit)getApplication()).active = true;
-        ((Reddit)getApplication()).loader = this;
+        ((Reddit) getApplication()).active = true;
+        ((Reddit) getApplication()).loader = this;
         setContentView(R.layout.activity_loading);
-        if(SubredditStorage.alphabeticalSubscriptions != null && isNetworkAvailable()){
+        if (SubredditStorage.alphabeticalSubscriptions != null && isNetworkAvailable()) {
             ((Reddit) getApplication()).startMain();
 
-        } else if(!isNetworkAvailable()) {
-              AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this);
+        } else if (!isNetworkAvailable()) {
+            AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this);
             b.setTitle(R.string.err_network_title)
-            .setMessage(R.string.err_network_msg)
-            .create().show();
+                    .setMessage(R.string.err_network_msg)
+                    .create().show();
 
-                }
-        loading  = (TextView) findViewById(R.id.loading);
+        }
+        loading = (TextView) findViewById(R.id.loading);
         loading.setText(R.string.info_connecting);
 
     }

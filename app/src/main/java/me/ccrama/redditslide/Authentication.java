@@ -28,23 +28,16 @@ import java.util.UUID;
  * Created by ccrama on 3/30/2015.
  */
 public class Authentication {
+    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
+    private static final String REDIRECT_URL = "http://www.ccrama.me";
     public static boolean isLoggedIn;
     public static RedditClient reddit;
-    public  static LoggedInAccount me ;
-
-    private static boolean isNetworkAvailable(Context ac) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) ac.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
+    public static LoggedInAccount me;
     public static boolean mod;
-
     public static String name;
-    private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     public static SharedPreferences authentication;
-    private static final String REDIRECT_URL = "http://www.ccrama.me";
+    public static ArrayList<String> modSubs;
+    private static String refresh;
     private Reddit a;
 
     public Authentication(Context context) {
@@ -58,9 +51,17 @@ public class Authentication {
 
     }
 
-    public void updateToken(Context c){
+    private static boolean isNetworkAvailable(Context ac) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) ac.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void updateToken(Context c) {
         new UpdateToken(c).execute();
     }
+
     public class UpdateToken extends AsyncTask<Void, Void, Void> {
 
         Context context;
@@ -203,10 +204,6 @@ public class Authentication {
 
     }
 
-    private static String refresh;
-
-    public static ArrayList<String> modSubs;
-
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
         Context mContext;
 
@@ -243,15 +240,15 @@ public class Authentication {
                     try {
                         OAuthData finalData = oAuthHelper.refreshToken(credentials);
 
-                      reddit.authenticate(finalData);
+                        reddit.authenticate(finalData);
                         refresh = oAuthHelper.getRefreshToken();
 
                         Authentication.isLoggedIn = true;
-                       me = reddit.me();
+                        me = reddit.me();
                         final String name = me.getFullName();
                         Authentication.name = name;
 
-                     if (reddit.isAuthenticated()) {
+                        if (reddit.isAuthenticated()) {
                             final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
                             if (accounts.contains(name)) { //convert to new system
                                 accounts.remove(name);
@@ -282,26 +279,26 @@ public class Authentication {
 
                     } catch (Exception e) {
                         try {
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
-                                        .setMessage(R.string.err_no_connection)
-                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        new UpdateToken(mContext).execute();
-                                    }
-                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.forceRestart(mContext);
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                                            .setMessage(R.string.err_no_connection)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    new UpdateToken(mContext).execute();
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.forceRestart(mContext);
 
-                                    }
-                                }).show();
-                            }
-                        });
-                        } catch (Exception ignored){
+                                        }
+                                    }).show();
+                                }
+                            });
+                        } catch (Exception ignored) {
 
                         }
                         //TODO fail

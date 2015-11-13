@@ -11,18 +11,20 @@ import android.view.View;
  * Created by ccrama on 7/20/2015.
  */
 class AutoHideFAB extends FloatingActionButton.Behavior {
+    public AutoHideFAB(Context context, AttributeSet attributeSet) {
+        super();
+    }
+
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        if(dyConsumed > 0 && child.getVisibility() == View.VISIBLE){
+        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
             child.hide();
-        } else if(dyConsumed < 0 && child.getVisibility() == View.GONE){
+        } else if (dyConsumed < 0 && child.getVisibility() == View.GONE) {
             child.show();
         }
     }
-    public AutoHideFAB(Context context, AttributeSet attributeSet){
-        super();
-    }
+
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL;

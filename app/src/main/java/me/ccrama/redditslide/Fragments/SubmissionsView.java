@@ -31,8 +31,14 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class SubmissionsView extends Fragment {
 
 
+    public SubredditPosts posts;
     private RecyclerView rv;
     private FloatingActionButton fab;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private int totalItemCount;
+    private SubmissionAdapter adapter;
+    private String id;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -73,7 +79,7 @@ public class SubmissionsView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
-        View v = ((LayoutInflater)contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
+        View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
@@ -87,16 +93,16 @@ public class SubmissionsView extends Fragment {
         }
         if (Reddit.fab) {
 
-            fab = (FloatingActionButton)  v.findViewById(R.id.post_floating_action_button);
+            fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
-           fab.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent inte = new Intent(getActivity(), Submit.class);
-                   inte.putExtra("subreddit", id);
-                   getActivity().startActivity(inte);
-               }
-           });
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent inte = new Intent(getActivity(), Submit.class);
+                    inte.putExtra("subreddit", id);
+                    getActivity().startActivity(inte);
+                }
+            });
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
@@ -147,7 +153,7 @@ public class SubmissionsView extends Fragment {
                         }
                     }
 
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount ) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         Log.v("Slide", "LOADING MORE" + totalItemCount);
                         posts.loading = true;
                         posts.loadMore(adapter, false, posts.subreddit);
@@ -170,24 +176,12 @@ public class SubmissionsView extends Fragment {
         return v;
     }
 
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-
-    private int totalItemCount;
-    private SubmissionAdapter adapter;
-
-    public SubredditPosts posts;
-
-    private String id;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
     }
-
 
 
 }

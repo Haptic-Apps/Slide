@@ -47,7 +47,7 @@ public class TimeUtils {
         return temp.intValue();
     }
 
-    public static String getTimeInHoursAndMins(int mins, Context c){
+    public static String getTimeInHoursAndMins(int mins, Context c) {
         int hours = mins / 60;
         int minutes = mins - (hours * 60);
         Resources res = c.getResources();
@@ -55,7 +55,7 @@ public class TimeUtils {
         String minute = "";
         if (hours > 0)
             hour = res.getQuantityString(R.plurals.time_hours, hours, hours);
-        if(minutes > 0)
+        if (minutes > 0)
             minute = res.getQuantityString(R.plurals.time_minutes, minutes, minutes);
         return "\n" + hour + " " + minute;
     }

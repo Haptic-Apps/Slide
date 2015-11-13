@@ -39,47 +39,12 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
-
-    public final Activity mContext;
-    public ArrayList<Contribution> dataSet;
-    private final RecyclerView listView;
-
+public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     private static final int COMMENT = 1;
-
-    @Override
-    public int getItemViewType(int position) {
-        if(position == dataSet.size()){
-            return 5;
-        }
-        if (dataSet.get(position) instanceof Comment)//IS COMMENT
-            return COMMENT;
-
-        return 2;
-    }
-    public static class EmptyViewHolder extends RecyclerView.ViewHolder {
-        public EmptyViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-        if (i == COMMENT) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
-            return new ProfileCommentViewHolder(v);
-        } else if(i == 5){
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
-            return new EmptyViewHolder(v);
-        }else {
-            View v = CreateCardView.CreateView(viewGroup);
-            return new SubmissionViewHolder(v);
-
-        }
-
-    }
-
+    public final Activity mContext;
+    private final RecyclerView listView;
+    public ArrayList<Contribution> dataSet;
 
     public ContributionAdapter(Activity mContext, ContributionPosts dataSet, RecyclerView listView) {
 
@@ -91,6 +56,33 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position == dataSet.size()) {
+            return 5;
+        }
+        if (dataSet.get(position) instanceof Comment)//IS COMMENT
+            return COMMENT;
+
+        return 2;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+
+        if (i == COMMENT) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
+            return new ProfileCommentViewHolder(v);
+        } else if (i == 5) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
+            return new EmptyViewHolder(v);
+        } else {
+            View v = CreateCardView.CreateView(viewGroup);
+            return new SubmissionViewHolder(v);
+
+        }
+
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int i) {
@@ -206,8 +198,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           final int pos = dataSet.indexOf(submission);
-                            final Contribution old  = dataSet.get(pos);
+                            final int pos = dataSet.indexOf(submission);
+                            final Contribution old = dataSet.get(pos);
                             dataSet.remove(submission);
                             notifyItemRemoved(pos);
                             d.dismiss();
@@ -225,8 +217,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }).show();
 
 
-
-
                         }
                     });
                     return true;
@@ -241,7 +231,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
             int lastPosition = i;
-        } else if(firstHolder instanceof  ProfileCommentViewHolder){
+        } else if (firstHolder instanceof ProfileCommentViewHolder) {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;
             final Comment comment = (Comment) dataSet.get(i);
@@ -282,7 +272,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
     @Override
     public void setError(Boolean b) {
         listView.setAdapter(new ErrorAdapter());
@@ -291,5 +280,11 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void undoSetError() {
         listView.setAdapter(this);
+    }
+
+    public static class EmptyViewHolder extends RecyclerView.ViewHolder {
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 }

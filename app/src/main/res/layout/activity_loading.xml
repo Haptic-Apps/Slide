@@ -2,33 +2,33 @@
 
 
 <RelativeLayout
-    android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="?attr/activity_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
-    android:layout_height="match_parent">
+    android:background="?attr/activity_background">
 
     <ImageView
         android:layout_width="180dp"
-        android:src="@drawable/slogo"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:paddingBottom="120dp"
-        android:tint="?attr/tint"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/slogo"
+        android:tint="?attr/tint" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:textSize="18sp"
-        android:text="Finding videos of cats"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:textColor="?attr/font"
-        android:paddingBottom="180dp"
         android:id="@+id/loading"
-        android:layout_height="wrap_content" />
-    </RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingBottom="180dp"
+        android:text="Finding videos of cats"
+        android:textColor="?attr/font"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</RelativeLayout>
 
 
 

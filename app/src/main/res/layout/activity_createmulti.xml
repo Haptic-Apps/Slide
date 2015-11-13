@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="?attr/activity_background"
-
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
+    android:background="?attr/activity_background"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -19,33 +19,34 @@
 
 
         >
+
         <EditText
+            android:id="@+id/name"
             android:layout_width="wrap_content"
-            android:textColor="#fff"
+            android:layout_height="match_parent"
             android:backgroundTint="#fff"
-            android:textColorHint="#fff"
             android:hint="Multi Name       "
             android:inputType="textCapWords"
-            android:maxLines="1"
-
             android:maxLength="21"
-            android:id="@+id/name"
-            android:layout_height="match_parent" />
 
+            android:maxLines="1"
+            android:textColor="#fff"
+            android:textColorHint="#fff" />
 
 
         <TextView
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
             android:layout_gravity="center_vertical|right"
+            android:background="?android:attr/selectableItemBackground"
             android:padding="16dp"
             android:text="@string/btn_save"
-            android:textColor="#fff"
             android:textAllCaps="true"
+            android:textColor="#fff"
             android:textSize="14sp"
             android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/delete"
             android:layout_width="48dp"
@@ -66,18 +67,19 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/subslist"
         android:layout_width="match_parent"
-        android:layout_below="@id/toolbar"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:orientation="vertical">
 
 
     </android.support.v7.widget.RecyclerView>
+
     <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
         android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/add_plain"
-        android:layout_height="wrap_content" />
+        android:src="@drawable/add_plain" />
 </RelativeLayout>

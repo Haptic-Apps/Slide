@@ -1,203 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/card_background">
 
-        <ScrollView
+    <LinearLayout
+        android:id="@+id/sidebarsub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/loader"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="?attr/card_background"
-            android:layout_height="match_parent">
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-7dp"
+
+
+            android:indeterminate="true"
+            android:padding="0dp" />
+
+        <LinearLayout
+            android:id="@+id/header_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_light_green_500"
+
+            android:orientation="vertical"
+
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/sub_infotitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/sidebarsub"
-                android:orientation="vertical">
-                <ProgressBar
+                android:paddingLeft="16dp"
+                android:text="/r/Android"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/subscribers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:paddingLeft="16dp"
+                android:text="A sub for 2 years"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+
+                android:paddingTop="8dp">
+
+                <CheckBox
+                    android:id="@+id/pinned"
                     android:layout_width="match_parent"
-                    android:indeterminate="true"
-                    android:padding="0dp"
-                    android:id="@+id/loader"
-                    android:layout_marginTop="-7dp"
-                    android:layout_marginBottom="-7dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
 
+                    android:backgroundTint="?attr/tint"
+                    android:buttonTint="?attr/tint"
+                    android:text="@string/sidebar_pinned"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
 
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_height="wrap_content" />
+                <CheckBox
+                    android:id="@+id/subscribed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+
+                    android:backgroundTint="?attr/tint"
+                    android:buttonTint="?attr/tint"
+                    android:text="@string/sidebar_subscribed"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:alpha=".8"
+                    android:background="?attr/tint" />
 
                 <LinearLayout
+                    android:id="@+id/wiki"
                     android:layout_width="match_parent"
-                    android:background="@color/md_light_green_500"
-                    android:id="@+id/header_sub"
-                    android:orientation="vertical"
+                    android:layout_height="48dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
 
-                    android:padding="16dp"
+                    android:orientation="horizontal"
+                    android:paddingRight="8dp">
 
-                    android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/sub_infotitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:text="/r/Android"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:alpha=".86"
+                        android:padding="8dp"
+
+                        android:src="@drawable/wiki"
+                        android:tint="?attr/tint" />
+
                     <TextView
-                        android:id="@+id/subscribers"
                         android:layout_width="wrap_content"
-                        android:paddingLeft="16dp"
 
                         android:layout_height="wrap_content"
-                        android:text="A sub for 2 years"
-                        android:textSize="14sp"
-                        />
-                    <TextView
-                        android:id="@+id/sub_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
-                        android:textSize="14sp"
-                        />
+
+                        android:text="@string/sidebar_wiki"
+
+                        android:textColor="?attr/font"
+
+                        android:textSize="16sp" />
 
                 </LinearLayout>
-                <RelativeLayout
+
+
+                <LinearLayout
+                    android:id="@+id/sub_theme"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="48dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
 
+                    android:orientation="horizontal"
+                    android:paddingRight="8dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:id="@+id/body"
+                    <ImageView
+                        android:id="@+id/colorExpandFrom"
+                        android:layout_width="36dp"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingBottom="20dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
+                        android:alpha=".86"
+                        android:padding="8dp"
+                        android:src="@drawable/color"
+                        android:tint="?attr/tint" />
 
-                        android:paddingTop="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
 
-                        <CheckBox
-                            android:id="@+id/pinned"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:buttonTint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                        android:layout_height="wrap_content"
 
-                            android:backgroundTint="?attr/tint"
-                            android:layout_marginTop="8dp"
-                            android:textColorHint="?attr/font"
-                            android:textColor="?attr/font"
-                            android:text="@string/sidebar_pinned"
-                            android:textAllCaps="true"/>
-                        <CheckBox
-                            android:id="@+id/subscribed"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:buttonTint="?attr/tint"
-                            android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_title_sub_theme"
 
-                            android:backgroundTint="?attr/tint"
-                            android:layout_marginTop="8dp"
-                            android:textColorHint="?attr/font"
-                            android:textColor="?attr/font"
-                            android:textAllCaps="true"
-                            android:text="@string/sidebar_subscribed" />
+                        android:textColor="?attr/font"
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:alpha=".8"
-                            android:background="?attr/tint" />
+                        android:textSize="16sp" />
 
-                        <LinearLayout
-                            android:id="@+id/wiki"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center_vertical"
-                            android:background="?android:selectableItemBackground"
+                </LinearLayout>
 
-                            android:orientation="horizontal"
-                            android:paddingRight="8dp">
-
-                            <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:tint="?attr/tint"
-
-                                android:padding="8dp"
-                                android:src="@drawable/wiki" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:textColor="?attr/font"
-
-                                android:text="@string/sidebar_wiki"
-
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:id="@+id/sub_theme"
-                            android:layout_width="match_parent"
-                            android:layout_height="48dp"
-                            android:gravity="center_vertical"
-                            android:background="?android:selectableItemBackground"
-
-                            android:orientation="horizontal"
-                            android:paddingRight="8dp">
-
-                            <ImageView
-                                android:layout_width="36dp"
-                                android:layout_height="match_parent"
-                                android:alpha=".86"
-                                android:tint="?attr/tint"
-                                android:id="@+id/colorExpandFrom"
-                                android:padding="8dp"
-                                android:src="@drawable/color" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-
-                                android:layout_height="wrap_content"
-
-                                android:textColor="?attr/font"
-
-                                android:text="@string/settings_title_sub_theme"
-
-                                android:textSize="16sp" />
-
-                        </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginBottom="8dp"
-                            android:layout_marginTop="8dp"
-                            android:alpha=".8"
-                            android:background="?attr/tint" />
-                    </LinearLayout>
-
-
-                </RelativeLayout>
-
-                <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:textIsSelectable="true"
-
-                    android:textColor="?attr/font"
-
+                <View
                     android:layout_width="match_parent"
-                    android:textSize="16sp"
-                    android:padding="16dp"
-                    android:id="@+id/sidebar_text"
-                    android:layout_height="match_parent" />
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:alpha=".8"
+                    android:background="?attr/tint" />
             </LinearLayout>
-        </ScrollView>
+
+
+        </RelativeLayout>
+
+        <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/sidebar_text"
+
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textColor="?attr/font"
+            android:textIsSelectable="true"
+            android:textSize="16sp" />
+    </LinearLayout>
+</ScrollView>
