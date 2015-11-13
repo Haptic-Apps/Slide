@@ -99,6 +99,39 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return mCustomTabsSession;
     }
 
+    public static Integer getSortingId(){
+        return defaultSorting == Sorting.HOT ? 0
+                : defaultSorting == Sorting.NEW ? 1
+                : defaultSorting == Sorting.RISING ? 2
+                : defaultSorting == Sorting.TOP ?
+                (timePeriod == TimePeriod.HOUR ? 3
+                        : timePeriod == TimePeriod.DAY ? 4
+                        : timePeriod == TimePeriod.WEEK ? 5
+                        : timePeriod == TimePeriod.MONTH ? 6
+                        : timePeriod == TimePeriod.YEAR ? 7
+                        : 8)
+                : defaultSorting == Sorting.CONTROVERSIAL ?
+                (timePeriod == TimePeriod.HOUR ? 9
+                        : 10)
+                : 0;
+    }
+
+    public static String[] getSortingStrings(Context c) {
+        return new String[]
+                {c.getString(R.string.sorting_hot),
+                        c.getString(R.string.sorting_new),
+                        c.getString(R.string.sorting_rising),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day),
+                };
+    };
+
     public static void forceRestart(Context context) {
         Intent mStartActivity = new Intent(context, LoadingData.class);
         int mPendingIntentId = 654321;
