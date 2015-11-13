@@ -100,6 +100,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 holder2.itemView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding), 0, 0);
             }
+        } else {
+            holder2.itemView.setPadding(0, 0, 0, 0);
         }
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
