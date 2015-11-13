@@ -29,7 +29,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +64,7 @@ public class CreateMulti extends BaseActivity {
     EditText title;
     RecyclerView recyclerView;
     String old;
+    boolean delete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,13 +94,13 @@ public class CreateMulti extends BaseActivity {
 
 
         subs = new ArrayList<>();
-        if(getIntent().hasExtra("multi")){
+        if (getIntent().hasExtra("multi")) {
             String multi = getIntent().getExtras().getString("multi");
             old = multi;
             title.setText(multi.replace("%20", " "));
-            for(MultiReddit multiReddit : SubredditStorage.multireddits){
-                if(multiReddit.getDisplayName().equals(multi)){
-                    for(MultiSubreddit sub : multiReddit.getSubreddits()) {
+            for (MultiReddit multiReddit : SubredditStorage.multireddits) {
+                if (multiReddit.getDisplayName().equals(multi)) {
+                    for (MultiSubreddit sub : multiReddit.getSubreddits()) {
                         subs.add(sub.getDisplayName().toLowerCase());
                     }
                 }
@@ -160,14 +160,100 @@ public class CreateMulti extends BaseActivity {
         finish();
     }
 
-    boolean delete = false;
+    public void showSelectDialog() {
+        final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size() - 2];
+        final List<String> s2 = new ArrayList<>(subs);
+        boolean[] checked = new boolean[all.length];
+
+        int i = 0;
+        for (String s : SubredditStorage.alphabeticalSubscriptions) {
+            if (!(s.equals("all") || s.equals("frontpage"))) {
+                all[i] = s;
+                if (s2.contains(s)) {
+                    checked[i] = true;
+                }
+                i++;
+            }
+        }
+        final ArrayList<String> toCheck = new ArrayList<>();
+
+
+        toCheck.addAll(subs);
+        new AlertDialogWrapper.Builder(this)
+                .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (!isChecked) {
+                            toCheck.remove(all[which]);
+                        } else {
+                            toCheck.add(all[which]);
+                        }
+                        Log.v("Slide", "Done with " + all[which]);
+                    }
+                }).setTitle(R.string.multireddit_selector).setPositiveButton(getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                subs = toCheck;
+                Log.v("Slide", subs.size() + "SIZE ");
+                adapter = new CustomAdapter(subs);
+                recyclerView.setAdapter(adapter);
+
+            }
+        }).show();
+    }
+
+    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+        private final ArrayList<String> items;
+
+        public CustomAdapter(ArrayList<String> items) {
+            this.items = items;
+
+        }
+
+        @Override
+        public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublist, parent, false);
+            return new ViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+
+            String origPos = items.get(position);
+            holder.text.setText(origPos);
+
+            holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
+            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        public static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView text;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                text = (TextView) itemView.findViewById(R.id.name);
+
+
+            }
+        }
+
+
+    }
 
     public class SaveMulti extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                if(delete){
+                if (delete) {
                     new MultiRedditManager(Authentication.reddit).delete(old);
 
                 } else {
@@ -209,93 +295,5 @@ public class CreateMulti extends BaseActivity {
             }
             return null;
         }
-    }
-
-    public void showSelectDialog() {
-        final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size() - 2];
-        final List<String> s2 = new ArrayList<>(subs);
-        boolean[] checked = new boolean[all.length];
-
-        int i = 0;
-        for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            if(!(s.equals("all") || s.equals("frontpage"))) {
-                all[i] = s;
-                if (s2.contains(s)) {
-                    checked[i] = true;
-                }
-                i++;
-            }
-        }
-        final ArrayList<String> toCheck = new ArrayList<>();
-
-
-        toCheck.addAll(subs);
-        new AlertDialogWrapper.Builder(this)
-                .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (!isChecked) {
-                            toCheck.remove(all[which]);
-                        } else {
-                            toCheck.add(all[which]);
-                        }
-                        Log.v("Slide", "Done with " + all[which]);
-                    }
-                }).setTitle(R.string.multireddit_selector).setPositiveButton(getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                subs = toCheck;
-                Log.v("Slide", subs.size() + "SIZE ");
-                adapter = new CustomAdapter(subs);
-                recyclerView.setAdapter(adapter);
-
-            }
-        }).show();
-    }
-
-    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-        private final ArrayList<String> items;
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView text;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-
-                text = (TextView) itemView.findViewById(R.id.name);
-
-
-            }
-        }
-
-        public CustomAdapter(ArrayList<String> items) {
-            this.items = items;
-
-        }
-
-        @Override
-        public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublist, parent, false);
-            return new ViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-
-            String origPos = items.get(position);
-            holder.text.setText(origPos);
-
-            holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(origPos), PorterDuff.Mode.MULTIPLY);
-
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return items.size();
-        }
-
-
     }
 }

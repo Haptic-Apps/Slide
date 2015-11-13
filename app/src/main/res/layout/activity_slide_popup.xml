@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-    <merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
-    android:background="?attr/activity_background"
-
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background">
 
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/contentView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    </merge>
+</merge>
 

@@ -9,12 +9,11 @@ import java.util.regex.Pattern;
  */
 class HTMLLinkExtractor {
 
-    private final Pattern patternTag;
-    private final Pattern patternLink;
-
     private static final String HTML_A_TAG_PATTERN = "(?i)<a([^>]+)>(.+?)</a>";
     private static final String HTML_A_HREF_TAG_PATTERN =
             "\\s*(?i)href\\s*=\\s*(\"([^\"]*\")|'[^']*'|([^'\">\\s]+))";
+    private final Pattern patternTag;
+    private final Pattern patternLink;
 
 
     public HTMLLinkExtractor() {
@@ -25,8 +24,7 @@ class HTMLLinkExtractor {
     /**
      * Validate html with regular expression
      *
-     * @param html
-     *            html content for validation
+     * @param html html content for validation
      * @return Vector links and link text
      */
     public ArrayList<HtmlLink> grabHTMLLinks(final String html) {
@@ -59,14 +57,15 @@ class HTMLLinkExtractor {
 
     }
 
-   public class HtmlLink {
+    public class HtmlLink {
 
         String link;
         String linkText;
 
-        HtmlLink(){}
+        HtmlLink() {
+        }
 
-       @Override
+        @Override
         public String toString() {
             return "Link : " + this.link + " Link Text : " + this.linkText;
         }
@@ -87,7 +86,7 @@ class HTMLLinkExtractor {
             this.linkText = linkText;
         }
 
-        private String replaceInvalidChar(String link){
+        private String replaceInvalidChar(String link) {
             link = link.replaceAll("'", "");
             link = link.replaceAll("\"", "");
             return link;

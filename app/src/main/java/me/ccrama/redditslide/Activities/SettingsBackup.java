@@ -53,24 +53,68 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    MaterialDialog progress;
+    DriveFolder appFolder;
+    String title;
+    final private ResultCallback<DriveApi.MetadataBufferResult> newCallback = new ResultCallback<DriveApi.MetadataBufferResult>() {
+        @Override
+        public void onResult(DriveApi.MetadataBufferResult result) {
+
+            int i = 0;
+            for (Metadata a : result.getMetadataBuffer()) {
+                i++;
+                title = a.getTitle();
+                new RetrieveDriveFileContentsAsyncTask(title).execute(a.getDriveId());
+
+
+            }
+            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(false, i).build();
+            progress.show();
+
+
+        }
+    };
+    int errors;
+    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback = new
+            ResultCallback<DriveFolder.DriveFileResult>() {
+                @Override
+                public void onResult(DriveFolder.DriveFileResult result) {
+                    progress.setProgress(progress.getCurrentProgress() + 1);
+                    if (!result.getStatus().isSuccess()) {
+                        errors += 1;
+                        return;
+                    }
+
+                    if (progress.getCurrentProgress() == progress.getMaxProgress()) {
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle(R.string.backup_success)
+                                .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).show();
+                    }
+                }
+            };
+    private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      if (requestCode == 24) {
+        if (requestCode == 24) {
             if (resultCode == RESULT_OK) {
                 mGoogleApiClient.connect();
             }
         }
     }
-    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(Reddit.tabletUI)
-        mGoogleApiClient.connect();
+        if (Reddit.tabletUI)
+            mGoogleApiClient.connect();
     }
 
-    MaterialDialog progress;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
@@ -94,108 +138,108 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                     .addOnConnectionFailedListener(this)
                     .build();
 
-        findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+            findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
 
-                if (prefsdir.exists() && prefsdir.isDirectory()) {
+                    if (prefsdir.exists() && prefsdir.isDirectory()) {
 
-                    String[] list = prefsdir.list();
-                    progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
-                    progress.show();
-                    for (final String s : list) {
-                        if(!s.contains("com.google")) {
-                            title = s;
-                            Drive.DriveApi.newDriveContents(mGoogleApiClient)
-                                    .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
-                                        @Override
-                                        public void onResult(DriveApi.DriveContentsResult result) {
-                                            final String copy = getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + s;
-                                            Log.v("Slide", "LOCATION IS " + copy);
-                                            if (!result.getStatus().isSuccess()) {
-                                                return;
-                                            }
-                                            final DriveContents driveContents = result.getDriveContents();
+                        String[] list = prefsdir.list();
+                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
+                        progress.show();
+                        for (final String s : list) {
+                            if (!s.contains("com.google")) {
+                                title = s;
+                                Drive.DriveApi.newDriveContents(mGoogleApiClient)
+                                        .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
+                                            @Override
+                                            public void onResult(DriveApi.DriveContentsResult result) {
+                                                final String copy = getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + s;
+                                                Log.v("Slide", "LOCATION IS " + copy);
+                                                if (!result.getStatus().isSuccess()) {
+                                                    return;
+                                                }
+                                                final DriveContents driveContents = result.getDriveContents();
 
-                                            // Perform I/O off the UI thread.
-                                            new Thread() {
-                                                @Override
-                                                public void run() {
-                                                    // write content to DriveContents
-                                                    OutputStream outputStream = driveContents.getOutputStream();
-                                                    Writer writer = new OutputStreamWriter(outputStream);
-                                                    String content = null;
-                                                    File file = new File(copy); //for ex foo.txt
-                                                    FileReader reader = null;
-                                                    try {
+                                                // Perform I/O off the UI thread.
+                                                new Thread() {
+                                                    @Override
+                                                    public void run() {
+                                                        // write content to DriveContents
+                                                        OutputStream outputStream = driveContents.getOutputStream();
+                                                        Writer writer = new OutputStreamWriter(outputStream);
+                                                        String content = null;
+                                                        File file = new File(copy); //for ex foo.txt
+                                                        FileReader reader = null;
                                                         try {
-                                                            reader = new FileReader(file);
-                                                            char[] chars = new char[(int) file.length()];
-                                                            reader.read(chars);
-                                                            content = new String(chars);
-                                                            Log.v("Slide", content);
+                                                            try {
+                                                                reader = new FileReader(file);
+                                                                char[] chars = new char[(int) file.length()];
+                                                                reader.read(chars);
+                                                                content = new String(chars);
+                                                                Log.v("Slide", content);
 
-                                                            reader.close();
-                                                        } catch (IOException e) {
-                                                            e.printStackTrace();
-                                                        } finally {
-                                                            if (reader != null) {
                                                                 reader.close();
+                                                            } catch (IOException e) {
+                                                                e.printStackTrace();
+                                                            } finally {
+                                                                if (reader != null) {
+                                                                    reader.close();
+                                                                }
                                                             }
+
+                                                            writer.write(content);
+                                                            writer.close();
+                                                        } catch (Exception e) {
+                                                            Log.e("Slide", e.getMessage());
                                                         }
 
-                                                        writer.write(content);
-                                                        writer.close();
-                                                    } catch (Exception e) {
-                                                        Log.e("Slide", e.getMessage());
+                                                        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                                                .setTitle(s)
+                                                                .setMimeType("text/xml")
+                                                                .build();
+
+                                                        // create a file on root folder
+                                                        appFolder
+                                                                .createFile(mGoogleApiClient, changeSet, driveContents)
+                                                                .setResultCallback(fileCallback);
                                                     }
-
-                                                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                                            .setTitle(s)
-                                                            .setMimeType("text/xml")
-                                                            .build();
-
-                                                    // create a file on root folder
-                                                    appFolder
-                                                            .createFile(mGoogleApiClient, changeSet, driveContents)
-                                                            .setResultCallback(fileCallback);
-                                                }
-                                            }.start();
-                                        }
-                                    });
-                        } else {
-                            progress.setProgress(progress.getCurrentProgress() + 1);
-                            if(progress.getCurrentProgress() == progress.getMaxProgress()){
-                                new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                        .setTitle(R.string.backup_success)
-                                        .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
+                                                }.start();
                                             }
-                                        }).show();
+                                        });
+                            } else {
+                                progress.setProgress(progress.getCurrentProgress() + 1);
+                                if (progress.getCurrentProgress() == progress.getMaxProgress()) {
+                                    new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                            .setTitle(R.string.backup_success)
+                                            .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    finish();
+                                                }
+                                            }).show();
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
 
 
-        findViewById(R.id.restore).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
-                progress.show();
-                appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
-            }
-        });
+            findViewById(R.id.restore).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
+                    progress.show();
+                    appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
+                }
+            });
         } else {
             new AlertDialogWrapper.Builder(SettingsBackup.this)
                     .setTitle(R.string.general_pro)
                     .setMessage(R.string.general_pro_msg)
-                    //avoid that the dialog can be closed
+                            //avoid that the dialog can be closed
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
@@ -218,60 +262,50 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
         }
     }
 
-    DriveFolder appFolder;
-    String title;
+    @Override
+    public void onConnected(Bundle bundle) {
+        appFolder = Drive.DriveApi.getAppFolder(mGoogleApiClient);
+        Drive.DriveApi.requestSync(mGoogleApiClient);
+    }
 
-    int errors;
+    @Override
+    public void onConnectionSuspended(int i) {
 
-    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback = new
-            ResultCallback<DriveFolder.DriveFileResult>() {
-                @Override
-                public void onResult(DriveFolder.DriveFileResult result) {
-                    progress.setProgress(progress.getCurrentProgress() + 1);
-                    if (!result.getStatus().isSuccess()) {
-                        errors += 1;
-                        return;
-                    }
+    }
 
-                    if(progress.getCurrentProgress() == progress.getMaxProgress()){
-                        new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle(R.string.backup_success)
-                                .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).show();
-                    }
-                }
-            };
-    final private ResultCallback<DriveApi.MetadataBufferResult> newCallback = new ResultCallback<DriveApi.MetadataBufferResult>() {
-        @Override
-        public void onResult(DriveApi.MetadataBufferResult result) {
-
-            int i = 0;
-            for (Metadata a : result.getMetadataBuffer()) {
-                i++;
-                title = a.getTitle();
-                new RetrieveDriveFileContentsAsyncTask(title).execute(a.getDriveId());
-
-
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                connectionResult.startResolutionForResult(this, 24);
+            } catch (IntentSender.SendIntentException e) {
+                // Unable to resolve, message user appropriately
             }
-            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(false, i).build();
-            progress.show();
-
-
-
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
         }
-    };
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     final private class RetrieveDriveFileContentsAsyncTask extends AsyncTask<DriveId, Boolean, String> {
 
 
         String t;
-        public RetrieveDriveFileContentsAsyncTask(String title){
+
+        public RetrieveDriveFileContentsAsyncTask(String title) {
             t = title;
         }
+
         @Override
         protected String doInBackground(DriveId... params) {
             String contents = null;
@@ -317,7 +351,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if(progress.getCurrentProgress() == progress.getMaxProgress()){
+            if (progress.getCurrentProgress() == progress.getMaxProgress()) {
                 progress.dismiss();
                 new AlertDialogWrapper.Builder(SettingsBackup.this)
                         .setTitle(R.string.backup_restore_settings)
@@ -341,39 +375,6 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
             }
             Log.v("Slide", "File contents: " + result);
         }
-    }
-    @Override
-    public void onConnected(Bundle bundle) {
-        appFolder = Drive.DriveApi.getAppFolder(mGoogleApiClient);
-        Drive.DriveApi.requestSync(mGoogleApiClient);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if (connectionResult.hasResolution()) {
-            try {
-                connectionResult.startResolutionForResult(this, 24);
-            } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
-            }
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
-        }
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

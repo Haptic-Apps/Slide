@@ -8,7 +8,8 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" android:background="#000000"/>
+        android:layout_height="fill_parent"
+        android:background="#000000" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,33 +28,36 @@
             android:layout_centerInParent="true">
 
         </me.ccrama.redditslide.Views.MediaVideoView>
+
         <FrameLayout
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:background="#000000"/>
+            android:layout_height="fill_parent"
+            android:background="#000000" />
+
         <ProgressBar
             android:id="@+id/gifprogress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:weightSum="6"
         android:layout_height="56dp"
         android:background="#000000"
-
         android:gravity="right"
-       >
+
+        android:weightSum="6">
 
         <ImageView
             android:id="@+id/gifsave"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_weight="1"
-            android:background="?android:selectableItemBackgroundBorderless"
-
             android:layout_gravity="right"
+            android:layout_weight="1"
+
+            android:background="?android:selectableItemBackgroundBorderless"
             android:padding="15dp"
 
             android:src="@drawable/save" />
@@ -61,11 +65,11 @@
         <ImageView
             android:id="@+id/exitComment"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:background="?android:selectableItemBackgroundBorderless"
-
             android:layout_height="56dp"
             android:layout_gravity="right"
+
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackgroundBorderless"
             android:padding="15dp"
 
             android:src="@drawable/close" />

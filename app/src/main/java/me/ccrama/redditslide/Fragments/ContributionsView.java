@@ -23,13 +23,21 @@ import me.ccrama.redditslide.Visuals.Pallete;
 public class ContributionsView extends Fragment {
 
 
+    private int totalItemCount;
+    private int visibleItemCount;
+    private int pastVisiblesItems;
+    private ContributionAdapter adapter;
+    private ContributionPosts posts;
+    private String id;
+    private String where;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || ! Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
             rv.setLayoutManager(mLayoutManager);
@@ -94,18 +102,6 @@ public class ContributionsView extends Fragment {
         });
         return v;
     }
-    private int totalItemCount;
-
-    private int visibleItemCount;
-    private int pastVisiblesItems;
-
-    private ContributionAdapter adapter;
-
-    private ContributionPosts posts;
-
-    private String id;
-    private String where;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

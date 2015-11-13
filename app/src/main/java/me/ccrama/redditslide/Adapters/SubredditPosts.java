@@ -22,16 +22,24 @@ import me.ccrama.redditslide.SettingValues;
  */
 public class SubredditPosts {
     public ArrayList<Submission> posts;
+    public boolean loading;
+    public String subreddit;
+    public boolean nomore = false;
+    CommentsScreen pagerad;
     private SubredditPaginator paginator;
     private SwipeRefreshLayout refreshLayout;
+    private SubmissionAdapter adapter;
 
-    public boolean loading;
     public SubredditPosts(ArrayList<Submission> firstData, SubredditPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
     }
 
-    public ArrayList<Submission> getPosts(){
+    public SubredditPosts(String subreddit) {
+        this.subreddit = subreddit;
+    }
+
+    public ArrayList<Submission> getPosts() {
         try {
             return new LoadData(true).execute(subreddit).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -39,17 +47,10 @@ public class SubredditPosts {
         }
         return new ArrayList<>();
     }
-    public String subreddit;
-
-    public SubredditPosts(String subreddit) {
-        this.subreddit = subreddit;
-    }
-
-    private SubmissionAdapter adapter;
 
     public void bindAdapter(SubmissionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
 
         loadMore(a, true, subreddit);
     }
@@ -60,15 +61,17 @@ public class SubredditPosts {
 
 
     }
+
     public void loadMore(CommentsScreen adapter, boolean reset) {
         this.pagerad = adapter;
         new LoadData(reset).execute(subreddit);
 
     }
 
-    public boolean nomore =false;
+    public void addData(List<Submission> data) {
+        posts.addAll(data);
+    }
 
-    CommentsScreen pagerad;
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
         final boolean reset;
 
@@ -80,24 +83,24 @@ public class SubredditPosts {
         public void onPostExecute(ArrayList<Submission> subs) {
             loading = false;
 
-            if(subs != null && subs.size() > 0) {
+            if (subs != null && subs.size() > 0) {
 
-                Log.v("Slide", "DONE LOADING, SIZE IS NOW " + posts.size() );
+                Log.v("Slide", "DONE LOADING, SIZE IS NOW " + posts.size());
 
-                    (adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (refreshLayout != null)
+                (adapter.mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (refreshLayout != null)
 
-                                refreshLayout.setRefreshing(false);
+                            refreshLayout.setRefreshing(false);
 
 
-                            adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
 
-                        }
-                    });
-            } else if(subs != null){
-                nomore= true;
+                    }
+                });
+            } else if (subs != null) {
+                nomore = true;
             } else {
                 adapter.setError(true);
 
@@ -131,16 +134,16 @@ public class SubredditPosts {
                             }
 
                         }
-                    } catch(Exception ignored){
+                    } catch (Exception ignored) {
                         //gets caught above
                     }
                 } else {
-                    if(posts == null)
+                    if (posts == null)
                         posts = new ArrayList<>();
 
-                    try{
-                    for (Submission c : paginator.next()) {
-                            Submission s =  c;
+                    try {
+                        for (Submission c : paginator.next()) {
+                            Submission s = c;
                             if (Hidden.isHidden(s)) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
@@ -149,8 +152,8 @@ public class SubredditPosts {
                                 }
                             }
 
-                    }
-                    } catch(Exception ignored){
+                        }
+                    } catch (Exception ignored) {
                         //gets caught above
                     }
                 }
@@ -160,9 +163,5 @@ public class SubredditPosts {
 
             return posts;
         }
-    }
-
-    public void addData(List<Submission> data) {
-        posts.addAll(data);
     }
 }

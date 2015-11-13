@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
  */
 public class PreCachingLayoutManagerComments extends LinearLayoutManager {
     private static final int DEFAULT_EXTRA_LAYOUT_SPACE = 0;
-    private int extraLayoutSpace = 0;
     private final Context context;
+    private int extraLayoutSpace = 0;
 
     public PreCachingLayoutManagerComments(Context context) {
         super(context);

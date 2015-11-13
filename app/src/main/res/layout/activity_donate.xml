@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/activity_background"
-
     android:layout_gravity="center"
+
+    android:background="?attr/activity_background"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:theme="@style/Theme.AppCompat"
+        android:background="@color/md_light_green_500"
 
-        android:background="@color/md_light_green_500">
+        android:theme="@style/Theme.AppCompat">
 
 
     </android.support.v7.widget.Toolbar>
@@ -22,9 +22,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
+        android:orientation="vertical"
 
-        android:orientation="vertical">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/submission_title"
@@ -42,28 +42,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/money"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="$4"
                 android:padding="16dp"
+                android:text="$4"
                 android:textColor="@color/md_light_green_500"
-                android:textSize="26sp"
-               />
-        <com.rey.material.widget.Slider
-            android:id="@+id/slider_sl_discrete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            app:sl_maxValue="20"
-            app:sl_minValue="2"
-            app:sl_primaryColor="@color/md_light_green_500"
-            app:sl_secondaryColor="#424242"
-            app:sl_stepValue="2"
-            app:sl_value="4" />
+                android:textSize="26sp" />
+
+            <com.rey.material.widget.Slider
+                android:id="@+id/slider_sl_discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="16dp"
+                app:sl_maxValue="20"
+                app:sl_minValue="2"
+                app:sl_primaryColor="@color/md_light_green_500"
+                app:sl_secondaryColor="#424242"
+                app:sl_stepValue="2"
+                app:sl_value="4" />
         </LinearLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,13 +88,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".6"
-                android:textColor="?attr/font"
                 android:text="@string/donate_amount_ads1"
+                android:textColor="?attr/font"
                 android:textSize="18sp" />
 
             <TextView
-                android:layout_width="wrap_content"
                 android:id="@+id/ads"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 660 "
                 android:textColor="@color/md_light_green_500"
@@ -103,39 +105,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".6"
-                android:textColor="?attr/font"
                 android:text="@string/donate_amount_ads2"
+                android:textColor="?attr/font"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
->
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/donate_amount_hours1"
                 android:alpha=".6"
+                android:text="@string/donate_amount_hours1"
                 android:textColor="?attr/font"
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/hours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 0.4 "
                 android:textColor="@color/md_light_green_500"
                 android:textSize="24sp"
-                android:id="@+id/hours"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha=".6"
-                android:textColor="?attr/font"
                 android:text="@string/donate_amount_hours2"
+                android:textColor="?attr/font"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -149,8 +150,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/donate_info_student"
                 android:alpha=".6"
+                android:text="@string/donate_info_student"
                 android:textColor="?attr/font"
                 android:textSize="18sp" />
 
@@ -165,8 +166,8 @@
             android:padding="16dp"
             android:text="@string/donate_btn"
 
-            android:textColor="@color/md_light_green_500"
             android:textAllCaps="true"
+            android:textColor="@color/md_light_green_500"
 
             android:textSize="14sp"
             android:textStyle="bold" />

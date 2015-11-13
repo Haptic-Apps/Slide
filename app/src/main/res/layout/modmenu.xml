@@ -21,9 +21,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
-                android:padding="24dp"
-                android:maxLines="3"
                 android:ellipsize="end"
+                android:maxLines="3"
+                android:padding="24dp"
                 android:text="@string/mod_actions"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -34,8 +34,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/body"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
@@ -45,14 +45,13 @@
                     android:paddingTop="8dp">
 
 
-
                     <LinearLayout
                         android:id="@+id/report"
                         android:layout_width="match_parent"
 
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -60,12 +59,12 @@
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
-                            android:tint="?attr/tint"
-
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/report" />
+
+                            android:src="@drawable/report"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -73,8 +72,8 @@
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
 
-                            android:textColor="?attr/font"
                             android:text="@string/mod_show_user"
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -84,33 +83,33 @@
                         android:id="@+id/approve"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
-
                         android:background="?android:selectableItemBackground"
+
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
 
                         <ImageView
                             android:layout_width="56dp"
-                            android:tint="?attr/tint"
-
                             android:layout_height="match_parent"
-                            android:alpha=".86"
 
+                            android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/support" />
+
+                            android:src="@drawable/support"
+                            android:tint="?attr/tint" />
 
                         <TextView
-                            android:layout_width="match_parent"
-
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-
                             android:id="@+id/subpopup"
-                            android:textColor="?attr/font"
 
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:gravity="center_vertical"
                             android:text="@string/mod_btn_approve"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -120,9 +119,9 @@
                         android:id="@+id/spam"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
-
                         android:background="?android:selectableItemBackground"
+
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -132,31 +131,32 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            android:src="@drawable/fontsizedarker"
 
-                            android:src="@drawable/fontsizedarker" />
+                            android:tint="?attr/tint" />
 
                         <TextView
-                            android:layout_width="match_parent"
-
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-
-                            android:textColor="?attr/font"
-
                             android:id="@+id/savedtext"
 
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:gravity="center_vertical"
+
                             android:text="@string/mod_btn_spam"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/nsfw"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -165,18 +165,18 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/hide" />
+                            android:src="@drawable/hide"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/misc_nsfw"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -186,8 +186,8 @@
                         android:id="@+id/flair"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -196,29 +196,30 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
-
                             android:padding="12dp"
-                            android:src="@drawable/ic_format_quote_white_48dp" />
+
+                            android:src="@drawable/ic_format_quote_white_48dp"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
-
                             android:text="@string/mod_flair"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/remove"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -227,28 +228,29 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/close" />
+                            android:src="@drawable/close"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/btn_remove"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ban"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -257,18 +259,18 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/user" />
+                            android:src="@drawable/user"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/mod_ban"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
