@@ -36,38 +36,11 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
+public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
-    @Override
-    public void setError(Boolean b) {
-        listView.setAdapter(new ErrorAdapter());
-    }
-
-    @Override
-    public void undoSetError() {
-        listView.setAdapter(this);
-    }
-    @Override
-    public int getItemViewType(int position) {
-        if(position == dataSet.posts.size()){
-            return 5;
-        }
-        return 1;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-         if(i == 5){
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
-            return new ContributionAdapter.EmptyViewHolder(v);
-        } else {
-             View v = CreateCardView.CreateView(viewGroup, false, "nomatching");
-             return new SubmissionViewHolder(v);
-         }
-    }
 
     public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView) {
 
@@ -79,11 +52,39 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+    }
+
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == dataSet.posts.size()) {
+            return 5;
+        }
+        return 1;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        if (i == 5) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
+            return new ContributionAdapter.EmptyViewHolder(v);
+        } else {
+            View v = CreateCardView.CreateView(viewGroup, false, "nomatching");
+            return new SubmissionViewHolder(v);
+        }
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
 
-        if(holder2 instanceof SubmissionViewHolder) {
+        if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
@@ -232,8 +233,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        if(dataSet == null || dataSet.posts == null)
-        { return 0;} else {
+        if (dataSet == null || dataSet.posts == null) {
+            return 0;
+        } else {
             return dataSet.posts.size() + 1;
         }
     }

@@ -41,51 +41,51 @@ public class CommentsScreen extends BaseActivity {
         StyleView.styleActivity(this);
 
 
-
         int firstPage = getIntent().getExtras().getInt("page", -1);
-        if(firstPage == -1){
+        if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
             posts = DataShare.sharedSubreddit;
         }
-        if(posts == null || posts.get(firstPage) == null){
+        if (posts == null || posts.get(firstPage) == null) {
             finish();
         } else {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
-            CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(firstPage).getSubredditName())));
-
-        }
-            ViewPager pager = (ViewPager) findViewById(R.id.contentView);
-
-            final OverviewPagerAdapter adapter  = new OverviewPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
-        pager.setCurrentItem(firstPage);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
+                CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(firstPage).getSubredditName())));
 
             }
+            ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
-            @Override
-            public void onPageSelected(int position) {
-                //todo load more
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = getWindow();
-                    window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
-                    CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
+            final OverviewPagerAdapter adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+            pager.setCurrentItem(firstPage);
+            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 }
 
+                @Override
+                public void onPageSelected(int position) {
+                    //todo load more
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getWindow();
+                        window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
+                        CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
 
-            }
+                    }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
 
-            }
-        });}
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
 
 
     }
@@ -124,7 +124,6 @@ public class CommentsScreen extends BaseActivity {
                 return posts.size();
             }
         }
-
 
 
     }

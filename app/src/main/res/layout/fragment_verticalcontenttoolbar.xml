@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    android:layout_width="match_parent"
-
     xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="?attr/activity_background"
 
-    android:layout_height="match_parent">
-           <android.support.design.widget.AppBarLayout
-               android:theme="@style/Theme.AppCompat"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/orange"
         android:elevation="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:theme="@style/Theme.AppCompat">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -32,8 +33,6 @@
             >
 
 
-
-
             <ImageView
                 android:id="@+id/sorting"
                 android:layout_width="48dp"
@@ -41,8 +40,8 @@
                 android:layout_gravity="end|center_vertical"
 
 
-                android:paddingBottom="12dp"
                 android:background="?android:selectableItemBackground"
+                android:paddingBottom="12dp"
 
                 android:paddingTop="12dp"
 
@@ -55,85 +54,88 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
-                android:tint="@color/white"
-
                 android:background="?android:selectableItemBackground"
 
                 android:paddingBottom="12dp"
 
-
                 android:paddingTop="12dp"
 
+
                 android:scaleType="fitCenter"
-                android:src="@drawable/search" />
 
-
+                android:src="@drawable/search"
+                android:tint="@color/white" />
 
 
         </android.support.v7.widget.Toolbar>
+
         <TextView
-            android:layout_width="match_parent"
             android:id="@+id/np"
-            android:textColor="?attr/font"
-            android:padding="8dp"
-            android:textSize="14sp"
-            android:gravity="center"
-            android:text="@string/submission_np_link"
-            android:layout_height="wrap_content" />
-        <TextView
             android:layout_width="match_parent"
-            android:id="@+id/loadall"
-            android:textColor="?attr/font"
-            android:padding="8dp"
-            android:background="?attr/colorAccent"
-            android:textSize="14sp"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/submission_np_link"
+            android:textColor="?attr/font"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/loadall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorAccent"
+            android:gravity="center"
+            android:padding="8dp"
             android:text="@string/submission_load_full"
-            android:layout_height="wrap_content" />
+            android:textColor="?attr/font"
+            android:textSize="14sp" />
 
     </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
-        android:id="@+id/activity_main_swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/vertical_content"
-        android:layout_height="match_parent"
-            >
-        </android.support.v7.widget.RecyclerView>
-
-</me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
-        <LinearLayout
+        <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
+            android:id="@+id/activity_main_swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/vertical_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></android.support.v7.widget.RecyclerView>
+
+        </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+
+        <LinearLayout
             android:id="@+id/fastscroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/slightshadow"
-            android:weightSum="2"
 
 
-            android:layout_height="wrap_content">
+            android:weightSum="2">
+
             <ImageView
-                android:background="?android:selectableItemBackground"
-
-                android:layout_width="0dp"
-                android:src="@drawable/up"
-                android:layout_weight="1"
                 android:id="@+id/up"
-                android:layout_height="36dp" />
-            <ImageView
-                android:background="?android:selectableItemBackground"
-                android:layout_weight="1"
 
                 android:layout_width="0dp"
-                android:src="@drawable/down"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/up" />
+
+            <ImageView
                 android:id="@+id/down"
-                android:layout_height="36dp" />
+                android:layout_width="0dp"
+
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/down" />
         </LinearLayout>
-</RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

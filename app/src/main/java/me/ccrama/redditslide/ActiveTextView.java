@@ -42,7 +42,13 @@ import java.net.URI;
 
 public class ActiveTextView extends TextView {
 
-    public ActiveTextView( final Context context ){
+    private boolean mLinkSet;
+    private String mUrl;
+    private SpannableStringBuilder mSpannable;
+    private ActiveTextView.OnLinkClickedListener mListener;
+    private ActiveTextView.OnLongPressedLinkListener mLongPressedLinkListener;
+
+    public ActiveTextView(final Context context) {
         super(context);
         setup();
     }
@@ -56,14 +62,8 @@ public class ActiveTextView extends TextView {
         super(context, attrs, defStyle);
         setup();
     }
-    private boolean isLinkPending(){
-        return mLinkSet;
-    }
 
-    private void cancelLink(){
-        mLinkSet = false;
-    }
-    public static String getDomainName(String url)  {
+    public static String getDomainName(String url) {
         URI uri;
         try {
             uri = new URI(url);
@@ -75,6 +75,15 @@ public class ActiveTextView extends TextView {
         }
 
     }
+
+    private boolean isLinkPending() {
+        return mLinkSet;
+    }
+
+    private void cancelLink() {
+        mLinkSet = false;
+    }
+
     // When a link is clicked, stop the view from drawing the touched drawable
     @Override
     public int[] onCreateDrawableState(int extraSpace) {
@@ -82,9 +91,7 @@ public class ActiveTextView extends TextView {
         if (mLinkSet) {
             states = Button.EMPTY_STATE_SET;
             return states;
-        }
-
-        else
+        } else
             return super.onCreateDrawableState(extraSpace);
     }
 
@@ -92,44 +99,37 @@ public class ActiveTextView extends TextView {
     // http://code.google.com/p/android/issues/detail?id=34872
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        try{
+        try {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        }catch (IndexOutOfBoundsException e){
-            if(getText() instanceof SpannedString){
+        } catch (IndexOutOfBoundsException e) {
+            if (getText() instanceof SpannedString) {
                 SpannedString s = (SpannedString) getText();
                 mSpannable.clear();
                 mSpannable.append(s);
                 StyleSpan[] a = s.getSpans(0, s.length(), StyleSpan.class);
-                if(a.length>0){
+                if (a.length > 0) {
                     mSpannable.removeSpan(a[0]);
                     setText(mSpannable);
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                }else
+                } else
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            }
-
-            else if(getText() instanceof SpannableString){
+            } else if (getText() instanceof SpannableString) {
                 SpannableString s = (SpannableString) getText();
                 mSpannable.clear();
                 mSpannable.append(s);
                 StyleSpan[] a = s.getSpans(0, s.length(), StyleSpan.class);
-                if(a.length>0){
+                if (a.length > 0) {
                     mSpannable.removeSpan(a[0]);
                     setText(mSpannable);
 
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                }else
+                } else
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             }
         }
     }
-    private boolean mLinkSet;
-    private String mUrl;
-    private SpannableStringBuilder mSpannable;
-    private ActiveTextView.OnLinkClickedListener mListener;
-    private ActiveTextView.OnLongPressedLinkListener mLongPressedLinkListener;
 
-    private void setup(){
+    private void setup() {
         mSpannable = new SpannableStringBuilder();
         // Set the movement method
         setMovementMethod(new LinkMovementMethod() {
@@ -155,18 +155,18 @@ public class ActiveTextView extends TextView {
                     float maxLineRight = layout.getLineWidth(line);
 
                     // Stops the space after a link being clicked
-                    if(x<=maxLineRight){
+                    if (x <= maxLineRight) {
                         ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
 
                         if (link.length != 0) {
                             if (action == MotionEvent.ACTION_UP) {
                                 // If a link click listener is set, call that
                                 // Otherwise just open the link
-                                if(mLinkSet){
-                                    if(mListener!=null)
+                                if (mLinkSet) {
+                                    if (mListener != null)
                                         mListener.onClick(mUrl);
-                                    else{
-                                        if(mUrl!=null){
+                                    else {
+                                        if (mUrl != null) {
                                             Intent i = new Intent(Intent.ACTION_VIEW);
                                             i.setData(Uri.parse(mUrl));
                                             getContext().startActivity(i);
@@ -204,8 +204,8 @@ public class ActiveTextView extends TextView {
             @Override
             public boolean onLongClick(View v) {
 
-                if(mLongPressedLinkListener!=null){
-                    if(isLinkPending()){
+                if (mLongPressedLinkListener != null) {
+                    if (isLinkPending()) {
                         // Create the dialog
                         /*todo
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
@@ -266,6 +266,26 @@ public class ActiveTextView extends TextView {
         });
     }
 
+    /**
+     * Set a link click listener, this is called when a user clicks on a link
+     *
+     * @param clickListener The click listener to call when a link is clicked
+     */
+    public void setLinkClickedListener(ActiveTextView.OnLinkClickedListener clickListener) {
+        this.mListener = clickListener;
+    }
+
+    /**
+     * Set a long press listener, this is called when a user long presses on a link
+     * a small submenu with a few options is then displayed
+     *
+     * @param minDisplay Enable a smaller submenu when long pressed (removes the option Long press parent)
+     */
+    public void setLongPressedLinkListener(ActiveTextView.OnLongPressedLinkListener longPressedLinkListener, boolean minDisplay) {
+        this.mLongPressedLinkListener = longPressedLinkListener;
+        boolean mDisplayMinLongPress = minDisplay;
+    }
+
     // Called when a link in long clicked
     public interface OnLinkClickedListener {
         void onClick(String url);
@@ -274,23 +294,5 @@ public class ActiveTextView extends TextView {
     // Called when a link in long clicked
     public interface OnLongPressedLinkListener {
         void onLongPressed();
-    }
-
-    /**
-     * Set a link click listener, this is called when a user clicks on a link
-     * @param clickListener The click listener to call when a link is clicked
-     */
-    public void setLinkClickedListener( ActiveTextView.OnLinkClickedListener clickListener ){
-        this.mListener = clickListener;
-    }
-
-    /**
-     * Set a long press listener, this is called when a user long presses on a link
-     * a small submenu with a few options is then displayed
-     * @param minDisplay Enable a smaller submenu when long pressed (removes the option Long press parent)
-     */
-    public void setLongPressedLinkListener( ActiveTextView.OnLongPressedLinkListener longPressedLinkListener, boolean minDisplay ){
-        this.mLongPressedLinkListener = longPressedLinkListener;
-        boolean mDisplayMinLongPress = minDisplay;
     }
 }

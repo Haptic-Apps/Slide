@@ -13,23 +13,20 @@ import me.ccrama.redditslide.OpenRedditLink;
  */
 public class OpenContent extends Activity {
     @Override
-    public void onCreate(Bundle savedInstance){
+    public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         Intent intent = getIntent();
         Uri data = intent.getData();
         String url;
 
-        if(data == null) {
+        if (data == null) {
             url = getIntent().getExtras().getString("url", "");
         } else {
-           url = data.toString();
+            url = data.toString();
         }
         url = url.toLowerCase();
 
         Log.v("Slide", url);
-
-
-
 
 
         new OpenRedditLink(this, url);

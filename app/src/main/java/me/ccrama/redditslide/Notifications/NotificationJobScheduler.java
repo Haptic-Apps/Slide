@@ -14,8 +14,7 @@ import me.ccrama.redditslide.Reddit;
  */
 
 
-
-public class NotificationJobScheduler   {
+public class NotificationJobScheduler {
     private final PendingIntent pendingIntent;
 
     public NotificationJobScheduler(Application context) {

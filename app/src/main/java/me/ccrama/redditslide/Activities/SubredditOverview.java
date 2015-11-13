@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +17,6 @@ import android.view.View;
 import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
-import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
@@ -38,7 +35,6 @@ import me.ccrama.redditslide.Visuals.Pallete;
  */
 public class SubredditOverview extends OverviewBase {
 
-    private int toGoto = 0;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -232,33 +228,5 @@ public class SubredditOverview extends OverviewBase {
 
     }
 
-    private void setDataSet(List<String> data) {
-        if (data != null) {
-            usedArray = data;
-            if (adapter == null) {
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            } else {
-                adapter.notifyDataSetChanged();
-            }
-            pager.setAdapter(adapter);
-            pager.setOffscreenPageLimit(2);
-            tabs.setupWithViewPager(pager);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = this.getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
-                SubredditOverview.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
-
-            }
-
-            doSubSidebar(usedArray.get(0));
-            findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
-            // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
-            tabs.setSelectedTabIndicatorColor(new ColorPreferences(SubredditOverview.this).getColor(usedArray.get(0)));
-
-        }
-        pager.setCurrentItem(toGoto);
-
-    }
 
 }

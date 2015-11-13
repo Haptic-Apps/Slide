@@ -33,11 +33,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
  */
 public class MakeTextviewClickable {
 
-    public String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        return domain.startsWith("www.") ? domain.substring(4) : domain;
-    }
+    private Context c;
 
     private static void openImage(Activity contextActivity, String submission) {
         if (Reddit.image) {
@@ -53,7 +49,7 @@ public class MakeTextviewClickable {
 
     private static void openGif(final boolean gfy, Activity contextActivity, String submission) {
 
-        if(Reddit.gif) {
+        if (Reddit.gif) {
             Intent myIntent = new Intent(contextActivity, GifView.class);
             if (gfy) {
                 myIntent.putExtra("url", "gfy" + submission);
@@ -67,6 +63,53 @@ public class MakeTextviewClickable {
             Reddit.defaultShare(submission, contextActivity);
         }
 
+    }
+
+    public static String trimTrailingWhitespace(String source) {
+
+        if (source == null)
+            return "";
+
+        int i = source.length();
+
+        // loop back to the first non-whitespace character
+        while (--i >= 0 && Character.isWhitespace(source.charAt(i))) {
+        }
+
+        return source.subSequence(0, i + 1).toString();
+    }
+
+    private static String noTrailingwhiteLines(String text) {
+
+        while (text.charAt(text.length() - 1) == '\n') {
+            text = text.substring(0, text.length() - 1);
+        }
+        return text;
+    }
+
+    public static float dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+    }
+
+    private static CharSequence trim(CharSequence s) {
+        int start = 0;
+        int end = s.length();
+        while (start < end && Character.isWhitespace(s.charAt(start))) {
+            start++;
+        }
+
+        while (end > start && Character.isWhitespace(s.charAt(end - 1))) {
+            end--;
+        }
+
+        return s.subSequence(start, end);
+    }
+
+    public String getDomainName(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+        String domain = uri.getHost();
+        return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 
     protected void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, final Activity c) {
@@ -86,31 +129,6 @@ public class MakeTextviewClickable {
         strBuilder.removeSpan(span);
     }
 
-    public static String trimTrailingWhitespace(String source) {
-
-        if (source == null)
-            return "";
-
-        int i = source.length();
-
-        // loop back to the first non-whitespace character
-        while (--i >= 0 && Character.isWhitespace(source.charAt(i))) {
-        }
-
-        return source.subSequence(0, i + 1).toString();
-    }
-
-    private Context c;
-
-
-    private static String noTrailingwhiteLines(String text) {
-
-        while (text.charAt(text.length() - 1) == '\n') {
-            text = text.substring(0, text.length() - 1);
-        }
-        return text;
-    }
-
     public void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>").replace("</del>", "</strike>").replace("<del>", "<strike>");
@@ -118,7 +136,7 @@ public class MakeTextviewClickable {
             try {
                 rawHTML = rawHTML.substring(0, rawHTML.lastIndexOf("\n"));
 
-            } catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
             this.c = c;
@@ -220,7 +238,7 @@ public class MakeTextviewClickable {
 
                                 break;
                             case IMAGE:
- openImage(c, url);
+                                openImage(c, url);
 
                                 break;
                             case GIF:
@@ -275,7 +293,6 @@ public class MakeTextviewClickable {
             });
 
 
-
             comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
 
@@ -283,10 +300,7 @@ public class MakeTextviewClickable {
 
 
     }
-    public static float dipToPixels(Context context, float dipValue) {
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
-    }
+
     public void ParseTextWithLinksTextView(String rawHTML, final ActiveTextView comm, final Activity c, String subreddit) {
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>").replace("</del>", "</strike>").replace("<del>", "<strike>");
@@ -448,24 +462,8 @@ public class MakeTextviewClickable {
             comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
 
 
-
-
         }
 
 
-    }
-
-    private static CharSequence trim(CharSequence s) {
-        int start = 0;
-        int end = s.length();
-        while (start < end && Character.isWhitespace(s.charAt(start))) {
-            start++;
-        }
-
-        while (end > start && Character.isWhitespace(s.charAt(end - 1))) {
-            end--;
-        }
-
-        return s.subSequence(start, end);
     }
 }

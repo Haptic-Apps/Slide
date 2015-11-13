@@ -2,9 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="?attr/activity_background"
+    android:layout_height="match_parent"
 
-    android:layout_height="match_parent">
+    android:background="?attr/activity_background">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,11 +16,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_light_blue_500"               android:theme="@style/Theme.AppCompat"
-
+            android:background="@color/md_light_blue_500"
             android:clipToPadding="false"
+
             android:minHeight="56dp"
             android:paddingRight="16dp"
+            android:theme="@style/Theme.AppCompat"
             app:layout_scrollFlags="scroll|enterAlways"
 
 
@@ -266,6 +267,7 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/fastscroll_click"
                 android:layout_width="match_parent"
@@ -302,6 +304,7 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/hide_button"
                 android:layout_width="match_parent"

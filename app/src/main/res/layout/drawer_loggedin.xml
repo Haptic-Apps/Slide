@@ -3,10 +3,10 @@
 
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
-    android:background="?attr/card_background"
+    android:layout_height="match_parent"
     android:animateLayoutChanges="true"
 
-    android:layout_height="match_parent"
+    android:background="?attr/card_background"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -50,146 +50,150 @@
 
     </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/expand"
-            android:orientation="horizontal"
-            android:paddingLeft="0dp"
-            xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-
-
-        </LinearLayout>
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/expand"
         android:layout_width="match_parent"
-        android:id="@+id/prof_click"
-        android:background="?android:selectableItemBackground"
-
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingLeft="0dp"
-        android:layout_height="48dp">
+        android:paddingLeft="0dp">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/prof_click"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingLeft="0dp">
+
         <ImageView
             android:layout_width="48dp"
-            android:paddingLeft="10dp"
-            android:tint="?attr/tint"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
 
+            android:layout_marginRight="16dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
             android:src="@drawable/profile"
-            android:layout_height="match_parent" />
+            android:tint="?attr/tint" />
+
         <TextView
             android:layout_width="wrap_content"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:text="@string/drawer_profile"
             android:textColor="?attr/font"
-            android:gravity="center_vertical"
-            android:layout_height="match_parent" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical" android:layout_width="match_parent"
         android:id="@+id/expand_profile"
-        android:visibility="gone"
-        android:weightSum="5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="5">
 
 
         <TextView
             android:id="@+id/profile"
             android:layout_width="match_parent"
-            android:text="@string/profile_yours"
-            android:background="?android:selectableItemBackground"
             android:layout_height="42dp"
-            android:textSize="14sp"
+            android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:text="@string/profile_yours"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/saved"
             android:layout_width="match_parent"
-            android:text="@string/profile_saved"
             android:layout_height="42dp"
-            android:textSize="14sp"
             android:background="?android:selectableItemBackground"
-
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
 
-
+            android:text="@string/profile_saved"
+            android:textSize="14sp" />
 
 
         <TextView
             android:id="@+id/upvoted"
             android:layout_width="match_parent"
-            android:text="@string/profile_upvoted"
             android:layout_height="42dp"
-            android:textSize="14sp"
             android:background="?android:selectableItemBackground"
-
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+
+            android:text="@string/profile_upvoted"
+            android:textSize="14sp" />
 
 
         <TextView
             android:id="@+id/submit"
             android:layout_width="match_parent"
-            android:text="@string/editor_submit"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
-
-            android:textSize="14sp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+
+            android:orientation="horizontal"
+            android:text="@string/editor_submit"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/reorder"
             android:layout_width="match_parent"
-            android:text="@string/drawer_reorder_pins"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
-
-            android:textSize="14sp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+
+            android:orientation="horizontal"
+            android:text="@string/drawer_reorder_pins"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/add"
             android:layout_width="match_parent"
-            android:text="@string/drawer_add_account"
+            android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
 
-            android:layout_height="42dp"
-            android:textSize="14sp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:text="@string/drawer_add_account"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/logout"
             android:layout_width="match_parent"
-            android:text="@string/drawer_change_account"
+            android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
 
-            android:layout_height="42dp"
-            android:textSize="14sp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:text="@string/drawer_change_account"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/sync"
             android:layout_width="match_parent"
-            android:text="@string/drawer_sync_subs"
+            android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
 
-            android:layout_height="42dp"
-            android:textSize="14sp"
             android:gravity="center_vertical"
-            android:orientation="horizontal"/>
+            android:orientation="horizontal"
+            android:text="@string/drawer_sync_subs"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -207,23 +211,24 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:padding="10dp"
+
             android:paddingBottom="6dp"
 
-            android:tint="?attr/tint"
-
-            android:padding="10dp"
-            android:src="@drawable/sidebar_inbox" />
+            android:src="@drawable/sidebar_inbox"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:textColor="?attr/font"
-
             android:text="@string/title_inbox"
+
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/mod"
         android:layout_width="match_parent"
@@ -238,20 +243,20 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:padding="10dp"
+
             android:paddingBottom="6dp"
 
-            android:tint="?attr/tint"
-
-            android:padding="10dp"
-            android:src="@drawable/mod" />
+            android:src="@drawable/mod"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:textColor="?attr/font"
-
             android:text="@string/drawer_moderation"
+
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -271,20 +276,20 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:padding="10dp"
+
             android:paddingBottom="6dp"
 
-            android:tint="?attr/tint"
-
-            android:padding="10dp"
-            android:src="@drawable/collection" />
+            android:src="@drawable/collection"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:textColor="?attr/font"
-
             android:text="@string/title_multireddits"
+
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -293,8 +298,8 @@
         android:id="@+id/support"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -303,28 +308,29 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="6dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/support" />
+            android:paddingBottom="6dp"
+
+            android:src="@drawable/support"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/drawer_support"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/tablet"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -333,28 +339,29 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:paddingBottom="6dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/multicolumn" />
+            android:paddingBottom="6dp"
+
+            android:src="@drawable/multicolumn"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/drawer_multi_column"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/prof"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -363,27 +370,28 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/profile" />
+
+            android:src="@drawable/profile"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/drawer_goto_profile"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
 
         android:paddingLeft="0dp">
 
@@ -392,18 +400,18 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:tint="?attr/tint"
-
             android:padding="10dp"
-            android:src="@drawable/settings" />
+
+            android:src="@drawable/settings"
+            android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="?attr/font"
-
             android:gravity="center_vertical"
+
             android:text="@string/title_settings"
+            android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -417,19 +425,19 @@
         android:alpha=".25" />
 
     <EditText
-        android:layout_width="match_parent"
         android:id="@+id/sort"
-        android:textColor="?attr/font"
-        android:textColorHint="?attr/font"
-        android:hint="@string/drawer_search"
-        android:singleLine="true"
-
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="?attr/tint"
+
+        android:hint="@string/drawer_search"
         android:imeOptions="actionSearch"
 
-        android:backgroundTint="?attr/tint"
-        android:layout_marginRight="16dp"
+        android:singleLine="true"
+        android:textColor="?attr/font"
 
 
-        android:layout_height="wrap_content" />
+        android:textColorHint="?attr/font" />
 </LinearLayout>

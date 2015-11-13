@@ -32,8 +32,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/body"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
@@ -44,34 +44,35 @@
 
                     <TextView
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="@string/multi_column_landscape"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:textAllCaps="true"
                         android:textColor="?attr/font"
-                        android:layout_height="wrap_content"
-                        android:textAllCaps="true"/>
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <com.rey.material.widget.Slider
                         android:id="@+id/landscape"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        app:sl_discreteMode="true"
                         android:padding="8dp"
+                        app:sl_discreteMode="true"
                         app:sl_maxValue="7"
                         app:sl_minValue="1"
-                        app:sl_secondaryColor="?attr/tint"
-                         />
+                        app:sl_secondaryColor="?attr/tint" />
+
                     <TextView
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha=".7"
                         android:padding="16dp"
                         android:text="@string/multi_column_portrait"
-                        android:textSize="14sp"
-                        android:alpha=".7"
-                        android:textStyle="bold"
-                        android:textColor="?attr/font"
                         android:textAllCaps="true"
-                        android:layout_height="wrap_content" />
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

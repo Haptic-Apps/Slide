@@ -40,54 +40,14 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter{
-
-    public final Activity mContext;
-    public ArrayList<PublicContribution> dataSet;
-    private final RecyclerView listView;
-    @Override
-    public void setError(Boolean b) {
-        listView.setAdapter(new ErrorAdapter());
-    }
-
-    @Override
-    public void undoSetError() {
-        listView.setAdapter(this);
-    }
+public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public static int COMMENT = 1;
     public static int MESSAGE = 2;
     public static int POST = 3;
-    @Override
-    public int getItemViewType(int position) {
-        if (dataSet.get(position).getFullName().contains("t1"))//IS COMMENT
-            return COMMENT;
-        if (dataSet.get(position).getFullName().contains("t4"))//IS MESSAGE
-            return MESSAGE;
-        return POST;
-    }
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-        if (i == MESSAGE) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
-            return new MessageViewHolder(v);
-        }  if (i == COMMENT) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
-            return new ProfileCommentViewHolder(v);
-        } else {
-            View v = CreateCardView.CreateView(viewGroup);
-            return new SubmissionViewHolder(v);
-
-        }
-
-
-
-    }
-
-
-
-
+    public final Activity mContext;
+    private final RecyclerView listView;
+    public ArrayList<PublicContribution> dataSet;
     public ModeratorAdapter(Activity mContext, ModeratorPosts dataSet, RecyclerView listView) {
 
         this.mContext = mContext;
@@ -98,11 +58,48 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    @Override
+    public void setError(Boolean b) {
+        listView.setAdapter(new ErrorAdapter());
+    }
+
+    @Override
+    public void undoSetError() {
+        listView.setAdapter(this);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (dataSet.get(position).getFullName().contains("t1"))//IS COMMENT
+            return COMMENT;
+        if (dataSet.get(position).getFullName().contains("t4"))//IS MESSAGE
+            return MESSAGE;
+        return POST;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+
+        if (i == MESSAGE) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
+            return new MessageViewHolder(v);
+        }
+        if (i == COMMENT) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
+            return new ProfileCommentViewHolder(v);
+        } else {
+            View v = CreateCardView.CreateView(viewGroup);
+            return new SubmissionViewHolder(v);
+
+        }
+
+
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHold, final int i) {
 
-       if(firstHold instanceof SubmissionViewHolder){
+        if (firstHold instanceof SubmissionViewHolder) {
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHold;
             final Submission submission = (Submission) dataSet.get(i);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -214,7 +211,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             final int pos = dataSet.indexOf(submission);
-                            final PublicContribution old  = dataSet.get(pos);
+                            final PublicContribution old = dataSet.get(pos);
                             dataSet.remove(submission);
                             notifyItemRemoved(pos);
                             d.dismiss();
@@ -226,12 +223,10 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 public void onClick(View v) {
                                     dataSet.add(pos, old);
                                     notifyItemInserted(pos);
-                                    Hidden.undoHidden((Contribution)old);
+                                    Hidden.undoHidden((Contribution) old);
 
                                 }
                             }).show();
-
-
 
 
                         }

@@ -3,32 +3,31 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="#000000"
+    android:gravity="center"
 
     android:orientation="vertical">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
 
-        <LinearLayout
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000000"
 
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+
+            android:background="#000000">
+
 
             <RelativeLayout
+                android:id="@+id/imagearea"
                 android:layout_width="match_parent"
-
-                android:background="#000000"
-
                 android:layout_height="match_parent">
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:id="@+id/imagearea"
-                    android:layout_height="match_parent">
 
                 <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
                     android:id="@+id/image"
@@ -39,43 +38,44 @@
                     android:src="@drawable/chameleon" />
 
 
-                </RelativeLayout>
-                <LinearLayout
-                    android:id="@+id/base"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imagearea"
-                    android:layout_gravity="center_vertical"
-
-                    android:background="@drawable/slightshadow"
-                    android:orientation="vertical"
-                    android:paddingBottom="8dp"
-                    android:paddingLeft="16dp">
-
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/example_domain"
-                        android:textColor="#ffffff"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".56"
-
-                        android:text="@string/example_url"
-                        android:textColor="#ffffff"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/base"
+                android:layout_width="match_parent"
 
-</LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imagearea"
+                android:layout_gravity="center_vertical"
+
+                android:background="@drawable/slightshadow"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/example_domain"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".56"
+
+                    android:text="@string/example_url"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
 
 </LinearLayout>

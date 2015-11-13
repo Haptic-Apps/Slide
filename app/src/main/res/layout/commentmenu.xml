@@ -20,9 +20,9 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:ellipsize="end"
                 android:background="@color/md_light_green_500"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:padding="24dp"
                 android:text="Post title here"
                 android:textSize="18sp"
@@ -34,8 +34,8 @@
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/body"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
@@ -45,13 +45,12 @@
                     android:paddingTop="8dp">
 
 
-
                     <LinearLayout
                         android:id="@+id/sidebar"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -59,23 +58,23 @@
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
-                            android:tint="?attr/tint"
-
                             android:alpha=".86"
 
                             android:padding="12dp"
-                            android:src="@drawable/profile" />
+
+                            android:src="@drawable/profile"
+                            android:tint="?attr/tint" />
 
                         <TextView
-                            android:layout_width="match_parent"
-
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-
-
-                            android:textColor="?attr/font"
                             android:id="@+id/userpopup"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+
+                            android:gravity="center_vertical"
                             android:text="/u/ccrama"
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
@@ -85,11 +84,11 @@
                     <LinearLayout
                         android:id="@+id/gild"
                         android:layout_width="match_parent"
-                        android:clickable="true"
-
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
+
                         android:background="?android:selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -98,61 +97,63 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
-
                             android:padding="12dp"
-                            android:src="@drawable/gild" />
+
+                            android:src="@drawable/gild"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
-
                             android:text="@string/comment_gild"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/report"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:visibility="gone"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
-
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        android:paddingRight="16dp">
+
+                        android:paddingRight="16dp"
+                        android:visibility="gone">
 
                         <ImageView
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
-
                             android:padding="12dp"
-                            android:src="@drawable/report" />
+
+                            android:src="@drawable/report"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
 
-                            android:textColor="?attr/font"
-
                             android:text="@string/comment_report"
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/share"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:gravity="center_vertical"
                         android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
 
                         android:orientation="horizontal"
                         android:paddingRight="16dp">
@@ -161,18 +162,18 @@
                             android:layout_width="56dp"
                             android:layout_height="match_parent"
                             android:alpha=".86"
-                            android:tint="?attr/tint"
                             android:padding="12dp"
-                            android:src="@drawable/share" />
+                            android:src="@drawable/share"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
-
-
                             android:text="@string/comment_share"
+
+
+                            android:textColor="?attr/font"
 
                             android:textSize="16sp" />
 

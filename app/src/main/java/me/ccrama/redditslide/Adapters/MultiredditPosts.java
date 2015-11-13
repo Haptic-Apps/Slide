@@ -22,30 +22,29 @@ import me.ccrama.redditslide.SettingValues;
  */
 public class MultiredditPosts {
     public ArrayList<Submission> posts;
+    public boolean loading;
     private MultiRedditPaginator paginator;
     private SwipeRefreshLayout refreshLayout;
+    private MultiReddit subreddit;
+    private MultiredditAdapter adapter;
 
     public MultiredditPosts(ArrayList<Submission> firstData, MultiRedditPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
     }
 
-    private MultiReddit subreddit;
-
     public MultiredditPosts(MultiReddit subreddit) {
         this.subreddit = subreddit;
     }
 
-    private MultiredditAdapter adapter;
-
     public void bindAdapter(MultiredditAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
-        this.refreshLayout=layout;
+        this.refreshLayout = layout;
         loadMore(a, subreddit);
     }
 
     public void loadMore(MultiredditAdapter adapter, MultiReddit subreddit) {
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
@@ -56,7 +55,10 @@ public class MultiredditPosts {
 
     }
 
-    public boolean loading;
+    public void addData(List<Submission> data) {
+        posts.addAll(data);
+    }
+
     public class LoadData extends AsyncTask<MultiReddit, Void, ArrayList<Submission>> {
         final boolean reset;
 
@@ -66,17 +68,17 @@ public class MultiredditPosts {
 
         @Override
         public void onPostExecute(ArrayList<Submission> subs) {
-            if(subs != null) {
+            if (subs != null) {
 
                 loading = false;
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
-                            adapter.notifyDataSetChanged();
+                ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshLayout.setRefreshing(false);
+                        adapter.notifyDataSetChanged();
 
-                        }
-                    });
+                    }
+                });
             } else {
                 adapter.setError(true);
 
@@ -113,14 +115,10 @@ public class MultiredditPosts {
                     }
                 }
                 return posts;
-            }catch (Exception e){
+            } catch (Exception e) {
                 return null;
             }
 
         }
-    }
-
-    public void addData(List<Submission> data) {
-        posts.addAll(data);
     }
 }

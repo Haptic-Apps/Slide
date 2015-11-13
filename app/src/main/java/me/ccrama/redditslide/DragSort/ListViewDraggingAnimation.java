@@ -50,6 +50,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
     ArrayList<String> subs;
     CustomAdapter adapter;
     RecyclerView recyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
             ListViewDraggingAnimation.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_reorder_pins), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
-       subs = SubredditStorage.getPins();
+        subs = SubredditStorage.getPins();
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
@@ -117,8 +118,7 @@ public class ListViewDraggingAnimation extends BaseActivity {
         if (subs != null && !subs.isEmpty()) {
 
 
-
-           adapter = new CustomAdapter(subs);
+            adapter = new CustomAdapter(subs);
             //  adapter.setHasStableIds(true);
 
             recyclerView.setAdapter(adapter);
@@ -133,8 +133,8 @@ public class ListViewDraggingAnimation extends BaseActivity {
     public void showSelectDialog() {
         final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size()];
         final List<String> s2;
-        if(subs != null) {
-         s2 = new ArrayList<>(subs);
+        if (subs != null) {
+            s2 = new ArrayList<>(subs);
         } else {
             s2 = new ArrayList<>();
         }
@@ -152,8 +152,8 @@ public class ListViewDraggingAnimation extends BaseActivity {
         final ArrayList<String> toCheck = new ArrayList<>();
 
 
-        if(subs != null)
-        toCheck.addAll(subs);
+        if (subs != null)
+            toCheck.addAll(subs);
         new AlertDialogWrapper.Builder(this)
                 .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -167,32 +167,20 @@ public class ListViewDraggingAnimation extends BaseActivity {
                     }
                 }).setTitle(R.string.pin_select)
                 .setPositiveButton(getString(R.string.btn_save).toUpperCase(), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                subs = toCheck;
-                Log.v("Slide", subs.size() + "SIZE ");
-                adapter = new CustomAdapter(subs);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        subs = toCheck;
+                        Log.v("Slide", subs.size() + "SIZE ");
+                        adapter = new CustomAdapter(subs);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
 
-            }
-        }).show();
+                    }
+                }).show();
     }
 
     public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView text;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-
-                text = (TextView) itemView.findViewById(R.id.name);
-
-
-            }
-        }
 
         public CustomAdapter(ArrayList<String> items) {
             this.items = items;
@@ -220,6 +208,18 @@ public class ListViewDraggingAnimation extends BaseActivity {
         @Override
         public int getItemCount() {
             return items.size();
+        }
+
+        public static class ViewHolder extends RecyclerView.ViewHolder {
+            final TextView text;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                text = (TextView) itemView.findViewById(R.id.name);
+
+
+            }
         }
 
 

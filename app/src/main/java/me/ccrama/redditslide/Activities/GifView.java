@@ -84,6 +84,11 @@ public class GifView extends BaseActivity {
 
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.fade_out);
+    }
 
     public class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
@@ -287,12 +292,6 @@ public class GifView extends BaseActivity {
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0, R.anim.fade_out);
-    }
-
     private class AsyncGyfcat extends AsyncTask<String, Void, Void> {
 
 
@@ -314,16 +313,16 @@ public class GifView extends BaseActivity {
                             String obj = "";
                             if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
-                                    new AlertDialogWrapper.Builder(GifView.this)
-                                            .setTitle(R.string.gif_err_title)
-                                            .setMessage(R.string.gif_err_msg)
-                                            .setCancelable(false)
-                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    finish();
-                                                }
-                                            }).create().show();
+                                new AlertDialogWrapper.Builder(GifView.this)
+                                        .setTitle(R.string.gif_err_title)
+                                        .setMessage(R.string.gif_err_msg)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        }).create().show();
 
                             } else {
                                 obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();

@@ -74,11 +74,11 @@
                 </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.AppBarLayout>
+
             <FrameLayout
                 android:id="@+id/fragment_root"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent">
 
                 <me.ccrama.redditslide.Views.NoSwipingViewPager
                     android:id="@+id/contentView"

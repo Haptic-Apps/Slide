@@ -20,16 +20,14 @@ import me.ccrama.redditslide.Reddit;
  * Created by ccrama on 9/17/2015.
  */
 public class SubmissionComments {
-    public ArrayList<CommentObject> comments;
     public final SwipeRefreshLayout refreshLayout;
-
-    private String context;
-
     private final String fullName;
-    public Submission submission;
     private final CommentPage page;
-
+    public ArrayList<CommentObject> comments;
+    public Submission submission;
+    private String context;
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
+    private CommentAdapter adapter;
 
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
@@ -53,12 +51,9 @@ public class SubmissionComments {
 
     }
 
-    private CommentAdapter adapter;
-
-
     public void loadMore(CommentAdapter adapter, String subreddit) {
         this.adapter = adapter;
-        if(Reddit.online) {
+        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
@@ -107,7 +102,7 @@ public class SubmissionComments {
                 for (CommentNode n : baseComment.walkTree()) {
 
                     CommentObject obj = new CommentObject(n);
-                    if (n.getDepth() <= toPut && toDo != null ) {
+                    if (n.getDepth() <= toPut && toDo != null) {
                         obj.setMoreChildren(toDo, toDoComment);
                         toPut = -1;
                         toDo = null;

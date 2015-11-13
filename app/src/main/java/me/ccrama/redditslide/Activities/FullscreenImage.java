@@ -39,6 +39,8 @@ import me.ccrama.redditslide.Reddit;
 public class FullscreenImage extends BaseActivity {
 
 
+    String toReturn;
+
     public void onCreate(Bundle savedInstanceState) {
 
 
@@ -78,19 +80,19 @@ public class FullscreenImage extends BaseActivity {
                             public void onProgressUpdate(String imageUri, View view, final int current, final int total) {
                                 runOnUiThread(
                                         new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (bar.getVisibility() == View.GONE) {
-                                            bar.setVisibility(View.VISIBLE);
-                                        }
-                                        bar.setProgress((current * 100) / total);
-                                        Log.v("Slide", "DOING PROGRESS" + (current * 100) / total);
-                                        if (current == total) {
+                                            @Override
+                                            public void run() {
+                                                if (bar.getVisibility() == View.GONE) {
+                                                    bar.setVisibility(View.VISIBLE);
+                                                }
+                                                bar.setProgress((current * 100) / total);
+                                                Log.v("Slide", "DOING PROGRESS" + (current * 100) / total);
+                                                if (current == total) {
 
-                                            bar.setVisibility(View.GONE);
-                                        }
-                                    }
-                                });
+                                                    bar.setVisibility(View.GONE);
+                                                }
+                                            }
+                                        });
 
 
                             }
@@ -159,7 +161,7 @@ public class FullscreenImage extends BaseActivity {
                                         public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
                                             String localAbsoluteFilePath = saveImageGallery(loadedImage);
 
-                                            if(localAbsoluteFilePath != null) {
+                                            if (localAbsoluteFilePath != null) {
                                                 MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
                                                     public void onScanCompleted(String path, Uri uri) {
                                                         Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
@@ -194,8 +196,6 @@ public class FullscreenImage extends BaseActivity {
 
     }
 
-    String toReturn;
-
     private String saveImageGallery(final Bitmap _bitmap) {
 
         File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + File.separator + "Slide");
@@ -220,7 +220,7 @@ public class FullscreenImage extends BaseActivity {
                     .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            toReturn =  null;
+                            toReturn = null;
                             dialog.dismiss();
                         }
                     }).show();
@@ -254,7 +254,7 @@ public class FullscreenImage extends BaseActivity {
                     .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            toReturn =  null;
+                            toReturn = null;
                         }
                     }).show();
             return toReturn;
