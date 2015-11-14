@@ -184,7 +184,9 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         if (Authentication.mod) {
             doModOf();
         }
-
+        if (Authentication.isLoggedIn) {
+            getMultireddits();
+        }
         realSubs = new ArrayList<>();
 
         ArrayList<String> value = getPins();
@@ -235,9 +237,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             if (test.contains("")) {
                 test.remove("");
             }
-            if (Authentication.isLoggedIn) {
-                getMultireddits();
-            }
+
             subredditsForHome = test;
             //  DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
             // if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
