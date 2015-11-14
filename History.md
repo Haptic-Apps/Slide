@@ -1,6 +1,10 @@
-4.3.1 / 2015-11-11
+4.3.2 / 2015-11-14
 ==================
-
+**Faster and more stable**
+  * Faster start up times
+  * Show post as read  
+  * Colorize icons when voting
+  * Switch vote icon order
   * allow reddit.com/u/me links
   * clear subreddit search after enter button press
   * Gilding now links to the correct URL
@@ -8,15 +12,17 @@
   * Removed seperators from subreddit list in drawer
   * Disabled hamburger animation
   * Now clicking on a radio button in the tutorial displays a corresponding screen.
-  * Colorize icons when voting
-  * Switch vote icon order
   * Fix a bug where all profiles are invalid
   * Fix bulletin list
   * When trying to get information about user with invalid username, the dialog is shown and then it backs to previous screen.
-  * Valid public description is now shown for a subreddit.
-  * Updated translations
+  * Valid public description is now shown for a subreddit
+  * Fix mail sync issue
+  * Fixed extra padding on submissions
+  * Fixed single view force close on sub change
+  * Fixed bug where the toolbar would overlap the content in the overview 
+  * Updated translations from [crowdin](https://crowdin.com/project/slide-for-reddit)
 
-4.3.0 / 2015-11-07
+4.3.1 / 2015-11-07
 ==================
 
   * Don't allow comments with 0 childs to collapse
