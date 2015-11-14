@@ -43,6 +43,7 @@ public class InboxPage extends Fragment {
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
         mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
 

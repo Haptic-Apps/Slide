@@ -141,87 +141,104 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+                    if (mGoogleApiClient.isConnected()) {
+                        File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
 
-                    if (prefsdir.exists() && prefsdir.isDirectory()) {
+                        if (prefsdir.exists() && prefsdir.isDirectory()) {
 
-                        String[] list = prefsdir.list();
-                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
-                        progress.show();
-                        for (final String s : list) {
-                            if (!s.contains("com.google")) {
-                                title = s;
-                                Drive.DriveApi.newDriveContents(mGoogleApiClient)
-                                        .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
-                                            @Override
-                                            public void onResult(DriveApi.DriveContentsResult result) {
-                                                final String copy = getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + s;
-                                                Log.v("Slide", "LOCATION IS " + copy);
-                                                if (!result.getStatus().isSuccess()) {
-                                                    return;
-                                                }
-                                                final DriveContents driveContents = result.getDriveContents();
+                            String[] list = prefsdir.list();
+                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
+                            progress.show();
+                            for (final String s : list) {
+                                if (!s.contains("com.google")) {
+                                    title = s;
+                                    Drive.DriveApi.newDriveContents(mGoogleApiClient)
+                                            .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
+                                                @Override
+                                                public void onResult(DriveApi.DriveContentsResult result) {
+                                                    final String copy = getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + s;
+                                                    Log.v("Slide", "LOCATION IS " + copy);
+                                                    if (!result.getStatus().isSuccess()) {
+                                                        return;
+                                                    }
+                                                    final DriveContents driveContents = result.getDriveContents();
 
-                                                // Perform I/O off the UI thread.
-                                                new Thread() {
-                                                    @Override
-                                                    public void run() {
-                                                        // write content to DriveContents
-                                                        OutputStream outputStream = driveContents.getOutputStream();
-                                                        Writer writer = new OutputStreamWriter(outputStream);
-                                                        String content = null;
-                                                        File file = new File(copy); //for ex foo.txt
-                                                        FileReader reader = null;
-                                                        try {
+                                                    // Perform I/O off the UI thread.
+                                                    new Thread() {
+                                                        @Override
+                                                        public void run() {
+                                                            // write content to DriveContents
+                                                            OutputStream outputStream = driveContents.getOutputStream();
+                                                            Writer writer = new OutputStreamWriter(outputStream);
+                                                            String content = null;
+                                                            File file = new File(copy); //for ex foo.txt
+                                                            FileReader reader = null;
                                                             try {
-                                                                reader = new FileReader(file);
-                                                                char[] chars = new char[(int) file.length()];
-                                                                reader.read(chars);
-                                                                content = new String(chars);
-                                                                Log.v("Slide", content);
+                                                                try {
+                                                                    reader = new FileReader(file);
+                                                                    char[] chars = new char[(int) file.length()];
+                                                                    reader.read(chars);
+                                                                    content = new String(chars);
+                                                                    Log.v("Slide", content);
 
-                                                                reader.close();
-                                                            } catch (IOException e) {
-                                                                e.printStackTrace();
-                                                            } finally {
-                                                                if (reader != null) {
                                                                     reader.close();
+                                                                } catch (IOException e) {
+                                                                    e.printStackTrace();
+                                                                } finally {
+                                                                    if (reader != null) {
+                                                                        reader.close();
+                                                                    }
                                                                 }
+
+                                                                writer.write(content);
+                                                                writer.close();
+                                                            } catch (Exception e) {
+                                                                Log.e("Slide", e.getMessage());
                                                             }
 
-                                                            writer.write(content);
-                                                            writer.close();
-                                                        } catch (Exception e) {
-                                                            Log.e("Slide", e.getMessage());
+                                                            MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                                                    .setTitle(s)
+                                                                    .setMimeType("text/xml")
+                                                                    .build();
+
+                                                            // create a file on root folder
+                                                            appFolder
+                                                                    .createFile(mGoogleApiClient, changeSet, driveContents)
+                                                                    .setResultCallback(fileCallback);
                                                         }
-
-                                                        MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                                                .setTitle(s)
-                                                                .setMimeType("text/xml")
-                                                                .build();
-
-                                                        // create a file on root folder
-                                                        appFolder
-                                                                .createFile(mGoogleApiClient, changeSet, driveContents)
-                                                                .setResultCallback(fileCallback);
-                                                    }
-                                                }.start();
-                                            }
-                                        });
-                            } else {
-                                progress.setProgress(progress.getCurrentProgress() + 1);
-                                if (progress.getCurrentProgress() == progress.getMaxProgress()) {
-                                    new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                            .setTitle(R.string.backup_success)
-                                            .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    finish();
+                                                    }.start();
                                                 }
-                                            }).show();
+                                            });
+                                } else {
+                                    progress.setProgress(progress.getCurrentProgress() + 1);
+                                    if (progress.getCurrentProgress() == progress.getMaxProgress()) {
+                                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                                .setTitle(R.string.backup_success)
+                                                .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        finish();
+                                                    }
+                                                }).show();
+                                    }
                                 }
                             }
                         }
+
+                    } else {
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle(R.string.google_connecting)
+                                .setMessage(R.string.google_connecting_body)
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialog) {
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    }
+                                }).show();
                     }
                 }
             });
@@ -230,9 +247,27 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
             findViewById(R.id.restore).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
-                    progress.show();
-                    appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
+                    if(mGoogleApiClient.isConnected()) {
+                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
+                        progress.show();
+                        appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
+                    } else {
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle(R.string.google_connecting)
+                                .setMessage(R.string.google_connecting_body)
+                                        //avoid that the dialog can be closed
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialog) {
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    }
+                                }).show();
+                    }
+
                 }
             });
         } else {

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -56,11 +57,14 @@ public class CommentsScreen extends BaseActivity {
                 CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(firstPage).getSubredditName())));
 
             }
+            HasSeen.addSeen(posts.get(firstPage).getFullName());
+
             ViewPager pager = (ViewPager) findViewById(R.id.contentView);
 
             final OverviewPagerAdapter adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(firstPage);
+
             pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -76,6 +80,7 @@ public class CommentsScreen extends BaseActivity {
                         CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
 
                     }
+                    HasSeen.addSeen(posts.get(position).getFullName());
 
 
                 }

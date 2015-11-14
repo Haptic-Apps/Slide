@@ -11,9 +11,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
 
+import net.dean.jraw.models.Submission;
+
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -75,6 +78,7 @@ public class CommentsScreenSingle extends BaseActivity {
                 CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
             }
+
             pager = (ViewPager) findViewById(R.id.contentView);
 
             context = getIntent().getExtras().getString("context", "");
@@ -84,7 +88,11 @@ public class CommentsScreenSingle extends BaseActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            return Authentication.reddit.getSubmission(params[0]).getSubredditName();
+            Submission s = Authentication.reddit.getSubmission(params[0]);
+            HasSeen.addSeen(s.getFullName());
+            return s.getSubredditName();
+
+
         }
     }
 

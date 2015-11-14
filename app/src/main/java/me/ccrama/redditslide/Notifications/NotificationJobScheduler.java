@@ -24,6 +24,8 @@ public class NotificationJobScheduler {
     }
 
     public void start(Context c) {
+
+
         AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * Reddit.notificationTime;
         Log.v("Slide", "NEW NOTIFICATIONS AT " + interval);

@@ -321,7 +321,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/close"
+                    android:src="@drawable/hide"
                     android:tint="?attr/tint" />
 
                 <CheckBox

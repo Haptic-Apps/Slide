@@ -46,7 +46,7 @@ public class ContributionsView extends Fragment {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
-
+        v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);

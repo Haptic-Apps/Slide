@@ -344,11 +344,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         authentication = new Authentication(this);
 
 
-        if (notificationTime != -1) {
-            notifications = new NotificationJobScheduler(this);
-            notifications.start(this);
 
-        }
         tabletUI = isPackageInstalled(this);
 
     }

@@ -24,6 +24,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+
 /**
  * Created by ccrama on 3/30/2015.
  */
@@ -94,6 +96,7 @@ public class Authentication {
                                 Authentication.name = reddit.me().getFullName();
                                 mod = reddit.me().isMod();
                                 Authentication.isLoggedIn = true;
+
                             } else {
                                 Authentication.name = me.getFullName();
                                 mod = me.isMod();
@@ -245,6 +248,11 @@ public class Authentication {
 
                         Authentication.isLoggedIn = true;
                         me = reddit.me();
+                        if (Reddit.notificationTime != -1) {
+                            Reddit.notifications = new NotificationJobScheduler(a);
+                            Reddit.notifications.start(mContext);
+
+                        }
                         final String name = me.getFullName();
                         Authentication.name = name;
 
@@ -260,7 +268,11 @@ public class Authentication {
                             mod = me.isMod();
 
                             Authentication.isLoggedIn = true;
+                            if (Reddit.notificationTime != -1) {
+                                Reddit.notifications = new NotificationJobScheduler(a);
+                                Reddit.notifications.start(mContext);
 
+                            }
                             return null;
 
                         }

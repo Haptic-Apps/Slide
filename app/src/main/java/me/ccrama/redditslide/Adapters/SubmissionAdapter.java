@@ -27,6 +27,7 @@ import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
+import me.ccrama.redditslide.Activities.OverviewBase;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -94,7 +95,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
-        if (i == 0) {
+        if (i == 0 && mContext instanceof OverviewBase) {
             if (Reddit.single) {
                 holder2.itemView.setPadding(0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single), 0, 0);
             } else {

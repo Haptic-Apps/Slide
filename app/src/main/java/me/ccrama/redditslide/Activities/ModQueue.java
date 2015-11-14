@@ -82,7 +82,7 @@ public class ModQueue extends BaseActivity {
         @Override
         public Fragment getItem(int i) {
 
-            if (i == 0) {
+            if (i == 1) {
                 Fragment f = new InboxPage();
                 Bundle args = new Bundle();
                 args.putString("id", "moderator");
@@ -90,12 +90,20 @@ public class ModQueue extends BaseActivity {
                 f.setArguments(args);
 
                 return f;
-            } else {
+            } else  if (i == 0) {
+                Fragment f = new InboxPage();
+                Bundle args = new Bundle();
+                args.putString("id", "moderator/unread");
+
+                f.setArguments(args);
+
+                return f;
+            }else {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
                 args.putString("id", "modqueue");
-                args.putString("subreddit", SubredditStorage.modOf.get(i - 1));
+                args.putString("subreddit", SubredditStorage.modOf.get(i -2 ));
 
                 f.setArguments(args);
 
@@ -114,7 +122,10 @@ public class ModQueue extends BaseActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if (position == 0) {
+            if(position == 0){
+                return getString(R.string.mod_mail_unread);
+            } else
+            if (position == 1) {
                 return getString(R.string.mod_mail);
             } else {
                 return SubredditStorage.modOf.get(position - 1);

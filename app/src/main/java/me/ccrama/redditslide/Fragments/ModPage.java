@@ -35,6 +35,7 @@ public class ModPage extends Fragment {
         mLayoutManager = new PreCachingLayoutManager(getActivity());
         rv.setLayoutManager(mLayoutManager);
 
+        v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();

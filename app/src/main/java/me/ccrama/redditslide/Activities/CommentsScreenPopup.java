@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -48,6 +49,7 @@ public class CommentsScreenPopup extends BaseActivity {
             window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
         }
         ViewPager pager = (ViewPager) findViewById(R.id.contentView);
+        HasSeen.addSeen(posts.get(firstPage).getFullName());
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(firstPage);
@@ -64,6 +66,7 @@ public class CommentsScreenPopup extends BaseActivity {
                     Window window = getWindow();
                     window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
                 }
+                HasSeen.addSeen(posts.get(position).getFullName());
 
             }
 

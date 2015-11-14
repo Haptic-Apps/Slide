@@ -247,7 +247,9 @@
     <string name="mail_hint_body">Body</string>
     <string name="mail_send_to">Send a message to %1$s</string>
     <string name="mail_send">Send a message</string>
-    <string name="mail_notification_msg">New message from %1$d</string>
+    <string name="mail_notification_msg">New message from %1$s</string>
+    <string name="modmail_notification_msg">New modmail from %1$s</string>
+
     <string name="mail_reply_to">Reply to %1$s</string>
     <string name="mail_notification_author">%1$s from %2$s</string>
     <string name="mail_theirs">View their message</string>
@@ -256,7 +258,10 @@
         <item quantity="one">You have %d new message!</item>
         <item quantity="other">You have %d new messages!</item>
     </plurals>
-
+    <plurals name="modmail_notification_title">
+        <item quantity="one">You have %d new modmail!</item>
+        <item quantity="other">You have %d new modmails!</item>
+    </plurals>
     <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_subreddit_settings">Subreddit Settings</string>
     <string name="title_edit_theme">Edit Theme</string>
@@ -458,6 +463,9 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
+    <string name="google_connecting">Connecting to Google</string>
+    <string name="google_connecting_body">Slide is connecting to Google. Try again in a few seconds!</string>
+    <string name="mod_mail_unread">Mod Mail Unread</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

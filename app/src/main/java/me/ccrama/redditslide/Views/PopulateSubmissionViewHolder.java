@@ -383,11 +383,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same) {
-        if (HasSeen.getSeen(submission.getFullName()) && !full) {
-            holder.itemView.setAlpha(0.5f);
-        } else {
-            holder.itemView.setAlpha(1.0f);
-        }
+
 
 
         holder.title.setText(Html.fromHtml(submission.getTitle()));
@@ -1253,7 +1249,11 @@ public class PopulateSubmissionViewHolder {
         } catch (Exception ignored) {
 
         }
-
+        if (HasSeen.getSeen(submission.getFullName()) && !full) {
+            holder.itemView.setAlpha(0.5f);
+        } else {
+            holder.itemView.setAlpha(1.0f);
+        }
 
     }
 

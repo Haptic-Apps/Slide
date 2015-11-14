@@ -471,6 +471,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 doUnHighlighted(holder);
             }
 
+            if(pos == getItemCount()-1){
+                holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single));
+
+            } else {
+                holder.itemView.setPadding(0, 0, 0, 0);
+
+            }
+
             if (comment.getVote() == VoteDirection.UPVOTE) {
                 if (!up.contains(comment.getFullName())) {
                     up.add(comment.getFullName());
