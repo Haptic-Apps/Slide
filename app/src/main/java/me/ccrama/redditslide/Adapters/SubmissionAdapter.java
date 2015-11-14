@@ -106,7 +106,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View arg0) {
                     DataShare.sharedSubreddit = dataSet.posts;
-
+                    holder2.itemView.setAlpha(0.5f);
                     if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
                         i2.putExtra("page", holder2.getAdapterPosition());
