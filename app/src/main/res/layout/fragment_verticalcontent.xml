@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:orientation="vertical"
-app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
 android:background="?attr/activity_background"
 
@@ -35,6 +34,6 @@ android:background="?attr/activity_background"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="72dp"
         android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 </RelativeLayout>

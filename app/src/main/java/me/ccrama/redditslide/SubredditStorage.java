@@ -412,6 +412,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
 
         } catch (ApiException e) {
+            multireddits = new ArrayList<>();
             e.printStackTrace();
         }
 
