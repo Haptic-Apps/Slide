@@ -27,6 +27,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -88,12 +89,25 @@ public class OverviewBase extends AppCompatActivity {
     public OverviewPagerAdapter adapter;
     public TabLayout tabs;
     public int toGoto = 0;
-
+    public boolean first = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentSingle = Reddit.single;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+            Log.v("Slide", "RESTARTING STUFFS");
+            if (usedArray == null || adapter == null) {
+                restartTheme();
+
+            
+        }
     }
 
     public void doSubSidebar(final String subreddit) {
