@@ -7,6 +7,5 @@
     app:elevation="4dp"
     app:fabSize="normal"
     app:layout_anchorGravity="bottom|right|end"
-
     app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
     app:pressedTranslationZ="12dp" />
