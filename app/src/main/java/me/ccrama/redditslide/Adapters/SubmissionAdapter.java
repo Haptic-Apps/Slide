@@ -25,12 +25,15 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
+
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -47,6 +50,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final String subreddit;
     private final boolean custom;
     public SubredditPosts dataSet;
+    public ArrayList<Submission> seen;
 
     public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
 
@@ -54,7 +58,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
         this.dataSet = dataSet;
-
+        this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
 
         Log.v("Slide", subreddit + " CUSTOM IS " + custom);
@@ -99,6 +103,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
+            if (HasSeen.getSeen(submission.getFullName())){
+                seen.add(submission);
+            }
             CreateCardView.resetColorCard(holder.itemView);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, custom);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
