@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.Submit;
@@ -25,6 +26,7 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -80,6 +82,7 @@ public class SubmissionsView extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
         View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
@@ -136,17 +139,19 @@ public class SubmissionsView extends Fragment {
                     }
                 });
             } else {
-                fab.setImageResource(R.drawable.ic_clear);
+                fab.setImageResource(R.drawable.close);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        for (int i = 0; i < adapter.dataSet.posts.size(); i++) {
-                            if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+
+                        int i = 0;
+                        Iterator<?> it = adapter.dataSet.posts.iterator();
+                        while (it.hasNext()) {
+                            i++;
+                            if (adapter.seen.contains(it.next())) {
+                                it.remove();
                                 Hidden.setHidden(adapter.dataSet.posts.get(i));
-
-                                adapter.dataSet.posts.remove(adapter.dataSet.posts.get(i));
-
-                                adapter.notifyItemRemoved(adapter.dataSet.posts.indexOf(adapter.dataSet.posts.get(i)));
+                                adapter.notifyItemRemoved(i);
                             }
                         }
                     }

@@ -103,10 +103,11 @@ public class OverviewBase extends AppCompatActivity {
         super.onResume();
 
             Log.v("Slide", "RESTARTING STUFFS");
-            if (usedArray == null || adapter == null) {
+            if ((usedArray == null || adapter == null) && ! Reddit.isLoading) {
+                Reddit.isLoading = true;
                 restartTheme();
 
-            
+
         }
     }
 
@@ -507,8 +508,10 @@ public class OverviewBase extends AppCompatActivity {
     }
 
     public void setDataSet(List<String> data) {
+        Reddit.isLoading = false;
 
         if (data != null) {
+
             usedArray = data;
             if (adapter == null) {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());

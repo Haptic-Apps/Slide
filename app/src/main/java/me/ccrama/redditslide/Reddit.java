@@ -76,6 +76,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private static CustomTabsSession mCustomTabsSession;
     private static CustomTabsClient mClient;
     private static CustomTabsServiceConnection mConnection;
+    public static boolean isLoading;
     private final List<Listener> listeners = new ArrayList<Listener>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
