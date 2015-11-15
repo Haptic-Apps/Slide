@@ -231,7 +231,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 }
                             }).show();
 
-
                         }
                     });
                     return true;

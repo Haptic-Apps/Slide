@@ -23,6 +23,7 @@ import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -91,21 +92,7 @@ public class SubmissionsView extends Fragment {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
-        if (Reddit.fab) {
 
-            fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
-
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent inte = new Intent(getActivity(), Submit.class);
-                    inte.putExtra("subreddit", id);
-                    getActivity().startActivity(inte);
-                }
-            });
-        } else {
-            v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
-        }
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
@@ -134,6 +121,36 @@ public class SubmissionsView extends Fragment {
                     }
                 }
         );
+        if (Reddit.fab) {
+            fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
+
+            if (Reddit.fabType == R.integer.FAB_POST) {
+                fab.setImageResource(R.drawable.ic_add);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent inte = new Intent(getActivity(), Submit.class);
+                        inte.putExtra("subreddit", id);
+                        getActivity().startActivity(inte);
+                    }
+                });
+            } else {
+                fab.setImageResource(R.drawable.ic_clear);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 0; i < adapter.dataSet.posts.size(); i++) {
+                            if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+                                adapter.dataSet.posts.remove(adapter.dataSet.posts.get(i));
+                                adapter.notifyItemRemoved(adapter.dataSet.posts.indexOf(adapter.dataSet.posts.get(i)));
+                            }
+                        }
+                    }
+                });
+            }
+        } else {
+            v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
+        }
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

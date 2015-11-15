@@ -422,6 +422,7 @@
     <string name="settings_fastscroll">Navigate between parent comments</string>
     <string name="settings_floating_action_button">Floating Action Button</string>
     <string name="settings_floating_action_button_visible">Show floating action button</string>
+    <string name="settings_floating_action_button_type">Floating action button dismisses viewed posts</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternative Layout</string>
