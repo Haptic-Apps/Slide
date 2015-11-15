@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Iterator;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.Submit;
@@ -138,7 +139,15 @@ public class SubmissionsView extends Fragment {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        adapter.dataSet.posts.removeAll(adapter.seen);
+                        int i = 0;
+                        Iterator<?> it = adapter.dataSet.posts.iterator();
+                        while (it.hasNext()) {
+                            i++;
+                            if (adapter.seen.contains(it.next())) {
+                                it.remove();
+                                //adapter.notifyItemRemoved(i);
+                            }
+                        }
                         adapter.notifyDataSetChanged();
                     }
                 });
