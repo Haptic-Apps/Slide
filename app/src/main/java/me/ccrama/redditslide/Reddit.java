@@ -58,6 +58,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean exit;
     public static boolean fastscroll;
     public static boolean fab = true;
+    public static int fabType = R.integer.FAB_POST;
     public static boolean hideButton;
     public static Authentication authentication;
     public static boolean tabletUI;
@@ -307,6 +308,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         single = SettingValues.prefs.getBoolean("Single", false);
         fab = SettingValues.prefs.getBoolean("Fab", false);
+        fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);
         image = SettingValues.prefs.getBoolean("image", true);
@@ -342,7 +344,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
-
 
 
         tabletUI = isPackageInstalled(this);
