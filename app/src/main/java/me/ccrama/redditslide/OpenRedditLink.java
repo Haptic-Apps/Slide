@@ -39,7 +39,7 @@ public class OpenRedditLink {
 
 
         }
-        if (url.contains("wiki")) {
+        if (url.contains("/wiki")) {
             Intent i = new Intent(c, Wiki.class);
             i.putExtra("subreddit", parts[2]);
             c.startActivity(i);
