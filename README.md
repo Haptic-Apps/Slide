@@ -1,4 +1,4 @@
-# Slide [![](https://img.shields.io/github/release/ccrama/Slide.svg)](https://github.com/ccrama/Slide/releases/latest)[![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit)
+# Slide [![](https://img.shields.io/github/release/ccrama/Slide.svg)](https://github.com/ccrama/Slide/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit)
 
 <img src="app/src/main/res/drawable-xhdpi/ic_launcher.png" align="left"
     hspace="10" vspace="10">
