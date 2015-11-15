@@ -64,7 +64,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (position == dataSet.posts.size()) {
+        if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0) {
             return 5;
         }
         return 1;
@@ -233,7 +233,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        if (dataSet == null || dataSet.posts == null) {
+        if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
             return dataSet.posts.size() + 1;

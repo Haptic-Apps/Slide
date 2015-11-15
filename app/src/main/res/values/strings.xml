@@ -466,6 +466,8 @@
     <string name="google_connecting">Connecting to Google</string>
     <string name="google_connecting_body">Slide is connecting to Google. Try again in a few seconds!</string>
     <string name="mod_mail_unread">Mod Mail Unread</string>
+    <string name="post_not_found">Uh oh, post not found!</string>
+    <string name="post_not_found_msg">Sorry, this post could not be found</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

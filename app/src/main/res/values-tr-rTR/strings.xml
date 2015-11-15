@@ -158,7 +158,6 @@
     <string name="mail_hint_body">Mesaj Metni</string>
     <string name="mail_send_to">%1$s kişisine bir mesaj gönder</string>
     <string name="mail_send">Bir mesaj gönder</string>
-    <string name="mail_notification_msg">%1$d kişisinden yeni mesaj</string>
     <string name="title_multireddits">Multireddit\'ler</string>
     <string name="title_inbox">Gelen Kutusu</string>
     <string name="title_theme_settings">Tema ayarları</string>

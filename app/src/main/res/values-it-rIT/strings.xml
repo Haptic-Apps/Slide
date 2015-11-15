@@ -183,7 +183,6 @@
     <string name="mail_hint_body">Corpo</string>
     <string name="mail_send_to">Invia un messaggio a %1$s</string>
     <string name="mail_send">Invia un messaggio</string>
-    <string name="mail_notification_msg">Nuovo messaggio da %1$d</string>
     <string name="mail_reply_to">Rispondi a %1$s</string>
     <string name="mail_notification_author">%1$s da %2$s</string>
     <string name="mail_theirs">Vedi il suo messaggio</string>

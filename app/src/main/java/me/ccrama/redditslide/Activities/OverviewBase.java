@@ -778,6 +778,13 @@ public class OverviewBase extends AppCompatActivity {
                     }
                 }
             });
+            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(OverviewBase.this, Login.class);
+                    OverviewBase.this.startActivity(inte);
+                }
+            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

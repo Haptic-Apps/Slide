@@ -180,7 +180,6 @@
     <string name="mail_hint_body">Innehåll</string>
     <string name="mail_send_to">Skicka ett meddelande till %1$s</string>
     <string name="mail_send">Skicka ett meddelande</string>
-    <string name="mail_notification_msg">Nytt meddelande från %1$d</string>
     <string name="mail_reply_to">Svara %1$s</string>
     <string name="mail_notification_author">%1$s från %2$s</string>
     <string name="mail_theirs">Visa deras meddelande</string>

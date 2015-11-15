@@ -183,7 +183,6 @@
     <string name="mail_hint_body">Tekst</string>
     <string name="mail_send_to">Send en melding til %1$s</string>
     <string name="mail_send">Send en melding</string>
-    <string name="mail_notification_msg">Ny melding fra %1$d</string>
     <string name="mail_reply_to">Svar til %1$s</string>
     <string name="mail_notification_author">%1$s fra %2$s</string>
     <string name="mail_theirs">Vis meldingen</string>

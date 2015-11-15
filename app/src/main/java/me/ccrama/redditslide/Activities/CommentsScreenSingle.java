@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,6 +11,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Submission;
 
@@ -88,9 +91,31 @@ public class CommentsScreenSingle extends BaseActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            Submission s = Authentication.reddit.getSubmission(params[0]);
-            HasSeen.addSeen(s.getFullName());
-            return s.getSubredditName();
+            try {
+                Submission s = Authentication.reddit.getSubmission(params[0]);
+                HasSeen.addSeen(s.getFullName());
+                return s.getSubredditName();
+
+            } catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(R.string.post_not_found).setMessage(R.string.post_not_found_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
+                            }
+                        }).show();
+                    }
+                });
+
+                return null;
+            }
 
 
         }

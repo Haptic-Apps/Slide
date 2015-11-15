@@ -74,7 +74,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
 
-        if (position == dataSet.posts.size() && !dataSet.nomore && dataSet.posts.size() != 0) {
+        if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0) {
             return 5;
         }
         return 1;

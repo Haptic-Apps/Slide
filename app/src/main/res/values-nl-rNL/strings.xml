@@ -178,7 +178,6 @@
     <string name="mail_hint_body">Tekst</string>
     <string name="mail_send_to">Stuur een bericht naar %1$s</string>
     <string name="mail_send">Verstuur een bericht</string>
-    <string name="mail_notification_msg">Nieuw bericht van %1$d</string>
     <string name="mail_reply_to">Beantwoord %1$s</string>
     <string name="mail_notification_author">%1$s van %2$s</string>
     <string name="mail_theirs">Hun bericht bekijken</string>

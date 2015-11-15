@@ -104,7 +104,6 @@
     <string name="mail_hint_body">جسم</string>
     <string name="mail_send_to">إرسال رسالة إلى %1$s</string>
     <string name="mail_send">أرسل رسالة</string>
-    <string name="mail_notification_msg">رسالة جديدة من %1$d</string>
     <string name="mail_reply_to">الرد على %1$s</string>
     <string name="mail_notification_author">%1$s من %2$s</string>
     <string name="mail_theirs">عرض الرسالة الخاصة بهم</string>
