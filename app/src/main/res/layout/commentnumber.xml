@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:gravity="center_vertical"
-    android:padding="2.5dp"
+    android:paddingLeft="2.5dp"
+    android:paddingRight="2.5dp"
     android:background="@drawable/commentback"
     android:layout_height="15dp">
     <TextView android:layout_width="wrap_content"
