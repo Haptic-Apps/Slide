@@ -325,7 +325,7 @@
                         android:paddingBottom="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:src="@drawable/reload"
+                        android:src="@drawable/ic_backup"
                         android:tint="?attr/tint" />
 
                     <TextView
