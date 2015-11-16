@@ -98,9 +98,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
-        if (HasSeen.getSeen(dataSet.posts.get(i).getFullName())){
-            seen.add(dataSet.posts.get(i));
-        }
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
