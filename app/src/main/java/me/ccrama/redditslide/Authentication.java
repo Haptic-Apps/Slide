@@ -74,7 +74,7 @@ public class Authentication {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (!name.isEmpty()) {
+            if (name != null && !name.isEmpty()) {
                 Log.v("Slide", "REAUTH");
                 if (isLoggedIn) {
                     try {
@@ -93,16 +93,10 @@ public class Authentication {
 
                         if (reddit.isAuthenticated()) {
                             if (me == null) {
-                                Authentication.name = reddit.me().getFullName();
-                                mod = reddit.me().isMod();
-                                Authentication.isLoggedIn = true;
+                              me = reddit.me();
 
-                            } else {
-                                Authentication.name = me.getFullName();
-                                mod = me.isMod();
-                                Authentication.isLoggedIn = true;
                             }
-
+                            Authentication.isLoggedIn = true;
 
                         }
                     } catch (Exception e) {

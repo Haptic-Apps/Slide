@@ -97,19 +97,24 @@ public class OverviewBase extends AppCompatActivity {
         currentSingle = Reddit.single;
     }
 
-
     @Override
-    public void onResume() {
+    public void onResume(){
         super.onResume();
+        Log.v("Slid", "DOING RELOAD");
+       if(adapter == null || tabs == null || usedArray == null || usedArray.size() == 0){
+           Log.v("Slid", "DOING RELOAD 2");
 
-            Log.v("Slide", "RESTARTING STUFFS");
-            if ((usedArray == null || adapter == null) && ! Reddit.isLoading) {
-                Reddit.isLoading = true;
+           if(System.currentTimeMillis() - Reddit.time   > 100) { //30 sec timeout, make sure we don't get into an endless loop
+               Log.v("Slid", "DOING RELOAD 3");
+
+               Reddit.time = System.currentTimeMillis();
+
                 restartTheme();
-
-
+            }
         }
     }
+
+
 
     public void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
@@ -508,7 +513,6 @@ public class OverviewBase extends AppCompatActivity {
     }
 
     public void setDataSet(List<String> data) {
-        Reddit.isLoading = false;
 
         if (data != null) {
 
@@ -536,6 +540,9 @@ public class OverviewBase extends AppCompatActivity {
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
             }
+
+        } else if(SubredditStorage.subredditsForHome!= null) {
+            setDataSet(SubredditStorage.subredditsForHome);
         }
 
     }

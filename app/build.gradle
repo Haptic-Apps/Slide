@@ -15,8 +15,8 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 8
-        versionName "4.3.2"
+        versionCode 85
+        versionName "4.3.25"
         multiDexEnabled = true
 
     }

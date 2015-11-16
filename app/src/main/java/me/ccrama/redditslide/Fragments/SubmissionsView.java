@@ -24,9 +24,7 @@ import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
-
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -199,6 +197,8 @@ public class SubmissionsView extends Fragment {
                 }
             }
         });
+        Reddit.isLoading = false;
+
         return v;
     }
 

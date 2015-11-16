@@ -298,6 +298,7 @@
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
+                android:visibility="gone"
 
                 android:paddingRight="16dp">
 

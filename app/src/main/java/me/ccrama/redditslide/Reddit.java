@@ -76,7 +76,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private static CustomTabsSession mCustomTabsSession;
     private static CustomTabsClient mClient;
     private static CustomTabsServiceConnection mConnection;
-    public static boolean isLoading;
+    public static boolean isLoading = false;
     private final List<Listener> listeners = new ArrayList<Listener>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
@@ -85,6 +85,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private boolean closed = false;
     private boolean mInBackground = true;
     private Runnable mBackgroundTransition;
+    public static long time = System.currentTimeMillis();
     private boolean isRestarting;
 
     public static CustomTabsSession getSession() {
@@ -167,6 +168,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
+
         if (mBackgroundTransition != null) {
             mBackgroundDelayHandler.removeCallbacks(mBackgroundTransition);
             mBackgroundTransition = null;
@@ -179,6 +181,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             authentication.updateToken(activity);
 
         }
+
     }
 
     private void notifyOnBecameForeground() {
