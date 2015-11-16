@@ -1,10 +1,12 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.internal.view.ContextThemeWrapper;
@@ -17,7 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Iterator;
+import net.dean.jraw.models.Submission;
+
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.Submit;
@@ -142,9 +146,27 @@ public class SubmissionsView extends Fragment {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clearSeenPosts();
-                        //Rechecking arrays, I'm note sure why is it necessary but it is.
-                        clearSeenPosts();
+                        clearSeenPosts(false);
+                    }
+                });
+                fab.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        clearSeenPosts(true);
+                        /*
+                        ToDo Make a sncakbar with an undo option of the clear all
+                        View.OnClickListener undoAction = new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                adapter.dataSet.posts = original;
+                                for(Submission post : adapter.dataSet.posts){
+                                    if(HasSeen.getSeen(post.getFullName()))
+                                        Hidden.undoHidden(post);
+                                }
+                            }
+                        };*/
+                        Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG).show();
+                        return false;
                     }
                 });
             }
@@ -190,17 +212,27 @@ public class SubmissionsView extends Fragment {
                 }
             }
         });
+        Reddit.isLoading = false;
+
         return v;
     }
 
-    private void clearSeenPosts() {
-        for (int i = 0; i < adapter.dataSet.posts.size(); i++) {
-            if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
-                Hidden.setHidden(adapter.dataSet.posts.get(i));
-                adapter.dataSet.posts.remove(adapter.dataSet.posts.get(i));
-                adapter.notifyItemRemoved(adapter.dataSet.posts.indexOf(adapter.dataSet.posts.get(i)));
+    private ArrayList<Submission> clearSeenPosts(boolean forever) {
+        ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
+        System.out.println("Posts number is " + adapter.dataSet.posts.size());
+        for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
+            try {
+                if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+                    if (forever)
+                        Hidden.setHidden(adapter.dataSet.posts.get(i));
+                    adapter.dataSet.posts.remove(i);
+                    adapter.notifyItemRemoved(i);
+                }
+            } catch (IndexOutOfBoundsException e) {
+                //Let the loop reset itself
             }
         }
+        return originalDataSetPosts;
     }
 
     @Override
