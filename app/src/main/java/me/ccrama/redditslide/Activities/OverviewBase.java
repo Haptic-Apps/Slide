@@ -100,12 +100,12 @@ public class OverviewBase extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        Log.v("Slid", "DOING RELOAD");
+        Log.v("Slide", "DOING RELOAD");
        if(adapter == null || tabs == null || usedArray == null || usedArray.size() == 0){
-           Log.v("Slid", "DOING RELOAD 2");
+           Log.v("Slide", "DOING RELOAD 2");
 
-           if(System.currentTimeMillis() - Reddit.time   > 100) { //30 sec timeout, make sure we don't get into an endless loop
-               Log.v("Slid", "DOING RELOAD 3");
+           if(System.currentTimeMillis() - Reddit.time   > 30) { //10 sec timeout, make sure we don't get into an endless loop
+               Log.v("Slide", "DOING RELOAD 3");
 
                Reddit.time = System.currentTimeMillis();
 

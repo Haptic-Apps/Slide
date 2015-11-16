@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Inbox;
-import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 
@@ -107,7 +106,7 @@ public class CheckForMail extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
                 }
             }
-            if(modMessages != null && modMessages.size() > 0){
+            /*todoif(modMessages != null && modMessages.size() > 0){
                     if (modMessages.size() == 1) {
                         NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -181,7 +180,7 @@ public class CheckForMail extends BroadcastReceiver {
                         notificationManager.notify(1, notification);
 
                 }
-            }
+            }*/
         }
         ArrayList<Message> modMessages = new ArrayList<>();
 
@@ -196,14 +195,14 @@ public class CheckForMail extends BroadcastReceiver {
                         messages.addAll(unread.next());
                     }
 
-                    if(Authentication.mod) {
+                   /*todo if(Authentication.mod) {
                         modMessages =new ArrayList<>();
                         InboxPaginator mod = new InboxPaginator(Authentication.reddit, "moderator/unread");
                         if (mod.hasNext()) {
                             modMessages.addAll(mod.next());
                         }
 
-                    }
+                    }*/
 
                     return messages;
                 }
