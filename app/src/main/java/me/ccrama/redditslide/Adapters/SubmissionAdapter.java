@@ -98,14 +98,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
-
+        if (HasSeen.getSeen(dataSet.posts.get(i).getFullName())){
+            seen.add(dataSet.posts.get(i));
+        }
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
-            if (HasSeen.getSeen(submission.getFullName())){
-                seen.add(submission);
-            }
+
             CreateCardView.resetColorCard(holder.itemView);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, custom);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
