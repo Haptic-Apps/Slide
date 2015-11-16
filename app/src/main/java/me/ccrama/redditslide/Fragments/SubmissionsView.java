@@ -26,7 +26,6 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
-
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -143,17 +142,9 @@ public class SubmissionsView extends Fragment {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        int i = 0;
-                        Iterator<?> it = adapter.dataSet.posts.iterator();
-                        while (it.hasNext()) {
-                            i++;
-                            if (adapter.seen.contains(it.next())) {
-                                it.remove();
-                                Hidden.setHidden(adapter.dataSet.posts.get(i));
-                                adapter.notifyItemRemoved(i);
-                            }
-                        }
+                        clearSeenPosts();
+                        //Rechecking arrays, I'm note sure why is it necessary but it is.
+                        clearSeenPosts();
                     }
                 });
             }
@@ -200,6 +191,16 @@ public class SubmissionsView extends Fragment {
             }
         });
         return v;
+    }
+
+    private void clearSeenPosts() {
+        for (int i = 0; i < adapter.dataSet.posts.size(); i++) {
+            if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+                Hidden.setHidden(adapter.dataSet.posts.get(i));
+                adapter.dataSet.posts.remove(adapter.dataSet.posts.get(i));
+                adapter.notifyItemRemoved(adapter.dataSet.posts.indexOf(adapter.dataSet.posts.get(i)));
+            }
+        }
     }
 
     @Override
