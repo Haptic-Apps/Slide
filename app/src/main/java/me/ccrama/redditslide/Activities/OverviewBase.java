@@ -27,7 +27,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -98,16 +97,14 @@ public class OverviewBase extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        Log.v("Slide", "DOING RELOAD");
-       if(adapter == null || tabs == null || usedArray == null || usedArray.size() == 0){
-           Log.v("Slide", "DOING RELOAD 2");
+        if (adapter == null || tabs == null || usedArray == null || usedArray.size() == 0) {
 
-           if(System.currentTimeMillis() - Reddit.time   > 30) { //10 sec timeout, make sure we don't get into an endless loop
-               Log.v("Slide", "DOING RELOAD 3");
 
-               Reddit.time = System.currentTimeMillis();
+            if (System.currentTimeMillis() - Reddit.time > 100) { //10 sec timeout, make sure we don't get into an endless loop
+
+                Reddit.time = System.currentTimeMillis();
 
                 restartTheme();
             }
@@ -115,10 +112,11 @@ public class OverviewBase extends AppCompatActivity {
     }
 
 
-
     public void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null)
+
+
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             findViewById(R.id.info).setVisibility(View.VISIBLE);
 
@@ -541,7 +539,7 @@ public class OverviewBase extends AppCompatActivity {
                 getSupportActionBar().setTitle(usedArray.get(0));
             }
 
-        } else if(SubredditStorage.subredditsForHome!= null) {
+        } else if (SubredditStorage.subredditsForHome != null) {
             setDataSet(SubredditStorage.subredditsForHome);
         }
 
