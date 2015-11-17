@@ -297,6 +297,18 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp">
 
+                    <include
+                        android:id="@+id/gild"
+                        layout="@layout/gilded"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+
+
+                        android:orientation="horizontal"
+                        android:paddingLeft="8dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"/>
+
                     <ImageView
                         android:id="@+id/hide"
                         android:layout_width="36dp"
