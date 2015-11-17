@@ -361,6 +361,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     up.add(n.getFullName());
 
                     down.remove(n.getFullName());
+                    downvote.clearColorFilter(); // reset colour
                     holder.score.setTextColor(holder.textColorUp);
                     upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
                 } else {
@@ -385,6 +386,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Vote(false, v, mContext).execute(n);
                     down.add(n.getFullName());
                     up.remove(n.getFullName());
+                    upvote.clearColorFilter(); // reset colour
                     holder.score.setTextColor(holder.textColorDown);
                     downvote.setColorFilter(holder.textColorDown);
 
