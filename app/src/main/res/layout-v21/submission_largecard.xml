@@ -307,7 +307,7 @@
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerInParent="true"/>
 
                     <ImageView
                         android:id="@+id/hide"

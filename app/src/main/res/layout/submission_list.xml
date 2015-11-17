@@ -301,6 +301,7 @@
 
 
                         android:orientation="horizontal"
+                        android:layout_alignBottom="@+id/mod"
                         android:paddingLeft="8dp"
                        android:layout_alignParentLeft="true" />
 

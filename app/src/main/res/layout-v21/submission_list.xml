@@ -305,7 +305,7 @@
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_alignBottom="@+id/mod"/>
 
                     <ImageView
                         android:id="@+id/mod"
