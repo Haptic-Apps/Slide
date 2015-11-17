@@ -113,7 +113,7 @@ public class GifView extends BaseActivity {
             Ion.with(GifView.this).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                 @Override
                 public void onCompleted(Exception e, final JsonObject result) {
-                    if (result != null && result.get("urlKnown").getAsBoolean()) {
+                    if (result != null && result.has("urlKnown") && result.get("urlKnown").getAsBoolean()) {
                         final MediaVideoView videoView =
                                 (MediaVideoView) findViewById(R.id.gif);
 
