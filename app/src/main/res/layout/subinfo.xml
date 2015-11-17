@@ -104,7 +104,7 @@
 
                     android:backgroundTint="?attr/tint"
                     android:buttonTint="?attr/tint"
-                    android:text="@string/sidebar_subscribed"
+                    android:text="@string/misc_subscribed"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
