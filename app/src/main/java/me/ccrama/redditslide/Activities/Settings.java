@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,7 +38,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
  * Created by ccrama on 3/5/2015.
  */
 public class Settings extends BaseActivityNoAnim {
-
+    private View.OnClickListener mLoginOnClickListener;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -78,6 +79,13 @@ public class Settings extends BaseActivityNoAnim {
         setSupportActionBar(b);
         getSupportActionBar().setTitle(R.string.title_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mLoginOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent login = new Intent(Settings.this, Login.class);
+                startActivity(login);
+            }
+        };
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
@@ -203,6 +211,15 @@ public class Settings extends BaseActivityNoAnim {
         findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Reddit.notifications == null) {
+                    String errMsg = getString(R.string.err_login);
+                    String login = getString(R.string.general_login);
+                    Snackbar.make(findViewById(android.R.id.content), errMsg, Snackbar.LENGTH_LONG)
+                            .setAction(login, mLoginOnClickListener).
+                            show();
+                    return;
+                }
+
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);

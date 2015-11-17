@@ -7,6 +7,7 @@
     <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Open Subreddit Settings</string>
     <string name="general_sub_sync">Syncing Subscriptions</string>
+    <string name="general_login">Login</string>
 
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
@@ -191,6 +192,7 @@
     <string name="err_general">Uh oh, an error occurred</string>
     <string name="err_no_connection">Reddit could not be reached. Would you like to try again?</string>
     <string name="err_retry_later">Try again in a minute!</string>
+    <string name="err_login">You have to log in to do that!</string>
 
 
     <!-- Gif -->
