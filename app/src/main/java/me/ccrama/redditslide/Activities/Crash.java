@@ -1,5 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,6 +71,16 @@ public class Crash extends AppCompatActivity {
                         .getLaunchIntentForPackage(getBaseContext().getPackageName());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
+            }
+        });
+
+        findViewById(R.id.restart).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Stacktrace", stacktrace);
+                clipboard.setPrimaryClip(clip);
+                return true;
             }
         });
 

@@ -552,7 +552,7 @@ public class OverviewBase extends AppCompatActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
-            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, OverviewBase.this, "slideforreddit");
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, OverviewBase.this, subreddit.getDisplayName());
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
@@ -572,7 +572,8 @@ public class OverviewBase extends AppCompatActivity {
                         @Override
                         public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(OverviewBase.this);
-                            Snackbar.make(header, isChecked ? "Subscribed" : "Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(header, isChecked ?
+                                    getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
 
                         @Override

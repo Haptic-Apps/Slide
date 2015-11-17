@@ -32,7 +32,7 @@ public class WikiPage extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         text = bundle.getString("text", "");
-        subreddit = bundle.getString("sibreddit", ""); //fixme??
+        subreddit = bundle.getString("subreddit", "");
 
     }
 

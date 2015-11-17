@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;

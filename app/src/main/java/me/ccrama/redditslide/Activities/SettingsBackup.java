@@ -227,8 +227,8 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
 
                     } else {
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle(R.string.google_connecting)
-                                .setMessage(R.string.google_connecting_body)
+                                .setTitle(R.string.settings_google)
+                                .setMessage(R.string.settings_google_msg)
                                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                                     @Override
                                     public void onCancel(DialogInterface dialog) {
@@ -253,8 +253,8 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                         appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
                     } else {
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle(R.string.google_connecting)
-                                .setMessage(R.string.google_connecting_body)
+                                .setTitle(R.string.settings_google)
+                                .setMessage(R.string.settings_google_msg)
                                         //avoid that the dialog can be closed
                                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
                                     @Override
