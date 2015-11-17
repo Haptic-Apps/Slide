@@ -223,7 +223,7 @@
     </style>
 
     <style name="Theme.LIGHT" parent="swipestylelight">
-        <item name="activity_background">#FAFAFA</item>
+        <item name="activity_background">#dedede</item>
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#FFFFFF</item>
 
