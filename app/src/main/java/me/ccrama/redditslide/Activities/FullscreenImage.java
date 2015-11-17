@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -114,37 +115,7 @@ public class FullscreenImage extends BaseActivity {
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Reddit) getApplication()).getImageLoader()
-                            .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                                @Override
-                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                    String localAbsoluteFilePath = saveImageLocally(loadedImage);
-
-                                    if (!localAbsoluteFilePath.isEmpty() && localAbsoluteFilePath != null) {
-
-                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        Uri phototUri = Uri.parse(localAbsoluteFilePath);
-
-                                        File file = new File(phototUri.getPath());
-
-                                        Log.d("Slide", "file path: " + file.getPath());
-
-                                        if (file.exists()) {
-                                            shareIntent.setData(phototUri);
-                                            shareIntent.setType("image/png");
-                                            shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-
-                                            FullscreenImage.this.startActivity(shareIntent);
-                                        } else {
-                                            // file create fail
-                                        }
-
-
-                                    }
-                                }
-
-
-                            });
+                    showShareDialog(finalUrl);
                 }
             });
             {
@@ -194,6 +165,74 @@ public class FullscreenImage extends BaseActivity {
 
         }
 
+    }
+
+    private void showShareDialog(final String url){
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.sharemenu, null);
+
+        dialoglayout.findViewById(R.id.share_img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareImage(url);
+            }
+        });
+
+        dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareLinkToImage(url);
+            }
+        });
+
+
+        builder.setView(dialoglayout);
+        builder.show();
+    }
+
+
+    private void shareLinkToImage(String finalUrl){
+        Log.d("Slide", "share link to "+finalUrl);
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT, finalUrl);
+        startActivity(Intent.createChooser(i, getResources().getString(R.string.title_share)));
+    }
+
+
+    private void shareImage(String finalUrl) {
+        ((Reddit) getApplication()).getImageLoader()
+                .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        String localAbsoluteFilePath = saveImageLocally(loadedImage);
+
+                        if (!localAbsoluteFilePath.isEmpty() && localAbsoluteFilePath != null) {
+
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            Uri phototUri = Uri.parse(localAbsoluteFilePath);
+
+                            File file = new File(phototUri.getPath());
+
+                            Log.d("Slide", "file path: " + file.getPath());
+
+                            if (file.exists()) {
+                                shareIntent.setData(phototUri);
+                                shareIntent.setType("image/png");
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+
+                                FullscreenImage.this.startActivity(shareIntent);
+                            } else {
+                                // file create fail
+                            }
+
+
+                        }
+                    }
+
+
+                });
     }
 
     private String saveImageGallery(final Bitmap _bitmap) {

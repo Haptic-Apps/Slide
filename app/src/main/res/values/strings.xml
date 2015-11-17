@@ -470,6 +470,8 @@
     <string name="post_not_found">Uh oh, post not found!</string>
     <string name="post_not_found_msg">Sorry, this post could not be found</string>
     <string name="posts_hidden_forever">Posts hidden forever</string>
+    <string name="share_link">Share link</string>
+    <string name="share_image">Share image</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
