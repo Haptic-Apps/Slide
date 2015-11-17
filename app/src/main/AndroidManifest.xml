@@ -227,6 +227,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:theme="@style/swipeable" />
+        <activity
+            android:name=".Activities.SettingsAbout"
+            android:theme="@style/swipeable"
+
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".Activities.SettingsHandling"
+            android:theme="@style/swipeable"
+
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
             android:name=".Activities.CommentsScreenPopup"

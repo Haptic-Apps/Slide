@@ -63,22 +63,22 @@ dependencies {
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }
-    compile 'com.koushikdutta.ion:ion:2.+'
-    compile 'com.github.paolorotolo:gitty_reporter:1.+'
+    compile 'com.koushikdutta.ion:ion:2.1.6'
+    compile 'com.github.paolorotolo:gitty_reporter:1.2.2'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     compile 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
     compile 'uz.shift:colorpicker:0.5@aar'
-    compile 'com.android.support:customtabs:+'
-    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.android.support:customtabs:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'
     compile 'com.sothree.slidinguppanel:library:3.2.0'
-    compile 'com.google.android.gms:play-services:+'
+    compile 'com.google.android.gms:play-services:8.3.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
-    compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:cardview-v7:23.1.0'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
-    compile 'com.wefika:flowlayout:+'
+    compile 'com.wefika:flowlayout:0.4.1'
 
 }
 

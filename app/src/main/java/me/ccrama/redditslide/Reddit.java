@@ -1,3 +1,4 @@
+
 package me.ccrama.redditslide;
 
 import android.app.Activity;
@@ -53,6 +54,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean album;
     public static boolean image;
     public static boolean video;
+    boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
     public static boolean exit;
@@ -241,116 +243,117 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onCreate() {
         super.onCreate();
 
+            Log.v("Slide", "ON CREATED AGAIN");
 
-        registerActivityLifecycleCallbacks(this);
-        Authentication.authentication = getSharedPreferences("AUTH", 0);
-        SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
-        SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
-        defaultSorting = SettingValues.defaultSorting;
-        timePeriod = SettingValues.timePeriod;
-        defaultCommentSorting = SettingValues.defaultCommentSorting;
-        colors = getSharedPreferences("COLOR", 0);
-        seen = getSharedPreferences("SEEN", 0);
-        hidden = getSharedPreferences("HIDDEN", 0);
-        Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
-
-
-        //START code adapted from https://github.com/QuantumBadger/RedReader/
-        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread thread, Throwable t) {
-
-                if (t instanceof UnknownHostException) {
-                    Intent i = new Intent(Reddit.this, Internet.class);
-                    startActivity(i);
-                } else {
-                    try {
-                        Writer writer = new StringWriter();
-                        PrintWriter printWriter = new PrintWriter(writer);
-                        t.printStackTrace(printWriter);
-                        String s = writer.toString();
-                        s = s.replace(";", ",");
-                        Intent i = new Intent(Reddit.this, Crash.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("stacktrace", "```" + s + "```");
-
-                        startActivity(i);
-                    } catch (Throwable ignored) {
-                    }
-                }
-
-                androidHandler.uncaughtException(thread, t);
-            }
-        });
-        //END adaptation
-        new SetupIAB().execute();
-
-
-        if (!seen.contains("RESET")) {
-            colors.edit().clear().apply();
-            seen.edit().clear().apply();
-            hidden.edit().clear().apply();
-            Hidden.hidden.edit().clear().apply();
-
-            Authentication.authentication.edit().clear().apply();
-            SubredditStorage.subscriptions.edit().clear().apply();
-            getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
+            registerActivityLifecycleCallbacks(this);
             Authentication.authentication = getSharedPreferences("AUTH", 0);
             SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
-
-
             SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
+            defaultSorting = SettingValues.defaultSorting;
+            timePeriod = SettingValues.timePeriod;
+            defaultCommentSorting = SettingValues.defaultCommentSorting;
             colors = getSharedPreferences("COLOR", 0);
             seen = getSharedPreferences("SEEN", 0);
             hidden = getSharedPreferences("HIDDEN", 0);
-            seen.edit().putBoolean("RESET", true).apply();
             Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
 
-        }
+            //START code adapted from https://github.com/QuantumBadger/RedReader/
+            final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
 
-        single = SettingValues.prefs.getBoolean("Single", false);
-        fab = SettingValues.prefs.getBoolean("Fab", false);
-        fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
-        swap = SettingValues.prefs.getBoolean("Swap", false);
-        web = SettingValues.prefs.getBoolean("web", true);
-        image = SettingValues.prefs.getBoolean("image", true);
-        album = SettingValues.prefs.getBoolean("album", true);
-        gif = SettingValues.prefs.getBoolean("gif", true);
-        video = SettingValues.prefs.getBoolean("video", true);
-        exit = SettingValues.prefs.getBoolean("Exit", true);
-        fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
-        hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
+            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                public void uncaughtException(Thread thread, Throwable t) {
 
-        int height = this.getResources().getConfiguration().screenWidthDp;
+                    if (t instanceof UnknownHostException) {
+                        Intent i = new Intent(Reddit.this, Internet.class);
+                        startActivity(i);
+                    } else {
+                        try {
+                            Writer writer = new StringWriter();
+                            PrintWriter printWriter = new PrintWriter(writer);
+                            t.printStackTrace(printWriter);
+                            String s = writer.toString();
+                            s = s.replace(";", ",");
+                            Intent i = new Intent(Reddit.this, Crash.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("stacktrace", "```" + s + "```");
 
-        int width = this.getResources().getConfiguration().screenHeightDp;
+                            startActivity(i);
+                        } catch (Throwable ignored) {
+                        }
+                    }
 
-        int fina;
-        if (height > width) {
-            fina = height;
-        } else {
-            fina = width;
-        }
-        fina = ((fina + 99) / 100) * 100;
-        themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
-
-        if (seen.contains("tabletOVERRIDE")) {
-            dpWidth = seen.getInt("tabletOVERRIDE", fina / 300);
-        } else {
-            dpWidth = fina / 300;
-        }
-        if (seen.contains("notificationOverride")) {
-            notificationTime = seen.getInt("notificationOverride", 15);
-        } else {
-            notificationTime = 15;
-        }
-        int defaultDPWidth = fina / 300;
-        authentication = new Authentication(this);
+                    androidHandler.uncaughtException(thread, t);
+                }
+            });
+            //END adaptation
+            new SetupIAB().execute();
 
 
-        tabletUI = isPackageInstalled(this);
+            if (!seen.contains("RESET")) {
+                colors.edit().clear().apply();
+                seen.edit().clear().apply();
+                hidden.edit().clear().apply();
+                Hidden.hidden.edit().clear().apply();
+
+                Authentication.authentication.edit().clear().apply();
+                SubredditStorage.subscriptions.edit().clear().apply();
+                getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
+                Authentication.authentication = getSharedPreferences("AUTH", 0);
+                SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
+
+
+                SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
+                colors = getSharedPreferences("COLOR", 0);
+                seen = getSharedPreferences("SEEN", 0);
+                hidden = getSharedPreferences("HIDDEN", 0);
+                seen.edit().putBoolean("RESET", true).apply();
+                Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
+
+
+            }
+
+            single = SettingValues.prefs.getBoolean("Single", false);
+            fab = SettingValues.prefs.getBoolean("Fab", false);
+            fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
+            swap = SettingValues.prefs.getBoolean("Swap", false);
+            web = SettingValues.prefs.getBoolean("web", true);
+            image = SettingValues.prefs.getBoolean("image", true);
+            album = SettingValues.prefs.getBoolean("album", true);
+            gif = SettingValues.prefs.getBoolean("gif", true);
+            video = SettingValues.prefs.getBoolean("video", true);
+            exit = SettingValues.prefs.getBoolean("Exit", true);
+            fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
+            hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
+
+            int height = this.getResources().getConfiguration().screenWidthDp;
+
+            int width = this.getResources().getConfiguration().screenHeightDp;
+
+            int fina;
+            if (height > width) {
+                fina = height;
+            } else {
+                fina = width;
+            }
+            fina = ((fina + 99) / 100) * 100;
+            themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
+
+            if (seen.contains("tabletOVERRIDE")) {
+                dpWidth = seen.getInt("tabletOVERRIDE", fina / 300);
+            } else {
+                dpWidth = fina / 300;
+            }
+            if (seen.contains("notificationOverride")) {
+                notificationTime = seen.getInt("notificationOverride", 15);
+            } else {
+                notificationTime = 15;
+            }
+            int defaultDPWidth = fina / 300;
+            authentication = new Authentication(this);
+
+
+            tabletUI = isPackageInstalled(this);
 
     }
 
@@ -412,4 +415,37 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             return null;
         }
     }
+
+    public static Integer getSortingId(){
+        return defaultSorting == Sorting.HOT ? 0
+                : defaultSorting == Sorting.NEW ? 1
+                : defaultSorting == Sorting.RISING ? 2
+                : defaultSorting == Sorting.TOP ?
+                (timePeriod == TimePeriod.HOUR ? 3
+                        : timePeriod == TimePeriod.DAY ? 4
+                        : timePeriod == TimePeriod.WEEK ? 5
+                        : timePeriod == TimePeriod.MONTH ? 6
+                        : timePeriod == TimePeriod.YEAR ? 7
+                        : 8)
+                : defaultSorting == Sorting.CONTROVERSIAL ?
+                (timePeriod == TimePeriod.HOUR ? 9
+                        : 10)
+                : 0;
+    }
+
+    public static String[] getSortingStrings(Context c) {
+        return new String[]
+                {c.getString(R.string.sorting_hot),
+                        c.getString(R.string.sorting_new),
+                        c.getString(R.string.sorting_rising),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day),
+                };
+    };
 }

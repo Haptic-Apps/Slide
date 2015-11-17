@@ -216,6 +216,8 @@ public class SubmissionsView extends Fragment {
         return v;
     }
 
+
+
     private ArrayList<Submission> clearSeenPosts(boolean forever) {
         ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
         System.out.println("Posts number is " + adapter.dataSet.posts.size());
@@ -237,6 +239,7 @@ public class SubmissionsView extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
     }

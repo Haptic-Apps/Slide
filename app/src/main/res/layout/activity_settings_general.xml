@@ -7,10 +7,10 @@
     android:background="?attr/activity_background">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -53,9 +53,9 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/shadowbox"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/single"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -65,12 +65,10 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_single_mode"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
@@ -90,9 +88,9 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/swap"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/swapGesture"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -102,12 +100,10 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_swap_actions"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
@@ -127,9 +123,9 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/report"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/nsfw"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -139,12 +135,10 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_disable_nsfw"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
@@ -164,9 +158,9 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/image"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/nsfwrpev"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -176,12 +170,10 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_disable_nsfw_photo"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
@@ -202,7 +194,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/ic_format_size_white_48dp"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -218,7 +210,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/font_size"
                         android:textColor="?attr/font"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/font"
@@ -227,7 +219,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/theme_card"
                         android:textColor="?attr/font"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -248,9 +240,9 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/close"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/exitcheck"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -260,12 +252,10 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_confirm_exit"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
@@ -285,9 +275,9 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/down"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"/>
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/fastscroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -297,12 +287,10 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_fastscroll"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
@@ -322,9 +310,10 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/hide"
+
                     android:tint="?attr/tint" />
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/hidebutton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -334,169 +323,58 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="Add a hide post button"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:alpha=".5"
-                android:background="?attr/tint" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/settings_link_handling"
-                android:textAllCaps="true"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-
-                <CheckBox
-                    android:id="@+id/web"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_link_browser"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sorting"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
+                android:gravity="center_vertical"
 
+                android:orientation="horizontal"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-
-                <CheckBox
-                    android:id="@+id/gif"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_link_gif"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/sort"
+                    android:tint="?attr/tint"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-
-                <CheckBox
-                    android:id="@+id/image"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_link_image"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingRight="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_sorting"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"/>
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                    <TextView
+                        android:id="@+id/sorting_current"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Hot"
+                        android:textColor="?attr/font"
+                        android:textSize="12sp"/>
+                </LinearLayout>
 
-
-                <CheckBox
-                    android:id="@+id/video"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_link_video"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-
-                <CheckBox
-                    android:id="@+id/album"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_link_album"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

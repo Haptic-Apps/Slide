@@ -112,8 +112,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
 
-            android:text="@string/drawer_multi_column"
-            android:textColor="?attr/font"
+            android:text="@string/settings_title_multi_column"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>

@@ -16,4 +16,16 @@
     <string name="submission_properties_seperator">"  •  "</string>
     <string name="general_pro">Slide for Reddit Pro</string>
 
+
+    <!-- Add libraries here, it's important that items have the same position in both arrays -->
+    <string-array name="libs">
+        <item>Test</item>
+        <item>Test2</item>
+    </string-array>
+
+    <string-array name="libs_links">
+        <item>https://github.com/ccrama/Slide/network</item>
+        <item>https://github.com/ccrama/Slide/issues</item>
+    </string-array>
+
 </resources>

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -44,7 +44,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.rey.material.widget.Slider;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Subreddit;
@@ -93,24 +92,29 @@ public class OverviewBase extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("Slide", "CREATING");
+        if(savedInstanceState != null) {
+            SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList("subs");
+            SubredditStorage.alphabeticalSubscriptions = savedInstanceState.getStringArrayList("subsalph");
+            SubredditStorage.realSubs = savedInstanceState.getStringArrayList("real");
+            Authentication.isLoggedIn = savedInstanceState.getBoolean("loggedin");
+            Authentication.name = savedInstanceState.getString("name");
+        }
         currentSingle = Reddit.single;
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
-        if (adapter == null || tabs == null || usedArray == null || usedArray.size() == 0) {
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
 
+        savedInstanceState.putStringArrayList("subs", SubredditStorage.subredditsForHome);
+        savedInstanceState.putStringArrayList("subsalph", SubredditStorage.alphabeticalSubscriptions);
+        savedInstanceState.putStringArrayList("real", SubredditStorage.realSubs);
+        savedInstanceState.putBoolean("loggedin", Authentication.isLoggedIn);
+        savedInstanceState.putString("name", Authentication.name);
 
-            if (System.currentTimeMillis() - Reddit.time > 100) { //10 sec timeout, make sure we don't get into an endless loop
-
-                Reddit.time = System.currentTimeMillis();
-
-                restartTheme();
-            }
-        }
     }
-
 
     public void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
@@ -681,36 +685,9 @@ public class OverviewBase extends AppCompatActivity {
                 SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
-        int i = Reddit.defaultSorting == Sorting.HOT ? 0
-                : Reddit.defaultSorting == Sorting.NEW ? 1
-                : Reddit.defaultSorting == Sorting.RISING ? 2
-                : Reddit.defaultSorting == Sorting.TOP ?
-                (Reddit.timePeriod == TimePeriod.HOUR ? 3
-                        : Reddit.timePeriod == TimePeriod.DAY ? 4
-                        : Reddit.timePeriod == TimePeriod.WEEK ? 5
-                        : Reddit.timePeriod == TimePeriod.MONTH ? 6
-                        : Reddit.timePeriod == TimePeriod.YEAR ? 7
-                        : 8)
-                : Reddit.defaultSorting == Sorting.CONTROVERSIAL ?
-                (Reddit.timePeriod == TimePeriod.HOUR ? 9
-                        : 10)
-                : 0;
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(
-                new String[]{
-                        getString(R.string.sorting_hot),
-                        getString(R.string.sorting_new),
-                        getString(R.string.sorting_rising),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_hour),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_day),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_week),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_month),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_year),
-                        getString(R.string.sorting_top) + " " + getString(R.string.sorting_all),
-                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_hour),
-                        getString(R.string.sorting_controversial) + " " + getString(R.string.sorting_day),
-                }, i, l2);
+        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
         builder.show();
 
     }
@@ -849,14 +826,17 @@ public class OverviewBase extends AppCompatActivity {
             });
         }
 
-        header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent inte = new Intent(OverviewBase.this, DonateView.class);
-
-                OverviewBase.this.startActivity(inte);
-            }
-        });
+        View support = header.findViewById(R.id.support);
+        if (Reddit.tabletUI) support.setVisibility(View.GONE);
+        else {
+            header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(OverviewBase.this, DonateView.class);
+                    OverviewBase.this.startActivity(inte);
+                }
+            });
+        }
 
         e = ((EditText) header.findViewById(R.id.sort));
         e.setFilters(new InputFilter[]{new SubredditInputFilter()});
@@ -939,60 +919,6 @@ public class OverviewBase extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(OverviewBase.this, Settings.class);
                 startActivityForResult(i, 1);
-            }
-        });
-        header.findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                  /*  Intent inte = new Intent(Overview.this, Overview.class);
-                    inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
-                    Overview.this.startActivity(inte);*/
-                if (Reddit.tabletUI) {
-                    LayoutInflater inflater = getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
-                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
-
-                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
-                    //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
-                    final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
-
-                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
-                    landscape.setValue(Reddit.dpWidth, false);
-
-
-                    final Dialog dialog = builder.setView(dialoglayout).create();
-                    dialog.show();
-                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            Reddit.dpWidth = landscape.getValue();
-                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getValue()).apply();
-
-                            restartTheme();
-
-                        }
-                    });
-
-
-                } else {
-                    new AlertDialogWrapper.Builder(OverviewBase.this)
-
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                        }
-                    }).show();
-                }
             }
         });
 
@@ -1123,18 +1049,16 @@ public class OverviewBase extends AppCompatActivity {
     }
 
     public void restartTheme() {
-        if (Reddit.single != currentSingle) {
-            ((Reddit) getApplication()).startMain();
 
-            finish();
-        } else {
+
             Intent intent = this.getIntent();
-            intent.putExtra("pageTo", pager.getCurrentItem());
-
+            if(pager != null) {
+                intent.putExtra("pageTo", pager.getCurrentItem());
+            }
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
             finish();
-        }
+
 
     }
 

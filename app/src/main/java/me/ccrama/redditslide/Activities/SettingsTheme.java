@@ -60,7 +60,6 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Pallete.getDefaultColor());
 
-
                 final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
                 int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
