@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Views;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -89,22 +90,17 @@ public class PopulateSubmissionViewHolder {
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission, final View back) {
-        switch (type) {
-            case NSFW_IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+    private static void addClickFunctions(final View base, final View clickingArea, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final View back) {
+        base.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HasSeen.addSeen(submission.getFullName());
+                back.setAlpha(0.5f);
+                switch (type) {
+                    case NSFW_IMAGE:
                         openImage(contextActivity, submission);
-
-                    }
-                });
-                break;
-            case EMBEDDED:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case EMBEDDED:
                         if (Reddit.video) {
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
@@ -115,42 +111,30 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-                    }
-                });
-                break;
-            case NSFW_GIF:
-                base.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NSFW_GIF:
                         openGif(false, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case NSFW_GFY:
-
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NSFW_GFY:
                         openGif(true, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case REDDIT:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case REDDIT:
                         openRedditContent(submission.getUrl(), contextActivity);
-                    }
-                });
-                break;
-            case LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case LINK:
+                        if (Reddit.web) {
+                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
+                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
+                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
+                            CustomTabsIntent customTabsIntent = builder.build();
+                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        }
+                        break;
+                    case IMAGE_LINK:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                             builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
@@ -162,34 +146,8 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-                    }
-                });
-                break;
-            case IMAGE_LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                    }
-
-                });
-                break;
-            case NSFW_LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NSFW_LINK:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                             builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
@@ -200,34 +158,16 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-                    }
-                });
-                break;
-            case SELF:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case SELF:
                         if (back != null) {
                             back.performClick();
                         }
-
-
-                    }
-                });
-                break;
-            case GFY:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case GFY:
                         openGif(true, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case ALBUM:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case ALBUM:
                         if (Reddit.album) {
                             Intent i = new Intent(contextActivity, Album.class);
                             i.putExtra("url", submission.getUrl());
@@ -236,74 +176,28 @@ public class PopulateSubmissionViewHolder {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
 
                         }
-
-                    }
-                });
-                break;
-            case IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case IMAGE:
                         openImage(contextActivity, submission);
-
-
-                    }
-                });
-                break;
-            case GIF:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case GIF:
                         openGif(false, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case NONE_GFY:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NONE_GFY:
                         openGif(true, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case NONE_GIF:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NONE_GIF:
                         openGif(false, contextActivity, submission);
-
-                    }
-                });
-                break;
-
-            case NONE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NONE:
                         if (back != null) {
                             back.performClick();
                         }
-                    }
-                });
-
-                break;
-            case NONE_IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NONE_IMAGE:
                         openImage(contextActivity, submission);
-
-
-                    }
-                });
-                break;
-            case NONE_URL:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
+                        break;
+                    case NONE_URL:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
                             builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
@@ -315,13 +209,8 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-                    }
-                });
-                break;
-            case VIDEO:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                        break;
+                    case VIDEO:
                         if (Reddit.video) {
                             Intent intent = new Intent(contextActivity, FullscreenVideo.class);
                             intent.putExtra("html", submission.getUrl());
@@ -329,12 +218,11 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-
-                    }
-                });
-
-        }
+                }
+            }
+        });
     }
+
 
     public static void openRedditContent(String url, Context c) {
         new OpenRedditLink(c, url);
@@ -383,7 +271,6 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same) {
-
 
 
         holder.title.setText(Html.fromHtml(submission.getTitle()));
@@ -1256,11 +1143,10 @@ public class PopulateSubmissionViewHolder {
         }
 
         int timesGilded = submission.getTimesGilded();
-        if( timesGilded > 0){
+        if (timesGilded > 0) {
             holder.gildLayout.setVisibility(View.VISIBLE);
             holder.gildText.setText(Integer.toString(timesGilded));
-        }
-        else{
+        } else {
             holder.gildLayout.setVisibility(View.GONE);
         }
 
