@@ -485,6 +485,9 @@
     <!-- Time -->
     <string name="time_just_now">just now</string>
     <string name="settings_subhead_support">Support</string>
+    <string name="fabclear_msg">Tapping the clear button will remove the posts from the current view, but will not hide the posts forever. \nLong pressing the button will hide the posts forever!</string>
+    <string name="fabclear_title">FAB Clear Actions</string>
+    <string name="settings_fab">Floating Action Button Settings</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

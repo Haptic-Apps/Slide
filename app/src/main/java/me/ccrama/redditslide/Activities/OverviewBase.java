@@ -1049,16 +1049,18 @@ public class OverviewBase extends AppCompatActivity {
     }
 
     public void restartTheme() {
+        if (Reddit.single != currentSingle) {
+            ((Reddit) getApplication()).startMain();
 
-
+            finish();
+        } else {
             Intent intent = this.getIntent();
-            if(pager != null) {
-                intent.putExtra("pageTo", pager.getCurrentItem());
-            }
+            intent.putExtra("pageTo", pager.getCurrentItem());
+
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
             finish();
-
+        }
 
     }
 

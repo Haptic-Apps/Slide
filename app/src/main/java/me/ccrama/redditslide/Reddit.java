@@ -89,6 +89,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private Runnable mBackgroundTransition;
     public static long time = System.currentTimeMillis();
     private boolean isRestarting;
+    public static boolean fabClear;
 
     public static CustomTabsSession getSession() {
         if (mClient == null) {
@@ -324,6 +325,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             video = SettingValues.prefs.getBoolean("video", true);
             exit = SettingValues.prefs.getBoolean("Exit", true);
             fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
+        fabClear = seen.getBoolean("fabClear", false);
             hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
 
             int height = this.getResources().getConfiguration().screenWidthDp;

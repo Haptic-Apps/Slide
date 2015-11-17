@@ -54,6 +54,11 @@
 
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.SettingsFab"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.CommentSearch"
             android:configChanges="keyboardHidden|orientation|screenSize"
 

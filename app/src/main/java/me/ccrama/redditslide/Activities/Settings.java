@@ -183,7 +183,7 @@ public class Settings extends BaseActivityNoAnim {
                             Reddit.notifications.cancel(getApplication());
                             Reddit.notifications.start(getApplication());
                             dialog.dismiss();
-                            ((TextView)findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
+                            ((TextView) findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
                                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
                         }
                     }
@@ -282,6 +282,13 @@ public class Settings extends BaseActivityNoAnim {
             @Override
             public void onClick(View v) {
                 Intent inte = new Intent(Settings.this, DonateView.class);
+                Settings.this.startActivity(inte);
+            }
+        });
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inte = new Intent(Settings.this, SettingsFab.class);
                 Settings.this.startActivity(inte);
             }
         });

@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Submission;
 
@@ -141,17 +144,46 @@ public class SubmissionsView extends Fragment {
                     }
                 });
             } else {
-                fab.setImageResource(R.drawable.close);
+                fab.setImageResource(R.drawable.hide);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        clearSeenPosts(false);
+                        if(!Reddit.fabClear){
+                            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.fabclear_title)
+                                    .setMessage(R.string.fabclear_msg)
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.seen.edit().putBoolean("fabClear", true).apply();
+                                            Reddit.fabClear = true;
+                                            clearSeenPosts(false);
+
+                                        }
+                                    }).show();
+                        } else {
+                            clearSeenPosts(false);
+                        }
                     }
                 });
                 fab.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        clearSeenPosts(true);
+                        if(!Reddit.fabClear){
+                            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.fabclear_title)
+                                    .setMessage(R.string.fabclear_msg)
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.seen.edit().putBoolean("fabClear", true).apply();
+                                            Reddit.fabClear = true;
+                                            clearSeenPosts(true);
+
+                                        }
+                                    }).show();
+                        } else {
+                            clearSeenPosts(true);
+
+                        }
                         /*
                         ToDo Make a sncakbar with an undo option of the clear all
                         View.OnClickListener undoAction = new View.OnClickListener() {
@@ -221,11 +253,13 @@ public class SubmissionsView extends Fragment {
     private ArrayList<Submission> clearSeenPosts(boolean forever) {
         ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
         System.out.println("Posts number is " + adapter.dataSet.posts.size());
+
         for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
             try {
                 if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
-                    if (forever)
+                    if (forever) {
                         Hidden.setHidden(adapter.dataSet.posts.get(i));
+                    }
                     adapter.dataSet.posts.remove(i);
                     adapter.notifyItemRemoved(i);
                 }
