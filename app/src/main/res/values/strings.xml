@@ -474,6 +474,8 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
+    <string name="share_link">Share link</string>
+    <string name="share_image">Share image</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
