@@ -58,7 +58,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
 
-        if (position == dataSet.size()) {
+        if (position == dataSet.size()  &&dataSet.size() != 0) {
             return 5;
         }
 
@@ -157,7 +157,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (dataSet == null) {
+        if (dataSet == null || dataSet.size() == 0) {
             return 0;
         } else {
             return dataSet.size() + 1;

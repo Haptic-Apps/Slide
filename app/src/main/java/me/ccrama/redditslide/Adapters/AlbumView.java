@@ -63,18 +63,29 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         holder.text.setVisibility(View.VISIBLE);
         if (user.getAsJsonObject().has("image")) {
             {
-                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(), holder.text, (Activity) main, "");
-                if (holder.text.getText().toString().isEmpty()) {
+                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
+
+                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(), holder.text, (Activity) main, "");
+                    if (holder.text.getText().toString().isEmpty()) {
+                        holder.text.setVisibility(View.GONE);
+                    }
+
+                } else {
                     holder.text.setVisibility(View.GONE);
+
                 }
             }
-
             {
-                holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), holder.body, (Activity) main, "");
+                if(! user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
+                    holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), holder.body, (Activity) main, "");
 
-                if (holder.body.getText().toString().isEmpty()) {
+                    if (holder.body.getText().toString().isEmpty()) {
+                        holder.body.setVisibility(View.GONE);
+                    }
+                } else {
                     holder.body.setVisibility(View.GONE);
+
                 }
             }
         } else {

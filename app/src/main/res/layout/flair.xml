@@ -5,7 +5,10 @@
     android:background="@drawable/flairback"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    android:padding="2.5dp">
+
+    android:paddingLeft="2.5dp"
+    android:paddingRight="2.5dp">
+
 
     <TextView
         android:id="@+id/text"

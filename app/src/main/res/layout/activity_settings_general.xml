@@ -310,7 +310,8 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/hide"
-                    android:tint="?attr/tint"/>
+
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/hidebutton"

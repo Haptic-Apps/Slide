@@ -22,10 +22,10 @@
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:backgroundTint="#fff"
-            android:hint="Multi Name       "
+            android:hint="@string/multireddit_create_hint"
             android:inputType="textCapWords"
             android:maxLength="21"
 

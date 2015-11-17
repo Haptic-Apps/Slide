@@ -41,12 +41,15 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.MultiRedditUpdateRequest;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
@@ -253,14 +256,21 @@ public class CreateMulti extends BaseActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
+                String multiName = title.getText().toString().replace(" ", "").replace("-", "_");
+                Pattern validName = Pattern.compile("^[A-Za-z0-9][A-Za-z0-9_]{2,20}$");
+                Matcher m = validName.matcher(multiName);
+
+                if (!m.matches())
+                    throw new IllegalArgumentException(multiName);
+
                 if (delete) {
                     new MultiRedditManager(Authentication.reddit).delete(old);
 
                 } else {
-                    if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(title.getText().toString().replace(" ", ""))) {
-                        new MultiRedditManager(Authentication.reddit).rename(old, title.getText().toString().replace(" ", ""));
+                    if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(multiName)) {
+                        new MultiRedditManager(Authentication.reddit).rename(old, multiName);
                     }
-                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, title.getText().toString().replace(" ", "")).subreddits(subs).build());
+                    new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -276,7 +286,7 @@ public class CreateMulti extends BaseActivity {
                     public void run() {
                         new AlertDialogWrapper.Builder(CreateMulti.this)
                                 .setTitle(R.string.err_title)
-                                .setMessage(R.string.misc_err + ": " + e.getExplanation() + "\n" + R.string.misc_retry)
+                                .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.misc_retry))
                                 .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -292,6 +302,21 @@ public class CreateMulti extends BaseActivity {
                     }
                 });
                 e.printStackTrace();
+            } catch (NetworkException | IllegalArgumentException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(CreateMulti.this)
+                                .setTitle(R.string.multireddit_invalid_name)
+                                .setMessage(R.string.multireddit_invalid_name_msg)
+                                .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).create().show();
+                    }
+                });
             }
             return null;
         }

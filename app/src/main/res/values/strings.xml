@@ -7,6 +7,7 @@
     <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Open Subreddit Settings</string>
     <string name="general_sub_sync">Syncing Subscriptions</string>
+    <string name="general_login">Login</string>
 
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
@@ -28,6 +29,8 @@
     <string name="submission_load_full">Load full thread</string>
     <string name="submission_np_link">This is an np link. Please don\'t vote or comment.</string>
     <string name="submission_tap_gif">Tap to load GIF</string>
+    <string name="submission_not_found">Uh oh, post not found!</string>
+    <string name="submission_not_found_msg">Sorry, this post could not be found</string>
     <plurals name="submission_points">
         <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
@@ -90,7 +93,6 @@
 
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_pinned">pinned</string>
-    <string name="sidebar_subscribed">subscribed</string>
     <string name="sidebar_wiki">View wiki</string>
 
 
@@ -190,6 +192,7 @@
     <string name="err_general">Uh oh, an error occurred</string>
     <string name="err_no_connection">Reddit could not be reached. Would you like to try again?</string>
     <string name="err_retry_later">Try again in a minute!</string>
+    <string name="err_login">You have to log in to do that!</string>
 
 
     <!-- Gif -->
@@ -217,6 +220,9 @@
     <string name="multireddit_no_subs">No subs are added</string>
     <string name="multireddit_no_subs_msg">Please add some subs by clicking on the + button!</string>
     <string name="multireddit_selector">Select subreddits to add</string>
+    <string name="multireddit_create_hint">Multi Name</string>
+    <string name="multireddit_invalid_name">Invalid multireddit name</string>
+    <string name="multireddit_invalid_name_msg">Multireddit names letters, numbers and underscores.</string>
 
 
     <!-- Album errors/information -->
@@ -246,7 +252,8 @@
     <string name="mail_hint_body">Body</string>
     <string name="mail_send_to">Send a message to %1$s</string>
     <string name="mail_send">Send a message</string>
-    <string name="mail_notification_msg">New message from %1$d</string>
+    <string name="mail_notification_msg">New message from %1$s</string>
+    <string name="mail_mod_notification_msg">New modmail from %1$s</string>
     <string name="mail_reply_to">Reply to %1$s</string>
     <string name="mail_notification_author">%1$s from %2$s</string>
     <string name="mail_theirs">View their message</string>
@@ -255,6 +262,11 @@
         <item quantity="one">You have %d new message!</item>
         <item quantity="other">You have %d new messages!</item>
     </plurals>
+    <plurals name="mai_mod_notification_title">
+        <item quantity="one">You have %d new modmail!</item>
+        <item quantity="other">You have %d new modmails!</item>
+    </plurals>
+
 
     <!-- Titles displayed in action bar / head / recents overview-->
     <string name="title_subreddit_settings">Subreddit Settings</string>
@@ -302,7 +314,7 @@
     <string name="user_enter">Enter Username</string>
     <string name="user_btn_goto">Go to user</string>
     <string name="user_invalid">Invalid username</string>
-    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscore and dashes.</string>
+    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscores and dashes.</string>
 
 
     <!-- Buttons -->
@@ -345,6 +357,7 @@
 
     <!-- Moderation tools -->
     <string name="mod_mail">Mod Mail</string>
+    <string name="mai_mod_unread">Mod Mail Unread</string>
     <string name="mod_actions">Mod Actions</string>
     <string name="mod_reports">Reports</string>
     <string name="mod_approve">Do you really want to approve this post?</string>
@@ -417,9 +430,15 @@
     <string name="settings_fastscroll">Navigate between parent comments</string>
     <string name="settings_floating_action_button">Floating Action Button</string>
     <string name="settings_floating_action_button_visible">Show floating action button</string>
-    <string name="settings_libs">Open-source libraries</string>
+    <string name="share_link">Share link</string>
+        <string name="posts_hidden_forever">Posts hidden forever</string>
+
+    <string name="share_image">Share image</string>    <string name="settings_libs">Open-source libraries</string>
     <string name="settings_bugs">Report Bugs</string>
     <string name="settings_changelog">View changelog</string>
+    <string name="settings_floating_action_button_type">Floating action button dismisses viewed posts</string>
+    <string name="settings_google">Connecting to Google</string>
+    <string name="settings_google_msg">Slide is connecting to Google. Try again in a few seconds!</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternative Layout</string>

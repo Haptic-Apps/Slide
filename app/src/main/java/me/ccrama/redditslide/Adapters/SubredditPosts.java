@@ -13,7 +13,6 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
@@ -125,13 +124,12 @@ public class SubredditPosts {
                     try {
                         for (Submission c : paginator.next()) {
                             Submission s = c;
-                            if (Hidden.isHidden(s)) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
                                 } else if (!s.isNsfw()) {
                                     posts.add(s);
                                 }
-                            }
+
 
                         }
                     } catch (Exception ignored) {
@@ -144,12 +142,12 @@ public class SubredditPosts {
                     try {
                         for (Submission c : paginator.next()) {
                             Submission s = c;
-                            if (Hidden.isHidden(s)) {
+
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
                                 } else if (!s.isNsfw()) {
                                     posts.add(s);
-                                }
+
                             }
 
                         }

@@ -25,6 +25,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
+
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Profile;
@@ -47,6 +49,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final String subreddit;
     private final boolean custom;
     public SubredditPosts dataSet;
+    public ArrayList<Submission> seen;
 
     public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
 
@@ -54,7 +57,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
         this.dataSet = dataSet;
-
+        this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
 
         Log.v("Slide", subreddit + " CUSTOM IS " + custom);
@@ -74,7 +77,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
 
-        if (position == dataSet.posts.size() && !dataSet.nomore) {
+        if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0) {
             return 5;
         }
         return 1;
@@ -94,11 +97,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
-
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
+
             CreateCardView.resetColorCard(holder.itemView);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, custom);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +109,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onClick(View arg0) {
                     DataShare.sharedSubreddit = dataSet.posts;
-
+                    holder2.itemView.setAlpha(0.5f);
                     if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
                         i2.putExtra("page", holder2.getAdapterPosition());
@@ -231,7 +234,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                 }
                             }).show();
 
-
                         }
                     });
                     return true;
@@ -247,9 +249,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        if (dataSet.posts == null) {
+        if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
-        } else if (dataSet.nomore) {
+        } else if (dataSet.nomore ) {
             return dataSet.posts.size();
         } else {
             return dataSet.posts.size() + 1;

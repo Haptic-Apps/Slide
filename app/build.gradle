@@ -13,18 +13,16 @@ android {
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 23
-        versionCode 80
-        versionName "4.3.1"
+        versionCode 86
+        versionName "4.3.25"
         multiDexEnabled = true
-
     }
 
     buildTypes {
         release {
             minifyEnabled false
-
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 

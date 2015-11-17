@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
@@ -96,12 +95,11 @@ public class ContributionPosts {
                     for (Contribution c : paginator.next()) {
                         if (c instanceof Submission) {
                             Submission s = (Submission) c;
-                            if (Hidden.isHidden(s)) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
                                 } else if (!s.isNsfw()) {
                                     posts.add(s);
-                                }
+
                             }
                         } else {
                             posts.add(c);
@@ -111,12 +109,11 @@ public class ContributionPosts {
                     for (Contribution c : paginator.next()) {
                         if (c instanceof Submission) {
                             Submission s = (Submission) c;
-                            if (Hidden.isHidden(s)) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
                                 } else if (!s.isNsfw()) {
                                     posts.add(s);
-                                }
+
                             }
                         } else {
                             posts.add(c);

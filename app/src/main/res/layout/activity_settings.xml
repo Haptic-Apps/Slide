@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="?attr/activity_background"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -195,47 +195,6 @@
                         android:textStyle="bold"/>
                 </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_title_notifications"
-
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/theme"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
-                        android:src="@drawable/theme"
-                        android:tint="?attr/tint" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-
-                        android:text="@string/settings_title_default_theme"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/layout"
                     android:layout_width="match_parent"
@@ -265,6 +224,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/preset"
                     android:layout_width="match_parent"
@@ -289,41 +249,12 @@
                         android:layout_height="match_parent"
 
                         android:gravity="center_vertical"
-                        android:text="@string/settings_layout_default"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/preset"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
-                        android:src="@drawable/cardbg"
-                        android:tint="?attr/tint" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-
-                        android:gravity="center_vertical"
                         android:text="@string/settings_title_alternative_layout"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/subtheme"
                     android:layout_width="match_parent"
@@ -342,6 +273,7 @@
                         android:paddingTop="16dp"
                         android:src="@drawable/sub"
                         android:tint="?attr/tint"/>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -352,52 +284,9 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/tablet"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_title_alternative_layout"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/subtheme"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
-                        android:src="@drawable/sub"
-                        android:tint="?attr/tint" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_title_sub_theme"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/sorting"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
@@ -425,6 +314,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <View
                     android:id="@+id/line_support"
                     android:layout_width="match_parent"
@@ -444,9 +334,9 @@
                     android:paddingTop="8dp"
                     android:text="@string/settings_subhead_support"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font"
                     android:textSize="14sp"
                     android:textStyle="bold"/>
+
 
                 <LinearLayout
                     android:id="@+id/backup"
@@ -464,7 +354,7 @@
                         android:paddingBottom="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:src="@drawable/reload"
+                        android:src="@drawable/ic_backup"
                         android:tint="?attr/tint"/>
 
                     <TextView
@@ -503,9 +393,6 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_pro"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
 
                         android:textSize="16sp"
                         android:textStyle="bold"/>
@@ -543,13 +430,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/backup"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                <LinearLayout
                     android:id="@+id/about"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -567,11 +447,6 @@
                         android:paddingTop="16dp"
                         android:src="@drawable/infonew"
                         android:tint="?attr/tint"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_title_backup"
 
                     <TextView
                         android:layout_width="wrap_content"

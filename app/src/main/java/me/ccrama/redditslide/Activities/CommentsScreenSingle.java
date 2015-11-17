@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -11,9 +12,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Window;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
+import net.dean.jraw.models.Submission;
+
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -75,6 +81,7 @@ public class CommentsScreenSingle extends BaseActivity {
                 CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
             }
+
             pager = (ViewPager) findViewById(R.id.contentView);
 
             context = getIntent().getExtras().getString("context", "");
@@ -84,7 +91,33 @@ public class CommentsScreenSingle extends BaseActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            return Authentication.reddit.getSubmission(params[0]).getSubredditName();
+            try {
+                Submission s = Authentication.reddit.getSubmission(params[0]);
+                HasSeen.addSeen(s.getFullName());
+                return s.getSubredditName();
+
+            } catch (Exception e){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(R.string.submission_not_found).setMessage(R.string.submission_not_found_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
+                            }
+                        }).show();
+                    }
+                });
+
+                return null;
+            }
+
+
         }
     }
 

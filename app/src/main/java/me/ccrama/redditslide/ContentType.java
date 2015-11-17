@@ -10,15 +10,15 @@ import net.dean.jraw.models.Submission;
 public class ContentType {
 
     private static boolean isGif(String s) {
-        return (s.contains("gif") || s.contains("gfy") || s.contains("webm") || s.contains("mp4"));
+        return (s.contains(".gif") || s.contains("gfycat.com") || s.contains(".webm") || s.contains(".mp4"));
     }
 
     private static boolean isImage(String s) {
-        return (s.contains("png") || s.contains("jpg") || s.contains("jpeg") || s.contains("imgur"));
+        return (s.contains(".png") || s.contains(".jpg") || s.contains(".jpeg") || s.contains("imgur"));
     }
 
     private static boolean isAlbum(String s) {
-        return s.contains("imgur") && (s.contains("/a/") || s.contains("gallery") || s.contains("/g/"));
+        return (s.contains("imgur") && (s.contains("/a/")) || (s.contains("imgur") && (s.contains("gallery") || s.contains("/g/")) ));
     }
 
     public static String getFixedUrl(String s) {
@@ -74,7 +74,7 @@ public class ContentType {
         }
         if (s.isSelfPost()) {
             return ImageType.SELF;
-        } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("wiki")) {
+        } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
             return ImageType.REDDIT;
         }
 
@@ -122,7 +122,7 @@ public class ContentType {
                     if (url.contains("gfy"))
                         return ImageType.NONE_GFY;
                     return ImageType.NONE_GIF;
-                } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("wiki")) {
+                } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
                     return ImageType.REDDIT;
                 } else if (!url.isEmpty()) {
                     return ImageType.LINK;
@@ -174,20 +174,19 @@ public class ContentType {
         if (url.startsWith("/")) {
             url = "reddit.com" + url;
         }
-        if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("wiki")) {
+        if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
             return ImageType.REDDIT;
-        } else if (url.contains("youtu")) {
+        } else if (url.contains("youtube.com") || url.contains("youtu.be")) {
             return ImageType.VIDEO;
-
         }
 
         if (isAlbum(url)) {
             return ImageType.ALBUM;
         }
-        if (isImage(url) && !url.contains("gif")) {
+        if (isImage(url) && !url.contains(".gif")) {
             return ImageType.IMAGE;
         } else if (isGif(url)) {
-            if (url.contains("gfy"))
+            if (url.contains("gfycat"))
                 return ImageType.GFY;
             return ImageType.GIF;
         } else {

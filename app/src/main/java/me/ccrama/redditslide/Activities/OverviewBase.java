@@ -26,6 +26,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -86,17 +87,40 @@ public class OverviewBase extends AppCompatActivity {
     public OverviewPagerAdapter adapter;
     public TabLayout tabs;
     public int toGoto = 0;
-
+    public boolean first = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.v("Slide", "CREATING");
+        if(savedInstanceState != null) {
+            SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList("subs");
+            SubredditStorage.alphabeticalSubscriptions = savedInstanceState.getStringArrayList("subsalph");
+            SubredditStorage.realSubs = savedInstanceState.getStringArrayList("real");
+            Authentication.isLoggedIn = savedInstanceState.getBoolean("loggedin");
+            Authentication.name = savedInstanceState.getString("name");
+        }
         currentSingle = Reddit.single;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putStringArrayList("subs", SubredditStorage.subredditsForHome);
+        savedInstanceState.putStringArrayList("subsalph", SubredditStorage.alphabeticalSubscriptions);
+        savedInstanceState.putStringArrayList("real", SubredditStorage.realSubs);
+        savedInstanceState.putBoolean("loggedin", Authentication.isLoggedIn);
+        savedInstanceState.putString("name", Authentication.name);
+
     }
 
     public void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null)
+
+
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
             findViewById(R.id.info).setVisibility(View.VISIBLE);
 
@@ -493,6 +517,7 @@ public class OverviewBase extends AppCompatActivity {
     public void setDataSet(List<String> data) {
 
         if (data != null) {
+
             usedArray = data;
             if (adapter == null) {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -517,6 +542,9 @@ public class OverviewBase extends AppCompatActivity {
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
             }
+
+        } else if (SubredditStorage.subredditsForHome != null) {
+            setDataSet(SubredditStorage.subredditsForHome);
         }
 
     }
@@ -528,7 +556,7 @@ public class OverviewBase extends AppCompatActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
-            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, OverviewBase.this, "slideforreddit");
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, OverviewBase.this, subreddit.getDisplayName());
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
@@ -548,7 +576,8 @@ public class OverviewBase extends AppCompatActivity {
                         @Override
                         public void onPostExecute(Void voids) {
                             new SubredditStorageNoContext().execute(OverviewBase.this);
-                            Snackbar.make(header, isChecked ? "Subscribed" : "Unsubscribed", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(header, isChecked ?
+                                    getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
 
                         @Override
@@ -747,6 +776,13 @@ public class OverviewBase extends AppCompatActivity {
                     } else {
                         body.setVisibility(View.GONE);
                     }
+                }
+            });
+            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(OverviewBase.this, Login.class);
+                    OverviewBase.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
@@ -1013,18 +1049,16 @@ public class OverviewBase extends AppCompatActivity {
     }
 
     public void restartTheme() {
-        if (Reddit.single != currentSingle) {
-            ((Reddit) getApplication()).startMain();
 
-            finish();
-        } else {
+
             Intent intent = this.getIntent();
-            intent.putExtra("pageTo", pager.getCurrentItem());
-
+            if(pager != null) {
+                intent.putExtra("pageTo", pager.getCurrentItem());
+            }
             startActivity(intent);
             overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
             finish();
-        }
+
 
     }
 

@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
+import android.util.Log;
 
 import net.dean.jraw.models.Message;
 import net.dean.jraw.paginators.InboxPaginator;
@@ -33,13 +34,16 @@ public class CheckForMail extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         c = context;
         new AsyncGetMail().execute();
+        Log.v("Slide", "CHECKING MAIL");
     }
+
 
     private class AsyncGetMail extends AsyncTask<Void, Void, List<Message>> {
 
         @Override
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
+
             if (messages != null && messages.size() > 0) {
                 if (messages.size() == 1) {
                     NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -102,25 +106,109 @@ public class CheckForMail extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
                 }
             }
+            /*todoif(modMessages != null && modMessages.size() > 0){
+                    if (modMessages.size() == 1) {
+                        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+                        Intent notificationIntent = new Intent(c, ModQueue.class);
+
+                        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                        PendingIntent intent = PendingIntent.getActivity(c, 0,
+                                notificationIntent, 0);
+
+                        NotificationCompat.BigTextStyle notiStyle = new
+                                NotificationCompat.BigTextStyle();
+                        notiStyle.setBigContentTitle(c.getString(R.string.modmail_notification_msg, modMessages.get(0).getAuthor()));
+                        notiStyle.bigText(Html.fromHtml(modMessages.get(0).getBody()));
+
+                        String name;
+                        if(modMessages.get(0).getSubreddit() ==null || modMessages.get(0).getSubreddit().isEmpty()){
+                            name = modMessages.get(0).getAuthor();
+                        } else {
+                            name = modMessages.get(0).getSubreddit();
+                        }
+                        Notification notification = new NotificationCompat.Builder(c).setContentIntent(intent)
+                                .setSmallIcon(R.drawable.mod)
+                                .setTicker(res.getQuantityString(R.plurals.modmail_notification_title, 1, 1))
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setContentTitle(c.getString(R.string.mail_notification_author,
+                                        messages.get(0).getSubject(), name))
+                                .setContentText(Html.fromHtml(messages.get(0).getBody()))
+                                .setStyle(notiStyle)
+                                .build();
+                        notificationManager.notify(1, notification);
+                    } else {
+                        int amount = messages.size();
+                        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                        NotificationCompat.InboxStyle notiStyle = new
+                                NotificationCompat.InboxStyle();
+                        notiStyle.setBigContentTitle(res.getQuantityString(R.plurals.modmail_notification_title, amount, amount));
+                        notiStyle.setSummaryText("");
+                        for (Message m : messages) {
+                            String name;
+                            if(m.getSubreddit() == null || m.getSubreddit().isEmpty() ){
+                                name =m.getAuthor();
+                            } else {
+                                name = m.getSubreddit();
+                            }
+                            notiStyle.addLine(c.getString(R.string.modmail_notification_msg, name));
+                        }
+
+                        Intent notificationIntent = new Intent(c, ModQueue.class);
+
+                        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                        PendingIntent intent = PendingIntent.getActivity(c, 0,
+                                notificationIntent, 0);
+
+
+                        Notification notification = new NotificationCompat.Builder(c)
+                                .setContentIntent(intent)
+                                .setSmallIcon(R.drawable.mod)
+                                .setTicker(res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
+                                .setWhen(System.currentTimeMillis())
+                                .setAutoCancel(true)
+                                .setContentTitle(res.getQuantityString(R.plurals.modmail_notification_title, amount, amount))
+                                .setStyle(notiStyle)
+                                .build();
+                        notificationManager.notify(1, notification);
+
+                }
+            }*/
         }
+        ArrayList<Message> modMessages = new ArrayList<>();
 
         @Override
         protected List<Message> doInBackground(Void... params) {
             try {
                 if (Authentication.isLoggedIn) {
                     InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
-                    InboxPaginator mod = new InboxPaginator(Authentication.reddit, "modmail");
 
-                    ArrayList<Message> messages = new ArrayList<Message>();
+                    ArrayList<Message> messages = new ArrayList<>();
                     if (unread.hasNext()) {
                         messages.addAll(unread.next());
                     }
-                    if (mod.hasNext()) {
-                        messages.addAll(mod.next());
-                    }
+
+                   /*todo if(Authentication.mod) {
+                        modMessages =new ArrayList<>();
+                        InboxPaginator mod = new InboxPaginator(Authentication.reddit, "moderator/unread");
+                        if (mod.hasNext()) {
+                            modMessages.addAll(mod.next());
+                        }
+
+                    }*/
+
+                    return messages;
                 }
             } catch (Exception ignored) {
 
+                ignored.printStackTrace();
             }
             return null;
         }

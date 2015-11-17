@@ -198,6 +198,7 @@ public class SubredditOverview extends OverviewBase {
                         }).show();
                     }
                 }
+
             }
         });
 
