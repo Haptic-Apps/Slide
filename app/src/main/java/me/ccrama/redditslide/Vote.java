@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 
 import net.dean.jraw.ApiException;
@@ -44,11 +43,6 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
-                        try {
-                            Snackbar.make(v, R.string.vote_cast, Snackbar.LENGTH_SHORT).show();
-                        } catch (NullPointerException e) {
-                            Log.w("Vote", "Cannot show 'vote cast!' snackbar" + e);
-                        }
                         c = null;
                         v = null;
                     }

@@ -123,7 +123,7 @@ public class ModQueue extends BaseActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             if(position == 0){
-                return getString(R.string.mod_mail_unread);
+                return getString(R.string.mai_mod_unread);
             } else
             if (position == 1) {
                 return getString(R.string.mod_mail);

@@ -606,7 +606,7 @@ public class SubredditView extends BaseActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
-            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, "slideforreddit");
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit.getDisplayName());
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }

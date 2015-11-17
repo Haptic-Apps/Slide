@@ -100,7 +100,7 @@ public class CommentsScreenSingle extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(R.string.post_not_found).setMessage(R.string.post_not_found_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(R.string.submission_not_found).setMessage(R.string.submission_not_found_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
