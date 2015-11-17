@@ -182,7 +182,7 @@ public class FullscreenImage extends BaseActivity {
         dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareLinkToImage(url);
+                Reddit.defaultShareText(url, FullscreenImage.this);
             }
         });
 
@@ -192,13 +192,7 @@ public class FullscreenImage extends BaseActivity {
     }
 
 
-    private void shareLinkToImage(String finalUrl){
-        Log.d("Slide", "share link to "+finalUrl);
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("text/plain");
-        i.putExtra(Intent.EXTRA_TEXT, finalUrl);
-        startActivity(Intent.createChooser(i, getResources().getString(R.string.title_share)));
-    }
+
 
 
     private void shareImage(String finalUrl) {
