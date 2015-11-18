@@ -196,7 +196,7 @@ public class SubredditView extends BaseActivity {
             public void onClick(View v) {
                 {
                     if (Reddit.tabletUI) {
-                        if (posts.posts != null) {
+                        if (posts.posts != null && !posts.posts.isEmpty()) {
                             DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
                             i.putExtra("position", 0);
