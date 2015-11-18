@@ -124,10 +124,11 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
         getSupportActionBar().setTitle(R.string.settings_title_backup);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsBackup.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_backup_settings), ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            SettingsBackup.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_backup), ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
         if (Reddit.tabletUI) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
