@@ -252,12 +252,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         {
             final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
-            if(SubredditStorage.modOf.contains(submission.getSubredditName())){
-               //todo
-                mod.setVisibility(View.GONE);
+            try {
+                if (SubredditStorage.modOf.contains(submission.getSubredditName())) {
+                    //todo
+                    mod.setVisibility(View.GONE);
 
-            } else {
-                mod.setVisibility(View.GONE);
+                } else {
+                    mod.setVisibility(View.GONE);
+                }
+            }
+            catch (Exception e){
+                Log.d("Error loading mod ",e.getMessage());
             }
         }
         {
