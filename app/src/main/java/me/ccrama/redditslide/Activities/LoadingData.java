@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -44,13 +45,22 @@ public class LoadingData extends AppCompatActivity {
             AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this);
             b.setTitle(R.string.err_network_title)
                     .setMessage(R.string.err_network_msg)
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            finish();
+                        }
+                    })
                     .create().show();
 
         }
         loading = (TextView) findViewById(R.id.loading);
         loading.setText(R.string.info_connecting);
-
     }
-
-
 }

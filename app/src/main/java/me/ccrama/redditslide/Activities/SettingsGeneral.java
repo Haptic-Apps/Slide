@@ -41,11 +41,12 @@ public class SettingsGeneral extends BaseActivityNoAnim {
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.title_settings_general);
+        getSupportActionBar().setTitle(R.string.settings_title_general);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_settings_general), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_general), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
         {

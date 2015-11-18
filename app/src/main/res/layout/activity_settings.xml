@@ -86,7 +86,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
-                        android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
                         android:paddingRight="16dp">
@@ -308,7 +307,7 @@
                         android:layout_height="match_parent"
 
                         android:gravity="center_vertical"
-                        android:text="@string/settings_fab"
+                        android:text="@string/settings_title_fab"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
                         android:textStyle="bold"/>

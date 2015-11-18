@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import me.ccrama.redditslide.ColorPreferences;
@@ -33,11 +32,12 @@ public class SettingsFab extends BaseActivityNoAnim  {
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.settings_fab);
+        getSupportActionBar().setTitle(R.string.settings_title_fab);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsFab.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_fab),
+            SettingsFab.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_fab),
                     ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
@@ -51,7 +51,7 @@ public class SettingsFab extends BaseActivityNoAnim  {
             }
         });
 
-        CheckBox fabType = (CheckBox) findViewById(R.id.fab_type);
+        SwitchCompat fabType = (SwitchCompat) findViewById(R.id.fab_type);
         fabType.setChecked(Reddit.fabType == R.integer.FAB_DISMISS);
         fabType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

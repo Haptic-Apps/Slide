@@ -149,8 +149,8 @@ public class SubmissionsView extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if(!Reddit.fabClear){
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.fabclear_title)
-                                    .setMessage(R.string.fabclear_msg)
+                            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.settings_fabclear)
+                                    .setMessage(R.string.settings_fabclear_msg)
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -169,8 +169,8 @@ public class SubmissionsView extends Fragment {
                     @Override
                     public boolean onLongClick(View v) {
                         if(!Reddit.fabClear){
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.fabclear_title)
-                                    .setMessage(R.string.fabclear_msg)
+                            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.settings_fabclear)
+                                    .setMessage(R.string.settings_fabclear_msg)
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {

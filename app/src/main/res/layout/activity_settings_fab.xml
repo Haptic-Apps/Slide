@@ -16,8 +16,6 @@
         android:paddingRight="16dp"
         android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways"
-
-
         >
 
 
@@ -63,7 +61,6 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_floating_action_button_visible"
                     android:textColor="?attr/font"
@@ -90,7 +87,7 @@
                     android:src="@drawable/hide"
                     android:tint="?attr/tint" />
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/fab_type"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -100,8 +97,6 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_floating_action_button_type"
                     android:textColor="?attr/font"
