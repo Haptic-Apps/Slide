@@ -124,10 +124,11 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
         getSupportActionBar().setTitle(R.string.settings_title_backup);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsBackup.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_backup_settings), ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
+            SettingsBackup.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_backup), ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
         if (Reddit.tabletUI) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -147,7 +148,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                         if (prefsdir.exists() && prefsdir.isDirectory()) {
 
                             String[] list = prefsdir.list();
-                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
+                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).cancelable(false).build();
                             progress.show();
                             for (final String s : list) {
                                 if (!s.contains("com.google")) {
@@ -248,7 +249,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                 @Override
                 public void onClick(View v) {
                     if(mGoogleApiClient.isConnected()) {
-                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
+                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).cancelable(false).progress(true, 1).build();
                         progress.show();
                         appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
                     } else {

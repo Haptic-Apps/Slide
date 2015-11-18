@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.google.android.gms.auth.api.Auth;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -303,8 +302,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 @Override
                                                 public void run() {
                                                     new AlertDialogWrapper.Builder(mContext)
-                                                            .setTitle(R.string.error_delete_comment)
-                                                            .setMessage(R.string.error_delete_comment_msg)
+                                                            .setTitle(R.string.comment_delete_err)
+                                                            .setMessage(R.string.comment_delete_err_msg)
                                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
@@ -341,8 +340,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
 
                         new AlertDialogWrapper.Builder(mContext)
-                                .setTitle(R.string.delete_comment)
-                                .setMessage(R.string.delete_comment_msg)
+                                .setTitle(R.string.comment_delete)
+                                .setMessage(R.string.comment_delete_msg)
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -367,8 +366,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         @Override
                                                         public void run() {
                                                             new AlertDialogWrapper.Builder(mContext)
-                                                                    .setTitle(R.string.error_delete_comment)
-                                                                    .setMessage(R.string.error_delete_comment_msg)
+                                                                    .setTitle(R.string.comment_delete_err)
+                                                                    .setMessage(R.string.comment_delete_err_msg)
                                                                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(DialogInterface dialog, int which) {

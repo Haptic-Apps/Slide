@@ -35,6 +35,7 @@ public class SettingsHandling extends BaseActivityNoAnim implements
         b.setBackgroundColor(Pallete.getDefaultColor());
         setSupportActionBar(b);
         getSupportActionBar().setTitle(R.string.settings_link_handling);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
