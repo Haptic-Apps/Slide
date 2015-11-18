@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.Snackbar;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
+import android.text.style.TextAppearanceSpan;
+import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -132,6 +136,86 @@ public class MakeTextviewClickable {
         strBuilder.removeSpan(span);
     }
 
+    /**
+     * For code within <code>&lt;pre&gt;</code> tags, line breaks are converted to
+     * <code>&lt;br /&gt;</code> tags, and spaces to &amp;nbsp;. This allows for Html.fromHtml
+     * to preserve indents of these blocks.
+     *
+     * In addition, <code>[[&lt;[</code> and <code>]&gt;]]</code> are inserted to denote the
+     * beginning and end of code segments, for styling later.
+     * @param html  the unparsed HTML
+     * @return  the code parsed HTML with additional markers
+     */
+    private String parseCodeTags(String html) {
+        String unparsed = html;
+        String code;
+        while (unparsed.contains("<pre><code>")) {
+            String[] split = html.split("<pre><code>");
+            int closeIndex = split[1].indexOf("</code></pre>");
+
+            unparsed = split[1].substring(closeIndex);
+
+            code = split[1].substring(0, closeIndex);
+            code = code.replace("\n", "<br/>");
+            code = code.replace(" ", "&nbsp;");
+            html = split[0] + "<lpre><lcode>" + code + "" + unparsed;
+        }
+        html = html.replace("<lpre><lcode>", "<pre><code>");
+        html = html.replace("<code>", "<code>[[&lt;[");
+        html = html.replace("</code>", "]&gt;]]</code>");
+
+        return html;
+    }
+
+    /**
+     * Sets the styling for string with code segments.
+     *
+     * The general process is to search for <code>[[&lt;[</code> and <code>]&gt;]]</code> tokens to
+     * find the code fragments within the escaped text. A <code>Spannable</code> is created which
+     * which breaks up the origin sequence into non-code and code fragments, and applies a monospace
+     * font to the code fragments.
+     * @param sequence the Spannable generated from Html.fromHtml
+     * @return  the message with monospace font applied to code fragments
+     */
+    private CharSequence setCodeFont(Spannable sequence) {
+        String sequenceString = sequence.toString();
+        final String startSeq = "[[<[";
+        final String endSeq = "]>]]";
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+
+        int start;
+        int codeStartInSequence;
+        int end;
+        int codeStartInBuilder;
+        int codeEndInBuilder;
+        String code;
+        while (sequenceString.contains(startSeq)) {
+            start = 0;
+            codeStartInSequence = sequenceString.indexOf(startSeq) + startSeq.length();
+            end = sequenceString.indexOf(endSeq);
+
+            code = sequenceString.substring(start, end).replace(startSeq, "");
+            builder.append(code);
+
+            codeStartInBuilder = codeStartInSequence + builder.length() - code.length() - startSeq.length();
+            codeEndInBuilder = end + builder.length() - code.length() - endSeq.length() - 1;
+            builder.setSpan(new TypefaceSpan("monospace"), codeStartInBuilder, codeEndInBuilder, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+            start = end + endSeq.length();
+            sequenceString = sequenceString.substring(start);
+        }
+        builder.append(sequenceString);
+
+        return builder;
+    }
+
+    private CharSequence convertHtmlToCharSequence(String html) {
+        html = parseCodeTags(html);
+        CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(html)));
+        sequence = setCodeFont((Spannable)sequence);
+        return sequence;
+    }
+
     public void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
         if (rawHTML.length() > 0) {
             rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>").replace("</del>", "</strike>").replace("<del>", "<strike>");
@@ -144,9 +228,7 @@ public class MakeTextviewClickable {
             }
             this.c = c;
 
-
-            CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
-
+            CharSequence sequence = convertHtmlToCharSequence(rawHTML);
             comm.setText(sequence);
 
             comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
@@ -328,7 +410,7 @@ public class MakeTextviewClickable {
 
             this.c = c;
 
-            CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(rawHTML)));
+            CharSequence sequence = convertHtmlToCharSequence(rawHTML);
             comm.setText(sequence);
             comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
                 @Override

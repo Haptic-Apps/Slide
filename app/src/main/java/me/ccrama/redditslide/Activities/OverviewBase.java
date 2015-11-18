@@ -616,28 +616,20 @@ public class OverviewBase extends AppCompatActivity {
                         break;
                     case 1:
                         Reddit.defaultSorting = Sorting.NEW;
-
-
                         reloadSubs();
                         break;
                     case 2:
                         Reddit.defaultSorting = Sorting.RISING;
-
-
                         reloadSubs();
                         break;
                     case 3:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.HOUR;
-
-
                         reloadSubs();
                         break;
                     case 4:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.DAY;
-
-
                         reloadSubs();
                         break;
                     case 5:
@@ -648,39 +640,45 @@ public class OverviewBase extends AppCompatActivity {
                     case 6:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.MONTH;
-
                         reloadSubs();
                         break;
                     case 7:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.YEAR;
-
-
                         reloadSubs();
                         break;
                     case 8:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.ALL;
-
-
                         reloadSubs();
                         break;
                     case 9:
                         Reddit.defaultSorting = Sorting.CONTROVERSIAL;
                         Reddit.timePeriod = TimePeriod.HOUR;
-
-
                         reloadSubs();
                         break;
                     case 10:
                         Reddit.defaultSorting = Sorting.CONTROVERSIAL;
                         Reddit.timePeriod = TimePeriod.DAY;
-
-
                         reloadSubs();
                         break;
+                    case 11:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.WEEK;
+                        reloadSubs();
+                    case 12:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.MONTH;
+                        reloadSubs();
+                    case 13:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.YEAR;
+                        reloadSubs();
+                    case 14:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.ALL;
+                        reloadSubs();
                 }
-
                 SettingValues.defaultSorting = Reddit.defaultSorting;
                 SettingValues.timePeriod = Reddit.timePeriod;
             }

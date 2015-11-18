@@ -129,7 +129,7 @@
                         android:paddingBottom="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:src="@drawable/infonew"
+                        android:src="@drawable/link"
                         android:tint="?attr/tint"/>
 
                     <TextView
@@ -413,7 +413,7 @@
                         android:paddingBottom="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:src="@drawable/pro"
+                        android:src="@drawable/duck"
                         android:tint="?attr/tint"/>
 
                     <TextView
@@ -443,7 +443,7 @@
                         android:paddingBottom="16dp"
                         android:paddingRight="16dp"
                         android:paddingTop="16dp"
-                        android:src="@drawable/support"
+                        android:src="@drawable/donate"
                         android:tint="?attr/tint"/>
 
                     <TextView

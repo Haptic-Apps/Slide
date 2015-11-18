@@ -441,13 +441,13 @@
     <string name="settings_google_msg">Slide is connecting to Google. Try again in a few seconds!</string>
 
     <!-- Settings titles displayed in settings activity-->
-    <string name="settings_title_alternative_layout">Alternative Layout</string>
+    <string name="settings_title_alternative_layout">Alternate Layout</string>
     <string name="settings_title_backup">Backup &amp; Restore</string>
     <string name="settings_title_default_theme">Base Theme</string>
     <string name="settings_title_general">General</string>
     <string name="settings_title_notifications">Notifications</string>
-    <string name="settings_title_pro">Buy Pro</string>
-    <string name="settings_title_sub_theme">Subreddit Theme Settings</string>
+    <string name="settings_title_pro">Go Pro</string>
+    <string name="settings_title_sub_theme">Subreddit Themes &amp; Layouts</string>
     <string name="settings_title_sorting">Default Sorting</string>
     <string name="settings_title_support">Donate</string>
     <string name="settings_title_appearance">Appearance</string>

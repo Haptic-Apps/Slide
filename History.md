@@ -1,3 +1,29 @@
+4.3.4 / 2015-11-17
+==================
+**Cleaner settings & bug fixes**
+* Sorted the settings, replaced checkboxes with switches, changed some settings strings
+* share image and image link from image view
+* fixed some colors to follow material guidelines
+* use true black background in amoled mode
+* changed some icons
+* fixed a crash while viewing gifs
+* don't open notification settings when the user isn't logged in
+* show gild count on submissions
+* fixed crashes in multireddit input fields
+* fixed a bug with the vote arrows in comments
+* Updated translations from crowdin
+
+4.3.25 / 2015-11-15
+==================
+**Bug fixes**
+* Read post is now instant
+* Loading from memory is no longer a blank screen!
+* Mail notification crash fix
+* fixed issues with live and wiki reddit URls
+* don't crash on badly formatted URLs
+* fixed flair alignment
+* lots of other crash and bug fixes!
+
 4.3.2 / 2015-11-14
 ==================
 **Faster and more stable**
