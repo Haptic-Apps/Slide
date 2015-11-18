@@ -68,6 +68,21 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         }
     }
 
+    public static void saveState(){
+        SharedPreferences.Editor editor = Reddit.appRestart.edit();
+       editor.putBoolean("back", true);
+        editor.putString("subs", Reddit.arrayToString(subredditsForHome));
+        editor.putString("subsalph", Reddit.arrayToString(alphabeticalSubscriptions));
+        editor.putString("real", Reddit.arrayToString(realSubs));
+
+        editor.putBoolean("loggedin", Authentication.isLoggedIn);
+
+        editor.putString("name", Authentication.name);
+
+        editor.apply();
+
+    }
+
     public static void removePin(String name) {
         String pins = subscriptions.getString("pins" + Authentication.name, "");
 
@@ -252,6 +267,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             if (shortcut != null) {
                 shortcut.doShortcut();
             }
+            saveState();
 
 
             return test;
@@ -316,6 +332,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 shortcut.doShortcut();
             }
 
+            saveState();
 
             return test;
         }

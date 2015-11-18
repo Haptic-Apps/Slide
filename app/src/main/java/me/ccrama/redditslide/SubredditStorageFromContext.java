@@ -161,7 +161,10 @@ public final class SubredditStorageFromContext extends AsyncTask<Reddit, Void, A
 
                 }
             });
+
         }
+        SubredditStorage.saveState();
+
     }
 
     @Override

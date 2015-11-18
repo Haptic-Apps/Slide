@@ -103,6 +103,7 @@ public class Login extends BaseActivity {
                     tokens.add(refreshToken);
                     editor.putStringSet("tokens", tokens);
                     editor.putString("lasttoken", refreshToken);
+                    Reddit.appRestart.edit().remove("back").commit();
                     editor.apply();
 
                     runOnUiThread(new Runnable() {

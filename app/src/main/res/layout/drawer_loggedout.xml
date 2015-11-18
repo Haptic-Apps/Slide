@@ -73,7 +73,7 @@
             android:padding="10dp"
             android:paddingBottom="6dp"
 
-            android:src="@drawable/pro"
+            android:src="@drawable/crown"
             android:tint="?attr/tint" />
 
         <TextView

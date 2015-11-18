@@ -101,6 +101,7 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
 
             if (params[0] instanceof SubredditOverview)
                 ((SubredditOverview) params[0]).resetAdapter();
+            SubredditStorage.saveState();
 
             return test;
         } else {
@@ -114,6 +115,8 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
 
             if (params[0] instanceof SubredditOverview)
                 ((SubredditOverview) params[0]).resetAdapter();
+            SubredditStorage.saveState();
+
             return SubredditStorage.subredditsForHome;
         }
 

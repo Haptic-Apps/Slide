@@ -1003,10 +1003,14 @@ public class OverviewBase extends AppCompatActivity {
                         if (names.get(which).contains(":")) {
                             String token = names.get(which).split(":")[1];
                             Authentication.authentication.edit().putString("lasttoken", token).commit();
+                            Reddit.appRestart.edit().remove("back").commit();
+
                         } else {
 
                             ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
                             Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+                            Reddit.appRestart.edit().remove("back").commit();
+
 
                         }
 

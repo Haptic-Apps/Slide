@@ -32,6 +32,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Crash;
@@ -68,6 +69,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static CommentSort defaultCommentSorting;
     public static TimePeriod timePeriod;
     public static SharedPreferences colors;
+    public static SharedPreferences appRestart;
+
     public static int themeBack;
     public static int dpWidth;
     public static int notificationTime;
@@ -141,6 +144,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         return result;
     }
+
+
 
     @Override
     public void onLowMemory() {
@@ -245,6 +250,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         super.onCreate();
 
             Log.v("Slide", "ON CREATED AGAIN");
+        appRestart = getSharedPreferences("appRestart", 0);
+
 
             registerActivityLifecycleCallbacks(this);
             Authentication.authentication = getSharedPreferences("AUTH", 0);
@@ -353,10 +360,34 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             }
             int defaultDPWidth = fina / 300;
             authentication = new Authentication(this);
-
+        if(appRestart.contains("back")){
+            SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
+            SubredditStorage.alphabeticalSubscriptions = stringToArray(appRestart.getString("subsalph", ""));
+            SubredditStorage.realSubs = stringToArray(appRestart.getString("real", ""));
+            Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
+            Authentication.name = appRestart.getString("name", "");
+            active= true;
+            startMain();
+        }
 
             tabletUI = isPackageInstalled(this);
 
+    }
+
+    public static String arrayToString(ArrayList<String> array){
+        StringBuilder b = new StringBuilder();
+        for(String s : array){
+            b.append(s + ",");
+
+        }
+        String f = b.toString();
+        f = f.substring(0, f.length() - 1);
+        return f;
+    }
+    public static ArrayList<String> stringToArray(String string){
+        ArrayList<String> f = new ArrayList<>();
+        Collections.addAll(f, string.split(","));
+        return f;
     }
 
     public void startMain() {

@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -40,7 +41,7 @@ public class SettingsFab extends BaseActivityNoAnim  {
                     ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
-        CheckBox fab = (CheckBox) findViewById(R.id.fab_visible);
+        SwitchCompat fab = (SwitchCompat) findViewById(R.id.fab_visible);
         fab.setChecked(Reddit.fab);
         fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
