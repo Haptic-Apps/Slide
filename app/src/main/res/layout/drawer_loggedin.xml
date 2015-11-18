@@ -311,7 +311,7 @@
             android:padding="10dp"
             android:paddingBottom="6dp"
 
-            android:src="@drawable/duck"
+            android:src="@drawable/pro"
             android:tint="?attr/tint" />
 
         <TextView
