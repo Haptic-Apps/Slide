@@ -171,8 +171,7 @@ public class SubredditOverview extends OverviewBase {
                 {
 
                     if (Reddit.tabletUI) {
-
-                        if (((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null) {
+                        if (((SubmissionsView) adapter.getCurrentFragment()).posts.posts != null && !((SubmissionsView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
                             DataShare.sharedSubreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                             Intent i = new Intent(SubredditOverview.this, Shadowbox.class);
                             i.putExtra("position", pager.getCurrentItem());

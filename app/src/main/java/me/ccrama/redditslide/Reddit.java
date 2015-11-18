@@ -431,7 +431,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         : 8)
                 : defaultSorting == Sorting.CONTROVERSIAL ?
                 (timePeriod == TimePeriod.HOUR ? 9
-                        : 10)
+                        : timePeriod == TimePeriod.DAY ? 10
+                        : timePeriod == TimePeriod.WEEK ? 11
+                        : timePeriod == TimePeriod.MONTH ? 12
+                        : timePeriod == TimePeriod.YEAR ? 13
+                        : 14)
                 : 0;
     }
 
@@ -448,6 +452,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all),
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour),
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_week),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all),
                 };
     };
 }
