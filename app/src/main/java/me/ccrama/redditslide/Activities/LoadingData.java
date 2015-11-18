@@ -51,6 +51,12 @@ public class LoadingData extends AppCompatActivity {
                             finish();
                         }
                     })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            finish();
+                        }
+                    })
                     .create().show();
 
         }
