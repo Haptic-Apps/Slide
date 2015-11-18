@@ -540,7 +540,19 @@ public class Profile extends BaseActivity {
             Bundle args = new Bundle();
 
             args.putString("id", name);
-            args.putString("where", usedArray[i]);
+            String place;
+            switch(i){
+                case 0: place = "overview";
+                    break;
+                case 1: place = "comments";
+                        break;
+                case 2: place = "submitted";
+                        break;
+                case 3: place = "gilded";
+                        break;
+                default: place = "overview";
+            }
+            args.putString("where", place);
 
             f.setArguments(args);
 

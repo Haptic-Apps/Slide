@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:weightSum="4">
+        >
+
 
         <ImageView
             android:id="@+id/more"
@@ -23,7 +24,42 @@
 
 
             android:tint="?attr/tint" />
+        <ImageView
+            android:id="@+id/edit"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
 
+            android:background="?android:selectableItemBackground"
+            android:padding="12dp"
+            android:src="@drawable/edit"
+
+
+            android:tint="?attr/tint" />
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+
+            android:background="?android:selectableItemBackground"
+            android:padding="12dp"
+            android:src="@drawable/delete"
+
+
+            android:tint="?attr/tint" />
+        <ImageView
+            android:id="@+id/mod"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+
+            android:background="?android:selectableItemBackground"
+            android:padding="12dp"
+            android:src="@drawable/mod"
+
+
+            android:tint="?attr/tint" />
         <ImageView
             android:id="@+id/upvote"
             android:layout_width="0dp"

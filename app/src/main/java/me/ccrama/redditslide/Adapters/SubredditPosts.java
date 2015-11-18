@@ -83,6 +83,11 @@ public class SubredditPosts {
             loading = false;
 
             if (subs != null && subs.size() > 0) {
+                if(reset){
+                    posts = subs;
+                } else {
+                    posts.addAll(subs);
+                }
 
                 Log.v("Slide", "DONE LOADING, SIZE IS NOW " + posts.size());
 
@@ -118,16 +123,16 @@ public class SubredditPosts {
                 paginator.setSorting(Reddit.defaultSorting);
                 paginator.setTimePeriod(Reddit.timePeriod);
             }
+            ArrayList<Submission> things = new ArrayList<>();
             if (paginator != null && paginator.hasNext()) {
                 if (reset) {
-                    posts = new ArrayList<>();
                     try {
                         for (Submission c : paginator.next()) {
                             Submission s = c;
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
+                                    things.add(s);
                                 } else if (!s.isNsfw()) {
-                                    posts.add(s);
+                                    things.add(s);
                                 }
 
 
@@ -136,17 +141,16 @@ public class SubredditPosts {
                         //gets caught above
                     }
                 } else {
-                    if (posts == null)
-                        posts = new ArrayList<>();
+
 
                     try {
                         for (Submission c : paginator.next()) {
                             Submission s = c;
 
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
+                                    things.add(s);
                                 } else if (!s.isNsfw()) {
-                                    posts.add(s);
+                                    things.add(s);
 
                             }
 
@@ -159,7 +163,7 @@ public class SubredditPosts {
                 nomore = true;
             }
 
-            return posts;
+            return things;
         }
     }
 }

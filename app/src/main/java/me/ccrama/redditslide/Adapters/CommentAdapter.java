@@ -5,8 +5,10 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -27,9 +29,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.android.gms.auth.api.Auth;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
@@ -49,6 +53,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -246,7 +251,162 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             upvote.clearColorFilter();
 
         }
+        {
+            final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
+            if(SubredditStorage.modOf.contains(submission.getSubredditName())){
+               //todo
+                mod.setVisibility(View.GONE);
 
+            } else {
+                mod.setVisibility(View.GONE);
+            }
+        }
+        {
+            final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
+            if(Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())){
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater =((Activity) mContext).getLayoutInflater();
+
+                        final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+                        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+
+                       final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+                        e.setText(baseNode.getComment().getBody());
+
+
+                        builder.setView(dialoglayout);
+                        final Dialog d = builder.create();
+                        d.show();
+                        dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                d.dismiss();
+                            }
+                        });
+                        dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
+                                            new AccountManager(Authentication.reddit).updateSelfpost(baseNode.getComment(), e.getText().toString());
+                                            dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
+
+
+                                            currentSelectedItem = baseNode.getComment().getFullName();
+                                            d.dismiss();
+                                        } catch (Exception e){
+                                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new AlertDialogWrapper.Builder(mContext)
+                                                            .setTitle(R.string.error_delete_comment)
+                                                            .setMessage(R.string.error_delete_comment_msg)
+                                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.dismiss();
+                                                                    doInBackground();
+                                                                }
+                                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    }).show();
+                                                }
+                                            });
+                                        }
+                                        return null;
+                                    }
+                                }.execute();
+                            }
+                        });
+
+
+                    }
+                });
+            } else {
+                edit.setVisibility(View.GONE);
+            }
+        }
+        {
+            final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
+            if(Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())){
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new AlertDialogWrapper.Builder(mContext)
+                                .setTitle(R.string.delete_comment)
+                                .setMessage(R.string.delete_comment_msg)
+                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        new AsyncTask<Void, Void, Void>() {
+
+                                            @Override
+                                            protected Void doInBackground(Void... params) {
+                                                try {
+                                                    new ModerationManager(Authentication.reddit).delete(baseNode.getComment());
+                                                    deleted.add(baseNode.getComment().getFullName());
+
+                                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            holder.content.setText("[deleted]");
+                                                            holder.author.setText("[deleted]");
+                                                        }
+                                                    });
+
+                                                } catch (ApiException e) {
+                                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            new AlertDialogWrapper.Builder(mContext)
+                                                                    .setTitle(R.string.error_delete_comment)
+                                                                    .setMessage(R.string.error_delete_comment_msg)
+                                                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            dialog.dismiss();
+                                                                            doInBackground();
+                                                                        }
+                                                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.dismiss();
+                                                                }
+                                                            }).show();
+                                                        }
+                                                    });
+
+                                                    e.printStackTrace();
+                                                }
+
+                                                return null;
+                                            }
+                                        }.execute();
+
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+                        //todo delete
+                    }
+                });
+            } else {
+                delete.setVisibility(View.GONE);
+            }
+        }
         if (Authentication.isLoggedIn) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -690,6 +850,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.dot.setVisibility(View.GONE);
             }
+            if(deleted.contains(comment.getFullName())){
+                holder.content.setText("[deleted]");
+                holder.author.setText("[deleted]");
+
+
+            }
         } else {
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false);
             if (Authentication.isLoggedIn) {
@@ -867,6 +1033,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     }
+
+    public ArrayList<String> deleted = new ArrayList<>();
 
     public void hideAll(CommentNode n, int i) {
         int counter = hideNumber(n, 0);

@@ -134,7 +134,7 @@ public class SubmissionsView extends Fragment {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
             if (Reddit.fabType == R.integer.FAB_POST) {
-                fab.setImageResource(R.drawable.ic_add);
+                fab.setImageResource(R.drawable.add);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

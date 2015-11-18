@@ -488,6 +488,12 @@
     <string name="fabclear_msg">Tapping the clear button will remove the posts from the current view, but will not hide the posts forever. \nLong pressing the button will hide the posts forever!</string>
     <string name="fabclear_title">FAB Clear Actions</string>
     <string name="settings_fab">Floating Action Button Settings</string>
+    <string name="drawer_multi_column">Multi-column</string>
+    <string name="settings_notifdisabled">Notifications disabled.</string>
+    <string name="delete_comment">Delete comment</string>
+    <string name="delete_comment_msg">Do you really want to delete this comment? This cannot be undone.</string>
+    <string name="error_delete_comment">Uh oh, something went wrong.</string>
+    <string name="error_delete_comment_msg">Would you like to try again?</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

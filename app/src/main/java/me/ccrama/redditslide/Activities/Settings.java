@@ -114,8 +114,13 @@ public class Settings extends BaseActivityNoAnim {
                 startActivityForResult(i, 2);
             }
         });
-        ((TextView)findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
-                TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
+        if(Reddit.notificationTime > 0){
+            ((TextView)findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
+                    TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())).replace("\n", ""));
+
+        } else {
+            ((TextView)findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
+        }
         findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +189,15 @@ public class Settings extends BaseActivityNoAnim {
                             Reddit.notifications.start(getApplication());
                             dialog.dismiss();
                             ((TextView) findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
-                                    TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
+                                    TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())).replace("\n", ""));
+                        } else {
+                            Reddit.notificationTime = -1;
+                            Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                            Reddit.notifications.cancel(getApplication());
+                            dialog.dismiss();
+                            ((TextView)findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
+
+
                         }
                     }
                 });

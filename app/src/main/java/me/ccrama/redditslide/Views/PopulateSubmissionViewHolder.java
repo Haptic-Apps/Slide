@@ -52,6 +52,7 @@ import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.ModQueue;
+import me.ccrama.redditslide.Activities.OverviewBase;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditOverview;
 import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
@@ -95,6 +96,7 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onClick(View v) {
                 HasSeen.addSeen(submission.getFullName());
+                if(contextActivity instanceof OverviewBase)
                 back.setAlpha(0.5f);
                 switch (type) {
                     case NSFW_IMAGE:
