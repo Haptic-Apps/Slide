@@ -116,13 +116,11 @@ public class MultiredditOverview extends BaseActivity {
                     case 3:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.HOUR;
-
                         reloadSubs();
                         break;
                     case 4:
                         Reddit.defaultSorting = Sorting.TOP;
                         Reddit.timePeriod = TimePeriod.DAY;
-
                         reloadSubs();
                         break;
                     case 5:
@@ -155,6 +153,22 @@ public class MultiredditOverview extends BaseActivity {
                         Reddit.timePeriod = TimePeriod.DAY;
                         reloadSubs();
                         break;
+                    case 11:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.WEEK;
+                        reloadSubs();
+                    case 12:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.MONTH;
+                        reloadSubs();
+                    case 13:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.YEAR;
+                        reloadSubs();
+                    case 14:
+                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                        Reddit.timePeriod = TimePeriod.ALL;
+                        reloadSubs();
                 }
                 SettingValues.defaultSorting = Reddit.defaultSorting;
                 SettingValues.timePeriod = Reddit.timePeriod;
