@@ -148,7 +148,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                         if (prefsdir.exists() && prefsdir.isDirectory()) {
 
                             String[] list = prefsdir.list();
-                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).build();
+                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).cancelable(false).build();
                             progress.show();
                             for (final String s : list) {
                                 if (!s.contains("com.google")) {
@@ -249,7 +249,7 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
                 @Override
                 public void onClick(View v) {
                     if(mGoogleApiClient.isConnected()) {
-                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(true, 1).build();
+                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).cancelable(false).progress(true, 1).build();
                         progress.show();
                         appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
                     } else {
