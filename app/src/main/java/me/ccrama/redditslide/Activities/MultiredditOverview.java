@@ -77,7 +77,6 @@ public class MultiredditOverview extends BaseActivity {
                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                 i.putExtra("multi", SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
                 startActivity(i);
-                finish();
             }
         });
         findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
@@ -85,7 +84,6 @@ public class MultiredditOverview extends BaseActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                 startActivity(i);
-                finish();
             }
         });
 
@@ -201,7 +199,6 @@ public class MultiredditOverview extends BaseActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                     startActivity(i);
-                    finish();
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
