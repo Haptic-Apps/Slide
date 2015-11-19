@@ -189,19 +189,56 @@ public class MultiredditOverview extends BaseActivity {
     }
 
     private void setDataSet(List<MultiReddit> data) {
-        usedArray = data;
-        if (usedArray.size() == 0) {
-            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
-            builder.setTitle(R.string.multireddit_err_title);
-            builder.setMessage(R.string.multireddit_err_msg);
-            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                    startActivity(i);
+        try {
+            usedArray = data;
+            if (usedArray.size() == 0) {
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
+                builder.setTitle(R.string.multireddit_err_title);
+                builder.setMessage(R.string.multireddit_err_msg);
+                builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                        startActivity(i);
+                    }
+                });
+                builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                });
+                builder.create().show();
+
+            } else {
+
+                if (adapter == null) {
+                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                } else {
+                    adapter.notifyDataSetChanged();
                 }
-            });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                pager.setAdapter(adapter);
+                pager.setOffscreenPageLimit(2);
+                tabs.setupWithViewPager(pager);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = this.getWindow();
+                    window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0).getDisplayName()));
+                }
+
+                findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0).getDisplayName()));
+            }
+        } catch (NullPointerException e) {
+            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
+            builder.setTitle(R.string.err_title);
+            builder.setMessage(R.string.err_loading_content);
+            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
@@ -214,24 +251,6 @@ public class MultiredditOverview extends BaseActivity {
                 }
             });
             builder.create().show();
-
-        } else {
-
-            if (adapter == null) {
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            } else {
-                adapter.notifyDataSetChanged();
-            }
-            pager.setAdapter(adapter);
-            pager.setOffscreenPageLimit(2);
-            tabs.setupWithViewPager(pager);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = this.getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0).getDisplayName()));
-            }
-
-            findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0).getDisplayName()));
         }
 
     }
