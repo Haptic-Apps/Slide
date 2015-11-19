@@ -280,13 +280,13 @@ public class CreateMulti extends BaseActivity {
                     });
                 }
 
-            } catch (final ApiException e) {
+            } catch (final NetworkException |  ApiException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         new AlertDialogWrapper.Builder(CreateMulti.this)
                                 .setTitle(R.string.err_title)
-                                .setMessage(getString(R.string.misc_err) + ": " + e.getExplanation() + "\n" + getString(R.string.misc_retry))
+                                .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException)e).getExplanation() + "\n" + getString(R.string.misc_retry): getString(R.string.misc_err))
                                 .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -302,7 +302,7 @@ public class CreateMulti extends BaseActivity {
                     }
                 });
                 e.printStackTrace();
-            } catch (NetworkException | IllegalArgumentException e) {
+            } catch (  IllegalArgumentException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -23,5 +23,11 @@ public final class Cache {
 
     }
 
+    public static ArrayList<Submission> getSubreddit(String s){
+        for(String str : Reddit.appRestart.getAll()){
+
+        }
+    }
+
 
 }

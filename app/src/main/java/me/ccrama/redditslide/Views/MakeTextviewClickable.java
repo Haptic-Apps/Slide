@@ -9,6 +9,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
@@ -164,6 +165,8 @@ public class MakeTextviewClickable {
         return html;
     }
 
+
+
     /**
      * Sets the styling for string with code segments.
      *
@@ -174,43 +177,40 @@ public class MakeTextviewClickable {
      * @param sequence the Spannable generated from Html.fromHtml
      * @return  the message with monospace font applied to code fragments
      */
-    private CharSequence setCodeFont(Spannable sequence) {
-        String sequenceString = sequence.toString();
+    private CharSequence setCodeFont(SpannableStringBuilder sequence) {
         final String startSeq = "[[<[";
         final String endSeq = "]>]]";
-        SpannableStringBuilder builder = new SpannableStringBuilder();
 
-        int start;
-        int codeStartInSequence;
-        int end;
-        int codeStartInBuilder;
-        int codeEndInBuilder;
-        String code;
-        while (sequenceString.contains(startSeq)) {
-            start = 0;
-            codeStartInSequence = sequenceString.indexOf(startSeq) + startSeq.length();
-            end = sequenceString.indexOf(endSeq);
 
-            code = sequenceString.substring(start, end).replace(startSeq, "");
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < sequence.length(); i++) {
+            if (sequence.charAt(i) == '[' && i < sequence.length() - 3) {
+                if (sequence.charAt(i + 1) == '[' && sequence.charAt(i + 2) == '<' && sequence.charAt(i + 3) == '[') {
+                    start = i;
+                }
+            } else if (sequence.charAt(i) == ']' && i < sequence.length() - 3) {
+                if (sequence.charAt(i + 1) == '>' && sequence.charAt(i + 2) == ']' && sequence.charAt(i + 3) == ']') {
+                    end = i;
+                }
+            }
 
-            builder.append(code);
-
-            codeStartInBuilder = codeStartInSequence + builder.length() - code.length() - startSeq.length();
-            codeEndInBuilder = end + builder.length() - code.length() - endSeq.length() - 1;
-            builder.setSpan(new TypefaceSpan("monospace"), codeStartInBuilder, codeEndInBuilder, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-
-            start = end + endSeq.length();
-            sequenceString = sequenceString.substring(start);
+            if (end > start) {
+                sequence.delete(end, end + 4);
+                sequence.delete(start, start + 4);
+                sequence.setSpan(new TypefaceSpan("monospace"), start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                start = 0;
+                end = 0;
+            }
         }
-        builder.append(sequenceString);
 
-        return builder;
+        return sequence;
     }
 
     private CharSequence convertHtmlToCharSequence(String html) {
         html = parseCodeTags(html);
         CharSequence sequence = trim(Html.fromHtml(noTrailingwhiteLines(html)));
-        sequence = setCodeFont((Spannable)sequence);
+        sequence = setCodeFont((SpannableStringBuilder)sequence);
         return sequence;
     }
 
