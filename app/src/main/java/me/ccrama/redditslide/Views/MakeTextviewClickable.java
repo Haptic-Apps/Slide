@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
-import android.text.style.TextAppearanceSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
@@ -195,6 +192,7 @@ public class MakeTextviewClickable {
             end = sequenceString.indexOf(endSeq);
 
             code = sequenceString.substring(start, end).replace(startSeq, "");
+
             builder.append(code);
 
             codeStartInBuilder = codeStartInSequence + builder.length() - code.length() - startSeq.length();
