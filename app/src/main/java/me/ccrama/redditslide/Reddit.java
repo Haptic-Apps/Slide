@@ -55,6 +55,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean album;
     public static boolean image;
     public static boolean video;
+    public static long enter_animation_time = 2200;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -93,6 +94,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static long time = System.currentTimeMillis();
     private boolean isRestarting;
     public static boolean fabClear;
+    public static ArrayList<Integer> lastposition;
+    public static int currentPosition;
 
     public static CustomTabsSession getSession() {
         if (mClient == null) {
@@ -262,6 +265,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         colors = getSharedPreferences("COLOR", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
+        lastposition = new ArrayList<>();
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
 

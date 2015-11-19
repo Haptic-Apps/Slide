@@ -148,7 +148,7 @@ public class SubmissionsView extends Fragment {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!Reddit.fabClear){
+                        if (!Reddit.fabClear) {
                             new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -168,7 +168,7 @@ public class SubmissionsView extends Fragment {
                 fab.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        if(!Reddit.fabClear){
+                        if (!Reddit.fabClear) {
                             new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.settings_fabclear)
                                     .setMessage(R.string.settings_fabclear_msg)
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -248,26 +248,26 @@ public class SubmissionsView extends Fragment {
         return v;
     }
 
-
-
     private ArrayList<Submission> clearSeenPosts(boolean forever) {
-        ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
-        System.out.println("Posts number is " + adapter.dataSet.posts.size());
+        if (adapter.dataSet.posts != null) {
+            ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
 
-        for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
-            try {
-                if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
-                    if (forever) {
-                        Hidden.setHidden(adapter.dataSet.posts.get(i));
+            for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
+                try {
+                    if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+                        if (forever) {
+                            Hidden.setHidden(adapter.dataSet.posts.get(i));
+                        }
+                        adapter.dataSet.posts.remove(i);
+                        adapter.notifyItemRemoved(i);
                     }
-                    adapter.dataSet.posts.remove(i);
-                    adapter.notifyItemRemoved(i);
+                } catch (IndexOutOfBoundsException e) {
+                    //Let the loop reset itself
                 }
-            } catch (IndexOutOfBoundsException e) {
-                //Let the loop reset itself
             }
+            return originalDataSetPosts;
         }
-        return originalDataSetPosts;
+        return null;
     }
 
     @Override
