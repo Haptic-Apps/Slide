@@ -453,8 +453,6 @@ public class OverviewBase extends AppCompatActivity {
                                         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
                                         pager.setAdapter(adapter);
                                         pager.setCurrentItem(current);
-
-
                                     }
                                 });
 
@@ -1595,6 +1593,7 @@ public class OverviewBase extends AppCompatActivity {
 
                 @Override
                 public void onPageSelected(int position) {
+                    Reddit.currentPosition = position;
                     doSubSidebar(usedArray.get(position));
                     if (Reddit.single) {
                         hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
