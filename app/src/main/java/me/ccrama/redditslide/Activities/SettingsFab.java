@@ -37,6 +37,7 @@ public class SettingsFab extends BaseActivityNoAnim  {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             SettingsFab.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_fab),
                     ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }

@@ -108,6 +108,7 @@ public class SubredditView extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
         }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setResult(3);
@@ -783,6 +784,7 @@ public class SubredditView extends BaseActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                    window.setNavigationBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
                                     SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                 }
@@ -803,6 +805,7 @@ public class SubredditView extends BaseActivity {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
                                         window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
                                         SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }

@@ -63,6 +63,7 @@ public class Wiki extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
+            window.setNavigationBarColor(Pallete.getDarkerColor(subreddit));
         }
 
         new AsyncGetWiki().execute();

@@ -68,6 +68,7 @@ public class Profile extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getColorUser(name))));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getColorUser(name))));
         }
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -202,6 +203,7 @@ public class Profile extends BaseActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                            window.setNavigationBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
                         }
                         title.setBackgroundColor(colorPicker2.getColor());
                     }

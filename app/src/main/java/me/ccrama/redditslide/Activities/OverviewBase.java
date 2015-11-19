@@ -277,6 +277,7 @@ public class OverviewBase extends AppCompatActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                    window.setNavigationBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
                                     OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                 }
@@ -298,6 +299,7 @@ public class OverviewBase extends AppCompatActivity {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
                                         window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
                                         OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }
@@ -527,6 +529,7 @@ public class OverviewBase extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = this.getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
+                window.setNavigationBarColor(Pallete.getDarkerColor(usedArray.get(0)));
                 OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
 
             }
@@ -1038,6 +1041,7 @@ public class OverviewBase extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
                     window.setStatusBarColor(Pallete.getDarkerColor(color));
+                    window.setNavigationBarColor(Pallete.getDarkerColor(color));
                     OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
 
                 }
@@ -1601,6 +1605,7 @@ public class OverviewBase extends AppCompatActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
+                            window.setNavigationBarColor(Pallete.getDarkerColor(usedArray.get(position)));
                             OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
 
                         }
@@ -1613,6 +1618,7 @@ public class OverviewBase extends AppCompatActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
+                            window.setNavigationBarColor(Pallete.getDarkerColor(usedArray.get(position)));
                             OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
 
                         }

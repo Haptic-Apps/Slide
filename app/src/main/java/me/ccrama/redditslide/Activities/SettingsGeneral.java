@@ -46,6 +46,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             SettingsGeneral.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_general), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 

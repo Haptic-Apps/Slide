@@ -82,6 +82,7 @@ public class DonateView extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Pallete.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
+            window.setNavigationBarColor(Pallete.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
         }
         final Slider sl_discrete = (Slider) findViewById(R.id.slider_sl_discrete);
         final TextView ads = (TextView) findViewById(R.id.ads);

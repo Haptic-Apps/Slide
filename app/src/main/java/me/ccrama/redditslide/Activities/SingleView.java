@@ -50,6 +50,7 @@ public class SingleView extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
             SingleView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
         }

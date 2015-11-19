@@ -88,6 +88,7 @@ public class Submit extends AppCompatActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColor("asldkfj")));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getColor("asldkfj")));
         }
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
