@@ -381,7 +381,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         }
         String f = b.toString();
-        f = f.substring(0, f.length() - 1);
+        if (f.length() > 0) {
+            f = f.substring(0, f.length() - 1);
+        }
         return f;
     }
     public static ArrayList<String> stringToArray(String string){
