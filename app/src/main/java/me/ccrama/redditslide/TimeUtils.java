@@ -57,7 +57,7 @@ public class TimeUtils {
             hour = res.getQuantityString(R.plurals.time_hours, hours, hours);
         if (minutes > 0)
             minute = res.getQuantityString(R.plurals.time_minutes, minutes, minutes);
-        return hour + " " + minute;
+        return hour.isEmpty() ? minute : hour + " " + minute ;
     }
 
 }
