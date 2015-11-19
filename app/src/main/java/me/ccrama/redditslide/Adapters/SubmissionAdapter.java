@@ -310,7 +310,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setAnimation(View viewToAnimate, int position) {
         try {
-            if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1) {
+            if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1 && Reddit.animation) {
                 int cx = viewToAnimate.getWidth() / 2;
                 int cy = viewToAnimate.getHeight() / 2;
                 int finalRadius = Math.max(viewToAnimate.getWidth(), viewToAnimate.getHeight());
