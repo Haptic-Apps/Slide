@@ -34,6 +34,7 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Pallete;
 
@@ -46,7 +47,7 @@ public class SubmissionsView extends Fragment {
     private int visibleItemCount;
     private int pastVisiblesItems;
     private int totalItemCount;
-    private SubmissionAdapter adapter;
+    public SubmissionAdapter adapter;
     private String id;
 
     @Override
@@ -111,25 +112,29 @@ public class SubmissionsView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
 
-        posts = new SubredditPosts(id);
-        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
-        rv.setAdapter(adapter);
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            posts = new SubredditPosts(id);
+            adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
+            rv.setAdapter(adapter);
+            try {
+                posts.bindAdapter(adapter, mSwipeRefreshLayout);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        if(posts.offline){
+            Snackbar.make(mSwipeRefreshLayout, "Last updated " +  TimeUtils.getTimeAgo(posts.cached.time, getActivity()), Snackbar.LENGTH_LONG).show();
         }
 
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(adapter, true, id);
+            mSwipeRefreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            posts.loadMore(adapter, true, id);
+                        }
                     }
-                }
-        );
+            );
+
         if (Reddit.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 

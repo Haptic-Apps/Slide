@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -69,6 +71,7 @@ import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.util.NetworkUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -93,7 +96,12 @@ public class OverviewBase extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v("Slide", "CREATING");
-        if(savedInstanceState != null) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        final NetworkChangeReceiver receiver = new NetworkChangeReceiver();
+        registerReceiver(receiver, filter);
+        if (savedInstanceState != null) {
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList("subs");
             SubredditStorage.alphabeticalSubscriptions = savedInstanceState.getStringArrayList("subsalph");
             SubredditStorage.realSubs = savedInstanceState.getStringArrayList("real");
@@ -532,7 +540,8 @@ public class OverviewBase extends AppCompatActivity {
                 OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
 
             }
-            doSubSidebar(usedArray.get(0));
+            if (Reddit.online)
+                doSubSidebar(usedArray.get(0));
             findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             if (!Reddit.single) {
@@ -696,7 +705,7 @@ public class OverviewBase extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         final View header;
 
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && Reddit.online) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             hea = header.findViewById(R.id.back);
@@ -823,17 +832,19 @@ public class OverviewBase extends AppCompatActivity {
                 }
             });
         }
+        if (Reddit.online) {
 
-        View support = header.findViewById(R.id.support);
-        if (Reddit.tabletUI) support.setVisibility(View.GONE);
-        else {
-            header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, DonateView.class);
-                    OverviewBase.this.startActivity(inte);
-                }
-            });
+            View support = header.findViewById(R.id.support);
+            if (Reddit.tabletUI) support.setVisibility(View.GONE);
+            else {
+                header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(OverviewBase.this, DonateView.class);
+                        OverviewBase.this.startActivity(inte);
+                    }
+                });
+            }
         }
 
         e = ((EditText) header.findViewById(R.id.sort));
@@ -854,41 +865,18 @@ public class OverviewBase extends AppCompatActivity {
             }
 
         });
-        header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if (Reddit.online) {
+            header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                final EditText input = new EditText(OverviewBase.this);
-                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                input.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                            input.setText(String.valueOf(input.getText()).replace(" ", ""));
-                            Editable value = input.getText();
-                            if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                new AlertDialogWrapper.Builder(OverviewBase.this)
-                                        .setTitle(R.string.user_invalid)
-                                        .setMessage(R.string.user_invalid_msg)
-                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                            }
-                                        }).show();
-                            } else {
-                                Intent inte = new Intent(OverviewBase.this, Profile.class);
-                                inte.putExtra("profile", value.toString());
-                                OverviewBase.this.startActivity(inte);
-                            }
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                new AlertDialogWrapper.Builder(OverviewBase.this)
-                        .setTitle(R.string.user_enter)
-                        .setView(input)
-                        .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
+                    final EditText input = new EditText(OverviewBase.this);
+                    input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                    input.setOnKeyListener(new View.OnKeyListener() {
+                        @Override
+                        public boolean onKey(View v, int keyCode, KeyEvent event) {
+                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                                input.setText(String.valueOf(input.getText()).replace(" ", ""));
                                 Editable value = input.getText();
                                 if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
                                     new AlertDialogWrapper.Builder(OverviewBase.this)
@@ -903,15 +891,40 @@ public class OverviewBase extends AppCompatActivity {
                                     inte.putExtra("profile", value.toString());
                                     OverviewBase.this.startActivity(inte);
                                 }
+                                return true;
                             }
-                        }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing.
-                    }
-                }).show();
+                            return false;
+                        }
+                    });
+                    new AlertDialogWrapper.Builder(OverviewBase.this)
+                            .setTitle(R.string.user_enter)
+                            .setView(input)
+                            .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Editable value = input.getText();
+                                    if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
+                                        new AlertDialogWrapper.Builder(OverviewBase.this)
+                                                .setTitle(R.string.user_invalid)
+                                                .setMessage(R.string.user_invalid_msg)
+                                                .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                    }
+                                                }).show();
+                                    } else {
+                                        Intent inte = new Intent(OverviewBase.this, Profile.class);
+                                        inte.putExtra("profile", value.toString());
+                                        OverviewBase.this.startActivity(inte);
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            // Do nothing.
+                        }
+                    }).show();
 
-            }
-        });
+                }
+            });
+        }
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1582,6 +1595,21 @@ public class OverviewBase extends AppCompatActivity {
         }
     }
 
+    public class NetworkChangeReceiver extends BroadcastReceiver {
+
+        public NetworkChangeReceiver() {
+
+        }
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+
+            Reddit.online = NetworkUtil.getConnectivityStatus(context);
+
+
+        }
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private Fragment mCurrentFragment;
 
@@ -1595,7 +1623,9 @@ public class OverviewBase extends AppCompatActivity {
 
                 @Override
                 public void onPageSelected(int position) {
-                    doSubSidebar(usedArray.get(position));
+                    if (Reddit.online) {
+                        doSubSidebar(usedArray.get(position));
+                    }
                     if (Reddit.single) {
                         hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                         header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
@@ -1627,6 +1657,7 @@ public class OverviewBase extends AppCompatActivity {
                 }
             });
         }
+
 
         public Fragment getCurrentFragment() {
             return mCurrentFragment;

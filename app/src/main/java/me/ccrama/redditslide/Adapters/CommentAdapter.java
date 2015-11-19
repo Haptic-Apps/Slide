@@ -861,7 +861,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         } else {
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
             if (Authentication.isLoggedIn) {
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
                     @Override

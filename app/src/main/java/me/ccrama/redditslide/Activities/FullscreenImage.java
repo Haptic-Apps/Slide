@@ -21,9 +21,8 @@ import android.widget.ProgressBar;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
@@ -66,47 +65,35 @@ public class FullscreenImage extends BaseActivity {
         }
 
         ((Reddit) getApplication()).getImageLoader()
-                .loadImage(url, new ImageSize(i.getWidth(), i.getHeight()), DisplayImageOptions.createSimple(),
-                        new SimpleImageLoadingListener() {
+                .loadImage(url, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        i.setImage(ImageSource.bitmap(loadedImage));
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                });
+
+                        i.setOnClickListener(new View.OnClickListener() {
 
                             @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                i.setImage(ImageSource.bitmap(loadedImage));
-                            }
-
-
-                        }, new ImageLoadingProgressListener() {
-
-                            @Override
-                            public void onProgressUpdate(String imageUri, View view, final int current, final int total) {
-                                runOnUiThread(
-                                        new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if (bar.getVisibility() == View.GONE) {
-                                                    bar.setVisibility(View.VISIBLE);
-                                                }
-                                                bar.setProgress((current * 100) / total);
-                                                Log.v("Slide", "DOING PROGRESS" + (current * 100) / total);
-                                                if (current == total) {
-
-                                                    bar.setVisibility(View.GONE);
-                                                }
-                                            }
-                                        });
-
-
+                            public void onClick(View v2) {
+                                FullscreenImage.this.finish();
                             }
                         });
-
-
-        i.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v2) {
-                FullscreenImage.this.finish();
-            }
-        });
 
 
         {

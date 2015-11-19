@@ -17,6 +17,7 @@
 
         android:label="@string/app_name"
         android:theme="@style/yellow_dark">
+
         <activity
             android:name=".Activities.LoadingData"
             android:label="@string/app_name">

@@ -55,6 +55,7 @@ class ImageLoaderUtils {
                 .threadPoolSize(threadPoolSize)
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCache(discCache)
+
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
                         .resetViewBeforeLoading(true)
                         .cacheOnDisk(true)

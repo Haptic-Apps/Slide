@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="?attr/card_background"
+    app:cardCornerRadius="2dp"
+
+    >
+
+
+    <TextView
+
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:padding="16sp"
+
+        android:text="Updated 3 hours ago"
+
+        android:textAllCaps="true"
+        android:textColor="?attr/font"
+        android:textSize="14sp"
+
+
+        android:textStyle="italic" />
+
+
+</LinearLayout>

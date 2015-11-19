@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Cache;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
@@ -60,12 +62,14 @@ public class SubredditPosts {
 
 
     }
+    public boolean offline;
 
     public void loadMore(CommentsScreen adapter, boolean reset) {
         this.pagerad = adapter;
         new LoadData(reset).execute(subreddit);
 
     }
+    public OfflineSubreddit cached;
 
     public void addData(List<Submission> data) {
         posts.addAll(data);
@@ -83,7 +87,7 @@ public class SubredditPosts {
             loading = false;
 
             if (subs != null && subs.size() > 0) {
-                if(reset){
+                if(reset || offline){
                     posts = subs;
                 } else {
                     posts.addAll(subs);
@@ -106,6 +110,9 @@ public class SubredditPosts {
             } else if (subs != null) {
                 nomore = true;
             } else {
+                if (refreshLayout != null)
+
+                    refreshLayout.setRefreshing(false);
                 adapter.setError(true);
 
             }
@@ -113,7 +120,11 @@ public class SubredditPosts {
 
         @Override
         protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
-            if (reset || paginator == null) {
+            ArrayList<Submission> things = new ArrayList<>();
+
+            if ( !Cache.hasSub(subredditPaginators[0]) && Reddit.online || reset && Reddit.online) {
+
+                offline = false;
                 if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
                     paginator = new SubredditPaginator(Authentication.reddit);
                 } else {
@@ -122,13 +133,11 @@ public class SubredditPosts {
                 }
                 paginator.setSorting(Reddit.defaultSorting);
                 paginator.setTimePeriod(Reddit.timePeriod);
-            }
-            ArrayList<Submission> things = new ArrayList<>();
-            if (paginator != null && paginator.hasNext()) {
-                if (reset) {
-                    try {
-                        for (Submission c : paginator.next()) {
-                            Submission s = c;
+                if (paginator != null && paginator.hasNext()) {
+                    if (reset) {
+                        try {
+                            for (Submission c : paginator.next()) {
+                                Submission s = c;
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     things.add(s);
                                 } else if (!s.isNsfw()) {
@@ -136,34 +145,48 @@ public class SubredditPosts {
                                 }
 
 
+                            }
+                        } catch (Exception ignored) {
+                            //gets caught above
                         }
-                    } catch (Exception ignored) {
-                        //gets caught above
-                    }
-                } else {
+                    } else {
 
 
-                    try {
-                        for (Submission c : paginator.next()) {
-                            Submission s = c;
+                        try {
+                            for (Submission c : paginator.next()) {
+                                Submission s = c;
 
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     things.add(s);
                                 } else if (!s.isNsfw()) {
                                     things.add(s);
 
-                            }
+                                }
 
+                            }
+                        } catch (Exception ignored) {
+                            //gets caught above
                         }
-                    } catch (Exception ignored) {
-                        //gets caught above
                     }
+                } else {
+                    nomore = true;
                 }
+
+                Cache.writeSubreddit(things, subredditPaginators[0]);
+                return things;
+
+            } else if(Cache.hasSub(subredditPaginators[0])){
+                offline = true;
+                cached = Cache.getSubreddit(subredditPaginators[0]);
+                things = cached.submissions;
+                return things;
+
             } else {
-                nomore = true;
+                offline = true;
+                return null;
+
             }
 
-            return things;
         }
     }
 }

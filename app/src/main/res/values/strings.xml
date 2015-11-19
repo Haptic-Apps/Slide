@@ -490,6 +490,8 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
+    <string name="network_connected">Network connected</string>
+    <string name="network_connected_msg">Would you like to exit offline mode?</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

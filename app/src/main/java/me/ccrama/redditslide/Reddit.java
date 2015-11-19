@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -21,6 +23,7 @@ import android.support.customtabs.CustomTabsSession;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.models.CommentSort;
@@ -43,6 +46,7 @@ import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -75,7 +79,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int dpWidth;
     public static int notificationTime;
     public static NotificationJobScheduler notifications;
-    public static Boolean online = true;
+    public static Boolean online ;
     public static SharedPreferences seen;
     public static SharedPreferences hidden;
     private static CustomTabsSession mCustomTabsSession;
@@ -88,7 +92,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public LoadingData loader;
     private ImageLoader defaultImageLoader;
     private boolean closed = false;
-    private boolean mInBackground = true;
+    public boolean mInBackground = true;
     private Runnable mBackgroundTransition;
     public static long time = System.currentTimeMillis();
     private boolean isRestarting;
@@ -123,6 +127,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }
+
 
     public static void defaultShare(String url, Context c) {
         Uri webpage = Uri.parse(url);
@@ -181,7 +186,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             mBackgroundTransition = null;
         }
 
-        if (mInBackground) {
+        if (mInBackground && online) {
             mInBackground = false;
             notifyOnBecameForeground();
 
@@ -247,6 +252,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
+        online = NetworkUtil.getConnectivityStatus(this);
+
+        Log.v("Slide", "ONLINE " + online);
 
         Log.v("Slide", "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
