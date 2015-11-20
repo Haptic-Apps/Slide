@@ -97,7 +97,7 @@ public class CommentPage extends Fragment {
                     : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
                     : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
                     : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
-                    : 1;
+                    : 0;
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
             builder.setTitle(R.string.sorting_choose);
             Resources res = getActivity().getBaseContext().getResources();
@@ -306,6 +306,7 @@ public class CommentPage extends Fragment {
         if (context.isEmpty()) {
 
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            comments.setSorting(Reddit.defaultCommentSorting);
             if (DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
             rv.setAdapter(adapter);
@@ -313,9 +314,11 @@ public class CommentPage extends Fragment {
         } else {
             if (context.equals("NOTHING")) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                comments.setSorting(Reddit.defaultCommentSorting);
 
             } else {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
+                comments.setSorting(Reddit.defaultCommentSorting);
             }
 
 

@@ -63,6 +63,19 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.animation);
+
+            single.setChecked(Reddit.animation);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.animation = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
+
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
 
             single.setChecked(Reddit.fastscroll);

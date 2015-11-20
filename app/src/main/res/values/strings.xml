@@ -154,7 +154,7 @@
     <string name="sorting_best">Best</string>
     <string name="sorting_top">Top</string>
     <string name="sorting_hot">Hot</string>
-    <string name="sorting_ama">Q&amp;A (AMA)></string>
+    <string name="sorting_ama">Q&amp;A (AMA)</string>
     <string name="sorting_new">New</string>
     <string name="sorting_old">Old</string>
     <string name="sorting_controversial">Controversial</string>
@@ -407,6 +407,7 @@
     <string name="settings_notification">Check for new messages every %1$s</string>
     <string name="settings_notification_short">Check every %1$s</string>
     <string name="settings_single_mode">Single Mode\nRemoves swiping between subs</string>
+    <string name="enter_animation">Enter animation\nShow reveal animations</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
