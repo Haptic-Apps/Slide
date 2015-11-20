@@ -40,7 +40,7 @@ public class SettingValues {
         colorIndicator = ColorIndicator.valueOf(settings.getString("colorIndicatorNew", "CARD_BACKGROUND"));
         defaultSorting = Sorting.valueOf(settings.getString("defaultSorting", "HOT"));
         timePeriod = TimePeriod.valueOf(settings.getString("timePeriod", "DAY"));
-        defaultCommentSorting = CommentSort.valueOf(settings.getString("defaultCommentSorting", "TOP"));
+        defaultCommentSorting = CommentSort.valueOf(settings.getString("defaultCommentSorting", "CONFIDENCE"));
     }
 
     public enum ColorIndicator {
