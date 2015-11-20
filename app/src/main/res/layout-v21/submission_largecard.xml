@@ -307,7 +307,8 @@
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"/>
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="8dp" />
 
                     <ImageView
                         android:id="@+id/hide"
