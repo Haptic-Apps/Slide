@@ -40,14 +40,9 @@ public class ContributionPosts {
 
     public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
 
-        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
-        } else {
-            adapter.setError(true);
-            refreshLayout.setRefreshing(false);
-        }
 
     }
 
@@ -77,6 +72,7 @@ public class ContributionPosts {
                     });
             } else {
                 adapter.setError(true);
+                refreshLayout.setRefreshing(false);
 
             }
         }

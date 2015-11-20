@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
-import me.ccrama.redditslide.Reddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -53,14 +52,10 @@ public class SubmissionComments {
 
     public void loadMore(CommentAdapter adapter, String subreddit) {
         this.adapter = adapter;
-        if (Reddit.online) {
 
             new LoadData(true).execute(subreddit);
 
-        } else {
-            adapter.setError(true);
-            refreshLayout.setRefreshing(false);
-        }
+
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
@@ -76,8 +71,11 @@ public class SubmissionComments {
 
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
+                page.doData(reset);
+
+            } else {
+                adapter.setError(true);
             }
-            page.doData(reset);
 
             refreshLayout.setRefreshing(false);
         }

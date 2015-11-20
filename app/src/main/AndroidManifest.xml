@@ -70,12 +70,6 @@
 
             android:theme="@style/swipeable" />
 
-        <receiver android:name=".ConnectionReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".Activities.GifView"
             android:configChanges="keyboardHidden|orientation|screenSize"

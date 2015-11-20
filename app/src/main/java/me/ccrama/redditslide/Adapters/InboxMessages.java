@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Reddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -46,14 +45,10 @@ public class InboxMessages {
     }
 
     public void loadMore(InboxAdapter adapter, String where) {
-        if (Reddit.online) {
 
             new LoadData(true).execute(where);
 
-        } else {
-            adapter.setError(true);
-            refreshLayout.setRefreshing(false);
-        }
+
 
     }
 
@@ -72,6 +67,7 @@ public class InboxMessages {
         public void onPostExecute(ArrayList<Message> subs) {
             if (subs == null) {
                 adapter.setError(true);
+                refreshLayout.setRefreshing(false);
             } else {
 
                 if (reset) {

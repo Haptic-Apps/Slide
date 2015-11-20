@@ -43,6 +43,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -58,6 +59,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
+import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
@@ -69,6 +71,7 @@ import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -95,12 +98,6 @@ public class OverviewBase extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("Slide", "CREATING");
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
-        filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
-        final NetworkChangeReceiver receiver = new NetworkChangeReceiver();
-        registerReceiver(receiver, filter);
         if (savedInstanceState != null) {
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList("subs");
             SubredditStorage.alphabeticalSubscriptions = savedInstanceState.getStringArrayList("subsalph");
@@ -461,8 +458,6 @@ public class OverviewBase extends AppCompatActivity {
                                         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
                                         pager.setAdapter(adapter);
                                         pager.setCurrentItem(current);
-
-
                                     }
                                 });
 
@@ -540,7 +535,6 @@ public class OverviewBase extends AppCompatActivity {
                 OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
 
             }
-            if (Reddit.online)
                 doSubSidebar(usedArray.get(0));
             findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
@@ -705,7 +699,7 @@ public class OverviewBase extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         final View header;
 
-        if (Authentication.isLoggedIn && Reddit.online) {
+        if (Authentication.isLoggedIn) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             hea = header.findViewById(R.id.back);
@@ -832,7 +826,6 @@ public class OverviewBase extends AppCompatActivity {
                 }
             });
         }
-        if (Reddit.online) {
 
             View support = header.findViewById(R.id.support);
             if (Reddit.tabletUI) support.setVisibility(View.GONE);
@@ -844,7 +837,7 @@ public class OverviewBase extends AppCompatActivity {
                         OverviewBase.this.startActivity(inte);
                     }
                 });
-            }
+
         }
 
         e = ((EditText) header.findViewById(R.id.sort));
@@ -865,7 +858,6 @@ public class OverviewBase extends AppCompatActivity {
             }
 
         });
-        if (Reddit.online) {
             header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -924,7 +916,7 @@ public class OverviewBase extends AppCompatActivity {
 
                 }
             });
-        }
+
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1595,20 +1587,7 @@ public class OverviewBase extends AppCompatActivity {
         }
     }
 
-    public class NetworkChangeReceiver extends BroadcastReceiver {
 
-        public NetworkChangeReceiver() {
-
-        }
-
-        @Override
-        public void onReceive(final Context context, final Intent intent) {
-
-            Reddit.online = NetworkUtil.getConnectivityStatus(context);
-
-
-        }
-    }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private Fragment mCurrentFragment;
@@ -1623,9 +1602,21 @@ public class OverviewBase extends AppCompatActivity {
 
                 @Override
                 public void onPageSelected(int position) {
-                    if (Reddit.online) {
+                    Reddit.currentPosition = position;
+
                         doSubSidebar(usedArray.get(position));
+
+
+                    if(adapter.getCurrentFragment() != null){
+                        SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
+                        if(p.offline){
+                                Toast.makeText(OverviewBase.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, OverviewBase.this), Toast.LENGTH_LONG).show();
+
+
+
+                        }
                     }
+
                     if (Reddit.single) {
                         hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
                         header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));

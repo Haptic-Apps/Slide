@@ -218,7 +218,7 @@
 
     <!-- Multireddit errors -->
     <string name="multireddit_err_title">No Multireddits (yet)!</string>
-    <string name="multireddit_err_msg">For now, you will need to create new multireddits on Reddit.com. Coming soon will be in-app multireddit creation, though!</string>
+    <string name="multireddit_err_msg">Would you like to create a new Multireddit?</string>
     <string name="multireddit_title_empty">Title can\'t be empty</string>
     <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
     <string name="multireddit_no_subs">No subs are added</string>

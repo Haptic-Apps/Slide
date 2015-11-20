@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Reddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -44,14 +43,10 @@ public class ModeratorPosts {
 
     public void loadMore(ModeratorAdapter adapter, String where, String subreddit) {
         this.subreddit = subreddit;
-        if (Reddit.online) {
 
             new LoadData(true).execute(where);
 
-        } else {
-            adapter.setError(true);
-            refreshLayout.setRefreshing(false);
-        }
+
 
     }
 
@@ -76,6 +71,7 @@ public class ModeratorPosts {
                 adapter.notifyDataSetChanged();
             } else {
                 adapter.setError(true);
+                refreshLayout.setRefreshing(false);
 
             }
         }

@@ -88,6 +88,7 @@ public class CreateMulti extends BaseActivity {
         });
         setSupportActionBar(b);
         getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
@@ -260,22 +261,26 @@ public class CreateMulti extends BaseActivity {
                 Pattern validName = Pattern.compile("^[A-Za-z0-9][A-Za-z0-9_]{2,20}$");
                 Matcher m = validName.matcher(multiName);
 
-                if (!m.matches())
+                if (!m.matches()) {
+                    Log.v("CreateMulti", "Invalid multi name");
                     throw new IllegalArgumentException(multiName);
-
+                }
                 if (delete) {
+                    Log.v("CreateMulti", "Deleting");
                     new MultiRedditManager(Authentication.reddit).delete(old);
 
                 } else {
                     if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(multiName)) {
+                        Log.v("CreateMulti", "Renaming");
                         new MultiRedditManager(Authentication.reddit).rename(old, multiName);
                     }
+                    Log.v("CreateMulti", "Create or Update, Name: " + multiName);
                     new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.v("CreateMulti", "Update Subreddits");
                             new SubredditStorage.SyncMultireddits(CreateMulti.this).execute();
-
                         }
                     });
                 }

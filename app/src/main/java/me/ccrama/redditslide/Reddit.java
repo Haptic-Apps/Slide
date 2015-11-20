@@ -5,9 +5,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -23,7 +21,6 @@ import android.support.customtabs.CustomTabsSession;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.models.CommentSort;
@@ -46,7 +43,6 @@ import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
-import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -59,6 +55,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean album;
     public static boolean image;
     public static boolean video;
+    public static long enter_animation_time = 600;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -79,7 +76,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int dpWidth;
     public static int notificationTime;
     public static NotificationJobScheduler notifications;
-    public static Boolean online ;
     public static SharedPreferences seen;
     public static SharedPreferences hidden;
     private static CustomTabsSession mCustomTabsSession;
@@ -97,6 +93,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static long time = System.currentTimeMillis();
     private boolean isRestarting;
     public static boolean fabClear;
+    public static ArrayList<Integer> lastposition;
+    public static int currentPosition;
 
     public static CustomTabsSession getSession() {
         if (mClient == null) {
@@ -186,11 +184,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             mBackgroundTransition = null;
         }
 
-        if (mInBackground && online) {
+        if (mInBackground) {
             mInBackground = false;
             notifyOnBecameForeground();
 
-            authentication.updateToken(activity);
+            if(authentication.hasDone) {
+                authentication.updateToken(activity);
+            } else {
+                authentication = new Authentication(this);
+
+            }
 
         }
 
@@ -252,9 +255,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
-        online = NetworkUtil.getConnectivityStatus(this);
-
-        Log.v("Slide", "ONLINE " + online);
 
         Log.v("Slide", "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
@@ -270,6 +270,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         colors = getSharedPreferences("COLOR", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
+        lastposition = new ArrayList<>();
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
 

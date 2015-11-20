@@ -4,6 +4,8 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 3/22/2015.
  */
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -12,11 +14,14 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -44,15 +49,16 @@ import me.ccrama.redditslide.Visuals.Pallete;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
-    public final Activity mContext;
+    public static Activity mContext;
     private final RecyclerView listView;
     private final String subreddit;
     private final boolean custom;
     public SubredditPosts dataSet;
     public ArrayList<Submission> seen;
+    public ArrayList<RecyclerView.ViewHolder> views;
 
     public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
-
+        this.views = new ArrayList<>();
         this.mContext = mContext;
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
@@ -78,6 +84,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemViewType(int position) {
 
         if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0 &&!dataSet.offline) {
+
             return 5;
         }
         return 1;
@@ -99,7 +106,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
-
             final Submission submission = dataSet.posts.get(i);
 
             CreateCardView.resetColorCard(holder.itemView);
@@ -255,9 +261,17 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, custom, dataSet.offline);
 
-            int lastPosition = i;
-        }
+            holder.itemView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onLayoutChange(final View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    v.removeOnLayoutChangeListener(this);
+                    setAnimation(v, i);
 
+                }
+            });
+        }
+        views.add(holder2);
     }
 
     @Override
@@ -265,6 +279,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else if (dataSet.nomore || dataSet.offline ) {
+
             return dataSet.posts.size();
         } else {
             return dataSet.posts.size() + 1;
@@ -304,6 +319,36 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 return null;
             }
             return null;
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setAnimation(View viewToAnimate, int position) {
+        try {
+            if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1) {
+                int cx = viewToAnimate.getWidth() / 2;
+                int cy = viewToAnimate.getHeight() / 2;
+                int finalRadius = Math.max(viewToAnimate.getWidth(), viewToAnimate.getHeight());
+
+                final Animator anim =
+                        ViewAnimationUtils.createCircularReveal(viewToAnimate, cx, cy, 0, finalRadius);
+                anim.setDuration(Reddit.enter_animation_time);
+                anim.setInterpolator(new FastOutSlowInInterpolator());
+                viewToAnimate.setVisibility(View.VISIBLE);
+                anim.start();
+                Reddit.lastposition.set(Reddit.currentPosition, Reddit.lastposition.get(Reddit.currentPosition) + 1);
+            }
+        } catch (IndexOutOfBoundsException e) {
+            fixSliding(Reddit.currentPosition);
+        }
+    }
+
+    static void fixSliding(int position) {
+        try {
+            System.out.println("Fixing..");
+            Reddit.lastposition.add(position, 0);
+        } catch (IndexOutOfBoundsException e) {
+            fixSliding(position - 1);
         }
     }
 
