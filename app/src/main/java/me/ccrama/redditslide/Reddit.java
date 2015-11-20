@@ -190,9 +190,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notifyOnBecameForeground();
 
             if(authentication.hasDone) {
+                loader = null;
+
                 authentication.updateToken(activity);
             } else {
+                loader = null;
                 authentication = new Authentication(this);
+
 
             }
 
