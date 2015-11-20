@@ -196,7 +196,7 @@
     <string name="err_general">Uh oh, an error occurred</string>
     <string name="err_no_connection">Reddit could not be reached. Would you like to try again?</string>
     <string name="err_retry_later">Try again in a minute!</string>
-    <string name="err_login">You have to log in to do that!</string>
+    <string name="err_login">You have to log in to do that! Log in now?</string>
 
 
     <!-- Gif -->
