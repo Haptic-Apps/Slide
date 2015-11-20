@@ -51,6 +51,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final long BACKGROUND_DELAY = 500;
     public static IabHelper mHelper;
     public static boolean single;
+    public static boolean animation;
     public static boolean swap;
     public static boolean album;
     public static boolean image;
@@ -325,6 +326,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         single = SettingValues.prefs.getBoolean("Single", false);
+        animation = SettingValues.prefs.getBoolean("Animation", false);
         fab = SettingValues.prefs.getBoolean("Fab", false);
         fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
         swap = SettingValues.prefs.getBoolean("Swap", false);
