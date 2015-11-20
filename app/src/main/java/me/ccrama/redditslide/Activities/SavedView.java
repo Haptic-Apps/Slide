@@ -52,6 +52,7 @@ public class SavedView extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColorUser(id)));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getColorUser(id)));
             SavedView.this.setTaskDescription(new ActivityManager.TaskDescription(where + " posts", ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColorUser(id)));
 
         }

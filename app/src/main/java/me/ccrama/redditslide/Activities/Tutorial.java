@@ -69,6 +69,7 @@ public class Tutorial extends FragmentActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Pallete.getDarkerColor(Color.parseColor("#FF5252")));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Color.parseColor("#FF5252")));
         }
         final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

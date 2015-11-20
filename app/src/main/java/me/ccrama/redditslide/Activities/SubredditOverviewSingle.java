@@ -123,6 +123,7 @@ public class SubredditOverviewSingle extends OverviewBase {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
             SubredditOverviewSingle.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_default), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor("")));
 
         }

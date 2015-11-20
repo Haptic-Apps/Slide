@@ -47,6 +47,7 @@ public class EditCardsLayout extends BaseActivityNoAnim {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColor(subreddit)));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
         }
 
 

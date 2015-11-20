@@ -48,6 +48,7 @@ public class ModQueue extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
         }
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
 

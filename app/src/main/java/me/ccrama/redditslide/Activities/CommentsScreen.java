@@ -54,6 +54,7 @@ public class CommentsScreen extends BaseActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
+                window.setNavigationBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
                 CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(firstPage).getSubredditName())));
 
             }
@@ -77,6 +78,7 @@ public class CommentsScreen extends BaseActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
                         window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
+                        window.setNavigationBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
                         CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
 
                     }

@@ -57,6 +57,7 @@ public class MultiredditOverview extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
         }
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -230,6 +231,7 @@ public class MultiredditOverview extends BaseActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = this.getWindow();
                     window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0).getDisplayName()));
+                    window.setNavigationBarColor(Pallete.getDarkerColor(usedArray.get(0).getDisplayName()));
                 }
 
                 findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0).getDisplayName()));
@@ -271,6 +273,7 @@ public class MultiredditOverview extends BaseActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
                         window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position).getDisplayName()));
+                        window.setNavigationBarColor(Pallete.getDarkerColor(usedArray.get(position).getDisplayName()));
                     }
                 }
 

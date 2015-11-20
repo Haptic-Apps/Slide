@@ -39,6 +39,7 @@ public class SettingsHandling extends BaseActivityNoAnim implements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             SettingsHandling.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_link_handling),
                     ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }

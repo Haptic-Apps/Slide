@@ -47,6 +47,7 @@ public class CommentsScreenPopup extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
+            window.setNavigationBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
         }
         ViewPager pager = (ViewPager) findViewById(R.id.contentView);
         HasSeen.addSeen(posts.get(firstPage).getFullName());
@@ -65,6 +66,7 @@ public class CommentsScreenPopup extends BaseActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
                     window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
+                    window.setNavigationBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
                 }
                 HasSeen.addSeen(posts.get(position).getFullName());
 

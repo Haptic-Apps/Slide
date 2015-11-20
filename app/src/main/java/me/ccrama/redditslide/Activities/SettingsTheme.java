@@ -48,6 +48,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+            window.setNavigationBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
             SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
 
@@ -343,6 +344,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                            window.setNavigationBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
                             SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                         }

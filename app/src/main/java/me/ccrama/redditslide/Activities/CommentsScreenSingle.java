@@ -58,6 +58,7 @@ public class CommentsScreenSingle extends BaseActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
+                window.setNavigationBarColor(Pallete.getDarkerColor(subreddit));
                 CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
             }
@@ -78,6 +79,7 @@ public class CommentsScreenSingle extends BaseActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
+                window.setNavigationBarColor(Pallete.getDarkerColor(subreddit));
                 CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
             }

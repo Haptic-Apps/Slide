@@ -55,6 +55,7 @@ public class FullscreenVideo extends BaseActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.BLACK);
+            window.setNavigationBarColor(Color.BLACK);
         }
         if (!data.contains("cdn.embedly.com")) {
             if (data.contains("?v=")) {
