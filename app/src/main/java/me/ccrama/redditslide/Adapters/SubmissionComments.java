@@ -73,8 +73,6 @@ public class SubmissionComments {
                 adapter.notifyDataSetChanged();
                 page.doData(reset);
 
-            } else {
-                adapter.setError(true);
             }
 
             refreshLayout.setRefreshing(false);
