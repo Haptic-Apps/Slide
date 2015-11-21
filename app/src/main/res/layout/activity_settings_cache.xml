@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+
+android:background="?attr/activity_background">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_light_blue_500"
+        android:clipToPadding="false"
+
+        android:minHeight="56dp"
+        android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
+        app:layout_scrollFlags="scroll|enterAlways">
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/activity_background"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/save"
+                android:tint="?attr/tint" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/cache"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:backgroundTint="?attr/tint"
+                android:button="@null"
+                android:buttonTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:text="Cache posts for offline viewing"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/ic_visibility_white_36dp"
+                android:tint="?attr/tint" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/cacheDefault"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:selectableItemBackground"
+                android:backgroundTint="?attr/tint"
+                android:button="@null"
+                android:buttonTint="?attr/tint"
+                android:hapticFeedbackEnabled="true"
+                android:text="Always show offline data first (faster startup)"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/delete"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/delete"
+                android:tint="?attr/tint"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+
+                android:text="Delete all cached data"
+                android:textColor="?attr/font"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

@@ -107,6 +107,13 @@ public class Settings extends BaseActivityNoAnim {
                 startActivityForResult(i, 2);
             }
         });
+        findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsCache.class);
+                startActivity(i);
+            }
+        });
         findViewById(R.id.subtheme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
