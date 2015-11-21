@@ -1,4 +1,4 @@
-# Slide [![](https://img.shields.io/github/release/ccrama/Slide.svg)](https://github.com/ccrama/Slide/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit)
+# Slide [![](https://img.shields.io/github/release/ccrama/Slide.svg)](https://github.com/ccrama/Slide/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit) [![Snoonet](https://img.shields.io/badge/IRC-%23slide-CF49FF.svg)](https://kiwiirc.com/client/irc.snoonet.org/#slide)
 
 <img src="app/src/main/res/drawable-xhdpi/ic_launcher.png" align="left"
     hspace="10" vspace="10">
@@ -27,6 +27,10 @@ promptly.
 You can view a list of known issues and feature requests using [the issue tracker](
 https://github.com/ccrama/Slide/issues). If you don't see your issue (or you
 aren't sure) feel free to [submit it!](https://github.com/ccrama/Slide/issues/new)
+
+Where appropriate a screenshot works wonders to help us see exactly what the
+issue is. You can upload screenshots directly using the github issue tracker or
+by attaching a link (for example to Imgur), whichever is easier for you.
 
 #### Translations
 
