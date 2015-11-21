@@ -127,6 +127,7 @@ public class SubmissionsView extends Fragment {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
+                            posts.forced = true;
                             posts.loadMore(adapter, true, id);
                         }
                     }

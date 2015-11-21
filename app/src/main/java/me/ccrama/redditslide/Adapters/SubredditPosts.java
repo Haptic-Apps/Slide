@@ -76,6 +76,7 @@ public class SubredditPosts {
     }
     public OfflineSubreddit cached;
 
+    public boolean forced;
     public void addData(List<Submission> data) {
         posts.addAll(data);
     }
@@ -96,6 +97,8 @@ public class SubredditPosts {
                     posts = subs;
                 } else {
                     posts.addAll(subs);
+                    offline = false;
+
                 }
 
 
@@ -155,12 +158,14 @@ public class SubredditPosts {
                 posts = new ArrayList<>();
             }
 
-            if(NetworkUtil.getConnectivityStatus(refreshLayout.getContext())) { //is online'
+            if(NetworkUtil.getConnectivityStatus(refreshLayout.getContext())) {
                 stillShow = true;
-                if(Reddit.cacheDefault  && reset && !offline){
+                if(Reddit.cacheDefault  && reset && !forced){
                     offline = true;
                     return null;
                 }
+                offline = false;
+
                 if (reset || paginator == null) {
 
                     offline = false;
