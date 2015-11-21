@@ -73,7 +73,7 @@ public class Profile extends BaseActivity {
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        pager = (ViewPager) findViewById(R.id.contentView);
+        pager = (ViewPager) findViewById(R.id.content_view);
 
         setDataSet(new String[]{getString(R.string.profile_overview),
                 getString(R.string.profile_comments),

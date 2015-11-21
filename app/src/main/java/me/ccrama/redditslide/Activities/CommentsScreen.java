@@ -59,7 +59,7 @@ public class CommentsScreen extends BaseActivity {
             }
             HasSeen.addSeen(posts.get(firstPage).getFullName());
 
-            ViewPager pager = (ViewPager) findViewById(R.id.contentView);
+            ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
             final OverviewPagerAdapter adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);

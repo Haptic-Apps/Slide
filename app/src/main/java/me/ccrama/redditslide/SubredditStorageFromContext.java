@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import me.ccrama.redditslide.Activities.SubredditOverview;
-import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
+import me.ccrama.redditslide.Activities.MainActivity;
 
 
 /**
@@ -154,11 +153,7 @@ public final class SubredditStorageFromContext extends AsyncTask<Reddit, Void, A
                 public void run() {
                     //doUpdateSubsSaveBackground();
                     d.dismiss();
-                    if (mContext instanceof SubredditOverview)
-                        ((SubredditOverview) mContext).restartTheme();
-                    if (mContext instanceof SubredditOverviewSingle)
-                        ((SubredditOverviewSingle) mContext).restartTheme();
-
+                    ((MainActivity) mContext).restartTheme();
                 }
             });
 

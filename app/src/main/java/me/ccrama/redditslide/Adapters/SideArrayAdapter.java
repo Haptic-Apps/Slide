@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.OverviewBase;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
@@ -66,8 +66,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     inte.putExtra("subreddit", subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);
                 } else {
-                    ((OverviewBase) getContext()).pager.setCurrentItem(((OverviewBase) getContext()).usedArray.indexOf(fitems.get(position)));
-                    ((OverviewBase) getContext()).drawerLayout.closeDrawers();
+                    ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+                    ((MainActivity) getContext()).drawerLayout.closeDrawers();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }

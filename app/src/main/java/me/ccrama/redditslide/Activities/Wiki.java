@@ -58,7 +58,7 @@ public class Wiki extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("/r/" + subreddit + " wiki");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pager = (ViewPager) findViewById(R.id.contentView);
+        pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Pallete.getColor(subreddit));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

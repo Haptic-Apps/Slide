@@ -61,7 +61,7 @@ public class CommentsScreenSingle extends BaseActivity {
                 CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
 
             }
-            pager = (ViewPager) findViewById(R.id.contentView);
+            pager = (ViewPager) findViewById(R.id.content_view);
 
             context = getIntent().getExtras().getString("context", "");
             pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
@@ -82,7 +82,7 @@ public class CommentsScreenSingle extends BaseActivity {
 
             }
 
-            pager = (ViewPager) findViewById(R.id.contentView);
+            pager = (ViewPager) findViewById(R.id.content_view);
 
             context = getIntent().getExtras().getString("context", "");
             pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));

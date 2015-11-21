@@ -14,7 +14,7 @@ import me.ccrama.redditslide.R;
 public class StyleView {
     public static void styleActivity(Activity a){
         Pallete p = Pallete.getDefaultPallete();
-        a.findViewById(R.id.contentView).setBackgroundColor(p.backgroundColor);
+        a.findViewById(R.id.content_view).setBackgroundColor(p.backgroundColor);
     }
 
     public static void styleCard(Pallete subredditPallete, View v) {

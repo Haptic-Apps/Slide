@@ -39,7 +39,7 @@ public class Shadowbox extends BaseActivity {
         setContentView(R.layout.activity_slide);
 
         posts = DataShare.sharedSubreddit;
-        ViewPager pager = (ViewPager) findViewById(R.id.contentView);
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
 

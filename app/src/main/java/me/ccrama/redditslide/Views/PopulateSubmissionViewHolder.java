@@ -52,10 +52,8 @@ import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.ModQueue;
-import me.ccrama.redditslide.Activities.OverviewBase;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.SubredditOverview;
-import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
@@ -96,7 +94,7 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onClick(View v) {
                 HasSeen.addSeen(submission.getFullName());
-                if(contextActivity instanceof OverviewBase)
+                if(contextActivity instanceof MainActivity)
                 back.setAlpha(0.5f);
                 switch (type) {
                     case NSFW_IMAGE:
@@ -575,7 +573,10 @@ public class PopulateSubmissionViewHolder {
                                                                     if (b) {
                                                                         dialog.dismiss();
                                                                         d.dismiss();
-                                                                        if (mContext instanceof ModQueue || mContext instanceof SubredditOverview || mContext instanceof SubredditOverviewSingle) {
+                                                                        if (mContext instanceof
+                                                                                ModQueue ||
+                                                                                mContext
+                                                                                        instanceof MainActivity) {
                                                                             final int pos = posts.indexOf(submission);
                                                                             posts.remove(submission);
 
