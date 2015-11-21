@@ -25,6 +25,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 public class CheckForMail extends BroadcastReceiver {
 
@@ -33,8 +34,10 @@ public class CheckForMail extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
-        new AsyncGetMail().execute();
-        Log.v("Slide", "CHECKING MAIL");
+        if(NetworkUtil.getConnectivityStatus(c)) {
+            new AsyncGetMail().execute();
+            Log.v("Slide", "CHECKING MAIL");
+        }
     }
 
 

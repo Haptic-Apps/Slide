@@ -53,6 +53,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean animation;
     public static boolean swap;
     public static boolean album;
+    public static boolean cache;
+    public static boolean cacheDefault;
+
     public static boolean image;
     public static boolean video;
     public static long enter_animation_time = 600;
@@ -340,6 +343,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);
         image = SettingValues.prefs.getBoolean("image", true);
+        cache = SettingValues.prefs.getBoolean("cache", true);
+        cacheDefault = SettingValues.prefs.getBoolean("cacheDefault", false);
+
         album = SettingValues.prefs.getBoolean("album", true);
         gif = SettingValues.prefs.getBoolean("gif", true);
         video = SettingValues.prefs.getBoolean("video", true);

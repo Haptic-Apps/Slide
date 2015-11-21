@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
@@ -65,6 +66,7 @@ public class SubredditPosts {
 
 
     }
+    public boolean stillShow;
     public boolean offline;
 
     public void loadMore(CommentsScreen adapter, boolean reset) {
@@ -74,6 +76,7 @@ public class SubredditPosts {
     }
     public OfflineSubreddit cached;
 
+    public boolean forced;
     public void addData(List<Submission> data) {
         posts.addAll(data);
     }
@@ -94,6 +97,8 @@ public class SubredditPosts {
                     posts = subs;
                 } else {
                     posts.addAll(subs);
+                    offline = false;
+
                 }
 
 
@@ -115,7 +120,7 @@ public class SubredditPosts {
                 });
             } else if (subs != null) {
                 nomore = true;
-            } else if(Cache.hasSub(subreddit)) {
+            } else if(Cache.hasSub(subreddit) && !nomore && Reddit.cache) {
                 offline = true;
                 cached = Cache.getSubreddit(subreddit);
                 posts = cached.submissions;
@@ -125,7 +130,7 @@ public class SubredditPosts {
                         if (refreshLayout != null) {
 
                             refreshLayout.setRefreshing(false);
-                            Toast.makeText(refreshLayout.getContext(), "Last updated " + TimeUtils.getTimeAgo(cached.time, refreshLayout.getContext()), Toast.LENGTH_LONG).show();
+                            Toast.makeText(refreshLayout.getContext(), "Last updated " + TimeUtils.getTimeAgo(cached.time, refreshLayout.getContext()), Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -134,20 +139,33 @@ public class SubredditPosts {
 
                     }
                 });
-            } else {
+            } else if(!nomore){
                 if (refreshLayout != null)
 
                     refreshLayout.setRefreshing(false);
                 adapter.setError(true);
 
             }
+
+
         }
 
         @Override
         protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
             ArrayList<Submission> things = new ArrayList<>();
 
-            if(NetworkUtil.getConnectivityStatus(refreshLayout.getContext())) { //is online
+            if(posts == null){
+                posts = new ArrayList<>();
+            }
+
+            if(NetworkUtil.getConnectivityStatus(refreshLayout.getContext())) {
+                stillShow = true;
+                if(Reddit.cacheDefault  && reset && !forced){
+                    offline = true;
+                    return null;
+                }
+                offline = false;
+
                 if (reset || paginator == null) {
 
                     offline = false;
@@ -159,6 +177,7 @@ public class SubredditPosts {
                     }
                     paginator.setSorting(Reddit.defaultSorting);
                     paginator.setTimePeriod(Reddit.timePeriod);
+                }
 
                     if (paginator != null && paginator.hasNext()) {
                         if (reset) {
@@ -199,11 +218,12 @@ public class SubredditPosts {
                         nomore = true;
                     }
 
+                    if(Reddit.cache)
                     Cache.writeSubreddit(things, subredditPaginators[0]);
                     return things;
 
 
-                }
+
             }
             return null;
 
