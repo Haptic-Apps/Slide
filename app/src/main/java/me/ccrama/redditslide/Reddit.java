@@ -38,8 +38,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Crash;
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.LoadingData;
-import me.ccrama.redditslide.Activities.SubredditOverview;
-import me.ccrama.redditslide.Activities.SubredditOverviewSingle;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -415,16 +414,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public void startMain() {
         if (active) {
-            Intent i;
-            if (single) {
-                i = new Intent(this, SubredditOverviewSingle.class);
-            } else {
-                i = new Intent(this, SubredditOverview.class);
-            }
+            Intent i = new Intent(this, MainActivity.class);
             Log.v("Slide", "starting new");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
             startActivity(i);
+
             if (loader != null) {
                 loader.finish();
                 loader = null;

@@ -43,7 +43,7 @@ public class ModQueue extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.title_mod);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ViewPager pager = (ViewPager) findViewById(R.id.contentView);
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

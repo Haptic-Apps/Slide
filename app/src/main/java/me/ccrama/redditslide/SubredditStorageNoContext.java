@@ -7,31 +7,23 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.SubredditOverview;
+import me.ccrama.redditslide.Activities.MainActivity;
 
-
-/**
- * Created by ccrama on 5/24/2015.
- */
 public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, ArrayList<String>> {
-
-
     private static ArrayList<String> getPins() {
         ArrayList<String> newstrings = null;
 
         if (SubredditStorage.subscriptions.contains("pins" + Authentication.name)) {
-
             newstrings = new ArrayList<>();
             String pins = SubredditStorage.subscriptions.getString("pins" + Authentication.name, "");
 
             for (String s : pins.split(",")) {
                 newstrings.add(s.toLowerCase());
                 Log.v("Slide", "PIN FOUND " + s.toLowerCase());
-
             }
         }
-        return newstrings;
 
+        return newstrings;
     }
 
     private static ArrayList<String> sortNoValue(ArrayList<String> subs) {
@@ -99,8 +91,8 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
             }
             SubredditStorage.subredditsForHome = test;
 
-            if (params[0] instanceof SubredditOverview)
-                ((SubredditOverview) params[0]).resetAdapter();
+            if (params[0] instanceof MainActivity)
+                ((MainActivity) params[0]).resetAdapter();
             SubredditStorage.saveState();
 
             return test;
@@ -113,8 +105,8 @@ public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, A
             SubredditStorage.subredditsForHome = sort(finished);
 
 
-            if (params[0] instanceof SubredditOverview)
-                ((SubredditOverview) params[0]).resetAdapter();
+            if (params[0] instanceof MainActivity)
+                ((MainActivity) params[0]).resetAdapter();
             SubredditStorage.saveState();
 
             return SubredditStorage.subredditsForHome;

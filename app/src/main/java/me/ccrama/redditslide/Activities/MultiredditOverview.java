@@ -62,7 +62,7 @@ public class MultiredditOverview extends BaseActivity {
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        pager = (ViewPager) findViewById(R.id.contentView);
+        pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,12 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,13 +29,16 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -49,6 +53,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -62,6 +67,7 @@ import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
@@ -73,17 +79,23 @@ import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 import me.ccrama.redditslide.util.NetworkUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
-/**
- * Created by carlo_000 on 10/14/2015.
- */
-public class OverviewBase extends AppCompatActivity {
-    public boolean currentSingle, restart;
-    public ViewPager pager;
+public class MainActivity extends AppCompatActivity {
+    // Instance state keys
+    static final String SUBS = "subscriptions";
+    static final String SUBS_ALPHA = "subscriptionsAlpha";
+    static final String REAL_SUBS = "realSubscriptions";
+    static final String LOGGED_IN = "loggedIn";
+    static final String USERNAME = "username";
+
+    public boolean singleMode;
+    public ToggleSwipeViewPager pager;
     public List<String> usedArray;
     public DrawerLayout drawerLayout;
     public View hea;
@@ -91,50 +103,103 @@ public class OverviewBase extends AppCompatActivity {
     public View header;
     public String subToDo;
     public OverviewPagerAdapter adapter;
-    public TabLayout tabs;
+    private TabLayout mTabLayout;
     public int toGoto = 0;
     public boolean first = true;
+    private boolean mShowInfoButton;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 2) {
+            // Make sure the request was successful
+            int current = pager.getCurrentItem();
+            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+            pager.setCurrentItem(current);
+        } else if (requestCode == 1) {
+            restartTheme();
+        } else if (requestCode == 3) {
+            new SubredditStorageNoContext().execute(this);
+        } else if (requestCode == 4 && resultCode != 4) {
+            if (e != null) {
+                e.clearFocus();
+                e.setText("");
+                drawerLayout.closeDrawers();
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
-            SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList("subs");
-            SubredditStorage.alphabeticalSubscriptions = savedInstanceState.getStringArrayList("subsalph");
-            SubredditStorage.realSubs = savedInstanceState.getStringArrayList("real");
-            Authentication.isLoggedIn = savedInstanceState.getBoolean("loggedin");
-            Authentication.name = savedInstanceState.getString("name");
-        }
-        currentSingle = Reddit.single;
-    }
 
+        if(savedInstanceState != null) {
+            SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
+            SubredditStorage.alphabeticalSubscriptions =
+                    savedInstanceState.getStringArrayList(SUBS_ALPHA);
+            SubredditStorage.realSubs = savedInstanceState.getStringArrayList(REAL_SUBS);
+            Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
+            Authentication.name = savedInstanceState.getString(USERNAME);
+        }
+
+        if (getIntent().getBooleanExtra("EXIT", false)) finish();
+
+        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+
+        setContentView(R.layout.activity_overview);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if (getIntent() != null && getIntent().hasExtra("pageTo"))
+            toGoto = getIntent().getIntExtra("pageTo", 0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = this.getWindow();
+            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
+        }
+
+        mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        header = findViewById(R.id.header);
+        pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
+
+        singleMode = Reddit.single;
+        // Inflate tabs if single mode is disabled
+        if (!singleMode) mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
+        // Disable swiping if single mode is enabled
+        if (singleMode) pager.setSwipingEnabled(false);
+
+        setDataSet(SubredditStorage.subredditsForHome);
+        doSidebar();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
-        savedInstanceState.putStringArrayList("subs", SubredditStorage.subredditsForHome);
-        savedInstanceState.putStringArrayList("subsalph", SubredditStorage.alphabeticalSubscriptions);
-        savedInstanceState.putStringArrayList("real", SubredditStorage.realSubs);
-        savedInstanceState.putBoolean("loggedin", Authentication.isLoggedIn);
-        savedInstanceState.putString("name", Authentication.name);
-
+        savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
+        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubscriptions);
+        savedInstanceState.putStringArrayList(REAL_SUBS, SubredditStorage.realSubs);
+        savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
+        savedInstanceState.putString(USERNAME, Authentication.name);
     }
 
     public void doSubSidebar(final String subreddit) {
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
-            if (drawerLayout != null)
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+            }
 
-
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
-            findViewById(R.id.info).setVisibility(View.VISIBLE);
+            mShowInfoButton = true;
+            invalidateOptionsMenu();
 
             new AsyncGetSubreddit().execute(subreddit);
             findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
-
 
             findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
@@ -169,10 +234,10 @@ public class OverviewBase extends AppCompatActivity {
                             SubredditStorage.removePin(subreddit);
                         }
                         subToDo = subreddit;
-                        new SubredditStorageNoContext().execute(OverviewBase.this);
+                        new SubredditStorageNoContext().execute(MainActivity.this);
                     }
                 });
-                c.setHighlightColor(new ColorPreferences(OverviewBase.this).getThemeSubreddit(subreddit, true).getColor());
+                c.setHighlightColor(new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit, true).getColor());
             }
 
 
@@ -184,7 +249,7 @@ public class OverviewBase extends AppCompatActivity {
                 dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(OverviewBase.this, Wiki.class);
+                        Intent i = new Intent(MainActivity.this, Wiki.class);
                         i.putExtra("subreddit", subreddit);
                         startActivity(i);
                     }
@@ -196,11 +261,11 @@ public class OverviewBase extends AppCompatActivity {
                 public void onClick(View v) {
                     final String subreddit = usedArray.get(pager.getCurrentItem());
 
-                    int style = new ColorPreferences(OverviewBase.this).getThemeSubreddit(subreddit);
-                    final Context contextThemeWrapper = new ContextThemeWrapper(OverviewBase.this, style);
+                    int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
+                    final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText("/r/" + subreddit);
                     title.setBackgroundColor(Pallete.getColor(subreddit));
@@ -282,7 +347,7 @@ public class OverviewBase extends AppCompatActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
-                                    OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+                                    MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                 }
                                 title.setBackgroundColor(colorPicker2.getColor());
@@ -303,7 +368,7 @@ public class OverviewBase extends AppCompatActivity {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
                                         window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-                                        OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+                                        MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }
                                     title.setBackgroundColor(Pallete.getDefaultColor());
@@ -414,7 +479,7 @@ public class OverviewBase extends AppCompatActivity {
 
                             colorPicker.setColors(arrs);
 
-                            colorPicker.setSelectedColor(new ColorPreferences(OverviewBase.this).getFontStyle().getColor());
+                            colorPicker.setSelectedColor(new ColorPreferences(MainActivity.this).getFontStyle().getColor());
 
                             {
                                 TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok2);
@@ -432,7 +497,7 @@ public class OverviewBase extends AppCompatActivity {
                                             }
                                         }
 
-                                        new ColorPreferences(OverviewBase.this).setFontStyle(t, subreddit);
+                                        new ColorPreferences(MainActivity.this).setFontStyle(t, subreddit);
 
                                         int cx = center.getWidth() / 2;
                                         int cy = center.getHeight() / 2;
@@ -487,7 +552,7 @@ public class OverviewBase extends AppCompatActivity {
                                 }
                             };
                             int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
+                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
                             builder.setTitle(R.string.settings_layout_chooser);
                             builder.setSingleChoiceItems(
                                     new String[]{getString(R.string.settings_layout_default),
@@ -503,7 +568,8 @@ public class OverviewBase extends AppCompatActivity {
             });
         } else {
             //Hide info button on frontpage and all
-            findViewById(R.id.info).setVisibility(View.GONE);
+            mShowInfoButton = false;
+            invalidateOptionsMenu();
 
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.RIGHT);
@@ -532,15 +598,15 @@ public class OverviewBase extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = this.getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
-                OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
+                MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
 
             }
                 doSubSidebar(usedArray.get(0));
             findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             if (!Reddit.single) {
-                tabs.setupWithViewPager(pager);
-                tabs.setSelectedTabIndicatorColor(new ColorPreferences(OverviewBase.this).getColor(usedArray.get(0)));
+                mTabLayout.setupWithViewPager(pager);
+                mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
                 pager.setCurrentItem(toGoto);
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
@@ -559,7 +625,7 @@ public class OverviewBase extends AppCompatActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
-            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, OverviewBase.this, subreddit.getDisplayName());
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, MainActivity.this, subreddit.getDisplayName());
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
@@ -578,7 +644,7 @@ public class OverviewBase extends AppCompatActivity {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         public void onPostExecute(Void voids) {
-                            new SubredditStorageNoContext().execute(OverviewBase.this);
+                            new SubredditStorageNoContext().execute(MainActivity.this);
                             Snackbar.make(header, isChecked ?
                                     getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
@@ -606,7 +672,7 @@ public class OverviewBase extends AppCompatActivity {
 
     }
 
-    public void openPopup(View view) {
+    public void openPopup() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -686,7 +752,7 @@ public class OverviewBase extends AppCompatActivity {
                 SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
         builder.show();
@@ -708,8 +774,8 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, MultiredditOverview.class);
-                    OverviewBase.this.startActivity(inte);
+                    Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                    MainActivity.this.startActivity(inte);
 
 
                 }
@@ -717,8 +783,8 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, ListViewDraggingAnimation.class);
-                    OverviewBase.this.startActivityForResult(inte, 3);
+                    Intent inte = new Intent(MainActivity.this, ListViewDraggingAnimation.class);
+                    MainActivity.this.startActivityForResult(inte, 3);
                     subToDo = usedArray.get(pager.getCurrentItem());
 
 
@@ -728,18 +794,18 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, Profile.class);
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra("profile", Authentication.name);
-                    OverviewBase.this.startActivity(inte);
+                    MainActivity.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Dialog d = new MaterialDialog.Builder(OverviewBase.this).title(R.string.general_sub_sync)
+                    Dialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.general_sub_sync)
                             .progress(true, 100)
                             .cancelable(false).show();
-                    new SubredditStorageFromContext(OverviewBase.this, d).execute((Reddit) getApplication());
+                    new SubredditStorageFromContext(MainActivity.this, d).execute((Reddit) getApplication());
                 }
             });
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
@@ -751,21 +817,21 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, SavedView.class);
+                    Intent inte = new Intent(MainActivity.this, SavedView.class);
                     inte.putExtra("where", "Saved");
                     inte.putExtra("id", Authentication.name);
 
-                    OverviewBase.this.startActivity(inte);
+                    MainActivity.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.upvoted).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, SavedView.class);
+                    Intent inte = new Intent(MainActivity.this, SavedView.class);
                     inte.putExtra("where", "Liked");
                     inte.putExtra("id", Authentication.name);
 
-                    OverviewBase.this.startActivity(inte);
+                    MainActivity.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
@@ -782,23 +848,23 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, Login.class);
-                    OverviewBase.this.startActivity(inte);
+                    Intent inte = new Intent(MainActivity.this, Login.class);
+                    MainActivity.this.startActivity(inte);
                 }
             });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, Inbox.class);
-                    OverviewBase.this.startActivity(inte);
+                    Intent inte = new Intent(MainActivity.this, Inbox.class);
+                    MainActivity.this.startActivity(inte);
                 }
             });
             if (Authentication.mod) {
                 header.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent inte = new Intent(OverviewBase.this, ModQueue.class);
-                        OverviewBase.this.startActivity(inte);
+                        Intent inte = new Intent(MainActivity.this, ModQueue.class);
+                        MainActivity.this.startActivity(inte);
                     }
                 });
             } else {
@@ -807,8 +873,8 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, Submit.class);
-                    OverviewBase.this.startActivity(inte);
+                    Intent inte = new Intent(MainActivity.this, Submit.class);
+                    MainActivity.this.startActivity(inte);
                 }
             });
 
@@ -821,23 +887,22 @@ public class OverviewBase extends AppCompatActivity {
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(OverviewBase.this, Login.class);
-                    OverviewBase.this.startActivity(inte);
+                    Intent inte = new Intent(MainActivity.this, Login.class);
+                    MainActivity.this.startActivity(inte);
                 }
             });
         }
 
-            View support = header.findViewById(R.id.support);
-            if (Reddit.tabletUI) support.setVisibility(View.GONE);
-            else {
-                header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent inte = new Intent(OverviewBase.this, DonateView.class);
-                        OverviewBase.this.startActivity(inte);
-                    }
-                });
-
+        View support = header.findViewById(R.id.support);
+        if (Reddit.tabletUI) support.setVisibility(View.GONE);
+        else {
+            header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, DonateView.class);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
         }
 
         e = ((EditText) header.findViewById(R.id.sort));
@@ -849,9 +914,9 @@ public class OverviewBase extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    Intent inte = new Intent(OverviewBase.this, SubredditView.class);
+                    Intent inte = new Intent(MainActivity.this, SubredditView.class);
                     inte.putExtra("subreddit", e.getText().toString());
-                    OverviewBase.this.startActivity(inte);
+                    MainActivity.this.startActivity(inte);
                     e.setText("");
                 }
                 return false;
@@ -862,7 +927,7 @@ public class OverviewBase extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    final EditText input = new EditText(OverviewBase.this);
+                    final EditText input = new EditText(MainActivity.this);
                     input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
                     input.setOnKeyListener(new View.OnKeyListener() {
                         @Override
@@ -871,7 +936,7 @@ public class OverviewBase extends AppCompatActivity {
                                 input.setText(String.valueOf(input.getText()).replace(" ", ""));
                                 Editable value = input.getText();
                                 if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                    new AlertDialogWrapper.Builder(OverviewBase.this)
+                                    new AlertDialogWrapper.Builder(MainActivity.this)
                                             .setTitle(R.string.user_invalid)
                                             .setMessage(R.string.user_invalid_msg)
                                             .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -879,23 +944,23 @@ public class OverviewBase extends AppCompatActivity {
                                                 }
                                             }).show();
                                 } else {
-                                    Intent inte = new Intent(OverviewBase.this, Profile.class);
+                                    Intent inte = new Intent(MainActivity.this, Profile.class);
                                     inte.putExtra("profile", value.toString());
-                                    OverviewBase.this.startActivity(inte);
+                                    MainActivity.this.startActivity(inte);
                                 }
                                 return true;
                             }
                             return false;
                         }
                     });
-                    new AlertDialogWrapper.Builder(OverviewBase.this)
+                    new AlertDialogWrapper.Builder(MainActivity.this)
                             .setTitle(R.string.user_enter)
                             .setView(input)
                             .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     Editable value = input.getText();
                                     if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                        new AlertDialogWrapper.Builder(OverviewBase.this)
+                                        new AlertDialogWrapper.Builder(MainActivity.this)
                                                 .setTitle(R.string.user_invalid)
                                                 .setMessage(R.string.user_invalid_msg)
                                                 .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -903,9 +968,9 @@ public class OverviewBase extends AppCompatActivity {
                                                     }
                                                 }).show();
                                     } else {
-                                        Intent inte = new Intent(OverviewBase.this, Profile.class);
+                                        Intent inte = new Intent(MainActivity.this, Profile.class);
                                         inte.putExtra("profile", value.toString());
-                                        OverviewBase.this.startActivity(inte);
+                                        MainActivity.this.startActivity(inte);
                                     }
                                 }
                             }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
@@ -920,7 +985,7 @@ public class OverviewBase extends AppCompatActivity {
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(OverviewBase.this, Settings.class);
+                Intent i = new Intent(MainActivity.this, Settings.class);
                 startActivityForResult(i, 1);
             }
         });
@@ -966,7 +1031,6 @@ public class OverviewBase extends AppCompatActivity {
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Pallete.getColor("alsdkfjasld"));
-        //drawerLayout.setDrawerListener(actionBarDrawerToggle); This line makes the action bar drawable spin on change
 
         e.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1000,9 +1064,9 @@ public class OverviewBase extends AppCompatActivity {
             }
             names.add(s);
         }
-        new AlertDialogWrapper.Builder(OverviewBase.this)
+        new AlertDialogWrapper.Builder(MainActivity.this)
                 .setTitle(R.string.general_switch_acc)
-                .setAdapter(new ArrayAdapter<>(OverviewBase.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
+                .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (names.get(which).contains(":")) {
@@ -1019,14 +1083,13 @@ public class OverviewBase extends AppCompatActivity {
 
                         }
 
-                        Reddit.forceRestart(OverviewBase.this);
+                        Reddit.forceRestart(MainActivity.this);
 
                     }
                 }).create().show();
     }
 
     public void resetAdapter() {
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -1035,7 +1098,7 @@ public class OverviewBase extends AppCompatActivity {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 pager.setAdapter(adapter);
-                tabs.setupWithViewPager(pager);
+                mTabLayout.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
 
@@ -1045,30 +1108,18 @@ public class OverviewBase extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
                     window.setStatusBarColor(Pallete.getDarkerColor(color));
-                    OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
-
+                    MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
                 }
-
             }
         });
-
-
     }
 
     public void restartTheme() {
-        if (Reddit.single != currentSingle) {
-            ((Reddit) getApplication()).startMain();
-
-            finish();
-        } else {
-            Intent intent = this.getIntent();
-            intent.putExtra("pageTo", pager.getCurrentItem());
-
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
-            finish();
-        }
-
+        Intent intent = this.getIntent();
+        intent.putExtra("pageTo", pager.getCurrentItem());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
+        finish();
     }
 
     public int[] getColors(int c) {
@@ -1304,250 +1355,12 @@ public class OverviewBase extends AppCompatActivity {
         }
     }
 
-    public int[] getMainColors() {
-        return new int[]{
-                getResources().getColor(R.color.md_red_500),
-                getResources().getColor(R.color.md_pink_500),
-                getResources().getColor(R.color.md_purple_500),
-                getResources().getColor(R.color.md_deep_purple_500),
-                getResources().getColor(R.color.md_indigo_500),
-                getResources().getColor(R.color.md_blue_500),
-                getResources().getColor(R.color.md_light_blue_500),
-                getResources().getColor(R.color.md_cyan_500),
-                getResources().getColor(R.color.md_teal_500),
-                getResources().getColor(R.color.md_green_500),
-                getResources().getColor(R.color.md_light_green_500),
-                getResources().getColor(R.color.md_lime_500),
-                getResources().getColor(R.color.md_yellow_500),
-                getResources().getColor(R.color.md_amber_500),
-                getResources().getColor(R.color.md_orange_500),
-                getResources().getColor(R.color.md_deep_orange_500),
-                getResources().getColor(R.color.md_brown_500),
-                getResources().getColor(R.color.md_grey_500),
-                getResources().getColor(R.color.md_blue_grey_500)};
-    }
-
-    public int[][] getSecondaryColors() {
-        return new int[][]{
-                new int[]{
-                        getResources().getColor(R.color.md_red_100),
-                        getResources().getColor(R.color.md_red_200),
-                        getResources().getColor(R.color.md_red_300),
-                        getResources().getColor(R.color.md_red_400),
-                        getResources().getColor(R.color.md_red_500),
-                        getResources().getColor(R.color.md_red_600),
-                        getResources().getColor(R.color.md_red_700),
-                        getResources().getColor(R.color.md_red_800),
-                        getResources().getColor(R.color.md_red_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_pink_100),
-                        getResources().getColor(R.color.md_pink_200),
-                        getResources().getColor(R.color.md_pink_300),
-                        getResources().getColor(R.color.md_pink_400),
-                        getResources().getColor(R.color.md_pink_500),
-                        getResources().getColor(R.color.md_pink_600),
-                        getResources().getColor(R.color.md_pink_700),
-                        getResources().getColor(R.color.md_pink_800),
-                        getResources().getColor(R.color.md_pink_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_purple_100),
-                        getResources().getColor(R.color.md_purple_200),
-                        getResources().getColor(R.color.md_purple_300),
-                        getResources().getColor(R.color.md_purple_400),
-                        getResources().getColor(R.color.md_purple_500),
-                        getResources().getColor(R.color.md_purple_600),
-                        getResources().getColor(R.color.md_purple_700),
-                        getResources().getColor(R.color.md_purple_800),
-                        getResources().getColor(R.color.md_purple_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_deep_purple_100),
-                        getResources().getColor(R.color.md_deep_purple_200),
-                        getResources().getColor(R.color.md_deep_purple_300),
-                        getResources().getColor(R.color.md_deep_purple_400),
-                        getResources().getColor(R.color.md_deep_purple_500),
-                        getResources().getColor(R.color.md_deep_purple_600),
-                        getResources().getColor(R.color.md_deep_purple_700),
-                        getResources().getColor(R.color.md_deep_purple_800),
-                        getResources().getColor(R.color.md_deep_purple_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_indigo_100),
-                        getResources().getColor(R.color.md_indigo_200),
-                        getResources().getColor(R.color.md_indigo_300),
-                        getResources().getColor(R.color.md_indigo_400),
-                        getResources().getColor(R.color.md_indigo_500),
-                        getResources().getColor(R.color.md_indigo_600),
-                        getResources().getColor(R.color.md_indigo_700),
-                        getResources().getColor(R.color.md_indigo_800),
-                        getResources().getColor(R.color.md_indigo_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_blue_100),
-                        getResources().getColor(R.color.md_blue_200),
-                        getResources().getColor(R.color.md_blue_300),
-                        getResources().getColor(R.color.md_blue_400),
-                        getResources().getColor(R.color.md_blue_500),
-                        getResources().getColor(R.color.md_blue_600),
-                        getResources().getColor(R.color.md_blue_700),
-                        getResources().getColor(R.color.md_blue_800),
-                        getResources().getColor(R.color.md_blue_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_light_blue_100),
-                        getResources().getColor(R.color.md_light_blue_200),
-                        getResources().getColor(R.color.md_light_blue_300),
-                        getResources().getColor(R.color.md_light_blue_400),
-                        getResources().getColor(R.color.md_light_blue_500),
-                        getResources().getColor(R.color.md_light_blue_600),
-                        getResources().getColor(R.color.md_light_blue_700),
-                        getResources().getColor(R.color.md_light_blue_800),
-                        getResources().getColor(R.color.md_light_blue_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_cyan_100),
-                        getResources().getColor(R.color.md_cyan_200),
-                        getResources().getColor(R.color.md_cyan_300),
-                        getResources().getColor(R.color.md_cyan_400),
-                        getResources().getColor(R.color.md_cyan_500),
-                        getResources().getColor(R.color.md_cyan_600),
-                        getResources().getColor(R.color.md_cyan_700),
-                        getResources().getColor(R.color.md_cyan_800),
-                        getResources().getColor(R.color.md_cyan_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_teal_100),
-                        getResources().getColor(R.color.md_teal_200),
-                        getResources().getColor(R.color.md_teal_300),
-                        getResources().getColor(R.color.md_teal_400),
-                        getResources().getColor(R.color.md_teal_500),
-                        getResources().getColor(R.color.md_teal_600),
-                        getResources().getColor(R.color.md_teal_700),
-                        getResources().getColor(R.color.md_teal_800),
-                        getResources().getColor(R.color.md_teal_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_green_100),
-                        getResources().getColor(R.color.md_green_200),
-                        getResources().getColor(R.color.md_green_300),
-                        getResources().getColor(R.color.md_green_400),
-                        getResources().getColor(R.color.md_green_500),
-                        getResources().getColor(R.color.md_green_600),
-                        getResources().getColor(R.color.md_green_700),
-                        getResources().getColor(R.color.md_green_800),
-                        getResources().getColor(R.color.md_green_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_light_green_100),
-                        getResources().getColor(R.color.md_light_green_200),
-                        getResources().getColor(R.color.md_light_green_300),
-                        getResources().getColor(R.color.md_light_green_400),
-                        getResources().getColor(R.color.md_light_green_500),
-                        getResources().getColor(R.color.md_light_green_600),
-                        getResources().getColor(R.color.md_light_green_700),
-                        getResources().getColor(R.color.md_light_green_800),
-                        getResources().getColor(R.color.md_light_green_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_lime_100),
-                        getResources().getColor(R.color.md_lime_200),
-                        getResources().getColor(R.color.md_lime_300),
-                        getResources().getColor(R.color.md_lime_400),
-                        getResources().getColor(R.color.md_lime_500),
-                        getResources().getColor(R.color.md_lime_600),
-                        getResources().getColor(R.color.md_lime_700),
-                        getResources().getColor(R.color.md_lime_800),
-                        getResources().getColor(R.color.md_lime_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_yellow_100),
-                        getResources().getColor(R.color.md_yellow_200),
-                        getResources().getColor(R.color.md_yellow_300),
-                        getResources().getColor(R.color.md_yellow_400),
-                        getResources().getColor(R.color.md_yellow_500),
-                        getResources().getColor(R.color.md_yellow_600),
-                        getResources().getColor(R.color.md_yellow_700),
-                        getResources().getColor(R.color.md_yellow_800),
-                        getResources().getColor(R.color.md_yellow_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_amber_100),
-                        getResources().getColor(R.color.md_amber_200),
-                        getResources().getColor(R.color.md_amber_300),
-                        getResources().getColor(R.color.md_amber_400),
-                        getResources().getColor(R.color.md_amber_500),
-                        getResources().getColor(R.color.md_amber_600),
-                        getResources().getColor(R.color.md_amber_700),
-                        getResources().getColor(R.color.md_amber_800),
-                        getResources().getColor(R.color.md_amber_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_orange_100),
-                        getResources().getColor(R.color.md_orange_200),
-                        getResources().getColor(R.color.md_orange_300),
-                        getResources().getColor(R.color.md_orange_400),
-                        getResources().getColor(R.color.md_orange_500),
-                        getResources().getColor(R.color.md_orange_600),
-                        getResources().getColor(R.color.md_orange_700),
-                        getResources().getColor(R.color.md_orange_800),
-                        getResources().getColor(R.color.md_orange_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_deep_orange_100),
-                        getResources().getColor(R.color.md_deep_orange_200),
-                        getResources().getColor(R.color.md_deep_orange_300),
-                        getResources().getColor(R.color.md_deep_orange_400),
-                        getResources().getColor(R.color.md_deep_orange_500),
-                        getResources().getColor(R.color.md_deep_orange_600),
-                        getResources().getColor(R.color.md_deep_orange_700),
-                        getResources().getColor(R.color.md_deep_orange_800),
-                        getResources().getColor(R.color.md_deep_orange_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_brown_100),
-                        getResources().getColor(R.color.md_brown_200),
-                        getResources().getColor(R.color.md_brown_300),
-                        getResources().getColor(R.color.md_brown_400),
-                        getResources().getColor(R.color.md_brown_500),
-                        getResources().getColor(R.color.md_brown_600),
-                        getResources().getColor(R.color.md_brown_700),
-                        getResources().getColor(R.color.md_brown_800),
-                        getResources().getColor(R.color.md_brown_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_grey_100),
-                        getResources().getColor(R.color.md_grey_200),
-                        getResources().getColor(R.color.md_grey_300),
-                        getResources().getColor(R.color.md_grey_400),
-                        getResources().getColor(R.color.md_grey_500),
-                        getResources().getColor(R.color.md_grey_600),
-                        getResources().getColor(R.color.md_grey_700),
-                        getResources().getColor(R.color.md_grey_800),
-                        getResources().getColor(R.color.md_grey_900)
-                },
-                new int[]{
-                        getResources().getColor(R.color.md_blue_grey_100),
-                        getResources().getColor(R.color.md_blue_grey_200),
-                        getResources().getColor(R.color.md_blue_grey_300),
-                        getResources().getColor(R.color.md_blue_grey_400),
-                        getResources().getColor(R.color.md_blue_grey_500),
-                        getResources().getColor(R.color.md_blue_grey_600),
-                        getResources().getColor(R.color.md_blue_grey_700),
-                        getResources().getColor(R.color.md_blue_grey_800),
-                        getResources().getColor(R.color.md_blue_grey_900)
-                }
-        };
-
-    }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(Gravity.LEFT) || drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.closeDrawers();
         } else if (Reddit.exit) {
-            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
+            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
             builder.setTitle(R.string.general_confirm_exit);
             builder.setMessage(R.string.general_confirm_exit_msg);
             builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -1594,7 +1407,7 @@ public class OverviewBase extends AppCompatActivity {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
-            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -1610,7 +1423,7 @@ public class OverviewBase extends AppCompatActivity {
                     if(adapter.getCurrentFragment() != null){
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
                         if(p.offline){
-                                Toast.makeText(OverviewBase.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, OverviewBase.this), Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
 
 
 
@@ -1623,7 +1436,7 @@ public class OverviewBase extends AppCompatActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
-                            OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
 
                         }
                         getSupportActionBar().setTitle(usedArray.get(position));
@@ -1635,10 +1448,10 @@ public class OverviewBase extends AppCompatActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
-                            OverviewBase.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
 
                         }
-                        tabs.setSelectedTabIndicatorColor(new ColorPreferences(OverviewBase.this).getColor(usedArray.get(position)));
+                        mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                     }
                 }
 
@@ -1700,26 +1513,64 @@ public class OverviewBase extends AppCompatActivity {
         }
     }
 
-    public class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_subreddit_overview, menu);
 
-        @Override
-        protected Void doInBackground(String... params) {
-            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+        if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        else menu.findItem(R.id.action_info).setVisible(false);
 
-                    LayoutInflater inflater = getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(OverviewBase.this);
-                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
-                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, OverviewBase.this, "slideforreddit");
+        return true;
+    }
 
-                    builder.setView(dialoglayout).show();
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_shadowbox:
+                if (Reddit.tabletUI) {
+                    ArrayList<Submission> posts =
+                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    if (posts != null && !posts.isEmpty()) {
+                        DataShare.sharedSubreddit =
+                                ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                        Intent i = new Intent(this, Shadowbox.class);
+                        i.putExtra("position", pager.getCurrentItem());
+                        startActivity(i);
+                    }
+                } else {
+                    new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                 }
-            });
-            return null;
+                return true;
+            case R.id.action_info:
+                if (usedArray != null) {
+                    String sub = usedArray.get(pager.getCurrentItem());
+                    if (!sub.equals("frontpage") && !sub.equals("all")) {
+                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer
+                                (GravityCompat.END);
+                    }
+                }
+                return true;
+            case R.id.action_sort:
+                openPopup();
+                return true;
+            default:
+                return false;
         }
     }
 }

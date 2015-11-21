@@ -48,7 +48,7 @@ public class CommentsScreenPopup extends BaseActivity {
             Window window = getWindow();
             window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
         }
-        ViewPager pager = (ViewPager) findViewById(R.id.contentView);
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         HasSeen.addSeen(posts.get(firstPage).getFullName());
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));

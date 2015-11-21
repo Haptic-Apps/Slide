@@ -30,11 +30,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.SubredditOverview"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".Activities.SettingsCache"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
@@ -215,8 +210,7 @@
             android:name=".Activities.Crash"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".Activities.SubredditOverviewSingle"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:name=".Activities.MainActivity"/>
         <activity
             android:name=".Activities.Settings"
             android:configChanges="keyboardHidden|orientation|screenSize"

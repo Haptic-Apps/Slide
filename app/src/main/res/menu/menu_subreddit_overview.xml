@@ -2,9 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SubredditOverview">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/title_settings"
-        app:showAsAction="never" />
+
+    <item android:id="@+id/action_shadowbox"
+        android:icon="@drawable/shadowbox"
+        android:title="@string/general_enable_shadowbox"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_info"
+        android:icon="@drawable/infonew"
+        android:title="@string/general_open_settings"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/sorting_change_sorting"
+        app:showAsAction="ifRoom"/>
+
 </menu>
