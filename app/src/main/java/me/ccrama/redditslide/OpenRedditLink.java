@@ -65,15 +65,15 @@ public class OpenRedditLink {
             myIntent.putExtra("profile", name);
             context.startActivity(myIntent);
         } else if (parts.length == 7) { // post link with context
-                Intent i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra("subreddit", parts[2]);
-                i.putExtra("submission", parts[4]);
-                i.putExtra("np", np);
-                i.putExtra("loadmore", true);
-                String end = parts[6];
-                if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
-                i.putExtra("context", end);
-                context.startActivity(i);
+            Intent i = new Intent(context, CommentsScreenSingle.class);
+            i.putExtra("subreddit", parts[2]);
+            i.putExtra("submission", parts[4]);
+            i.putExtra("np", np);
+            i.putExtra("loadmore", true);
+            String end = parts[6];
+            if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
+            i.putExtra("context", end);
+            context.startActivity(i);
         } else { // post link without context
             Intent i = new Intent(context, CommentsScreenSingle.class);
             i.putExtra("subreddit", parts[2]);
