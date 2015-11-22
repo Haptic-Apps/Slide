@@ -21,7 +21,12 @@ public class CreateCardView {
         View v = null;
         switch (cardEnum) {
             case LARGE:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
+                if(SettingValues.middleImage){
+                    v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard_middle, viewGroup, false);
+
+                } else {
+                    v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
+                }
                 break;
             case LIST:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_list, viewGroup, false);
@@ -40,7 +45,12 @@ public class CreateCardView {
         View v = null;
         switch (cardEnum) {
             case LARGE:
-                v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
+                if(isMiddle(secondary)){
+                    v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard_middle, viewGroup, false);
+
+                } else {
+                    v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
+                }
                 break;
 
             case LIST:
@@ -157,7 +167,23 @@ public class CreateCardView {
 
         }
     }
+    public static View setMiddleCard(boolean b, ViewGroup parent, Boolean secondary, String sub) {
+        String subreddit = (secondary) ? "second" : "";
+        sub = sub.toLowerCase();
+        if (subreddit.isEmpty()) {
 
+
+            SettingValues.prefs.edit().putBoolean("middleCard", b).apply();
+            SettingValues.middleImage = b;
+
+            return CreateView(parent);
+
+        } else {
+            SettingValues.prefs.edit().putBoolean(subreddit + "middleCard", b).apply();
+            return CreateView(parent, secondary, sub);
+
+        }
+    }
     private static void doHideObjects(View v, Boolean secondary) {
         String subreddit = (secondary) ? "second" : "";
         if (subreddit.isEmpty()) {
@@ -240,6 +266,11 @@ public class CreateCardView {
         String subreddit = (secondary) ? "second" : "";
 
         return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
+    }
+    public static boolean isMiddle(Boolean secondary) {
+        String subreddit = (secondary) ? "second" : "";
+
+        return SettingValues.prefs.getBoolean(subreddit + "middleCard",false);
     }
 
     public static CardEnum getCardView(Boolean secondary) {

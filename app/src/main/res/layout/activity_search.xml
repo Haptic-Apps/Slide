@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/card_background"
+        android:clipToPadding="false"
+        android:minHeight="56dp"
+        android:paddingRight="16dp"
+        app:layout_scrollFlags="scroll|enterAlways"
+
+
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="start|center_vertical"
+
+            android:background="#00ffffff"
+            android:id="@+id/search_go_btn"
+            android:paddingBottom="12dp"
+
+            android:paddingTop="12dp"
+            android:scaleType="fitCenter"
+
+            android:src="@drawable/search"
+            android:tint="?attr/tint" />
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/tint"
+            android:hint="Search term"
+            android:textColor="?attr/font"
+            android:textColorHint="?attr/font" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/vertical_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:cacheColorHint="@android:color/transparent"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:orientation="vertical" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:src="@drawable/filter"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

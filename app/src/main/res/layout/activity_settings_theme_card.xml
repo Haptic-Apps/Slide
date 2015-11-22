@@ -96,6 +96,42 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/middle"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/middle"
+                    android:tint="?attr/tint" />
+
+                <CheckBox
+                    android:id="@+id/middlechk"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:drawableTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="Image in middle of card"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/info"

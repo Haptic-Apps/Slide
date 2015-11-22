@@ -21,6 +21,7 @@ public class SettingValues {
     public static CommentSort defaultCommentSorting;
     public static boolean NSFWPreviews;
     public static boolean NSFWPosts;
+    public static boolean middleImage;
 
     public static ColorMatchingMode colorMatchingMode;
     public static ColorIndicator colorIndicator;
@@ -32,6 +33,7 @@ public class SettingValues {
         actionBarVisible = settings.getBoolean("actionBarVisibleNew", true);
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         infoBar = InfoBar.valueOf(settings.getString("infoBarTypeNew", "BIG_PICTURE"));
+        middleImage =settings.getBoolean("middleImage", false);
 
         NSFWPosts = settings.getBoolean("NSFWPostsNew", false);
 

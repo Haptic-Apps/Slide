@@ -60,7 +60,18 @@ public class EditCardsLayout extends BaseActivityNoAnim {
         final CheckBox cardmode = (CheckBox) findViewById(R.id.cardmode);
         cardmode.setChecked(CreateCardView.isCard(!subreddit.isEmpty()));
 
+        final CheckBox middle = (CheckBox) findViewById(R.id.middlechk);
 
+        if(cardmode.isChecked()){
+            middle.setAlpha(1f);
+            middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
+
+            middle.setClickable(true);
+        } else {
+            middle.setAlpha(0.5f);
+            middle.setChecked(false);
+            middle.setClickable(false);
+        }
         cardmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -72,9 +83,29 @@ public class EditCardsLayout extends BaseActivityNoAnim {
                     layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, !subreddit.isEmpty(), subreddit));
 
                 }
+                if(cardmode.isChecked()){
+                    middle.setAlpha(1f);
+                    middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
+
+                    middle.setClickable(true);
+                } else {
+                    middle.setAlpha(0.5f);
+                    middle.setChecked(false);
+                    middle.setClickable(false);
+                }
             }
         });
+        middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
 
+
+        middle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    layout.removeAllViews();
+                    layout.addView(CreateCardView.setMiddleCard(isChecked, layout, !subreddit.isEmpty(), subreddit));
+
+            }
+        });
 
         //Link preview//
         //Big, Infobar, thumb only//
