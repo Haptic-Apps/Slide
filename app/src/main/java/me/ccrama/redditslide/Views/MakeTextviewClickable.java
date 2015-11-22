@@ -178,10 +178,6 @@ public class MakeTextviewClickable {
      * @return  the message with monospace font applied to code fragments
      */
     private CharSequence setCodeFont(SpannableStringBuilder sequence) {
-        final String startSeq = "[[<[";
-        final String endSeq = "]>]]";
-
-
         int start = 0;
         int end = 0;
         for (int i = 0; i < sequence.length(); i++) {
@@ -201,6 +197,7 @@ public class MakeTextviewClickable {
                 sequence.setSpan(new TypefaceSpan("monospace"), start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 start = 0;
                 end = 0;
+                i = i - 4; // move back to compensate for removal of [[<[
             }
         }
 
