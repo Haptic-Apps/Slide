@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
 
-    android:background="?attr/activity_background"
-    android:orientation="vertical">
+                android:background="?attr/activity_background"
+                android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -33,11 +33,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
 
-            android:orientation="vertical"
-            android:padding="16dp">
+                      android:orientation="vertical"
+                      android:padding="16dp">
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
 
                     android:text="@string/editor_self"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font" />
+                    android:textColor="?attr/font"/>
 
                 <RadioButton
                     android:id="@+id/imageradio"
@@ -66,7 +66,7 @@
                     android:layout_weight="1"
                     android:text="@string/type_img"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font" />
+                    android:textColor="?attr/font"/>
 
                 <RadioButton
                     android:id="@+id/linkradio"
@@ -76,14 +76,13 @@
                     android:layout_weight="1"
                     android:text="@string/type_link"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font" />
+                    android:textColor="?attr/font"/>
             </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:textColorHint="?attr/font">
+                >
 
                 <EditText
                     android:id="@+id/subreddittext"
@@ -96,14 +95,12 @@
 
                     android:maxLength="21"
                     android:maxLines="1"
-                    android:textColor="?attr/font" />
+                    android:textColor="?attr/font"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:textColorHint="?attr/font">
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/titletext"
@@ -112,10 +109,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/editor_title"
-                    android:maxLength="300"
-
-                    android:maxLines="1"
-                    android:textColor="?attr/font" />
+                    android:maxLength="300"/>
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -126,9 +120,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="?attr/font">
+                    android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/bodytext"
@@ -139,7 +131,7 @@
 
                         android:imeOptions="actionDone|flagNoEnterAction"
                         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-                        android:textColor="?attr/font" />
+                        android:textColor="?attr/font"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
@@ -167,7 +159,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/image"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
 
                     <ImageButton
@@ -182,7 +174,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/link"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <ImageButton
                         android:id="@+id/bold"
@@ -196,7 +188,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_format_bold_white_48dp"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <ImageButton
                         android:id="@+id/italics"
@@ -210,7 +202,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_format_italic_white_48dp"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <ImageButton
                         android:id="@+id/bulletlist"
@@ -224,7 +216,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_format_list_bulleted_white_48dp"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <ImageButton
                         android:id="@+id/numlist"
@@ -238,7 +230,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_format_list_numbered_white_48dp"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <ImageButton
                         android:id="@+id/quote"
@@ -252,7 +244,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_format_quote_white_48dp"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <ImageButton
                         android:id="@+id/size"
@@ -266,7 +258,7 @@
                         android:padding="8dp"
                         android:scaleType="fitCenter"
                         android:src="@drawable/fontsizedarker"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -283,13 +275,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:layout_marginLeft="6dp"
-                    android:backgroundTint="?attr/tint"
+
+                    android:background="?android:selectableItemBackground"
+                    android:padding="16dp"
                     android:text="@string/editor_select_img"
+                    android:textAllCaps="true"
                     android:textColor="?attr/font"
                     android:textSize="14sp"
 
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <ImageView
                     android:id="@+id/imagepost"
@@ -297,7 +291,7 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginTop="10dp"
-                    android:adjustViewBounds="true" />
+                    android:adjustViewBounds="true"/>
             </LinearLayout>
 
             <LinearLayout
@@ -307,9 +301,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:textColorHint="?attr/font">
+                    android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/urltext"
@@ -319,7 +311,7 @@
 
                         android:hint="@string/editor_url"
 
-                        android:maxLines="1" />
+                        android:maxLines="1"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -337,5 +329,5 @@
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="12dp"/>
 </RelativeLayout>

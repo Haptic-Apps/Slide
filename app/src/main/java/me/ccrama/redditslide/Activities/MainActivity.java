@@ -45,6 +45,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,7 +83,6 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
-import me.ccrama.redditslide.util.NetworkUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -205,26 +205,31 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
-                CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                LinearLayout submit = ((LinearLayout) dialoglayout.findViewById(R.id.submit));
                 if (!Authentication.isLoggedIn) {
-                    c.setVisibility(View.GONE);
+                    pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
+                    submit.setVisibility(View.GONE);
                 }
-                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
+                    submit.setVisibility(View.GONE);
+
+                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         //reset check adapter
                     }
                 });
                 if (SubredditStorage.getPins() == null) {
-                    c.setChecked(false);
+                    pinned.setChecked(false);
 
                 } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                    c.setChecked(true);
+                    pinned.setChecked(true);
                 } else {
-                    c.setChecked(false);
+                    pinned.setChecked(false);
                 }
-                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -237,7 +242,16 @@ public class MainActivity extends AppCompatActivity {
                         new SubredditStorageNoContext().execute(MainActivity.this);
                     }
                 });
-                c.setHighlightColor(new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit, true).getColor());
+                pinned.setHighlightColor(new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit, true).getColor());
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(MainActivity.this, Submit.class);
+                        inte.putExtra("subreddit", subreddit);
+                        MainActivity.this.startActivity(inte);
+                    }
+                });
             }
 
 
@@ -870,13 +884,17 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
             }
-            header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, Submit.class);
-                    MainActivity.this.startActivity(inte);
-                }
-            });
+            if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
+                header.findViewById(R.id.submit).setVisibility(View.GONE);
+            else {
+                header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(MainActivity.this, Submit.class);
+                        MainActivity.this.startActivity(inte);
+                    }
+                });
+            }
 
         } else {
             header = inflater.inflate(R.layout.drawer_loggedout, l, false);
