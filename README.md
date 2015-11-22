@@ -12,36 +12,36 @@ Slide is currently available on the Play store.
     https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)](
     https://play.google.com/store/apps/details?id=me.ccrama.redditslide)
 
-There is an active community for slide on the
+There is an active community for Slide on the
 [the Google+ page](https://plus.google.com/communities/100681783215868345226),
-in which anybody is welcome to join.
+which anybody is welcome to join.
 
 ## Contributing
 
 #### Issues
 
-In any project it's likely that a few bugs will slip through the cracks, it
-helps greatly if people document any bugs they find to ensuring they get fixed
+In any project it's likely that a few bugs will slip through the cracks, so it
+helps greatly if people document any bugs they find to ensure that they get fixed
 promptly.
 
 You can view a list of known issues and feature requests using [the issue tracker](
 https://github.com/ccrama/Slide/issues). If you don't see your issue (or you
 aren't sure) feel free to [submit it!](https://github.com/ccrama/Slide/issues/new)
 
-Where appropriate a screenshot works wonders to help us see exactly what the
-issue is. You can upload screenshots directly using the github issue tracker or
-by attaching a link (for example to Imgur), whichever is easier for you.
+Where appropriate, a screenshot works wonders to help us see exactly what the
+issue is. You can upload screenshots directly using the Github issue tracker or
+by attaching a link (to Imgur, for example), whichever is easier for you.
 
 #### Translations
 
 If you are able to contribute a translation into a language missing from Slide,
-or spot room for improvement in an exiting translation we greatly appreciate
+or spot any room for improvement in an exiting translation, we greatly appreciate
 anything you can assist with!
 
 [The project uses Crowdin](https://crowdin.com/project/slide-for-reddit),
 a platform that allows anybody to contribute to translating the app, with as
 many words at a time as they want. Crowdin provides a nice interface for
-translating, no knowledge of the code is needed.
+translating, and no knowledge of the code is needed.
 
 #### Code
 
@@ -54,7 +54,7 @@ https://www.reddit.com/message/compose/?to=ccrama) on Reddit.
 ## Changelog
 
 The file [History.md](History.md) provides an overview of the changes for a
-release, for a more detailed look at changes to the app, [view individual
+release; for a more detailed look at changes to the app, [view individual
 commits](https://github.com/ccrama/Slide/commits/master).
 
 ## Licensing
