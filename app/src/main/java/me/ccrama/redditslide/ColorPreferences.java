@@ -125,7 +125,7 @@ public class ColorPreferences {
         light_lime(R.style.lime_LIGHT, "light_lime", R.color.md_lime_A700, 1),
         amoled_lime(R.style.lime_AMOLED, "amoled_lime", R.color.md_lime_A700, 2),
         dark_green(R.style.green_dark, "dark_green", R.color.md_green_A700, 0),
-        light_green(R.style.green_LIGHT, "light_green(", R.color.md_green_A700, 1),
+        light_green(R.style.green_LIGHT, "light_green", R.color.md_green_A700, 1),
         amoled_green(R.style.green_AMOLED, "amoled_green", R.color.md_green_A700, 2),
         dark_cyan(R.style.cyan_dark, "dark_cyan", R.color.md_cyan_A700, 0),
         light_cyan(R.style.cyan_LIGHT, "light_cyan", R.color.md_cyan_A700, 1),
