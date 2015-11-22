@@ -18,38 +18,39 @@ which anybody is welcome to join.
 
 ## Contributing
 
-#### Issues
+### Issues
 
 In any project it's likely that a few bugs will slip through the cracks, so it
-helps greatly if people document any bugs they find to ensure that they get fixed
-promptly.
+helps greatly if people document any bugs they find to ensure that they get
+fixed promptly.
 
 You can view a list of known issues and feature requests using [the issue tracker](
 https://github.com/ccrama/Slide/issues). If you don't see your issue (or you
 aren't sure) feel free to [submit it!](https://github.com/ccrama/Slide/issues/new)
 
 Where appropriate, a screenshot works wonders to help us see exactly what the
-issue is. You can upload screenshots directly using the Github issue tracker or
+issue is. You can upload screenshots directly using the GitHub issue tracker or
 by attaching a link (to Imgur, for example), whichever is easier for you.
 
-#### Translations
+### Translations
 
 If you are able to contribute a translation into a language missing from Slide,
-or spot any room for improvement in an exiting translation, we greatly appreciate
-anything you can assist with!
+or spot any room for improvement in an existing translation, we greatly
+appreciate anything you can assist with!
 
 [The project uses Crowdin](https://crowdin.com/project/slide-for-reddit),
 a platform that allows anybody to contribute to translating the app, with as
 many words at a time as they want. Crowdin provides a nice interface for
 translating, and no knowledge of the code is needed.
 
-#### Code
+### Code
 
 If you are a developer and wish to contribute to the app please fork the project
 and submit a pull request.
 
-If you have any questions, feel free to [drop me a message](
-https://www.reddit.com/message/compose/?to=ccrama) on Reddit.
+If you have any questions, feel free to
+[ask in the IRC channel](https://kiwiirc.com/client/irc.snoonet.org/#slide) or
+[drop me a message](https://www.reddit.com/message/compose/?to=ccrama) on Reddit.
 
 ## Changelog
 
