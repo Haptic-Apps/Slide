@@ -28,6 +28,7 @@ import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -647,25 +648,31 @@ public class SubredditView extends BaseActivity {
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
-                CheckBox c = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                LinearLayout submit = ((LinearLayout) dialoglayout.findViewById(R.id.submit));
                 if (!Authentication.isLoggedIn) {
-                    c.setVisibility(View.GONE);
+                    pinned.setVisibility(View.GONE);
+                    findViewById(R.id.subscribed).setVisibility(View.GONE);
+                    submit.setVisibility(View.GONE);
                 }
-                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
+                    submit.setVisibility(View.GONE);
+
+                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         //reset check adapter
                     }
                 });
                 if (SubredditStorage.getPins() == null) {
-                    c.setChecked(false);
+                    pinned.setChecked(false);
 
                 } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                    c.setChecked(true);
+                    pinned.setChecked(true);
                 } else {
-                    c.setChecked(false);
+                    pinned.setChecked(false);
                 }
-                c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if (isChecked) {
@@ -675,7 +682,16 @@ public class SubredditView extends BaseActivity {
                         }
                     }
                 });
-                c.setHighlightColor(new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit, true).getColor());
+                pinned.setHighlightColor(new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit, true).getColor());
+
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(SubredditView.this, Submit.class);
+                        inte.putExtra("subreddit", subreddit);
+                        SubredditView.this.startActivity(inte);
+                    }
+                });
             }
 
 

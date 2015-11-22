@@ -23,7 +23,7 @@
 
 
             android:indeterminate="true"
-            android:padding="0dp" />
+            android:padding="0dp"/>
 
         <LinearLayout
             android:id="@+id/header_sub"
@@ -42,7 +42,7 @@
                 android:paddingLeft="16dp"
                 android:text="/r/Android"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/subscribers"
@@ -51,7 +51,7 @@
 
                 android:paddingLeft="16dp"
                 android:text="A sub for 2 years"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/sub_title"
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                     android:text="@string/sidebar_pinned"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
 
                 <CheckBox
                     android:id="@+id/subscribed"
@@ -107,7 +107,7 @@
                     android:text="@string/misc_subscribed"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:textColorHint="?attr/font"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:alpha=".8"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tint"/>
 
                 <LinearLayout
                     android:id="@+id/wiki"
@@ -134,7 +134,7 @@
                         android:padding="8dp"
 
                         android:src="@drawable/wiki"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
 
                         android:textColor="?attr/font"
 
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -167,7 +167,7 @@
                         android:alpha=".86"
                         android:padding="8dp"
                         android:src="@drawable/color"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -178,7 +178,34 @@
 
                         android:textColor="?attr/font"
 
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+
+                    android:orientation="horizontal"
+                    android:paddingRight="8dp">
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="match_parent"
+                        android:alpha=".86"
+                        android:padding="8dp"
+                        android:src="@drawable/edit"
+                        android:tint="?attr/tint"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/editor_submit"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
 
@@ -188,21 +215,21 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:alpha=".8"
-                    android:background="?attr/tint" />
+                    android:background="?attr/tint"/>
             </LinearLayout>
 
 
         </RelativeLayout>
 
-        <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/sidebar_text"
+        <me.ccrama.redditslide.ActiveTextView android:id="@+id/sidebar_text"
+                                              xmlns:android="http://schemas.android.com/apk/res/android"
 
-            android:layout_width="match_parent"
+                                              android:layout_width="match_parent"
 
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textColor="?attr/font"
-            android:textIsSelectable="true"
-            android:textSize="16sp" />
+                                              android:layout_height="match_parent"
+                                              android:padding="16dp"
+                                              android:textColor="?attr/font"
+                                              android:textIsSelectable="true"
+                                              android:textSize="16sp"/>
     </LinearLayout>
 </ScrollView>

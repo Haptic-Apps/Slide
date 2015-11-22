@@ -57,6 +57,7 @@ public class Submit extends AppCompatActivity {
     String trying;
     private View image;
     private View self;
+    private EditText subredditText;
 
     private View link;
     private String URL;
@@ -92,19 +93,25 @@ public class Submit extends AppCompatActivity {
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Intent intent = getIntent();
+
+        final String subreddit = intent.getStringExtra("subreddit");
 
         self = findViewById(R.id.selftext);
+        subredditText = ((EditText) findViewById(R.id.subreddittext));
         image = findViewById(R.id.image);
         link = findViewById(R.id.url);
 
         image.setVisibility(View.GONE);
         link.setVisibility(View.GONE);
 
+        subredditText.setText(subreddit);
 
         findViewById(R.id.selftextradio).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 self.setVisibility(View.VISIBLE);
+
                 image.setVisibility(View.GONE);
                 link.setVisibility(View.GONE);
             }
