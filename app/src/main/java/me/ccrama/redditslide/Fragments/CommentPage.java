@@ -201,7 +201,7 @@ public class CommentPage extends Fragment {
                     if (adapter.users != null) {
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
-                        for (int i = pastVisiblesItems; i < adapter.getItemCount(); i++) {
+                        for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
                             if (adapter.users.get(adapter.getRealPosition(i)).getCommentNode().isTopLevel()) {
                                 RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
