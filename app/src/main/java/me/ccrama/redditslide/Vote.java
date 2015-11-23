@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import net.dean.jraw.ApiException;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.VoteDirection;
@@ -47,7 +48,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
                         v = null;
                     }
                 });
-            } catch (ApiException e) {
+            } catch (ApiException | NetworkException e) {
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
                         Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT).show();
