@@ -427,39 +427,6 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/discard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?android:selectableItemBackground"
-                        android:padding="4dp"
-
-                        android:text="@string/btn_discard"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/send"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:background="?android:selectableItemBackground"
-                        android:padding="4dp"
-
-                        android:text="@string/btn_submit"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/font"
-
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
                 <LinearLayout
                     android:id="@+id/innersend2"
                     android:layout_width="match_parent"
@@ -586,6 +553,39 @@
                         android:src="@drawable/fontsizedarker"
                         android:tint="?attr/tint" />
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/discard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="4dp"
+
+                        android:text="@string/btn_discard"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="4dp"
+
+                        android:text="@string/btn_submit"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/font"
+
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
 
             </LinearLayout>
 

@@ -149,6 +149,34 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/copy"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
+
+                        <!-- Fixme icon -->
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:src="@drawable/infonew"
+                            android:tint="?attr/tint" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Copy text"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/share"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
@@ -168,13 +196,9 @@
 
                         <TextView
                             android:layout_width="wrap_content"
-
                             android:layout_height="wrap_content"
                             android:text="@string/comment_share"
-
-
                             android:textColor="?attr/font"
-
                             android:textSize="16sp" />
 
                     </LinearLayout>

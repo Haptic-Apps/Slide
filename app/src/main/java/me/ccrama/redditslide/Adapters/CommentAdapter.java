@@ -7,6 +7,8 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,10 +22,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -79,6 +83,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public boolean isClicking;
     public HashMap<String, Integer> keys = new HashMap<>();
     public ArrayList<CommentObject> users;
+    public ArrayList<String> deleted = new ArrayList<>();
     RecyclerView listView;
     ArrayList<String> up;
     ArrayList<String> down;
@@ -260,23 +265,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 } else {
                     mod.setVisibility(View.GONE);
                 }
-            }
-            catch (Exception e){
-                Log.d("Error loading mod ",e.getMessage());
+            } catch (Exception e) {
+                Log.d("Error loading mod ", e.getMessage());
             }
         }
         {
             final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-            if(Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())){
+            if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        LayoutInflater inflater =((Activity) mContext).getLayoutInflater();
+                        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
                         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
                         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
-                       final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+                        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
                         e.setText(baseNode.getComment().getBody());
 
 
@@ -302,7 +306,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                             currentSelectedItem = baseNode.getComment().getFullName();
                                             d.dismiss();
-                                        } catch (Exception e){
+                                        } catch (Exception e) {
                                             ((Activity) mContext).runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -339,7 +343,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         {
             final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-            if(Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())){
+            if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -429,6 +433,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dataSet.refreshLayout.setRefreshing(true);
                     new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
 
+                    //Hide soft keyboard
+                    View view = ((Activity) mContext).getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
 
                 }
             });
@@ -436,7 +446,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     menu.setVisibility(View.VISIBLE);
-
                     replyArea.setVisibility(View.GONE);
                 }
             });
@@ -500,6 +509,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Reddit.defaultShareText(urlString, mContext);
                     }
                 });
+
+                dialoglayout.findViewById(R.id.copy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Reddit post", n.getDataNode().get("body").asText());
+                        clipboard.setPrimaryClip(clip);
+                    }
+                });
+
                 if (!Authentication.isLoggedIn) {
 
                     dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
@@ -637,7 +656,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 doUnHighlighted(holder);
             }
 
-            if(pos == getItemCount()-1){
+            if (pos == getItemCount() - 1) {
                 holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single));
 
             } else {
@@ -854,7 +873,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.dot.setVisibility(View.GONE);
             }
-            if(deleted.contains(comment.getFullName())){
+            if (deleted.contains(comment.getFullName())) {
                 holder.content.setText("[deleted]");
                 holder.author.setText("[deleted]");
 
@@ -866,19 +885,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.VISIBLE);
-                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
+                        final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
+                        if (replyArea.getVisibility() == View.GONE) {
+                            replyArea.setVisibility(View.VISIBLE);
+                            DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
 
-                        firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dataSet.refreshLayout.setRefreshing(true);
+                            firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dataSet.refreshLayout.setRefreshing(true);
 
-                                new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
-                                firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
-                            }
-                        });
+                                    new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                                    replyArea.setVisibility(View.GONE);
 
+                                    //Hide soft keyboard
+                                    View view = ((Activity) mContext).getCurrentFocus();
+                                    if (view != null) {
+                                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
+                                }
+                            });
+                        } else {
+                            replyArea.setVisibility(View.GONE);
+                        }
                     }
                 });
                 firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
@@ -958,6 +988,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         }
                     });
+
+                    if (submission.isSelfPost() && !submission.getSelftext().isEmpty()) {
+                        dialoglayout.findViewById(R.id.copy).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Reddit post", submission.getSelftext());
+                                clipboard.setPrimaryClip(clip);
+                            }
+                        });
+                    } else dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
+
                     if (!Authentication.isLoggedIn) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
@@ -1037,8 +1079,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     }
-
-    public ArrayList<String> deleted = new ArrayList<>();
 
     public void hideAll(CommentNode n, int i) {
         int counter = hideNumber(n, 0);
