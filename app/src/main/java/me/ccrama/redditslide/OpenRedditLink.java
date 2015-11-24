@@ -18,12 +18,7 @@ public class OpenRedditLink {
     public OpenRedditLink(Context context, String url) {
         boolean np = url.matches("(https?://)?np.reddit.com.*");
 
-        url = url.replace("np.", "");
-        url = url.replace("www.", "");
-        url = url.replace("http://", "");
-        url = url.replace("https://", "");
-        url = url.replace("m.", "");
-        url = url.replace("i.", "");
+        url = url.replaceFirst("(https?://)?[a-z0-9-_]+\\.reddit\\.com", "reddit.com");
 
         if (url.startsWith("/")) url = "reddit.com" + url;
         if (url.endsWith("/")) url = url.substring(0, url.length() - 1);

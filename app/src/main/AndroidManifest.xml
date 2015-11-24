@@ -119,54 +119,13 @@
             android:label="SlideIntent">
             <intent-filter android:label="Slide">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="www.reddit.com"
-                    android:scheme="http" />
-                <data
-                    android:host="reddit.com"
-                    android:scheme="https" />
-
-                <data
-                    android:host="i.reddit.com"
-                    android:scheme="http" />
-                <data
-                    android:host="m.reddit.com"
-                    android:scheme="http" />
-                <data
-                    android:host="www.reddit.com"
-                    android:scheme="https" />
-                <data
-                    android:host="i.reddit.com"
-                    android:scheme="https" />
-                <data
-                    android:host="m.reddit.com"
-                    android:scheme="https" />
-                <data
-                    android:host="np.reddit.com"
-                    android:scheme="http" />
-                <data
-                    android:host="reddit.com"
-                    android:scheme="http" />
-
-                <data
-                    android:host="np.reddit.com"
-                    android:scheme="https" />
-                <data
-                    android:host="redd.it"
-                    android:scheme="https" />
-                <data
-                    android:host="redd.it"
-                    android:scheme="http" />
-                <data
-                    android:host="www.redd.it"
-                    android:scheme="https" />
-                <data
-                    android:host="www.redd.it"
-                    android:scheme="http" />
+                <data android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="*reddit.com"/>
+                <data android:host="redd.it"/>
             </intent-filter>
         </activity>
         <activity
