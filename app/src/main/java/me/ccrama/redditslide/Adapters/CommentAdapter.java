@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -429,6 +430,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dataSet.refreshLayout.setRefreshing(true);
                     new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
 
+                    //Hide soft keyboard
+                    View view = ((Activity) mContext).getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
 
                 }
             });
@@ -436,7 +443,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     menu.setVisibility(View.VISIBLE);
-
                     replyArea.setVisibility(View.GONE);
                 }
             });
@@ -866,19 +872,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.VISIBLE);
-                        DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
+                        final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
+                        if (replyArea.getVisibility() == View.GONE) {
+                            replyArea.setVisibility(View.VISIBLE);
+                            DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
 
-                        firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dataSet.refreshLayout.setRefreshing(true);
+                            firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dataSet.refreshLayout.setRefreshing(true);
 
-                                new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
-                                firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
-                            }
-                        });
+                                    new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                                    replyArea.setVisibility(View.GONE);
 
+                                    //Hide soft keyboard
+                                    View view = ((Activity) mContext).getCurrentFocus();
+                                    if (view != null) {
+                                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
+                                }
+                            });
+                        } else{
+                            replyArea.setVisibility(View.GONE);
+                        }
                     }
                 });
                 firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
