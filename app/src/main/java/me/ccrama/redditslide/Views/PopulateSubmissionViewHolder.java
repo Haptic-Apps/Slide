@@ -718,6 +718,7 @@ public class PopulateSubmissionViewHolder {
 
                         }
                     });
+                    dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
                     if (!Authentication.isLoggedIn) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);

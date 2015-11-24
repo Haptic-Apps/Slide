@@ -9,7 +9,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
