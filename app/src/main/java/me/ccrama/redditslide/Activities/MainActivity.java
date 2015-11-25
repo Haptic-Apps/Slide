@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
             findViewById(R.id.wiki).setBackgroundColor(Pallete.getColor(subreddit));
-            findViewById(R.id.submit).setBackgroundColor(Pallete.getColor(subreddit));
+            dialoglayout.findViewById(R.id.submit).setBackgroundColor(Pallete.getColor(subreddit));
 
             findViewById(R.id.sub_theme).setBackgroundColor(Pallete.getColor(subreddit));
             findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {

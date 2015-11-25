@@ -26,9 +26,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -649,7 +649,7 @@ public class SubredditView extends BaseActivity {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                LinearLayout submit = ((LinearLayout) dialoglayout.findViewById(R.id.submit));
+                Button submit = ((Button) dialoglayout.findViewById(R.id.submit));
                 if (!Authentication.isLoggedIn) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
