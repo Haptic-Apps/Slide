@@ -122,6 +122,13 @@ public class Settings extends BaseActivityNoAnim {
                 startActivityForResult(i, 2);
             }
         });
+        findViewById(R.id.comments_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsComments.class);
+                startActivityForResult(i, 2);
+            }
+        });
         if (Reddit.notificationTime > 0) {
             ((TextView) findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));

@@ -28,6 +28,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Pallete;
@@ -117,10 +118,11 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         holder.author.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i2 = new Intent(mContext, Profile.class);
-                i2.putExtra("profile", comment.getAuthor());
-                mContext.startActivity(i2);
+                if (Reddit.click_user_name_to_profile) {
+                    Intent i2 = new Intent(mContext, Profile.class);
+                    i2.putExtra("profile", comment.getAuthor());
+                    mContext.startActivity(i2);
+                }
             }
         });
         holder.author.setTextColor(Pallete.getFontColorUser(comment.getAuthor()));
