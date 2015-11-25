@@ -60,13 +60,11 @@
   <string name="multi_column_landscape">רוחב</string>
   <string name="multi_column_portrait">אפשרויות אורך בקרוב</string>
   <string name="drawer_profile">פרופיל</string>
-  <string name="drawer_support">תמוך בSlide</string>
   <string name="drawer_goto_profile">צפה בפרופיל</string>
   <string name="drawer_reorder_pins">סידור מחדש של הנעוצים</string>
   <string name="drawer_add_account">הוסף משתמש</string>
   <string name="drawer_hello">היי</string>
   <string name="drawer_change_account">החלף משתמש</string>
-  <string name="drawer_multi_column">עמודות מרובות</string>
   <string name="drawer_search">חיפוש subreddit</string>
   <string name="drawer_moderation">ניהול</string>
   <string name="drawer_sync_subs">סינכרון הסאבים שלך</string>
@@ -110,7 +108,7 @@
   <string name="sorting_best">הטובים ביותר</string>
   <string name="sorting_top">המצליחים ביותר</string>
   <string name="sorting_hot">חמים</string>
-  <string name="sorting_ama"><![CDATA[שאלות ותשובות (AMA)]]></string>
+  <string name="sorting_ama">שאלות ותשובות (AMA)</string>
   <string name="sorting_new">חדש</string>
   <string name="sorting_old">ישן</string>
   <string name="sorting_hour">בשעה האחרונה</string>
@@ -134,4 +132,5 @@
   <string name="err_invalid_url">לינק לא תקין</string>
   <string name="err_connection_lost">או או! נראה כי איבדת חיבור לרשת. אנא התחבר/י מחדש לרשת ונסה/י שוב.</string>
   <string name="err_general">אירעה שגיאה</string>
+  <string name="settings_title_multi_column">הגדרות עמודות מרובות</string>
 </resources>

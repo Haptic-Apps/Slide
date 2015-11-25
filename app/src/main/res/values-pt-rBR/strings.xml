@@ -55,13 +55,11 @@
   <string name="multi_column_landscape">Paisagem</string>
   <string name="multi_column_portrait">Configurações de Retrato em breve</string>
   <string name="drawer_profile">Perfil</string>
-  <string name="drawer_support">Ajude o Slide</string>
   <string name="drawer_goto_profile">Ir para o perfil</string>
   <string name="drawer_reorder_pins">Reordenar</string>
   <string name="drawer_add_account">Adicionar conta</string>
   <string name="drawer_hello">Olá,</string>
   <string name="drawer_change_account">ALTERAR CONTAS</string>
-  <string name="drawer_multi_column">Multi-Colunas</string>
   <string name="drawer_search">Pesquisar um subreddit</string>
   <string name="drawer_moderation">Moderação</string>
   <string name="sidebar_pinned">fixado</string>
@@ -116,6 +114,7 @@
   <string name="err_invalid_url">URL inválida</string>
   <string name="type_link">Link</string>
   <string name="type_img">Imagem</string>
+  <string name="settings_title_multi_column">Configurações de Multi-Coluna</string>
   <string name="title_settings">Configurações</string>
   <string name="title_multireddits">Multireddits</string>
 </resources>

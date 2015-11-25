@@ -293,6 +293,7 @@
     <string name="misc_subscribed">Subscribed</string>
     <string name="misc_continue">Continue</string>
     <string name="misc_unsubscribed">Unsubscribed</string>
+    <string name="misc_no_more_posts">No more posts!</string>
 
 
     <!-- Goto User -->
@@ -427,6 +428,7 @@
     <string name="settings_fabclear_msg">Tapping the clear button will remove the posts from the current view, but will not hide the posts forever. \nLong pressing the button will hide the posts forever!</string>
     <string name="settings_fabclear">FAB Clear Actions</string>
     <string name="settings_notifdisabled">Notifications disabled.</string>
+    <string name="settings_comments_click_username_for_profile">Click users names to view their profiles.</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternate Layout</string>
@@ -493,6 +495,7 @@
     <string name="time_just_now">just now</string>
     <string name="network_connected">Network connected</string>
     <string name="network_connected_msg">Would you like to exit offline mode?</string>
+    <string name="settings_title_comments">Comments</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

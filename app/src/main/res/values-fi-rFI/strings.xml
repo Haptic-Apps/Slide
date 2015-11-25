@@ -50,7 +50,6 @@
   <string name="multi_column_landscape">Vaakakuva</string>
   <string name="multi_column_portrait">Pystykuva-asetukset tulossa pian</string>
   <string name="drawer_profile">Profiili</string>
-  <string name="drawer_support">Tue Slideä</string>
   <string name="drawer_goto_profile">Mene profiiliin</string>
   <string name="drawer_add_account">Lisää tili</string>
   <string name="drawer_hello">Hei,</string>
@@ -67,5 +66,11 @@
   <string name="profile_karma_comment">kommentti karma</string>
   <string name="profile_message">Yksityisviesti</string>
   <string name="profile_saved">Tallennetut viestit</string>
+  <string name="comment_delete">Poista kommentti</string>
+  <string name="tutorial_skip">Ohita</string>
+  <string name="tutorial_agree">Selvä</string>
   <string name="sorting_choose">Valitse lajittelun tyyppi</string>
+  <string name="sorting_best">Parhaat</string>
+  <string name="sorting_top">Parhaat</string>
+  <string name="settings_title_multi_column">Usean sarakkeen asetukset</string>
 </resources>

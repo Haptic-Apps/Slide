@@ -6,6 +6,7 @@
   <string name="general_switch_acc">切換帳號</string>
   <string name="general_enable_shadowbox">啟用壹模式</string>
   <string name="general_open_settings">開啟Subreddit設定</string>
+  <string name="general_login">登入</string>
   <string name="submission_info_unsaved">未保存提交</string>
   <string name="submission_info_saved">以保存提交</string>
   <string name="submission_post_saved">告示以保存</string>
@@ -27,4 +28,11 @@
   <string name="font_large">大字體</string>
   <string name="font_medium">中字體</string>
   <string name="font_small">小字體</string>
+  <string name="drawer_hello">哈囉，</string>
+  <string name="drawer_change_account">切換帳號</string>
+  <string name="drawer_sync_subs">同步您的訂閱</string>
+  <string name="crash_restart">重新執行應用程式</string>
+  <string name="tutorial_skip">跳過</string>
+  <string name="tutorial_agree">知道了</string>
+  <string name="sorting_ama">問&amp;答 (AMA)</string>
 </resources>

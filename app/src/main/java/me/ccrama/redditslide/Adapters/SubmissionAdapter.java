@@ -15,6 +15,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public SubredditPosts dataSet;
     public ArrayList<Submission> seen;
     public ArrayList<RecyclerView.ViewHolder> views;
+    private final int LOADING_SPINNER = 5;
+    private final int SUBMISSION = 1;
+    private final int NO_MORE = 3;
 
     public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.views = new ArrayList<>();
@@ -82,20 +86,22 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-
-        if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0 &&!dataSet.offline) {
-
-            return 5;
+        if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.offline && !dataSet.nomore) {
+            return LOADING_SPINNER;
+        } else if (position == dataSet.posts.size() && (dataSet.offline || dataSet.nomore)) {
+            return NO_MORE;
         }
-        return 1;
+        return SUBMISSION;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-
-        if (i == 5) {
+        if (i == LOADING_SPINNER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
-            return new ContributionAdapter.EmptyViewHolder(v);
+            return new SubmissionFooterViewHolder(v);
+        } else if (i == NO_MORE) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
+            return new SubmissionFooterViewHolder(v);
         } else {
             View v = CreateCardView.CreateView(viewGroup, custom, subreddit);
             return new SubmissionViewHolder(v);
@@ -222,6 +228,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                             }
                         });
+                        dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
                         if (!Authentication.isLoggedIn) {
                             dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                             dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
@@ -271,30 +278,41 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
         }
+        if (holder2 instanceof SubmissionFooterViewHolder) {
+            Handler handler = new Handler();
+
+            final Runnable r = new Runnable() {
+                public void run() {
+                    notifyItemChanged(dataSet.posts.size() + 1); // the loading spinner to replaced by nomoreposts.xml
+                }
+            };
+
+            handler.post(r);
+        }
         views.add(holder2);
+    }
+
+    public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+        public SubmissionFooterViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     @Override
     public int getItemCount() {
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
-        } else if (dataSet.nomore || dataSet.offline ) {
-
-            return dataSet.posts.size();
         } else {
-            return dataSet.posts.size() + 1;
-
+            return dataSet.posts.size() + 1; // Always account for footer
         }
     }
 
     public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
-
         View v;
 
         public AsyncSave(View v) {
             this.v = v;
         }
-
 
         @Override
         protected Void doInBackground(Submission... submissions) {
@@ -305,15 +323,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                     submissions[0].saved = false;
                     v = null;
-
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
                     Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
 
                     submissions[0].saved = true;
                     v = null;
-
-
                 }
             } catch (Exception e) {
                 return null;
@@ -351,6 +366,4 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             fixSliding(position - 1);
         }
     }
-
-
 }

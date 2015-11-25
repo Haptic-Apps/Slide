@@ -148,6 +148,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                         }
                     });
+                    dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
                     if (submission.isSaved()) {
                         ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
                     }
