@@ -76,19 +76,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
-
-            single.setChecked(Reddit.fastscroll);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.fastscroll = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
-
-                }
-            });
-        }
-        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.hidebutton);
 
             single.setChecked(Reddit.hideButton);
@@ -167,19 +154,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 popup.show();
             }
         });
-        {
-            SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
-
-            check.setChecked(Reddit.swap);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.swap = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Swap", isChecked).apply();
-
-                }
-            });
-        }
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);
 
         {
