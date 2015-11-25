@@ -58,17 +58,9 @@ public class OpenRedditLink {
             Intent i = new Intent(context, Wiki.class);
             i.putExtra("subreddit", parts[2]);
             context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
-            // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
-            Intent i = new Intent(context, CommentsScreenSingle.class);
-            i.putExtra("subreddit", parts[2]);
-            i.putExtra("context", "NOTHING");
-            i.putExtra("np", np);
-            i.putExtra("submission", parts[4]);
-            context.startActivity(i);
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/\\w+")) {
             // Permalink. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
-        Intent i = new Intent(context, CommentsScreenSingle.class);
+            Intent i = new Intent(context, CommentsScreenSingle.class);
             i.putExtra("subreddit", parts[2]);
             i.putExtra("submission", parts[4]);
             i.putExtra("np", np);
@@ -76,6 +68,14 @@ public class OpenRedditLink {
             String end = parts[6];
             if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
             i.putExtra("context", end);
+            context.startActivity(i);
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
+            // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
+            Intent i = new Intent(context, CommentsScreenSingle.class);
+            i.putExtra("subreddit", parts[2]);
+            i.putExtra("context", "NOTHING");
+            i.putExtra("np", np);
+            i.putExtra("submission", parts[4]);
             context.startActivity(i);
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
