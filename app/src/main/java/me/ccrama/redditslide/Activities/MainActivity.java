@@ -1,7 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -37,7 +35,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.Window;
@@ -47,6 +44,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -129,25 +127,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     boolean changed;
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-          changed = true;
+            changed = true;
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             changed = true;
         }
     }
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null   && !changed) {
+        if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
             SubredditStorage.alphabeticalSubscriptions =
@@ -172,23 +170,21 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
                 int number;
-                if(base.contains("black") || base.contains("amoled")) {
+                if (base.contains("black") || base.contains("amoled")) {
                     number = 1;
                 } else {
                     number = 2;
                 }
-                    String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
-                    final String newName = name.replace("(", "");
-                    for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                        if (theme.toString().contains(newName) && theme.getThemeType() == number) {
-                            Reddit.themeBack = theme.getThemeType();
-                            new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                            recreate();
-                            break;
-                        }
+                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                final String newName = name.replace("(", "");
+                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
+                        Reddit.themeBack = theme.getThemeType();
+                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                        recreate();
+                        break;
                     }
-
-
+                }
 
 
             }
@@ -208,7 +204,8 @@ public class MainActivity extends AppCompatActivity {
 
         singleMode = Reddit.single;
         // Inflate tabs if single mode is disabled
-        if (!singleMode) mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
+        if (!singleMode)
+            mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         // Disable swiping if single mode is enabled
         if (singleMode) pager.setSwipingEnabled(false);
 
@@ -217,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         changed = false;
     }
@@ -253,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                View submit = ( dialoglayout.findViewById(R.id.submit));
+                View submit = (dialoglayout.findViewById(R.id.submit));
                 if (!Authentication.isLoggedIn) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
@@ -319,7 +316,6 @@ public class MainActivity extends AppCompatActivity {
             }
             findViewById(R.id.wiki).setBackgroundColor(Pallete.getColor(subreddit));
             findViewById(R.id.submit).setBackgroundColor(Pallete.getColor(subreddit));
-
             findViewById(R.id.sub_theme).setBackgroundColor(Pallete.getColor(subreddit));
             findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -336,27 +332,6 @@ public class MainActivity extends AppCompatActivity {
                     title.setBackgroundColor(Pallete.getColor(subreddit));
 
                     {
-                        final View body = dialoglayout.findViewById(R.id.body2);
-                        body.setVisibility(View.INVISIBLE);
-                        final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
-                        dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int cx = center.getWidth() / 2;
-                                int cy = center.getHeight() / 2;
-
-                                int finalRadius = Math.max(body.getWidth(), body.getHeight());
-
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    Animator anim =
-                                            ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
-                                    body.setVisibility(View.VISIBLE);
-                                    anim.start();
-                                } else {
-                                    body.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        });
 
                         LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                         final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
@@ -415,13 +390,16 @@ public class MainActivity extends AppCompatActivity {
                                     MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                 }
+                                findViewById(R.id.header_sub).setBackgroundColor(colorPicker2.getColor());
+
                                 title.setBackgroundColor(colorPicker2.getColor());
                             }
                         });
+                        final LineColorPicker colorPickeracc = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
 
                         {
-                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
+                         /* TODO   TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
 
                             // if button is clicked, close the custom dialog
                             dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -463,74 +441,18 @@ public class MainActivity extends AppCompatActivity {
                                     }
 
                                 }
-                            });
+                            });*/
 
 
                         }
-                        {
-                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
-
-                            // if button is clicked, close the custom dialog
-                            dialogButton.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Pallete.setColor(subreddit, colorPicker2.getColor());
-
-                                    int cx = center.getWidth() / 2;
-                                    int cy = center.getHeight() / 2;
-
-                                    int initialRadius = body.getWidth();
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                        Animator anim =
-                                                ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
-
-                                        anim.addListener(new AnimatorListenerAdapter() {
-                                            @Override
-                                            public void onAnimationEnd(Animator animation) {
-                                                super.onAnimationEnd(animation);
-                                                body.setVisibility(View.GONE);
-                                            }
-                                        });
-                                        anim.start();
-
-                                    } else {
-                                        body.setVisibility(View.GONE);
-
-                                    }
-
-                                }
-                            });
+                       final RadioButton def = (RadioButton) dialoglayout.findViewById(R.id.def);
+                        final RadioButton alt = (RadioButton) dialoglayout.findViewById(R.id.alt);
 
 
-                        }
-                    }
-                    {
+
+
                         {
 
-                            final View body = dialoglayout.findViewById(R.id.body3);
-                            body.setVisibility(View.INVISIBLE);
-                            final View center = dialoglayout.findViewById(R.id.colorExpandFrom2);
-                            dialoglayout.findViewById(R.id.color2).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    int cx = center.getWidth() / 2;
-                                    int cy = center.getHeight() / 2;
-
-                                    int finalRadius = Math.max(body.getWidth(), body.getHeight());
-
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        Animator anim =
-                                                ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
-                                        body.setVisibility(View.VISIBLE);
-                                        anim.start();
-                                    } else {
-                                        body.setVisibility(View.VISIBLE);
-                                    }
-                                }
-                            });
-
-                            final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
                             int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                             int i = 0;
@@ -542,93 +464,89 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
 
-                            colorPicker.setColors(arrs);
+                            colorPickeracc.setColors(arrs);
 
-                            colorPicker.setSelectedColor(new ColorPreferences(MainActivity.this).getFontStyle().getColor());
+                            int topick = new ColorPreferences(MainActivity.this).getFontStyleSubreddit(subreddit).getColor();
+                            for(int color : arrs){
+                                if(color == topick){
+                                    colorPickeracc.setSelectedColor(color);
+                                    break;
 
-                            {
-                                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok2);
-
-                                // if button is clicked, close the custom dialog
-                                dialogButton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        int color = colorPicker.getColor();
-                                        ColorPreferences.Theme t = null;
-                                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                            if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
-                                                t = type;
-                                                break;
-                                            }
-                                        }
-
-                                        new ColorPreferences(MainActivity.this).setFontStyle(t, subreddit);
-
-                                        int cx = center.getWidth() / 2;
-                                        int cy = center.getHeight() / 2;
-
-                                        int initialRadius = body.getWidth();
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                            Animator anim =
-                                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
-
-                                            anim.addListener(new AnimatorListenerAdapter() {
-                                                @Override
-                                                public void onAnimationEnd(Animator animation) {
-                                                    super.onAnimationEnd(animation);
-                                                    body.setVisibility(View.GONE);
-                                                }
-                                            });
-                                            anim.start();
-                                        } else {
-                                            body.setVisibility(View.GONE);
-                                        }
-                                        int current = pager.getCurrentItem();
-                                        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-                                        pager.setAdapter(adapter);
-                                        pager.setCurrentItem(current);
-                                    }
-                                });
-
-
+                                }
                             }
+
+
+                        }
+
+
+                        int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                       if(i == 0){
+                           def.setChecked(true);
+                       } else {
+                           alt.setChecked(true);
+                       }
+
+
+                        def.setText(R.string.settings_layout_default);
+                        alt.setText(R.string.settings_title_alternative_layout);
+
+
+                        builder.setView(dialoglayout);
+                        final Dialog d = builder.show();
+                        {
+                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.cancel);
+
+                            dialogButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    int current = pager.getCurrentItem();
+                                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                                    pager.setAdapter(adapter);
+                                    pager.setCurrentItem(current);
+                                    d.dismiss();
+
+
+
+                                }
+                            });
+                        }
+                        {
+                            TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
+
+                            // if button is clicked, close the custom dialog
+                            dialogButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Pallete.setColor(subreddit, colorPicker2.getColor());
+                                    int color = colorPickeracc.getColor();
+                                    ColorPreferences.Theme t = null;
+                                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                        if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                                            t = type;
+                                            break;
+                                        }
+                                    }
+
+                                    new ColorPreferences(MainActivity.this).setFontStyle(t, subreddit);
+
+
+                                    if(alt.isChecked()) {
+                                        SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
+                                    } else {
+                                        SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                    }
+                                    int current = pager.getCurrentItem();
+                                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                                    pager.setAdapter(adapter);
+                                    pager.setCurrentItem(current);
+                                    d.dismiss();
+
+                                }
+                            });
+
+
                         }
                     }
-
-                    dialoglayout.findViewById(R.id.card).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    switch (i) {
-                                        case 1:
-                                            SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
-                                            reloadSubs();
-                                            break;
-                                        case 0:
-                                            SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
-                                            reloadSubs();
-                                            break;
-
-                                    }
-                                }
-                            };
-                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
-                            builder.setTitle(R.string.settings_layout_chooser);
-                            builder.setSingleChoiceItems(
-                                    new String[]{getString(R.string.settings_layout_default),
-                                            getString(R.string.settings_title_alternative_layout)}, i, l2);
-                            builder.show();
-
-                        }
-                    });
-                    builder.setView(dialoglayout);
-                    builder.show();
-
                 }
             });
         } else {
@@ -669,7 +587,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
 
             }
-                doSubSidebar(usedArray.get(0));
+            doSubSidebar(usedArray.get(0));
             findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
             if (!Reddit.single) {
@@ -995,17 +913,41 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-            header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                    final EditText input = new EditText(MainActivity.this);
-                    input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                    input.setOnKeyListener(new View.OnKeyListener() {
-                        @Override
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                                input.setText(String.valueOf(input.getText()).replace(" ", ""));
+                final EditText input = new EditText(MainActivity.this);
+                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+                input.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                            input.setText(String.valueOf(input.getText()).replace(" ", ""));
+                            Editable value = input.getText();
+                            if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
+                                new AlertDialogWrapper.Builder(MainActivity.this)
+                                        .setTitle(R.string.user_invalid)
+                                        .setMessage(R.string.user_invalid_msg)
+                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int whichButton) {
+                                            }
+                                        }).show();
+                            } else {
+                                Intent inte = new Intent(MainActivity.this, Profile.class);
+                                inte.putExtra("profile", value.toString());
+                                MainActivity.this.startActivity(inte);
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+                new AlertDialogWrapper.Builder(MainActivity.this)
+                        .setTitle(R.string.user_enter)
+                        .setView(input)
+                        .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
                                 Editable value = input.getText();
                                 if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
                                     new AlertDialogWrapper.Builder(MainActivity.this)
@@ -1020,39 +962,15 @@ public class MainActivity extends AppCompatActivity {
                                     inte.putExtra("profile", value.toString());
                                     MainActivity.this.startActivity(inte);
                                 }
-                                return true;
                             }
-                            return false;
-                        }
-                    });
-                    new AlertDialogWrapper.Builder(MainActivity.this)
-                            .setTitle(R.string.user_enter)
-                            .setView(input)
-                            .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    Editable value = input.getText();
-                                    if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                        new AlertDialogWrapper.Builder(MainActivity.this)
-                                                .setTitle(R.string.user_invalid)
-                                                .setMessage(R.string.user_invalid_msg)
-                                                .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                                    }
-                                                }).show();
-                                    } else {
-                                        Intent inte = new Intent(MainActivity.this, Profile.class);
-                                        inte.putExtra("profile", value.toString());
-                                        MainActivity.this.startActivity(inte);
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            // Do nothing.
-                        }
-                    }).show();
+                        }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Do nothing.
+                    }
+                }).show();
 
-                }
-            });
+            }
+        });
 
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1473,7 +1391,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private Fragment mCurrentFragment;
 
@@ -1489,14 +1406,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onPageSelected(int position) {
                     Reddit.currentPosition = position;
 
-                        doSubSidebar(usedArray.get(position));
+                    doSubSidebar(usedArray.get(position));
 
 
-                    if(adapter.getCurrentFragment() != null){
+                    if (adapter.getCurrentFragment() != null) {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
-                        if(p.offline){
-                                Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
-
+                        if (p.offline) {
+                            Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
 
 
                         }
@@ -1625,10 +1541,10 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                             }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    }).show();
                 }
                 return true;
             case R.id.action_info:

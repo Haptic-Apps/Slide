@@ -32,7 +32,15 @@ public class ColorPreferences {
             return Theme.dark_amber;
         }
     }
-
+    public Theme getFontStyleSubreddit(String s) {
+        try {
+            return Theme.valueOf(open().getString(s,
+                    Theme.dark_amber
+                            .name()));
+        } catch (Exception e) {
+            return Theme.dark_amber;
+        }
+    }
     public void setFontStyle(Theme style) {
         edit().putString(FONT_STYLE, style.name()).commit();
     }

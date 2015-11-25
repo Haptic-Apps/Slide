@@ -11,6 +11,9 @@
         app:cardBackgroundColor="?attr/card_background"
         app:cardCornerRadius="2dp">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,115 +29,18 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
 
-                <LinearLayout
-                    android:id="@+id/body"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-
-                    android:paddingTop="8dp">
-
-
-                    <LinearLayout
-                        android:id="@+id/color"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:id="@+id/colorExpandFrom"
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:padding="12dp"
-                            android:src="@drawable/color"
-                            android:tint="?attr/tint" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:text="@string/theme_subreddit_color"
-
-                            android:textColor="?attr/font"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/color2"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:id="@+id/colorExpandFrom2"
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:padding="12dp"
-                            android:src="@drawable/color"
-                            android:tint="?attr/tint" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:text="@string/theme_accent_color"
-
-                            android:textColor="?attr/font"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/card"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="center_vertical"
-
-                        android:orientation="horizontal"
-                        android:paddingRight="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:padding="12dp"
-                            android:src="@drawable/card"
-                            android:tint="?attr/tint" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/subreddit_change_card"
-                            android:textColor="?attr/font"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                    android:padding="16dp"
+                    android:text="Base color"
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:id="@+id/body2"
@@ -163,37 +69,14 @@
                         app:orientation="horizontal"
                         app:selectedColorIndex="5" />
 
-                    <TextView
-                        android:id="@+id/reset"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/picker2"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="left|bottom"
-                        android:padding="16dp"
-                        android:text="@string/btn_reset"
 
-                        android:textAllCaps="true"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/ok"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_below="@+id/picker2"
-                        android:background="?android:selectableItemBackground"
-                        android:gravity="right|bottom"
-
-                        android:padding="16dp"
-                        android:text="@string/btn_ok"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
                 </RelativeLayout>
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:padding="16dp"
+                    android:text="Accent color"
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
                 <RelativeLayout
                     android:id="@+id/body3"
                     android:layout_width="match_parent"
@@ -208,7 +91,7 @@
                     android:orientation="vertical"
 
                     android:padding="24dp"
-                    android:visibility="gone">
+>
 
                     <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/picker3"
@@ -219,22 +102,62 @@
                         app:selectedColorIndex="0" />
 
 
-                    <TextView
-                        android:id="@+id/ok2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:background="?android:selectableItemBackground"
 
-                        android:gravity="right|bottom"
-                        android:padding="16dp"
-                        android:text="@string/btn_ok"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
                 </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:padding="16dp"
+                    android:text="Card type"
+                    android:textSize="18sp"
+                    android:layout_height="wrap_content" />
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:padding="16dp"
+                    android:layout_height="wrap_content">
 
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:text="Default Layout"
+                        android:textSize="16sp"
+                        android:checked="true"
+                        android:id="@+id/def"
+                        android:layout_height="wrap_content" />
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:text="Alternate Layout"
+                        android:id="@+id/alt"
+
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content" />
+                </RadioGroup>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:padding="8dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="CANCEL"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:id="@+id/cancel"
+
+                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/ok"
+                    android:text="CONFIRM"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
         </LinearLayout>
+
+        </ScrollView>
     </android.support.v7.widget.CardView>
 </LinearLayout>
