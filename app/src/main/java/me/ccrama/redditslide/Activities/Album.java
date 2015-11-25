@@ -132,14 +132,14 @@ public class Album extends BaseActivity {
                                         finish();
 
                                     } else {
-                                        getSupportActionBar().setTitle("Gallery");
-
                                         JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                                         if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
                                             for (JsonElement o : obj) {
                                                 jsons.add(o);
                                             }
+
+                                            getSupportActionBar().setTitle(getString(R.string.album_title_count, jsons.size()));
 
 
                                             RecyclerView v = (RecyclerView) findViewById(R.id.images);
