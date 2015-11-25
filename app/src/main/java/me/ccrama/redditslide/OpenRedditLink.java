@@ -16,9 +16,25 @@ public class OpenRedditLink {
     private final static String TAG = "OpenRedditLink";
 
     public OpenRedditLink(Context context, String url) {
-        boolean np = url.matches("(https?://)?np.reddit.com.*");
+        // Remove HTTP protocol
+        url = url.replaceFirst("(https?://)", "");
 
-        url = url.replaceFirst("(https?://)?[a-z0-9-_]+\\.reddit\\.com", "reddit.com");
+        boolean np = false;
+        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/]*")) { // tests for subdomain
+            String subdomain = url.split("\\.", 2)[0];
+            String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
+            if (subdomain.equalsIgnoreCase("np")) {
+                // no participation link
+                np = true;
+                url = url.replaceFirst(domainRegex, "reddit.com");
+            } else if (!subdomain.matches("(?i)i|m|(www)|(([_a-z0-9]{2}-)?[_a-z0-9]{2})")) {
+                // subdomain is a subreddit, change subreddit.reddit.com to reddit.com/r/subreddit
+                url = url.replaceFirst(domainRegex, "reddit.com/r/" + subdomain);
+            } else {
+                // subdomain isn't subreddit or np, ignore
+                url = url.replaceFirst(domainRegex, "reddit.com");
+            }
+        }
 
         if (url.startsWith("/")) url = "reddit.com" + url;
         if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
