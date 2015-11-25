@@ -8,6 +8,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -45,7 +46,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -129,12 +129,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    boolean changed;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+          changed = true;
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            changed = true;
+        }
+    }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState != null) {
+        if(savedInstanceState != null   && !changed) {
+
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
             SubredditStorage.alphabeticalSubscriptions =
                     savedInstanceState.getStringArrayList(SUBS_ALPHA);
@@ -152,6 +166,33 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
+                int number;
+                if(base.contains("black") || base.contains("amoled")) {
+                    number = 1;
+                } else {
+                    number = 2;
+                }
+                    String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                    final String newName = name.replace("(", "");
+                    for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                        if (theme.toString().contains(newName) && theme.getThemeType() == number) {
+                            Reddit.themeBack = theme.getThemeType();
+                            new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                            recreate();
+                            break;
+                        }
+                    }
+
+
+
+
+            }
+        });
 
         if (getIntent() != null && getIntent().hasExtra("pageTo"))
             toGoto = getIntent().getIntExtra("pageTo", 0);
@@ -173,6 +214,12 @@ public class MainActivity extends AppCompatActivity {
 
         setDataSet(SubredditStorage.subredditsForHome);
         doSidebar();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        changed = false;
     }
 
     @Override
@@ -206,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                LinearLayout submit = ((LinearLayout) dialoglayout.findViewById(R.id.submit));
+                View submit = ( dialoglayout.findViewById(R.id.submit));
                 if (!Authentication.isLoggedIn) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
@@ -270,6 +317,10 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
+            findViewById(R.id.wiki).setBackgroundColor(Pallete.getColor(subreddit));
+            findViewById(R.id.submit).setBackgroundColor(Pallete.getColor(subreddit));
+
+            findViewById(R.id.sub_theme).setBackgroundColor(Pallete.getColor(subreddit));
             findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -607,8 +658,11 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 adapter.notifyDataSetChanged();
             }
+            pager.setCurrentItem(1);
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(2);
+
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = this.getWindow();
                 window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
@@ -1478,6 +1532,8 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
+            pager.setCurrentItem(1);
+            pager.setCurrentItem(0);
         }
 
 

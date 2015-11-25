@@ -63,11 +63,37 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/sub_theme"
+                    android:text="THEME"
+                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content" />
+            <Button
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:id="@+id/wiki"
+                android:text="WIKI"
+                android:layout_margin="8dp"
+                android:layout_height="wrap_content" />
 
+                <Button
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/submit"
+                    android:text="SUBMIT"
+                    android:layout_margin="8dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/body"
                 android:layout_width="match_parent"
@@ -82,30 +108,36 @@
                 <CheckBox
                     android:id="@+id/pinned"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:background="?android:selectableItemBackground"
-
                     android:backgroundTint="?attr/tint"
+                    android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:text="@string/sidebar_pinned"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:drawableTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
                     android:textAllCaps="true"
+                    android:text="@string/sidebar_pinned"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
 
                 <CheckBox
                     android:id="@+id/subscribed"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:background="?android:selectableItemBackground"
-
                     android:backgroundTint="?attr/tint"
+                    android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:text="@string/misc_subscribed"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:drawableTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
                     android:textAllCaps="true"
+                    android:text="@string/misc_subscribed"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
 
@@ -117,109 +149,15 @@
                     android:alpha=".8"
                     android:background="?attr/tint"/>
 
-                <LinearLayout
-                    android:id="@+id/wiki"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-
-                    android:orientation="horizontal"
-                    android:paddingRight="8dp">
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="match_parent"
-                        android:alpha=".86"
-                        android:padding="8dp"
-
-                        android:src="@drawable/wiki"
-                        android:tint="?attr/tint"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-
-                        android:text="@string/sidebar_wiki"
-
-                        android:textColor="?attr/font"
-
-                        android:textSize="16sp"/>
-
-                </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/sub_theme"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
 
-                    android:orientation="horizontal"
-                    android:paddingRight="8dp">
 
-                    <ImageView
-                        android:id="@+id/colorExpandFrom"
-                        android:layout_width="36dp"
-                        android:layout_height="match_parent"
-                        android:alpha=".86"
-                        android:padding="8dp"
-                        android:src="@drawable/color"
-                        android:tint="?attr/tint"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-
-                        android:text="@string/settings_title_sub_theme"
-
-                        android:textColor="?attr/font"
-
-                        android:textSize="16sp"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-
-                    android:orientation="horizontal"
-                    android:paddingRight="8dp">
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="match_parent"
-                        android:alpha=".86"
-                        android:padding="8dp"
-                        android:src="@drawable/edit"
-                        android:tint="?attr/tint"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/editor_submit"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:alpha=".8"
-                    android:background="?attr/tint"/>
             </LinearLayout>
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <me.ccrama.redditslide.ActiveTextView android:id="@+id/sidebar_text"
                                               xmlns:android="http://schemas.android.com/apk/res/android"
