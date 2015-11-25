@@ -90,6 +90,8 @@
                     android:src="@drawable/sidebar_saved"
                     android:tint="?attr/tint"/>
 
+
+
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/animation"
                     android:layout_width="match_parent"
@@ -104,44 +106,14 @@
                     android:text="@string/enter_animation"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
+
             </LinearLayout>
 
-
-            <LinearLayout
-                android:id="@+id/swap"
+            <SeekBar
+                android:max="5"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/swap"
-                    android:tint="?attr/tint"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/swapGesture"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_swap_actions"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:id="@+id/animation_length_sb" />
             <LinearLayout
                 android:id="@+id/nsfw_box"
                 android:layout_width="match_parent"
@@ -293,40 +265,7 @@
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/fastscroll_click"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/down"
-                    android:tint="?attr/tint"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/fastscroll"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_fastscroll"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/hide_button"

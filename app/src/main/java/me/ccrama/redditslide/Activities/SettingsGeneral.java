@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -63,28 +64,37 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.animation);
+            final SeekBar animationMultiplier = (SeekBar) findViewById(R.id.animation_length_sb);
+            animationMultiplier.setProgress(Reddit.enter_animation_time_multiplier);
+            animationMultiplier.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (progress <= 0) {
+                        progress = 1;
+                        animationMultiplier.setProgress(1);
+                    }
+                    SettingValues.prefs.edit().putInt("AnimationLengthMultiplier", progress).apply();
+                    Reddit.enter_animation_time_multiplier = progress;
+                }
 
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.animation);
             single.setChecked(Reddit.animation);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.animation = isChecked;
                     SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
-
-                }
-            });
-        }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
-
-            single.setChecked(Reddit.fastscroll);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.fastscroll = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
-
+                    animationMultiplier.setEnabled(isChecked);
                 }
             });
         }
@@ -128,8 +138,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
-
-
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
@@ -167,19 +175,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 popup.show();
             }
         });
-        {
-            SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
-
-            check.setChecked(Reddit.swap);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.swap = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Swap", isChecked).apply();
-
-                }
-            });
-        }
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);
 
         {
@@ -252,6 +247,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
         }
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

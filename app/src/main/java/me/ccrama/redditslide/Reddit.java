@@ -59,6 +59,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean image;
     public static boolean video;
     public static long enter_animation_time = 600;
+    public static int enter_animation_time_multiplier = 1;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -192,7 +193,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             mInBackground = false;
             notifyOnBecameForeground();
 
-            if(authentication.hasDone) {
+            if (authentication.hasDone) {
                 loader = null;
 
                 authentication.updateToken(activity);
@@ -339,9 +340,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         single = SettingValues.prefs.getBoolean("Single", false);
         animation = SettingValues.prefs.getBoolean("Animation", false);
+        enter_animation_time_multiplier = SettingValues.prefs.getInt("AnimationLengthMultiplier", 1);
+        enter_animation_time = enter_animation_time * enter_animation_time_multiplier;
         fab = SettingValues.prefs.getBoolean("Fab", false);
         fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
-        click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick",true);
+        click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick", true);
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);
         image = SettingValues.prefs.getBoolean("image", true);
