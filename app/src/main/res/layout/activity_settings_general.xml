@@ -90,6 +90,8 @@
                     android:src="@drawable/sidebar_saved"
                     android:tint="?attr/tint"/>
 
+
+
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/animation"
                     android:layout_width="match_parent"
@@ -104,9 +106,14 @@
                     android:text="@string/enter_animation"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
+
             </LinearLayout>
 
-
+            <SeekBar
+                android:max="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/animation_length_sb" />
             <LinearLayout
                 android:id="@+id/nsfw_box"
                 android:layout_width="match_parent"
