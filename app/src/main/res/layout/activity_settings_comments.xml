@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_light_blue_500"
+        android:clipToPadding="false"
+        android:minHeight="56dp"
+        android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
+        app:layout_scrollFlags="scroll|enterAlways"
+        >
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="18dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/profile"
+                    android:tint="?attr/tint" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/username_to_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="@string/settings_comments_click_username_for_profile"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

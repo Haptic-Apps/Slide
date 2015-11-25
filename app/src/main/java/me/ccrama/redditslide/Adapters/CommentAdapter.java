@@ -22,7 +22,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -812,10 +811,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.author.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Intent i2 = new Intent(mContext, Profile.class);
-                    i2.putExtra("profile", comment.getAuthor());
-                    mContext.startActivity(i2);
+                    if (Reddit.click_user_name_to_profile) {
+                        Intent i2 = new Intent(mContext, Profile.class);
+                        i2.putExtra("profile", comment.getAuthor());
+                        mContext.startActivity(i2);
+                    }
+                    else{
+                        holder.itemView.performClick();
+                    }
                 }
             });
             holder.author.setTextColor(Pallete.getFontColorUser(comment.getAuthor()));
