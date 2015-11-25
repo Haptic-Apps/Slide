@@ -16,9 +16,25 @@ public class OpenRedditLink {
     private final static String TAG = "OpenRedditLink";
 
     public OpenRedditLink(Context context, String url) {
-        boolean np = url.matches("(https?://)?np.reddit.com.*");
+        // Remove HTTP protocol
+        url = url.replaceFirst("(https?://)", "");
 
-        url = url.replaceFirst("(https?://)?[a-z0-9-_]+\\.reddit\\.com", "reddit.com");
+        boolean np = false;
+        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/]*")) { // tests for subdomain
+            String subdomain = url.split("\\.", 2)[0];
+            String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
+            if (subdomain.equalsIgnoreCase("np")) {
+                // no participation link
+                np = true;
+                url = url.replaceFirst(domainRegex, "reddit.com");
+            } else if (!subdomain.matches("(?i)i|m|(www)|(([_a-z0-9]{2}-)?[_a-z0-9]{2})")) {
+                // subdomain is a subreddit, change subreddit.reddit.com to reddit.com/r/subreddit
+                url = url.replaceFirst(domainRegex, "reddit.com/r/" + subdomain);
+            } else {
+                // subdomain isn't subreddit or np, ignore
+                url = url.replaceFirst(domainRegex, "reddit.com");
+            }
+        }
 
         if (url.startsWith("/")) url = "reddit.com" + url;
         if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
@@ -29,7 +45,7 @@ public class OpenRedditLink {
 
         Log.v(TAG, "Opening URL " + url);
 
-        if (url.matches("(?i)redd\\.it.*")) {
+        if (url.matches("(?i)redd\\.it/\\w+")) {
             // Redd.it link. Format: redd.it/post_id
             Intent i = new Intent(context, CommentsScreenSingle.class);
             i.putExtra("subreddit", "NOTHING");
@@ -37,22 +53,14 @@ public class OpenRedditLink {
             i.putExtra("np", np);
             i.putExtra("submission", parts[1]);
             context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/\\w+/wiki(/.*)?")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/wiki.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             Intent i = new Intent(context, Wiki.class);
             i.putExtra("subreddit", parts[2]);
             context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/\\w+/comments/\\w+(/\\w+)?")) {
-            // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
-            Intent i = new Intent(context, CommentsScreenSingle.class);
-            i.putExtra("subreddit", parts[2]);
-            i.putExtra("context", "NOTHING");
-            i.putExtra("np", np);
-            i.putExtra("submission", parts[4]);
-            context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/\\w+/comments/\\w+/\\w*/\\w+")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/\\w+")) {
             // Permalink. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
-        Intent i = new Intent(context, CommentsScreenSingle.class);
+            Intent i = new Intent(context, CommentsScreenSingle.class);
             i.putExtra("subreddit", parts[2]);
             i.putExtra("submission", parts[4]);
             i.putExtra("np", np);
@@ -61,12 +69,20 @@ public class OpenRedditLink {
             if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
             i.putExtra("context", end);
             context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/\\w+(/.*)?")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
+            // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
+            Intent i = new Intent(context, CommentsScreenSingle.class);
+            i.putExtra("subreddit", parts[2]);
+            i.putExtra("context", "NOTHING");
+            i.putExtra("np", np);
+            i.putExtra("submission", parts[4]);
+            context.startActivity(i);
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
             Intent intent = new Intent(context, SubredditView.class);
             intent.putExtra("subreddit", parts[2]);
             context.startActivity(intent);
-        } else if (url.matches("(?i)reddit\\.com/u(ser)?(/.*)?")) {
+        } else if (url.matches("(?i)reddit\\.com/u(ser)?/[a-z0-9-_]+.*")) {
             // User. Format: reddit.com/u [or user]/$username/$page [optional]
             String name = parts[2];
             if (name.equals("me")) name = Authentication.name;
