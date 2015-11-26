@@ -405,13 +405,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="?attr/tint"
-
         android:hint="@string/drawer_search"
         android:imeOptions="actionSearch"
-
         android:singleLine="true"
         android:textColor="?attr/font"
-
-
-        android:textColorHint="?attr/font" />
+        android:textColorHint="?attr/font"
+        android:digits="0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"/>
 </LinearLayout>
