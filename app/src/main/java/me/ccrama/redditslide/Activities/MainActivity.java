@@ -74,7 +74,6 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditInputFilter;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
@@ -978,8 +977,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         e = ((EditText) header.findViewById(R.id.sort));
-        e.setFilters(new InputFilter[]{new SubredditInputFilter()});
-
 
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
