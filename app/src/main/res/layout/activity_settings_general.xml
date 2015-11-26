@@ -105,7 +105,11 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
-
+            <SeekBar
+                android:max="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/animation_length_sb" />
 
             <LinearLayout
                 android:id="@+id/nsfw_box"
