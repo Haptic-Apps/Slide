@@ -173,5 +173,5 @@
         android:singleLine="true"
         android:textColor="?attr/font"
         android:textColorHint="?attr/font"
-        android:digits="0,1,2,3,4,5,6,7,8,9,qwertyuiopasdfghjklzxcvbnm,_"/>
+        android:digits="0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"/>
 </LinearLayout>
