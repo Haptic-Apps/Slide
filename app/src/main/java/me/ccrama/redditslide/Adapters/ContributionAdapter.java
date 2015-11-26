@@ -170,21 +170,25 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
-                                    .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                            if (submission.isSelfPost())
+                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                            else {
+                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
+                                        .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
 
-                                        }
-                                    }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Reddit.defaultShareText(submission.getUrl(), mContext);
+                                            }
+                                        }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Reddit.defaultShareText(submission.getUrl(), mContext);
 
-                                }
-                            }).show();
+                                    }
+                                }).show();
 
+                            }
                         }
                     });
                     if (!Authentication.isLoggedIn) {

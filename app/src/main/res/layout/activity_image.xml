@@ -35,6 +35,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:src="@drawable/share"
+            android:background="?android:selectableItemBackground"
 
             android:tint="@color/white" />
 
@@ -45,6 +46,7 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:src="@drawable/save"
+            android:background="?android:selectableItemBackground"
 
             android:tint="@color/white" />
 
