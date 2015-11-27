@@ -67,10 +67,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     ((Activity) getContext()).startActivityForResult(inte, 4);
                 } else {
                     ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
-                    ((MainActivity) getContext()).drawerLayout.closeDrawers();
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
+                ((MainActivity) getContext()).drawerLayout.closeDrawers();
             }
         });
         return convertView;
