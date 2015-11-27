@@ -68,6 +68,7 @@
     <string name="card_actionbar">Action Bar visible</string>
     <string name="card_picture">Big picture</string>
     <string name="card_picture_cropped">Big picture cropped</string>
+    <string name="card_hide_post_button">Hide post button</string>
     <string name="card_infobar">Info bar</string>
     <string name="card_thumbnail">Thumbnail</string>
 

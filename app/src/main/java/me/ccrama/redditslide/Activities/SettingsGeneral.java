@@ -100,19 +100,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.hidebutton);
-
-            single.setChecked(Reddit.hideButton);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.hideButton = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
-
-                }
-            });
-        }
-        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 
             single.setChecked(Reddit.exit);
