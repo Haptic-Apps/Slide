@@ -30,13 +30,14 @@ import java.net.URLConnection;
 
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class GifView extends BaseActivity {
+public class GifView extends FullScreenActivity {
 
     public ProgressBar loader;
     SharedPreferences prefs;
@@ -49,8 +50,10 @@ public class GifView extends BaseActivity {
 
 
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if(Reddit.fullscreen) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_gif);
 
         final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);

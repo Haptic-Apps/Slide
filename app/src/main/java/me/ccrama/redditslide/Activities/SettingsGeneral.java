@@ -112,7 +112,19 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.full_screen_images_switch);
 
+            single.setChecked(Reddit.fullscreen);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.fullscreen = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Fullscreen", isChecked).apply();
+
+                }
+            });
+        }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfw);
 
