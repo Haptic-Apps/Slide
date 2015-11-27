@@ -201,7 +201,6 @@
                     android:src="@drawable/hide"
 
                     android:tint="?attr/tint" />
-
                 <CheckBox
                     android:id="@+id/hidebutton"
                     android:layout_width="match_parent"
@@ -212,6 +211,8 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/card_hide_post_button"
                     android:textColor="?attr/font"
