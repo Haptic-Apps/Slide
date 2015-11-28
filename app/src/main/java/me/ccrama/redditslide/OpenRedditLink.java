@@ -6,11 +6,11 @@ import android.util.Log;
 
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.CommentsScreenSingle;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.Wiki;
+import me.ccrama.redditslide.activity.CommentsScreenSingle;
+import me.ccrama.redditslide.activity.MainActivity;
+import me.ccrama.redditslide.activity.Profile;
+import me.ccrama.redditslide.activity.SubredditView;
+import me.ccrama.redditslide.activity.Wiki;
 
 public class OpenRedditLink {
     private final static String TAG = "OpenRedditLink";

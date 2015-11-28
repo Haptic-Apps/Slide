@@ -14,7 +14,7 @@ import net.dean.jraw.models.Submission;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.adapter.SubredditPosts;
 
 /**
  * Created by ccrama on 10/2/2015.

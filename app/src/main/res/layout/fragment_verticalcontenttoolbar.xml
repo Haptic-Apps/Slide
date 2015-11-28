@@ -96,7 +96,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
+        <me.ccrama.redditslide.view.GeneralSwipeRefreshLayout
             android:id="@+id/activity_main_swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -107,7 +107,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"></android.support.v7.widget.RecyclerView>
 
-        </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+        </me.ccrama.redditslide.view.GeneralSwipeRefreshLayout>
 
         <LinearLayout
             android:id="@+id/fastscroll"

@@ -7,7 +7,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.activity.MainActivity;
 
 public final class SubredditStorageNoContext extends AsyncTask<Activity, Void, ArrayList<String>> {
     private static ArrayList<String> getPins() {

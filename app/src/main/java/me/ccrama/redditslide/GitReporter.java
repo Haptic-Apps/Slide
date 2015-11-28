@@ -2,7 +2,7 @@ package me.ccrama.redditslide;
 
 import android.os.Bundle;
 
-import me.ccrama.redditslide.Views.GittyReporter;
+import me.ccrama.redditslide.view.GittyReporter;
 
 public class GitReporter extends GittyReporter {
 

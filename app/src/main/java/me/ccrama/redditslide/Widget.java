@@ -12,7 +12,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
-import me.ccrama.redditslide.Activities.OpenContent;
+import me.ccrama.redditslide.activity.OpenContent;
 
 public class Widget extends AppWidgetProvider {
     @Override

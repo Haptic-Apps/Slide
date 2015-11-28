@@ -5,7 +5,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.Adapters.CommentObject;
+import me.ccrama.redditslide.adapter.CommentObject;
 
 /**
  * Created by ccrama on 9/19/2015.
