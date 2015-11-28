@@ -1,11 +1,15 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.ActionBar;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
@@ -14,7 +18,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 /**
  * Created by ccrama on 8/14/2015.
  */
-public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
+public class BaseActivity extends SuperBaseActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override
@@ -37,7 +41,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         overridePendingTransition(R.anim.slideright, 0);
 
         mHelper = new SwipeBackActivityHelper(this);

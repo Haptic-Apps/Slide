@@ -13,7 +13,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 /**
  * Created by ccrama on 8/14/2015.
  */
-public class BaseActivityNoAnim extends AppCompatActivity implements SwipeBackActivityBase {
+public class BaseActivityNoAnim extends SuperBaseActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override

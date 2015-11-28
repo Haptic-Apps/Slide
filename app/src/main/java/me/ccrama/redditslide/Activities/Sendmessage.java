@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Sendmessage extends AppCompatActivity {
+public class Sendmessage extends SuperBaseActivity {
     public String URL;
     private Boolean reply;
     private PrivateMessage previousMessage;
