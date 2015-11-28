@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
@@ -58,7 +59,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if (position == dataSet.size()  &&dataSet.size() != 0) {
+        if (position == dataSet.size() && dataSet.size() != 0) {
             return 5;
         }
         if (dataSet.get(position) instanceof Comment)//IS COMMENT
@@ -173,21 +174,23 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
                             else {
-                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
-                                        .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
+                                new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                        .title(R.string.submission_share_title)
+                                        .grid()
+                                        .sheet(R.menu.share_menu)
+                                        .listener(new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
-
+                                                switch (which) {
+                                                    case R.id.reddit_url:
+                                                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                        break;
+                                                    case R.id.link_url:
+                                                        Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                        break;
+                                                }
                                             }
-                                        }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.defaultShareText(submission.getUrl(), mContext);
-
-                                    }
-                                }).show();
-
+                                        }).show();
                             }
                         }
                     });

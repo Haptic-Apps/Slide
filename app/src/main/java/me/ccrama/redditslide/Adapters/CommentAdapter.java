@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -503,9 +504,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String urlString = "http://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
-
-                        Reddit.defaultShareText(urlString, mContext);
+                        new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                .title(R.string.submission_share_title)
+                                .grid()
+                                .sheet(R.menu.share_menu)
+                                .listener(new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case R.id.reddit_url:
+                                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                break;
+                                            case R.id.link_url:
+                                                Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                break;
+                                        }
+                                    }
+                                }).show();
                     }
                 });
 
@@ -987,8 +1002,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
-
+                            new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                    .title(R.string.submission_share_title)
+                                    .grid()
+                                    .sheet(R.menu.share_menu)
+                                    .listener(new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case R.id.reddit_url:
+                                                    Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                    break;
+                                                case R.id.link_url:
+                                                    Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                    break;
+                                            }
+                                        }
+                                    }).show();
                         }
                     });
 

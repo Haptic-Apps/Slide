@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.cocosw.bottomsheet.BottomSheet;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.ApiException;
@@ -51,8 +52,8 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
-import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
@@ -94,8 +95,8 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onClick(View v) {
                 HasSeen.addSeen(submission.getFullName());
-                if(contextActivity instanceof MainActivity)
-                back.setAlpha(0.5f);
+                if (contextActivity instanceof MainActivity)
+                    back.setAlpha(0.5f);
                 switch (type) {
                     case NSFW_IMAGE:
                         openImage(contextActivity, submission);
@@ -704,20 +705,23 @@ public class PopulateSubmissionViewHolder {
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
                             else {
-                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
-                                        .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
+                                new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                        .title(R.string.submission_share_title)
+                                        .grid()
+                                        .sheet(R.menu.share_menu)
+                                        .listener(new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
-
+                                                switch (which) {
+                                                    case R.id.reddit_url:
+                                                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                        break;
+                                                    case R.id.link_url:
+                                                        Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                        break;
+                                                }
                                             }
-                                        }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.defaultShareText(submission.getUrl(), mContext);
-
-                                    }
-                                }).show();
+                                        }).show();
                             }
                         }
                     });
@@ -809,8 +813,8 @@ public class PopulateSubmissionViewHolder {
                         posts.remove(submission);
 
                         recyclerview.getAdapter().notifyItemRemoved(pos);
-                        if(!offline)
-                        Hidden.setHidden((Contribution) t);
+                        if (!offline)
+                            Hidden.setHidden((Contribution) t);
 
                         Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                             @Override
