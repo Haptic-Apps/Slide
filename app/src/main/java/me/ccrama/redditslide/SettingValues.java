@@ -6,8 +6,8 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
-import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.view.CreateCardView;
+import me.ccrama.redditslide.visual.Pallete;
 
 /**
  * Created by ccrama on 9/19/2015.

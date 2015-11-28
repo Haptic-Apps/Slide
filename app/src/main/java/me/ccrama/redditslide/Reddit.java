@@ -35,11 +35,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Crash;
-import me.ccrama.redditslide.Activities.Internet;
-import me.ccrama.redditslide.Activities.LoadingData;
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.activity.Crash;
+import me.ccrama.redditslide.activity.Internet;
+import me.ccrama.redditslide.activity.LoadingData;
+import me.ccrama.redditslide.activity.MainActivity;
+import me.ccrama.redditslide.notification.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 

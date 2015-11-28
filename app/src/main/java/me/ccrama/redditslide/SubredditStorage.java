@@ -17,8 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import me.ccrama.redditslide.Activities.MultiredditOverview;
-import me.ccrama.redditslide.Activities.Shortcut;
+import me.ccrama.redditslide.activity.MultiredditOverview;
+import me.ccrama.redditslide.activity.Shortcut;
 
 
 /**

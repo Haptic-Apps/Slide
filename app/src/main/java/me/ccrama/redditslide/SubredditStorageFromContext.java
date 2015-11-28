@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.activity.MainActivity;
 
 
 /**

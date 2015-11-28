@@ -22,7 +22,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.notification.NotificationJobScheduler;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
