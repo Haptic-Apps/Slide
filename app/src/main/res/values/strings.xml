@@ -497,7 +497,7 @@
     <string name="network_connected_msg">Would you like to exit offline mode?</string>
     <string name="settings_title_comments">Comments</string>
     <string name="album_title_count">Gallery (%1$d images)</string>
-    <string name="translucent_statusbar">Translucent status bar \n Hides status bar</string>
+    <string name="translucent_statusbar">Translucent status bar \nHides status bar</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
