@@ -36,7 +36,7 @@ import me.ccrama.redditslide.Reddit;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class FullscreenImage extends BaseActivity {
+public class FullscreenImage extends FullScreenActivity {
 
 
     String toReturn;
@@ -48,8 +48,10 @@ public class FullscreenImage extends BaseActivity {
 
 
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if(Reddit.fullscreen) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_image);

@@ -100,19 +100,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.hidebutton);
-
-            single.setChecked(Reddit.hideButton);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.hideButton = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
-
-                }
-            });
-        }
-        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 
             single.setChecked(Reddit.exit);
@@ -125,12 +112,24 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
-
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfw);
+            SwitchCompat fullscreenswitch = (SwitchCompat) findViewById(R.id.full_screen_images_switch);
 
-            single.setChecked(!SettingValues.NSFWPosts);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            fullscreenswitch.setChecked(Reddit.fullscreen);
+            fullscreenswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.fullscreen = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Fullscreen", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            SwitchCompat nsfw = (SwitchCompat) findViewById(R.id.nsfw);
+
+            nsfw.setChecked(!SettingValues.NSFWPosts);
+            nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !isChecked).apply();
@@ -142,10 +141,10 @@ public class SettingsGeneral extends BaseActivityNoAnim {
 
 
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfwrpev);
+            SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
-            single.setChecked(!SettingValues.NSFWPreviews);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            nsfwprev.setChecked(!SettingValues.NSFWPreviews);
+            nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();

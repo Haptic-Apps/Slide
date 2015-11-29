@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
@@ -31,7 +32,7 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Album extends BaseActivity {
+public class Album extends FullScreenActivity {
     boolean gallery = false;
 
     @Override
@@ -51,8 +52,6 @@ public class Album extends BaseActivity {
 
 
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.album);

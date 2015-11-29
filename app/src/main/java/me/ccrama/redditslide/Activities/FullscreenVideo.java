@@ -12,12 +12,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class FullscreenVideo extends BaseActivity {
+public class FullscreenVideo extends FullScreenActivity {
 
     private WebView v;
 
@@ -39,8 +40,10 @@ public class FullscreenVideo extends BaseActivity {
 
 
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if(Reddit.fullscreen) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_video);
 
 

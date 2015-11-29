@@ -262,10 +262,8 @@
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
 
-
-
             <LinearLayout
-                android:id="@+id/hide_button"
+                android:id="@+id/full_screen_images"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
@@ -280,12 +278,11 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/hide"
-
-                    android:tint="?attr/tint" />
+                    android:src="@drawable/fullscreen"
+                    android:tint="?attr/tint"/>
 
                 <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/hidebutton"
+                    android:id="@+id/full_screen_images_switch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
@@ -295,9 +292,10 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="Add a hide post button"
+                    android:text="@string/settings_fullscreen_views"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font"
+                    android:checked="false" />
             </LinearLayout>
 
             <LinearLayout
