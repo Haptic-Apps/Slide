@@ -79,6 +79,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     compile 'com.wefika:flowlayout:0.4.1'
+    compile 'com.cocosw:bottomsheet:1.+@aar'
 
 }
 
