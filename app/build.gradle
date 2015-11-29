@@ -45,9 +45,7 @@ android {
 }
 
 repositories {
-    maven {
-        url "http://dl.bintray.com/dasar/maven"
-    }
+    maven { url "http://dl.bintray.com/dasar/maven" }
     maven { url "https://jitpack.io" }
     mavenCentral()
 
@@ -58,8 +56,7 @@ dependencies {
         transitive = true
     }
     compile 'com.android.support:multidex:1.0.1'
-
-    compile files('libs/JRAW-0.7.1.jar')
+    compile 'com.github.ccrama:JRAW:d29280c560'
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }
