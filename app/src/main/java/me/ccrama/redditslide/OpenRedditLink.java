@@ -16,23 +16,26 @@ public class OpenRedditLink {
     private final static String TAG = "OpenRedditLink";
 
     public OpenRedditLink(Context context, String url) {
-        // Remove HTTP protocol
-        url = url.replaceFirst("(https?://)", "");
+        // Strip unused prefixes that don't require special handling
+        url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
 
         boolean np = false;
         if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/]*")) { // tests for subdomain
             String subdomain = url.split("\\.", 2)[0];
             String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
             if (subdomain.equalsIgnoreCase("np")) {
-                // no participation link
+                // no participation link: https://www.reddit.com/r/NoParticipation/wiki/index
                 np = true;
                 url = url.replaceFirst(domainRegex, "reddit.com");
-            } else if (!subdomain.matches("(?i)i|m|(www)|(([_a-z0-9]{2}-)?[_a-z0-9]{2})")) {
+            } else if (subdomain.matches("(?i)([_a-z0-9]{2}-)?[_a-z0-9]{1,2}")) {
+                /*
+                    Either the subdomain is a language tag (with optional region) or
+                    a single letter domain, which for simplicity are ignored.
+                 */
+                url = url.replaceFirst(domainRegex, "reddit.com");
+            } else {
                 // subdomain is a subreddit, change subreddit.reddit.com to reddit.com/r/subreddit
                 url = url.replaceFirst(domainRegex, "reddit.com/r/" + subdomain);
-            } else {
-                // subdomain isn't subreddit or np, ignore
-                url = url.replaceFirst(domainRegex, "reddit.com");
             }
         }
 
@@ -58,7 +61,7 @@ public class OpenRedditLink {
             Intent i = new Intent(context, Wiki.class);
             i.putExtra("subreddit", parts[2]);
             context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/\\w+")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/.*")) {
             // Permalink. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             Intent i = new Intent(context, CommentsScreenSingle.class);
             i.putExtra("subreddit", parts[2]);
@@ -68,6 +71,8 @@ public class OpenRedditLink {
             String end = parts[6];
             if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
             i.putExtra("context", end);
+            Log.v("Slide", "CONTEXT " + end);
+
             context.startActivity(i);
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
             // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]

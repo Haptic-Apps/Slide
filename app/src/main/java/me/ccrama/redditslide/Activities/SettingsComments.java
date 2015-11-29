@@ -37,5 +37,25 @@ public class SettingsComments extends BaseActivityNoAnim {
                 SettingValues.prefs.edit().putBoolean("UsernameClick", isChecked).apply();
             }
         });
+        SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
+        single.setChecked(Reddit.fastscroll);
+        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.fastscroll = isChecked;
+                SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
+
+            }
+        });
+        SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
+        check.setChecked(Reddit.swap);
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.swap = isChecked;
+                SettingValues.prefs.edit().putBoolean("Swap", isChecked).apply();
+
+            }
+        });
     }
 }

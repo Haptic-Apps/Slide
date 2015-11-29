@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/reddit_url"
+        android:title="@string/submission_share_reddit"
+        android:icon="@drawable/ic_share_reddit" />
+    <item
+        android:id="@+id/link_url"
+        android:title="@string/submission_share_content"
+        android:icon="@drawable/ic_share_link" />
+</menu>

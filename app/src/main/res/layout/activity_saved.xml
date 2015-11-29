@@ -35,12 +35,7 @@
                     android:clipToPadding="false"
                     android:minHeight="56dp"
                     android:paddingRight="16dp"
-                    app:layout_scrollFlags="scroll|enterAlways"
-
-
-                    >
-
-
+                    app:layout_scrollFlags="scroll|enterAlways">
                 </android.support.v7.widget.Toolbar>
 
 
@@ -61,7 +56,8 @@
 
                     android:divider="@null"
                     android:listSelector="@android:color/transparent"
-                    android:orientation="vertical"></android.support.v7.widget.RecyclerView>
+                    android:orientation="vertical">
+                </android.support.v7.widget.RecyclerView>
             </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
         </LinearLayout>
 

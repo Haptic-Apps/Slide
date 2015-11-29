@@ -181,69 +181,95 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
-                                    .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                            if (submission.isSelfPost())
+                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                            else {
+                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
+                                        .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
 
-                                        }
-                                    }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Reddit.defaultShareText(submission.getUrl(), mContext);
+                                            }
+                                        }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Reddit.defaultShareText(submission.getUrl(), mContext);
 
-                                }
-                            }).show();
+                                    }
+                                }).show();
+                            }
+                        }
+                        }
+
+                        );
+                        dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
+
+                        if(!Authentication.isLoggedIn)
+
+                        {
+                            dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
+                            dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
                         }
-                    });
-                    dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
-                    if (!Authentication.isLoggedIn) {
-                        dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
-                        dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
+                        title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+
+                        builder.setView(dialoglayout);
+                        final Dialog d = builder.show();
+                        dialoglayout.findViewById(R.id.hide).
+
+                        setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick (View v){
+                                final int pos = dataSet.indexOf(submission);
+                                final PublicContribution old = dataSet.get(pos);
+                                dataSet.remove(submission);
+                                notifyItemRemoved(pos);
+                                d.dismiss();
+
+                                Hidden.setHidden((Contribution) old);
+
+                                Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dataSet.add(pos, old);
+                                        notifyItemInserted(pos);
+                                        Hidden.undoHidden((Contribution) old);
+
+                                    }
+                                }).show();
+
+
+                            }
+                        }
+
+                        );
+                        return true;
                     }
-                    title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
-
-                    builder.setView(dialoglayout);
-                    final Dialog d = builder.show();
-                    dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final int pos = dataSet.indexOf(submission);
-                            final PublicContribution old = dataSet.get(pos);
-                            dataSet.remove(submission);
-                            notifyItemRemoved(pos);
-                            d.dismiss();
-
-                            Hidden.setHidden((Contribution) old);
-
-                            Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dataSet.add(pos, old);
-                                    notifyItemInserted(pos);
-                                    Hidden.undoHidden((Contribution) old);
-
-                                }
-                            }).show();
-
-
-                        }
-                    });
-                    return true;
                 }
-            });
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView, false, false);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+
+                );
+                new
+
+                PopulateSubmissionViewHolder()
+
+                .
+
+                PopulateSubmissionViewHolder(holder, submission, mContext, false,false,dataSet, listView, false,false);
+
+                holder.itemView.setOnClickListener(new View.OnClickListener()
+
+                {
+                    @Override
+                    public void onClick (View v){
                     new OpenRedditLink(mContext, "www.reddit.com" + submission.getPermalink());
                 }
-            });
+                }
 
-        } else {
+                );
+
+            }else {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHold;
             final Comment comment = (Comment) dataSet.get(i);

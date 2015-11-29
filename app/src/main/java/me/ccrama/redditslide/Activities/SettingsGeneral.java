@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -63,41 +64,38 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.animation);
+            final SeekBar animationMultiplier = (SeekBar) findViewById(R.id.animation_length_sb);
+            animationMultiplier.setProgress(Reddit.enter_animation_time_multiplier);
+            animationMultiplier.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (progress <= 0) {
+                        progress = 1;
+                        animationMultiplier.setProgress(1);
+                    }
+                    SettingValues.prefs.edit().putInt("AnimationLengthMultiplier", progress).apply();
+                    Reddit.enter_animation_time_multiplier = progress;
+                    Reddit.enter_animation_time = Reddit.enter_animation_time_original * Reddit.enter_animation_time_multiplier;
+                }
 
-            single.setChecked(Reddit.animation);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+            SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
+            animation.setChecked(Reddit.animation);
+            animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.animation = isChecked;
                     SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
-
-                }
-            });
-        }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
-
-            single.setChecked(Reddit.fastscroll);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.fastscroll = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
-
-                }
-            });
-        }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.hidebutton);
-
-            single.setChecked(Reddit.hideButton);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.hideButton = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
-
+                    animationMultiplier.setEnabled(isChecked);
                 }
             });
         }
@@ -114,12 +112,24 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
-
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfw);
+            SwitchCompat fullscreenswitch = (SwitchCompat) findViewById(R.id.full_screen_images_switch);
 
-            single.setChecked(!SettingValues.NSFWPosts);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            fullscreenswitch.setChecked(Reddit.fullscreen);
+            fullscreenswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.fullscreen = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Fullscreen", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            SwitchCompat nsfw = (SwitchCompat) findViewById(R.id.nsfw);
+
+            nsfw.setChecked(!SettingValues.NSFWPosts);
+            nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !isChecked).apply();
@@ -131,10 +141,10 @@ public class SettingsGeneral extends BaseActivityNoAnim {
 
 
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfwrpev);
+            SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
-            single.setChecked(!SettingValues.NSFWPreviews);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            nsfwprev.setChecked(!SettingValues.NSFWPreviews);
+            nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();
@@ -167,19 +177,6 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 popup.show();
             }
         });
-        {
-            SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
-
-            check.setChecked(Reddit.swap);
-            check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.swap = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Swap", isChecked).apply();
-
-                }
-            });
-        }
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);
 
         {

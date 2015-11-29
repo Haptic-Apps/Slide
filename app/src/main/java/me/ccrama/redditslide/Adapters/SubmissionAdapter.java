@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
@@ -211,20 +212,27 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
-                                        .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
-
-                                            }
-                                        }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Reddit.defaultShareText(submission.getUrl(), mContext);
-
-                                    }
-                                }).show();
+                                if (submission.isSelfPost())
+                                    Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                else {
+                                    new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                            .title(R.string.submission_share_title)
+                                            .grid()
+                                            .sheet(R.menu.share_menu)
+                                            .listener(new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    switch (which) {
+                                                        case R.id.reddit_url:
+                                                            Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                            break;
+                                                        case R.id.link_url:
+                                                            Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                            break;
+                                                    }
+                                                }
+                                            }).show();
+                                }
 
                             }
                         });

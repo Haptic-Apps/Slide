@@ -93,13 +93,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
             holder.text.setVisibility(View.GONE);
 
         }
-
-
-        if (url.contains("gif")) {
-            holder.body.setVisibility(View.VISIBLE);
-            holder.body.setText(holder.text.getText() + "/n" + main.getString(R.string.submission_tap_gif).toUpperCase());
-        }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (url.contains("gif")) {
@@ -120,7 +114,17 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
                     }
                 }
             }
-        });
+        };
+
+
+        if (url.contains("gif")) {
+            holder.body.setVisibility(View.VISIBLE);
+            holder.body.setSingleLine(false);
+            holder.body.setText(holder.text.getText() + "\n" + main.getString(R.string.submission_tap_gif).toUpperCase());
+            holder.body.setOnClickListener(onGifImageClickListener);
+        }
+
+        holder.itemView.setOnClickListener(onGifImageClickListener);
 
 
     }

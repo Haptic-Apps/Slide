@@ -40,32 +40,32 @@ public class SettingsFab extends BaseActivityNoAnim  {
             SettingsFab.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_fab),
                     ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
         }
-
-        SwitchCompat fab = (SwitchCompat) findViewById(R.id.fab_visible);
-        fab.setChecked(Reddit.fab);
-        fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.fab = isChecked;
-                SettingValues.prefs.edit().putBoolean("Fab", isChecked).apply();
-            }
-        });
-
-        SwitchCompat fabType = (SwitchCompat) findViewById(R.id.fab_type);
+        final SwitchCompat fabType = (SwitchCompat) findViewById(R.id.fab_type);
         fabType.setChecked(Reddit.fabType == R.integer.FAB_DISMISS);
         fabType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     Reddit.fabType = R.integer.FAB_DISMISS;
                     SettingValues.prefs.edit().putInt("FabType", R.integer.FAB_DISMISS).apply();
-                }
-                else{
+                } else {
                     Reddit.fabType = R.integer.FAB_POST;
                     SettingValues.prefs.edit().putInt("FabType", R.integer.FAB_POST).apply();
                 }
             }
         });
+        SwitchCompat fab = (SwitchCompat) findViewById(R.id.fab_visible);
+        fab.setChecked(Reddit.fab);
+        fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fabType.setEnabled(isChecked);
+                Reddit.fab = isChecked;
+                SettingValues.prefs.edit().putBoolean("Fab", isChecked).apply();
+            }
+        });
+
+
     }
 
 

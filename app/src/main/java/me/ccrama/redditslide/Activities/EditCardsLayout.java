@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -103,6 +105,18 @@ public class EditCardsLayout extends BaseActivityNoAnim {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     layout.removeAllViews();
                     layout.addView(CreateCardView.setMiddleCard(isChecked, layout, !subreddit.isEmpty(), subreddit));
+
+            }
+        });
+
+        CheckBox single = (CheckBox) findViewById(R.id.hidebutton);
+
+        single.setChecked(Reddit.hideButton);
+        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.hideButton = isChecked;
+                SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
 
             }
         });

@@ -310,7 +310,6 @@ public class CommentPage extends Fragment {
             if (DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
             rv.setAdapter(adapter);
-
         } else {
             if (context.equals("NOTHING")) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
@@ -344,17 +343,23 @@ public class CommentPage extends Fragment {
         if (adapter == null || single) {
             if (context != null && !context.equals("NOTHING")) {
                 adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-                adapter.currentSelectedItem = context;
-                int i = 1;
-                for (CommentObject n : comments.comments) {
 
-                    if (n.getCommentNode().getComment().getFullName().contains(context)) {
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i);
-                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                        break;
+
+                if(single) {
+                    adapter.currentSelectedItem = context;
+
+
+                    int i = 1;
+                    for (CommentObject n : comments.comments) {
+
+                        if (n.getCommentNode().getComment().getFullName().contains(context)) {
+                            RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                            smoothScroller.setTargetPosition(i);
+                            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                            break;
+                        }
+                        i++;
                     }
-                    i++;
                 }
 
             } else {
