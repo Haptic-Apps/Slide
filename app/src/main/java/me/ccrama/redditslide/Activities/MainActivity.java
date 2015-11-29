@@ -85,7 +85,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SuperBaseActivity {
     // Instance state keys
     static final String SUBS = "subscriptions";
     static final String SUBS_ALPHA = "subscriptionsAlpha";

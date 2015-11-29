@@ -29,7 +29,7 @@ import me.ccrama.redditslide.util.Purchase;
 /**
  * Created by carlo_000 on 5/26/2015.
  */
-public class DonateView extends AppCompatActivity {
+public class DonateView extends SuperBaseActivity {
 
 
     private final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener

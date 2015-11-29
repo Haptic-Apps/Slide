@@ -125,6 +125,19 @@ public class SettingsGeneral extends BaseActivityNoAnim {
                 }
             });
         }
+        {
+            SwitchCompat translucent = (SwitchCompat) findViewById(R.id.translucent_statusbar_switch);
+
+            translucent.setChecked(Reddit.translucentStatusBar);
+            translucent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.translucentStatusBar = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Translucent", isChecked).apply();
+
+                }
+            });
+        }
 
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.nsfw);

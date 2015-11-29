@@ -10,7 +10,7 @@ import me.ccrama.redditslide.R;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Internet extends AppCompatActivity {
+public class Internet extends SuperBaseActivity {
 
 
     @Override

@@ -61,6 +61,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final long enter_animation_time_original = 600;
     public static long enter_animation_time = enter_animation_time_original;
     public static int enter_animation_time_multiplier = 1;
+    public static boolean translucentStatusBar;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -343,6 +344,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         animation = SettingValues.prefs.getBoolean("Animation", false);
         enter_animation_time_multiplier = SettingValues.prefs.getInt("AnimationLengthMultiplier", 1);
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
+        translucentStatusBar = SettingValues.prefs.getBoolean("Translucent",false);
         fab = SettingValues.prefs.getBoolean("Fab", false);
         fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
         click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick",true);
