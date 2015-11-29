@@ -183,6 +183,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return mInBackground;
     }
 
+    boolean hasDone;
+    boolean hasDone2;
     @Override
     public void onActivityResumed(Activity activity) {
 
@@ -195,15 +197,19 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             mInBackground = false;
             notifyOnBecameForeground();
 
-            if(authentication.hasDone) {
+            if(hasDone && hasDone2) {
                 loader = null;
 
                 authentication.updateToken(activity);
-            } else {
+            } else if(authentication == null) {
                 loader = null;
                 authentication = new Authentication(this);
 
 
+            } else if(hasDone) {
+                hasDone2 = true;
+            } else {
+                hasDone = true;
             }
 
         }

@@ -41,7 +41,6 @@ public class SubmissionComments {
         this.page = commentPage;
         this.context = context;
         this.refreshLayout = layout;
-        new LoadData(true).execute(fullName);
     }
 
     public void setSorting(CommentSort sort) {
