@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
                             int topick = new ColorPreferences(MainActivity.this).getFontStyleSubreddit(subreddit).getColor();
                             for(int color : arrs){
                                 if(color == topick){
-                                    colorPickeracc.setSelectedColor(color);
+                                    colorPickeracc.setSelectedColorPosition(color);
                                     break;
 
                                 }

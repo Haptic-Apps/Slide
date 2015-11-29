@@ -215,7 +215,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                         int topick = new ColorPreferences(getContext()).getFontStyleSubreddit(subreddit).getColor();
                         for(int color : arrs){
                             if(color == topick){
-                                colorPickeracc.setSelectedColor(color);
+                                colorPickeracc.setSelectedColorPosition(color);
                                 break;
 
                             }
