@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
-import android.view.WindowManager;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
@@ -173,61 +172,66 @@ public class Album extends FullScreenActivity {
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-                                Log.v("Slide", result.toString());
+                                Dialog dialog = new AlertDialogWrapper.Builder(Album.this)
+                                        .setTitle(R.string.album_err_not_found)
+                                        .setMessage(R.string.album_err_msg_not_found)
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        }).create();
 
+                                if (result != null) {
+                                    Log.v("Slide", result.toString());
 
-                                ArrayList<JsonElement> jsons = new ArrayList<>();
+                                    ArrayList<JsonElement> jsons = new ArrayList<>();
 
-                                if (result.has("album")) {
-                                    if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
-                                        getSupportActionBar().setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
-                                    } else {
-                                        getSupportActionBar().setTitle("Album");
+                                    if (result.has("album")) {
+                                        if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
+                                            getSupportActionBar().setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
+                                        } else {
+                                            getSupportActionBar().setTitle("Album");
 
-                                    }
-                                    JsonObject obj = result.getAsJsonObject("album");
-                                    if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                                        final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                                        for (JsonElement o : jsonAuthorsArray) {
-                                            jsons.add(o);
                                         }
+                                        JsonObject obj = result.getAsJsonObject("album");
+                                        if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+
+                                            final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+
+                                            for (JsonElement o : jsonAuthorsArray) {
+                                                jsons.add(o);
+                                            }
 
 
-                                        RecyclerView v = (RecyclerView) findViewById(R.id.images);
-                                        final PreCachingLayoutManager mLayoutManager;
-                                        mLayoutManager = new PreCachingLayoutManager(Album.this);
-                                        v.setLayoutManager(mLayoutManager);
-                                        v.setAdapter(new AlbumView(Album.this, jsons, false));
+                                            RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                            final PreCachingLayoutManager mLayoutManager;
+                                            mLayoutManager = new PreCachingLayoutManager(Album.this);
+                                            v.setLayoutManager(mLayoutManager);
+                                            v.setAdapter(new AlbumView(Album.this, jsons, false));
 
+                                        } else {
+
+                                            new AlertDialogWrapper.Builder(Album.this)
+                                                    .setTitle(R.string.album_err_not_found)
+                                                    .setMessage(R.string.album_err_msg_not_found)
+                                                    .setCancelable(false)
+                                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            finish();
+                                                        }
+                                                    }).create().show();
+                                        }
                                     } else {
-
-                                        new AlertDialogWrapper.Builder(Album.this)
-                                                .setTitle(R.string.album_err_not_found)
-                                                .setMessage(R.string.album_err_msg_not_found)
-                                                .setCancelable(false)
-                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        finish();
-                                                    }
-                                                }).create().show();
+                                        dialog.show();
                                     }
                                 } else {
-
-                                    new AlertDialogWrapper.Builder(Album.this)
-                                            .setTitle(R.string.album_err_not_found)
-                                            .setMessage(R.string.album_err_msg_not_found)
-                                            .setCancelable(false)
-                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    finish();
-                                                }
-                                            }).create().show();
+                                    dialog.show();
                                 }
                             }
+
                         });
             }
 

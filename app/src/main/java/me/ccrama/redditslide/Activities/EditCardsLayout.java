@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,10 +58,10 @@ public class EditCardsLayout extends BaseActivityNoAnim {
         //View type//
         //Cards or List//
 
-        final CheckBox cardmode = (CheckBox) findViewById(R.id.cardmode);
+        final SwitchCompat cardmode = (SwitchCompat) findViewById(R.id.cardmode);
         cardmode.setChecked(CreateCardView.isCard(!subreddit.isEmpty()));
 
-        final CheckBox middle = (CheckBox) findViewById(R.id.middlechk);
+        final SwitchCompat middle = (SwitchCompat) findViewById(R.id.middlechk);
 
         if(cardmode.isChecked()){
             middle.setAlpha(1f);
@@ -85,7 +84,7 @@ public class EditCardsLayout extends BaseActivityNoAnim {
                     layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, !subreddit.isEmpty(), subreddit));
 
                 }
-                if(cardmode.isChecked()){
+                if (cardmode.isChecked()) {
                     middle.setAlpha(1f);
                     middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
 
@@ -103,16 +102,16 @@ public class EditCardsLayout extends BaseActivityNoAnim {
         middle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    layout.removeAllViews();
-                    layout.addView(CreateCardView.setMiddleCard(isChecked, layout, !subreddit.isEmpty(), subreddit));
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setMiddleCard(isChecked, layout, !subreddit.isEmpty(), subreddit));
 
             }
         });
 
-        CheckBox single = (CheckBox) findViewById(R.id.hidebutton);
+        SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
 
-        single.setChecked(Reddit.hideButton);
-        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        hidebutton.setChecked(Reddit.hideButton);
+        hidebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Reddit.hideButton = isChecked;
@@ -154,7 +153,7 @@ public class EditCardsLayout extends BaseActivityNoAnim {
 
         //Actionbar//
         //Enable, collapse//
-        final CheckBox actionbar = (CheckBox) findViewById(R.id.action);
+        final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.action);
         actionbar.setChecked(CreateCardView.isActionBar(!subreddit.isEmpty()));
         actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
