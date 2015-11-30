@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 
+import me.ccrama.redditslide.Reddit;
+
 /**
  * Created by tomer aka rosenpin on 11/29/15.
  */
@@ -13,13 +15,15 @@ public class SuperBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        translucent();
+        if(Reddit.translucentStatusBar)
+            translucent();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        translucent();
+        if(Reddit.translucentStatusBar)
+            translucent();
     }
 
     public void translucent() {
