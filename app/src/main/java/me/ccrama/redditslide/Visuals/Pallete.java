@@ -2,24 +2,28 @@ package me.ccrama.redditslide.Visuals;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.ColorInt;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
-/**
- * Created by ccrama on 9/18/2015.
- */
 public class Pallete {
     private int fontColor;
     public int backgroundColor;
+
     public static int getDefaultColor(){
         if(Reddit.colors.contains("DEFAULTCOLOR")){
             return Reddit.colors.getInt("DEFAULTCOLOR", Color.parseColor("#e64a19"));
         } else {
             return Color.parseColor("#e64a19");
-
         }
     }
+
+    public static int getStatusBarColor() {
+        @ColorInt int primary = getDefaultColor();
+        return getDarkerColor(primary);
+    }
+
     public static int getDefaultAccent(){
         if(Reddit.colors.contains("ACCENTCOLOR")){
             return Reddit.colors.getInt("ACCENTCOLOR", Color.parseColor("#ff6e40"));
