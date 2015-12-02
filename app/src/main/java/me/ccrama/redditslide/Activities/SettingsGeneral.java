@@ -88,8 +88,9 @@ public class SettingsGeneral extends BaseActivityNoAnim {
 
                 }
             });
-            SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
+            final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
             animation.setChecked(Reddit.animation);
+            animationMultiplier.setEnabled(Reddit.animation);
             animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -126,23 +127,22 @@ public class SettingsGeneral extends BaseActivityNoAnim {
             });
         }
         {
+
+
             SwitchCompat nsfw = (SwitchCompat) findViewById(R.id.nsfw);
+            final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
             nsfw.setChecked(!SettingValues.NSFWPosts);
             nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !isChecked).apply();
-
+                    nsfwprev.setEnabled(!SettingValues.NSFWPosts);
                     SettingValues.NSFWPosts = !isChecked;
                 }
             });
-        }
 
-
-        {
-            SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
-
+            nsfwprev.setEnabled(SettingValues.NSFWPosts);
             nsfwprev.setChecked(!SettingValues.NSFWPreviews);
             nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -152,6 +152,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
 
                 }
             });
+
         }
         final TextView color = (TextView) findViewById(R.id.font);
         color.setText(new FontPreferences(this).getFontStyle().getTitle());
@@ -249,6 +250,7 @@ public class SettingsGeneral extends BaseActivityNoAnim {
         }
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

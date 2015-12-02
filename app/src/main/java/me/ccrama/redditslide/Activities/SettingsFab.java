@@ -56,6 +56,7 @@ public class SettingsFab extends BaseActivityNoAnim  {
         });
         SwitchCompat fab = (SwitchCompat) findViewById(R.id.fab_visible);
         fab.setChecked(Reddit.fab);
+        fabType.setEnabled(Reddit.fab);
         fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
