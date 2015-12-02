@@ -28,7 +28,7 @@ import me.ccrama.redditslide.Visuals.StyleView;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class CommentsScreenSingle extends BaseActivity {
+public class CommentsScreenSingle extends BaseActivityAnim {
     OverviewPagerAdapter comments;
     boolean np;
     private ViewPager pager;
@@ -38,11 +38,8 @@ public class CommentsScreenSingle extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-
+        applyColorTheme();
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
         name = getIntent().getExtras().getString("submission", "");
@@ -55,12 +52,8 @@ public class CommentsScreenSingle extends BaseActivity {
         } else {
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
+            themeStatusBar(subreddit);
 
-            }
             pager = (ViewPager) findViewById(R.id.content_view);
 
             context = getIntent().getExtras().getString("context", "");

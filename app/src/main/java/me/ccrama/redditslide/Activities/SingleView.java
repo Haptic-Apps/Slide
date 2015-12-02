@@ -23,7 +23,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
-public class SingleView extends BaseActivity {
+public class SingleView extends BaseActivityAnim {
 
 
     private SubmissionAdapter adapter;
@@ -34,27 +34,12 @@ public class SingleView extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         final String subreddit = getIntent().getExtras().getString("type", "");
-
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
-
+        applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
+        setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
-        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setBackgroundColor(Pallete.getColor(subreddit));
-        setSupportActionBar(t);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
-            SingleView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
-
-        }
-        getSupportActionBar().setTitle(subreddit);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;

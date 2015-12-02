@@ -19,8 +19,32 @@ public class Pallete {
         }
     }
 
+    /**
+     * Gets the status bar color for the activity.
+     * @return Color-int for the status bar
+     */
     public static int getStatusBarColor() {
-        @ColorInt int primary = getDefaultColor();
+        int primary = getDefaultColor();
+        return getDarkerColor(primary);
+    }
+
+    /**
+     * Gets the status bar color for the activity based on the specified username.
+     * @param username The username to base the theme on
+     * @return Color-int for the status bar
+     */
+    public static int getUserStatusBarColor(String username) {
+        int primary = getColorUser(username);
+        return getDarkerColor(primary);
+    }
+
+    /**
+     * Gets the status bar color for the activity based on the specified subreddit.
+     * @param subreddit The subreddit to base the theme on
+     * @return Color-int for the status bar
+     */
+    public static int getSubredditStatusBarColor(String subreddit) {
+        int primary = getColor(subreddit);
         return getDarkerColor(primary);
     }
 

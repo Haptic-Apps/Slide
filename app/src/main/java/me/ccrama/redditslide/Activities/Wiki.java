@@ -30,7 +30,7 @@ import me.ccrama.redditslide.Visuals.StyleView;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Wiki extends BaseActivity {
+public class Wiki extends BaseActivityAnim {
 
     private TabLayout tabs;
     private ViewPager pager;
@@ -41,29 +41,16 @@ public class Wiki extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
         subreddit = getIntent().getExtras().getString("subreddit", "");
-
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme(subreddit);
         setContentView(R.layout.activity_slidetabs);
-
-        StyleView.styleActivity(this);
-
+        setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("/r/" + subreddit + " wiki");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Pallete.getColor(subreddit));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-        }
 
         new AsyncGetWiki().execute();
     }

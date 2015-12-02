@@ -22,7 +22,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.CommentSort;
 
-import me.ccrama.redditslide.Activities.BaseActivity;
+import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentObject;
@@ -242,10 +242,10 @@ public class CommentPage extends Fragment {
             }
         });
 
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
-            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
+        if (getActivity() instanceof BaseActivityAnim) {
+            ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(id);
         }
         toolbar.setBackgroundColor(Pallete.getColor(id));
 

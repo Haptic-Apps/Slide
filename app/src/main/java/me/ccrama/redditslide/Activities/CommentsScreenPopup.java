@@ -23,7 +23,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class CommentsScreenPopup extends BaseActivity {
+public class CommentsScreenPopup extends BaseActivityAnim {
     OverviewPagerAdapter comments;
     private ArrayList<Submission> posts;
 
@@ -31,8 +31,7 @@ public class CommentsScreenPopup extends BaseActivity {
     public void onCreate(Bundle savedInstance) {
 
         super.onCreate(savedInstance);
-
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme();
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_slide_popup);
@@ -62,12 +61,8 @@ public class CommentsScreenPopup extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 //todo load more
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = getWindow();
-                    window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
-                }
+                themeStatusBar(posts.get(position).getSubredditName());
                 HasSeen.addSeen(posts.get(position).getFullName());
-
             }
 
             @Override

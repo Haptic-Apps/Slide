@@ -1,20 +1,14 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -42,17 +36,14 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsBackup extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     MaterialDialog progress;
     DriveFolder appFolder;
     String title;
@@ -117,19 +108,10 @@ public class SettingsBackup extends BaseActivityNoAnim implements GoogleApiClien
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_settings_sync);
-        final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setBackgroundColor(Pallete.getDefaultColor());
-        setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.settings_title_backup);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsBackup.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_backup), ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-        }
+        setupAppBar(R.id.toolbar, R.string.settings_title_backup, true);
+
         if (Reddit.tabletUI) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Drive.API)

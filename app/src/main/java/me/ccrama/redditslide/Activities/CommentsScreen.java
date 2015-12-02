@@ -27,17 +27,14 @@ import me.ccrama.redditslide.Visuals.StyleView;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class CommentsScreen extends BaseActivity {
+public class CommentsScreen extends BaseActivityAnim {
     public ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-
+        applyColorTheme();
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
 
@@ -74,12 +71,7 @@ public class CommentsScreen extends BaseActivity {
                 @Override
                 public void onPageSelected(int position) {
                     //todo load more
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setStatusBarColor(Pallete.getDarkerColor(posts.get(position).getSubredditName()));
-                        CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(position).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(position).getSubredditName())));
-
-                    }
+                    themeStatusBar(posts.get(position).getSubredditName());
                     HasSeen.addSeen(posts.get(position).getFullName());
 
 

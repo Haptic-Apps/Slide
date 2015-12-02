@@ -1,30 +1,23 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsSubreddit extends BaseActivityNoAnim {
+public class SettingsSubreddit extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -55,21 +48,9 @@ public class SettingsSubreddit extends BaseActivityNoAnim {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_settings_subreddit);
-        Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setBackgroundColor(Pallete.getDefaultColor());
-        setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.title_subreddit_settings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsSubreddit.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-
-
-        }
+        setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true);
 
         ListView l = (ListView) findViewById(R.id.subslist);
         ArrayList<String> done = new ArrayList<>();

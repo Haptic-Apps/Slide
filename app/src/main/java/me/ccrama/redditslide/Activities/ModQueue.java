@@ -22,40 +22,25 @@ import me.ccrama.redditslide.Visuals.Pallete;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class ModQueue extends BaseActivity {
+public class ModQueue extends BaseActivityAnim {
 
     public ModQueue.OverviewPagerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
+        applyColorTheme("");
         setContentView(R.layout.activity_inbox);
-
+        setupAppBar(R.id.toolbar, R.string.title_mod, true);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.title_mod);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-        }
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-
         tabs.setupWithViewPager(pager);
 
         findViewById(R.id.notifs).setVisibility(View.GONE);
-
-
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

@@ -1,47 +1,27 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.BuildConfig;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
 
 
 /**
  * Created by l3d00m on 11/12/2015.
  */
-public class SettingsAbout extends BaseActivityNoAnim {
+public class SettingsAbout extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_settings_about);
-        final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setBackgroundColor(Pallete.getDefaultColor());
-        setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.settings_title_about);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsAbout.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.settings_title_about),
-                    ((BitmapDrawable) ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-        }
+        setupAppBar(R.id.toolbar, R.string.settings_title_about, true);
 
         View report = findViewById(R.id.report);
         View libs = findViewById(R.id.libs);

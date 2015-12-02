@@ -60,7 +60,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Pallete;
 
 
-public class CreateMulti extends BaseActivity {
+public class CreateMulti extends BaseActivityAnim {
 
     ArrayList<String> subs;
     CustomAdapter adapter;
@@ -72,13 +72,9 @@ public class CreateMulti extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_createmulti);
-        final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-
-        b.setBackgroundColor(Pallete.getDefaultColor());
-        ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
+        setupAppBar(R.id.toolbar, R.string.title_multireddits, true);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,16 +82,7 @@ public class CreateMulti extends BaseActivity {
                 showSelectDialog();
             }
         });
-        setSupportActionBar(b);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            CreateMulti.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_create_multi), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-        }
         title = (EditText) findViewById(R.id.name);
-
 
         subs = new ArrayList<>();
         if (getIntent().hasExtra("multi")) {

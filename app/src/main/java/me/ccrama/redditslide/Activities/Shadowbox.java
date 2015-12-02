@@ -24,16 +24,14 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Shadowbox extends BaseActivity {
+public class Shadowbox extends BaseActivityAnim {
     private ArrayList<Submission> posts;
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_slide);
@@ -42,8 +40,6 @@ public class Shadowbox extends BaseActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-
-
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

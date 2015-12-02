@@ -34,7 +34,7 @@ import me.ccrama.redditslide.Visuals.StyleView;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class MultiredditOverview extends BaseActivity {
+public class MultiredditOverview extends BaseActivityAnim {
 
     public OverviewPagerAdapter adapter;
     private ViewPager pager;
@@ -43,21 +43,11 @@ public class MultiredditOverview extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
+        applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
-        StyleView.styleActivity(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_multireddits);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
-        }
+        setupAppBar(R.id.toolbar, R.string.title_multireddits, true);
+
         findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -66,9 +56,7 @@ public class MultiredditOverview extends BaseActivity {
         findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                {
-                    openPopup(v);
-                }
+                openPopup(v);
             }
         });
         findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {

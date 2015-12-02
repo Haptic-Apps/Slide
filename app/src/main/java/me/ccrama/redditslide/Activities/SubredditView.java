@@ -58,7 +58,7 @@ import me.ccrama.redditslide.Visuals.Pallete;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
-public class SubredditView extends BaseActivity {
+public class SubredditView extends BaseActivityAnim {
 
 
     private DrawerLayout drawerLayout;
@@ -92,30 +92,14 @@ public class SubredditView extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         subreddit = getIntent().getExtras().getString("subreddit", "");
-
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
-
+        applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
+        setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
-        Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setBackgroundColor(Pallete.getColor(subreddit));
-        setSupportActionBar(t);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(subreddit)));
-        }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setResult(3);
-
-        getSupportActionBar().setTitle(subreddit);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {

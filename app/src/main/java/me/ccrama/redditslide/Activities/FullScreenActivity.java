@@ -8,7 +8,7 @@ import me.ccrama.redditslide.Reddit;
 /**
  * Created by tomer aka rosenpin on 11/27/15.
  */
-public class FullScreenActivity extends BaseActivity {
+public class FullScreenActivity extends BaseActivityAnim {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

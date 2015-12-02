@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
@@ -9,47 +8,40 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class EditCardsLayout extends BaseActivityNoAnim {
-
+public class EditCardsLayout extends BaseActivity {
     ViewPager pager;
     private String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
+
+        boolean isAlternate;
         if (getIntent() != null && getIntent().hasExtra("secondary")) {
             subreddit = getIntent().getExtras().getString("secondary", "test");
+            isAlternate = true;
         } else {
             subreddit = "";
+            isAlternate = false;
         }
         subreddit = subreddit.toLowerCase();
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme(subreddit);
         setContentView(R.layout.activity_settings_theme_card);
-
-        findViewById(R.id.toolbar).setBackgroundColor(Pallete.getColor(subreddit));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColor(subreddit)));
-        }
-
+        int title = isAlternate ?
+                R.string.settings_title_alternative_layout : R.string.settings_layout_default;
+        setupAppBar(R.id.toolbar, title, true);
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();

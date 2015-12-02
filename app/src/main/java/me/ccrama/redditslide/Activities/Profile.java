@@ -38,7 +38,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Profile extends BaseActivity {
+public class Profile extends BaseActivityAnim {
 
     private String name;
     private Account account;
@@ -48,27 +48,16 @@ public class Profile extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
+        applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
-        StyleView.styleActivity(this);
         name = getIntent().getExtras().getString("profile", "");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(name);
+        setupAppBar(R.id.toolbar, name, true);
+
         findViewById(R.id.header).setBackgroundColor(Pallete.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
         findViewById(R.id.edit).setVisibility(View.GONE);
         ((ImageView) findViewById(R.id.create)).setImageDrawable(getResources().getDrawable(R.drawable.infonew));
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getColorUser(name))));
-        }
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
