@@ -175,7 +175,10 @@
             android:name=".Activities.Crash"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
-            android:name=".Activities.MainActivity"/>
+            android:name=".Activities.MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+
+            />
         <activity
             android:name=".Activities.Settings"
             android:configChanges="keyboardHidden|orientation|screenSize"

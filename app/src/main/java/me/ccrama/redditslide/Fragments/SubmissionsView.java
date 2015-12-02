@@ -56,7 +56,7 @@ public class SubmissionsView extends Fragment {
         int currentOrientation = getResources().getConfiguration().orientation;
 
 
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (rv.getLayoutManager() instanceof  LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             int i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
             if (Reddit.tabletUI) {
                 final StaggeredGridLayoutManager mLayoutManager;

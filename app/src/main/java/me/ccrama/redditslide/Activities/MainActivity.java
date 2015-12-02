@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null && !changed) {
@@ -151,6 +151,8 @@ public class MainActivity extends AppCompatActivity {
             SubredditStorage.realSubs = savedInstanceState.getStringArrayList(REAL_SUBS);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
+        } else {
+            changed = false;
         }
 
         if (getIntent().getBooleanExtra("EXIT", false)) finish();
@@ -179,7 +181,11 @@ public class MainActivity extends AppCompatActivity {
                     if (theme.toString().contains(newName) && theme.getThemeType() == number) {
                         Reddit.themeBack = theme.getThemeType();
                         new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                        recreate();
+                        changed = true;
+
+
+                     recreate();
+
                         break;
                     }
                 }
