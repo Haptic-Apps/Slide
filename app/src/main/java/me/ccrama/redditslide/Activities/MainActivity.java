@@ -1284,10 +1284,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_refresh:
+                ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
+                return true;
+            case R.id.action_sort:
+                openPopup();
+                return true;
+            case R.id.action_info:
+                if (usedArray != null) {
+                    String sub = usedArray.get(pager.getCurrentItem());
+                    if (!sub.equals("frontpage") && !sub.equals("all")) {
+                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer
+                                (GravityCompat.END);
+                    }
+                }
+                return true;
             case R.id.action_shadowbox:
                 if (Reddit.tabletUI) {
-                    ArrayList<Submission> posts =
-                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    ArrayList<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         DataShare.sharedSubreddit =
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
@@ -1313,18 +1327,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }).show();
                 }
-                return true;
-            case R.id.action_info:
-                if (usedArray != null) {
-                    String sub = usedArray.get(pager.getCurrentItem());
-                    if (!sub.equals("frontpage") && !sub.equals("all")) {
-                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer
-                                (GravityCompat.END);
-                    }
-                }
-                return true;
-            case R.id.action_sort:
-                openPopup();
                 return true;
             default:
                 return false;
