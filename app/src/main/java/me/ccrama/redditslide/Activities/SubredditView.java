@@ -18,7 +18,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,8 +52,7 @@ import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -141,7 +139,7 @@ public class SubredditView extends BaseActivityAnim {
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(subreddit, this));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new SubredditPosts(subreddit);
@@ -394,7 +392,7 @@ public class SubredditView extends BaseActivityAnim {
             findViewById(R.id.subscribers).setVisibility(View.GONE);
 
 
-            findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
+            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
@@ -472,7 +470,7 @@ public class SubredditView extends BaseActivityAnim {
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText("/r/" + subreddit);
-                    title.setBackgroundColor(Pallete.getColor(subreddit));
+                    title.setBackgroundColor(Palette.getColor(subreddit));
 
                     {
                         final View body = dialoglayout.findViewById(R.id.body2);
@@ -502,7 +500,7 @@ public class SubredditView extends BaseActivityAnim {
                                 getResources().getColor(R.color.md_blue_grey_500),
 
                         });
-                        int currentColor = Pallete.getColor(subreddit);
+                        int currentColor = Palette.getColor(subreddit);
                         for (int i : colorPicker.getColors()) {
                             for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
                                 if (i2 == currentColor) {
@@ -529,7 +527,7 @@ public class SubredditView extends BaseActivityAnim {
                                 findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
-                                    window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                    window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
                                     SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                 }
@@ -548,16 +546,16 @@ public class SubredditView extends BaseActivityAnim {
                             dialogButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Pallete.removeColor(subreddit);
-                                    hea.setBackgroundColor(Pallete.getDefaultColor());
-                                    findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
+                                    Palette.removeColor(subreddit);
+                                    hea.setBackgroundColor(Palette.getDefaultColor());
+                                    findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
-                                        window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
                                         MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }
-                                    title.setBackgroundColor(Pallete.getDefaultColor());
+                                    title.setBackgroundColor(Palette.getDefaultColor());
 
 
                                     int cx = center.getWidth() / 2;
@@ -643,7 +641,7 @@ public class SubredditView extends BaseActivityAnim {
                             dialogButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Pallete.setColor(subreddit, colorPicker2.getColor());
+                                    Palette.setColor(subreddit, colorPicker2.getColor());
                                     int color = colorPickeracc.getColor();
                                     ColorPreferences.Theme t = null;
                                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {

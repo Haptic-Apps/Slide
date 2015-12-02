@@ -15,13 +15,11 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
@@ -50,8 +48,8 @@ public class CommentsScreen extends BaseActivityAnim {
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
-                CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(posts.get(firstPage).getSubredditName())));
+                window.setStatusBarColor(Palette.getDarkerColor(posts.get(firstPage).getSubredditName()));
+                CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(posts.get(firstPage).getSubredditName())));
 
             }
             HasSeen.addSeen(posts.get(firstPage).getFullName());

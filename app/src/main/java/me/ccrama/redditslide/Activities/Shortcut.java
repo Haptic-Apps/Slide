@@ -19,7 +19,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 10/2/2015.
@@ -90,7 +90,7 @@ public class Shortcut extends Activity {
                                     Log.v("Slide", "NULL IS " + (bm2 == null));
                                 } else {
                                     src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
-                                    final int overlayColor = Pallete.getColor(name);
+                                    final int overlayColor = Palette.getColor(name);
                                     final Paint paint = new Paint();
                                     Canvas c;
                                     final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);

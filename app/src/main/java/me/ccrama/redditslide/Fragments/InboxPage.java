@@ -16,7 +16,7 @@ import me.ccrama.redditslide.Adapters.InboxAdapter;
 import me.ccrama.redditslide.Adapters.InboxMessages;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 public class InboxPage extends Fragment {
 
@@ -45,7 +45,7 @@ public class InboxPage extends Fragment {
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new InboxMessages(id);

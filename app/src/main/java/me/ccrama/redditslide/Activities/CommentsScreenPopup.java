@@ -17,8 +17,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -45,7 +44,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(posts.get(firstPage).getSubredditName()));
+            window.setStatusBarColor(Palette.getDarkerColor(posts.get(firstPage).getSubredditName()));
         }
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         HasSeen.addSeen(posts.get(firstPage).getFullName());

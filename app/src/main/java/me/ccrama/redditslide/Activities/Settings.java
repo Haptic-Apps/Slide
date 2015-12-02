@@ -19,7 +19,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -160,10 +160,10 @@ public class Settings extends BaseActivity {
                             }
                         }
                     });
-                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
 
-                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
 
 
                     final Dialog dialog = builder.setView(dialoglayout).create();
@@ -269,11 +269,11 @@ public class Settings extends BaseActivity {
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
 
-                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
                     final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
                     landscape.setValue(Reddit.dpWidth, false);
 
                     final Dialog dialog = builder.setView(dialoglayout).create();

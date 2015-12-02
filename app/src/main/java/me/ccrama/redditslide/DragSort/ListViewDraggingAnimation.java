@@ -16,20 +16,15 @@
 
 package me.ccrama.redditslide.DragSort;
 
-import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -38,11 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 public class ListViewDraggingAnimation extends BaseActivityAnim {
@@ -192,7 +185,7 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
             holder.text.setText(origPos);
 
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
 
 
         }

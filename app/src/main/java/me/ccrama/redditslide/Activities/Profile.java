@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -29,9 +28,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
-import me.ccrama.redditslide.Visuals.StyleView;
+import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -54,7 +51,7 @@ public class Profile extends BaseActivityAnim {
         name = getIntent().getExtras().getString("profile", "");
         setupAppBar(R.id.toolbar, name, true);
 
-        findViewById(R.id.header).setBackgroundColor(Pallete.getColorUser(name));
+        findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
         findViewById(R.id.edit).setVisibility(View.GONE);
         ((ImageView) findViewById(R.id.create)).setImageDrawable(getResources().getDrawable(R.drawable.infonew));
@@ -98,7 +95,7 @@ public class Profile extends BaseActivityAnim {
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setText(name);
-                title.setBackgroundColor(Pallete.getColorUser(name));
+                title.setBackgroundColor(Palette.getColorUser(name));
 
                 if (Authentication.isLoggedIn) {
                     dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
@@ -173,7 +170,7 @@ public class Profile extends BaseActivityAnim {
                     }
                 });
 
-                int currentColor = Pallete.getColorUser(name);
+                int currentColor = Palette.getColorUser(name);
                 for (int i : colorPicker.getColors()) {
                     for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
                         if (i2 == currentColor) {
@@ -190,7 +187,7 @@ public class Profile extends BaseActivityAnim {
                         findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
-                            window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                            window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
                         }
                         title.setBackgroundColor(colorPicker2.getColor());
                     }
@@ -204,7 +201,7 @@ public class Profile extends BaseActivityAnim {
                     dialogButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Pallete.setColorUser(name, colorPicker2.getColor());
+                            Palette.setColorUser(name, colorPicker2.getColor());
 
                             int cx = center.getWidth() / 2;
                             int cy = center.getHeight() / 2;

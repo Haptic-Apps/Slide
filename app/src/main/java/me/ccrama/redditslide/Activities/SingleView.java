@@ -1,27 +1,20 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.res.Configuration;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Window;
 
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 public class SingleView extends BaseActivityAnim {
 
@@ -80,7 +73,7 @@ public class SingleView extends BaseActivityAnim {
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(subreddit, this));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new SubredditPosts(subreddit);

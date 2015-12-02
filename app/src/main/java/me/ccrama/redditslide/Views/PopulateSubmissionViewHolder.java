@@ -69,7 +69,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 
 /**
@@ -126,7 +126,7 @@ public class PopulateSubmissionViewHolder {
                     case LINK:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                             CustomTabsIntent customTabsIntent = builder.build();
@@ -138,7 +138,7 @@ public class PopulateSubmissionViewHolder {
                     case IMAGE_LINK:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
@@ -151,7 +151,7 @@ public class PopulateSubmissionViewHolder {
                     case NSFW_LINK:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                             CustomTabsIntent customTabsIntent = builder.build();
@@ -201,7 +201,7 @@ public class PopulateSubmissionViewHolder {
                     case NONE_URL:
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
@@ -731,7 +731,7 @@ public class PopulateSubmissionViewHolder {
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
                     }
-                    title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+                    title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.show();

@@ -11,9 +11,8 @@ import android.view.View;
 import android.view.Window;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
@@ -98,7 +97,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton) {
         mToolbar = (Toolbar) findViewById(toolbar);
-        mToolbar.setBackgroundColor(Pallete.getDefaultColor());
+        mToolbar.setBackgroundColor(Palette.getDefaultColor());
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -108,7 +107,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Pallete.getStatusBarColor());
+            window.setStatusBarColor(Palette.getStatusBarColor());
         }
     }
 
@@ -120,7 +119,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton) {
         mToolbar = (Toolbar) findViewById(toolbar);
-        mToolbar.setBackgroundColor(Pallete.getDefaultColor());
+        mToolbar.setBackgroundColor(Palette.getDefaultColor());
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -130,7 +129,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Pallete.getStatusBarColor());
+            window.setStatusBarColor(Palette.getStatusBarColor());
         }
     }
 
@@ -145,7 +144,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void setupUserAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
                                    String username) {
         mToolbar = (Toolbar) findViewById(toolbar);
-        mToolbar.setBackgroundColor(Pallete.getColorUser(username));
+        mToolbar.setBackgroundColor(Palette.getColorUser(username));
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -155,7 +154,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Pallete.getUserStatusBarColor(username));
+            window.setStatusBarColor(Palette.getUserStatusBarColor(username));
         }
     }
 
@@ -170,7 +169,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void setupSubredditAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
                                String subreddit) {
         mToolbar = (Toolbar) findViewById(toolbar);
-        mToolbar.setBackgroundColor(Pallete.getColor(subreddit));
+        mToolbar.setBackgroundColor(Palette.getColor(subreddit));
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {
@@ -180,7 +179,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Pallete.getSubredditStatusBarColor(subreddit));
+            window.setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
         }
     }
 
@@ -191,7 +190,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void themeStatusBar(String subreddit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Pallete.getSubredditStatusBarColor(subreddit));
+            window.setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
         }
     }
 }

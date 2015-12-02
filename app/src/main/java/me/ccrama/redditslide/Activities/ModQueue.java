@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,15 +8,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.Fragments.ModPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -36,7 +32,7 @@ public class ModQueue extends BaseActivityAnim {
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
+        findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
 

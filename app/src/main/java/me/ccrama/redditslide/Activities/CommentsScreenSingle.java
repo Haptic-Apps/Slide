@@ -17,12 +17,10 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
@@ -70,8 +68,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             subreddit = s;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
+                window.setStatusBarColor(Palette.getDarkerColor(subreddit));
+                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(subreddit)));
 
             }
 

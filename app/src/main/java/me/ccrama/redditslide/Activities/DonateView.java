@@ -20,7 +20,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.Purchase;
@@ -81,7 +81,7 @@ public class DonateView extends AppCompatActivity {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Pallete.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
+            window.setStatusBarColor(Palette.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
         }
         final Slider sl_discrete = (Slider) findViewById(R.id.slider_sl_discrete);
         final TextView ads = (TextView) findViewById(R.id.ads);

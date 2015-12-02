@@ -11,7 +11,7 @@ import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -55,7 +55,7 @@ public class SettingsSubreddit extends BaseActivity {
         ListView l = (ListView) findViewById(R.id.subslist);
         ArrayList<String> done = new ArrayList<>();
         for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            if (Pallete.getColor(s) != Pallete.getDefaultColor()) {
+            if (Palette.getColor(s) != Palette.getDefaultColor()) {
                 done.add(s);
             } else if (SettingValues.prefs.contains("PRESET" + s)) {
                 done.add(s);

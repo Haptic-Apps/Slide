@@ -78,7 +78,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
+            window.setStatusBarColor(Palette.getDarkerColor(Palette.getDarkerColor(Palette.getDefaultColor())));
         }
 
         mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
 
-            findViewById(R.id.header_sub).setBackgroundColor(Pallete.getColor(subreddit));
+            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
@@ -312,11 +312,11 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
-            findViewById(R.id.wiki).setBackgroundColor(Pallete.getColor(subreddit));
+            findViewById(R.id.wiki).setBackgroundColor(Palette.getColor(subreddit));
 
-            dialoglayout.findViewById(R.id.submit).setBackgroundColor(Pallete.getColor(subreddit));
+            dialoglayout.findViewById(R.id.submit).setBackgroundColor(Palette.getColor(subreddit));
 
-            findViewById(R.id.sub_theme).setBackgroundColor(Pallete.getColor(subreddit));
+            findViewById(R.id.sub_theme).setBackgroundColor(Palette.getColor(subreddit));
             findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setText("/r/" + subreddit);
-                    title.setBackgroundColor(Pallete.getColor(subreddit));
+                    title.setBackgroundColor(Palette.getColor(subreddit));
 
                     {
 
@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
                                 getResources().getColor(R.color.md_blue_grey_500),
 
                         });
-                        int currentColor = Pallete.getColor(subreddit);
+                        int currentColor = Palette.getColor(subreddit);
                         for (int i : colorPicker.getColors()) {
                             for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
                                 if (i2 == currentColor) {
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                                 findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
-                                    window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                                    window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
                                     MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                 }
@@ -405,16 +405,16 @@ public class MainActivity extends AppCompatActivity {
                             dialogButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Pallete.removeColor(subreddit);
-                                    hea.setBackgroundColor(Pallete.getDefaultColor());
-                                    findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
+                                    Palette.removeColor(subreddit);
+                                    hea.setBackgroundColor(Palette.getDefaultColor());
+                                    findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
-                                        window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
                                         MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }
-                                    title.setBackgroundColor(Pallete.getDefaultColor());
+                                    title.setBackgroundColor(Palette.getDefaultColor());
 
 
                                     int cx = center.getWidth() / 2;
@@ -517,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
                             dialogButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Pallete.setColor(subreddit, colorPicker2.getColor());
+                                    Palette.setColor(subreddit, colorPicker2.getColor());
                                     int color = colorPickeracc.getColor();
                                     ColorPreferences.Theme t = null;
                                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
@@ -583,13 +583,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = this.getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0)));
-                MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(0))));
+                window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(0)));
+                MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(usedArray.get(0))));
 
             }
             doSubSidebar(usedArray.get(0));
-            findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0)));
-            // hea.setBackgroundColor(Pallete.getColor(usedArray.get(0)));
+            findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            // hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (!Reddit.single) {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
@@ -1019,7 +1019,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         actionBarDrawerToggle.syncState();
-        header.findViewById(R.id.back).setBackgroundColor(Pallete.getColor("alsdkfjasld"));
+        header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
 
         e.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1091,12 +1091,12 @@ public class MainActivity extends AppCompatActivity {
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
 
-                int color = Pallete.getColor(subToDo);
+                int color = Palette.getColor(subToDo);
                 hea.setBackgroundColor(color);
                 findViewById(R.id.header).setBackgroundColor(color);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
-                    window.setStatusBarColor(Pallete.getDarkerColor(color));
+                    window.setStatusBarColor(Palette.getDarkerColor(color));
                     MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
                 }
             }
@@ -1186,24 +1186,24 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     if (Reddit.single) {
-                        hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                        hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
-                            window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
-                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+                            window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position)));
+                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(usedArray.get(position))));
 
                         }
                         getSupportActionBar().setTitle(usedArray.get(position));
                     } else {
 
                         if (hea != null)
-                            hea.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Pallete.getColor(usedArray.get(position)));
+                            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
-                            window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position)));
-                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(usedArray.get(position))));
+                            window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position)));
+                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(usedArray.get(position))));
 
                         }
                         mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));

@@ -62,7 +62,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 
 
@@ -224,7 +224,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         currentlySelected = holder;
         holder.dots.setVisibility(View.GONE);
-        int color = Pallete.getColor(n.getSubredditName());
+        int color = Palette.getColor(n.getSubredditName());
         currentSelectedItem = n.getFullName();
 
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -522,7 +522,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
                 }
-                title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+                title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
 
                 builder.setView(dialoglayout);
                 builder.show();
@@ -820,7 +820,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-            holder.author.setTextColor(Pallete.getFontColorUser(comment.getAuthor()));
+            holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
             if (holder.author.getCurrentTextColor() == 0) {
                 holder.author.setTextColor(holder.time.getCurrentTextColor());
             }
@@ -1022,7 +1022,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
                     }
-                    title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+                    title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
 
                     builder.setView(dialoglayout);
                     builder.show();

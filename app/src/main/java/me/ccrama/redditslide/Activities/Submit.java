@@ -47,7 +47,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -83,12 +83,12 @@ public class Submit extends AppCompatActivity {
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setTitle(R.string.title_submit_post);
-        b.setBackgroundColor(Pallete.getColor("alksfjalskjf"));
+        b.setBackgroundColor(Palette.getColor("alksfjalskjf"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColor("asldkfj")));
+            window.setStatusBarColor(Palette.getDarkerColor(Palette.getColor("asldkfj")));
         }
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

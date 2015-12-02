@@ -20,7 +20,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -44,7 +44,7 @@ public class SettingsTheme extends BaseActivity {
                 final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setBackgroundColor(Pallete.getDefaultColor());
+                title.setBackgroundColor(Palette.getDefaultColor());
 
                 final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
@@ -181,7 +181,7 @@ public class SettingsTheme extends BaseActivity {
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setBackgroundColor(Pallete.getDefaultColor());
+                title.setBackgroundColor(Palette.getDefaultColor());
 
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -268,7 +268,7 @@ public class SettingsTheme extends BaseActivity {
                 final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setBackgroundColor(Pallete.getDefaultColor());
+                title.setBackgroundColor(Palette.getDefaultColor());
 
 
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
@@ -296,7 +296,7 @@ public class SettingsTheme extends BaseActivity {
                         getResources().getColor(R.color.md_blue_grey_500),
 
                 });
-                int currentColor = Pallete.getDefaultColor();
+                int currentColor = Palette.getDefaultColor();
                 for (int i : colorPicker.getColors()) {
                     for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
                         if (i2 == currentColor) {
@@ -328,7 +328,7 @@ public class SettingsTheme extends BaseActivity {
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
-                            window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                            window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
                             SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                         }
