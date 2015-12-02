@@ -2,12 +2,11 @@ package me.ccrama.redditslide.Visuals;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Reddit;
 
-public class Pallete {
+public class Palette {
     private int fontColor;
     public int backgroundColor;
 
@@ -19,8 +18,32 @@ public class Pallete {
         }
     }
 
+    /**
+     * Gets the status bar color for the activity.
+     * @return Color-int for the status bar
+     */
     public static int getStatusBarColor() {
-        @ColorInt int primary = getDefaultColor();
+        int primary = getDefaultColor();
+        return getDarkerColor(primary);
+    }
+
+    /**
+     * Gets the status bar color for the activity based on the specified username.
+     * @param username The username to base the theme on
+     * @return Color-int for the status bar
+     */
+    public static int getUserStatusBarColor(String username) {
+        int primary = getColorUser(username);
+        return getDarkerColor(primary);
+    }
+
+    /**
+     * Gets the status bar color for the activity based on the specified subreddit.
+     * @param subreddit The subreddit to base the theme on
+     * @return Color-int for the status bar
+     */
+    public static int getSubredditStatusBarColor(String subreddit) {
+        int primary = getColor(subreddit);
         return getDarkerColor(primary);
     }
 
@@ -85,8 +108,8 @@ public class Pallete {
     public static void setColorUser(final String username, int color){
         Reddit.colors.edit().putInt("USER" + username.toLowerCase(), color).apply();
     }
-    public static Pallete getSubredditPallete(String subredditname){
-        Pallete p = new Pallete();
+    public static Palette getSubredditPallete(String subredditname){
+        Palette p = new Palette();
         p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
         p.fontColor = p.theme.getFontColor();
         p.backgroundColor = p.theme.getBackgroundColor();
@@ -95,8 +118,8 @@ public class Pallete {
         return p;
 
     }
-    public static Pallete getDefaultPallete(){
-        Pallete p = new Pallete();
+    public static Palette getDefaultPallete(){
+        Palette p = new Palette();
         p.theme = ThemeEnum.valueOf(Reddit.colors.getString("ThemeDefault", "DARK"));
         p.fontColor = p.theme.getFontColor();
         p.backgroundColor = p.theme.getBackgroundColor();

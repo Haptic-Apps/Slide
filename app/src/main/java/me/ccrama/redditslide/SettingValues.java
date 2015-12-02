@@ -7,7 +7,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -25,7 +25,7 @@ public class SettingValues {
 
     public static ColorMatchingMode colorMatchingMode;
     public static ColorIndicator colorIndicator;
-    public static Pallete.ThemeEnum theme;
+    public static Palette.ThemeEnum theme;
     public static SharedPreferences prefs;
 
     public static void setAllValues(SharedPreferences settings) {

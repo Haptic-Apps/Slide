@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -40,7 +40,7 @@ public class SubredditListingAdapter extends ArrayAdapter<String> {
         t.setText(fitems.get(position));
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(fitems.get(position)), PorterDuff.Mode.MULTIPLY);
 
         return convertView;
     }

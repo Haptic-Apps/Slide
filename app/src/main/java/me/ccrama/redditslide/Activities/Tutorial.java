@@ -18,7 +18,7 @@ import me.ccrama.redditslide.Fragments.Agreement;
 import me.ccrama.redditslide.Fragments.TutorialFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -68,7 +68,7 @@ public class Tutorial extends FragmentActivity {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Pallete.getDarkerColor(Color.parseColor("#FF5252")));
+            window.setStatusBarColor(Palette.getDarkerColor(Color.parseColor("#FF5252")));
         }
         final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

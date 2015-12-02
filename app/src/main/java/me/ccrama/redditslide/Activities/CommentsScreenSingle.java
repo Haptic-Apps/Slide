@@ -17,18 +17,16 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class CommentsScreenSingle extends BaseActivity {
+public class CommentsScreenSingle extends BaseActivityAnim {
     OverviewPagerAdapter comments;
     boolean np;
     private ViewPager pager;
@@ -38,11 +36,8 @@ public class CommentsScreenSingle extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-
+        applyColorTheme();
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
         name = getIntent().getExtras().getString("submission", "");
@@ -55,12 +50,8 @@ public class CommentsScreenSingle extends BaseActivity {
         } else {
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
+            themeStatusBar(subreddit);
 
-            }
             pager = (ViewPager) findViewById(R.id.content_view);
 
             context = getIntent().getExtras().getString("context", "");
@@ -77,8 +68,8 @@ public class CommentsScreenSingle extends BaseActivity {
             subreddit = s;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getWindow();
-                window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getColor(subreddit)));
+                window.setStatusBarColor(Palette.getDarkerColor(subreddit));
+                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(subreddit)));
 
             }
 

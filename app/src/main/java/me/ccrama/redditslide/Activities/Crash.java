@@ -35,7 +35,7 @@ public class Crash extends AppCompatActivity {
                 final View dialogLayout = inflater.inflate(R.layout.sendissue, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Crash.this);
 
-                dialogLayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                dialogLayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                 dialogLayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

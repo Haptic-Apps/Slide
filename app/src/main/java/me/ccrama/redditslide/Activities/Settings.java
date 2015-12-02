@@ -1,18 +1,13 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -21,18 +16,16 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends BaseActivityNoAnim {
+public class Settings extends BaseActivity {
 
 
     @Override
@@ -65,19 +58,9 @@ public class Settings extends BaseActivityNoAnim {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_settings);
-        Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setBackgroundColor(Pallete.getDefaultColor());
-        setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.title_settings);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            Settings.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-        }
+        setupAppBar(R.id.toolbar, R.string.title_settings, true);
 
         View pro = findViewById(R.id.pro);
         if (Reddit.tabletUI) pro.setVisibility(View.GONE);
@@ -177,10 +160,10 @@ public class Settings extends BaseActivityNoAnim {
                             }
                         }
                     });
-                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
 
-                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
 
 
                     final Dialog dialog = builder.setView(dialoglayout).create();
@@ -286,11 +269,11 @@ public class Settings extends BaseActivityNoAnim {
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
 
-                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
                     final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                    //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                    //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
                     landscape.setValue(Reddit.dpWidth, false);
 
                     final Dialog dialog = builder.setView(dialoglayout).create();

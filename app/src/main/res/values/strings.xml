@@ -447,6 +447,7 @@
     <string name="settings_title_multi_column">Multi-Column</string>
     <string name="settings_title_fab">Floating Action Button</string>
     <string name="settings_subhead_support">Support</string>
+    <string name="settings_title_caching">Cache settings</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->

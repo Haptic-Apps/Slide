@@ -31,7 +31,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
@@ -125,7 +125,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
                 }
             }
         });
-        holder.author.setTextColor(Pallete.getFontColorUser(comment.getAuthor()));
+        holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
         if (holder.author.getCurrentTextColor() == 0) {
             holder.author.setTextColor(holder.time.getCurrentTextColor());
         }

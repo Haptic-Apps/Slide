@@ -21,25 +21,21 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class CommentSearch extends BaseActivity {
+public class CommentSearch extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-
-        ArrayList<CommentObject> commentsOld = DataShare.sharedComments;
+        applyColorTheme();
         setContentView(R.layout.activity_filtercomments);
 
         final EditText search = (EditText) findViewById(R.id.search);
-
         RecyclerView rv = (RecyclerView) findViewById(R.id.vertical_content);
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
+        ArrayList<CommentObject> commentsOld = DataShare.sharedComments;
         for (CommentObject o : commentsOld) {
             comments.add(o.getCommentNode());
 

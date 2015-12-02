@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 
@@ -21,20 +20,17 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.List;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
-import me.ccrama.redditslide.Visuals.StyleView;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class MultiredditOverview extends BaseActivity {
+public class MultiredditOverview extends BaseActivityAnim {
 
     public OverviewPagerAdapter adapter;
     private ViewPager pager;
@@ -43,22 +39,12 @@ public class MultiredditOverview extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
+        applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
-        StyleView.styleActivity(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_multireddits);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDarkerColor(Pallete.getDefaultColor())));
-        }
-        findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
+        setupAppBar(R.id.toolbar, R.string.title_multireddits, true);
+
+        findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
@@ -66,9 +52,7 @@ public class MultiredditOverview extends BaseActivity {
         findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                {
-                    openPopup(v);
-                }
+                openPopup(v);
             }
         });
         findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
@@ -229,10 +213,10 @@ public class MultiredditOverview extends BaseActivity {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = this.getWindow();
-                    window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(0).getDisplayName()));
+                    window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(0).getDisplayName()));
                 }
 
-                findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(0).getDisplayName()));
+                findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0).getDisplayName()));
             }
         } catch (NullPointerException e) {
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
@@ -267,10 +251,10 @@ public class MultiredditOverview extends BaseActivity {
 
                 @Override
                 public void onPageSelected(int position) {
-                    findViewById(R.id.header).setBackgroundColor(Pallete.getColor(usedArray.get(position).getDisplayName()));
+                    findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(position).getDisplayName()));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
-                        window.setStatusBarColor(Pallete.getDarkerColor(usedArray.get(position).getDisplayName()));
+                        window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position).getDisplayName()));
                     }
                 }
 

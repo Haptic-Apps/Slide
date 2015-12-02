@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/18/2015.
@@ -73,27 +73,27 @@ public class CreateCardView {
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
 
         subToMatch = subToMatch.toLowerCase();
-        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Pallete.getColor(sec) != Pallete.getDefaultColor()) {
+        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Palette.getColor(sec) != Palette.getDefaultColor()) {
             resetColorCard(v);
             if (SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
                 switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(sec));
+                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
 
                         break;
                     case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(sec));
+                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Palette.getColor(sec));
 
                         break;
                 }
             } else if (!subToMatch.equals(sec) && SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
                 switch (SettingValues.colorIndicator) {
                     case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Pallete.getColor(sec));
+                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
 
                         break;
                     case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Pallete.getColor(sec));
+                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Palette.getColor(sec));
 
                         break;
                 }
