@@ -46,10 +46,10 @@ public class Profile extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        applyColorTheme("");
-        setContentView(R.layout.activity_multireddits);
         name = getIntent().getExtras().getString("profile", "");
-        setupAppBar(R.id.toolbar, name, true);
+        applyColorTheme();
+        setContentView(R.layout.activity_multireddits);
+        setupUserAppBar(R.id.toolbar, name, true, name);
 
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
