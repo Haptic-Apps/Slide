@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -39,6 +40,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
+
+        float density = getResources().getDisplayMetrics().density;
+        float px = 30 * density;
+        getSwipeBackLayout().setEdgeSize(Math.round(px * ((Reddit.single)?6:1)));
     }
 
     @Override

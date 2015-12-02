@@ -19,6 +19,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Visuals.StyleView;
 
@@ -28,7 +29,7 @@ import me.ccrama.redditslide.Visuals.StyleView;
 public class CommentsScreen extends BaseActivityAnim {
     public ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
-
+    int firstPage;
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -37,7 +38,7 @@ public class CommentsScreen extends BaseActivityAnim {
         StyleView.styleActivity(this);
 
 
-        int firstPage = getIntent().getExtras().getInt("page", -1);
+        firstPage = getIntent().getExtras().getInt("page", -1);
         if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
@@ -94,7 +95,7 @@ public class CommentsScreen extends BaseActivityAnim {
 
         @Override
         public Fragment getItem(int i) {
-
+            
             Fragment f = new CommentPage();
             Bundle args = new Bundle();
 
@@ -113,10 +114,14 @@ public class CommentsScreen extends BaseActivityAnim {
 
         @Override
         public int getCount() {
+            int offset = 0;
+            if(Reddit.single){
+                offset = 1;
+            }
             if (posts == null) {
-                return 1;
+                return 1 + offset;
             } else {
-                return posts.size();
+                return posts.size() + offset;
             }
         }
 
