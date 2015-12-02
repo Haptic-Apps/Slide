@@ -30,7 +30,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -105,7 +105,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View v2) {
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
@@ -127,7 +127,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View v2) {
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
@@ -146,7 +146,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View v2) {
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
                             CustomTabsIntent customTabsIntent = builder.build();
@@ -242,7 +242,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View v2) {
                         if (Reddit.web) {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                             builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
                             builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);

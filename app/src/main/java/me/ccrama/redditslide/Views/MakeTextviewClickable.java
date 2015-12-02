@@ -30,7 +30,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 7/17/2015.
@@ -258,7 +258,7 @@ public class MakeTextviewClickable {
                             {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+                                    builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -276,7 +276,7 @@ public class MakeTextviewClickable {
                             case IMAGE_LINK: {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+                                    builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -294,7 +294,7 @@ public class MakeTextviewClickable {
                             case NSFW_LINK: {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+                                    builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -355,7 +355,7 @@ public class MakeTextviewClickable {
                             case NONE_URL: {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    builder.setToolbarColor(Pallete.getColor(subreddit)).setShowTitle(true);
+                                    builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -442,7 +442,7 @@ public class MakeTextviewClickable {
                             {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                    //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -460,7 +460,7 @@ public class MakeTextviewClickable {
                             case IMAGE_LINK: {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                    //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -478,7 +478,7 @@ public class MakeTextviewClickable {
                             case NSFW_LINK: {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                    //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
@@ -539,7 +539,7 @@ public class MakeTextviewClickable {
                             case NONE_URL: {
                                 if (Reddit.web) {
                                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                                    //COLOR todo  builder.setToolbarColor(Pallete.getColor(submission.getSubredditName())).setShowTitle(true);
+                                    //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
 
                                     builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
                                     builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);

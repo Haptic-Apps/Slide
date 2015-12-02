@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,52 +10,37 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Inbox extends BaseActivity {
+public class Inbox extends BaseActivityAnim {
 
     public Inbox.OverviewPagerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
+        applyColorTheme("");
         setContentView(R.layout.activity_inbox);
-
+        setupAppBar(R.id.toolbar, R.string.title_inbox, true);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.title_inbox);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-        findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-        }
+        findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
 
         tabs.setupWithViewPager(pager);
@@ -100,10 +84,10 @@ public class Inbox extends BaseActivity {
                         }
                     }
                 });
-                dialoglayout.findViewById(R.id.title).setBackgroundColor(Pallete.getDefaultColor());
+                dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                 //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
 
-                //todo  portrait.setBackgroundColor(Pallete.getDefaultColor());
+                //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
 
 
                 final Dialog dialog = builder.setView(dialoglayout).create();

@@ -35,11 +35,9 @@ import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 public class SubmissionsView extends Fragment {
-
-
     public SubredditPosts posts;
     private RecyclerView rv;
     private FloatingActionButton fab;
@@ -48,6 +46,7 @@ public class SubmissionsView extends Fragment {
     private int totalItemCount;
     public SubmissionAdapter adapter;
     private String id;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -102,12 +101,12 @@ public class SubmissionsView extends Fragment {
             rv.setLayoutManager(mLayoutManager);
         }
 
-        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
 
@@ -127,8 +126,7 @@ public class SubmissionsView extends Fragment {
                     new SwipeRefreshLayout.OnRefreshListener() {
                         @Override
                         public void onRefresh() {
-                            posts.forced = true;
-                            posts.loadMore(adapter, true, id);
+                            refresh();
                         }
                     }
             );
@@ -281,5 +279,20 @@ public class SubmissionsView extends Fragment {
         id = bundle.getString("id", "");
     }
 
+    private void refresh() {
+        posts.forced = true;
+        posts.loadMore(adapter, true, id);
+    }
 
+    public void forceRefresh() {
+        rv.scrollToPosition(0);
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+                refresh();
+            }
+        });
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 }

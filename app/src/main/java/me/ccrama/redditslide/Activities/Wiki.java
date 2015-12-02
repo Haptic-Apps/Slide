@@ -2,14 +2,12 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -20,17 +18,14 @@ import java.util.List;
 import java.util.WeakHashMap;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
-import me.ccrama.redditslide.Visuals.StyleView;
+import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Wiki extends BaseActivity {
+public class Wiki extends BaseActivityAnim {
 
     private TabLayout tabs;
     private ViewPager pager;
@@ -41,29 +36,16 @@ public class Wiki extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
         subreddit = getIntent().getExtras().getString("subreddit", "");
-
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme(subreddit);
         setContentView(R.layout.activity_slidetabs);
-
-        StyleView.styleActivity(this);
-
+        setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("/r/" + subreddit + " wiki");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         pager = (ViewPager) findViewById(R.id.content_view);
-        findViewById(R.id.header).setBackgroundColor(Pallete.getColor(subreddit));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(subreddit));
-        }
+        findViewById(R.id.header).setBackgroundColor(Palette.getColor(subreddit));
 
         new AsyncGetWiki().execute();
     }

@@ -79,7 +79,7 @@
                     android:src="@drawable/card"
                     android:tint="?attr/tint" />
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/cardmode"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -89,8 +89,6 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_card_mode"
                     android:textColor="?attr/font"
@@ -116,7 +114,7 @@
                     android:src="@drawable/middle"
                     android:tint="?attr/tint" />
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/middlechk"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -126,10 +124,8 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="Image in middle of card"
+                    android:text="@string/settings_middle_card"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>
@@ -201,7 +197,7 @@
                     android:src="@drawable/hide"
 
                     android:tint="?attr/tint" />
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/hidebutton"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -211,8 +207,6 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/card_hide_post_button"
                     android:textColor="?attr/font"
@@ -238,7 +232,7 @@
                     android:src="@drawable/more"
                     android:tint="?attr/tint" />
 
-                <CheckBox
+                <android.support.v7.widget.SwitchCompat
                     android:id="@+id/action"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -248,8 +242,6 @@
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
-                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/card_actionbar"
                     android:textColor="?attr/font"

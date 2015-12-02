@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,8 +20,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -30,24 +28,14 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsTheme extends BaseActivityNoAnim {
+public class SettingsTheme extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_settings_theme);
-        final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setBackgroundColor(Pallete.getDefaultColor());
-        setSupportActionBar(b);
-        getSupportActionBar().setTitle(R.string.title_edit_theme);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
-            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Pallete.getDefaultColor()));
-        }
+        setupAppBar(R.id.toolbar, R.string.title_edit_theme, true);
 
         findViewById(R.id.accent).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,7 +44,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setBackgroundColor(Pallete.getDefaultColor());
+                title.setBackgroundColor(Palette.getDefaultColor());
 
                 final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
@@ -193,7 +181,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setBackgroundColor(Pallete.getDefaultColor());
+                title.setBackgroundColor(Palette.getDefaultColor());
 
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -280,7 +268,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                 final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setBackgroundColor(Pallete.getDefaultColor());
+                title.setBackgroundColor(Palette.getDefaultColor());
 
 
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
@@ -308,7 +296,7 @@ public class SettingsTheme extends BaseActivityNoAnim {
                         getResources().getColor(R.color.md_blue_grey_500),
 
                 });
-                int currentColor = Pallete.getDefaultColor();
+                int currentColor = Palette.getDefaultColor();
                 for (int i : colorPicker.getColors()) {
                     for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
                         if (i2 == currentColor) {
@@ -336,11 +324,11 @@ public class SettingsTheme extends BaseActivityNoAnim {
                     @Override
                     public void onColorChanged(int i) {
                         title.setBackgroundColor(colorPicker2.getColor());
-                        b.setBackgroundColor(colorPicker2.getColor());
+                        mToolbar.setBackgroundColor(colorPicker2.getColor());
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
-                            window.setStatusBarColor(Pallete.getDarkerColor(colorPicker2.getColor()));
+                            window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
                             SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                         }

@@ -23,7 +23,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -102,12 +102,12 @@ public class Sendmessage extends AppCompatActivity {
 
         }
 
-        b.setBackgroundColor(Pallete.getColorUser(name));
+        b.setBackgroundColor(Palette.getColorUser(name));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getColorUser(name)));
+            window.setStatusBarColor(Palette.getDarkerColor(Palette.getColorUser(name)));
         }
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

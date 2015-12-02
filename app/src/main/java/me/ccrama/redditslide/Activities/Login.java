@@ -32,19 +32,17 @@ import me.ccrama.redditslide.Reddit;
 /**
  * Created by ccrama on 5/27/2015.
  */
-public class Login extends BaseActivity {
+public class Login extends BaseActivityAnim {
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
 
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        applyColorTheme("");
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.title_login);
+        setupAppBar(R.id.toolbar, R.string.title_login, true);
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String[] scopes = {"identity", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits"};
         final OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
         final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);

@@ -22,7 +22,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.CommentSort;
 
-import me.ccrama.redditslide.Activities.BaseActivity;
+import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentObject;
@@ -33,7 +33,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 public class CommentPage extends Fragment {
 
@@ -154,7 +154,7 @@ public class CommentPage extends Fragment {
         if (!np) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
         } else {
-            v.findViewById(R.id.np).setBackgroundColor(Pallete.getColor(id));
+            v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(id));
 
         }
         if (!loadMore) {
@@ -242,12 +242,12 @@ public class CommentPage extends Fragment {
             }
         });
 
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
-            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((BaseActivity) getActivity()).getSupportActionBar().setTitle(id);
+        if (getActivity() instanceof BaseActivityAnim) {
+            ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(id);
         }
-        toolbar.setBackgroundColor(Pallete.getColor(id));
+        toolbar.setBackgroundColor(Palette.getColor(id));
 
 
       /* STARTING IT  v.findViewById(R.id.fab).setOnTouchListener(new View.OnTouchListener() {
@@ -300,7 +300,7 @@ public class CommentPage extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
         if (context.isEmpty()) {

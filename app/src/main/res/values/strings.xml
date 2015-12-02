@@ -5,7 +5,7 @@
     <string name="general_switch_acc">Switch Account</string>
     <string name="general_enable_shadowbox">Shadowbox mode</string>
     <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
-    <string name="general_open_settings">Open Subreddit Settings</string>
+    <string name="general_open_settings">Sidebar</string>
     <string name="general_sub_sync">Syncing Subscriptions</string>
     <string name="general_login">Login</string>
 
@@ -146,7 +146,7 @@
     <string name="tutorial_free_title">Ad-Free and Open Sourced</string>
     <string name="tutorial_free_msg">Slide for Reddit is free from all in-app advertisements and its source code is publicly available on GitHub. This project runs off of your donations, and any contribution is greatly appreciated!</string>
     <string name="tutorial_dev_title">In Development</string>
-    <string name="tutorial_dev_msg">Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free to post to /r/Slideforreddit if you run into a problem! Thank you!</string>
+    <string name="tutorial_dev_msg">Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free report the issue on GitHub if you run into a problem! Thank you!</string>
 
 
     <!-- Sorting options -->
@@ -233,7 +233,7 @@
     <!-- Album errors/information -->
     <string name="album_loading">Loading album</string>
     <string name="album_err_not_found">Album not found</string>
-    <string name="album_err_msg_not_found">An error occurred when loading this album. Please re-open the album and retry. If this problem persists, please report to /r/slideforreddit</string>
+    <string name="album_err_msg_not_found">An error occurred when loading this album. Please re-open the album and retry. If this problem persists, please report it on GitHub or on Google+</string>
 
 
     <!-- Content types -->
@@ -323,6 +323,7 @@
     <string name="btn_sure">Sure!</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
+    <string name="btn_refresh">Refresh</string>
 
 
     <!-- Backup -->
@@ -446,6 +447,7 @@
     <string name="settings_title_multi_column">Multi-Column</string>
     <string name="settings_title_fab">Floating Action Button</string>
     <string name="settings_subhead_support">Support</string>
+    <string name="settings_title_caching">Cache settings</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -477,7 +479,7 @@
     <string name="donate_err_title">Donation unsuccessful :(</string>
     <string name="donate_err_msg">Unfortunately, the donation did not go through. Make sure you are connected to the internet and try again! Thank you for your support!</string>
     <string name="donate_success_title">Donation successful!</string>
-    <string name="donate_success_msg">Thank you very much for your support of Slide for Reddit! It really means a lot to me. If you encounter any issues, shoot me an email or post to /r/slideforreddit anytime!</string>
+    <string name="donate_success_msg">Thank you very much for your support of Slide for Reddit! It really means a lot to me. If you encounter any issues, shoot me an email or report it on GitHub anytime!</string>
     <string name="donate_success_btn">You\'re welcome!</string>
 
 
@@ -499,6 +501,7 @@
     <string name="settings_title_comments">Comments</string>
     <string name="album_title_count">Gallery (%1$d images)</string>
     <string name="settings_fullscreen_views">View posts links in fullscreen</string>
+    <string name="settings_middle_card">Image in middle of card</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

@@ -18,7 +18,7 @@ import me.ccrama.redditslide.Adapters.ContributionPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 public class ContributionsView extends Fragment {
 
@@ -52,7 +52,7 @@ public class ContributionsView extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Pallete.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new ContributionPosts(id, where);

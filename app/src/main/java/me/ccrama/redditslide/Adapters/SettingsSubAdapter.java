@@ -21,7 +21,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -49,7 +49,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
 
         final String subreddit = objects.get(position);
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Pallete.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
 
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +58,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Pallete.removeColor(subreddit);
+                                Palette.removeColor(subreddit);
                                 SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
                                 dialog.dismiss();
                                 objects.remove(subreddit);
@@ -84,7 +84,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setText("/r/" + subreddit);
-                title.setBackgroundColor(Pallete.getColor(subreddit));
+                title.setBackgroundColor(Palette.getColor(subreddit));
 
                 {
 
@@ -113,7 +113,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                             getContext().getResources().getColor(R.color.md_blue_grey_500),
 
                     });
-                    int currentColor = Pallete.getColor(subreddit);
+                    int currentColor = Palette.getColor(subreddit);
                     for (int i : colorPicker.getColors()) {
                         for (int i2 : getColors(i)) {
                             if (i2 == currentColor) {
@@ -151,16 +151,16 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                             dialogButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Pallete.removeColor(subreddit);
-                                    hea.setBackgroundColor(Pallete.getDefaultColor());
-                                    findViewById(R.id.header).setBackgroundColor(Pallete.getDefaultColor());
+                                    Palette.removeColor(subreddit);
+                                    hea.setBackgroundColor(Palette.getDefaultColor());
+                                    findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
-                                        window.setStatusBarColor(Pallete.getDarkerColor(Pallete.getDefaultColor()));
+                                        window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
                                         MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }
-                                    title.setBackgroundColor(Pallete.getDefaultColor());
+                                    title.setBackgroundColor(Palette.getDefaultColor());
 
 
                                     int cx = center.getWidth() / 2;
@@ -245,7 +245,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                         dialogButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Pallete.setColor(subreddit, colorPicker2.getColor());
+                                Palette.setColor(subreddit, colorPicker2.getColor());
                                 int color = colorPickeracc.getColor();
                                 ColorPreferences.Theme t = null;
                                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {

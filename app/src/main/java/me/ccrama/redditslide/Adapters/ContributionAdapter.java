@@ -37,7 +37,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Visuals.Pallete;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -199,7 +199,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
                     }
-                    title.setBackgroundColor(Pallete.getColor(submission.getSubredditName()));
+                    title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.show();

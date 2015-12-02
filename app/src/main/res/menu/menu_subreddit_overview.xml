@@ -3,9 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SubredditOverview">
 
-    <item android:id="@+id/action_shadowbox"
-        android:icon="@drawable/shadowbox"
-        android:title="@string/general_enable_shadowbox"
+    <item android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/btn_refresh"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_info"
@@ -13,9 +18,9 @@
         android:title="@string/general_open_settings"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_sort"
-        android:icon="@drawable/sort"
-        android:title="@string/sorting_change_sorting"
+    <item android:id="@+id/action_shadowbox"
+        android:icon="@drawable/shadowbox"
+        android:title="@string/general_enable_shadowbox"
         app:showAsAction="ifRoom"/>
 
 </menu>
