@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -41,9 +42,11 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         mHelper = new SwipeBackActivityHelper(this);
         mHelper.onActivityCreate();
 
-        float density = getResources().getDisplayMetrics().density;
-        float px = 30 * density;
-        getSwipeBackLayout().setEdgeSize(Math.round(px * ((Reddit.single)?6:1)));
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float dp = 25f;
+        float fpixels = metrics.density * dp;
+        int pixels = (int) (fpixels + 0.5f);
+        getSwipeBackLayout().setEdgeSize(Math.round(pixels * ((Reddit.single)?6:1)));
     }
 
     @Override

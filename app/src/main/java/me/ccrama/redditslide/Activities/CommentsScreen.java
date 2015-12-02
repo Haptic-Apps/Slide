@@ -95,7 +95,7 @@ public class CommentsScreen extends BaseActivityAnim {
 
         @Override
         public Fragment getItem(int i) {
-            
+
             Fragment f = new CommentPage();
             Bundle args = new Bundle();
 
