@@ -27,6 +27,8 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -129,6 +131,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static void defaultShareText(String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
+        /* Decode html entities */
+        url = StringEscapeUtils.unescapeHtml4(url);
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }

@@ -22,6 +22,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -471,7 +472,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 final View dialoglayout = inflater.inflate(R.layout.commentmenu, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setText(n.getBody());
+                title.setText(Html.fromHtml(n.getBody()));
 
                 ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + n.getAuthor());
                 dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
@@ -735,7 +736,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.author.setText(comment.getAuthor());
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
                 holder.flairBubble.setVisibility(View.VISIBLE);
-                holder.flairText.setText(comment.getAuthorFlair().getText());
+                holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
 
             } else {
 
@@ -930,7 +931,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                    title.setText(submission.getTitle());
+                    title.setText(Html.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
                     ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());

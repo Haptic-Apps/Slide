@@ -645,7 +645,7 @@ public class PopulateSubmissionViewHolder {
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                    title.setText(submission.getTitle());
+                    title.setText(Html.fromHtml(submission.getTitle()));
 
                     ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
                     ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
@@ -1050,7 +1050,7 @@ public class PopulateSubmissionViewHolder {
             } else {
                 flair.setVisibility(View.VISIBLE);
                 Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
-                ((TextView) flair.findViewById(R.id.text)).setText(submission.getSubmissionFlair().getText());
+                ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
             }
 
             ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
@@ -1152,7 +1152,7 @@ public class PopulateSubmissionViewHolder {
 
 
         } catch (Exception ignored) {
-
+            ignored.printStackTrace();
         }
         if (HasSeen.getSeen(submission.getFullName()) && !full) {
             holder.itemView.setAlpha(0.5f);
