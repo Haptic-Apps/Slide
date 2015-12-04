@@ -3,29 +3,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SubredditOverview">
 
+    <item android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/btn_refresh"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/action_shadowbox"
         android:icon="@drawable/shadowbox"
         android:title="@string/general_enable_shadowbox"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
-
-
+    <item android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_sort"
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
-        app:showAsAction="always"/>
-
-    <item android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_refresh"
-        android:title="@string/btn_refresh"
-        app:showAsAction="always"/>
-
-    <item android:id="@+id/search"
-        android:title="Search"
-        app:showAsAction="never"/>
+        app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/save"
-        android:title="Save Offline"
+        android:title="@string/btn_offline"
         app:showAsAction="never"/>
+
 </menu>
