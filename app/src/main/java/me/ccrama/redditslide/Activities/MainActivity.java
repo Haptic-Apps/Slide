@@ -48,8 +48,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
@@ -64,6 +66,7 @@ import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
@@ -1281,11 +1284,12 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_subreddit_overview, menu);
 
-        if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
-        else menu.findItem(R.id.action_info).setVisible(false);
+     //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+     //   else menu.findItem(R.id.action_info).setVisible(false);
 
         return true;
     }
+    String term;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -1296,7 +1300,38 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_sort:
                 openPopup();
                 return true;
-            case R.id.action_info:
+            case R.id.search:
+                new MaterialDialog.Builder(this).title("Enter Search Term")
+                        .input("Term", "", false, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                term = charSequence.toString();
+                            }
+                        })
+                        .positiveText("Search All")
+                        .negativeText("Search " + ((SubmissionsView)adapter.getCurrentFragment()).posts.subreddit)
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                Intent i = new Intent(MainActivity.this, Search.class);
+                                i.putExtra("term", term);
+                                startActivity(i);
+                            }
+                        })
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                Intent i = new Intent(MainActivity.this, Search.class);
+                                i.putExtra("term", term);
+                                i.putExtra("subreddit",((SubmissionsView)adapter.getCurrentFragment()).posts.subreddit );
+                                startActivity(i);
+                            }
+                        }).show();
+                return true;
+            case R.id.save:
+                saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                return true;
+          /*  case R.id.action_info:
                 if (usedArray != null) {
                     String sub = usedArray.get(pager.getCurrentItem());
                     if (!sub.equals("frontpage") && !sub.equals("all")) {
@@ -1304,7 +1339,7 @@ public class MainActivity extends AppCompatActivity {
                                 (GravityCompat.END);
                     }
                 }
-                return true;
+                return true;*/
             case R.id.action_shadowbox:
                 if (Reddit.tabletUI) {
                     ArrayList<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
@@ -1337,5 +1372,27 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+
+    public void saveOffline(ArrayList<Submission> submissions, String subreddit){
+       final MaterialDialog d  = new MaterialDialog.Builder(this).title("Caching submissions")
+                .progress(false, submissions.size())
+                .cancelable(false)
+                .show();
+       final ArrayList<Submission> newSubmissions = new ArrayList<>();
+        for(final Submission s : submissions){
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    newSubmissions.add(Authentication.reddit.getSubmission(new SubmissionRequest(s.getId())));
+                    d.setProgress(newSubmissions.size());
+                    if(d.getCurrentProgress() == d.getMaxProgress()){
+                        d.cancel();
+                    }
+                    return null;
+                }
+            }.execute();
+        }
+         Cache.writeSubreddit(newSubmissions, subreddit);
     }
 }

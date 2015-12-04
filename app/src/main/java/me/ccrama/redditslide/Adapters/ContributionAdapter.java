@@ -47,7 +47,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final RecyclerView listView;
     public ArrayList<Contribution> dataSet;
 
-    public ContributionAdapter(Activity mContext, ContributionPosts dataSet, RecyclerView listView) {
+    public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView) {
 
         this.mContext = mContext;
         this.listView = listView;

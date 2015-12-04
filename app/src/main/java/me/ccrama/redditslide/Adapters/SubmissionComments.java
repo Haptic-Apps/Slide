@@ -28,14 +28,61 @@ public class SubmissionComments {
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
     private CommentAdapter adapter;
 
+    public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, Submission s) {
+        this.fullName = fullName;
+        this.page = commentPage;
+
+        this.refreshLayout = layout;
+
+        if(s.getComments() != null){
+            CommentNode baseComment = submission.getComments();
+            comments = new ArrayList<>();
+
+            int i = 0;
+            int toPut = -1;
+            MoreChildren toDo = null;
+            CommentNode toDoComment = null;
+            for (CommentNode n : baseComment.walkTree()) {
+
+                CommentObject obj = new CommentObject(n);
+                if (n.getDepth() <= toPut && toDo != null) {
+                    obj.setMoreChildren(toDo, toDoComment);
+                    toPut = -1;
+                    toDo = null;
+                }
+                comments.add(obj);
+
+
+                if (n.hasMoreComments()) {
+                    toPut = n.getDepth();
+                    toDo = n.getMoreChildren();
+                    toDoComment = n;
+                }
+                i++;
+
+            }
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+
+            }
+            page.doData(true);
+
+            refreshLayout.setRefreshing(false);
+        } else {
+
+            new LoadData(true).execute(fullName);
+        }
+    }
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
         this.page = commentPage;
 
         this.refreshLayout = layout;
-        new LoadData(true).execute(fullName);
-    }
 
+
+            new LoadData(true).execute(fullName);
+
+    }
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context) {
         this.fullName = fullName;
         this.page = commentPage;

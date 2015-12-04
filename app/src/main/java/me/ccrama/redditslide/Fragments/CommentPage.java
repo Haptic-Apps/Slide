@@ -303,9 +303,9 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        if (context.isEmpty()) {
+         if (context.isEmpty()) {
 
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
             comments.setSorting(Reddit.defaultCommentSorting);
             if (DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());

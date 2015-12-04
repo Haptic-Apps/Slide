@@ -124,6 +124,9 @@ public class SubredditPosts {
                 offline = true;
                 cached = Cache.getSubreddit(subreddit);
                 posts = cached.submissions;
+                if(posts.get(0).getComments() != null){
+                    stillShow = true;
+                }
                 (adapter.mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -136,6 +139,7 @@ public class SubredditPosts {
 
 
                         adapter.notifyDataSetChanged();
+
 
                     }
                 });

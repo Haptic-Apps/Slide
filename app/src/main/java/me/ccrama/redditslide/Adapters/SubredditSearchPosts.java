@@ -1,12 +1,11 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.paginators.UserContributionPaginator;
+import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -18,23 +17,25 @@ import me.ccrama.redditslide.SettingValues;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class ContributionPosts extends GeneralPosts {
-    private final String where;
-    private final String subreddit;
+public class SubredditSearchPosts extends GeneralPosts {
+    private final String term;
+    private  String subreddit = "";
     public boolean loading;
-    private UserContributionPaginator paginator;
+    private SubmissionSearchPaginator paginator;
     private SwipeRefreshLayout refreshLayout;
     private ContributionAdapter adapter;
 
-    public ContributionPosts(String subreddit, String where) {
-        this.subreddit = subreddit;
-        this.where = where;
+    public SubredditSearchPosts(String subreddit, String term) {
+        if(subreddit != null) {
+            this.subreddit = subreddit;
+        }
+        this.term = term;
     }
 
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout = layout;
-        loadMore(a, subreddit, where);
+        loadMore(a, subreddit, term);
     }
 
     public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
@@ -58,7 +59,7 @@ public class ContributionPosts extends GeneralPosts {
 
                 loading = false;
                 if (refreshLayout != null)
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
+                    ( adapter.mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             refreshLayout.setRefreshing(false);
@@ -80,7 +81,9 @@ public class ContributionPosts extends GeneralPosts {
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
             try {
                 if (reset || paginator == null) {
-                    paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
+                    paginator = new SubmissionSearchPaginator(Authentication.reddit, term);
+                    if(!subreddit.isEmpty())
+                    paginator.setSubreddit(subreddit);
 
                     paginator.setSorting(Reddit.defaultSorting);
                     paginator.setTimePeriod(Reddit.timePeriod);

@@ -7,12 +7,12 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -43,10 +43,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         mHelper.onActivityCreate();
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float dp = 25f;
-        float fpixels = metrics.density * dp;
-        int pixels = (int) (fpixels + 0.5f);
-        getSwipeBackLayout().setEdgeSize(Math.round(pixels * ((Reddit.single)?6:1)));
+        getSwipeBackLayout().setEdgeSize(metrics.widthPixels - 10);
+        Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
     }
 
     @Override
@@ -90,6 +88,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     /**
      * Applies the activity's base color theme based on the theme of a specific subreddit. Should
      * be called before inflating any layouts.
+     *
      * @param subreddit The subreddit to base the theme on
      */
     protected void applyColorTheme(String subreddit) {
@@ -99,8 +98,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
     /**
      * Sets up the activity's support toolbar and colorizes the status bar.
-     * @param toolbar The toolbar's id
-     * @param title String resource for the toolbar's title
+     *
+     * @param toolbar        The toolbar's id
+     * @param title          String resource for the toolbar's title
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton) {
@@ -121,8 +121,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
     /**
      * Sets up the activity's support toolbar and colorizes the status bar.
-     * @param toolbar The toolbar's id
-     * @param title String to be set as the toolbar title
+     *
+     * @param toolbar        The toolbar's id
+     * @param title          String to be set as the toolbar title
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton) {
@@ -144,10 +145,11 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     /**
      * Sets up the activity's support toolbar and colorizes the status bar. Applies color theming
      * based on the theme for the username specified.
-     * @param toolbar The toolbar's id
-     * @param title String to be set as the toolbar title
+     *
+     * @param toolbar        The toolbar's id
+     * @param title          String to be set as the toolbar title
      * @param enableUpButton Whether or not the toolbar should have up navigation
-     * @param username The username to base the theme on
+     * @param username       The username to base the theme on
      */
     protected void setupUserAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
                                    String username) {
@@ -169,13 +171,14 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     /**
      * Sets up the activity's support toolbar and colorizes the status bar. Applies color theming
      * based on the theme for the subreddit specified.
-     * @param toolbar The toolbar's id
-     * @param title String to be set as the toolbar title
+     *
+     * @param toolbar        The toolbar's id
+     * @param title          String to be set as the toolbar title
      * @param enableUpButton Whether or not the toolbar should have up navigation
-     * @param subreddit The subreddit to base the theme on
+     * @param subreddit      The subreddit to base the theme on
      */
     protected void setupSubredditAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
-                               String subreddit) {
+                                        String subreddit) {
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColor(subreddit));
         setSupportActionBar(mToolbar);
@@ -193,6 +196,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
     /**
      * Sets the status bar color for the activity based on a specific subreddit.
+     *
      * @param subreddit The subreddit to base the color on.
      */
     protected void themeStatusBar(String subreddit) {
