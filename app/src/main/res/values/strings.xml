@@ -324,6 +324,7 @@
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_refresh">Refresh</string>
+    <string name="btn_offline">Cache posts</string>
 
 
     <!-- Backup -->
@@ -383,6 +384,7 @@
     <string name="search_comments_hint">Search comments</string>
     <string name="search_submissions_hint">Search submissions</string>
     <string name="search_goto">Go to</string>
+    <string name="search">Search</string>
 
     <!-- Captcha -->
     <string name="captcha">Enter the code above</string>
