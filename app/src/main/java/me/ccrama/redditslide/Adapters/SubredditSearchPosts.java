@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -18,7 +19,7 @@ import me.ccrama.redditslide.SettingValues;
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditSearchPosts extends GeneralPosts {
-    private final String term;
+    private  String term;
     private  String subreddit = "";
     public boolean loading;
     private SubmissionSearchPaginator paginator;
@@ -38,10 +39,15 @@ public class SubredditSearchPosts extends GeneralPosts {
         loadMore(a, subreddit, term);
     }
 
-    public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
+    public void loadMore(ContributionAdapter a, String subreddit, String where) {
 
 
-            new LoadData(true).execute(subreddit);
+        this.adapter = a;
+        this.subreddit = subreddit;
+        this.term = where;
+
+
+            new LoadData(true).execute();
 
 
     }
@@ -79,47 +85,44 @@ public class SubredditSearchPosts extends GeneralPosts {
 
         @Override
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
+            Log.v("Slide", "DOING SEARCH OF " + term + " in " + subreddit);
             try {
                 if (reset || paginator == null) {
                     paginator = new SubmissionSearchPaginator(Authentication.reddit, term);
                     if(!subreddit.isEmpty())
                     paginator.setSubreddit(subreddit);
 
-                    paginator.setSorting(Reddit.defaultSorting);
+                    paginator.setSearchSorting(SubmissionSearchPaginator.SearchSort.RELEVANCE);
                     paginator.setTimePeriod(Reddit.timePeriod);
                 }
+                if(posts == null){
+                    posts = new ArrayList<>();
+                }
+                Log.v("Slide", "RETURNED " + paginator.hasNext() );
                 if (reset) {
                     posts = new ArrayList<>();
-                    for (Contribution c : paginator.next()) {
-                        if (c instanceof Submission) {
-                            Submission s = (Submission) c;
+                    for (Submission s : paginator.next()) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     posts.add(s);
                                 } else if (!s.isNsfw()) {
                                     posts.add(s);
 
                             }
-                        } else {
-                            posts.add(c);
                         }
-                    }
-                } else {
-                    for (Contribution c : paginator.next()) {
-                        if (c instanceof Submission) {
-                            Submission s = (Submission) c;
-                                if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
-                                } else if (!s.isNsfw()) {
-                                    posts.add(s);
 
-                            }
-                        } else {
-                            posts.add(c);
+                } else {
+                    for (Submission s : paginator.next()) {
+                        if (SettingValues.NSFWPosts && s.isNsfw()) {
+                            posts.add(s);
+                        } else if (!s.isNsfw()) {
+                            posts.add(s);
+
                         }
                     }
                 }
                 return posts;
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
         }

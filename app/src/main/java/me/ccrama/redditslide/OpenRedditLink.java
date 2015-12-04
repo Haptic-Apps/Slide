@@ -67,12 +67,14 @@ public class OpenRedditLink {
             i.putExtra("subreddit", parts[2]);
             i.putExtra("submission", parts[4]);
             i.putExtra("np", np);
-            i.putExtra("loadmore", true);
-            String end = parts[6];
-            if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
-            i.putExtra("context", end);
-            Log.v("Slide", "CONTEXT " + end);
+            if(parts.length >=7) {
+                i.putExtra("loadmore", true);
+                String end = parts[6];
+                if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
+                i.putExtra("context", end);
 
+                Log.v("Slide", "CONTEXT " + end);
+            }
             context.startActivity(i);
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
             // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]

@@ -1,11 +1,13 @@
 package me.ccrama.redditslide.Activities;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -14,9 +16,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +31,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -53,6 +58,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
@@ -141,11 +147,73 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                   new AlertDialogWrapper.Builder(this).setTitle("Permission was Denied")
+                           .setMessage("It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(." +
+                                   "\nWould you like to allow Slide to access external storage?")
+                           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialog, int which) {
+                                   ActivityCompat.requestPermissions(MainActivity.this,
+                                           new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                           1);
+
+                               }
+                           }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                       }
+                   }).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
@@ -187,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                         changed = true;
 
 
-                     recreate();
+                        recreate();
 
                         break;
                     }
@@ -454,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                         }
-                       final RadioButton def = (RadioButton) dialoglayout.findViewById(R.id.def);
+                        final RadioButton def = (RadioButton) dialoglayout.findViewById(R.id.def);
                         final RadioButton alt = (RadioButton) dialoglayout.findViewById(R.id.alt);
 
 
@@ -489,11 +557,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                         int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                       if(i == 0){
-                           def.setChecked(true);
-                       } else {
-                           alt.setChecked(true);
-                       }
+                        if(i == 0){
+                            def.setChecked(true);
+                        } else {
+                            alt.setChecked(true);
+                        }
 
 
                         def.setText(R.string.settings_layout_default);
@@ -1284,8 +1352,8 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_subreddit_overview, menu);
 
-     //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
-     //   else menu.findItem(R.id.action_info).setVisible(false);
+        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        //   else menu.findItem(R.id.action_info).setVisible(false);
 
         return true;
     }
@@ -1301,8 +1369,9 @@ public class MainActivity extends AppCompatActivity {
                 openPopup();
                 return true;
             case R.id.search:
-                new MaterialDialog.Builder(this).title("Enter Search Term")
-                        .input("Term", "", false, new MaterialDialog.InputCallback() {
+                new MaterialDialog.Builder(this).title("Search")
+                        .alwaysCallInputCallback()
+                        .input("What are you searching for?", "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
                                 term = charSequence.toString();
@@ -1310,7 +1379,7 @@ public class MainActivity extends AppCompatActivity {
                         })
                         .positiveText("Search All")
                         .negativeText("Search " + ((SubmissionsView)adapter.getCurrentFragment()).posts.subreddit)
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(MainActivity.this, Search.class);
@@ -1318,12 +1387,13 @@ public class MainActivity extends AppCompatActivity {
                                 startActivity(i);
                             }
                         })
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(MainActivity.this, Search.class);
                                 i.putExtra("term", term);
                                 i.putExtra("subreddit",((SubmissionsView)adapter.getCurrentFragment()).posts.subreddit );
+                                Log.v("Slide", "INTENT SHOWS " + term + " AND " + ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                                 startActivity(i);
                             }
                         }).show();
@@ -1374,25 +1444,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void saveOffline(ArrayList<Submission> submissions, String subreddit){
-       final MaterialDialog d  = new MaterialDialog.Builder(this).title("Caching submissions")
+    public void saveOffline(ArrayList<Submission> submissions, final String subreddit){
+        final MaterialDialog d  = new MaterialDialog.Builder(this).title("Caching submissions")
                 .progress(false, submissions.size())
                 .cancelable(false)
                 .show();
-       final ArrayList<Submission> newSubmissions = new ArrayList<>();
+        final ArrayList<Submission> newSubmissions = new ArrayList<>();
         for(final Submission s : submissions){
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    newSubmissions.add(Authentication.reddit.getSubmission(new SubmissionRequest(s.getId())));
+                    Submission s2 = Authentication.reddit.getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                    newSubmissions.add(s2);
                     d.setProgress(newSubmissions.size());
                     if(d.getCurrentProgress() == d.getMaxProgress()){
                         d.cancel();
+                        Cache.writeSubreddit(newSubmissions, subreddit);
+
+
                     }
                     return null;
                 }
             }.execute();
         }
-         Cache.writeSubreddit(newSubmissions, subreddit);
     }
 }

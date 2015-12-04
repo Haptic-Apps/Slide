@@ -124,8 +124,12 @@ public class SubredditPosts {
                 offline = true;
                 cached = Cache.getSubreddit(subreddit);
                 posts = cached.submissions;
-                if(posts.get(0).getComments() != null){
+                if(cached.submissions.size() > 0 && cached.submissions.get(0).getComments() != null){
                     stillShow = true;
+                } else {
+                    refreshLayout.setRefreshing(false);
+
+                    adapter.setError(true);
                 }
                 (adapter.mContext).runOnUiThread(new Runnable() {
                     @Override

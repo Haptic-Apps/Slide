@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.util.TypedValue;
 
 import java.util.concurrent.ExecutionException;
@@ -24,6 +25,7 @@ public class Search extends BaseActivityAnim {
     private int pastVisiblesItems;
     private ContributionAdapter adapter;
     private String where;
+    private String subreddit;
     private SubredditSearchPosts posts;
 
     @Override
@@ -31,9 +33,12 @@ public class Search extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme("");
         setContentView(R.layout.activity_saved);
-        where = getIntent().getExtras().getString("where", "Saved");
-        final String id = getIntent().getExtras().getString("id", "");
-        setupUserAppBar(R.id.toolbar, where, true, id);
+        where = getIntent().getExtras().getString("term", "");
+        subreddit = getIntent().getExtras().getString("subreddit", "");
+        setupUserAppBar(R.id.toolbar, "Search", true, subreddit);
+
+        Log.v("Slide", "Searching for " + where + " in " + subreddit);
+
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
@@ -64,7 +69,7 @@ public class Search extends BaseActivityAnim {
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(adapter, id, where);
+                        posts.loadMore(adapter, subreddit, where);
 
                     }
                 }
@@ -75,10 +80,10 @@ public class Search extends BaseActivityAnim {
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, this));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        posts = new SubredditSearchPosts(id, where.toLowerCase());
+        posts = new SubredditSearchPosts(subreddit, where.toLowerCase());
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 
@@ -93,7 +98,7 @@ public class Search extends BaseActivityAnim {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, id, where);
+                        posts.loadMore(adapter, subreddit, where);
 
                         //TODO catch errors
                     }

@@ -1,7 +1,14 @@
 package me.ccrama.redditslide;
 
+import android.os.Environment;
+
+import com.google.common.io.Files;
+
 import net.dean.jraw.models.Submission;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +27,15 @@ public final class Cache {
         }
         String finals = s.toString();
         finals = finals.substring(0, finals.length() - 11);
-        Reddit.appRestart.edit().putString(subreddit , finals).apply();
+        Reddit.appRestart.edit().putString(subreddit , finals).commit();
+        File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "saved.txt");
+        try {
+            f.createNewFile();
+
+            Files.write(finals, f, Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
