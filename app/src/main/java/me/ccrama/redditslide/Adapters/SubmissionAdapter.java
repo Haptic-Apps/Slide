@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,7 +156,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                         final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                        title.setText(submission.getTitle());
+                        title.setText(Html.fromHtml(submission.getTitle()));
 
                         ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
                         ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());

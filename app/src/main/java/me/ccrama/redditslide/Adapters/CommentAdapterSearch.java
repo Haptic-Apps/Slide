@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         holder.author.setText(author);
         if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
             holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.VISIBLE);
-            ((TextView) holder.itemView.findViewById(R.id.text)).setText(comment.getAuthorFlair().getText());
+            ((TextView) holder.itemView.findViewById(R.id.text)).setText(Html.fromHtml(comment.getAuthorFlair().getText()));
 
         } else {
             holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
