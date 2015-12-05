@@ -78,7 +78,7 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.1'
     compile 'com.cocosw:bottomsheet:1.2.0@aar'
     compile 'org.apache.commons:commons-lang3:3.4'
-
+    compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
 buildscript {
