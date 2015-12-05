@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,6 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
+import net.dean.jraw.paginators.SubmissionSearchPaginator;
+import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.concurrent.ExecutionException;
 
@@ -14,6 +23,7 @@ import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -27,7 +37,106 @@ public class Search extends BaseActivityAnim {
     private String where;
     private String subreddit;
     private SubredditSearchPosts posts;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
 
+        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        //   else menu.findItem(R.id.action_info).setVisible(false);
+
+        return true;
+    }
+    public void reloadSubs(){
+        posts.refreshLayout.setRefreshing(true);
+        posts.reset();
+    }
+    public void openPopup() {
+
+        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+
+                    case 0:
+                        Reddit.timePeriod = TimePeriod.HOUR;
+                        break;
+                    case 1:
+                        Reddit.timePeriod = TimePeriod.DAY;
+                        break;
+                    case 2:
+                        Reddit.timePeriod = TimePeriod.WEEK;
+                        break;
+                    case 3:
+                        Reddit.timePeriod = TimePeriod.MONTH;
+                        break;
+                    case 4:
+                        Reddit.timePeriod = TimePeriod.YEAR;
+                        break;
+                    case 5:
+                        Reddit.timePeriod = TimePeriod.ALL;
+                        break;
+
+                }
+                SettingValues.timePeriod = Reddit.timePeriod;
+                reloadSubs();
+
+            }
+        };
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
+        builder.setTitle(R.string.sorting_choose);
+        builder.setSingleChoiceItems(Reddit.getSortingStringsSearch(getBaseContext()), Reddit.getSortingIdSearch(), l2);
+        builder.show();
+
+    }
+    public void openPopup2() {
+
+        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+
+                    case 0:
+                        Reddit.search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
+                        break;
+                    case 1:
+                        Reddit.search = SubmissionSearchPaginator.SearchSort.TOP;
+                        break;
+                    case 2:
+                        Reddit.search = SubmissionSearchPaginator.SearchSort.NEW;
+                        break;
+                    case 3:
+                        Reddit.search = SubmissionSearchPaginator.SearchSort.COMMENTS;
+                        break;
+
+
+                }
+                reloadSubs();
+
+            }
+        };
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
+        builder.setTitle(R.string.sorting_choose);
+        builder.setSingleChoiceItems(Reddit.getSearch(getBaseContext()), Reddit.getTypeSearch(), l2);
+        builder.show();
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.time:
+                openPopup();
+                return true;
+            case R.id.sort:
+              openPopup2();
+                return true;
+
+        }
+        return false;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +144,7 @@ public class Search extends BaseActivityAnim {
         setContentView(R.layout.activity_saved);
         where = getIntent().getExtras().getString("term", "");
         subreddit = getIntent().getExtras().getString("subreddit", "");
-        setupUserAppBar(R.id.toolbar, "Search", true, subreddit);
+        setupUserAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
         Log.v("Slide", "Searching for " + where + " in " + subreddit);
 
@@ -69,7 +178,7 @@ public class Search extends BaseActivityAnim {
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(adapter, subreddit, where);
+                        posts.loadMore(adapter, subreddit, where, false);
 
                     }
                 }
@@ -98,7 +207,7 @@ public class Search extends BaseActivityAnim {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, subreddit, where);
+                        posts.loadMore(adapter, subreddit, where, true);
 
                         //TODO catch errors
                     }

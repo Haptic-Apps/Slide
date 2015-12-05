@@ -9,4 +9,5 @@ import java.util.ArrayList;
  */
 public class GeneralPosts {
     public ArrayList<Contribution> posts ;
+    public boolean nomore;
 }

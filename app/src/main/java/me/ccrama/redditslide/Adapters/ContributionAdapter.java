@@ -60,7 +60,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        if (position == dataSet.size() && dataSet.size() != 0) {
+        if (position == dataSet.size() && dataSet.size() != 0 ) {
             return 5;
         }
         if (dataSet.get(position) instanceof Comment)//IS COMMENT

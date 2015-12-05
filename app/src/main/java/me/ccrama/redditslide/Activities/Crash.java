@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.GitReporter;
 import me.ccrama.redditslide.R;
 
 /**
@@ -58,9 +57,9 @@ public class Crash extends AppCompatActivity {
                 });
                 final Dialog dialog = builder.setView(dialogLayout).create();
                 dialog.show();*/
-                Intent i = new Intent(Crash.this, GitReporter.class);
-                i.putExtra("stacktrace", stacktrace);
-                startActivity(i);
+            //    Intent i = new Intent(Crash.this, GitReporter.class);
+             //   i.putExtra("stacktrace", stacktrace);
+             //   startActivity(i);
             }
         });
 

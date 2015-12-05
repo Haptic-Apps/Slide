@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+
+    <item
+        android:id="@+id/time"
+        android:icon="@drawable/time"
+        android:title="@string/btn_refresh"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/sort"
+        android:title="Sorting"
+        app:showAsAction="ifRoom" />
+
+
+</menu>

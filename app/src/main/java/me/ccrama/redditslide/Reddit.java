@@ -25,9 +25,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -56,6 +58,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean swap;
     public static boolean album;
     public static boolean cache;
+
+    public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
+
     public static boolean cacheDefault;
 
     public static boolean image;
@@ -76,8 +81,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static Authentication authentication;
     public static boolean tabletUI;
     public static Sorting defaultSorting;
+
     public static CommentSort defaultCommentSorting;
     public static TimePeriod timePeriod;
+
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
 
@@ -189,6 +196,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     boolean hasDone;
     boolean hasDone2;
+
     @Override
     public void onActivityResumed(Activity activity) {
 
@@ -201,16 +209,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             mInBackground = false;
             notifyOnBecameForeground();
 
-            if(hasDone && hasDone2) {
+            if (hasDone && hasDone2) {
                 loader = null;
 
                 authentication.updateToken(activity);
-            } else if(authentication == null) {
+            } else if (authentication == null) {
                 loader = null;
                 authentication = new Authentication(this);
 
 
-            } else if(hasDone) {
+            } else if (hasDone) {
                 hasDone2 = true;
             } else {
                 hasDone = true;
@@ -357,7 +365,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         fullscreen = SettingValues.prefs.getBoolean("Fullscreen", false);
         fab = SettingValues.prefs.getBoolean("Fab", false);
         fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
-        click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick",true);
+        click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick", true);
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);
         image = SettingValues.prefs.getBoolean("image", true);
@@ -505,6 +513,25 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 : 0;
     }
 
+    public static Integer getSortingIdSearch() {
+        return
+                timePeriod == TimePeriod.HOUR ? 0 :
+                        timePeriod == TimePeriod.DAY ? 1 :
+                        timePeriod == TimePeriod.WEEK ? 2 :
+                                timePeriod == TimePeriod.MONTH ? 3 :
+                                        timePeriod == TimePeriod.YEAR ? 4 :
+                                                5
+                ;
+    }
+    public static Integer getTypeSearch() {
+        return
+                search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
+                        search == SubmissionSearchPaginator.SearchSort.TOP ? 1 :
+                                search == SubmissionSearchPaginator.SearchSort.NEW ? 2 :
+                                      3
+                ;
+    }
+
     public static String[] getSortingStrings(Context c) {
         return new String[]
                 {c.getString(R.string.sorting_hot),
@@ -522,6 +549,28 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month),
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year),
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all),
+                };
+    }
+    public static String[] getSearch(Context c) {
+        return new String[]
+                {
+                        "Relevance",
+                        "Top",
+                        "New",
+                        "Comments"
+                };
+    }
+
+    public static String[] getSortingStringsSearch(Context c) {
+        return new String[]
+                {
+                        WordUtils.capitalize(c.getString(R.string.sorting_hour)),
+                        WordUtils.capitalize(c.getString(R.string.sorting_day)),
+                        WordUtils.capitalize(c.getString(R.string.sorting_week)),
+                        WordUtils.capitalize(c.getString(R.string.sorting_month)),
+                        WordUtils.capitalize(c.getString(R.string.sorting_year)),
+                        WordUtils.capitalize(c.getString(R.string.sorting_all)),
+
                 };
     }
 

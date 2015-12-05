@@ -23,7 +23,7 @@ public class SubredditSearchPosts extends GeneralPosts {
     private  String subreddit = "";
     public boolean loading;
     private SubmissionSearchPaginator paginator;
-    private SwipeRefreshLayout refreshLayout;
+    public SwipeRefreshLayout refreshLayout;
     private ContributionAdapter adapter;
 
     public SubredditSearchPosts(String subreddit, String term) {
@@ -36,10 +36,10 @@ public class SubredditSearchPosts extends GeneralPosts {
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout = layout;
-        loadMore(a, subreddit, term);
+        loadMore(a, subreddit, term, true);
     }
 
-    public void loadMore(ContributionAdapter a, String subreddit, String where) {
+    public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset) {
 
 
         this.adapter = a;
@@ -47,10 +47,19 @@ public class SubredditSearchPosts extends GeneralPosts {
         this.term = where;
 
 
-            new LoadData(true).execute();
+        new LoadData(reset).execute();
 
 
     }
+    public void reset() {
+
+
+
+        new LoadData(true).execute();
+
+
+    }
+    boolean nomore = false;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
         final boolean reset;
@@ -92,14 +101,17 @@ public class SubredditSearchPosts extends GeneralPosts {
                     if(!subreddit.isEmpty())
                     paginator.setSubreddit(subreddit);
 
-                    paginator.setSearchSorting(SubmissionSearchPaginator.SearchSort.RELEVANCE);
+                    paginator.setSearchSorting(Reddit.search);
                     paginator.setTimePeriod(Reddit.timePeriod);
                 }
                 if(posts == null){
                     posts = new ArrayList<>();
                 }
-                Log.v("Slide", "RETURNED " + paginator.hasNext() );
+                if(!paginator.hasNext()){
+                    nomore = true;
+                }
                 if (reset) {
+                    nomore = false;
                     posts = new ArrayList<>();
                     for (Submission s : paginator.next()) {
                                 if (SettingValues.NSFWPosts && s.isNsfw()) {
@@ -110,7 +122,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                             }
                         }
 
-                } else {
+                } else  if(!nomore){
                     for (Submission s : paginator.next()) {
                         if (SettingValues.NSFWPosts && s.isNsfw()) {
                             posts.add(s);
