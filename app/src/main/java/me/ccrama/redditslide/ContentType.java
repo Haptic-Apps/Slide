@@ -171,9 +171,14 @@ public class ContentType {
 
     public static ImageType getImageType(String url) {
 
+        if (url.equals("#s") || url.equals("/s") || url.equals("/spoiler") || url.equals("/sp")) {
+            return ImageType.SPOILER;
+        }
+
         if (url.startsWith("/")) {
             url = "reddit.com" + url;
         }
+
         if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
             return ImageType.REDDIT;
         } else if (url.contains("youtube.com") || url.contains("youtu.be")) {
@@ -191,12 +196,30 @@ public class ContentType {
             return ImageType.GIF;
         } else {
             return ImageType.LINK;
-
         }
 
     }
 
     public enum ImageType {
-        NSFW_IMAGE, NSFW_GIF, NSFW_GFY, REDDIT, EMBEDDED, LINK, IMAGE_LINK, NSFW_LINK, SELF, GFY, ALBUM, IMAGE, GIF, NONE_GFY, NONE_GIF, NONE, NONE_IMAGE, VIDEO, NONE_URL
+        NSFW_IMAGE,
+        NSFW_GIF,
+        NSFW_GFY,
+        REDDIT,
+        EMBEDDED,
+        LINK,
+        IMAGE_LINK,
+        NSFW_LINK,
+        SELF,
+        GFY,
+        ALBUM,
+        IMAGE,
+        GIF,
+        NONE_GFY,
+        NONE_GIF,
+        NONE,
+        NONE_IMAGE,
+        VIDEO,
+        NONE_URL,
+        SPOILER
     }
 }

@@ -50,6 +50,7 @@ import java.util.HashMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
+import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -623,7 +624,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentSelectedItem.contains(comment.getFullName())) {
             doUnHighlighted(holder, comment);
         } else {
-
             doOnClick(holder, baseNode, comment);
         }
     }
@@ -839,10 +839,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    ActiveTextView activeTextView = (ActiveTextView)v;
                     if (Reddit.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    } else {
+                    } else if (!activeTextView.isSpoilerClicked()) {
                         doOnClick(holder, comment, baseNode);
+                    } else if (activeTextView.isSpoilerClicked()) {
+                        activeTextView.resetSpoilerClicked();
                     }
                 }
             });
