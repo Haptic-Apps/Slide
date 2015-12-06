@@ -44,6 +44,7 @@ public class ActiveTextView extends TextView {
 
     private boolean mLinkSet;
     private String mUrl;
+    private boolean spoilerClicked = false;
     private SpannableStringBuilder mSpannable;
     private ActiveTextView.OnLinkClickedListener mListener;
     private ActiveTextView.OnLongPressedLinkListener mLongPressedLinkListener;
@@ -51,6 +52,19 @@ public class ActiveTextView extends TextView {
     public ActiveTextView(final Context context) {
         super(context);
         setup();
+    }
+
+    /**
+     * Returns whether the element that triggered the clicked event
+     * was from a spoiler link.
+     * @return
+     */
+    public boolean isSpoilerClicked() {
+        return spoilerClicked;
+    }
+
+    public void resetSpoilerClicked() {
+        spoilerClicked = false;
     }
 
     public ActiveTextView(final Context context, AttributeSet attrs) {
@@ -91,8 +105,9 @@ public class ActiveTextView extends TextView {
         if (mLinkSet) {
             states = Button.EMPTY_STATE_SET;
             return states;
-        } else
+        } else {
             return super.onCreateDrawableState(extraSpace);
+        }
     }
 
     // Implemented to stop the following bug with TextViews in Jelly Bean
@@ -111,8 +126,9 @@ public class ActiveTextView extends TextView {
                     mSpannable.removeSpan(a[0]);
                     setText(mSpannable);
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                } else
+                } else {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+                }
             } else if (getText() instanceof SpannableString) {
                 SpannableString s = (SpannableString) getText();
                 mSpannable.clear();
@@ -123,8 +139,9 @@ public class ActiveTextView extends TextView {
                     setText(mSpannable);
 
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                } else
+                } else {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+                }
             }
         }
     }
@@ -156,20 +173,22 @@ public class ActiveTextView extends TextView {
 
                     // Stops the space after a link being clicked
                     if (x <= maxLineRight) {
-                        ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
+                        ClickableSpan[] links = buffer.getSpans(off, off, ClickableSpan.class);
 
-                        if (link.length != 0) {
+                        if (links.length != 0) {
                             if (action == MotionEvent.ACTION_UP) {
                                 // If a link click listener is set, call that
                                 // Otherwise just open the link
                                 if (mLinkSet) {
-                                    if (mListener != null)
-                                        mListener.onClick(mUrl);
-                                    else {
+                                    if (mListener != null) {
+                                        spoilerClicked = true;
+                                        int urlEnd = buffer.getSpanStart(links[0]);
+                                        mListener.onClick(mUrl, urlEnd);
+                                    } else {
                                         if (mUrl != null) {
-                                            Intent i = new Intent(Intent.ACTION_VIEW);
-                                            i.setData(Uri.parse(mUrl));
-                                            getContext().startActivity(i);
+                                            Intent intent = new Intent(Intent.ACTION_VIEW);
+                                            intent.setData(Uri.parse(mUrl));
+                                            getContext().startActivity(intent);
                                         }
                                     }
                                 }
@@ -177,20 +196,18 @@ public class ActiveTextView extends TextView {
                                 return true;
                             } else if (action == MotionEvent.ACTION_DOWN) {
                                 Selection.setSelection(buffer,
-                                        buffer.getSpanStart(link[0]),
-                                        buffer.getSpanEnd(link[0]));
-                                URLSpan s = (URLSpan) link[0];
+                                        buffer.getSpanStart(links[0]),
+                                        buffer.getSpanEnd(links[0]));
+                                URLSpan s = (URLSpan) links[0];
                                 mUrl = s.getURL();
                                 mLinkSet = true;
                                 return true;
                             }
-                            return false;
                         } else {
                             Selection.removeSelection(buffer);
                         }
                     }
                 }
-
                 return false;
             }
         });
@@ -198,7 +215,6 @@ public class ActiveTextView extends TextView {
         setLongClickable(true);
         setFocusable(false);
         setClickable(false);
-
 
         setOnLongClickListener(new OnLongClickListener() {
             @Override
@@ -243,8 +259,9 @@ public class ActiveTextView extends TextView {
                         Dialog alert = builder.create();
                         alert.setCanceledOnTouchOutside(true);
                         alert.show();*/
-                    } else
+                    } else {
                         mLongPressedLinkListener.onLongPressed();
+                    }
 
                     cancelLink();
                     return true;
@@ -259,8 +276,9 @@ public class ActiveTextView extends TextView {
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isLinkPending() && mListener != null)
-                    mListener.onClick(null);
+                if (!isLinkPending() && mListener != null) {
+                    mListener.onClick(null, -1);
+                }
                 cancelLink();
             }
         });
@@ -286,12 +304,17 @@ public class ActiveTextView extends TextView {
         boolean mDisplayMinLongPress = minDisplay;
     }
 
-    // Called when a link in long clicked
     public interface OnLinkClickedListener {
-        void onClick(String url);
+        /**
+         * Perform an action due to a short click event. The <code>xOffset</code>
+         * parameter is help deal with spans associated with spoiler links.
+         * @param url the url for a given link.
+         * @param xOffset the last character index of the clicked link
+         */
+        void onClick(String url, int xOffset);
     }
 
-    // Called when a link in long clicked
+    // Called when a link is long clicked
     public interface OnLongPressedLinkListener {
         void onLongPressed();
     }
