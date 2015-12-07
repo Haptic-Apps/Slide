@@ -2,19 +2,20 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.content.DialogInterface;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -26,7 +27,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.util.UUID;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -108,6 +109,7 @@ public class FullscreenImage extends FullScreenActivity {
                 }
             });
             {
+                final String finalUrl1 = url;
                 findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -119,17 +121,27 @@ public class FullscreenImage extends FullScreenActivity {
                                     .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                         @Override
                                         public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                            String localAbsoluteFilePath = saveImageGallery(loadedImage);
+                                            final String localAbsoluteFilePath = saveImageGallery(loadedImage, finalUrl1);
 
                                             if (localAbsoluteFilePath != null) {
                                                 MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
                                                     public void onScanCompleted(String path, Uri uri) {
+                                                        Intent intent = new Intent();
+                                                        intent.setAction(android.content.Intent.ACTION_VIEW);
+                                                        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".PNG");
+
+                                                        intent.setDataAndType(Uri.parse(localAbsoluteFilePath), mime);
+                                                        PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0,intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
                                                         Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
                                                                 .setContentTitle(getString(R.string.info_photo_saved))
                                                                 .setSmallIcon(R.drawable.notif)
                                                                 .setLargeIcon(loadedImage)
+                                                                .setContentIntent(contentIntent)
                                                                 .setStyle(new NotificationCompat.BigPictureStyle()
                                                                         .bigPicture(loadedImage)).build();
+
 
                                                         NotificationManager mNotificationManager =
                                                                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -218,70 +230,19 @@ public class FullscreenImage extends FullScreenActivity {
                 });
     }
 
-    private String saveImageGallery(final Bitmap _bitmap) {
+    private String saveImageGallery(final Bitmap _bitmap, String URL) {
 
-        File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + File.separator + "Slide");
-        File outputFile = null;
-        try {
-            outputFile = File.createTempFile("slide", ".png", outputDir);
-            FileOutputStream out = new FileOutputStream(outputFile);
-            _bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.close();
-            return outputFile.getAbsolutePath();
-        } catch (Exception e1) {
+        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL , "");
 
-            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle(R.string.err_title)
-                    .setMessage(R.string.misc_retry)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            toReturn = saveImageGallery(_bitmap);
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            toReturn = null;
-                            dialog.dismiss();
-                        }
-                    }).show();
-            return toReturn;
-        }
 
     }
 
     private String saveImageLocally(final Bitmap _bitmap) {
 
-        File outputDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File outputFile = null;
-        try {
-            outputFile = File.createTempFile("tmp", ".png", outputDir);
+        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap,"SHARED" +  UUID.randomUUID().toString() , "");
 
-            FileOutputStream out = new FileOutputStream(outputFile);
-            _bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
 
-            return outputFile.getAbsolutePath();
 
-        } catch (Exception e) {
-            new AlertDialogWrapper.Builder(FullscreenImage.this).setTitle(R.string.err_title)
-                    .setMessage(R.string.misc_retry)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            toReturn = saveImageLocally(_bitmap);
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            toReturn = null;
-                        }
-                    }).show();
-            return toReturn;
-
-        }
 
     }
 }
