@@ -248,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
                 for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                     if (theme.toString().contains(newName) && theme.getThemeType() == number) {
                         getTheme().applyStyle(theme.getBaseId(), true);
-
+                        Reddit.themeBack = theme.getThemeType();
+                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
                         break;
                     }
                 }
