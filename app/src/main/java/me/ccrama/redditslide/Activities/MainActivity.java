@@ -65,6 +65,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
@@ -214,6 +215,36 @@ public class MainActivity extends AppCompatActivity {
                 // result of the request.
             }
         }
+        if(Reddit.autoTime){
+            int hour = Calendar.getInstance().getTime().getHours();
+
+            String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
+            int number;
+            if(hour >= Reddit.nighttime && base.contains("light")){
+              number = 0;
+            } else if(hour >= Reddit.daytime && (base.contains("dark") || base.contains("amoled"))){
+                number = 1;
+            } else {
+                number = 3;
+            }
+            if(number != 3) {
+                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                final String newName = name.replace("(", "");
+                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
+                        Reddit.themeBack = theme.getThemeType();
+                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                        changed = true;
+
+
+                        recreate();
+
+                        break;
+                    }
+                }
+            }
+
+        }
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
@@ -236,34 +267,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
-                int number;
-                if (base.contains("black") || base.contains("amoled")) {
-                    number = 1;
-                } else {
-                    number = 2;
-                }
-                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
-                final String newName = name.replace("(", "");
-                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
-                        Reddit.themeBack = theme.getThemeType();
-                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                        changed = true;
 
-
-                        recreate();
-
-                        break;
-                    }
-                }
-
-
-            }
-        });
 
         if (getIntent() != null && getIntent().hasExtra("pageTo"))
             toGoto = getIntent().getIntExtra("pageTo", 0);
@@ -1362,6 +1366,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.night:
+                String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
+                int number;
+                if (base.contains("dark") || base.contains("amoled")) {
+                    number = 1;
+                } else {
+                    number = 0;
+                }
+                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                final String newName = name.replace("(", "");
+                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
+                        Reddit.themeBack = theme.getThemeType();
+                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                        changed = true;
+
+
+                        recreate();
+
+                        break;
+                    }
+                }
+                return true;
             case R.id.action_refresh:
                 ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
                 return true;

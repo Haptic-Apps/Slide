@@ -68,6 +68,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static final long enter_animation_time_original = 600;
     public static long enter_animation_time = enter_animation_time_original;
     public static int enter_animation_time_multiplier = 1;
+
+
     public static boolean fullscreen;
     boolean firstStart = false;
     public static boolean gif;
@@ -87,6 +89,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
+    public static int nighttime;
+    public static int daytime;
+    public static boolean autoTime;
 
     public static int themeBack;
     public static int dpWidth;
@@ -365,6 +370,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         fullscreen = SettingValues.prefs.getBoolean("Fullscreen", false);
         fab = SettingValues.prefs.getBoolean("Fab", false);
         fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
+        nighttime = SettingValues.prefs.getInt("day", 20);
+        daytime = SettingValues.prefs.getInt("night", 6);
+        autoTime = SettingValues.prefs.getBoolean("autotime", false);
+
         click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick", true);
         swap = SettingValues.prefs.getBoolean("Swap", false);
         web = SettingValues.prefs.getBoolean("web", true);

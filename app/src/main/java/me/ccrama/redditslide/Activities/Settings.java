@@ -105,11 +105,39 @@ public class Settings extends BaseActivity {
                 startActivityForResult(i, 2);
             }
         });
+        findViewById(R.id.auto).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Reddit.tabletUI) {
+
+                    Intent i = new Intent(Settings.this, SettingsAutonight.class);
+                startActivity(i);
+                } else {
+                    new AlertDialogWrapper.Builder(Settings.this)
+
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    }).show();
+                }
+            }
+        });
         findViewById(R.id.comments_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsComments.class);
-                startActivityForResult(i, 2);
+                startActivity(i);
             }
         });
         if (Reddit.notificationTime > 0) {
