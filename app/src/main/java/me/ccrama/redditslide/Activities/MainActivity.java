@@ -215,36 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 // result of the request.
             }
         }
-        if(Reddit.autoTime){
-            int hour = Calendar.getInstance().getTime().getHours();
 
-            String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
-            int number;
-            if(hour >= Reddit.nighttime && base.contains("light")){
-              number = 0;
-            } else if(hour >= Reddit.daytime && (base.contains("dark") || base.contains("amoled"))){
-                number = 1;
-            } else {
-                number = 3;
-            }
-            if(number != 3) {
-                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
-                final String newName = name.replace("(", "");
-                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
-                        Reddit.themeBack = theme.getThemeType();
-                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                        changed = true;
-
-
-                        recreate();
-
-                        break;
-                    }
-                }
-            }
-
-        }
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
@@ -259,7 +230,34 @@ public class MainActivity extends AppCompatActivity {
 
         if (getIntent().getBooleanExtra("EXIT", false)) finish();
 
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        if(Reddit.autoTime){
+            int hour = Calendar.getInstance().getTime().getHours();
+
+            String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
+            int number;
+            if(hour >= Reddit.nighttime && base.contains("light")){
+                number = 0;
+            } else if(hour >= Reddit.daytime && (base.contains("dark") || base.contains("amoled"))){
+                number = 1;
+            } else {
+                number = 3;
+            }
+            if(number != 3) {
+                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                final String newName = name.replace("(", "");
+                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
+                        getTheme().applyStyle(theme.getBaseId(), true);
+
+                        break;
+                    }
+                }
+            } else {
+                getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+
+            }
+
+        }
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.activity_overview);
