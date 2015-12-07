@@ -253,12 +253,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+                getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
             }
 
         }
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
 
         setContentView(R.layout.activity_overview);
 
