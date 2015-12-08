@@ -11,7 +11,7 @@
         android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
 
         android:background="@color/md_light_blue_500">
 
@@ -34,15 +34,10 @@
         android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="48dp"
+            android:layout_width="26dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
-
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="8dp"
+            android:layout_marginRight="26dp"
             android:src="@drawable/profile"
             android:tint="?attr/tint" />
 
@@ -66,12 +61,10 @@
         android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="48dp"
+            android:layout_width="26dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:padding="10dp"
-            android:paddingBottom="6dp"
+            android:layout_marginRight="26dp"
 
             android:src="@drawable/crown"
             android:tint="?attr/tint" />
@@ -98,15 +91,10 @@
         android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="48dp"
+            android:layout_width="26dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="8dp"
-
+            android:layout_marginRight="26dp"
             android:src="@drawable/profile"
             android:tint="?attr/tint" />
 
@@ -131,12 +119,10 @@
         android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="48dp"
+            android:layout_width="26dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:padding="10dp"
-
+            android:layout_marginRight="26dp"
             android:src="@drawable/settings"
             android:tint="?attr/tint" />
 
@@ -151,20 +137,11 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:alpha=".25"
-
-        />
-
     <EditText
         android:id="@+id/sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="?attr/tint"
