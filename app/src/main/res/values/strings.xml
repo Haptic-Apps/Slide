@@ -31,6 +31,7 @@
     <string name="submission_tap_gif">Tap to load GIF</string>
     <string name="submission_not_found">Uh oh, post not found!</string>
     <string name="submission_not_found_msg">Sorry, this post could not be found</string>
+    <string name="submission_copy">Copy text</string>
     <plurals name="submission_points">
         <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
@@ -45,7 +46,7 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_black">AMOLED Black</string>
-    <string name="theme_default_color">Main color</string>
+    <string name="theme_default_color">Base color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
     <string name="theme_background">Card Background</string>
@@ -55,6 +56,7 @@
     <string name="theme_match_always">Always Match</string>
     <string name="theme_match_ext">Match Externally</string>
     <string name="theme_text">Text Color</string>
+    <string name="theme_card_type">Card type</string>
 
 
     <!-- Font settings -->
@@ -130,6 +132,7 @@
     <string name="comment_delete_msg">Do you really want to delete this comment? This cannot be undone.</string>
     <string name="comment_delete_err">Uh oh, something went wrong.</string>
     <string name="comment_delete_err_msg">Would you like to try again?</string>
+    <string name="comment_deleted">[deleted]</string>
 
 
     <!-- Tutorial view -->
@@ -198,6 +201,8 @@
     <string name="err_no_connection">Reddit could not be reached. Would you like to try again?</string>
     <string name="err_retry_later">Try again in a minute!</string>
     <string name="err_login">You have to log in to do that! Log in now?</string>
+    <string name="err_permission">Permission was Denied</string>
+    <string name="err_permission_msg">It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(. \nWould you like to allow Slide to access external storage?</string>
 
 
     <!-- Gif -->
@@ -234,6 +239,7 @@
     <string name="album_loading">Loading album</string>
     <string name="album_err_not_found">Album not found</string>
     <string name="album_err_msg_not_found">An error occurred when loading this album. Please re-open the album and retry. If this problem persists, please report it on GitHub or on Google+</string>
+    <string name="album_title_count">Gallery (%1$d images)</string>
 
 
     <!-- Content types -->
@@ -325,6 +331,9 @@
     <string name="btn_yes">Yes</string>
     <string name="btn_refresh">Refresh</string>
     <string name="btn_offline">Cache posts</string>
+    <string name="btn_confirm">Confirm</string>
+    <string name="btn_sorting">Sorting</string>
+    <string name="btn_theme_toggle">Toggle dark theme</string>
 
 
     <!-- Backup -->
@@ -365,6 +374,7 @@
     <string name="mod_btn_approve">Approve</string>
     <string name="mod_btn_spam">Spam</string>
     <string name="mod_ban">Ban User</string>
+    <string name="mod_no_reports">No reports</string>
 
 
     <!-- Subreddit Wiki -->
@@ -382,9 +392,14 @@
 
     <!-- Search -->
     <string name="search_comments_hint">Search comments</string>
-    <string name="search_submissions_hint">Search submissions</string>
     <string name="search_goto">Go to</string>
     <string name="search">Search</string>
+    <string name="search_hint">Search term</string>
+    <string name="search_title">Search</string>
+    <string name="search_msg">What are you searching for?</string>
+    <string name="search_all">Search All</string>
+    <string name="search_subreddit">Search %1$s</string>
+
 
     <!-- Captcha -->
     <string name="captcha">Enter the code above</string>
@@ -433,6 +448,14 @@
     <string name="settings_fabclear">FAB Clear Actions</string>
     <string name="settings_notifdisabled">Notifications disabled.</string>
     <string name="settings_comments_click_username_for_profile">Click users names to view their profiles.</string>
+    <string name="settings_cache">Cache posts for offline viewing</string>
+    <string name="settings_auto_night">Enable auto night theme</string>
+    <string name="settings_auto_end">Day starts at</string>
+    <string name="settings_cache_always">Always show offline data first (faster startup)</string>
+    <string name="settings_auto_start">Night starts at</string>
+    <string name="settings_fullscreen_views">View images in fullscreen</string>
+    <string name="settings_middle_card">Image in middle of card</string>
+    <string name="settings_cache_delete">Delete all cached data</string>
 
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternate Layout</string>
@@ -450,6 +473,9 @@
     <string name="settings_title_fab">Floating Action Button</string>
     <string name="settings_subhead_support">Support</string>
     <string name="settings_title_caching">Cache settings</string>
+    <string name="settings_title_cache">Cache</string>
+    <string name="settings_title_auto">Auto Theme</string>
+    <string name="settings_title_comments">Comments</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -485,25 +511,16 @@
     <string name="donate_success_btn">You\'re welcome!</string>
 
 
-    <!-- GitHub crash reporter -->
-    <string name="gitty_username_invalid">Please enter a valid username</string>
-    <string name="gitty_password_invalid">Please enter a valid password</string>
-    <string name="gitty_title_invalid">Please enter a valid title</string>
-    <string name="gitty_desc_invalid">Please describe your issue</string>
-    <string name="gitty_uploading">Uploading report to GitHub</string>
-    <string name="gitty_err_upload">Unable to send report</string>
-    <string name="gitty_err_upload_msg">Wrong username or password or invalid access token.</string>
-    <string name="gitty_err_msg">An unexpected error occurred. If the problem persists, contact the app developer.</string>
+    <!-- Offline mode -->
+    <string name="offline_caching">Caching submissions</string>
+    <string name="offline_msg">Please go online and refresh the subreddit to do that</string>
+    <string name="offline_drawer_info">Slide is in offline mode. Connect to the internet to see all content!</string>
+    <string name="network_connected">Network connected</string>
+    <string name="network_connected_msg">Would you like to exit offline mode?</string>
 
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
-    <string name="network_connected">Network connected</string>
-    <string name="network_connected_msg">Would you like to exit offline mode?</string>
-    <string name="settings_title_comments">Comments</string>
-    <string name="album_title_count">Gallery (%1$d images)</string>
-    <string name="settings_fullscreen_views">View posts links in fullscreen</string>
-    <string name="settings_middle_card">Image in middle of card</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

@@ -164,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Cache Settings"
+                        android:text="@string/settings_title_cache"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
@@ -245,7 +245,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Auto Theme Settings"
+                        android:text="@string/settings_title_auto"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
@@ -565,7 +565,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="About"
+                        android:text="@string/settings_title_about"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"

@@ -880,8 +880,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.dot.setVisibility(View.GONE);
             }
             if (deleted.contains(comment.getFullName())) {
-                holder.content.setText("[deleted]");
-                holder.author.setText("[deleted]");
+                holder.content.setText(R.string.comment_deleted);
+                holder.author.setText(R.string.comment_deleted);
 
 
             }

@@ -65,35 +65,41 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <Button
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/sub_theme"
-                    android:text="THEME"
-                    android:layout_margin="8dp"
-                    android:layout_height="wrap_content" />
-            <Button
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:id="@+id/wiki"
-                android:text="WIKI"
-                android:layout_margin="8dp"
-                android:layout_height="wrap_content" />
 
                 <Button
-                    android:layout_weight="1"
+                    android:id="@+id/sub_theme"
                     android:layout_width="wrap_content"
-                    android:id="@+id/submit"
-                    android:text="SUBMIT"
+                    android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_weight="1"
+                    android:text="@string/title_theme_settings"
+                    android:textAllCaps="true"/>
+
+                <Button
+                    android:id="@+id/wiki"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/sidebar_wiki"
+                    android:textAllCaps="true"/>
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_submit"
+                    android:textAllCaps="true"/>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/body"
                 android:layout_width="match_parent"
@@ -118,8 +124,8 @@
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textAllCaps="true"
                     android:text="@string/sidebar_pinned"
+                    android:textAllCaps="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
 
@@ -136,8 +142,8 @@
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:textAllCaps="true"
                     android:text="@string/misc_subscribed"
+                    android:textAllCaps="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
 
@@ -150,24 +156,21 @@
                     android:background="?attr/tint"/>
 
 
-
-
-
-
             </LinearLayout>
 
 
         </LinearLayout>
 
-        <me.ccrama.redditslide.ActiveTextView android:id="@+id/sidebar_text"
-                                              xmlns:android="http://schemas.android.com/apk/res/android"
+        <me.ccrama.redditslide.ActiveTextView
+            android:id="@+id/sidebar_text"
+            xmlns:android="http://schemas.android.com/apk/res/android"
 
-                                              android:layout_width="match_parent"
+            android:layout_width="match_parent"
 
-                                              android:layout_height="match_parent"
-                                              android:padding="16dp"
-                                              android:textColor="?attr/font"
-                                              android:textIsSelectable="true"
-                                              android:textSize="16sp"/>
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textColor="?attr/font"
+            android:textIsSelectable="true"
+            android:textSize="16sp"/>
     </LinearLayout>
 </ScrollView>

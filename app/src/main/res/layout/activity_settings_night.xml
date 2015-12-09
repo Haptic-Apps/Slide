@@ -59,7 +59,7 @@ android:background="?attr/activity_background">
                 android:button="@null"
                 android:buttonTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="Enable auto night theme"
+                android:text="@string/settings_auto_night"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
 
@@ -83,7 +83,7 @@ android:background="?attr/activity_background">
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
 
-                android:text="Day starts at"
+                android:text="@string/settings_auto_end"
                 android:textColor="?attr/font"
                 android:textSize="16sp"
               />
@@ -105,7 +105,7 @@ android:background="?attr/activity_background">
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
 
-                android:text="Night starts at"
+                android:text="@string/settings_auto_start"
                 android:textColor="?attr/font"
                 android:textSize="16sp"
               />

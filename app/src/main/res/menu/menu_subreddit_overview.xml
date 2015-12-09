@@ -23,7 +23,7 @@
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/night"
-        android:title="Toggle dark theme"
+        android:title="@string/btn_theme_toggle"
         app:showAsAction="never"/>
     <item android:id="@+id/save"
         android:title="@string/btn_offline"

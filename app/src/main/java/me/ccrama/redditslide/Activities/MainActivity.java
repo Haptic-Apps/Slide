@@ -162,10 +162,9 @@ public class MainActivity extends AppCompatActivity {
 
                 } else {
 
-                   new AlertDialogWrapper.Builder(this).setTitle("Permission was Denied")
-                           .setMessage("It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(." +
-                                   "\nWould you like to allow Slide to access external storage?")
-                           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                   new AlertDialogWrapper.Builder(this).setTitle(R.string.err_permission)
+                           .setMessage(R.string.err_permission_msg)
+                           .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                @Override
                                public void onClick(DialogInterface dialog, int which) {
                                    ActivityCompat.requestPermissions(MainActivity.this,
@@ -173,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
                                            1);
 
                                }
-                           }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                           }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
                            dialog.dismiss();
@@ -1395,16 +1394,16 @@ public class MainActivity extends AppCompatActivity {
                 openPopup();
                 return true;
             case R.id.search:
-                new MaterialDialog.Builder(this).title("Search")
+                new MaterialDialog.Builder(this).title(R.string.search_title)
                         .alwaysCallInputCallback()
-                        .input("What are you searching for?", "", new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
                                 term = charSequence.toString();
                             }
                         })
-                        .positiveText("Search All")
-                        .negativeText("Search " + ((SubmissionsView)adapter.getCurrentFragment()).posts.subreddit)
+                        .positiveText(R.string.search_all)
+                        .negativeText(getString(R.string.search_subreddit, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit))
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
@@ -1418,7 +1417,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(MainActivity.this, Search.class);
                                 i.putExtra("term", term);
-                                i.putExtra("subreddit",((SubmissionsView)adapter.getCurrentFragment()).posts.subreddit );
+                                i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                                 Log.v("Slide", "INTENT SHOWS " + term + " AND " + ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                                 startActivity(i);
                             }
@@ -1471,7 +1470,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveOffline(ArrayList<Submission> submissions, final String subreddit){
-        final MaterialDialog d  = new MaterialDialog.Builder(this).title("Caching submissions")
+        final MaterialDialog d  = new MaterialDialog.Builder(this).title(R.string.offline_caching)
                 .progress(false, submissions.size())
                 .cancelable(false)
                 .show();

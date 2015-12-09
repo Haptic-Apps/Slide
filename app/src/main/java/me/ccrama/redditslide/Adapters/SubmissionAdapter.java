@@ -136,7 +136,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             (mContext).startActivity(i2);
                         }
                     } else {
-                        Snackbar.make(holder.itemView, "Please go online and refresh the subreddit to do that", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
                     }
 
                 }
@@ -149,7 +149,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public boolean onLongClick(View v) {
                     if (!dataSet.stillShow) {
 
-                        Snackbar.make(holder.itemView, "Please go online and refresh the subreddit to do that", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
 
                     } else {
                         LayoutInflater inflater = mContext.getLayoutInflater();

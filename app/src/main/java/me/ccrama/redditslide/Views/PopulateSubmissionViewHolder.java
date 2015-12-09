@@ -315,7 +315,7 @@ public class PopulateSubmissionViewHolder {
                                         finalReports.add(s + ": " + reports2.get(s));
                                     }
                                     if (finalReports.isEmpty()) {
-                                        finalReports.add("No reports");
+                                        finalReports.add(mContext.getString(R.string.mod_no_reports));
                                     }
                                     return finalReports;
                                 }
@@ -638,7 +638,7 @@ public class PopulateSubmissionViewHolder {
             public void onClick(View view) {
                 if (offline) {
 
-                    Snackbar.make(holder.itemView, "Please go online and refresh the subreddit to do that", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
 
                 } else {
                     LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
