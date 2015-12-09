@@ -96,7 +96,7 @@
 
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_pinned">pinned</string>
-    <string name="sidebar_wiki">View wiki</string>
+    <string name="sidebar_wiki">Wiki</string>
 
 
     <!-- Crash reporting screen -->

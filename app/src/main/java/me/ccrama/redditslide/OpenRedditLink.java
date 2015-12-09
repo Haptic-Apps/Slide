@@ -20,7 +20,7 @@ public class OpenRedditLink {
         url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
 
         boolean np = false;
-        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/]*")) { // tests for subdomain
+        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/?=]*")) { // tests for subdomain
             String subdomain = url.split("\\.", 2)[0];
             String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
             if (subdomain.equalsIgnoreCase("np")) {
