@@ -246,7 +246,6 @@
   <string name="subreddit_change_card">Ändra korttyp för denna subreddit</string>
   <string name="subreddit_chooser">Välj en subreddit</string>
   <string name="search_comments_hint">Sök kommentarer</string>
-  <string name="search_submissions_hint">Sök inlägg</string>
   <string name="search_goto">Gå till</string>
   <string name="captcha">Ange koden ovan</string>
   <string name="captcha_title">Bevisa att du inte är en robot</string>
@@ -308,14 +307,6 @@
   <string name="donate_success_title">Donation lyckades!</string>
   <string name="donate_success_msg">Tack så mycket för ert stöd av Slide for Reddit! Det betyder verkligen mycket för mig. Om du stöter på några problem, skicka mig ett mail eller skapa ett inlägg i /r/slideforreddit när som helst!</string>
   <string name="donate_success_btn">Varsågod!</string>
-  <string name="gitty_username_invalid">Vänligen ange ett giltigt användarnamn</string>
-  <string name="gitty_password_invalid">Vänligen ange ett giltigt lösenord</string>
-  <string name="gitty_title_invalid">Ange en giltig titel</string>
-  <string name="gitty_desc_invalid">Beskriv ditt problem</string>
-  <string name="gitty_uploading">Ladda upp rapporten till GitHub</string>
-  <string name="gitty_err_upload">Kunde inte skicka rapporten</string>
-  <string name="gitty_err_upload_msg">Fel användarnamn, lösenord eller ogiltig åtkomst-token.</string>
-  <string name="gitty_err_msg">Ett oväntat fel uppstod. Om problemet kvarstår, kontakta app utvecklaren.</string>
   <string name="time_just_now">just nu</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minut sedan</item>

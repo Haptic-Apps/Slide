@@ -154,6 +154,7 @@
   <string name="err_general">Vaya... ha habido un error</string>
   <string name="err_no_connection">No se pudo llegar a Reddit. ¿Te gustaría intentarlo de nuevo?</string>
   <string name="err_retry_later">Intentalo dentro de un minuto</string>
+  <string name="err_login">¡Tienes que iniciar sesión para hacer eso! ¿Quieres hacerlo ahora?</string>
   <string name="gif_err_title">GIF no encontrado</string>
   <string name="gif_err_msg">Se ha producido un error al cargar el gif. Vuelve a abrirlo e inténtalo de nuevo.</string>
   <string name="gif_saved">GIF guardado</string>
@@ -163,6 +164,7 @@
   <string name="login_restarting_title">App reiniciandose</string>
   <string name="login_restart_msg">Para sincronizar los subreddits y ajustes, Slide se reiniciará</string>
   <string name="multireddit_err_title">¡Sin Multireddits (aún)!</string>
+  <string name="multireddit_err_msg">¿Quieres crear un nuevo Multireddit?</string>
   <string name="multireddit_title_empty">El título no puede estar en blanco</string>
   <string name="multireddit_title_empty_msg">Por favor, ponle un título a tu multireddit</string>
   <string name="multireddit_no_subs">No se han añadido subs</string>
@@ -281,7 +283,6 @@
   <string name="subreddit_change_card">Cambiar el tipo de tarjeta para el subreddit</string>
   <string name="subreddit_chooser">Elige un subreddit</string>
   <string name="search_comments_hint">Buscar comentarios</string>
-  <string name="search_submissions_hint">Buscar envíos</string>
   <string name="search_goto">Ir a</string>
   <string name="captcha">Introduce el código siguiente</string>
   <string name="captcha_title">Demuestra que no eres un robot</string>
@@ -365,14 +366,8 @@
   <string name="donate_success_title">¡Donación realizada!</string>
   <string name="donate_success_msg">¡Muchísimas gracias por tu apoyo a Slide for Reddit! Significa mucho para mi. ¡Si encuentras algún problema, envíame un email o escribe en /r/slideforreddit en cualquier momento!</string>
   <string name="donate_success_btn">¡De nada!</string>
-  <string name="gitty_username_invalid">Por favor, introduce un nombre de usuario valido</string>
-  <string name="gitty_password_invalid">Por favor, introduce una contraseña válida</string>
-  <string name="gitty_title_invalid">Por favor, introduce un título válido</string>
-  <string name="gitty_desc_invalid">Por favor, describe el problema</string>
-  <string name="gitty_uploading">Subiendo reporte a GitHub</string>
-  <string name="gitty_err_upload">No se ha podido enviar el reporte</string>
-  <string name="gitty_err_upload_msg">Nombre de usuario o contraseña incorrectos o token de acceso invalido.</string>
-  <string name="gitty_err_msg">Se produjo un error inesperado. Si el problema persiste, póngase en contacto con el desarrollador de la aplicación.</string>
+  <string name="network_connected">Red conectada</string>
+  <string name="network_connected_msg">¿Quieres salir del modo fuera de línea?</string>
   <string name="time_just_now">ahora mismo</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">Hace %d minuto</item>

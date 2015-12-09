@@ -152,6 +152,7 @@
   <string name="err_general">不好，出现错误了</string>
   <string name="err_no_connection">Reddit 不能访问。你想再试一遍吗？</string>
   <string name="err_retry_later">一分钟后再试！</string>
+  <string name="err_login">你需要先登录！现在登录吗？</string>
   <string name="gif_err_title">动图未找到</string>
   <string name="gif_err_msg">载入此动图时出现错误。请将其重新打开并再试。</string>
   <string name="gif_saved">动图已保存</string>
@@ -161,6 +162,7 @@
   <string name="login_restarting_title">应用正在重启</string>
   <string name="login_restart_msg">为了同步版块和设置，Slide 会重启</string>
   <string name="multireddit_err_title">（还）没有多板块！</string>
+  <string name="multireddit_err_msg">你想创建一个新的多板块吗？</string>
   <string name="multireddit_title_empty">标题不能为空</string>
   <string name="multireddit_title_empty_msg">请给你的多板块输入一个标题</string>
   <string name="multireddit_no_subs">无板块已添加</string>
@@ -277,7 +279,6 @@
   <string name="subreddit_change_card">为版块修改卡片类型</string>
   <string name="subreddit_chooser">选择一个版块</string>
   <string name="search_comments_hint">搜索评论</string>
-  <string name="search_submissions_hint">搜索提交</string>
   <string name="search_goto">前往</string>
   <string name="captcha">输入上面的代码</string>
   <string name="captcha_title">证明你不是个机器人</string>
@@ -301,6 +302,7 @@
   <string name="settings_notification">每 %1$s 检查新信息</string>
   <string name="settings_notification_short">每 %1$s 检查一次</string>
   <string name="settings_single_mode">单模式\n移除板块间的滑动切换</string>
+  <string name="enter_animation">输入动画\n显示动画</string>
   <string name="settings_swap_actions">评论中的滑动触摸和长按操作</string>
   <string name="settings_disable_nsfw_photo">隐藏所有 NSFW 图片</string>
   <string name="settings_disable_nsfw">隐藏所有 NSFW 帖子</string>
@@ -361,14 +363,8 @@
   <string name="donate_success_title">捐赠成功！</string>
   <string name="donate_success_msg">非常感谢您支持 Slide for Reddit！这对我来说意义重大。如果你遇到任何问题，随时向我发邮件或者在 /r/slideforreddit 发帖！</string>
   <string name="donate_success_btn">感激不尽！</string>
-  <string name="gitty_username_invalid">请输入一个有效的用户名</string>
-  <string name="gitty_password_invalid">请输入一个有效的密码</string>
-  <string name="gitty_title_invalid">请输入一个有效的标题</string>
-  <string name="gitty_desc_invalid">请描述你的问题</string>
-  <string name="gitty_uploading">将报告上传至 GitHub</string>
-  <string name="gitty_err_upload">无法发送报告</string>
-  <string name="gitty_err_upload_msg">用户名或密码错误或无效的访问令牌</string>
-  <string name="gitty_err_msg">出现意外错误。如果问题持续存在，请联系应用开发者。</string>
+  <string name="network_connected">网络已连接</string>
+  <string name="network_connected_msg">你想退出离线模式吗？</string>
   <string name="time_just_now">马上</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分钟前</item>

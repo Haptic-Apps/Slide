@@ -126,12 +126,12 @@ Merci beaucoup !</string>
   <string name="sorting_old">Ancien</string>
   <string name="sorting_controversial">Controversé</string>
   <string name="sorting_rising">En progression</string>
-  <string name="sorting_hour">La dernière heure</string>
-  <string name="sorting_day">Aujourd\'hui</string>
-  <string name="sorting_week">Cette semaine</string>
-  <string name="sorting_month">Ce mois-ci</string>
-  <string name="sorting_year">Cette année</string>
-  <string name="sorting_all">Depuis le début</string>
+  <string name="sorting_hour">la dernière heure</string>
+  <string name="sorting_day">aujourd\'hui</string>
+  <string name="sorting_week">cette semaine</string>
+  <string name="sorting_month">ce mois-ci</string>
+  <string name="sorting_year">cette année</string>
+  <string name="sorting_all">depuis le début</string>
   <string name="editor_url">URL</string>
   <string name="editor_text">Texte</string>
   <string name="editor_title_link">Insérer un lien</string>
@@ -155,6 +155,7 @@ Merci beaucoup !</string>
   <string name="err_general">Oh oh, une erreur est survenue</string>
   <string name="err_no_connection">Reddit n\'a pas pu être atteint. Souhaitez-vous réessayer ?</string>
   <string name="err_retry_later">Réessayez dans une une minute !</string>
+  <string name="err_login">Vous devez vous connecter pour faire ça! Se connecter maintenant?</string>
   <string name="gif_err_title">GIF non trouvé</string>
   <string name="gif_err_msg">Une erreur s\'est produite en chargeant ce gif. Veuillez réessayer.</string>
   <string name="gif_saved">GIF enregistré</string>
@@ -164,6 +165,7 @@ Merci beaucoup !</string>
   <string name="login_restarting_title">L\'application redémarre</string>
   <string name="login_restart_msg">Slide va redémarrer pour synchroniser les subreddits et paramètres</string>
   <string name="multireddit_err_title">Pas de Multireddits (pour l\'instant)!</string>
+  <string name="multireddit_err_msg">Voulez-vous créer un nouveau Multireddit?</string>
   <string name="multireddit_title_empty">Le titre ne peut pas être vide</string>
   <string name="multireddit_title_empty_msg">Veuillez entrer un nom pour votre Multireddit</string>
   <string name="multireddit_no_subs">Aucun subreddit ajouté</string>
@@ -282,7 +284,6 @@ Merci beaucoup !</string>
   <string name="subreddit_change_card">Changer le type de carte pour ce subreddit</string>
   <string name="subreddit_chooser">Choisir un subreddit</string>
   <string name="search_comments_hint">Chercher dans les commentaires</string>
-  <string name="search_submissions_hint">Chercher dans les publications</string>
   <string name="search_goto">Entrer</string>
   <string name="captcha">Entrez le code ci-dessus</string>
   <string name="captcha_title">Montrez patte blanche</string>
@@ -306,6 +307,7 @@ Merci beaucoup !</string>
   <string name="settings_notification">Rafraîchir les messages toutes les</string>
   <string name="settings_notification_short">Vérifier chaque %1$s</string>
   <string name="settings_single_mode">Interface simplifiée</string>
+  <string name="enter_animation">Entrer animation\nShow montrer les animations</string>
   <string name="settings_swap_actions">Échanger appui simple et appui long dans les commentaires</string>
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
   <string name="settings_disable_nsfw">Masquer tous les messages NSFW</string>
@@ -366,14 +368,8 @@ Merci beaucoup !</string>
   <string name="donate_success_title">Don effectué !</string>
   <string name="donate_success_msg">Merci beaucoup de m\'aider à développer Slide pour Reddit ! Ça compte vraiment beaucoup pour moi. Si vous rencontrez des problèmes, n\'hésitez pas à m\'envoyer un mail (en anglais) ou à poster sur /r/slideforreddit !</string>
   <string name="donate_success_btn">De rien !</string>
-  <string name="gitty_username_invalid">Veuillez saisir un nom d\'utilisateur valide</string>
-  <string name="gitty_password_invalid">Veuillez saisir un mot de passe valide</string>
-  <string name="gitty_title_invalid">Veuillez entrer un titre valide</string>
-  <string name="gitty_desc_invalid">Veuillez décrire votre problème</string>
-  <string name="gitty_uploading">Envoi du rapport sur GitHub</string>
-  <string name="gitty_err_upload">Échec de l\'envoi du rapport</string>
-  <string name="gitty_err_upload_msg">Mauvais nom d\'utilisateur, mot de passe, ou jeton d\'accès invalide.</string>
-  <string name="gitty_err_msg">Une erreur inattendue s\'est produite. Si le problème persiste, merci de contacter le développeur.</string>
+  <string name="network_connected">Réseau connecté</string>
+  <string name="network_connected_msg">Voulez-vous quitter le mode hors-ligne ?</string>
   <string name="time_just_now">à l\'instant</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">il y a %d minute</item>
