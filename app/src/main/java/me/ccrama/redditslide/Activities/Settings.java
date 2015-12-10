@@ -349,6 +349,13 @@ public class Settings extends BaseActivity {
                 Settings.this.startActivity(inte);
             }
         });
+        findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/prefs/"));
+                startActivity(browserIntent);
+            }
+        });
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

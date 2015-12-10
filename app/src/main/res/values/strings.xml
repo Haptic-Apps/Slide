@@ -407,6 +407,7 @@
 
 
     <!-- Settings -->
+    <string name="settings_reddit_settings">Reddit Settings</string>
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_card_mode">Card Mode</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
