@@ -2,9 +2,15 @@ package me.ccrama.redditslide;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Parcelable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -27,6 +33,9 @@ public class OpenRedditLink {
                 // no participation link: https://www.reddit.com/r/NoParticipation/wiki/index
                 np = true;
                 url = url.replaceFirst(domainRegex, "reddit.com");
+            } else if (subdomain.matches("blog|store|beta")) {
+                customIntentChooser("http://www." + url, context);
+                return;
             } else if (subdomain.matches("(?i)([_a-z0-9]{2}-)?[_a-z0-9]{1,2}")) {
                 /*
                     Either the subdomain is a language tag (with optional region) or
@@ -67,7 +76,7 @@ public class OpenRedditLink {
             i.putExtra("subreddit", parts[2]);
             i.putExtra("submission", parts[4]);
             i.putExtra("np", np);
-            if(parts.length >=7) {
+            if (parts.length >= 7) {
                 i.putExtra("loadmore", true);
                 String end = parts[6];
                 if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
@@ -96,7 +105,9 @@ public class OpenRedditLink {
             Intent myIntent = new Intent(context, Profile.class);
             myIntent.putExtra("profile", name);
             context.startActivity(myIntent);
-        } else {
+        } else if(url.matches("(?i)reddit\\.com/prefs")){
+            customIntentChooser("https://www.reddit.com/prefs", context);
+        } else{
             Intent i = new Intent(context, MainActivity.class);
             context.startActivity(i);
         }
@@ -108,5 +119,35 @@ public class OpenRedditLink {
         i.putExtra("context", id);
         i.putExtra("submission", submission);
         c.startActivity(i);
+    }
+
+    /* Exclude a package (this app) from opening an intent.
+    Source: http://stackoverflow.com/a/23268821/4026792
+    */
+
+    public static void customIntentChooser(String url, Context c) {
+        String packageNameToIgnore = BuildConfig.APPLICATION_ID;
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setData(uri);
+        PackageManager packageManager = c.getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        ArrayList<Intent> targetIntents = new ArrayList<>();
+        for (ResolveInfo currentInfo : activities) {
+            String packageName = currentInfo.activityInfo.packageName;
+            if (!packageNameToIgnore.equals(packageName)) {
+                Intent targetIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                targetIntent.setData(uri);
+                targetIntent.setPackage(packageName);
+                targetIntents.add(targetIntent);
+            }
+        }
+        if (targetIntents.size() > 0) {
+            Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), "Open URL with");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
+            c.startActivity(chooserIntent);
+        } else
+            Reddit.defaultShare(uri.toString(), c);
     }
 }

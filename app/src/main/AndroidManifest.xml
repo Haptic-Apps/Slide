@@ -132,7 +132,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- FIXME: exclude reddit subdomains store, blog, pay, ssl from intent filter -->
                 <data android:scheme="http"/>
                 <data android:scheme="https"/>
                 <data android:host="*reddit.com"/>
