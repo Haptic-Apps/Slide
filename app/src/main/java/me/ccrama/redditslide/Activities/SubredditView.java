@@ -589,10 +589,7 @@ public class SubredditView extends BaseActivityAnim {
                         final RadioButton def = (RadioButton) dialoglayout.findViewById(R.id.def);
                         final RadioButton alt = (RadioButton) dialoglayout.findViewById(R.id.alt);
 
-
                         {
-
-
                             int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                             int i = 0;
                             for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
@@ -608,8 +605,8 @@ public class SubredditView extends BaseActivityAnim {
                             colorPickeracc.setColors(arrs);
 
                             int topick = new ColorPreferences(SubredditView.this).getFontStyleSubreddit(subreddit).getColor();
-                            for(int color : arrs){
-                                if(color == topick){
+                            for (int color : arrs) {
+                                if (color == topick) {
                                     colorPickeracc.setSelectedColorPosition(color);
                                     break;
 
@@ -618,21 +615,27 @@ public class SubredditView extends BaseActivityAnim {
 
                         }
 
+                        if (Reddit.expandedSettings) {
+                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                            if (i == 0) {
+                                def.setChecked(true);
+                            } else {
+                                alt.setChecked(true);
+                            }
 
-                        int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                        if (i == 0) {
-                            def.setChecked(true);
+
+                            def.setText(R.string.settings_layout_default);
+                            alt.setText(R.string.settings_title_alternative_layout);
+
                         } else {
-                            alt.setChecked(true);
+                            def.setVisibility(View.GONE);
+                            alt.setVisibility(View.GONE);
+                            dialoglayout.findViewById(R.id.layout_title).setVisibility(View.GONE);
                         }
 
 
-                        def.setText(R.string.settings_layout_default);
-                        alt.setText(R.string.settings_title_alternative_layout);
-
-
                         builder.setView(dialoglayout);
-                       final Dialog diag = builder.show();
+                        final Dialog diag = builder.show();
 
                         {
                             TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);

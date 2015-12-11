@@ -407,7 +407,7 @@
 
 
     <!-- Settings -->
-    <string name="settings_reddit_settings">Reddit Settings</string>
+    <string name="settings_reddit_settings">Reddit Preferences</string>
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_card_mode">Card Mode</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
@@ -419,7 +419,7 @@
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_browser">Internal web browser</string>
     <string name="settings_link_gif">Internal GIF view</string>
-    <string name="settings_link_handling">Link handling</string>
+    <string name="settings_link_handling">Link Handling</string>
     <string name="settings_link_image">Internal image view</string>
     <string name="settings_link_video">Internal video view</string>
     <string name="settings_mail_check">Check for new messages</string>
@@ -427,7 +427,7 @@
     <string name="settings_main_color_title">Edit main color</string>
     <string name="settings_notification">Check for new messages every %1$s</string>
     <string name="settings_notification_short">Check every %1$s</string>
-    <string name="settings_single_mode">Single Mode\nRemoves swiping between subs</string>
+    <string name="settings_single_mode">Subreddit Tabs\nSwipe between subreddits</string>
     <string name="enter_animation">Enter animation\nShow reveal animations</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
