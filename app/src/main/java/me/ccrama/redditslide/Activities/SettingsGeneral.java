@@ -36,52 +36,58 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.single);
 
-            single.setChecked(Reddit.single);
+            single.setChecked(!Reddit.single);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.single = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Single", isChecked).apply();
+                    Reddit.single = !isChecked;
+                    SettingValues.prefs.edit().putBoolean("Single", !isChecked).apply();
 
                 }
             });
         }
-        {
-            final SeekBar animationMultiplier = (SeekBar) findViewById(R.id.animation_length_sb);
-            animationMultiplier.setProgress(Reddit.enter_animation_time_multiplier);
-            animationMultiplier.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    if (progress <= 0) {
-                        progress = 1;
-                        animationMultiplier.setProgress(1);
+        if (Reddit.expandedSettings) {
+            {
+                final SeekBar animationMultiplier = (SeekBar) findViewById(R.id.animation_length_sb);
+                animationMultiplier.setProgress(Reddit.enter_animation_time_multiplier);
+                animationMultiplier.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        if (progress <= 0) {
+                            progress = 1;
+                            animationMultiplier.setProgress(1);
+                        }
+                        SettingValues.prefs.edit().putInt("AnimationLengthMultiplier", progress).apply();
+                        Reddit.enter_animation_time_multiplier = progress;
+                        Reddit.enter_animation_time = Reddit.enter_animation_time_original * Reddit.enter_animation_time_multiplier;
                     }
-                    SettingValues.prefs.edit().putInt("AnimationLengthMultiplier", progress).apply();
-                    Reddit.enter_animation_time_multiplier = progress;
-                    Reddit.enter_animation_time = Reddit.enter_animation_time_original * Reddit.enter_animation_time_multiplier;
-                }
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
 
-                }
+                    }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
 
-                }
-            });
-            final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
-            animation.setChecked(Reddit.animation);
-            animationMultiplier.setEnabled(Reddit.animation);
-            animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.animation = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
-                    animationMultiplier.setEnabled(isChecked);
-                }
-            });
+                    }
+                });
+                final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
+                animation.setChecked(Reddit.animation);
+                animationMultiplier.setEnabled(Reddit.animation);
+                animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Reddit.animation = isChecked;
+                        SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
+                        animationMultiplier.setEnabled(isChecked);
+                    }
+                });
+            }
+        }
+        else {
+            findViewById(R.id.animation_length_sb).setVisibility(View.GONE);
+            findViewById(R.id.enter_animation).setVisibility(View.GONE);
         }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
@@ -96,19 +102,22 @@ public class SettingsGeneral extends BaseActivity {
                 }
             });
         }
-        {
-            SwitchCompat fullscreenswitch = (SwitchCompat) findViewById(R.id.full_screen_images_switch);
+        if (Reddit.expandedSettings) {
+            {
+                SwitchCompat fullscreenswitch = (SwitchCompat) findViewById(R.id.full_screen_images_switch);
 
-            fullscreenswitch.setChecked(Reddit.fullscreen);
-            fullscreenswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.fullscreen = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Fullscreen", isChecked).apply();
+                fullscreenswitch.setChecked(Reddit.fullscreen);
+                fullscreenswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Reddit.fullscreen = isChecked;
+                        SettingValues.prefs.edit().putBoolean("Fullscreen", isChecked).apply();
 
-                }
-            });
+                    }
+                });
+            }
         }
+        else findViewById(R.id.full_screen_images).setVisibility(View.GONE);
         {
 
 

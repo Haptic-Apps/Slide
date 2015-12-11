@@ -106,6 +106,7 @@
                 </RelativeLayout>
                 <TextView
                     android:layout_width="match_parent"
+                    android:id="@+id/layout_title"
                     android:padding="16dp"
                     android:text="@string/theme_card_type"
                     android:textSize="18sp"

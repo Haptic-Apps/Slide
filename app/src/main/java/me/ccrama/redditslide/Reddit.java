@@ -58,6 +58,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean swap;
     public static boolean album;
     public static boolean cache;
+    public static boolean expandedSettings;
 
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
 
@@ -380,6 +381,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         image = SettingValues.prefs.getBoolean("image", true);
         cache = SettingValues.prefs.getBoolean("cache", true);
         cacheDefault = SettingValues.prefs.getBoolean("cacheDefault", false);
+        expandedSettings = SettingValues.prefs.getBoolean("expandedSettings", false);
 
         album = SettingValues.prefs.getBoolean("album", true);
         gif = SettingValues.prefs.getBoolean("gif", true);
