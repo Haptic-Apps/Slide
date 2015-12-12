@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
@@ -492,15 +493,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         String urlString = "https://reddit.com" + submission.getPermalink() +
                                 n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                        try {
-                            mContext.startActivity(intent);
-                        } catch (ActivityNotFoundException ex) {
-                            intent.setPackage(null);
-                            mContext.startActivity(intent);
-                        }
+                        OpenRedditLink.customIntentChooser(urlString, mContext);
                     }
                 });
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
@@ -980,16 +973,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String urlString = submission.getUrl();
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                            try {
-                                mContext.startActivity(intent);
-                            } catch (ActivityNotFoundException ex) {
-                                intent.setPackage(null);
-                                mContext.startActivity(intent);
-                            }
+                            String urlString = "https://reddit.com" + submission.getPermalink();
+                            OpenRedditLink.customIntentChooser(urlString, mContext);
                         }
                     });
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {

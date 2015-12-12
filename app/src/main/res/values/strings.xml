@@ -23,7 +23,7 @@
     <string name="submission_share_content">Content URL</string>
     <string name="submission_hide">Hide post</string>
     <string name="submission_report">Report post</string>
-    <string name="submission_gild">Gild post</string>
+    <string name="submission_gild">Open in browser</string>
     <string name="submission_save">Save post</string>
     <string name="submission_share">Share post</string>
     <string name="submission_load_full">Load full thread</string>
