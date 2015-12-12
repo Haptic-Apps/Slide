@@ -25,7 +25,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -92,7 +91,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     // Instance state keys
     static final String SUBS = "subscriptions";
     static final String SUBS_ALPHA = "subscriptionsAlpha";
@@ -189,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -1052,6 +1052,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, Settings.class);
                 startActivityForResult(i, 1);
+                drawerLayout.closeDrawers();
             }
         });
 
@@ -1392,7 +1393,6 @@ public class MainActivity extends AppCompatActivity {
                     Reddit.currentPosition = position;
 
                     doSubSidebar(usedArray.get(position));
-
 
                     if (adapter.getCurrentFragment() != null) {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;

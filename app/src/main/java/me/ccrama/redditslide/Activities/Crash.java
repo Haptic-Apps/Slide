@@ -4,23 +4,19 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Crash extends AppCompatActivity {
-
-
+public class Crash extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstance) {
-
+        disableSwipeBackLayout();
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
+        applyColorTheme();
 
         setContentView(R.layout.activity_crash);
 
@@ -70,6 +66,7 @@ public class Crash extends AppCompatActivity {
                         .getLaunchIntentForPackage(getBaseContext().getPackageName());
                 i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -79,6 +76,11 @@ public class Crash extends AppCompatActivity {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("Stacktrace", stacktrace);
                 clipboard.setPrimaryClip(clip);
+                Intent i = getBaseContext().getPackageManager()
+                        .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
                 return true;
             }
         });

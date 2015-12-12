@@ -5,12 +5,10 @@ import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
@@ -18,7 +16,7 @@ import me.ccrama.redditslide.SubredditStorage;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class LoadingData extends AppCompatActivity {
+public class LoadingData extends BaseActivity {
 
     public TextView loading;
 
@@ -31,9 +29,9 @@ public class LoadingData extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
+        disableSwipeBackLayout();
         super.onCreate(savedInstance);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit("asdf"), true);
+        applyColorTheme();
 
         ((Reddit) getApplication()).active = true;
         ((Reddit) getApplication()).loader = this;

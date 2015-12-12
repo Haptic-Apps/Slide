@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -687,15 +686,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             String urlString = "https://reddit.com" + submission.getPermalink();
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                            try {
-                                mContext.startActivity(intent);
-                            } catch (ActivityNotFoundException ex) {
-                                intent.setPackage(null);
-                                mContext.startActivity(intent);
-                            }
+                            OpenRedditLink.customIntentChooser(urlString, mContext);
                         }
                     });
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
