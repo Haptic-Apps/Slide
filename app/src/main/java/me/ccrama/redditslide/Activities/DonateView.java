@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,10 +15,8 @@ import android.widget.TextView;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -29,7 +26,7 @@ import me.ccrama.redditslide.util.Purchase;
 /**
  * Created by carlo_000 on 5/26/2015.
  */
-public class DonateView extends AppCompatActivity {
+public class DonateView extends BaseActivity {
 
 
     private final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
@@ -67,11 +64,10 @@ public class DonateView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
 
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_donate);
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
         t.setTitle(R.string.donate_title);

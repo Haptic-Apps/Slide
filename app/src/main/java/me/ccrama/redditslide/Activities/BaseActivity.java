@@ -22,8 +22,9 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
-    private SwipeBackActivityHelper mHelper;
     protected Toolbar mToolbar;
+    private SwipeBackActivityHelper mHelper;
+    private boolean enableSwipeBackLayout = true;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -39,21 +40,22 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (enableSwipeBackLayout) {
+            mHelper = new SwipeBackActivityHelper(this);
+            mHelper.onActivityCreate();
 
-        mHelper = new SwipeBackActivityHelper(this);
-        mHelper.onActivityCreate();
-
-        if(Reddit.single) {
-            DisplayMetrics metrics = getResources().getDisplayMetrics();
-            getSwipeBackLayout().setEdgeSize(metrics.widthPixels - 10);
-            Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+            if (Reddit.single) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                getSwipeBackLayout().setEdgeSize(metrics.widthPixels - 10);
+                Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+            }
         }
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mHelper.onPostCreate();
+        if (enableSwipeBackLayout) mHelper.onPostCreate();
     }
 
     @Override
@@ -66,18 +68,30 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
     @Override
     public SwipeBackLayout getSwipeBackLayout() {
-        return mHelper.getSwipeBackLayout();
+        if (enableSwipeBackLayout) return mHelper.getSwipeBackLayout();
+        else return null;
     }
 
     @Override
     public void setSwipeBackEnable(boolean enable) {
-        getSwipeBackLayout().setEnableGesture(enable);
+        if (enableSwipeBackLayout) getSwipeBackLayout().setEnableGesture(enable);
     }
+
+
 
     @Override
     public void scrollToFinishActivity() {
-        Utils.convertActivityToTranslucent(this);
-        getSwipeBackLayout().scrollToFinishActivity();
+        if (enableSwipeBackLayout) {
+            Utils.convertActivityToTranslucent(this);
+            getSwipeBackLayout().scrollToFinishActivity();
+        }
+    }
+
+    /**
+     * Disables the Swipe-Back-Layout. Should be called before calling super.onCreate()
+     */
+    protected void disableSwipeBackLayout(){
+        enableSwipeBackLayout = false;
     }
 
     /**
@@ -107,19 +121,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton) {
-        mToolbar = (Toolbar) findViewById(toolbar);
-        mToolbar.setBackgroundColor(Palette.getDefaultColor());
-        setSupportActionBar(mToolbar);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(enableUpButton);
-            getSupportActionBar().setTitle(getString(title));
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Palette.getStatusBarColor());
-        }
+        setupAppBar(toolbar, getString(title), enableUpButton);
     }
 
     /**
@@ -162,7 +164,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(enableUpButton);
-            getSupportActionBar().setTitle(title);
+            if (title != null) {
+                getSupportActionBar().setTitle(title);
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

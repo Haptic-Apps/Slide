@@ -327,7 +327,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         s = s.replace(";", ",");
                         Intent i = new Intent(Reddit.this, Crash.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("stacktrace", "```" + s + "```");
+                        i.putExtra("stacktrace", s);
 
                         startActivity(i);
                     } catch (Throwable ignored) {
