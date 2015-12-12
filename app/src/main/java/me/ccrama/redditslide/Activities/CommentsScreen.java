@@ -103,6 +103,7 @@ public class CommentsScreen extends BaseActivityAnim {
             args.putString("id", name.substring(3, name.length()));
             Log.v("Slide", name.substring(3, name.length()));
             args.putString("subreddit", posts.get(i).getSubredditName());
+            args.putBoolean("archived", posts.get(i).isArchived());
             args.putInt("page", i);
             f.setArguments(args);
 

@@ -278,7 +278,6 @@ public class PopulateSubmissionViewHolder {
 
         holder.info.setText(submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime(), mContext));
 
-
         holder.subreddit.setText(submission.getSubredditName());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
@@ -775,7 +774,11 @@ public class PopulateSubmissionViewHolder {
 
         final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
         final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
-        if (Authentication.isLoggedIn && !submission.voted() && !offline) {
+        if(submission.isArchived()){
+            downvotebutton.setVisibility(View.GONE);
+            upvotebutton.setVisibility(View.GONE);
+        }
+        else if (Authentication.isLoggedIn && !submission.voted() && !offline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
                 downvotebutton.clearColorFilter();
 

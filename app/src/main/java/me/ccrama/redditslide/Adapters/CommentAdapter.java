@@ -417,7 +417,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 delete.setVisibility(View.GONE);
             }
         }
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && !submission.isArchived()) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

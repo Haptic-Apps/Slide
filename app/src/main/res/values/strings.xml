@@ -163,12 +163,12 @@
     <string name="sorting_old">Old</string>
     <string name="sorting_controversial">Controversial</string>
     <string name="sorting_rising">Rising</string>
-    <string name="sorting_hour">past Hour</string>
+    <string name="sorting_hour">past hour</string>
     <string name="sorting_day">past 24 hours</string>
-    <string name="sorting_week">past Week</string>
-    <string name="sorting_month">past Month</string>
-    <string name="sorting_year">past Year</string>
-    <string name="sorting_all">all Time</string>
+    <string name="sorting_week">past week</string>
+    <string name="sorting_month">past month</string>
+    <string name="sorting_year">past year</string>
+    <string name="sorting_all">all time</string>
 
 
     <!-- Editor (save/submit a post) actions -->
