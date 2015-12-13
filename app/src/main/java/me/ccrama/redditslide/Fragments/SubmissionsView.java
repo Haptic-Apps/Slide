@@ -110,26 +110,26 @@ public class SubmissionsView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
 
-            posts = new SubredditPosts(id);
-            adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
-            rv.setAdapter(adapter);
-            try {
-                posts.bindAdapter(adapter, mSwipeRefreshLayout);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        posts = new SubredditPosts(id);
+        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
+        rv.setAdapter(adapter);
+        try {
+            posts.bindAdapter(adapter, mSwipeRefreshLayout);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
-            mSwipeRefreshLayout.setOnRefreshListener(
-                    new SwipeRefreshLayout.OnRefreshListener() {
-                        @Override
-                        public void onRefresh() {
-                            refresh();
-                        }
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refresh();
                     }
-            );
+                }
+        );
 
         if (Reddit.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
