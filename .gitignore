@@ -24,6 +24,7 @@ local.properties
 ehthumbs.db
 Thumbs.db
 cd
+*.log
 
 
 /app/src/main/java/me/ccrama/redditslide/SecretConstants.java

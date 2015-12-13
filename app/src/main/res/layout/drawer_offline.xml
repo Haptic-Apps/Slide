@@ -30,7 +30,7 @@
         android:textColor="?attr/font"
         android:padding="24dp"
         android:textSize="14sp"
-        android:text="Slide is in offline mode. Connect to the internet to see all content!"
+        android:text="@string/offline_drawer_info"
         android:layout_height="wrap_content" />
 
 

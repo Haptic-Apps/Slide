@@ -281,7 +281,6 @@
   <string name="subreddit_change_card">Cambia tipo di card per il subreddit</string>
   <string name="subreddit_chooser">Segli un subreddit</string>
   <string name="search_comments_hint">Cerca commenti</string>
-  <string name="search_submissions_hint">Cerca post</string>
   <string name="search_goto">Vai a</string>
   <string name="captcha">Inserisci il codice mostrato sopra</string>
   <string name="captcha_title">Dimostra di non essere un robot</string>
@@ -365,14 +364,6 @@
   <string name="donate_success_title">Donazione riuscita!</string>
   <string name="donate_success_msg">Grazie mille del tuo supporto a Slide for Reddit! Significa molto per me. Se riscontri qualche problema, inviami un\'email o posta su /r/slideforreddit quando vuoi!</string>
   <string name="donate_success_btn">Prego!</string>
-  <string name="gitty_username_invalid">Inserisci un username valido</string>
-  <string name="gitty_password_invalid">Inserisci una password valida</string>
-  <string name="gitty_title_invalid">Inserisci un titolo valido</string>
-  <string name="gitty_desc_invalid">Descrivi il problema</string>
-  <string name="gitty_uploading">Caricamento della segnalazione su GitHub</string>
-  <string name="gitty_err_upload">Impossibile inviare la segnalazione</string>
-  <string name="gitty_err_upload_msg">Username o password sbagliati, o token di accesso non valido.</string>
-  <string name="gitty_err_msg">Si è verificato un errore inaspettato. Se il problema persiste, contatta lo sviluppatore.</string>
   <string name="time_just_now">proprio ora</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto fa</item>

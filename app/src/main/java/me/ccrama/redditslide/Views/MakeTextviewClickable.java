@@ -1,12 +1,9 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -18,7 +15,6 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
@@ -41,6 +37,7 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CustomTabUtil;
 
 /**
  * Created by ccrama on 7/17/2015.
@@ -339,55 +336,9 @@ public class MakeTextviewClickable {
                         new OpenRedditLink(c, url);
                         break;
                     case LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                        break;
                     case IMAGE_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                        break;
                     case NSFW_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
+                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
                         break;
                     case SELF:
                         break;
@@ -421,21 +372,7 @@ public class MakeTextviewClickable {
                         openImage(c, url);
                         break;
                     case NONE_URL:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(subreddit)).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
+                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
                         break;
                     case VIDEO:
                         if (Reddit.video) {
@@ -472,7 +409,7 @@ public class MakeTextviewClickable {
         }
     }
 
-    public void ParseTextWithLinksTextView(String rawHTML, final ActiveTextView comm, final Activity c, String subreddit) {
+    public void ParseTextWithLinksTextView(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -511,55 +448,9 @@ public class MakeTextviewClickable {
                         new OpenRedditLink(c, url);
                         break;
                     case LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                        break;
                     case IMAGE_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                        break;
                     case NSFW_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
+                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
                         break;
                     case SELF:
                         break;
@@ -593,21 +484,7 @@ public class MakeTextviewClickable {
                         openImage(c, url);
                         break;
                     case NONE_URL:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            //COLOR todo  builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(c, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(c, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            try {
-                                customTabsIntent.launchUrl(c, Uri.parse(url));
-                            } catch (ActivityNotFoundException anfe) {
-                                Log.w("MakeTextViewClickable", "Unknown url: " + anfe);
-                            }
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
+                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
                         break;
                     case VIDEO:
                         if (Reddit.video) {

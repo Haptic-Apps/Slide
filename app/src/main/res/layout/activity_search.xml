@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="?attr/tint"
-            android:hint="Search term"
+            android:hint="@string/search_hint"
             android:textColor="?attr/font"
             android:textColorHint="?attr/font" />
 

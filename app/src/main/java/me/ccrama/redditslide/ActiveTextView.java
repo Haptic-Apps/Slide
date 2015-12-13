@@ -182,7 +182,7 @@ public class ActiveTextView extends TextView {
                                 if (mLinkSet) {
                                     if (mListener != null) {
                                         spoilerClicked = true;
-                                        int urlEnd = buffer.getSpanStart(links[0]);
+                                        int urlEnd = buffer.getSpanEnd(links[0]);
                                         mListener.onClick(mUrl, urlEnd);
                                     } else {
                                         if (mUrl != null) {

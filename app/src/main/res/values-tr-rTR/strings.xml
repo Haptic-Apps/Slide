@@ -244,6 +244,7 @@
   <string name="vote_err_login">Oy vermek için giriş yapmış olmalısın!</string>
   <string name="mod_mail">Mod E-Postası</string>
   <string name="mod_actions">Mod Eylemleri</string>
+  <string name="mod_reports">Raporlar</string>
   <string name="mod_approve">Bu gönderiyi gerçekten onaylamak istiyor musunuz?</string>
   <string name="mod_approved">Gönderi onaylandı.</string>
   <string name="mod_mark_nsfw">Bunu gerçekten NSFW olarak işaretlemek istiyor musun?</string>
@@ -252,6 +253,8 @@
   <string name="mod_remove_hint">Silme Nedeni</string>
   <string name="mod_remove_hint_msg">Bu gönderiyi neden siliyorsunuz?</string>
   <string name="mod_flair">Rozet</string>
+  <string name="mod_post_removed">Yazı kaldırıldı.</string>
+  <string name="mod_btn_approve">Onayla</string>
   <string name="mod_btn_spam">Spam</string>
   <string name="mod_ban">Kullanıcıyı banla</string>
   <string name="wiki_err">Hiçbir wiki bulunamadı</string>
@@ -262,7 +265,6 @@
   <string name="subreddit_change_card">Subreddit kartı türünü değiştir</string>
   <string name="subreddit_chooser">Bir subreddit seçin</string>
   <string name="search_comments_hint">Yorumları ara</string>
-  <string name="search_submissions_hint">Gönderileri ara</string>
   <string name="search_goto">Şuraya git</string>
   <string name="captcha">Yukarıdaki kodu girin</string>
   <string name="captcha_title">Robot olmadığınızı kanıtlayın</string>
@@ -290,6 +292,8 @@
   <string name="settings_disable_nsfw">Tüm İİUD mesajları gizle</string>
   <string name="settings_confirm_exit">Çıkış Onayı kutusu</string>
   <string name="share_link">Bağlantıyı paylaş</string>
+  <string name="share_image">Resmi paylaş</string>
+  <string name="settings_bugs">Hata raporu</string>
   <string name="settings_title_alternative_layout">Alternatif Düzen</string>
   <string name="settings_title_default_theme">Varsayılan Tema</string>
   <string name="settings_title_general">Genel</string>
@@ -328,14 +332,7 @@
   <string name="donate_success_title">Bağış başarılı!</string>
   <string name="donate_success_msg">Slide for Reddit\'e desteğiniz için çok teşekkür ederiz! Bu benim için gerçekten çok önemli. Eğer herhangi bir sorunla karşılaşırsanız, bana bir e-posta atın ya da istediğiniz zaman /r/slideforreddit \'e mesaj yazın!</string>
   <string name="donate_success_btn">Bir şey değil!</string>
-  <string name="gitty_username_invalid">Lütfen geçerli bir kullanıcı adı girin</string>
-  <string name="gitty_password_invalid">Lütfen geçerli bir şifre girin</string>
-  <string name="gitty_title_invalid">Lütfen geçerli bir başlık girin</string>
-  <string name="gitty_desc_invalid">Lütfen sorununuzu tarif edin</string>
-  <string name="gitty_uploading">GitHub\'a rapor yükleniyor</string>
-  <string name="gitty_err_upload">Rapor gönderilemedi</string>
-  <string name="gitty_err_upload_msg">Yanlış kullanıcı adı veya parola veya geçersiz erişim anahtarı.</string>
-  <string name="gitty_err_msg">Beklenmeyen bir hata oluştu. Sorun devam ederse, uygulama geliştiricisine başvurun.</string>
+  <string name="network_connected_msg">Çevrimdışı moddan çıkmak istiyor musunuz?</string>
   <string name="time_just_now">şimdi</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d dakika önce</item>

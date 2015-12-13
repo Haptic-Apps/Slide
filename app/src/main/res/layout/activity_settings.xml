@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/activity_background"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
+              android:background="?attr/activity_background"
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -20,10 +21,6 @@
         >
 
     </android.support.v7.widget.Toolbar>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -141,6 +138,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/cache"
                     android:layout_width="match_parent"
@@ -164,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Cache Settings"
+                        android:text="@string/settings_title_cache"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
@@ -222,6 +220,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/auto"
                     android:layout_width="match_parent"
@@ -245,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Auto Theme Settings"
+                        android:text="@string/settings_title_auto"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
@@ -311,6 +310,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/subtheme"
                     android:layout_width="match_parent"
@@ -340,6 +340,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/comments_settings"
                     android:layout_width="match_parent"
@@ -368,6 +369,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/fab"
                     android:layout_width="match_parent"
@@ -512,6 +514,36 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/reddit_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/reddit"
+                        android:tint="?attr/tint"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_reddit_settings"
+
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/support"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -565,7 +597,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="About"
+                        android:text="@string/settings_title_about"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
@@ -573,6 +605,5 @@
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
-    </RelativeLayout>
 
 </LinearLayout>

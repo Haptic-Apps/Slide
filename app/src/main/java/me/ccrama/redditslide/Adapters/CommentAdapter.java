@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
@@ -417,7 +418,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 delete.setVisibility(View.GONE);
             }
         }
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && !submission.isArchived()) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -492,15 +493,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         String urlString = "https://reddit.com" + submission.getPermalink() +
                                 n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                        try {
-                            mContext.startActivity(intent);
-                        } catch (ActivityNotFoundException ex) {
-                            intent.setPackage(null);
-                            mContext.startActivity(intent);
-                        }
+                        OpenRedditLink.customIntentChooser(urlString, mContext);
                     }
                 });
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
@@ -508,7 +501,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         String urlString = "http://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
                         Reddit.defaultShareText(urlString, mContext);
-                    }});
+                    }
+                });
 
                 dialoglayout.findViewById(R.id.copy).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -815,8 +809,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         Intent i2 = new Intent(mContext, Profile.class);
                         i2.putExtra("profile", comment.getAuthor());
                         mContext.startActivity(i2);
-                    }
-                    else{
+                    } else {
                         holder.itemView.performClick();
                     }
                 }
@@ -839,7 +832,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActiveTextView activeTextView = (ActiveTextView)v;
+                    ActiveTextView activeTextView = (ActiveTextView) v;
                     if (Reddit.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else if (!activeTextView.isSpoilerClicked()) {
@@ -880,53 +873,58 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.dot.setVisibility(View.GONE);
             }
             if (deleted.contains(comment.getFullName())) {
-                holder.content.setText("[deleted]");
-                holder.author.setText("[deleted]");
+                holder.content.setText(R.string.comment_deleted);
+                holder.author.setText(R.string.comment_deleted);
 
 
             }
         } else {
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
             if (Authentication.isLoggedIn) {
-                firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
-                        if (replyArea.getVisibility() == View.GONE) {
-                            replyArea.setVisibility(View.VISIBLE);
-                            DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
+                if (submission.isArchived())
+                    firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
+                else {
+                    firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
+                            if (replyArea.getVisibility() == View.GONE) {
+                                replyArea.setVisibility(View.VISIBLE);
+                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
 
-                            firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dataSet.refreshLayout.setRefreshing(true);
+                                firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dataSet.refreshLayout.setRefreshing(true);
 
-                                    new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
-                                    replyArea.setVisibility(View.GONE);
+                                        new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                                        replyArea.setVisibility(View.GONE);
 
-                                    //Hide soft keyboard
-                                    View view = ((Activity) mContext).getCurrentFocus();
-                                    if (view != null) {
-                                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        //Hide soft keyboard
+                                        View view = ((Activity) mContext).getCurrentFocus();
+                                        if (view != null) {
+                                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        }
                                     }
-                                }
-                            });
-                        } else {
-                            replyArea.setVisibility(View.GONE);
+                                });
+                            } else {
+                                replyArea.setVisibility(View.GONE);
+                            }
                         }
-                    }
-                });
-                firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
-                    }
-                });
+                    });
+                    firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
+                        }
+                    });
+                }
             } else {
                 firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
 
             }
+
             firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -975,16 +973,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String urlString = submission.getUrl();
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                            try {
-                                mContext.startActivity(intent);
-                            } catch (ActivityNotFoundException ex) {
-                                intent.setPackage(null);
-                                mContext.startActivity(intent);
-                            }
+                            String urlString = "https://reddit.com" + submission.getPermalink();
+                            OpenRedditLink.customIntentChooser(urlString, mContext);
                         }
                     });
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {

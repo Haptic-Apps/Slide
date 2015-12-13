@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,8 +18,11 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -46,12 +51,30 @@ public class Settings extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            onBackPressed();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.action_expand_settings:
+                Reddit.expandedSettings = !Reddit.expandedSettings;
+                setSettingItems();
+                item.setTitle(Reddit.expandedSettings ? "Show less" : "Show more");
+                SettingValues.prefs.edit().putBoolean("expandedSettings", Reddit.expandedSettings).apply();
+                break;
+            default:
+                break;
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_settings, menu);
+        menu.findItem(R.id.action_expand_settings).setTitle(Reddit.expandedSettings ? "Show less" : "Show more");
+        return true;
     }
 
 
@@ -62,6 +85,11 @@ public class Settings extends BaseActivity {
         setContentView(R.layout.activity_settings);
         setupAppBar(R.id.toolbar, R.string.title_settings, true);
 
+        setSettingItems();
+
+    }
+
+    private void setSettingItems() {
         View pro = findViewById(R.id.pro);
         if (Reddit.tabletUI) pro.setVisibility(View.GONE);
         else {
@@ -91,27 +119,33 @@ public class Settings extends BaseActivity {
                 startActivityForResult(i, 2);
             }
         });
-        findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsCache.class);
-                startActivity(i);
-            }
-        });
-        findViewById(R.id.subtheme).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Settings.this, SettingsSubreddit.class);
-                startActivityForResult(i, 2);
-            }
-        });
+        if (Reddit.expandedSettings) {
+            findViewById(R.id.cache).setVisibility(View.VISIBLE);
+            findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Settings.this, SettingsCache.class);
+                    startActivity(i);
+                }
+            });
+        } else findViewById(R.id.cache).setVisibility(View.GONE);
+
+
+            findViewById(R.id.subtheme).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Settings.this, SettingsSubreddit.class);
+                    startActivityForResult(i, 2);
+                }
+            });
+
         findViewById(R.id.auto).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Reddit.tabletUI) {
 
                     Intent i = new Intent(Settings.this, SettingsAutonight.class);
-                startActivity(i);
+                    startActivity(i);
                 } else {
                     new AlertDialogWrapper.Builder(Settings.this)
 
@@ -202,6 +236,9 @@ public class Settings extends BaseActivity {
                             if (checkBox.isChecked()) {
                                 Reddit.notificationTime = landscape.getValue() * 15;
                                 Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                                if (Reddit.notifications == null) {
+                                    Reddit.notifications = new NotificationJobScheduler(getApplication());
+                                }
                                 Reddit.notifications.cancel(getApplication());
                                 Reddit.notifications.start(getApplication());
                             }
@@ -213,6 +250,9 @@ public class Settings extends BaseActivity {
                             if (checkBox.isChecked()) {
                                 Reddit.notificationTime = landscape.getValue() * 15;
                                 Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                                if (Reddit.notifications == null) {
+                                    Reddit.notifications = new NotificationJobScheduler(getApplication());
+                                }
                                 Reddit.notifications.cancel(getApplication());
                                 Reddit.notifications.start(getApplication());
                                 dialog.dismiss();
@@ -277,14 +317,17 @@ public class Settings extends BaseActivity {
                 startActivity(i);
             }
         });
-        findViewById(R.id.preset).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Settings.this, EditCardsLayout.class);
-                i.putExtra("secondary", "yes");
-                startActivityForResult(i, 2);
-            }
-        });
+        if (Reddit.expandedSettings) {
+            findViewById(R.id.preset).setVisibility(View.VISIBLE);
+            findViewById(R.id.preset).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Settings.this, EditCardsLayout.class);
+                    i.putExtra("secondary", "yes");
+                    startActivityForResult(i, 2);
+                }
+            });
+        } else findViewById(R.id.preset).setVisibility(View.GONE);
 
         findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,6 +385,13 @@ public class Settings extends BaseActivity {
                 Settings.this.startActivity(inte);
             }
         });
+        findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/prefs/"));
+                startActivity(browserIntent);
+            }
+        });
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -350,6 +400,5 @@ public class Settings extends BaseActivity {
             }
         });
     }
-
 
 }

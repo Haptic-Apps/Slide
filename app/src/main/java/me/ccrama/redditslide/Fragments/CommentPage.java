@@ -38,6 +38,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class CommentPage extends Fragment {
 
     boolean np;
+    boolean archived;
     boolean loadMore;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView rv;
@@ -151,12 +152,6 @@ public class CommentPage extends Fragment {
         View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
 
-        if (!np) {
-            v.findViewById(R.id.np).setVisibility(View.GONE);
-        } else {
-            v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(id));
-
-        }
         if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
         } else {
@@ -322,6 +317,17 @@ public class CommentPage extends Fragment {
 
 
         }
+        if (!np && !archived) {
+            v.findViewById(R.id.np).setVisibility(View.GONE);
+            v.findViewById(R.id.archived).setVisibility(View.GONE);
+        } else if(archived){
+            v.findViewById(R.id.np).setVisibility(View.GONE);
+            v.findViewById(R.id.archived).setBackgroundColor(Palette.getColor(id));
+
+        } else {
+            v.findViewById(R.id.archived).setVisibility(View.GONE);
+            v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(id));
+        }
 
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -389,6 +395,7 @@ public class CommentPage extends Fragment {
         single = bundle.getBoolean("single", false);
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
+        archived = bundle.getBoolean("archived", false);
         loadMore = (!context.isEmpty() && !context.equals("NOTHING"));
     }
 

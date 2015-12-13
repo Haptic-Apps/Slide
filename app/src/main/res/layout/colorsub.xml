@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:padding="16dp"
-                    android:text="Base color"
+                    android:text="@string/theme_default_color"
                     android:textSize="18sp"
                     android:layout_height="wrap_content" />
 
@@ -74,7 +74,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:padding="16dp"
-                    android:text="Accent color"
+                    android:text="@string/theme_accent_color"
                     android:textSize="18sp"
                     android:layout_height="wrap_content" />
                 <RelativeLayout
@@ -106,8 +106,9 @@
                 </RelativeLayout>
                 <TextView
                     android:layout_width="match_parent"
+                    android:id="@+id/layout_title"
                     android:padding="16dp"
-                    android:text="Card type"
+                    android:text="@string/theme_card_type"
                     android:textSize="18sp"
                     android:layout_height="wrap_content" />
                 <RadioGroup
@@ -117,14 +118,14 @@
 
                     <RadioButton
                         android:layout_width="wrap_content"
-                        android:text="Default Layout"
+                        android:text="@string/settings_layout_default"
                         android:textSize="16sp"
                         android:checked="true"
                         android:id="@+id/def"
                         android:layout_height="wrap_content" />
                     <RadioButton
                         android:layout_width="wrap_content"
-                        android:text="Alternate Layout"
+                        android:text="@string/settings_title_alternative_layout"
                         android:id="@+id/alt"
 
                         android:textSize="16sp"
@@ -138,19 +139,21 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="CANCEL"
+                    android:text="@string/btn_cancel"
                     android:textSize="14dp"
                     android:textStyle="bold"
                     android:padding="8dp"
                     android:id="@+id/cancel"
+                    android:textAllCaps="true"
 
                     android:layout_margin="8dp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:id="@+id/ok"
-                    android:text="CONFIRM"
+                    android:text="@string/btn_confirm"
                     android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:padding="8dp"
                     android:layout_alignParentRight="true"
                     android:layout_margin="8dp"

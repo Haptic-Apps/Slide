@@ -11,8 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,19 +39,16 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Submit extends AppCompatActivity {
+public class Submit extends BaseActivity {
     String trying;
     private View image;
     private View self;
@@ -74,24 +69,18 @@ public class Submit extends AppCompatActivity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
+        disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_submit);
 
-        final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setTitle(R.string.title_submit_post);
-        b.setBackgroundColor(Palette.getColor("alksfjalskjf"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Palette.getDarkerColor(Palette.getColor("asldkfj")));
         }
-        setSupportActionBar(b);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setupAppBar(R.id.toolbar, R.string.title_submit_post, true);
+
 
         Intent intent = getIntent();
 

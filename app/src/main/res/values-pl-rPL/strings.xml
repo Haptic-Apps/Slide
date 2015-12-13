@@ -8,6 +8,7 @@
   <string name="general_pro_msg">Zdecydowałem się, by kilka funkcji Slide for Reddit (w tym tryb wielokolumnowy) było odblokowywanych przez zakup klucza Pro z Play Store.\n\n Jest tak, by aplikacja mogła się rozwijać i pozostawać bez reklam!\n\nKupując klucz Pro uzyskujesz tryb wielokolumnowy, tryb Shadowbox, i wiele innych funkcji zostanie dodanych!\n\nCzy chcesz odblokować Slide for Reddit Pro?</string>
   <string name="general_open_settings">Otwórz Ustawienie Subreddita</string>
   <string name="general_sub_sync">Synchronizowanie subskrypcji</string>
+  <string name="general_login">Zaloguj się</string>
   <string name="submission_info_unsaved">Post usunięty z zapisanych</string>
   <string name="submission_info_saved">Post zapisany</string>
   <string name="submission_post_saved">Post zapisany</string>
@@ -156,6 +157,7 @@
   <string name="err_general">O nie, wystąpił błąd</string>
   <string name="err_no_connection">Nie udało się połączyć z redditem. Czy chcesz spróbować ponownie?</string>
   <string name="err_retry_later">Spróbuj ponownie za minutę!</string>
+  <string name="err_login">Musisz się zalogować by to zrobić! Zalogować się teraz?</string>
   <string name="gif_err_title">Nie znaleziono GIFa</string>
   <string name="gif_err_msg">Wystąpił błąd podczas ładowania tego GIFa. Proszę ponownie otworzyć GIFa i spróbować jeszcze raz.</string>
   <string name="gif_saved">Zapisano GIF</string>
@@ -165,6 +167,7 @@
   <string name="login_restarting_title">Aplikacja się restartuje</string>
   <string name="login_restart_msg">By zsynchronizować subreddity i ustawienia, Slide się zrestartuje</string>
   <string name="multireddit_err_title">Brak Multiredditów!</string>
+  <string name="multireddit_err_msg">Czy chcesz stworzyć nowego multireddita?</string>
   <string name="multireddit_title_empty">Musisz podać tytuł</string>
   <string name="multireddit_title_empty_msg">Podaj nazwę dla swojego multireddita</string>
   <string name="multireddit_no_subs">Nie dodano subredditów</string>
@@ -285,7 +288,6 @@
   <string name="subreddit_change_card">Zmień typ kart dla subreddita</string>
   <string name="subreddit_chooser">Wybierz subreddit</string>
   <string name="search_comments_hint">Przeszukaj komentarze</string>
-  <string name="search_submissions_hint">Szukaj postów</string>
   <string name="search_goto">Przejdź do</string>
   <string name="captcha">Wpisz powyższy kod</string>
   <string name="captcha_title">Udowodnij, że nie jesteś robotem</string>
@@ -309,6 +311,7 @@
   <string name="settings_notification">Sprawdzaj wiadomości co %1$s</string>
   <string name="settings_notification_short">Sprawdzaj co %1$s</string>
   <string name="settings_single_mode">Tryb pojedynczy\nWyłącza przesuwanie między subredditami</string>
+  <string name="enter_animation">Animacja wejścia\nPokazuj animacje odkrycia</string>
   <string name="settings_swap_actions">Odwróć akcje tapnięcia i długiego przytrzymania w komentarzach</string>
   <string name="settings_disable_nsfw_photo">Ukryj wszystkie obrazy NSFW</string>
   <string name="settings_disable_nsfw">Ukryj wszystkie posty NSFW</string>
@@ -325,6 +328,8 @@
   <string name="settings_floating_action_button_type">Przycisk akcji chowa już przeglądnięte posty</string>
   <string name="settings_google">Łączenie z Google</string>
   <string name="settings_google_msg">Slide łączy się z Google. Spróbuj ponownie za kilka sekund!</string>
+  <string name="settings_fabclear_msg">Kliknięcie przycisku chowania usunie posty tymczasowo. \nDługie przyciśnięcie przycisku schowa posty permamentnie!</string>
+  <string name="settings_fabclear">Akcje chowania dla przycisku FAB</string>
   <string name="settings_notifdisabled">Powiadomienia wyłączone.</string>
   <string name="settings_title_alternative_layout">Alternatywny układ</string>
   <string name="settings_title_backup">Kopia zapasowa i przywracanie</string>
@@ -367,14 +372,8 @@
   <string name="donate_success_title">Dotacja przebiegła pomyłśnie!</string>
   <string name="donate_success_msg">Dziękuję za wsparcie Slide for Reddit. Wiele to dla mnie znaczy. Jeżeli napotkasz jakieś problemy, wyślij mi emaila lub dodaj post w /r/slideforreddit kiedy chcesz!</string>
   <string name="donate_success_btn">Proszę bardzo!</string>
-  <string name="gitty_username_invalid">Wprowadź poprawną nazwę użytkownika</string>
-  <string name="gitty_password_invalid">Proszę podać właściwe hasło</string>
-  <string name="gitty_title_invalid">Podaj prawidłowy tytuł</string>
-  <string name="gitty_desc_invalid">Proszę opisać swój problem</string>
-  <string name="gitty_uploading">Wysłanie raportu na GitHub</string>
-  <string name="gitty_err_upload">Nie może wysłać raportu</string>
-  <string name="gitty_err_upload_msg">Niewłaściwa nazwa użytkownika lub hasło lub nieprawidłowy token dostępu.</string>
-  <string name="gitty_err_msg">Wystąpił nieoczekiwany błąd. Jeśli problem będzie się powtarzał, skontaktuj się z deweloperem aplikacji.</string>
+  <string name="network_connected">Sieć podłączona</string>
+  <string name="network_connected_msg">Czy chcesz wyjść z trybu offline?</string>
   <string name="time_just_now">teraz</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minutę temu</item>

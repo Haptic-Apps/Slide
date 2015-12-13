@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,9 +10,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -71,6 +68,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.CustomTabUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -124,41 +122,9 @@ public class PopulateSubmissionViewHolder {
                         openRedditContent(submission.getUrl(), contextActivity);
                         break;
                     case LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                        break;
                     case IMAGE_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                        break;
                     case NSFW_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case SELF:
                         if (back != null) {
@@ -199,17 +165,7 @@ public class PopulateSubmissionViewHolder {
                         openImage(contextActivity, submission);
                         break;
                     case NONE_URL:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case VIDEO:
                         if (Reddit.video) {
@@ -278,7 +234,6 @@ public class PopulateSubmissionViewHolder {
 
         holder.info.setText(submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime(), mContext));
 
-
         holder.subreddit.setText(submission.getSubredditName());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
@@ -315,7 +270,7 @@ public class PopulateSubmissionViewHolder {
                                         finalReports.add(s + ": " + reports2.get(s));
                                     }
                                     if (finalReports.isEmpty()) {
-                                        finalReports.add("No reports");
+                                        finalReports.add(mContext.getString(R.string.mod_no_reports));
                                     }
                                     return finalReports;
                                 }
@@ -638,7 +593,7 @@ public class PopulateSubmissionViewHolder {
             public void onClick(View view) {
                 if (offline) {
 
-                    Snackbar.make(holder.itemView, "Please go online and refresh the subreddit to do that", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
 
                 } else {
                     LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -688,15 +643,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             String urlString = "https://reddit.com" + submission.getPermalink();
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlString));
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.setPackage("com.android.chrome"); //Force open in chrome so it doesn't open back in Slide
-                            try {
-                                mContext.startActivity(intent);
-                            } catch (ActivityNotFoundException ex) {
-                                intent.setPackage(null);
-                                mContext.startActivity(intent);
-                            }
+                            OpenRedditLink.customIntentChooser(urlString, mContext);
                         }
                     });
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
@@ -775,7 +722,11 @@ public class PopulateSubmissionViewHolder {
 
         final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
         final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
-        if (Authentication.isLoggedIn && !submission.voted() && !offline) {
+        if(submission.isArchived()){
+            downvotebutton.setVisibility(View.GONE);
+            upvotebutton.setVisibility(View.GONE);
+        }
+        else if (Authentication.isLoggedIn && !submission.voted() && !offline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
                 downvotebutton.clearColorFilter();
 

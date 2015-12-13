@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.MenuItem;
@@ -19,17 +18,14 @@ import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.PrivateMessage;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Sendmessage extends AppCompatActivity {
+public class Sendmessage extends BaseActivity {
     public String URL;
     private Boolean reply;
     private PrivateMessage previousMessage;
@@ -52,11 +48,9 @@ public class Sendmessage extends AppCompatActivity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
+        disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
-
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme();
         setContentView(R.layout.activity_sendmessage);
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
@@ -102,15 +96,12 @@ public class Sendmessage extends AppCompatActivity {
 
         }
 
-        b.setBackgroundColor(Palette.getColorUser(name));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Palette.getDarkerColor(Palette.getColorUser(name)));
         }
-        setSupportActionBar(b);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setupUserAppBar(R.id.toolbar, null, true, name);
 
 
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {

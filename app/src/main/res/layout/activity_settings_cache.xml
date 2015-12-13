@@ -59,7 +59,7 @@ android:background="?attr/activity_background">
                 android:button="@null"
                 android:buttonTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="Cache posts for offline viewing"
+                android:text="@string/settings_cache"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
 
@@ -94,7 +94,7 @@ android:background="?attr/activity_background">
                 android:button="@null"
                 android:buttonTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="Always show offline data first (faster startup)"
+                android:text="@string/settings_cache_always"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
 
@@ -125,7 +125,7 @@ android:background="?attr/activity_background">
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
 
-                android:text="Delete all cached data"
+                android:text="@string/settings_cache_delete"
                 android:textColor="?attr/font"
                 android:textSize="16sp"
                 android:textStyle="bold"/>

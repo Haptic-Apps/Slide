@@ -152,6 +152,7 @@
   <string name="err_general">エラーが発生しました</string>
   <string name="err_no_connection">Reddit に到達できませんでした。再試行しますか?</string>
   <string name="err_retry_later">1 分後にもう一度試してください!</string>
+  <string name="err_login">それを行うにはログインが必要です! 今すぐログインしますか?</string>
   <string name="gif_err_title">GIF が見つかりません</string>
   <string name="gif_err_msg">この GIF の読み込み時にエラーが発生しました。GIF を再度開いてもう一度試してください。</string>
   <string name="gif_saved">GIF を保存しました</string>
@@ -161,6 +162,7 @@
   <string name="login_restarting_title">アプリの再起動中</string>
   <string name="login_restart_msg">Subreddit と設定を同期するために、Slide は再起動します</string>
   <string name="multireddit_err_title">Multireddits はいませ（まだ）！</string>
+  <string name="multireddit_err_msg">新しい Multireddit を作成しますか?</string>
   <string name="multireddit_title_empty">タイトルを空にすることはできません</string>
   <string name="multireddit_title_empty_msg">Multireddit のタイトルを入力してください</string>
   <string name="multireddit_no_subs">購読は追加されません</string>
@@ -277,7 +279,6 @@
   <string name="subreddit_change_card">Subreddit のカード種類を変更</string>
   <string name="subreddit_chooser">Subreddit を選ぶ</string>
   <string name="search_comments_hint">コメントを検索</string>
-  <string name="search_submissions_hint">サブミッションを検索</string>
   <string name="search_goto">移動</string>
   <string name="captcha">上記のコードを入力してください</string>
   <string name="captcha_title">あなたがロボットではないことを証明します</string>
@@ -301,6 +302,7 @@
   <string name="settings_notification">%1$s ごとに新着メッセージをチェック</string>
   <string name="settings_notification_short">%1$s ごとにチェック</string>
   <string name="settings_single_mode">シングルモード\n購読間のスワイプを削除します</string>
+  <string name="enter_animation">アニメーションを入力\n公開するアニメーションを表示します</string>
   <string name="settings_swap_actions">コメントでタップと長押し操作を入れ換え</string>
   <string name="settings_disable_nsfw_photo">すべての NSFW 写真を隠す</string>
   <string name="settings_disable_nsfw">すべての NSFW 投稿を隠す</string>
@@ -361,14 +363,8 @@
   <string name="donate_success_title">正常に寄付しました!</string>
   <string name="donate_success_msg">Slide for Reddit のご支援大変ありがとうございました! 私にとってそれは本当に多くの意味があります。何か問題が発生した場合は、私にメールを送るか、いつでも /r/slideforreddit に投稿してください!</string>
   <string name="donate_success_btn">どういたしまして！</string>
-  <string name="gitty_username_invalid">正しいユーザー名を入力してください</string>
-  <string name="gitty_password_invalid">正しいパスワードを入力してください</string>
-  <string name="gitty_title_invalid">正しいタイトルを入力してください</string>
-  <string name="gitty_desc_invalid">問題を説明してください</string>
-  <string name="gitty_uploading">GitHub に報告をアップロード中</string>
-  <string name="gitty_err_upload">報告を送信できません</string>
-  <string name="gitty_err_upload_msg">ユーザー名またはパスワードが間違っているか、アクセス トークンが無効です。</string>
-  <string name="gitty_err_msg">予期しないエラーが発生しました。問題が解決しない場合は、アプリの開発者にお問い合わせください。</string>
+  <string name="network_connected">ネットワークに接続しました</string>
+  <string name="network_connected_msg">オフラインモードを終了しますか?</string>
   <string name="time_just_now">たった今</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分前</item>

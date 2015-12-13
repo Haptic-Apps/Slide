@@ -266,7 +266,6 @@
   <string name="subreddit_change_card">Change card type for subreddit</string>
   <string name="subreddit_chooser">Pick a subreddit</string>
   <string name="search_comments_hint">Search comments</string>
-  <string name="search_submissions_hint">Search submissions</string>
   <string name="search_goto">Go to</string>
   <string name="captcha">Enter the code above</string>
   <string name="captcha_title">Prove you\'re not a robot</string>
@@ -332,14 +331,6 @@
   <string name="donate_success_title">Donation successful!</string>
   <string name="donate_success_msg">Thank you very much for your support of Slide for Reddit! It really means a lot to me. If you encounter any issues, shoot me an email or post to /r/slideforreddit anytime!</string>
   <string name="donate_success_btn">You\'re welcome!</string>
-  <string name="gitty_username_invalid">Please enter a valid username</string>
-  <string name="gitty_password_invalid">Please enter a valid password</string>
-  <string name="gitty_title_invalid">Please enter a valid title</string>
-  <string name="gitty_desc_invalid">Please describe your issue</string>
-  <string name="gitty_uploading">Uploading report to GitHub</string>
-  <string name="gitty_err_upload">Unable to send report</string>
-  <string name="gitty_err_upload_msg">Wrong username or password or invalid access token.</string>
-  <string name="gitty_err_msg">An unexpected error occurred. If the problem persists, contact the app developer.</string>
   <string name="time_just_now">just now</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minute ago</item>

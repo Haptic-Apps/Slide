@@ -281,7 +281,6 @@
   <string name="subreddit_change_card">Kaarttype voor subreddit wijzigen</string>
   <string name="subreddit_chooser">Kies een subreddit</string>
   <string name="search_comments_hint">Reacties doorzoeken</string>
-  <string name="search_submissions_hint">Zoek posts</string>
   <string name="search_goto">Ga naar</string>
   <string name="captcha">Voer de bovenstaande code in</string>
   <string name="captcha_title">Bewijs dat je geen robot bent</string>
@@ -364,14 +363,6 @@
   <string name="donate_success_title">Donatie gelukt!</string>
   <string name="donate_success_msg">Bedankt voor het steunen van Slide voor Reddit! Het betekent echt veel voor mij. Als je een probleem ondervindt, stuur me een e-mail of plaats een bericht in /r/slideforreddit!</string>
   <string name="donate_success_btn">Graag gedaan!</string>
-  <string name="gitty_username_invalid">Voer een geldige gebruikersnaam in</string>
-  <string name="gitty_password_invalid">Voer een geldig wachtwoord in</string>
-  <string name="gitty_title_invalid">Voer een geldige titel in</string>
-  <string name="gitty_desc_invalid">Beschrijf je probleem</string>
-  <string name="gitty_uploading">Melding uploaden naar GitHub</string>
-  <string name="gitty_err_upload">Niet in staat om melding te versturen</string>
-  <string name="gitty_err_upload_msg">Onjuiste gebruikersnaam of wachtwoord of ongeldige toegangs-token.</string>
-  <string name="gitty_err_msg">Er is een onverwachte fout is opgetreden. Als het probleem zich blijft voordoen, neem dan contact op met de ontwikkelaar van de app.</string>
   <string name="time_just_now">zojuist</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuut geleden</item>

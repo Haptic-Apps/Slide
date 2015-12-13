@@ -154,6 +154,7 @@
   <string name="err_general">Oh nein, ein Fehler ist aufgetreten</string>
   <string name="err_no_connection">Reddit konnte nicht erreicht werden. Möchtest du es noch einmal versuchen?</string>
   <string name="err_retry_later">Versuche es in einer Minute noch einmal!</string>
+  <string name="err_login">Dafür musst du eingeloggt sein! Jetzt einloggen?</string>
   <string name="gif_err_title">GIF nicht gefunden</string>
   <string name="gif_err_msg">Beim Laden des Gif-Bildes ist ein Fehler aufgetreten. Bitte versuche es nochmal und öffne das Gif-Bild erneut.</string>
   <string name="gif_saved">GIF gespeichert</string>
@@ -163,6 +164,7 @@
   <string name="login_restarting_title">Slide startet neu...</string>
   <string name="login_restart_msg">Damit subreddits und Einstellungen synchronisiert werden, wird Slide neu starten</string>
   <string name="multireddit_err_title">(Noch) Keine Multireddits!</string>
+  <string name="multireddit_err_msg">Möchtest du ein neues Multireddit erstellen?</string>
   <string name="multireddit_title_empty">Der Titel darf nicht leer sein</string>
   <string name="multireddit_title_empty_msg">Bitte gib einen Titel für dein Multireddit ein</string>
   <string name="multireddit_no_subs">Keine Subreddits hinzugefügt</string>
@@ -281,7 +283,6 @@
   <string name="subreddit_change_card">Kartenansicht</string>
   <string name="subreddit_chooser">Wähle ein Subreddit</string>
   <string name="search_comments_hint">Durchsuche Kommentare</string>
-  <string name="search_submissions_hint">Beiträge durchsuchen</string>
   <string name="search_goto">Gehe zu</string>
   <string name="captcha">Gib den obenstehenden Code ein</string>
   <string name="captcha_title">Beweise, dass du kein Roboter bist</string>
@@ -305,6 +306,7 @@
   <string name="settings_notification">Auf neue Nachrichten alle %1$s überprüfen</string>
   <string name="settings_notification_short">Überprüfen alle %1$s</string>
   <string name="settings_single_mode">Einzelansicht\nKein Wischen zwischen Subreddits möglich</string>
+  <string name="enter_animation">Startbildschirm anzeigen</string>
   <string name="settings_swap_actions">Aktion für kurzes und langes Drücken auf Kommentare tauschen</string>
   <string name="settings_disable_nsfw_photo">Unangemessene Bilder ausblenden</string>
   <string name="settings_disable_nsfw">Unangemessene Beiträge ausblenden</string>
@@ -365,14 +367,8 @@
   <string name="donate_success_title">Spende erfolgreich!</string>
   <string name="donate_success_msg">Vielen Dank für deine Unterstützung von Slide for Reddit! Es bedeutet mir wirklich sehr viel. Wenn du auf irgendwelche Probleme triffst, schicke mir jederzeit eine E-Mail oder poste es auf /r/slideforreddit!</string>
   <string name="donate_success_btn">Gern geschehen!</string>
-  <string name="gitty_username_invalid">Bitte gib einen gültigen Benutzernamen ein</string>
-  <string name="gitty_password_invalid">Bitte gib ein gültiges Passwort ein</string>
-  <string name="gitty_title_invalid">Bitte gib einen gültigen Titel ein</string>
-  <string name="gitty_desc_invalid">Bitte beschreibe dein Problem</string>
-  <string name="gitty_uploading">Bericht wird auf GitHub hochgeladen</string>
-  <string name="gitty_err_upload">Bericht konnte nicht gesendet werden</string>
-  <string name="gitty_err_upload_msg">Benutzername oder Passwort falsch oder ungültige Zugriffsinformationen.</string>
-  <string name="gitty_err_msg">Ein unerwarteter Fehler ist aufgetreten. Wenn das Problem weiterhin besteht, wende dich bitte an den Entwickler.</string>
+  <string name="network_connected">Netzwerkverbindung besteht</string>
+  <string name="network_connected_msg">Möchtest du den Offline-Modus beenden?</string>
   <string name="time_just_now">jetzt gerade</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">vor einer Minute</item>

@@ -272,7 +272,6 @@
   <string name="subreddit_change_card">Korttype for subredditen</string>
   <string name="subreddit_chooser">Velg en subreddit</string>
   <string name="search_comments_hint">Søk i kommentarene</string>
-  <string name="search_submissions_hint">Søk i poster</string>
   <string name="search_goto">Gå til</string>
   <string name="captcha">Skriv inn koden ovenfor</string>
   <string name="captcha_title">Vis at du ikke er en robot</string>
@@ -349,14 +348,6 @@
   <string name="donate_success_title">Donasjonen var vellykket.</string>
   <string name="donate_success_msg">Takk så mye for støtten til Slide for Reddit! Den er av stor betydning. Hvis du støter på problemer med appen, send meg en e-post eller skriv på /r/slideforreddit når som helst.</string>
   <string name="donate_success_btn">Værsågod</string>
-  <string name="gitty_username_invalid">Oppgi et gyldig brukernavn</string>
-  <string name="gitty_password_invalid">Oppgi et gyldig passord</string>
-  <string name="gitty_title_invalid">Skriv inn en gyldig tittel</string>
-  <string name="gitty_desc_invalid">Beskriv problemet</string>
-  <string name="gitty_uploading">Laster opp rapport til GitHub</string>
-  <string name="gitty_err_upload">Klarte ikke sende rapport</string>
-  <string name="gitty_err_upload_msg">Feil brukernavn eller passord eller ugyldig tilgangsnøkkel.</string>
-  <string name="gitty_err_msg">En uventet feil oppstod. Kontakt apputvikleren hvis problemet vedvarer.</string>
   <string name="time_just_now">akkurat nå</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">for %d minutt siden</item>
