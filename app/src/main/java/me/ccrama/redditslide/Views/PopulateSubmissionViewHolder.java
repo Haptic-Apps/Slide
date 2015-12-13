@@ -10,9 +10,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -70,6 +68,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.CustomTabUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -123,41 +122,9 @@ public class PopulateSubmissionViewHolder {
                         openRedditContent(submission.getUrl(), contextActivity);
                         break;
                     case LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                        break;
                     case IMAGE_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                        break;
                     case NSFW_LINK:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case SELF:
                         if (back != null) {
@@ -198,17 +165,7 @@ public class PopulateSubmissionViewHolder {
                         openImage(contextActivity, submission);
                         break;
                     case NONE_URL:
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case VIDEO:
                         if (Reddit.video) {

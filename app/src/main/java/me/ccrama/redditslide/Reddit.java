@@ -14,10 +14,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.customtabs.CustomTabsCallback;
-import android.support.customtabs.CustomTabsClient;
-import android.support.customtabs.CustomTabsServiceConnection;
-import android.support.customtabs.CustomTabsSession;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
@@ -100,9 +96,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static NotificationJobScheduler notifications;
     public static SharedPreferences seen;
     public static SharedPreferences hidden;
-    private static CustomTabsSession mCustomTabsSession;
-    private static CustomTabsClient mClient;
-    private static CustomTabsServiceConnection mConnection;
     public static boolean isLoading = false;
     private final List<Listener> listeners = new ArrayList<Listener>();
     private final Handler mBackgroundDelayHandler = new Handler();
@@ -117,20 +110,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean fabClear;
     public static ArrayList<Integer> lastposition;
     public static int currentPosition;
-
-    public static CustomTabsSession getSession() {
-        if (mClient == null) {
-            mCustomTabsSession = null;
-        } else if (mCustomTabsSession == null) {
-            mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
-                @Override
-                public void onNavigationEvent(int navigationEvent, Bundle extras) {
-                    Log.w("Slide", "onNavigationEvent: Code = " + navigationEvent);
-                }
-            });
-        }
-        return mCustomTabsSession;
-    }
 
     public static void forceRestart(Context context) {
         Intent mStartActivity = new Intent(context, LoadingData.class);
@@ -585,5 +564,5 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 };
     }
 
-    ;
+
 }

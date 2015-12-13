@@ -105,9 +105,9 @@ public class OpenRedditLink {
             Intent myIntent = new Intent(context, Profile.class);
             myIntent.putExtra("profile", name);
             context.startActivity(myIntent);
-        } else if(url.matches("(?i)reddit\\.com/prefs")){
+        } else if (url.matches("(?i)reddit\\.com/prefs")) {
             customIntentChooser("https://www.reddit.com/prefs", context);
-        } else{
+        } else {
             Intent i = new Intent(context, MainActivity.class);
             context.startActivity(i);
         }
@@ -148,6 +148,7 @@ public class OpenRedditLink {
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
             c.startActivity(chooserIntent);
         } else
-            Reddit.defaultShare(uri.toString(), c);
+            Reddit.defaultShare(url, c);
+
     }
 }

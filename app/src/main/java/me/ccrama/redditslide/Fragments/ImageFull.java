@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +29,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CustomTabUtil;
 
 
 /**
@@ -103,20 +102,8 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-
-
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                     }
                 });
                 break;
@@ -125,17 +112,8 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                     }
                 });
                 break;
@@ -144,16 +122,8 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                     }
                 });
                 break;
@@ -240,17 +210,8 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        if (Reddit.web) {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(Reddit.getSession());
-                            builder.setToolbarColor(Palette.getColor(submission.getSubredditName())).setShowTitle(true);
-
-                            builder.setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real);
-                            builder.setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real);
-                            CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(contextActivity, Uri.parse(submission.getUrl()));
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                     }
                 });
                 break;
