@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,16 +35,6 @@ public class Sendmessage extends BaseActivity {
     private String totext;
     private EditText body;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();

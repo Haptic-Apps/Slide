@@ -52,7 +52,7 @@ public class CustomTabUtil {
     private static PendingIntent createPendingShareIntent(Context context, String url) {
         Intent actionIntent = new Intent(Intent.ACTION_SEND)
                 .setType("text/plain")
-                .putExtra(url, "Share url");
+                .putExtra(Intent.EXTRA_TEXT, url);
         return PendingIntent.getActivity(context, 0, actionIntent, 0);
     }
 

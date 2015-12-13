@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -65,15 +64,6 @@ public class SettingsAbout extends BaseActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
 }
