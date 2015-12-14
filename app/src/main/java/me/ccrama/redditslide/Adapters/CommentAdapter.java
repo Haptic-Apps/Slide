@@ -244,17 +244,31 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
+        if(n.isScoreHidden()){
+            String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
+
+            holder.score.setText("[" + scoreText + "]");
+
+        }
         if (up.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorUp);
+            if (!n.isScoreHidden()) {
+                holder.score.setText(n.getScore() + 1 + "");
+            }
             upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
 
         } else if (down.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorDown);
             downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
-
+            if (!n.isScoreHidden()) {
+                holder.score.setText(n.getScore() - 1 + "");
+            }
         } else {
             holder.score.setTextColor(holder.textColorRegular);
             downvote.clearColorFilter();
+            if (!n.isScoreHidden()) {
+                holder.score.setText(n.getScore()  + "");
+            }
             upvote.clearColorFilter();
 
         }
@@ -531,19 +545,26 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Vote(v, mContext).execute(n);
                     up.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorRegular);
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore()  + "");
+                    }
                     upvote.clearColorFilter();
 
                 } else if (down.contains(n.getFullName())) {
                     new Vote(true, v, mContext).execute(n);
                     up.add(n.getFullName());
-
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + 1 + "");
+                    }
                     down.remove(n.getFullName());
                     downvote.clearColorFilter(); // reset colour
                     holder.score.setTextColor(holder.textColorUp);
                     upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
                 } else {
                     new Vote(true, v, mContext).execute(n);
-
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + 1 + "");
+                    }
                     up.add(n.getFullName());
                     holder.score.setTextColor(holder.textColorUp);
                     upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
@@ -557,19 +578,27 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     new Vote(v, mContext).execute(n);
                     down.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorRegular);
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + "");
+                    }
                     downvote.clearColorFilter();
 
                 } else if (up.contains(n.getFullName())) {
                     new Vote(false, v, mContext).execute(n);
                     down.add(n.getFullName());
                     up.remove(n.getFullName());
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() - 1 + "");
+                    }
                     upvote.clearColorFilter(); // reset colour
                     holder.score.setTextColor(holder.textColorDown);
                     downvote.setColorFilter(holder.textColorDown);
 
                 } else {
                     new Vote(false, v, mContext).execute(n);
-
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() - 1 + "");
+                    }
                     down.add(n.getFullName());
                     holder.score.setTextColor(holder.textColorDown);
                     downvote.setColorFilter(holder.textColorDown);
@@ -697,15 +726,28 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentArea.setVisibility(View.GONE);
             }
 
+            if(comment.isScoreHidden()){
+                String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
+
+                holder.score.setText("[" + scoreText + "]");
+
+            }
             if (up.contains(comment.getFullName())) {
                 holder.score.setTextColor(holder.textColorUp);
-
+                if (!comment.isScoreHidden()) {
+                    holder.score.setText(comment.getScore() + 1 + "");
+                }
             } else if (down.contains(comment.getFullName())) {
                 holder.score.setTextColor(holder.textColorDown);
+                if (!comment.isScoreHidden()) {
+                    holder.score.setText(comment.getScore() - 1 + "");
+                }
 
             } else {
                 holder.score.setTextColor(holder.textColorRegular);
-
+                if (!comment.isScoreHidden()) {
+                    holder.score.setText(comment.getScore() + "");
+                }
             }
 
 
@@ -763,15 +805,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return true;
                 }
             });
-            if (comment.isScoreHidden()) {
-                String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
-                holder.score.setText("[" + scoreText + "]");
-
-            } else {
-                holder.score.setText(comment.getScore() + "");
-
-            }
             if (baseNode.isTopLevel()) {
                 holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
             } else {
