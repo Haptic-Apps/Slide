@@ -113,14 +113,16 @@
     <string name="profile_karma_link">link karma</string>
     <string name="profile_karma_comment">comment karma</string>
     <string name="profile_message">Private message</string>
-    <string name="profile_saved">Saved posts</string>
-    <string name="profile_upvoted">Upvoted posts</string>
+    <string name="profile_saved">saved</string>
+    <string name="profile_upvoted">upvoted</string>
     <string name="profile_err_title">User not found</string>
     <string name="profile_err_msg">Reddit user could not be retrieved.</string>
     <string name="profile_overview">overview</string>
     <string name="profile_comments">comments</string>
     <string name="profile_submitted">submitted</string>
     <string name="profile_gilded">gilded</string>
+    <string name="profile_downvoted">downvoted</string>
+    <string name="profile_hidden">hidden</string>
 
 
     <!-- Comment text options -->

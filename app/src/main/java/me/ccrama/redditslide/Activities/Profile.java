@@ -30,6 +30,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -66,7 +67,11 @@ public class Profile extends BaseActivityAnim {
         setDataSet(new String[]{getString(R.string.profile_overview),
                 getString(R.string.profile_comments),
                 getString(R.string.profile_submitted),
-                getString(R.string.profile_gilded)});
+                getString(R.string.profile_gilded),
+                getString(R.string.profile_upvoted),
+                getString(R.string.profile_downvoted),
+                getString(R.string.profile_saved),
+                getString(R.string.profile_hidden)});
 
 
         new getProfile().execute(name);
@@ -301,16 +306,33 @@ public class Profile extends BaseActivityAnim {
 
             args.putString("id", name);
             String place;
-            switch(i){
-                case 0: place = "overview";
+            switch (i) {
+                case 0:
+                    place = "overview";
                     break;
-                case 1: place = "comments";
-                        break;
-                case 2: place = "submitted";
-                        break;
-                case 3: place = "gilded";
-                        break;
-                default: place = "overview";
+                case 1:
+                    place = "comments";
+                    break;
+                case 2:
+                    place = "submitted";
+                    break;
+                case 3:
+                    place = "gilded";
+                    break;
+                case 4:
+                    place = "liked";
+                    break;
+                case 5:
+                    place = "disliked";
+                    break;
+                case 6:
+                    place = "saved";
+                    break;
+                case 7:
+                    place = "hidden";
+                    break;
+                default:
+                    place = "overview";
             }
             args.putString("where", place);
 
