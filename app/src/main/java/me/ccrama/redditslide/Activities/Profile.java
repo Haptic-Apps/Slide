@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Account;
@@ -73,18 +75,22 @@ public class Profile extends BaseActivityAnim {
 
     private void doClick() {
         if (account == null) {
-            new AlertDialogWrapper.Builder(Profile.this)
-                    .setTitle(R.string.profile_err_title)
-                    .setMessage(R.string.profile_err_msg)
-                    .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    onBackPressed();
-                }
-            }).show();
+            try {
+                new AlertDialogWrapper.Builder(Profile.this)
+                        .setTitle(R.string.profile_err_title)
+                        .setMessage(R.string.profile_err_msg)
+                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        onBackPressed();
+                    }
+                }).show();
+            } catch (MaterialDialog.DialogException e) {
+                Log.w("Profile", "Activity already in background, dialog not shown " + e);
+            }
             return;
         }
         findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {

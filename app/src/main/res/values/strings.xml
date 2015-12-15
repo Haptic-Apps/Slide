@@ -70,7 +70,7 @@
     <string name="card_actionbar">Action Bar visible</string>
     <string name="card_picture">Big picture</string>
     <string name="card_picture_cropped">Big picture cropped</string>
-    <string name="card_hide_post_button">Hide post button</string>
+    <string name="card_hide_post_button">\"Hide post\" button in actionbar</string>
     <string name="card_infobar">Info bar</string>
     <string name="card_thumbnail">Thumbnail</string>
 
@@ -211,9 +211,7 @@
     <string name="gif_saved">GIF saved</string>
 
 
-    <!-- Pin errors -->
-    <string name="pins_err_title">No pins (yet)!</string>
-    <string name="pins_err_msg">You can pin your favorite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check \'PINNED\'!</string>
+    <!-- Pin infos -->
     <string name="pin_select">Select subreddits to pin</string>
 
 
@@ -279,20 +277,9 @@
     </plurals>
 
 
-    <!-- Useful strings displayed at startup -->
-    <string name="startup_banana">Giving Carter a banana</string>
-    <string name="startup_cats">Finding videos of cats</string>
-    <string name="startup_duARTe">Praising DuARTe</string>
-    <string name="startup_karma">Farming karma</string>
-    <string name="startup_pitchforks">Preparing pitchforks</string>
-    <string name="startup_upvotes">Soliciting upvotes</string>
-    <string name="startup_vine">Did it for the vine</string>
-
-
     <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
     <string name="misc_err">Error</string>
     <string name="misc_none">None</string>
-    <string name="misc_please_wait">Please wait</string>
     <string name="misc_retry">Would you like to try again?</string>
     <string name="misc_score_hidden">score hidden</string>
     <string name="misc_you">you</string>
@@ -332,7 +319,6 @@
     <string name="btn_refresh">Refresh</string>
     <string name="btn_offline">Cache posts</string>
     <string name="btn_confirm">Confirm</string>
-    <string name="btn_sorting">Sorting</string>
     <string name="btn_theme_toggle">Toggle dark theme</string>
 
 
@@ -348,7 +334,6 @@
 
 
     <!-- Vote -->
-    <string name="vote_cast">Vote cast!</string>
     <string name="vote_err">Error casting vote!</string>
     <string name="vote_err_login">You must be logged in to vote!</string>
 
@@ -393,7 +378,6 @@
     <!-- Search -->
     <string name="search_comments_hint">Search comments</string>
     <string name="search_goto">Go to</string>
-    <string name="search">Search</string>
     <string name="search_hint">Search term</string>
     <string name="search_title">Search</string>
     <string name="search_msg">What are you searching for?</string>
@@ -491,7 +475,6 @@
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inbox</string>
     <string name="title_theme_settings">Theme</string>
-    <string name="title_default">Homescreen</string>
     <string name="title_create_multi">Create a Multi</string>
     <string name="title_mod">Moderator</string>
 

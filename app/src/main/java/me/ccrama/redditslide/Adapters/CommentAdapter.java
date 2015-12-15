@@ -6,7 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -244,7 +242,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
-        if(n.isScoreHidden()){
+        if (n.isScoreHidden()) {
             String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
             holder.score.setText("[" + scoreText + "]");
@@ -267,7 +265,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.score.setTextColor(holder.textColorRegular);
             downvote.clearColorFilter();
             if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore()  + "");
+                holder.score.setText(n.getScore() + "");
             }
             upvote.clearColorFilter();
 
@@ -546,7 +544,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     up.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorRegular);
                     if (!n.isScoreHidden()) {
-                        holder.score.setText(n.getScore()  + "");
+                        holder.score.setText(n.getScore() + "");
                     }
                     upvote.clearColorFilter();
 
@@ -726,7 +724,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentArea.setVisibility(View.GONE);
             }
 
-            if(comment.isScoreHidden()){
+            if (comment.isScoreHidden()) {
                 String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
                 holder.score.setText("[" + scoreText + "]");
@@ -1264,28 +1262,29 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int i = 0;
 
             if (params.length > 0) {
+                try {
+                    params[0].getMoreCommentNode().loadFully(Authentication.reddit);
+                    for (CommentNode no : params[0].getMoreCommentNode().walkTree()) {
+                        if (!keys.containsKey(no.getComment().getFullName())) {
+                            CommentObject obs = new CommentObject(no);
 
-                params[0].getMoreCommentNode().loadFully(Authentication.reddit);
-                for (CommentNode no : params[0].getMoreCommentNode().walkTree()) {
-                    if (!keys.containsKey(no.getComment().getFullName())) {
-                        CommentObject obs = new CommentObject(no);
+                            if (i == toPut && toDo != null) {
+                                obs.setMoreChildren(toDo, toDoComment);
+                                toPut = -1;
+                            }
 
-                        if (i == toPut && toDo != null) {
-                            obs.setMoreChildren(toDo, toDoComment);
-                            toPut = -1;
+                            finalData.add(obs);
+
+                            if (no.hasMoreComments()) {
+                                toPut = i + no.getChildren().size() + 1;
+                                toDo = no.getMoreChildren();
+                                toDoComment = no;
+                            }
+                            i++;
                         }
-
-                        finalData.add(obs);
-
-                        if (no.hasMoreComments()) {
-                            toPut = i + no.getChildren().size() + 1;
-                            toDo = no.getMoreChildren();
-                            toDoComment = no;
-                        }
-                        i++;
                     }
-
-
+                } catch (Exception e) {
+                    Log.w("CommentAdapter", "Cannot load more comments " + e);
                 }
 
 
