@@ -432,7 +432,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (active) {
             Intent i = new Intent(this, MainActivity.class);
             Log.v("Slide", "starting new");
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
             if (loader != null) {

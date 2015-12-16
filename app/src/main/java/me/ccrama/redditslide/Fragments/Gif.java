@@ -22,6 +22,7 @@ import com.koushikdutta.ion.Ion;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
+import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
@@ -136,8 +137,7 @@ public class Gif extends Fragment {
                             final MediaVideoView videoView =
                                     (MediaVideoView) gif;
 
-                            videoView.setVideoPath(
-                                    result.get("mp4Url").getAsString());
+                            videoView.setVideoPath(GifView.getSmallerGfy(result.get("mp4Url").getAsString()));
                             //videoView.set
 
 
@@ -175,8 +175,7 @@ public class Gif extends Fragment {
                                                             }
                                                         }).create().show();
                                             } else {
-                                                videoView.setVideoPath(
-                                                        result.get("mp4Url").getAsString());
+                                                videoView.setVideoPath(GifView.getSmallerGfy(result.get("mp4Url").getAsString()));
 
 
                                                 videoView.start();
