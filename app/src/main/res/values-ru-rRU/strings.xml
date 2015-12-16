@@ -53,14 +53,12 @@
   <string name="drawer_moderation">Модерация</string>
   <string name="drawer_sync_subs">Синхронизировать ваши Сабреддиты</string>
   <string name="sidebar_pinned">закреплён</string>
-  <string name="sidebar_wiki">Просмотр wiki</string>
   <string name="crash_title">Slide вылетел.</string>
   <string name="crash_report">Сообщить об ошибке на GitHub</string>
   <string name="crash_restart">Перезапустите приложение</string>
   <string name="crash_btn">Отчет</string>
   <string name="profile_yours">Ваш профиль</string>
   <string name="profile_message">Личное сообщение</string>
-  <string name="profile_saved">Сохранённые посты</string>
   <string name="profile_err_title">Пользователь не найден</string>
   <string name="profile_err_msg">Пользователь Reddit не может быть получен.</string>
   <string name="profile_overview">обзор</string>
@@ -143,11 +141,8 @@
   <string name="mail_reply_to">Ответ %1$s</string>
   <string name="mail_notification_author">%1$s от %2$s</string>
   <string name="mail_theirs">Просмотреть их сообщение</string>
-  <string name="startup_cats">Ищем видео с котиками</string>
-  <string name="startup_duARTe">Восхваляем DuARTe</string>
   <string name="misc_err">Ошибка</string>
   <string name="misc_none">Ничего</string>
-  <string name="misc_please_wait">Пожалуйста, подождите</string>
   <string name="misc_retry">Хотите попробовать еще раз?</string>
   <string name="misc_score_hidden">оценка скрыта</string>
   <string name="misc_you">вы</string>
@@ -205,7 +200,6 @@
   <string name="settings_main_color_title">Изменить основной цвет</string>
   <string name="settings_notification">Проверить наличие новых сообщений каждые %1$s</string>
   <string name="settings_notification_short">Проверять каждые %1$s</string>
-  <string name="settings_single_mode">Единый режим\nУбрать перемещение по сабам жестом</string>
   <string name="settings_disable_nsfw_photo">Скрыть все NSFW фото</string>
   <string name="settings_disable_nsfw">Скрыть все NSFW посты</string>
   <string name="settings_confirm_exit">Подтверждать Выход</string>
@@ -238,7 +232,6 @@
   <string name="title_multireddits">Мультиреддиты</string>
   <string name="title_inbox">Входящие</string>
   <string name="title_theme_settings">Тема</string>
-  <string name="title_default">Домашний экран</string>
   <string name="title_create_multi">Создать Мультиреддит</string>
   <string name="title_mod">Модератор</string>
   <string name="donate_amount_title">Эта сумма&#8230;</string>

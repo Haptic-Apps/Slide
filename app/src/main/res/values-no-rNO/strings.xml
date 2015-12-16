@@ -22,7 +22,6 @@
   <string name="submission_share_content">Innholds URL</string>
   <string name="submission_hide">Skjul post</string>
   <string name="submission_report">Rapporter post</string>
-  <string name="submission_gild">Gi gull</string>
   <string name="submission_save">Lagre post</string>
   <string name="submission_share">Dele post</string>
   <string name="submission_load_full">Last inn hele tråden</string>
@@ -73,7 +72,6 @@
   <string name="drawer_moderation">Moderering</string>
   <string name="drawer_sync_subs">Synkroniser subreddits</string>
   <string name="sidebar_pinned">festet</string>
-  <string name="sidebar_wiki">Vis wiki</string>
   <string name="crash_title">Slide har fått programstopp.</string>
   <string name="crash_report">Rapporter feil på Github</string>
   <string name="crash_restart">Start appen på nytt</string>
@@ -84,8 +82,6 @@
   <string name="profile_karma_link">lenkekarma</string>
   <string name="profile_karma_comment">kommentarkarma</string>
   <string name="profile_message">Privatmelding</string>
-  <string name="profile_saved">Lagrede poster</string>
-  <string name="profile_upvoted">Oppstemte poster</string>
   <string name="profile_err_title">Fant ikke brukeren</string>
   <string name="profile_err_msg">Klarte ikke hente Reddit-brukeren.</string>
   <string name="profile_overview">oversikt</string>
@@ -156,8 +152,6 @@
   <string name="gif_err_title">Fant ikke GIF-en</string>
   <string name="gif_err_msg">Klarte ikke laste inn GIF-en. Prøv på nytt.</string>
   <string name="gif_saved">GIF lagret</string>
-  <string name="pins_err_title">Ingen festede subreddits</string>
-  <string name="pins_err_msg">Fest subreddits du leser ofte fremst i listen for å få raskere tilgang til dem. Det gjør du ved å åpne sidefeltet fra subredditen (trykk på i-ikonet eller sveip fra høyre kant), og krysse av for «FESTET».</string>
   <string name="pin_select">Velg subreddits å feste</string>
   <string name="login_restarting_title">Appen starter på nytt</string>
   <string name="login_restart_msg">Slide må starte på nytt for å synkronisere subreddits og innstillinger</string>
@@ -195,16 +189,8 @@
     <item quantity="one">%d ny melding</item>
     <item quantity="other">%d nye meldinger</item>
   </plurals>
-  <string name="startup_banana">Gir Carter en banan</string>
-  <string name="startup_cats">Finner kattevideoer</string>
-  <string name="startup_duARTe">Lovpriser DuARTe</string>
-  <string name="startup_karma">Høster karma</string>
-  <string name="startup_pitchforks">Klargjør høygaflene</string>
-  <string name="startup_upvotes">Anmoder om oppstemming</string>
-  <string name="startup_vine">Gjorde det for Vine</string>
   <string name="misc_err">Feil</string>
   <string name="misc_none">Ingen</string>
-  <string name="misc_please_wait">Et øyeblikk</string>
   <string name="misc_retry">Vil du prøve igjen?</string>
   <string name="misc_score_hidden">poeng skjules</string>
   <string name="misc_you">deg</string>
@@ -242,7 +228,6 @@
   <string name="backup_info">Slide sikkerhetskopierer alle dataene dine til en mappe i Google Disk. Dermed får du tilgang til dem på alle enheter du bruker, og dataene dine forblir private og deles ikke med noen tredjepart.</string>
   <string name="backup_btn">Sikkerhetskopier</string>
   <string name="backup_btn_restore">Gjenopprett</string>
-  <string name="vote_cast">Stemme avgitt!</string>
   <string name="vote_err">Klarte ikke avgi stemme.</string>
   <string name="vote_err_login">Du må være logget inn for å kunne avgi stemme.</string>
   <string name="mod_mail">Mod-melding</string>
@@ -294,7 +279,6 @@
   <string name="settings_main_color_title">Velg hovedfarge</string>
   <string name="settings_notification">Se etter nye meldinger hver %1$s</string>
   <string name="settings_notification_short">Sjekk hver %1$s</string>
-  <string name="settings_single_mode">Enkeltmodus</string>
   <string name="settings_swap_actions">Bytt om handlinger for trykk og langt trykk i kommentarer</string>
   <string name="settings_disable_nsfw_photo">Skjul alle NSFW-bilder</string>
   <string name="settings_disable_nsfw">Skjul alle NSFW-poster</string>
@@ -332,7 +316,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Innboks</string>
   <string name="title_theme_settings">Temainnstillinger</string>
-  <string name="title_default">Hjemskjerm</string>
   <string name="title_create_multi">Opprett en multireddit</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Dette beløpet&#8230;</string>

@@ -22,7 +22,7 @@
   <string name="submission_share_content">Inhalt</string>
   <string name="submission_hide">Beitrag ausblenden</string>
   <string name="submission_report">Beitrag melden</string>
-  <string name="submission_gild">Gold geben</string>
+  <string name="submission_gild">Im Browser öffnen</string>
   <string name="submission_save">Beitrag speichern</string>
   <string name="submission_share">Beitrag teilen</string>
   <string name="submission_load_full">Den ganzen Beitrag laden</string>
@@ -30,6 +30,7 @@
   <string name="submission_tap_gif">Tippe, um das GIF zu laden</string>
   <string name="submission_not_found">Beitrag nicht gefunden</string>
   <string name="submission_not_found_msg">Der Beitrag konnte leider nicht gefunden werden</string>
+  <string name="submission_copy">Text kopieren</string>
   <plurals name="submission_points">
     <item quantity="one">%d Punkt</item>
     <item quantity="other">%d Punkte</item>
@@ -51,6 +52,7 @@
   <string name="theme_match_always">Immer übereinstimmen</string>
   <string name="theme_match_ext">Nach außen übereinstimmen</string>
   <string name="theme_text">Schriftfarbe</string>
+  <string name="theme_card_type">Kartentyp</string>
   <string name="font_size">Schriftgröße</string>
   <string name="font_large">Groß</string>
   <string name="font_medium">Mittel</string>
@@ -58,6 +60,7 @@
   <string name="card_actionbar">Aktionsleiste sichtbar</string>
   <string name="card_picture">Großes Bild</string>
   <string name="card_picture_cropped">Großes beschnittenes Bild</string>
+  <string name="card_hide_post_button">\"Post ausblenden\" Schaltfläche in Aktionsleiste</string>
   <string name="card_infobar">Infoleiste</string>
   <string name="card_thumbnail">Vorschaubild</string>
   <string name="multi_column_title">Mehrspalten-Einstellungen</string>
@@ -74,7 +77,7 @@
   <string name="drawer_moderation">Moderation</string>
   <string name="drawer_sync_subs">Synchronisiere deine Subreddits</string>
   <string name="sidebar_pinned">Gepinnt</string>
-  <string name="sidebar_wiki">Wiki aufrufen</string>
+  <string name="sidebar_wiki">Wiki</string>
   <string name="crash_title">Slide ist abgestürzt.</string>
   <string name="crash_report">Fehler auf GitHub melden</string>
   <string name="crash_restart">App neustarten</string>
@@ -85,14 +88,14 @@
   <string name="profile_karma_link">Link-Karma</string>
   <string name="profile_karma_comment">Kommentar-Karma</string>
   <string name="profile_message">Private Nachricht</string>
-  <string name="profile_saved">Gespeicherte Beiträge</string>
-  <string name="profile_upvoted">Aufgewertete Beiträge</string>
+  <string name="profile_saved">gespeichert</string>
   <string name="profile_err_title">Benutzer nicht gefunden</string>
   <string name="profile_err_msg">Nutzer konnte nicht geladen werden.</string>
   <string name="profile_overview">Übersicht</string>
   <string name="profile_comments">Kommentare</string>
   <string name="profile_submitted">Eingereicht</string>
   <string name="profile_gilded">Vergoldet</string>
+  <string name="profile_hidden">ausgeblendet</string>
   <string name="comment_gild">Gold geben</string>
   <string name="comment_report">Kommentar melden</string>
   <string name="comment_share">Kommentar teilen</string>
@@ -101,6 +104,7 @@
   <string name="comment_delete_msg">Möchtest du den Kommentar wirklich löschen? Dies kann nicht rückgängig gemacht werden.</string>
   <string name="comment_delete_err">Oh nein, irgendwas ist schief gelaufen.</string>
   <string name="comment_delete_err_msg">Möchtest du es noch einmal versuchen?</string>
+  <string name="comment_deleted">[gelöscht]</string>
   <string name="tutorial_skip">Überspringen</string>
   <string name="tutorial_agree">Alles klar</string>
   <string name="tutorial_swipe">Wische zwischen Subreddits!</string>
@@ -155,11 +159,10 @@
   <string name="err_no_connection">Reddit konnte nicht erreicht werden. Möchtest du es noch einmal versuchen?</string>
   <string name="err_retry_later">Versuche es in einer Minute noch einmal!</string>
   <string name="err_login">Dafür musst du eingeloggt sein! Jetzt einloggen?</string>
+  <string name="err_permission">Berechtigung wurde verweigert</string>
   <string name="gif_err_title">GIF nicht gefunden</string>
   <string name="gif_err_msg">Beim Laden des Gif-Bildes ist ein Fehler aufgetreten. Bitte versuche es nochmal und öffne das Gif-Bild erneut.</string>
   <string name="gif_saved">GIF gespeichert</string>
-  <string name="pins_err_title">(Noch) Keine Pins!</string>
-  <string name="pins_err_msg">Sie können ihre beliebtesten subreddits an den Anfang der subreddit-Liste pinnen. Um dies zu tun, öffnen Sie die \'sidebar\' (indem Sie auf das I Icon klicken oder von der rechten Seite des Bildschirms ziehen) und klicken Sie auf \"PINNED\"!</string>
   <string name="pin_select">Wählen Sie Subreddits zum Anpinnen</string>
   <string name="login_restarting_title">Slide startet neu...</string>
   <string name="login_restart_msg">Damit subreddits und Einstellungen synchronisiert werden, wird Slide neu starten</string>
@@ -175,6 +178,7 @@
   <string name="album_loading">Lade Album</string>
   <string name="album_err_not_found">Album nicht gefunden</string>
   <string name="album_err_msg_not_found">Ein Fehler ist beim Laden des Albums aufgetreten. Bitte öffne das Album erneut und versuche es nochmal. Wenn das Problem weiterhin besteht, melde es bitte auf /r/slideforreddit oder GitHub</string>
+  <string name="album_title_count">Galerie (%1$d Bilder)</string>
   <string name="type_nsfw_img">Unangemessenes Bild</string>
   <string name="type_nsfw_gif">Unangemessenes GIF</string>
   <string name="type_reddit">Reddit Link</string>
@@ -205,16 +209,8 @@
     <item quantity="one">Du hast eine neue Mod-Nachricht!</item>
     <item quantity="other">Du hast %d neue Mod-Nachrichten!</item>
   </plurals>
-  <string name="startup_banana">Entdecke Neuland...</string>
-  <string name="startup_cats">Suche nach Katzenvideos...</string>
-  <string name="startup_duARTe">DuARTe huldigen</string>
-  <string name="startup_karma">Farme Karma...</string>
-  <string name="startup_pitchforks">Bereite die Heugabeln vor...</string>
-  <string name="startup_upvotes">Sammel Upvotes...</string>
-  <string name="startup_vine">Galileo schauen...</string>
   <string name="misc_err">Fehler</string>
   <string name="misc_none">Kein</string>
-  <string name="misc_please_wait">Bitte warten</string>
   <string name="misc_retry">Möchtest du es noch einmal versuchen?</string>
   <string name="misc_score_hidden">Bewertung versteckt</string>
   <string name="misc_you">Du</string>
@@ -222,6 +218,7 @@
   <string name="misc_subscribed">Abonniert</string>
   <string name="misc_continue">Weiter</string>
   <string name="misc_unsubscribed">Deabonniert</string>
+  <string name="misc_no_more_posts">Keine weiteren Beiträge!</string>
   <string name="user_enter">Benutzername eingeben</string>
   <string name="user_btn_goto">Gehe zu Nutzer</string>
   <string name="user_invalid">Ungültiger Benutzername</string>
@@ -244,6 +241,9 @@
   <string name="btn_sure">Sicher!</string>
   <string name="btn_undo">Rückgängig</string>
   <string name="btn_yes">Ja</string>
+  <string name="btn_refresh">Aktualisieren</string>
+  <string name="btn_offline">Beiträge speichern</string>
+  <string name="btn_confirm">Bestätigen</string>
   <string name="backup_success">Sicherung erfolgreich!</string>
   <string name="backup_restoring">Wiederherstellen deiner Einstellungen</string>
   <string name="backup_backing_up">Sichere deine Einstellungen</string>
@@ -252,7 +252,6 @@
   <string name="backup_info">Slide sichert alle deine Daten in deinem privaten Google Drive-Verzeichnis. Du kannst die Daten zwischen mehreren Geräten (oder auf dem selben Gerät) synchronisieren ohne dabei auf einen Drittanbieterdienst angewiesen zu sein.</string>
   <string name="backup_btn">Sichern</string>
   <string name="backup_btn_restore">Wiederherstellen</string>
-  <string name="vote_cast">Abgestimmt!</string>
   <string name="vote_err">Fehler beim Abstimmen!</string>
   <string name="vote_err_login">Du musst angemeldet sein, um Abzustimmen!</string>
   <string name="mod_mail">Mod-Nachrichten</string>
@@ -275,6 +274,7 @@
   <string name="mod_btn_approve">Genehmingen</string>
   <string name="mod_btn_spam">Spam</string>
   <string name="mod_ban">Benutzer sperren</string>
+  <string name="mod_no_reports">Keine Berichte</string>
   <string name="wiki_err">Kein Wiki gefunden</string>
   <string name="wiki_err_msg">Dieses Subreddit hat kein Wiki!</string>
   <string name="subreddit_subscribers">%1$d Abonnenten</string>
@@ -284,8 +284,14 @@
   <string name="subreddit_chooser">Wähle ein Subreddit</string>
   <string name="search_comments_hint">Durchsuche Kommentare</string>
   <string name="search_goto">Gehe zu</string>
+  <string name="search_hint">Suchbegriff</string>
+  <string name="search_title">Suche</string>
+  <string name="search_msg">Was suchst du?</string>
+  <string name="search_all">Alle durchsuchen</string>
+  <string name="search_subreddit">In %1$s suchen</string>
   <string name="captcha">Gib den obenstehenden Code ein</string>
   <string name="captcha_title">Beweise, dass du kein Roboter bist</string>
+  <string name="settings_reddit_settings">Reddit \"Einstellungen\"</string>
   <string name="settings_accent_title">Akzentfarbe bearbeiten</string>
   <string name="settings_card_mode">Kartenansicht</string>
   <string name="settings_delete_sub_settings">Möchtest du die Einstellungen für /r/%1$s wirklich löschen?</string>
@@ -305,7 +311,7 @@
   <string name="settings_main_color_title">Hauptfarbe bearbeiten</string>
   <string name="settings_notification">Auf neue Nachrichten alle %1$s überprüfen</string>
   <string name="settings_notification_short">Überprüfen alle %1$s</string>
-  <string name="settings_single_mode">Einzelansicht\nKein Wischen zwischen Subreddits möglich</string>
+  <string name="settings_single_mode">Subreddit Tabs\\nWechsle zwischen subreddits</string>
   <string name="enter_animation">Startbildschirm anzeigen</string>
   <string name="settings_swap_actions">Aktion für kurzes und langes Drücken auf Kommentare tauschen</string>
   <string name="settings_disable_nsfw_photo">Unangemessene Bilder ausblenden</string>
@@ -326,6 +332,9 @@
   <string name="settings_fabclear_msg">Ein kurzes Drücken blendet den Beitrag in der aktuellen Ansicht aus.\nFür ein dauerhaftes Ausblenden musst du den Knopf länger drücken!</string>
   <string name="settings_fabclear">Aktionsknopf Löschaktion</string>
   <string name="settings_notifdisabled">Benachrichtigungen deaktiviert.</string>
+  <string name="settings_comments_click_username_for_profile">Klickee auf Benutzername, um das Profil zu sehen.</string>
+  <string name="settings_auto_end">Tag startet um</string>
+  <string name="settings_auto_start">Nacht beginnt um</string>
   <string name="settings_title_alternative_layout">Alternative Ansicht</string>
   <string name="settings_title_backup">Sichern &amp; Wiederherstellen</string>
   <string name="settings_title_default_theme">Standarddesign</string>
@@ -340,6 +349,9 @@
   <string name="settings_title_multi_column">Mehrspalten-Einstellungen</string>
   <string name="settings_title_fab">Schwebender Aktionsknopf</string>
   <string name="settings_subhead_support">Unterstützen</string>
+  <string name="settings_title_caching">Cache-Einstellungen</string>
+  <string name="settings_title_cache">Cache</string>
+  <string name="settings_title_comments">Kommentare</string>
   <string name="title_subreddit_settings">Subreddit-Einstellungen</string>
   <string name="title_edit_theme">Design bearbeiten</string>
   <string name="title_submit_post">Beitrag einreichen</string>
@@ -351,7 +363,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Nachrichten</string>
   <string name="title_theme_settings">Designeinstellungen</string>
-  <string name="title_default">Startseite</string>
   <string name="title_create_multi">Erstelle ein Multireddit</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Dieser Betrag&#8230;</string>
@@ -367,6 +378,7 @@
   <string name="donate_success_title">Spende erfolgreich!</string>
   <string name="donate_success_msg">Vielen Dank für deine Unterstützung von Slide for Reddit! Es bedeutet mir wirklich sehr viel. Wenn du auf irgendwelche Probleme triffst, schicke mir jederzeit eine E-Mail oder poste es auf /r/slideforreddit!</string>
   <string name="donate_success_btn">Gern geschehen!</string>
+  <string name="offline_drawer_info">Slide ist im Offline-Modus. Verbinde dich mit dem Internet, um alle Inhalte zu sehen!</string>
   <string name="network_connected">Netzwerkverbindung besteht</string>
   <string name="network_connected_msg">Möchtest du den Offline-Modus beenden?</string>
   <string name="time_just_now">jetzt gerade</string>

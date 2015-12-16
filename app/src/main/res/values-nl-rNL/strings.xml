@@ -22,7 +22,6 @@
   <string name="submission_share_content">Inhouds-URL</string>
   <string name="submission_hide">Post verbergen</string>
   <string name="submission_report">Post melden</string>
-  <string name="submission_gild">Post vergulden</string>
   <string name="submission_save">Post opslaan</string>
   <string name="submission_share">Post delen</string>
   <string name="submission_load_full">Volledige thread laden</string>
@@ -30,6 +29,7 @@
   <string name="submission_tap_gif">Tik om GIF te laden</string>
   <string name="submission_not_found">Oh oh, post niet gevonden!</string>
   <string name="submission_not_found_msg">Sorry, deze post kon niet gevonden worden</string>
+  <string name="submission_copy">Tekst kopiëren</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punten</item>
@@ -74,7 +74,6 @@
   <string name="drawer_moderation">Modereren</string>
   <string name="drawer_sync_subs">Je subreddits synchroniseren</string>
   <string name="sidebar_pinned">gepind</string>
-  <string name="sidebar_wiki">Wiki bekijken</string>
   <string name="crash_title">Slide is gecrasht.</string>
   <string name="crash_report">Bug melden op GitHub</string>
   <string name="crash_restart">App herstarten</string>
@@ -85,8 +84,6 @@
   <string name="profile_karma_link">linkkarma</string>
   <string name="profile_karma_comment">reactiekarma</string>
   <string name="profile_message">Privébericht</string>
-  <string name="profile_saved">Opgeslagen posts</string>
-  <string name="profile_upvoted">Geupvote posts</string>
   <string name="profile_err_title">Gebruiker niet gevonden</string>
   <string name="profile_err_msg">Reddit-gebruiker kan niet worden geladen.</string>
   <string name="profile_overview">overzicht</string>
@@ -157,8 +154,6 @@
   <string name="gif_err_title">GIF niet gevonden</string>
   <string name="gif_err_msg">Er is een fout opgetreden bij het laden van deze GIF. Probeer de GIF opnieuw te openen.</string>
   <string name="gif_saved">GIF opgeslagen</string>
-  <string name="pins_err_title">(Nog) geen Pins!</string>
-  <string name="pins_err_msg">Je kunt je favoriete subreddits bovenaan je subredditlijst vastzetten. Dit doe je door de subredditzijbalk te openen (druk op het i-icoon of veeg vanaf de rechterkant van het scherm) en \"GEPIND\" aan te vinken!</string>
   <string name="pin_select">Selecteer subreddits om te pinnen</string>
   <string name="login_restarting_title">App wordt opnieuw opgestart</string>
   <string name="login_restart_msg">Slide wordt opnieuw opgestart om subreddits en instellingen te synchroniseren</string>
@@ -203,16 +198,8 @@
     <item quantity="one">Je hebt %d nieuw modbericht!</item>
     <item quantity="other">Je hebt %d nieuwe modberichten!</item>
   </plurals>
-  <string name="startup_banana">Carter een banaan geven</string>
-  <string name="startup_cats">Video\'s van katten vinden</string>
-  <string name="startup_duARTe">DuARTe aanbidden</string>
-  <string name="startup_karma">Karma oogsten</string>
-  <string name="startup_pitchforks">Hooivorken voorbereiden</string>
-  <string name="startup_upvotes">Om upvotes vragen</string>
-  <string name="startup_vine">Deed ´t voor de vine</string>
   <string name="misc_err">Fout</string>
   <string name="misc_none">Geen</string>
-  <string name="misc_please_wait">Even geduld</string>
   <string name="misc_retry">Wil je het nog een keer proberen?</string>
   <string name="misc_score_hidden">score verborgen</string>
   <string name="misc_you">jij</string>
@@ -250,7 +237,6 @@
   <string name="backup_info">Slide slaat al uw data op in een privé Google Drive map. Je kunt deze data synchroniseren tussen apparaten (of naar hetzelfde apparaat) en jouw data zal nooit via een derde partij gaan.</string>
   <string name="backup_btn">Backup</string>
   <string name="backup_btn_restore">Herstellen</string>
-  <string name="vote_cast">Stem uitgebracht!</string>
   <string name="vote_err">Fout bij het uitbrengen van je stem!</string>
   <string name="vote_err_login">Je moet ingelogd zijn om te stemmen!</string>
   <string name="mod_mail">Mod Berichten</string>
@@ -303,7 +289,6 @@
   <string name="settings_main_color_title">Hoofdkleur aanpassen</string>
   <string name="settings_notification">Elke %1$s op nieuwe berichten controleren</string>
   <string name="settings_notification_short">Check elke %1$s</string>
-  <string name="settings_single_mode">Enkele modus\nSchakelt vegen tussen subreddits uit</string>
   <string name="settings_swap_actions">Tikken en lang tikken omdraaien in reacties</string>
   <string name="settings_disable_nsfw_photo">Alle NSFW-foto\'s verbergen</string>
   <string name="settings_disable_nsfw">Alle NSFW posts verbergen</string>
@@ -347,7 +332,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Postvak In</string>
   <string name="title_theme_settings">Thema</string>
-  <string name="title_default">Startscherm</string>
   <string name="title_create_multi">Een multi creëren</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Dit bedrag&#8230;</string>

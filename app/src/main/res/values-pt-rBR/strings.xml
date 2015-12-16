@@ -22,7 +22,6 @@
   <string name="submission_share_content">URL do conteúdo</string>
   <string name="submission_hide">Ocultar post</string>
   <string name="submission_report">Denunciar post</string>
-  <string name="submission_gild">Dar Reddit Gold</string>
   <string name="submission_save">Salvar post</string>
   <string name="submission_share">Compartilhar post</string>
   <string name="submission_load_full">Carregar todo o conteúdo</string>
@@ -74,7 +73,6 @@
   <string name="drawer_moderation">Moderação</string>
   <string name="drawer_sync_subs">Sincronize seus Subreddits</string>
   <string name="sidebar_pinned">fixado</string>
-  <string name="sidebar_wiki">Ver wiki</string>
   <string name="crash_title">Slide parou de funcionar.</string>
   <string name="crash_report">Reportar bug no GitHub</string>
   <string name="crash_restart">Reiniciar App</string>
@@ -85,8 +83,6 @@
   <string name="profile_karma_link">link karma</string>
   <string name="profile_karma_comment">karma por comentários</string>
   <string name="profile_message">Mensagem privada</string>
-  <string name="profile_saved">Posts salvos</string>
-  <string name="profile_upvoted">Upvoted posts</string>
   <string name="profile_err_title">Usuário não encontrado</string>
   <string name="profile_err_msg">Usuário Reddit não pôde ser achado.</string>
   <string name="profile_overview">visão geral</string>

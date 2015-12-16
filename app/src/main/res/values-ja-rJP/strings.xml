@@ -22,7 +22,6 @@
   <string name="submission_share_content">コンテンツ URL</string>
   <string name="submission_hide">投稿を隠す</string>
   <string name="submission_report">投稿を報告</string>
-  <string name="submission_gild">ゴールド投稿</string>
   <string name="submission_save">投稿を保存</string>
   <string name="submission_share">投稿を共有</string>
   <string name="submission_load_full">完全なスレッドを読み込む</string>
@@ -30,6 +29,7 @@
   <string name="submission_tap_gif">タップすると GIF を読み込みます</string>
   <string name="submission_not_found">投稿が見つかりません!</string>
   <string name="submission_not_found_msg">申し訳ありませんが、この投稿は見つかりませんでした</string>
+  <string name="submission_copy">テキストをコピー</string>
   <plurals name="submission_points">
     <item quantity="other">%d ポイント</item>
   </plurals>
@@ -49,6 +49,7 @@
   <string name="theme_match_always">常に一致</string>
   <string name="theme_match_ext">外部で一致</string>
   <string name="theme_text">文字の色</string>
+  <string name="theme_card_type">カードの種類</string>
   <string name="font_size">文字サイズ</string>
   <string name="font_large">大きい</string>
   <string name="font_medium">中</string>
@@ -72,7 +73,6 @@
   <string name="drawer_moderation">モデレーション</string>
   <string name="drawer_sync_subs">あなたの Subreddit を同期</string>
   <string name="sidebar_pinned">ピン留め</string>
-  <string name="sidebar_wiki">Wiki を表示</string>
   <string name="crash_title">Slide がクラッシュしました。</string>
   <string name="crash_report">GitHub でバグを報告</string>
   <string name="crash_restart">アプリを再起動</string>
@@ -83,8 +83,6 @@
   <string name="profile_karma_link">リンク カルマ</string>
   <string name="profile_karma_comment">コメントカルマ</string>
   <string name="profile_message">プライベートメッセージ</string>
-  <string name="profile_saved">保存した投稿</string>
-  <string name="profile_upvoted">足した投稿</string>
   <string name="profile_err_title">ユーザーが見つかりませんでした。</string>
   <string name="profile_err_msg">Reddit ユーザーを取得できませんでした。</string>
   <string name="profile_overview">概要</string>
@@ -153,11 +151,11 @@
   <string name="err_no_connection">Reddit に到達できませんでした。再試行しますか?</string>
   <string name="err_retry_later">1 分後にもう一度試してください!</string>
   <string name="err_login">それを行うにはログインが必要です! 今すぐログインしますか?</string>
+  <string name="err_permission">アクセス許可が拒否されました</string>
+  <string name="err_permission_msg">Slide の外部ストレージへの書き込みアクセスが拒否されたようです。これにより、画像キャッシュ、投稿キャッシュ、画像の保存ができません。\nSlide の外部ストレージへのアクセスを許可してもよろしいですか?</string>
   <string name="gif_err_title">GIF が見つかりません</string>
   <string name="gif_err_msg">この GIF の読み込み時にエラーが発生しました。GIF を再度開いてもう一度試してください。</string>
   <string name="gif_saved">GIF を保存しました</string>
-  <string name="pins_err_title">ピンは (まだ) ありません!</string>
-  <string name="pins_err_msg">お気に入りの Subreddit は、Subreddit リストの先頭にピン留めできます。これは、Subreddit サイドバーを開いて (私のアイコンをクリック、または画面の右端からスワイプして)、\'ピン留め\' をチェックしてください!</string>
   <string name="pin_select">ピン留めする Subreddit を選択</string>
   <string name="login_restarting_title">アプリの再起動中</string>
   <string name="login_restart_msg">Subreddit と設定を同期するために、Slide は再起動します</string>
@@ -173,6 +171,7 @@
   <string name="album_loading">アルバムの読み込み中</string>
   <string name="album_err_not_found">アルバムが見つかりません</string>
   <string name="album_err_msg_not_found">このアルバムの読み込み時にエラーが発生しました。アルバムを再度開いてもう一度試してください。この問題が解決しない場合は、/r/slideforreddit に報告してください</string>
+  <string name="album_title_count">ギャラリー (%1$d 画像)</string>
   <string name="type_nsfw_img">NSFW 画像</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
   <string name="type_reddit">Reddit リンク</string>
@@ -201,16 +200,8 @@
   <plurals name="mai_mod_notification_title">
     <item quantity="other">%d の新しい modメールがあります!</item>
   </plurals>
-  <string name="startup_banana">カーターにバナナを与える</string>
-  <string name="startup_cats">猫の動画を検索する</string>
-  <string name="startup_duARTe">ドゥアルテを賞賛する</string>
-  <string name="startup_karma">カルマを育てる</string>
-  <string name="startup_pitchforks">熊手を準備する</string>
-  <string name="startup_upvotes">足すを勧誘する</string>
-  <string name="startup_vine">間違いありません</string>
   <string name="misc_err">エラー！</string>
   <string name="misc_none">なし</string>
-  <string name="misc_please_wait">しばらくお待ちください。</string>
   <string name="misc_retry">もう一度試しますか?</string>
   <string name="misc_score_hidden">スコアを隠す</string>
   <string name="misc_you">あなた</string>
@@ -218,6 +209,7 @@
   <string name="misc_subscribed">購読中</string>
   <string name="misc_continue">続行</string>
   <string name="misc_unsubscribed">購読解除</string>
+  <string name="misc_no_more_posts">以上で投稿はありません!</string>
   <string name="user_enter">ユーザー名を入力します。</string>
   <string name="user_btn_goto">ユーザーに移動します。</string>
   <string name="user_invalid">ユーザー名が正しくありません</string>
@@ -240,6 +232,10 @@
   <string name="btn_sure">はい!</string>
   <string name="btn_undo">元に戻す</string>
   <string name="btn_yes">はい</string>
+  <string name="btn_refresh">更新</string>
+  <string name="btn_offline">投稿をキャッシュする</string>
+  <string name="btn_confirm">確認</string>
+  <string name="btn_theme_toggle">暗めテーマの切り替え</string>
   <string name="backup_success">正常にバックアップしました!</string>
   <string name="backup_restoring">設定を復元します</string>
   <string name="backup_backing_up">設定をバックアップします</string>
@@ -248,7 +244,6 @@
   <string name="backup_info">Slide は、すべてのデータを専用の Google ドライブ フォルダーにバックアップします。デバイス間で (または同じデバイスに)、このデータを同期することができ、あなたのデータは、決してサードパーティのサービスまたはサーバーに渡りません。</string>
   <string name="backup_btn">バックアップ</string>
   <string name="backup_btn_restore">復元</string>
-  <string name="vote_cast">投票!</string>
   <string name="vote_err">投票時にエラー!</string>
   <string name="vote_err_login">投票するにはログインする必要があります!</string>
   <string name="mod_mail">Mod メール</string>
@@ -271,6 +266,7 @@
   <string name="mod_btn_approve">承認</string>
   <string name="mod_btn_spam">スパム</string>
   <string name="mod_ban">禁止ユーザー</string>
+  <string name="mod_no_reports">レポートはありません</string>
   <string name="wiki_err">Wiki が見つかりません</string>
   <string name="wiki_err_msg">この Subreddit は Wiki がありません!</string>
   <string name="subreddit_subscribers">%1$d 購読者</string>
@@ -280,6 +276,11 @@
   <string name="subreddit_chooser">Subreddit を選ぶ</string>
   <string name="search_comments_hint">コメントを検索</string>
   <string name="search_goto">移動</string>
+  <string name="search_hint">検索期間</string>
+  <string name="search_title">検索</string>
+  <string name="search_msg">何を探しますか?</string>
+  <string name="search_all">すべて検索</string>
+  <string name="search_subreddit">%1$s を検索</string>
   <string name="captcha">上記のコードを入力してください</string>
   <string name="captcha_title">あなたがロボットではないことを証明します</string>
   <string name="settings_accent_title">アクセント カラーを編集</string>
@@ -301,7 +302,6 @@
   <string name="settings_main_color_title">メインカラーを編集</string>
   <string name="settings_notification">%1$s ごとに新着メッセージをチェック</string>
   <string name="settings_notification_short">%1$s ごとにチェック</string>
-  <string name="settings_single_mode">シングルモード\n購読間のスワイプを削除します</string>
   <string name="enter_animation">アニメーションを入力\n公開するアニメーションを表示します</string>
   <string name="settings_swap_actions">コメントでタップと長押し操作を入れ換え</string>
   <string name="settings_disable_nsfw_photo">すべての NSFW 写真を隠す</string>
@@ -322,6 +322,15 @@
   <string name="settings_fabclear_msg">クリアボタンをタップすると現在の表示から投稿が削除されますが、永久に投稿を非表示にするわけではありません。\nボタンを長押すると、永久に投稿を非表示にします!</string>
   <string name="settings_fabclear">FAB クリア操作</string>
   <string name="settings_notifdisabled">通知を無効にしました。</string>
+  <string name="settings_comments_click_username_for_profile">ユーザー名をクリックすると、プロファイルを表示します。</string>
+  <string name="settings_cache">オフライン表示のために投稿をキャッシュします</string>
+  <string name="settings_auto_night">自動夜間テーマを有効にする</string>
+  <string name="settings_auto_end">昼間の開始</string>
+  <string name="settings_cache_always">常にオフラインのデータを最初に表示する (高速起動)</string>
+  <string name="settings_auto_start">夜間の開始</string>
+  <string name="settings_fullscreen_views">全画面で画像を表示</string>
+  <string name="settings_middle_card">カードの中に画像</string>
+  <string name="settings_cache_delete">すべてのキャッシュ データを削除</string>
   <string name="settings_title_alternative_layout">代替のレイアウト</string>
   <string name="settings_title_backup">バックアップ &amp; 復元</string>
   <string name="settings_title_default_theme">基本のテーマ</string>
@@ -336,6 +345,10 @@
   <string name="settings_title_multi_column">複数列</string>
   <string name="settings_title_fab">フローティング アクションボタン</string>
   <string name="settings_subhead_support">サポート</string>
+  <string name="settings_title_caching">キャッシュの設定</string>
+  <string name="settings_title_cache">キャッシュ</string>
+  <string name="settings_title_auto">自動テーマ</string>
+  <string name="settings_title_comments">コメント</string>
   <string name="title_subreddit_settings">Subreddit テーマ &amp; レイアウト</string>
   <string name="title_edit_theme">テーマを編集</string>
   <string name="title_submit_post">投稿を送信</string>
@@ -347,7 +360,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">受信箱</string>
   <string name="title_theme_settings">テーマ</string>
-  <string name="title_default">ホーム画面</string>
   <string name="title_create_multi">マルチを作成</string>
   <string name="title_mod">モデレーター</string>
   <string name="donate_amount_title">この金額で&#8230;</string>
@@ -363,6 +375,9 @@
   <string name="donate_success_title">正常に寄付しました!</string>
   <string name="donate_success_msg">Slide for Reddit のご支援大変ありがとうございました! 私にとってそれは本当に多くの意味があります。何か問題が発生した場合は、私にメールを送るか、いつでも /r/slideforreddit に投稿してください!</string>
   <string name="donate_success_btn">どういたしまして！</string>
+  <string name="offline_caching">キャッシュのサブミッション</string>
+  <string name="offline_msg">それを行うには、オンラインにして subreddit を更新してください</string>
+  <string name="offline_drawer_info">Slide はオフライン モードです。すべてのコンテンツを見るには、インターネットに接続してください!</string>
   <string name="network_connected">ネットワークに接続しました</string>
   <string name="network_connected_msg">オフラインモードを終了しますか?</string>
   <string name="time_just_now">たった今</string>

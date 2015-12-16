@@ -22,7 +22,6 @@
   <string name="submission_share_content">URL del contenido</string>
   <string name="submission_hide">Ocultar post</string>
   <string name="submission_report">Reportar post</string>
-  <string name="submission_gild">Recompensar post</string>
   <string name="submission_save">Guardar post</string>
   <string name="submission_share">Compartir post</string>
   <string name="submission_load_full">Cargar el hilo completo</string>
@@ -30,6 +29,7 @@
   <string name="submission_tap_gif">Pulsa para cargar el GIF</string>
   <string name="submission_not_found">¡Oh oh, post no encontrado!</string>
   <string name="submission_not_found_msg">Lo siento, no he encontrado el post</string>
+  <string name="submission_copy">Copiar texto</string>
   <plurals name="submission_points">
     <item quantity="one">%d punto</item>
     <item quantity="other">%d puntos</item>
@@ -51,6 +51,7 @@
   <string name="theme_match_always">Igualar siempre</string>
   <string name="theme_match_ext">Igualar externamente</string>
   <string name="theme_text">Color del texto</string>
+  <string name="theme_card_type">Tipo de tarjeta</string>
   <string name="font_size">Tamaño de la fuente</string>
   <string name="font_large">Grande</string>
   <string name="font_medium">Mediana</string>
@@ -74,7 +75,6 @@
   <string name="drawer_moderation">Moderación</string>
   <string name="drawer_sync_subs">Sincronizar tus Subreddits</string>
   <string name="sidebar_pinned">fijado</string>
-  <string name="sidebar_wiki">Ver wiki</string>
   <string name="crash_title">Slide ha fallado.</string>
   <string name="crash_report">Reportar fallo en GitHub</string>
   <string name="crash_restart">Reiniciar App</string>
@@ -85,8 +85,6 @@
   <string name="profile_karma_link">karma de enlaces</string>
   <string name="profile_karma_comment">karma de comentarios</string>
   <string name="profile_message">Mensaje privado</string>
-  <string name="profile_saved">Posts guardados</string>
-  <string name="profile_upvoted">Upvoted posts</string>
   <string name="profile_err_title">Usuario no encontrado</string>
   <string name="profile_err_msg">No se pudo recuperar el usuario de Reddit.</string>
   <string name="profile_overview">resumen</string>
@@ -101,6 +99,7 @@
   <string name="comment_delete_msg">¿Seguro que quieres eliminar el comentario? Esto no puede deshacerse.</string>
   <string name="comment_delete_err">Vaya... algo salió mal.</string>
   <string name="comment_delete_err_msg">¿Quieres volver a intentarlo?</string>
+  <string name="comment_deleted">[deleted]</string>
   <string name="tutorial_skip">Omitir</string>
   <string name="tutorial_agree">Entendido</string>
   <string name="tutorial_swipe">Deslízate entre subreddits!</string>
@@ -155,11 +154,10 @@
   <string name="err_no_connection">No se pudo llegar a Reddit. ¿Te gustaría intentarlo de nuevo?</string>
   <string name="err_retry_later">Intentalo dentro de un minuto</string>
   <string name="err_login">¡Tienes que iniciar sesión para hacer eso! ¿Quieres hacerlo ahora?</string>
+  <string name="err_permission">El permiso ha sido denegado</string>
   <string name="gif_err_title">GIF no encontrado</string>
   <string name="gif_err_msg">Se ha producido un error al cargar el gif. Vuelve a abrirlo e inténtalo de nuevo.</string>
   <string name="gif_saved">GIF guardado</string>
-  <string name="pins_err_title">¡Nada fijado (aún)!</string>
-  <string name="pins_err_msg">¡Puedes fijar tu subreddits favoritos para colocarlos al frente de tu lista de subreddits. Para hacerlo, abre la barra lateral del subreddit (pulsa el icono de la i o desliza desde el borde derecho de la pantalla), y marcha \'FIJADO\'!</string>
   <string name="pin_select">Seleccionar subreddits para fijar</string>
   <string name="login_restarting_title">App reiniciandose</string>
   <string name="login_restart_msg">Para sincronizar los subreddits y ajustes, Slide se reiniciará</string>
@@ -205,16 +203,8 @@
     <item quantity="one">¡Tienes %d modmail nuevo!</item>
     <item quantity="other">¡Tienes %d modmails nuevos!</item>
   </plurals>
-  <string name="startup_banana">Dándole a Carter un plátano</string>
-  <string name="startup_cats">Buscando vídeos de gatetes</string>
-  <string name="startup_duARTe">Alabando a DuARTe</string>
-  <string name="startup_karma">Farmeando karma</string>
-  <string name="startup_pitchforks">Preparando las horcas</string>
-  <string name="startup_upvotes">Solicitando votos</string>
-  <string name="startup_vine">Hazlo por Vine</string>
   <string name="misc_err">Error</string>
   <string name="misc_none">Ninguno</string>
-  <string name="misc_please_wait">Espera por favor</string>
   <string name="misc_retry">¿Quieres volver a intentarlo?</string>
   <string name="misc_score_hidden">puntuación oculta</string>
   <string name="misc_you">tú</string>
@@ -252,7 +242,6 @@
   <string name="backup_info">Slide guarda tus datos en una carpeta privada de Google Drive. Puedes sincronizar estos datos entre distintos dispositivos (o en el mismo dispositivo), y no irán a servicios o servidores de terceros.</string>
   <string name="backup_btn">Copia de seguridad</string>
   <string name="backup_btn_restore">Restaurar</string>
-  <string name="vote_cast">¡Voto emitido!</string>
   <string name="vote_err">¡Error al enviar voto!</string>
   <string name="vote_err_login">¡Debes iniciar sesión para poder votar!</string>
   <string name="mod_mail">Mod Mail</string>
@@ -305,7 +294,6 @@
   <string name="settings_main_color_title">Editar color principal</string>
   <string name="settings_notification">Comprobar nuevos mensajes cada %1$s</string>
   <string name="settings_notification_short">Comprobar cada %1$s</string>
-  <string name="settings_single_mode">Modo simple</string>
   <string name="settings_swap_actions">Intercambiar el toque y la pulsación larga en los comentarios</string>
   <string name="settings_disable_nsfw_photo">Ocultar todas las fotos NSFW</string>
   <string name="settings_disable_nsfw">Ocultar todos los posts NSFW</string>
@@ -350,7 +338,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Recibidos</string>
   <string name="title_theme_settings">Ajustes del Tema</string>
-  <string name="title_default">Pantalla de inicio</string>
   <string name="title_create_multi">Crear un Multi</string>
   <string name="title_mod">Moderador</string>
   <string name="donate_amount_title">Esta cantidad&#8230;</string>

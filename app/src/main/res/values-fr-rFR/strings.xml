@@ -22,7 +22,6 @@
   <string name="submission_share_content">Contenu</string>
   <string name="submission_hide">Masquer la publication</string>
   <string name="submission_report">Signaler la publication</string>
-  <string name="submission_gild">Dorer</string>
   <string name="submission_save">Enregistrer la publication</string>
   <string name="submission_share">Partager la publication</string>
   <string name="submission_load_full">Charger entièrement le fil</string>
@@ -74,7 +73,6 @@
   <string name="drawer_moderation">Modération</string>
   <string name="drawer_sync_subs">Synchronisez vos Subreddits</string>
   <string name="sidebar_pinned">Épinglés</string>
-  <string name="sidebar_wiki">Voir le wiki</string>
   <string name="crash_title">Slide a planté.</string>
   <string name="crash_report">Signaler un bug sur GitHub</string>
   <string name="crash_restart">Relancer l\'application</string>
@@ -85,8 +83,6 @@
   <string name="profile_karma_link">karma de liens</string>
   <string name="profile_karma_comment">karma de commentaires</string>
   <string name="profile_message">Message privé</string>
-  <string name="profile_saved">Publications enregistrées</string>
-  <string name="profile_upvoted">Votes positifs</string>
   <string name="profile_err_title">Utilisateur non trouvé</string>
   <string name="profile_err_msg">L\'utilisateur Reddit n\'a pas pu être récupéré.</string>
   <string name="profile_overview">vue d\'ensemble</string>
@@ -159,8 +155,6 @@ Merci beaucoup !</string>
   <string name="gif_err_title">GIF non trouvé</string>
   <string name="gif_err_msg">Une erreur s\'est produite en chargeant ce gif. Veuillez réessayer.</string>
   <string name="gif_saved">GIF enregistré</string>
-  <string name="pins_err_title">Rien d\'épinglé (pour l\'instant) !</string>
-  <string name="pins_err_msg">Vous pouvez épingler vous subreddits préférés au début de votre liste. Pour ce faire, ouvrez la barre latérale d\'un subreddit (appuyez sur l\'icône i ou faites glisser depuis la droite de l\'écran) et cochez \"ÉPINGLÉ\" !</string>
   <string name="pin_select">Sélectionnez des subreddits à épingler</string>
   <string name="login_restarting_title">L\'application redémarre</string>
   <string name="login_restart_msg">Slide va redémarrer pour synchroniser les subreddits et paramètres</string>
@@ -206,16 +200,8 @@ Merci beaucoup !</string>
     <item quantity="one">Vous avez %d nouveau modmail !</item>
     <item quantity="other">Vous avez %d nouveaux modmails !</item>
   </plurals>
-  <string name="startup_banana">Offrande de banane à Carter</string>
-  <string name="startup_cats">Collecte de vidéos de chats</string>
-  <string name="startup_duARTe">Vénération de DuARTe</string>
-  <string name="startup_karma">Farm de karma</string>
-  <string name="startup_pitchforks">Affûtage des fourches</string>
-  <string name="startup_upvotes">Solicitation de votes positifs</string>
-  <string name="startup_vine">Il l\'a fait pour le Vine</string>
   <string name="misc_err">Erreur</string>
   <string name="misc_none">Aucun</string>
-  <string name="misc_please_wait">Veuillez patienter</string>
   <string name="misc_retry">Voulez-vous réessayer ?</string>
   <string name="misc_score_hidden">score caché</string>
   <string name="misc_you">vous</string>
@@ -253,7 +239,6 @@ Merci beaucoup !</string>
   <string name="backup_info">Slide sauvegarde vos données dans un dossier privé dans Google Drive. Vous pouvez synchroniser ces données à vos autres systèmes (ou à ce système), et vos données ne vont jamais à traverse un serveur tiers ou un service tiers.</string>
   <string name="backup_btn">Sauvegarder</string>
   <string name="backup_btn_restore">Restaurer</string>
-  <string name="vote_cast">Vote effectué !</string>
   <string name="vote_err">Erreur lors du vote !</string>
   <string name="vote_err_login">Vous devez être connecté pour voter !</string>
   <string name="mod_mail">Msg. Modération</string>
@@ -306,7 +291,6 @@ Merci beaucoup !</string>
   <string name="settings_main_color_title">Modifier la couleur principale</string>
   <string name="settings_notification">Rafraîchir les messages toutes les</string>
   <string name="settings_notification_short">Vérifier chaque %1$s</string>
-  <string name="settings_single_mode">Interface simplifiée</string>
   <string name="enter_animation">Entrer animation\nShow montrer les animations</string>
   <string name="settings_swap_actions">Échanger appui simple et appui long dans les commentaires</string>
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
@@ -352,7 +336,6 @@ Merci beaucoup !</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Boîte de réception</string>
   <string name="title_theme_settings">Paramètres de thème</string>
-  <string name="title_default">Écran d\'accueil</string>
   <string name="title_create_multi">Créer un Multi</string>
   <string name="title_mod">Modérateur</string>
   <string name="donate_amount_title">Ce montant&#8230;</string>

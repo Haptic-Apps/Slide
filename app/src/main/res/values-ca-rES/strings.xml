@@ -22,7 +22,6 @@
   <string name="submission_share_content">Contingut</string>
   <string name="submission_hide">Amagar post</string>
   <string name="submission_report">Reportar post</string>
-  <string name="submission_gild">Donar or al post</string>
   <string name="submission_save">Desa el post</string>
   <string name="submission_share">Compartir post</string>
   <string name="submission_load_full">Carregar tema sencer</string>
@@ -74,7 +73,6 @@
   <string name="drawer_moderation">Moderació</string>
   <string name="drawer_sync_subs">Sincronitzar els teus Subreddits</string>
   <string name="sidebar_pinned">guardat</string>
-  <string name="sidebar_wiki">Veure wiki</string>
   <string name="crash_title">L\'Slide ha esclatat.</string>
   <string name="crash_report">Informar d\'error al Github</string>
   <string name="crash_restart">Reiniciar l\'app</string>
@@ -85,8 +83,6 @@
   <string name="profile_karma_link">karma d\'enllaç</string>
   <string name="profile_karma_comment">karma de comentari</string>
   <string name="profile_message">Missatge privat</string>
-  <string name="profile_saved">Posts guardats</string>
-  <string name="profile_upvoted">Posts valorats positivament</string>
   <string name="profile_err_title">Usuari no trobat</string>
   <string name="profile_err_msg">No s\'ha pogut recuperar l\'usuari de Reddit.</string>
   <string name="profile_overview">general</string>
@@ -155,7 +151,6 @@
   <string name="err_no_connection">No hem arribat al Reddit. Vols tornar-ho a intentar?</string>
   <string name="err_retry_later">Reintenta-ho en un minut!</string>
   <string name="gif_err_title">GIF no trobat</string>
-  <string name="pins_err_title">Cap pin (encara)!</string>
   <string name="multireddit_title_empty">El títol no pot quedar buit</string>
   <string name="multireddit_no_subs">No hi ha cap sub afegit</string>
   <string name="album_loading">Carregant Àlbum</string>
@@ -179,15 +174,8 @@
     <item quantity="one">Tens %d missatge nou!</item>
     <item quantity="other">Tens %d missatges nous!</item>
   </plurals>
-  <string name="startup_banana">Donant un plàtan a Carter</string>
-  <string name="startup_cats">Trobant vídeos de gats</string>
-  <string name="startup_duARTe">Elogiant DuARTe</string>
-  <string name="startup_karma">Conreant karma</string>
-  <string name="startup_pitchforks">Preparant les forques</string>
-  <string name="startup_upvotes">Solicitant vots positius</string>
   <string name="misc_err">Error</string>
   <string name="misc_none">Res</string>
-  <string name="misc_please_wait">Si us plau, espera</string>
   <string name="misc_retry">Ho vols tornar a intentar?</string>
   <string name="misc_score_hidden">puntuació oculta</string>
   <string name="misc_you">tu</string>

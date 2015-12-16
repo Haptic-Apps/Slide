@@ -21,7 +21,6 @@
   <string name="submission_share_content">Content URL</string>
   <string name="submission_hide">Hide post</string>
   <string name="submission_report">Report post</string>
-  <string name="submission_gild">Gild post</string>
   <string name="submission_save">Save post</string>
   <string name="submission_share">Share post</string>
   <string name="submission_load_full">Load full thread</string>
@@ -70,7 +69,6 @@
   <string name="drawer_moderation">Moderation</string>
   <string name="drawer_sync_subs">Sync your Subreddits</string>
   <string name="sidebar_pinned">pinned</string>
-  <string name="sidebar_wiki">View wiki</string>
   <string name="crash_title">Slide has crashed.</string>
   <string name="crash_report">Report bug on GitHub</string>
   <string name="crash_restart">Restart App</string>
@@ -81,8 +79,6 @@
   <string name="profile_karma_link">link karma</string>
   <string name="profile_karma_comment">comment karma</string>
   <string name="profile_message">Private message</string>
-  <string name="profile_saved">Saved posts</string>
-  <string name="profile_upvoted">Upvoted posts</string>
   <string name="profile_err_title">User not found</string>
   <string name="profile_err_msg">Reddit user could not be retrieved.</string>
   <string name="profile_overview">overview</string>
@@ -150,8 +146,6 @@
   <string name="gif_err_title">GIF not found</string>
   <string name="gif_err_msg">An error occurred when loading this GIF. Please re-open the GIF and retry.</string>
   <string name="gif_saved">GIF Saved</string>
-  <string name="pins_err_title">No Pins (yet)!</string>
-  <string name="pins_err_msg">You can pin your favourite subreddits to the front of your subreddit list. To do this, open a subreddit sidebar (click the I icon or swipe from the right edge of the screen), and check \'PINNED\'!</string>
   <string name="pin_select">Select subreddits to pin</string>
   <string name="login_restarting_title">App is restarting</string>
   <string name="login_restart_msg">In order to sync subreddits and settings, Slide will restart</string>
@@ -189,16 +183,8 @@
     <item quantity="one">You have %d new message!</item>
     <item quantity="other">You have %d new messages!</item>
   </plurals>
-  <string name="startup_banana">Giving Carter a banana</string>
-  <string name="startup_cats">Finding videos of cats</string>
-  <string name="startup_duARTe">Praising DuARTe</string>
-  <string name="startup_karma">Farming karma</string>
-  <string name="startup_pitchforks">Preparing pitchforks</string>
-  <string name="startup_upvotes">Soliciting upvotes</string>
-  <string name="startup_vine">Did it for the vine</string>
   <string name="misc_err">Error</string>
   <string name="misc_none">None</string>
-  <string name="misc_please_wait">Please wait</string>
   <string name="misc_retry">Would you like to try again?</string>
   <string name="misc_score_hidden">score hidden</string>
   <string name="misc_you">you</string>
@@ -236,7 +222,6 @@
   <string name="backup_info">Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server.</string>
   <string name="backup_btn">Backup</string>
   <string name="backup_btn_restore">Restore</string>
-  <string name="vote_cast">Vote cast!</string>
   <string name="vote_err">Error casting vote!</string>
   <string name="vote_err_login">You must be logged in to vote!</string>
   <string name="mod_mail">Mod Mail</string>
@@ -287,7 +272,6 @@
   <string name="settings_mail_info">The higher the frequency, the more potential battery Slide will use in the background!</string>
   <string name="settings_main_color_title">Edit main colour</string>
   <string name="settings_notification">Check for new messages every</string>
-  <string name="settings_single_mode">Single Mode</string>
   <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
   <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
   <string name="settings_disable_nsfw">Hide all NSFW posts</string>
@@ -315,7 +299,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Inbox</string>
   <string name="title_theme_settings">Theme Settings</string>
-  <string name="title_default">Homescreen</string>
   <string name="title_create_multi">Create a Multi</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">This amount&#8230;</string>

@@ -13,7 +13,6 @@
   <string name="submission_link_share">Compartir url</string>
   <string name="submission_hide">Agochar post</string>
   <string name="submission_report">Reportar post</string>
-  <string name="submission_gild">Recompensar post</string>
   <string name="submission_save">Gardar post</string>
   <string name="submission_share">Compartir post</string>
   <string name="theme_light">Claro</string>
@@ -45,7 +44,6 @@
   <string name="drawer_change_account">TROCAR CONTAS</string>
   <string name="drawer_search">Atopar un subreddit</string>
   <string name="sidebar_pinned">fixado</string>
-  <string name="sidebar_wiki">Ver a wiki</string>
   <string name="profile_yours">O teu perfil</string>
   <string name="sorting_hot">Popular</string>
   <string name="sorting_new">Novo</string>
