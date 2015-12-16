@@ -20,7 +20,6 @@
   <string name="submission_share_content">כתובת הקישור</string>
   <string name="submission_hide">החבא פוסט</string>
   <string name="submission_report">דווח על הפוסט</string>
-  <string name="submission_gild">הזהב פוסט</string>
   <string name="submission_save">שמור פוסט</string>
   <string name="submission_share">שתף פוסט</string>
   <string name="submission_load_full">טען שרשור מלא</string>
@@ -69,7 +68,6 @@
   <string name="drawer_moderation">ניהול</string>
   <string name="drawer_sync_subs">סינכרון הסאבים שלך</string>
   <string name="sidebar_pinned">נעוץ</string>
-  <string name="sidebar_wiki">צפה בwiki</string>
   <string name="crash_title">Slide קרסה.</string>
   <string name="crash_report">דיווח באג בGitHub</string>
   <string name="crash_restart">אתחול אפליקציה</string>
@@ -80,8 +78,6 @@
   <string name="profile_karma_link">קארמת לינקים</string>
   <string name="profile_karma_comment">קארמת תגובות</string>
   <string name="profile_message">הודעה פרטית</string>
-  <string name="profile_saved">פוסטים שמורים</string>
-  <string name="profile_upvoted">פוסטים אהובים</string>
   <string name="profile_err_title">משתמש לא נמצא</string>
   <string name="profile_err_msg">לא ניתן היה למצוא את המשתמש.</string>
   <string name="profile_overview">סקירה</string>

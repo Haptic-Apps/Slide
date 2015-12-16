@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;

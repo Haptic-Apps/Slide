@@ -876,26 +876,6 @@ public class MainActivity extends BaseActivity {
                     chooseAccounts();
                 }
             });
-            header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, SavedView.class);
-                    inte.putExtra("where", "Saved");
-                    inte.putExtra("id", Authentication.name);
-
-                    MainActivity.this.startActivity(inte);
-                }
-            });
-            header.findViewById(R.id.upvoted).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, SavedView.class);
-                    inte.putExtra("where", "Liked");
-                    inte.putExtra("id", Authentication.name);
-
-                    MainActivity.this.startActivity(inte);
-                }
-            });
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -931,17 +911,6 @@ public class MainActivity extends BaseActivity {
                 });
             } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
-            }
-            if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
-                header.findViewById(R.id.submit).setVisibility(View.GONE);
-            else {
-                header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent inte = new Intent(MainActivity.this, Submit.class);
-                        MainActivity.this.startActivity(inte);
-                    }
-                });
             }
 
         } else {

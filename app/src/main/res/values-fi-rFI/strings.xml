@@ -15,7 +15,6 @@
   <string name="submission_link_share">Jaa URL</string>
   <string name="submission_hide">Piiloita posti</string>
   <string name="submission_report">Reporttaa posti</string>
-  <string name="submission_gild">Kultaa posti</string>
   <string name="submission_save">Tallenna posti</string>
   <string name="submission_share">Jaa posti</string>
   <string name="submission_load_full">Lataa koko lanka</string>
@@ -57,7 +56,6 @@
   <string name="drawer_search">Etsi subreddittiä</string>
   <string name="drawer_moderation">Moderointi</string>
   <string name="sidebar_pinned">pinnattu</string>
-  <string name="sidebar_wiki">Näytä wiki</string>
   <string name="crash_title">Slide kaatui.</string>
   <string name="crash_restart">Käynnistä sovellus uudestaan</string>
   <string name="crash_btn">Ilmoita</string>
@@ -65,7 +63,6 @@
   <string name="profile_karma_link">linkki karma</string>
   <string name="profile_karma_comment">kommentti karma</string>
   <string name="profile_message">Yksityisviesti</string>
-  <string name="profile_saved">Tallennetut viestit</string>
   <string name="comment_delete">Poista kommentti</string>
   <string name="tutorial_skip">Ohita</string>
   <string name="tutorial_agree">Selvä</string>

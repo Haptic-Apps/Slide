@@ -389,9 +389,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             dpWidth = fina / 300;
         }
         if (seen.contains("notificationOverride")) {
-            notificationTime = seen.getInt("notificationOverride", 15);
+            notificationTime = seen.getInt("notificationOverride", 60);
         } else {
-            notificationTime = 15;
+            notificationTime = 60;
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
@@ -432,7 +432,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (active) {
             Intent i = new Intent(this, MainActivity.class);
             Log.v("Slide", "starting new");
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
             if (loader != null) {

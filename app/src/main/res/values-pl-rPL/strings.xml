@@ -23,7 +23,6 @@
   <string name="submission_share_content">Link do zawartości</string>
   <string name="submission_hide">Ukryj post</string>
   <string name="submission_report">Zgłoś post</string>
-  <string name="submission_gild">Podaruj złoto</string>
   <string name="submission_save">Zapisz post</string>
   <string name="submission_share">Udostępnij post</string>
   <string name="submission_load_full">Załaduj pełny wątek</string>
@@ -31,6 +30,7 @@
   <string name="submission_tap_gif">Naciśnij, aby załadować GIFa</string>
   <string name="submission_not_found">O nie, nie znaleziono posta!</string>
   <string name="submission_not_found_msg">Przepraszamy, nie mogliśmy odnaleźć tego postu</string>
+  <string name="submission_copy">Skopiuj tekst</string>
   <plurals name="submission_points">
     <item quantity="one">%d punkt</item>
     <item quantity="few">%d punkty</item>
@@ -54,6 +54,7 @@
   <string name="theme_match_always">Wszędzie</string>
   <string name="theme_match_ext">Tylko poza subredditem</string>
   <string name="theme_text">Kolor tekstu</string>
+  <string name="theme_card_type">Typ kart</string>
   <string name="font_size">Rozmiar czcionki</string>
   <string name="font_large">Duża</string>
   <string name="font_medium">Średnia</string>
@@ -77,7 +78,6 @@
   <string name="drawer_moderation">Moderacja</string>
   <string name="drawer_sync_subs">Zsynchronizuj subreddity</string>
   <string name="sidebar_pinned">Przypięty</string>
-  <string name="sidebar_wiki">Zobacz wiki</string>
   <string name="crash_title">Slide przestał działać.</string>
   <string name="crash_report">Zgłoś błąd na GitHub</string>
   <string name="crash_restart">Zrestartuj aplikację</string>
@@ -88,8 +88,6 @@
   <string name="profile_karma_link">karmy linków</string>
   <string name="profile_karma_comment">karmy komentarzy</string>
   <string name="profile_message">Prywatna wiadomość</string>
-  <string name="profile_saved">Zapisane posty</string>
-  <string name="profile_upvoted">Załapkowane w górę</string>
   <string name="profile_err_title">Użytkownik nie znaleziony</string>
   <string name="profile_err_msg">Użytkownik Reddita nie mógł zostać przywrócony.</string>
   <string name="profile_overview">przegląd</string>
@@ -104,6 +102,7 @@
   <string name="comment_delete_msg">Czy chcesz usunąć ten komentarz? Tego nie można cofnąć.</string>
   <string name="comment_delete_err">O nie, coś poszło nie tak.</string>
   <string name="comment_delete_err_msg">Czy chcesz spróbować ponownie?</string>
+  <string name="comment_deleted">[usunięte]</string>
   <string name="tutorial_skip">Pomiń</string>
   <string name="tutorial_agree">Rozumiem</string>
   <string name="tutorial_swipe">Przesuwaj między subredditami!</string>
@@ -158,11 +157,11 @@
   <string name="err_no_connection">Nie udało się połączyć z redditem. Czy chcesz spróbować ponownie?</string>
   <string name="err_retry_later">Spróbuj ponownie za minutę!</string>
   <string name="err_login">Musisz się zalogować by to zrobić! Zalogować się teraz?</string>
+  <string name="err_permission">Odmówiono uprawnień</string>
+  <string name="err_permission_msg">Wygląda na to, że nie pozwoliłeś Slide zapisywać danych na zewnętrzej pamięci. Spowoduje to błędy :( \nCzy chciałbyś pozwolić Slide, by mógł zapisywać dane na zewnętrznej pamięci?</string>
   <string name="gif_err_title">Nie znaleziono GIFa</string>
   <string name="gif_err_msg">Wystąpił błąd podczas ładowania tego GIFa. Proszę ponownie otworzyć GIFa i spróbować jeszcze raz.</string>
   <string name="gif_saved">Zapisano GIF</string>
-  <string name="pins_err_title">Brak przypięć!</string>
-  <string name="pins_err_msg">Możesz przypiąć swoje ulubione subreddity do początku listy twoich subredditów. By to zrobić, otwórz pasek boczny subreddita ( kliknij ikonę I lub przeciągnij z prawej krawędzi ekranu), i zaznacz \'Przypięty\'!</string>
   <string name="pin_select">Wybierz subreddity do przypięcia</string>
   <string name="login_restarting_title">Aplikacja się restartuje</string>
   <string name="login_restart_msg">By zsynchronizować subreddity i ustawienia, Slide się zrestartuje</string>
@@ -178,6 +177,7 @@
   <string name="album_loading">Ładowanie albumu</string>
   <string name="album_err_not_found">Nie znaleziono albumu</string>
   <string name="album_err_msg_not_found">Wystąpił błąd podczas ładowania tego albumu. Proszę ponownie otworzyć album i spróbować ponownie. Jeśli problem będzie się powtarzał, zgłoś to do /r/slideforreddit</string>
+  <string name="album_title_count">Galeria (%1$d obrazów)</string>
   <string name="type_nsfw_img">Obraz NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
   <string name="type_reddit">Link Reddita</string>
@@ -210,16 +210,8 @@
     <item quantity="few">Masz %d nowe modmaile!</item>
     <item quantity="other">Masz %d nowych modmaili!</item>
   </plurals>
-  <string name="startup_banana">Dawanie banana Carterowi</string>
-  <string name="startup_cats">Szukanie filmików z kotami</string>
-  <string name="startup_duARTe">Wysławianie DuARTe</string>
-  <string name="startup_karma">Farmienie karmy</string>
-  <string name="startup_pitchforks">Przygotowywanie wideł</string>
-  <string name="startup_upvotes">Wymuszanie łapek w górę</string>
-  <string name="startup_vine">Zrobił to dla Vine\'a</string>
   <string name="misc_err">Błąd</string>
   <string name="misc_none">Brak</string>
-  <string name="misc_please_wait">Proszę czekać</string>
   <string name="misc_retry">Czy chcesz spróbować ponownie?</string>
   <string name="misc_score_hidden">wynik ukryty</string>
   <string name="misc_you">ty</string>
@@ -227,6 +219,7 @@
   <string name="misc_subscribed">Subskrybowane</string>
   <string name="misc_continue">Kontynuuj</string>
   <string name="misc_unsubscribed">Niesubskrybowane</string>
+  <string name="misc_no_more_posts">Brak więcej postów!</string>
   <string name="user_enter">Wpisz nazwę użytkownika</string>
   <string name="user_btn_goto">Przejdź do użytkownika</string>
   <string name="user_invalid">Nieprawidłowa nazwa użytkownika</string>
@@ -249,6 +242,10 @@
   <string name="btn_sure">Oczywiście!</string>
   <string name="btn_undo">Cofnij</string>
   <string name="btn_yes">Tak</string>
+  <string name="btn_refresh">Odśwież</string>
+  <string name="btn_offline">Zachowaj posty</string>
+  <string name="btn_confirm">Potwierdź</string>
+  <string name="btn_theme_toggle">Włącz ciemny motyw</string>
   <string name="backup_success">Kopia zapasowa wykonana pomyślnie!</string>
   <string name="backup_restoring">Przywracanie ustawień</string>
   <string name="backup_backing_up">Tworzenie kopii zapasowej ustawień</string>
@@ -257,7 +254,6 @@
   <string name="backup_info">Slide zapisuje twoje dane na prywatnym folderze Google Drive. Możesz synchronizować te dane między urządzeniami, a twoje dane nigdy nie przechodzą przez serwery i uslugi osób trzecich.</string>
   <string name="backup_btn">Utwórz kopię zapasową</string>
   <string name="backup_btn_restore">Przywróć kopię zapasową</string>
-  <string name="vote_cast">Głos oddany!</string>
   <string name="vote_err">Błąd oddawania głosu!</string>
   <string name="vote_err_login">Musisz być zalogowany by głosować!</string>
   <string name="mod_mail">Mail moderatora</string>
@@ -280,6 +276,7 @@
   <string name="mod_btn_approve">Zatwierdź</string>
   <string name="mod_btn_spam">Spam</string>
   <string name="mod_ban">Zablokuj użytkownika</string>
+  <string name="mod_no_reports">Brak zgłoszeń</string>
   <string name="wiki_err">Nie znaleziono wiki</string>
   <string name="wiki_err_msg">Ten subreddit nie ma wiki!</string>
   <string name="subreddit_subscribers">%1$d subskrybentów</string>
@@ -289,6 +286,11 @@
   <string name="subreddit_chooser">Wybierz subreddit</string>
   <string name="search_comments_hint">Przeszukaj komentarze</string>
   <string name="search_goto">Przejdź do</string>
+  <string name="search_hint">Kryteria wyszukiwania</string>
+  <string name="search_title">Wyszukiwanie</string>
+  <string name="search_msg">Czego szukasz?</string>
+  <string name="search_all">Przeszukaj wszystko</string>
+  <string name="search_subreddit">Szukaj %1$s</string>
   <string name="captcha">Wpisz powyższy kod</string>
   <string name="captcha_title">Udowodnij, że nie jesteś robotem</string>
   <string name="settings_accent_title">Edycja kolorów akcentów</string>
@@ -310,7 +312,6 @@
   <string name="settings_main_color_title">Edytuj główny kolor</string>
   <string name="settings_notification">Sprawdzaj wiadomości co %1$s</string>
   <string name="settings_notification_short">Sprawdzaj co %1$s</string>
-  <string name="settings_single_mode">Tryb pojedynczy\nWyłącza przesuwanie między subredditami</string>
   <string name="enter_animation">Animacja wejścia\nPokazuj animacje odkrycia</string>
   <string name="settings_swap_actions">Odwróć akcje tapnięcia i długiego przytrzymania w komentarzach</string>
   <string name="settings_disable_nsfw_photo">Ukryj wszystkie obrazy NSFW</string>
@@ -331,6 +332,15 @@
   <string name="settings_fabclear_msg">Kliknięcie przycisku chowania usunie posty tymczasowo. \nDługie przyciśnięcie przycisku schowa posty permamentnie!</string>
   <string name="settings_fabclear">Akcje chowania dla przycisku FAB</string>
   <string name="settings_notifdisabled">Powiadomienia wyłączone.</string>
+  <string name="settings_comments_click_username_for_profile">Kliknij nazwy użytkowników by wyświetllić ich profile.</string>
+  <string name="settings_cache">Zachowaj posty do przeglądania offline</string>
+  <string name="settings_auto_night">Włącz automatyczny ciemny motyw</string>
+  <string name="settings_auto_end">Dzień zaczyna się o</string>
+  <string name="settings_cache_always">Najpierw pokazuj zachowane dane (szybsze włączanie)</string>
+  <string name="settings_auto_start">Noc zaczyna się o</string>
+  <string name="settings_fullscreen_views">Oglądaj obrazy na pełnym ekranie</string>
+  <string name="settings_middle_card">Obraz w środku karty</string>
+  <string name="settings_cache_delete">Usuń zachowane dane</string>
   <string name="settings_title_alternative_layout">Alternatywny układ</string>
   <string name="settings_title_backup">Kopia zapasowa i przywracanie</string>
   <string name="settings_title_default_theme">Motyw domyślny</string>
@@ -345,6 +355,10 @@
   <string name="settings_title_multi_column">Ustawienia Wielu Kolumn</string>
   <string name="settings_title_fab">Przycisk akcji</string>
   <string name="settings_subhead_support">Wsparcie</string>
+  <string name="settings_title_caching">Ustawienia pamięci podręcznej</string>
+  <string name="settings_title_cache">Pamięć podręczna</string>
+  <string name="settings_title_auto">Automatyczne motywy</string>
+  <string name="settings_title_comments">Komentarze</string>
   <string name="title_subreddit_settings">Ustawienia Subreddita</string>
   <string name="title_edit_theme">Edytuj motyw</string>
   <string name="title_submit_post">Wyślij post</string>
@@ -356,7 +370,6 @@
   <string name="title_multireddits">Multireddity</string>
   <string name="title_inbox">Skrzynka pocztowa</string>
   <string name="title_theme_settings">Ustawienia motywu</string>
-  <string name="title_default">Ekran główny</string>
   <string name="title_create_multi">Utwórz multireddit</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Ta kwota...</string>
@@ -372,6 +385,9 @@
   <string name="donate_success_title">Dotacja przebiegła pomyłśnie!</string>
   <string name="donate_success_msg">Dziękuję za wsparcie Slide for Reddit. Wiele to dla mnie znaczy. Jeżeli napotkasz jakieś problemy, wyślij mi emaila lub dodaj post w /r/slideforreddit kiedy chcesz!</string>
   <string name="donate_success_btn">Proszę bardzo!</string>
+  <string name="offline_caching">Zapisywanie postów</string>
+  <string name="offline_msg">Proszę przejść do trybu online i odświeżyć subreddit, by to zrobić</string>
+  <string name="offline_drawer_info">Slajd jest w trybie offline. Połącz się z Internetem, aby zobaczyć wszystkie treści!</string>
   <string name="network_connected">Sieć podłączona</string>
   <string name="network_connected_msg">Czy chcesz wyjść z trybu offline?</string>
   <string name="time_just_now">teraz</string>

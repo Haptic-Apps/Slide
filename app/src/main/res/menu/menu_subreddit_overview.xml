@@ -15,7 +15,7 @@
 
     <item android:id="@+id/search"
         android:icon="@drawable/search"
-        android:title="@string/search"
+        android:title="@string/search_title"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_sort"

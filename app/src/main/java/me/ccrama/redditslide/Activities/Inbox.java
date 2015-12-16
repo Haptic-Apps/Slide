@@ -79,7 +79,7 @@ public class Inbox extends BaseActivityAnim {
                             if (Reddit.notifications != null)
                                 Reddit.notifications.cancel(getApplication());
                         } else {
-                            Reddit.notificationTime = 15;
+                            Reddit.notificationTime = 60;
                             landscape.setValue(1, true);
                         }
                     }

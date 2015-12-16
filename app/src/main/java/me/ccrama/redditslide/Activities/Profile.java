@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Account;
@@ -28,6 +30,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -64,7 +67,11 @@ public class Profile extends BaseActivityAnim {
         setDataSet(new String[]{getString(R.string.profile_overview),
                 getString(R.string.profile_comments),
                 getString(R.string.profile_submitted),
-                getString(R.string.profile_gilded)});
+                getString(R.string.profile_gilded),
+                getString(R.string.profile_upvoted),
+                getString(R.string.profile_downvoted),
+                getString(R.string.profile_saved),
+                getString(R.string.profile_hidden)});
 
 
         new getProfile().execute(name);
@@ -73,18 +80,22 @@ public class Profile extends BaseActivityAnim {
 
     private void doClick() {
         if (account == null) {
-            new AlertDialogWrapper.Builder(Profile.this)
-                    .setTitle(R.string.profile_err_title)
-                    .setMessage(R.string.profile_err_msg)
-                    .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    onBackPressed();
-                }
-            }).show();
+            try {
+                new AlertDialogWrapper.Builder(Profile.this)
+                        .setTitle(R.string.profile_err_title)
+                        .setMessage(R.string.profile_err_msg)
+                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        onBackPressed();
+                    }
+                }).show();
+            } catch (MaterialDialog.DialogException e) {
+                Log.w("Profile", "Activity already in background, dialog not shown " + e);
+            }
             return;
         }
         findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
@@ -295,16 +306,33 @@ public class Profile extends BaseActivityAnim {
 
             args.putString("id", name);
             String place;
-            switch(i){
-                case 0: place = "overview";
+            switch (i) {
+                case 0:
+                    place = "overview";
                     break;
-                case 1: place = "comments";
-                        break;
-                case 2: place = "submitted";
-                        break;
-                case 3: place = "gilded";
-                        break;
-                default: place = "overview";
+                case 1:
+                    place = "comments";
+                    break;
+                case 2:
+                    place = "submitted";
+                    break;
+                case 3:
+                    place = "gilded";
+                    break;
+                case 4:
+                    place = "liked";
+                    break;
+                case 5:
+                    place = "disliked";
+                    break;
+                case 6:
+                    place = "saved";
+                    break;
+                case 7:
+                    place = "hidden";
+                    break;
+                default:
+                    place = "overview";
             }
             args.putString("where", place);
 

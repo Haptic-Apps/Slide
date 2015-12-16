@@ -19,7 +19,6 @@ import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -217,7 +216,7 @@ public class Settings extends BaseActivity {
                                 if (Reddit.notifications != null)
                                     Reddit.notifications.cancel(getApplication());
                             } else {
-                                Reddit.notificationTime = 15;
+                                Reddit.notificationTime = 60;
                                 landscape.setValue(1, true);
                             }
                         }
