@@ -286,6 +286,14 @@
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/placeholder_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:alpha=".5"
+                    android:textColor="?attr/font"
+                    android:visibility="gone"/>
+
 
                 <RelativeLayout
                     android:id="@+id/actionbar"

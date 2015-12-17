@@ -127,6 +127,7 @@ public class Sendmessage extends BaseActivity {
                     new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext);
                 } catch (ApiException e) {
                     e.printStackTrace();
+                    //todo show captcha
                 }
             }
             return null;

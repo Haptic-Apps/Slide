@@ -803,9 +803,12 @@ public class PopulateSubmissionViewHolder {
             big = false;
         }
         holder.thumbImage.setVisibility(View.VISIBLE);
+        ImageView thumbImage2 = null;
         if (!full) {
-            ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)).setImageBitmap(null);
+            thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+            thumbImage2.setVisibility(View.GONE);
         }
+
         if (!(typ == SettingValues.InfoBar.NONE && !full)) {
 
             boolean bigAtEnd = false;
@@ -817,8 +820,8 @@ public class PopulateSubmissionViewHolder {
             } else if (type == ContentType.ImageType.IMAGE) {
                 url = ContentType.getFixedUrl(submission.getUrl());
                 if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                    thumbImage2.setVisibility(View.VISIBLE);
+                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
 
                 } else if (big || fullscreen) {
                     ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
@@ -840,7 +843,8 @@ public class PopulateSubmissionViewHolder {
                 holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                 if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                    thumbImage2.setVisibility(View.VISIBLE);
+                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                 } else if ((big || fullscreen) && !blurry) {
                     ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
 
@@ -859,7 +863,8 @@ public class PopulateSubmissionViewHolder {
                 if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                     bigAtEnd = false;
                     if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                        thumbImage2.setVisibility(View.VISIBLE);
+                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                     } else {
                         ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
                     }
@@ -893,9 +898,6 @@ public class PopulateSubmissionViewHolder {
             }
             if (typ == SettingValues.InfoBar.THUMBNAIL && !full) {
                 holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
-            } else if (!full) {
-                holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
             }
             title.setVisibility(View.VISIBLE);
             info.setVisibility(View.VISIBLE);
@@ -989,14 +991,12 @@ public class PopulateSubmissionViewHolder {
             addClickFunctions(holder.thumbImage, baseView, type, mContext, submission, back);
             addClickFunctions(holder.leadImage, baseView, type, mContext, submission, back);
             if (!full)
-                addClickFunctions(holder.itemView.findViewById(R.id.thumbimage2), baseView, type, (Activity) mContext, submission, back);
+                addClickFunctions(thumbImage2, baseView, type, mContext, submission, back);
 
-            addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission, back);
+            addClickFunctions(holder.previewContent, baseView, type, mContext, submission, back);
         } else {
             holder.imageArea.setVisibility(View.GONE);
             holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
-            holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
         }
 
         View pinned = holder.itemView.findViewById(R.id.pinned);
@@ -1014,7 +1014,7 @@ public class PopulateSubmissionViewHolder {
 
             ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
             if (!submission.getSelftext().isEmpty()) {
-                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, (Activity) mContext, submission.getSubredditName());
+                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, mContext, submission.getSubredditName());
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
