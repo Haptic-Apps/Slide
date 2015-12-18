@@ -1001,17 +1001,18 @@ public class PopulateSubmissionViewHolder {
 
         View pinned = holder.itemView.findViewById(R.id.pinned);
 
+
+        View flair = holder.itemView.findViewById(R.id.flairbubble);
+
+        if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
+            flair.setVisibility(View.GONE);
+        } else {
+            flair.setVisibility(View.VISIBLE);
+            Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
+            ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
+        }
+
         if (fullscreen) {
-            View flair = holder.itemView.findViewById(R.id.flairbubble);
-
-            if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
-                flair.setVisibility(View.GONE);
-            } else {
-                flair.setVisibility(View.VISIBLE);
-                Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
-                ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
-            }
-
             ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
             if (!submission.getSelftext().isEmpty()) {
                 new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, mContext, submission.getSubredditName());
