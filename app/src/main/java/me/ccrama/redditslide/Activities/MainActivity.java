@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -466,9 +464,8 @@ public class MainActivity extends BaseActivity {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                                    MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
                                 }
+                                setRecentBar(subreddit, colorPicker2.getColor());
                                 findViewById(R.id.header_sub).setBackgroundColor(colorPicker2.getColor());
 
                                 title.setBackgroundColor(colorPicker2.getColor());
@@ -656,13 +653,8 @@ public class MainActivity extends BaseActivity {
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(2);
 
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = this.getWindow();
-                window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(0)));
-                MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(0), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(usedArray.get(0))));
-
-            }
+            themeStatusBar(usedArray.get(0));
+            setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
             findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
             // hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
@@ -1140,11 +1132,8 @@ public class MainActivity extends BaseActivity {
                 int color = Palette.getColor(subToDo);
                 hea.setBackgroundColor(color);
                 findViewById(R.id.header).setBackgroundColor(color);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Window window = getWindow();
-                    window.setStatusBarColor(Palette.getDarkerColor(color));
-                    MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subToDo, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), color));
-                }
+                themeStatusBar(subToDo);
+                setRecentBar(subToDo);
             }
         });
     }
@@ -1375,26 +1364,17 @@ public class MainActivity extends BaseActivity {
                     if (Reddit.single) {
                         hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position)));
-                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(usedArray.get(position))));
-
-                        }
+                        themeStatusBar(usedArray.get(position));
                         getSupportActionBar().setTitle(usedArray.get(position));
                     } else {
 
                         if (hea != null)
                             hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position)));
-                            MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(usedArray.get(position), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(usedArray.get(position))));
-
-                        }
+                        themeStatusBar(usedArray.get(position));
                         mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                     }
+                    setRecentBar(usedArray.get(position));
                 }
 
                 @Override

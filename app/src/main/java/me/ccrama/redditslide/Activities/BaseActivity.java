@@ -1,9 +1,12 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.ActivityManager;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -78,7 +82,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     }
 
 
-
     @Override
     public void scrollToFinishActivity() {
         if (enableSwipeBackLayout) {
@@ -90,7 +93,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     /**
      * Disables the Swipe-Back-Layout. Should be called before calling super.onCreate()
      */
-    protected void disableSwipeBackLayout(){
+    protected void disableSwipeBackLayout() {
         enableSwipeBackLayout = false;
     }
 
@@ -132,6 +135,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton) {
+        int statusBarColor = Palette.getStatusBarColor();
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getDefaultColor());
         setSupportActionBar(mToolbar);
@@ -143,8 +147,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Palette.getStatusBarColor());
+            window.setStatusBarColor(statusBarColor);
         }
+        setRecentBar(title, statusBarColor);
     }
 
     /**
@@ -158,6 +163,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupUserAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
                                    String username) {
+        int statusBarColor = Palette.getUserStatusBarColor(username);
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColorUser(username));
         setSupportActionBar(mToolbar);
@@ -171,8 +177,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Palette.getUserStatusBarColor(username));
+            window.setStatusBarColor(statusBarColor);
         }
+        setRecentBar(title, statusBarColor);
     }
 
     /**
@@ -186,6 +193,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupSubredditAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
                                         String subreddit) {
+        int statusBarColor = Palette.getSubredditStatusBarColor(subreddit);
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColor(subreddit));
         setSupportActionBar(mToolbar);
@@ -197,8 +205,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
+            window.setStatusBarColor(statusBarColor);
         }
+        setRecentBar(title, statusBarColor);
     }
 
     /**
@@ -210,6 +219,30 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
+        }
+    }
+
+    /**
+     * Sets the title and color of the recent bar based on the subreddit
+     *
+     * @param subreddit Name of the subreddit
+     */
+    protected void setRecentBar(String subreddit) {
+        setRecentBar(subreddit, Palette.getColor(subreddit));
+    }
+
+    /**
+     * Sets the title in the recent overview with the given title and the default color
+     *
+     * @param title Title as string for the recent app bar
+     * @param color Color for the recent app bar
+     */
+    protected void setRecentBar(String title, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            BitmapDrawable drawable = ((BitmapDrawable) ContextCompat.getDrawable(this,
+                    title.equals("androidcirclejerk") ? R.drawable.matiasduarte : R.drawable.ic_launcher));
+
+            setTaskDescription(new ActivityManager.TaskDescription(title, drawable.getBitmap(), color));
         }
     }
 }

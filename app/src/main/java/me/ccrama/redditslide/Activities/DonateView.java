@@ -70,6 +70,7 @@ public class DonateView extends BaseActivity {
         setContentView(R.layout.activity_donate);
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
         t.setTitle(R.string.donate_title);
+        setRecentBar(getString(R.string.donate_title), Palette.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
 
         setSupportActionBar(t);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -1,12 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -528,9 +526,8 @@ public class SubredditView extends BaseActivityAnim {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                                    SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
                                 }
+                                setRecentBar(subreddit, colorPicker2.getColor());
                                 findViewById(R.id.header_sub).setBackgroundColor(colorPicker2.getColor());
 
                                 title.setBackgroundColor(colorPicker2.getColor());

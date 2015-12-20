@@ -1,16 +1,12 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.DialogInterface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -20,7 +16,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
@@ -66,12 +61,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         @Override
         protected void onPostExecute(String s) {
             subreddit = s;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.setStatusBarColor(Palette.getDarkerColor(subreddit));
-                CommentsScreenSingle.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(subreddit)));
-
-            }
+            themeStatusBar(subreddit);
+            setRecentBar(subreddit);
 
             pager = (ViewPager) findViewById(R.id.content_view);
 

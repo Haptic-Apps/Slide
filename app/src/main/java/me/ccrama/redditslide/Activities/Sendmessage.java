@@ -19,6 +19,7 @@ import net.dean.jraw.models.PrivateMessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -91,6 +92,7 @@ public class Sendmessage extends BaseActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
         setupUserAppBar(R.id.toolbar, null, true, name);
+        setRecentBar(b.getTitle().toString(), Palette.getDefaultColor());
 
 
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {

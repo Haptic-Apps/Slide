@@ -100,13 +100,16 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
+
         SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
+        layout.findViewById(R.id.hide).setVisibility(Reddit.hideButton ? View.VISIBLE : View.GONE);
 
         hidebutton.setChecked(Reddit.hideButton);
         hidebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Reddit.hideButton = isChecked;
+                layout.findViewById(R.id.hide).setVisibility(Reddit.hideButton ? View.VISIBLE : View.GONE);
                 SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
 
             }

@@ -1,9 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
@@ -335,9 +333,8 @@ public class SettingsTheme extends BaseActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
                         }
+                        setRecentBar(getString(R.string.title_theme_settings), colorPicker2.getColor());
 
                     }
                 });

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.AlbumFull;
-import me.ccrama.redditslide.Fragments.GifFull;
+import me.ccrama.redditslide.Fragments.Gif;
 import me.ccrama.redditslide.Fragments.ImageFull;
 import me.ccrama.redditslide.R;
 
@@ -61,14 +61,14 @@ public class Shadowbox extends BaseActivityAnim {
                 }
                 break;
                 case NSFW_GIF: {
-                    f = new GifFull();
+                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
                 break;
                 case NSFW_GFY: {
-                    f = new GifFull();
+                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
@@ -117,7 +117,7 @@ public class Shadowbox extends BaseActivityAnim {
                 }
                 break;
                 case GFY: {
-                    f = new GifFull();
+                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
@@ -138,21 +138,21 @@ public class Shadowbox extends BaseActivityAnim {
                 }
                 break;
                 case GIF: {
-                    f = new GifFull();
+                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
                 break;
                 case NONE_GFY: {
-                    f = new GifFull();
+                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
                 break;
                 case NONE_GIF: {
-                    f = new GifFull();
+                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     f.setArguments(args);

@@ -1,15 +1,11 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Window;
 
 import net.dean.jraw.models.Submission;
 
@@ -20,7 +16,6 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
@@ -47,12 +42,8 @@ public class CommentsScreen extends BaseActivityAnim {
         if (posts == null || posts.get(firstPage) == null) {
             finish();
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
-                window.setStatusBarColor(Palette.getDarkerColor(posts.get(firstPage).getSubredditName()));
-                CommentsScreen.this.setTaskDescription(new ActivityManager.TaskDescription(posts.get(firstPage).getSubredditName(), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), Palette.getColor(posts.get(firstPage).getSubredditName())));
-
-            }
+            themeStatusBar(posts.get(firstPage).getSubredditName());
+            setRecentBar(posts.get(firstPage).getSubredditName());
             HasSeen.addSeen(posts.get(firstPage).getFullName());
 
             ViewPager pager = (ViewPager) findViewById(R.id.content_view);
