@@ -97,7 +97,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static SharedPreferences seen;
     public static SharedPreferences hidden;
     public static boolean isLoading = false;
-    private final List<Listener> listeners = new ArrayList<Listener>();
+    private final List<Listener> listeners = new ArrayList<>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
     public LoadingData loader;
@@ -456,9 +456,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public interface Listener {
-        public void onBecameForeground();
+        void onBecameForeground();
 
-        public void onBecameBackground();
+        void onBecameBackground();
     }
 
     private class SetupIAB extends AsyncTask<Void, Void, Void> {

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -70,14 +71,14 @@ public class DonateView extends BaseActivity {
         setContentView(R.layout.activity_donate);
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
         t.setTitle(R.string.donate_title);
-        setRecentBar(getString(R.string.donate_title), Palette.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
+        setRecentBar(getString(R.string.donate_title), Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
 
         setSupportActionBar(t);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Palette.getDarkerColor(getResources().getColor(R.color.md_light_green_500)));
+            window.setStatusBarColor(Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
         }
         final Slider sl_discrete = (Slider) findViewById(R.id.slider_sl_discrete);
         final TextView ads = (TextView) findViewById(R.id.ads);

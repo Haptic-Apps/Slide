@@ -173,13 +173,13 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
                                 new AlertDialogWrapper.Builder(mContext).setTitle(R.string.submission_share_title)
                                         .setNegativeButton(R.string.submission_share_reddit, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
 
                                             }
                                         }).setPositiveButton(R.string.submission_share_content, new DialogInterface.OnClickListener() {

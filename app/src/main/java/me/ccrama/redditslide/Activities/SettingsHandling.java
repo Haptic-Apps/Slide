@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.view.MenuItem;
 import android.widget.CompoundButton;
 
 import me.ccrama.redditslide.R;
@@ -67,17 +66,6 @@ public class SettingsHandling extends BaseActivity implements
                 break;
         }
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

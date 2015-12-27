@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,7 +104,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (comment.isRead()) {
                 holder.title.setTextColor(holder.content.getCurrentTextColor());
             } else {
-                holder.title.setTextColor(mContext.getResources().getColor(R.color.md_red_500));
+                holder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
             }
 
             holder.content.setOnClickListener(new View.OnClickListener() {

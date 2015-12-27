@@ -30,7 +30,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -63,15 +62,20 @@ public class Profile extends BaseActivityAnim {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         pager = (ViewPager) findViewById(R.id.content_view);
+        if (name.equals(Authentication.name))
+            setDataSet(new String[]{getString(R.string.profile_overview),
+                    getString(R.string.profile_comments),
+                    getString(R.string.profile_submitted),
+                    getString(R.string.profile_gilded),
+                    getString(R.string.profile_upvoted),
+                    getString(R.string.profile_downvoted),
+                    getString(R.string.profile_saved),
+                    getString(R.string.profile_hidden)});
 
-        setDataSet(new String[]{getString(R.string.profile_overview),
+        else setDataSet(new String[]{getString(R.string.profile_overview),
                 getString(R.string.profile_comments),
                 getString(R.string.profile_submitted),
-                getString(R.string.profile_gilded),
-                getString(R.string.profile_upvoted),
-                getString(R.string.profile_downvoted),
-                getString(R.string.profile_saved),
-                getString(R.string.profile_hidden)});
+                getString(R.string.profile_gilded)});
 
 
         new getProfile().execute(name);
@@ -147,28 +151,7 @@ public class Profile extends BaseActivityAnim {
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                 final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                colorPicker.setColors(new int[]{
-                        getResources().getColor(R.color.md_red_500),
-                        getResources().getColor(R.color.md_pink_500),
-                        getResources().getColor(R.color.md_purple_500),
-                        getResources().getColor(R.color.md_deep_purple_500),
-                        getResources().getColor(R.color.md_indigo_500),
-                        getResources().getColor(R.color.md_blue_500),
-                        getResources().getColor(R.color.md_light_blue_500),
-                        getResources().getColor(R.color.md_cyan_500),
-                        getResources().getColor(R.color.md_teal_500),
-                        getResources().getColor(R.color.md_green_500),
-                        getResources().getColor(R.color.md_light_green_500),
-                        getResources().getColor(R.color.md_lime_500),
-                        getResources().getColor(R.color.md_yellow_500),
-                        getResources().getColor(R.color.md_amber_500),
-                        getResources().getColor(R.color.md_orange_500),
-                        getResources().getColor(R.color.md_deep_orange_500),
-                        getResources().getColor(R.color.md_brown_500),
-                        getResources().getColor(R.color.md_grey_500),
-                        getResources().getColor(R.color.md_blue_grey_500),
-
-                });
+                colorPicker.setColors(ColorPreferences.getAccentColors(Profile.this));
 
                 colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override

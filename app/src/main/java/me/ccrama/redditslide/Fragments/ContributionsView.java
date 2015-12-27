@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
@@ -57,8 +56,8 @@ public class ContributionsView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new ContributionPosts(id, where);
-        if (Objects.equals(where, "hidden"))
-        adapter = new ContributionAdapter(getActivity(), posts, rv, true);
+        //noinspection StringEquality
+        if (where == "hidden") adapter = new ContributionAdapter(getActivity(), posts, rv, true);
         else adapter = new ContributionAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 

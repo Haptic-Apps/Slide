@@ -43,6 +43,7 @@ public class CustomTabUtil {
                 builder.build().launchUrl(contextActivity, Uri.parse(url));
             } catch (ActivityNotFoundException anfe) {
                 Log.w("OpenCustomTab", "Unknown url: " + anfe);
+                Reddit.defaultShare(url, contextActivity);
             }
         } else {
             Reddit.defaultShare(url, contextActivity);

@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
@@ -246,7 +247,7 @@ public class PopulateSubmissionViewHolder {
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
             if (reports.size() + reports2.size() > 0) {
-                ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(mContext.getResources().getColor(R.color.md_red_300), PorterDuff.Mode.MULTIPLY);
+                ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.MULTIPLY);
             } else {
                 ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(getStyleAttribColorValue(mContext, R.attr.tint, Color.WHITE), PorterDuff.Mode.MULTIPLY);
 
@@ -655,7 +656,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
                                 new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
                                         .title(R.string.submission_share_title)
@@ -666,7 +667,7 @@ public class PopulateSubmissionViewHolder {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                                                         break;
                                                     case R.id.link_url:
                                                         Reddit.defaultShareText(submission.getUrl(), mContext);
@@ -736,13 +737,13 @@ public class PopulateSubmissionViewHolder {
 
                 submission.setVote(true);
                 submission.setVoted(true);
-                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() + 1, submission.getScore() + 1));
-                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
 
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
-                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
-                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                 upvotebutton.clearColorFilter();
                 holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() - 1, submission.getScore() - 1));
 
@@ -1044,18 +1045,18 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (!submission.voted()) {
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
 
                                 submission.setVote(false);
-                                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                                 submission.setVoted(true);
                                 holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() + 1, submission.getScore() + 1));
 
                                 new Vote(false, points, mContext).execute(submission);
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 new Vote(false, points, mContext).execute(submission);
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
-                                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                                 upvotebutton.clearColorFilter();
                                 submission.setVoted(true);
                                 submission.setVote(false);
@@ -1080,20 +1081,20 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (!submission.voted()) {
-                                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
                                 submission.setVote(true);
                                 submission.setVoted(true);
                                 holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore() + 1));
 
                                 new Vote(true, points, mContext).execute(submission);
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                             } else if (submission.voted() && !submission.getIsUpvoted()) {
                                 new Vote(true, points, mContext).execute(submission);
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 submission.setVote(true);
                                 submission.setVoted(true);
 
-                                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
                                 downvotebutton.clearColorFilter();
                                 holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore() + 1));
 

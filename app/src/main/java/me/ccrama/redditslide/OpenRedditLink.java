@@ -107,6 +107,8 @@ public class OpenRedditLink {
             context.startActivity(myIntent);
         } else if (url.matches("(?i)reddit\\.com/prefs")) {
             customIntentChooser("https://www.reddit.com/prefs", context);
+        } else if (url.matches("(?i)reddit\\.com/live/[a-z0-9-_]+")) {
+            customIntentChooser("https://www." + url, context);
         } else {
             Intent i = new Intent(context, MainActivity.class);
             context.startActivity(i);
@@ -126,6 +128,7 @@ public class OpenRedditLink {
     */
 
     public static void customIntentChooser(String url, Context c) {
+
         String packageNameToIgnore = BuildConfig.APPLICATION_ID;
         Uri uri = Uri.parse(url);
         Intent intent = new Intent();
@@ -149,6 +152,5 @@ public class OpenRedditLink {
             c.startActivity(chooserIntent);
         } else
             Reddit.defaultShare(url, c);
-
     }
 }

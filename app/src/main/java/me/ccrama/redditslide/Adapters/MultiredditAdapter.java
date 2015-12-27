@@ -168,7 +168,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
                                 new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
                                         .title(R.string.submission_share_title)
@@ -179,7 +179,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                                                         break;
                                                     case R.id.link_url:
                                                         Reddit.defaultShareText(submission.getUrl(), mContext);

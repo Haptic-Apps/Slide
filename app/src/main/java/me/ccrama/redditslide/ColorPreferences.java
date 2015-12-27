@@ -248,6 +248,29 @@ public class ColorPreferences {
 
         }
     }
+    public static int[] getAccentColors(Context context) {
+        return new int[]{
+                ContextCompat.getColor(context, R.color.md_red_500),
+                ContextCompat.getColor(context, R.color.md_pink_500),
+                ContextCompat.getColor(context, R.color.md_purple_500),
+                ContextCompat.getColor(context, R.color.md_deep_purple_500),
+                ContextCompat.getColor(context, R.color.md_indigo_500),
+                ContextCompat.getColor(context, R.color.md_blue_500),
+                ContextCompat.getColor(context, R.color.md_light_blue_500),
+                ContextCompat.getColor(context, R.color.md_cyan_500),
+                ContextCompat.getColor(context, R.color.md_teal_500),
+                ContextCompat.getColor(context, R.color.md_green_500),
+                ContextCompat.getColor(context, R.color.md_light_green_500),
+                ContextCompat.getColor(context, R.color.md_lime_500),
+                ContextCompat.getColor(context, R.color.md_yellow_500),
+                ContextCompat.getColor(context, R.color.md_amber_500),
+                ContextCompat.getColor(context, R.color.md_orange_500),
+                ContextCompat.getColor(context, R.color.md_deep_orange_500),
+                ContextCompat.getColor(context, R.color.md_brown_500),
+                ContextCompat.getColor(context, R.color.md_grey_500),
+                ContextCompat.getColor(context, R.color.md_blue_grey_500),
+        };
+    }
 
     protected SharedPreferences open() {
         return context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
@@ -268,15 +291,17 @@ public class ColorPreferences {
     }
     public Theme getFontStyleSubreddit(String s) {
         try {
-            return Theme.valueOf(open().getString(s,
-                    Theme.dark_amber
-                            .name()));
+            return Theme.valueOf(open().getString(s, Theme.dark_amber.name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
     }
     public void setFontStyle(Theme style) {
         edit().putString(FONT_STYLE, style.name()).commit();
+    }
+
+    public static Theme getDefaultFontStyle(){
+        return Theme.dark_amber;
     }
 
     public int getThemeOverview() {

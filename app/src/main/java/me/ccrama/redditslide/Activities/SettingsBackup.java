@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -304,16 +303,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     final private class RetrieveDriveFileContentsAsyncTask extends AsyncTask<DriveId, Boolean, String> {
 

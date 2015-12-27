@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -45,9 +46,9 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         gild = v.findViewById(R.id.gild);
         content = (ActiveTextView) v.findViewById(R.id.content);
 
-        textColorDown = v.getContext().getResources().getColor(R.color.md_blue_500);
+        textColorDown = ContextCompat.getColor(v.getContext(), R.color.md_blue_500);
         textColorRegular = author.getCurrentTextColor();
-        textColorUp = v.getContext().getResources().getColor(R.color.md_orange_500);
+        textColorUp = ContextCompat.getColor(v.getContext(), R.color.md_orange_500);
         you = v.findViewById(R.id.you);
         op = v.findViewById(R.id.op);
         dots = (LinearLayout) v.findViewById(R.id.dots);

@@ -106,7 +106,7 @@ public class ToolbarColorizeHelper {
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                final ArrayList<View> outViews = new ArrayList<View>();
+                final ArrayList<View> outViews = new ArrayList<>();
                 decorView.findViewsWithText(outViews, overflowDescription,
                         View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION);
                 if (outViews.isEmpty()) {

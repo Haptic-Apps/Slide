@@ -39,9 +39,12 @@ import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
+import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -296,7 +299,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
                         final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
-                        e.setText(baseNode.getComment().getBody());
+                        e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
 
                         builder.setView(dialoglayout);
@@ -511,7 +514,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String urlString = "http://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+                        String urlString = "https://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
                         Reddit.defaultShareText(urlString, mContext);
                     }
                 });
@@ -766,8 +769,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
 
+            String distingush = "";
+            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
+                distingush = "[M]";
+            else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
+                distingush = "[A]";
 
-            holder.author.setText(comment.getAuthor());
+            holder.author.setText(comment.getAuthor() + distingush);
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
                 holder.flairBubble.setVisibility(View.VISIBLE);
                 holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
@@ -1021,7 +1029,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         public void onClick(DialogInterface dialog, int which) {
                                             switch (which) {
                                                 case R.id.reddit_url:
-                                                    Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                    Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                                                     break;
                                                 case R.id.link_url:
                                                     Reddit.defaultShareText(submission.getUrl(), mContext);

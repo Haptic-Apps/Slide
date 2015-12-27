@@ -11,6 +11,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
@@ -69,10 +70,13 @@ public class SettingsSubreddit extends BaseActivity {
 
     private void initializeAdapter(ArrayList<String> subs) {
         ListView l = (ListView) findViewById(R.id.subslist);
+        int defaultFont = ColorPreferences.getDefaultFontStyle().getColor();
         for (String s : subs) {
-            if (Palette.getColor(s) != Palette.getDefaultColor()) {
+            if (Palette.getColor(s) != Palette.getDefaultColor()) { //Main color is different
                 done.add(s);
-            } else if (SettingValues.prefs.contains("PRESET" + s)) {
+            } else if (SettingValues.prefs.contains("PRESET" + s)) { //Alternate Layout is set
+                done.add(s);
+            } else if (new ColorPreferences(SettingsSubreddit.this).getFontStyleSubreddit(s).getColor() !=  defaultFont){ //different accent / font color
                 done.add(s);
             }
         }
