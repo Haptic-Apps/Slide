@@ -68,6 +68,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
     public static boolean fullscreen;
+    public static boolean blurCheck;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -348,6 +349,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         enter_animation_time_multiplier = SettingValues.prefs.getInt("AnimationLengthMultiplier", 1);
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
         fullscreen = SettingValues.prefs.getBoolean("Fullscreen", false);
+        blurCheck = SettingValues.prefs.getBoolean("blur", false);
+
         fab = SettingValues.prefs.getBoolean("Fab", false);
         fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
         nighttime = SettingValues.prefs.getInt("day", 20);

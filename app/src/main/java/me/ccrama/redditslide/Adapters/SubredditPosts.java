@@ -120,9 +120,9 @@ public class SubredditPosts {
                 });
             } else if (subs != null) {
                 nomore = true;
-            } else if(Cache.hasSub(subreddit) && !nomore && Reddit.cache) {
+            } else if(Cache.hasSub(subreddit.toLowerCase()) && !nomore && Reddit.cache) {
                 offline = true;
-                cached = Cache.getSubreddit(subreddit);
+                cached = Cache.getSubreddit(subreddit.toLowerCase());
                 posts = cached.submissions;
                 if(cached.submissions.size() > 0 && cached.submissions.get(0).getComments() != null){
                     stillShow = true;

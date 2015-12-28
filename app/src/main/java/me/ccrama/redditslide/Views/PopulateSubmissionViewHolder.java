@@ -186,13 +186,17 @@ public class PopulateSubmissionViewHolder {
     }
 
     private static boolean isBlurry(JsonNode s, Context mC, String title) {
-        int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
-        float density = mC.getResources().getDisplayMetrics().density;
-        float dp = pixesl / density;
-        Configuration configuration = mC.getResources().getConfiguration();
-        int screenWidthDp = configuration.screenWidthDp; //The current width of the available screen space, in dp units, corresponding to screen width resource qualifier.
+        if(Reddit.blurCheck){
+            return false;
+        } else {
+            int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
+            float density = mC.getResources().getDisplayMetrics().density;
+            float dp = pixesl / density;
+            Configuration configuration = mC.getResources().getConfiguration();
+            int screenWidthDp = configuration.screenWidthDp; //The current width of the available screen space, in dp units, corresponding to screen width resource qualifier.
 
-        return dp < screenWidthDp / 3;
+            return dp < screenWidthDp / 3;
+        }
     }
 
     public static void openImage(Activity contextActivity, Submission submission) {
@@ -1099,7 +1103,7 @@ public class PopulateSubmissionViewHolder {
                                 new Vote(points, mContext).execute(submission);
                                 submission.setVote(false);
                                 submission.setVoted(false);
-                                holder.score.setText(submission.getScore()  + "");
+                                holder.score.setText(submission.getScore() + "");
 
                                 upvotebutton.clearColorFilter();
 

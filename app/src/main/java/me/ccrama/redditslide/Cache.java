@@ -27,7 +27,7 @@ public final class Cache {
         }
         String finals = s.toString();
         finals = finals.substring(0, finals.length() - 11);
-        Reddit.appRestart.edit().putString(subreddit , finals).commit();
+        Reddit.appRestart.edit().putString(subreddit.toLowerCase() , finals).commit();
         File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "saved.txt");
         try {
             f.createNewFile();
@@ -40,8 +40,8 @@ public final class Cache {
     }
 
     public static OfflineSubreddit getSubreddit(String s) {
-        if (Reddit.appRestart.contains(s)) {
-            return new OfflineSubreddit(Reddit.appRestart.getString(s, ""));
+        if (Reddit.appRestart.contains(s.toLowerCase())) {
+            return new OfflineSubreddit(Reddit.appRestart.getString(s.toLowerCase(), ""));
         } else {
             return null;
         }
@@ -49,6 +49,6 @@ public final class Cache {
 
 
     public static boolean hasSub(String subredditPaginator) {
-        return Reddit.appRestart.contains(subredditPaginator);
+        return Reddit.appRestart.contains(subredditPaginator.toLowerCase());
     }
 }
