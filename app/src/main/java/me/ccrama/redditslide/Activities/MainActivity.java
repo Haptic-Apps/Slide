@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -39,6 +40,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -92,6 +94,7 @@ public class MainActivity extends BaseActivity {
     static final String SUBS_ALPHA = "subscriptionsAlpha";
     static final String REAL_SUBS = "realSubscriptions";
     static final String LOGGED_IN = "loggedIn";
+    static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
 
     public boolean singleMode;
@@ -107,6 +110,7 @@ public class MainActivity extends BaseActivity {
     public boolean first = true;
     boolean changed;
     String term;
+    private AsyncGetSubreddit mAsyncGetSubreddit = null;
     private TabLayout mTabLayout;
     private boolean mShowInfoButton;
 
@@ -218,6 +222,7 @@ public class MainActivity extends BaseActivity {
             SubredditStorage.realSubs = savedInstanceState.getStringArrayList(REAL_SUBS);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
+            Authentication.mod = savedInstanceState.getBoolean(IS_MOD);
         } else {
             changed = false;
         }
@@ -281,7 +286,7 @@ public class MainActivity extends BaseActivity {
         if (singleMode) pager.setSwipingEnabled(false);
 
         setDataSet(SubredditStorage.subredditsForHome);
-        doSidebar();
+        doDrawer();
     }
 
     @Override
@@ -298,19 +303,23 @@ public class MainActivity extends BaseActivity {
         savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubscriptions);
         savedInstanceState.putStringArrayList(REAL_SUBS, SubredditStorage.realSubs);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
+        savedInstanceState.putBoolean(IS_MOD, Authentication.mod);
         savedInstanceState.putString(USERNAME, Authentication.name);
     }
 
     public void doSubSidebar(final String subreddit) {
+        if (mAsyncGetSubreddit != null) {
+            mAsyncGetSubreddit.cancel(true);
+        }
         if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
-
             mShowInfoButton = true;
             invalidateOptionsMenu();
 
-            new AsyncGetSubreddit().execute(subreddit);
+            mAsyncGetSubreddit = new AsyncGetSubreddit();
+            mAsyncGetSubreddit.execute(subreddit);
             findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
@@ -419,7 +428,7 @@ public class MainActivity extends BaseActivity {
         pager.setCurrentItem(current);
     }
 
-    public void updateColor(int color, String subreddit){
+    public void updateColor(int color, String subreddit) {
         hea.setBackgroundColor(color);
         findViewById(R.id.header).setBackgroundColor(color);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -605,10 +614,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void doSidebar() {
+    public void doDrawer() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         l.setDividerHeight(0);
-        LayoutInflater inflater = getLayoutInflater();
+        final LayoutInflater inflater = getLayoutInflater();
         final View header;
 
         if (Authentication.isLoggedIn) {
@@ -723,80 +732,37 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-
-        e = ((EditText) header.findViewById(R.id.sort));
-
-        e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    Intent inte = new Intent(MainActivity.this, SubredditView.class);
-                    inte.putExtra("subreddit", e.getText().toString());
-                    MainActivity.this.startActivity(inte);
-                    drawerLayout.closeDrawers();
-                    e.setText("");
-                }
-                return false;
-            }
-
-        });
         header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final EditText input = new EditText(MainActivity.this);
-                input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                input.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                            input.setText(String.valueOf(input.getText()).replace(" ", ""));
-                            Editable value = input.getText();
-                            if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                new AlertDialogWrapper.Builder(MainActivity.this)
-                                        .setTitle(R.string.user_invalid)
-                                        .setMessage(R.string.user_invalid_msg)
-                                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int whichButton) {
-                                            }
-                                        }).show();
-                            } else {
-                                Intent inte = new Intent(MainActivity.this, Profile.class);
-                                inte.putExtra("profile", value.toString());
-                                MainActivity.this.startActivity(inte);
-                            }
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-                new AlertDialogWrapper.Builder(MainActivity.this)
-                        .setTitle(R.string.user_enter)
-                        .setView(input)
-                        .setPositiveButton(R.string.user_btn_goto, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                Editable value = input.getText();
-                                if (!value.toString().matches("^[0-9a-zA-Z_-]+$")) {
-                                    new AlertDialogWrapper.Builder(MainActivity.this)
-                                            .setTitle(R.string.user_invalid)
-                                            .setMessage(R.string.user_invalid_msg)
-                                            .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int whichButton) {
-                                                }
-                                            }).show();
+                new MaterialDialog.Builder(MainActivity.this)
+                        .inputRange(3, 20)
+                        .alwaysCallInputCallback()
+                        .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+                        .input(getString(R.string.user_enter), null, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                if (input.toString().matches("^[a-zA-Z0-9_-]*$")) {
+                                    if (input.length() >= 3 && input.length() <= 20)
+                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                    dialog.setContent("");
                                 } else {
-                                    Intent inte = new Intent(MainActivity.this, Profile.class);
-                                    inte.putExtra("profile", value.toString());
-                                    MainActivity.this.startActivity(inte);
+                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                    dialog.setContent(R.string.user_invalid_msg);
                                 }
                             }
-                        }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        // Do nothing.
-                    }
-                }).show();
-
+                        })
+                        .positiveText(R.string.user_btn_goto)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent inte = new Intent(MainActivity.this, Profile.class);
+                                inte.putExtra("profile", dialog.getInputEditText().getText().toString());
+                                MainActivity.this.startActivity(inte);
+                            }
+                        })
+                        .negativeText(R.string.btn_cancel)
+                        .show();
             }
         });
 
@@ -821,6 +787,7 @@ public class MainActivity extends BaseActivity {
             for (String s : SubredditStorage.alphabeticalSubscriptions) {
                 copy.add(s);
             }
+        e = ((EditText) header.findViewById(R.id.sort));
 
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
         l.setAdapter(adapter);
@@ -850,6 +817,31 @@ public class MainActivity extends BaseActivity {
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
+
+
+        e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
+
+                    if (adapter.fitems == null || adapter.fitems.get(0).startsWith(getString(R.string.search_goto))) {
+                        Intent inte = new Intent(MainActivity.this, SubredditView.class);
+                        inte.putExtra("subreddit", e.getText().toString());
+                        MainActivity.this.startActivity(inte);
+                    } else
+                        pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
+
+                    View view = MainActivity.this.getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                    drawerLayout.closeDrawers();
+                    e.setText("");
+                }
+                return false;
+            }
+        });
 
         e.addTextChangedListener(new TextWatcher() {
             @Override

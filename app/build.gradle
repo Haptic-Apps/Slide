@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 89
         versionName "4.3.4"
@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-    compile('com.afollestad.material-dialogs:core:0.8.4.2@aar') {
+    compile('com.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true
     }
     compile 'com.android.support:multidex:1.0.1'

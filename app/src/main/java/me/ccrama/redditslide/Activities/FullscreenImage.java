@@ -13,8 +13,6 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,16 +41,8 @@ public class FullscreenImage extends FullScreenActivity {
     String toReturn;
 
     public void onCreate(Bundle savedInstanceState) {
-
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-
         super.onCreate(savedInstanceState);
-        if(Reddit.fullscreen) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
+
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         setContentView(R.layout.activity_image);

@@ -26,7 +26,7 @@ public class OpenRedditLink {
         url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
 
         boolean np = false;
-        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/?=]*")) { // tests for subdomain
+        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/?=&]*.*")) { // tests for subdomain
             String subdomain = url.split("\\.", 2)[0];
             String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
             if (subdomain.equalsIgnoreCase("np")) {
@@ -93,6 +93,14 @@ public class OpenRedditLink {
             i.putExtra("np", np);
             i.putExtra("submission", parts[4]);
             context.startActivity(i);
+        } else if (url.matches("(?i)reddit\\.com/comments/\\w+.*")) {
+            // Post comments without a given subreddit. Format: reddit.com/comments/$post_id/$post_title [optional]
+            Intent i = new Intent(context, CommentsScreenSingle.class);
+            i.putExtra("subreddit", "NOTHING");
+            i.putExtra("context", "NOTHING");
+            i.putExtra("np", np);
+            i.putExtra("submission", parts[2]);
+            context.startActivity(i);
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
             Intent intent = new Intent(context, SubredditView.class);
@@ -101,7 +109,7 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/u(ser)?/[a-z0-9-_]+.*")) {
             // User. Format: reddit.com/u [or user]/$username/$page [optional]
             String name = parts[2];
-            if (name.equals("me")) name = Authentication.name;
+            if (name.equals("me") && Authentication.isLoggedIn) name = Authentication.name;
             Intent myIntent = new Intent(context, Profile.class);
             myIntent.putExtra("profile", name);
             context.startActivity(myIntent);
@@ -123,10 +131,13 @@ public class OpenRedditLink {
         c.startActivity(i);
     }
 
-    /* Exclude a package (this app) from opening an intent.
-    Source: http://stackoverflow.com/a/23268821/4026792
+    /**
+     * Exclude a package (this app) from opening an intent.
+     * Source: http://stackoverflow.com/a/23268821/4026792
+     *
+     * @param url The url as a String
+     * @param c Context for opening the intent
     */
-
     public static void customIntentChooser(String url, Context c) {
 
         String packageNameToIgnore = BuildConfig.APPLICATION_ID;

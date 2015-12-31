@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
@@ -46,10 +45,6 @@ public class Album extends FullScreenActivity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
