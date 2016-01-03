@@ -727,7 +727,11 @@ public class PopulateSubmissionViewHolder {
         if (submission.getSubredditName().equals("androidcirclejerk")) {
             holder.score.setText(score + " upDuARTes"); //Praise DuARTe
         } else {
-            holder.score.setText(res.getQuantityString(R.plurals.submission_points, score, score));
+            if (submission.getSubredditName().equals("xdacirclejerk")) {
+                holder.score.setText(score + " thanks"); //Hit Thanks and Pls buy me a beer! (XDA)
+            } else {
+                holder.score.setText(res.getQuantityString(R.plurals.submission_points, score, score));
+            }
         }
 
         final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);

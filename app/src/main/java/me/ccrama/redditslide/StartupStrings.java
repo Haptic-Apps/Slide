@@ -14,6 +14,17 @@ class StartupStrings {
                 context.getString(R.string.startup_duARTe), //Praise him!
                 context.getString(R.string.startup_karma),
                 context.getString(R.string.startup_pitchforks),
+                context.getString(R.string.startup_memes),
+                context.getString(R.string.startup_pepes),
+                context.getString(R.string.startup_skeletal),
+                context.getString(R.string.startup_downvotes),
+                context.getString(R.string.startup_friend),
+                context.getString(R.string.startup_science),
+                context.getString(R.string.startup_gold),
+                context.getString(R.string.startup_this),
+                context.getString(R.string.startup_shower),
+                context.getString(R.string.startup_ftfy),
+                context.getString(R.string.startup_frontpage),
                 context.getString(R.string.startup_upvotes)
         };
     }
