@@ -12,7 +12,7 @@
     <item
         android:id="@+id/sort"
         android:icon="@drawable/sort"
-        android:title="@string/btn_sorting"
+        android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom" />
 
 

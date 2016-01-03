@@ -6,7 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -41,9 +39,12 @@ import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
+import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -244,7 +245,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
-        if(n.isScoreHidden()){
+        if (n.isScoreHidden()) {
             String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
             holder.score.setText("[" + scoreText + "]");
@@ -267,7 +268,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.score.setTextColor(holder.textColorRegular);
             downvote.clearColorFilter();
             if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore()  + "");
+                holder.score.setText(n.getScore() + "");
             }
             upvote.clearColorFilter();
 
@@ -298,7 +299,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
                         final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
-                        e.setText(baseNode.getComment().getBody());
+                        e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
 
                         builder.setView(dialoglayout);
@@ -513,7 +514,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String urlString = "http://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+                        String urlString = "https://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
                         Reddit.defaultShareText(urlString, mContext);
                     }
                 });
@@ -546,7 +547,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     up.remove(n.getFullName());
                     holder.score.setTextColor(holder.textColorRegular);
                     if (!n.isScoreHidden()) {
-                        holder.score.setText(n.getScore()  + "");
+                        holder.score.setText(n.getScore() + "");
                     }
                     upvote.clearColorFilter();
 
@@ -726,7 +727,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentArea.setVisibility(View.GONE);
             }
 
-            if(comment.isScoreHidden()){
+            if (comment.isScoreHidden()) {
                 String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
                 holder.score.setText("[" + scoreText + "]");
@@ -768,8 +769,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
 
+            String distingush = "";
+            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
+                distingush = "[M]";
+            else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
+                distingush = "[A]";
 
-            holder.author.setText(comment.getAuthor());
+            holder.author.setText(comment.getAuthor() + distingush);
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
                 holder.flairBubble.setVisibility(View.VISIBLE);
                 holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
@@ -1023,7 +1029,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         public void onClick(DialogInterface dialog, int which) {
                                             switch (which) {
                                                 case R.id.reddit_url:
-                                                    Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                    Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                                                     break;
                                                 case R.id.link_url:
                                                     Reddit.defaultShareText(submission.getUrl(), mContext);
@@ -1264,28 +1270,29 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int i = 0;
 
             if (params.length > 0) {
+                try {
+                    params[0].getMoreCommentNode().loadFully(Authentication.reddit);
+                    for (CommentNode no : params[0].getMoreCommentNode().walkTree()) {
+                        if (!keys.containsKey(no.getComment().getFullName())) {
+                            CommentObject obs = new CommentObject(no);
 
-                params[0].getMoreCommentNode().loadFully(Authentication.reddit);
-                for (CommentNode no : params[0].getMoreCommentNode().walkTree()) {
-                    if (!keys.containsKey(no.getComment().getFullName())) {
-                        CommentObject obs = new CommentObject(no);
+                            if (i == toPut && toDo != null) {
+                                obs.setMoreChildren(toDo, toDoComment);
+                                toPut = -1;
+                            }
 
-                        if (i == toPut && toDo != null) {
-                            obs.setMoreChildren(toDo, toDoComment);
-                            toPut = -1;
+                            finalData.add(obs);
+
+                            if (no.hasMoreComments()) {
+                                toPut = i + no.getChildren().size() + 1;
+                                toDo = no.getMoreChildren();
+                                toDoComment = no;
+                            }
+                            i++;
                         }
-
-                        finalData.add(obs);
-
-                        if (no.hasMoreComments()) {
-                            toPut = i + no.getChildren().size() + 1;
-                            toDo = no.getMoreChildren();
-                            toDoComment = no;
-                        }
-                        i++;
                     }
-
-
+                } catch (Exception e) {
+                    Log.w("CommentAdapter", "Cannot load more comments " + e);
                 }
 
 

@@ -56,7 +56,9 @@ public class ContributionsView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
         posts = new ContributionPosts(id, where);
-        adapter = new ContributionAdapter(getActivity(), posts, rv);
+        //noinspection StringEquality
+        if (where == "hidden") adapter = new ContributionAdapter(getActivity(), posts, rv, true);
+        else adapter = new ContributionAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
         try {
@@ -95,7 +97,6 @@ public class ContributionsView extends Fragment {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(adapter, id, where);
-
                     }
                 }
             }

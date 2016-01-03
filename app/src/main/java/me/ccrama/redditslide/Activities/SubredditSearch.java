@@ -12,11 +12,9 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterSearch;
 import me.ccrama.redditslide.Adapters.CommentObject;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 
 /**
  * Created by ccrama on 9/17/2015.

@@ -1,17 +1,16 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -478,28 +477,7 @@ public class SubredditView extends BaseActivityAnim {
                         LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                         final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                        colorPicker.setColors(new int[]{
-                                getResources().getColor(R.color.md_red_500),
-                                getResources().getColor(R.color.md_pink_500),
-                                getResources().getColor(R.color.md_purple_500),
-                                getResources().getColor(R.color.md_deep_purple_500),
-                                getResources().getColor(R.color.md_indigo_500),
-                                getResources().getColor(R.color.md_blue_500),
-                                getResources().getColor(R.color.md_light_blue_500),
-                                getResources().getColor(R.color.md_cyan_500),
-                                getResources().getColor(R.color.md_teal_500),
-                                getResources().getColor(R.color.md_green_500),
-                                getResources().getColor(R.color.md_light_green_500),
-                                getResources().getColor(R.color.md_lime_500),
-                                getResources().getColor(R.color.md_yellow_500),
-                                getResources().getColor(R.color.md_amber_500),
-                                getResources().getColor(R.color.md_orange_500),
-                                getResources().getColor(R.color.md_deep_orange_500),
-                                getResources().getColor(R.color.md_brown_500),
-                                getResources().getColor(R.color.md_grey_500),
-                                getResources().getColor(R.color.md_blue_grey_500),
-
-                        });
+                        colorPicker.setColors(ColorPreferences.getAccentColors(SubredditView.this));
                         int currentColor = Palette.getColor(subreddit);
                         for (int i : colorPicker.getColors()) {
                             for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
@@ -528,9 +506,8 @@ public class SubredditView extends BaseActivityAnim {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     Window window = getWindow();
                                     window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                                    SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
                                 }
+                                setRecentBar(subreddit, colorPicker2.getColor());
                                 findViewById(R.id.header_sub).setBackgroundColor(colorPicker2.getColor());
 
                                 title.setBackgroundColor(colorPicker2.getColor());
@@ -594,7 +571,7 @@ public class SubredditView extends BaseActivityAnim {
                             int i = 0;
                             for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                                 if (type.getThemeType() == 0) {
-                                    arrs[i] = getResources().getColor(type.getColor());
+                                    arrs[i] = ContextCompat.getColor(SubredditView.this, type.getColor());
 
                                     i++;
                                 }
@@ -648,7 +625,7 @@ public class SubredditView extends BaseActivityAnim {
                                     int color = colorPickeracc.getColor();
                                     ColorPreferences.Theme t = null;
                                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                        if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                                        if (ContextCompat.getColor(SubredditView.this, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                             t = type;
                                             break;
                                         }

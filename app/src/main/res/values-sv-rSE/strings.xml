@@ -20,7 +20,6 @@
   <string name="submission_share_reddit">Reddit URL</string>
   <string name="submission_hide">Dölj inlägg</string>
   <string name="submission_report">Anmäl inlägg</string>
-  <string name="submission_gild">Ge guld</string>
   <string name="submission_save">Spara inlägg</string>
   <string name="submission_share">Dela inlägg</string>
   <string name="submission_load_full">Ladda hela tråden</string>
@@ -67,7 +66,6 @@
   <string name="drawer_search">Sök efter en subreddit</string>
   <string name="drawer_moderation">Moderering</string>
   <string name="sidebar_pinned">fäst</string>
-  <string name="sidebar_wiki">Visa wiki</string>
   <string name="crash_title">Slide har kraschat.</string>
   <string name="crash_report">Rapportera fel på GitHub</string>
   <string name="crash_restart">Starta om app</string>
@@ -78,8 +76,6 @@
   <string name="profile_karma_link">länk karma</string>
   <string name="profile_karma_comment">kommentars karma</string>
   <string name="profile_message">Privat meddelande</string>
-  <string name="profile_saved">Sparade inlägg</string>
-  <string name="profile_upvoted">Uppröstade inlägg</string>
   <string name="profile_err_title">Användaren kunde inte hittas</string>
   <string name="profile_err_msg">Reddit användaren kunde inte hämtas.</string>
   <string name="profile_overview">Översikt</string>
@@ -147,8 +143,6 @@
   <string name="gif_err_title">GIFen hittades inte</string>
   <string name="gif_err_msg">Ett fel uppstod vid inläsning av denna GIF. Vänligen öppna GIFen på nytt och försök igen.</string>
   <string name="gif_saved">GIF sparad</string>
-  <string name="pins_err_title">Inga fästa (ännu)!</string>
-  <string name="pins_err_msg">Du kan fästa dina favorit subreddits överst på din subreddit lista. För att göra detta, öppna en subreddit sidomeny (klicka på I ikonen eller dra ifrån skärmens högra kant) och bocka i \'FÄST\'!</string>
   <string name="pin_select">Välj subreddits att fästa</string>
   <string name="login_restarting_title">Appen startas om</string>
   <string name="login_restart_msg">För att synkronisera inställningarna och subreddits kommer Slide att starta om</string>
@@ -185,16 +179,8 @@
     <item quantity="one">Du har %d nytt meddelande!</item>
     <item quantity="other">Du har %d nya meddelanden!</item>
   </plurals>
-  <string name="startup_banana">Ger Carter en banan</string>
-  <string name="startup_cats">Hitta videor med katter</string>
-  <string name="startup_duARTe">Prisa DuARTe</string>
-  <string name="startup_karma">Samla karma</string>
-  <string name="startup_pitchforks">Förbereder högafflar</string>
-  <string name="startup_upvotes">Försöker få uppröster</string>
-  <string name="startup_vine">Gjorde det för vinet</string>
   <string name="misc_err">Fel</string>
   <string name="misc_none">Ingen</string>
-  <string name="misc_please_wait">Vänligen vänta</string>
   <string name="misc_retry">Vill du försöka igen?</string>
   <string name="misc_score_hidden">poäng dolt</string>
   <string name="misc_you">du</string>
@@ -228,7 +214,6 @@
   <string name="backup_info">Slide säkerhetskopierar alla data till en privat Google Drive mapp. Du kan synkronisera data mellan enheter (eller till samma enhet), och din data går aldrig via en tredje parts service eller server.</string>
   <string name="backup_btn">Säkerhetskopiera</string>
   <string name="backup_btn_restore">Återställ</string>
-  <string name="vote_cast">Röst skickad!</string>
   <string name="vote_err">Fel vid röstning!</string>
   <string name="vote_err_login">Du måste vara inloggad för att rösta!</string>
   <string name="mod_mail">Mod Mail</string>
@@ -267,7 +252,6 @@
   <string name="settings_mail_info">Ju högre frekvens, desto mer batteri kan Slide komma att använda i bakgrunden!</string>
   <string name="settings_main_color_title">Redigera huvudsaklig färg</string>
   <string name="settings_notification">Sök efter nya meddelanden varje %1$s</string>
-  <string name="settings_single_mode">Enkelt läge\nInaktiverar svepningar mellan subreddits</string>
   <string name="settings_swap_actions">Byt funktion på tryck och långt tryck i kommentarer</string>
   <string name="settings_disable_nsfw_photo">Dölj alla NSFW bilder</string>
   <string name="settings_disable_nsfw">Dölj alla NSFW inlägg</string>
@@ -291,7 +275,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Inkorgen</string>
   <string name="title_theme_settings">Temainställningar</string>
-  <string name="title_default">Hemskärm</string>
   <string name="title_create_multi">Skapa en Multi</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Detta belopp&#8230;</string>

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
+import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
@@ -77,9 +78,14 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         final CommentNode baseNode = dataSet.get(pos);
         final Comment comment = baseNode.getComment();
 
+        String distingush = "";
+        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
+            distingush = "[M]";
+        else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
+            distingush = "[A]";
 
         String author = comment.getAuthor();
-        holder.author.setText(author);
+        holder.author.setText(author + distingush);
         if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
             holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.VISIBLE);
             ((TextView) holder.itemView.findViewById(R.id.text)).setText(Html.fromHtml(comment.getAuthorFlair().getText()));

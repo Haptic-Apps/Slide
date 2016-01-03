@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
@@ -34,6 +35,7 @@ import net.dean.jraw.fluent.FluentRedditClient;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Contribution;
+import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.FlairTemplate;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -232,11 +234,15 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
-
+        String distingush = "";
+        if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
+            distingush = "[M]";
+        else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
+            distingush = "[A]";
 
         holder.title.setText(Html.fromHtml(submission.getTitle()));
 
-        holder.info.setText(submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime(), mContext));
+        holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime(), mContext));
 
         holder.subreddit.setText(submission.getSubredditName());
 
@@ -245,7 +251,7 @@ public class PopulateSubmissionViewHolder {
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
             if (reports.size() + reports2.size() > 0) {
-                ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(mContext.getResources().getColor(R.color.md_red_300), PorterDuff.Mode.MULTIPLY);
+                ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.MULTIPLY);
             } else {
                 ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(getStyleAttribColorValue(mContext, R.attr.tint, Color.WHITE), PorterDuff.Mode.MULTIPLY);
 
@@ -654,7 +660,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
                                 new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
                                         .title(R.string.submission_share_title)
@@ -665,7 +671,7 @@ public class PopulateSubmissionViewHolder {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                                                         break;
                                                     case R.id.link_url:
                                                         Reddit.defaultShareText(submission.getUrl(), mContext);
@@ -716,7 +722,7 @@ public class PopulateSubmissionViewHolder {
         });
         int score = submission.getScore();
         int commentCount = submission.getCommentCount();
-        Resources res = mContext.getResources();
+        final Resources res = mContext.getResources();
         holder.comments.setText(res.getQuantityString(R.plurals.submission_comment_count, commentCount, commentCount));
         if (submission.getSubredditName().equals("androidcirclejerk")) {
             holder.score.setText(score + " upDuARTes"); //Praise DuARTe
@@ -726,25 +732,24 @@ public class PopulateSubmissionViewHolder {
 
         final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
         final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
-        if(submission.isArchived()){
+        if (submission.isArchived()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
-        }
-        else if (Authentication.isLoggedIn && !submission.voted() && !offline) {
+        } else if (Authentication.isLoggedIn && !submission.voted() && !offline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
                 downvotebutton.clearColorFilter();
 
                 submission.setVote(true);
                 submission.setVoted(true);
-                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
-                holder.score.setText(submission.getScore() + 1 + "");
-                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
+                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() + 1, submission.getScore() + 1));
+                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
 
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
-                holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
-                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                 upvotebutton.clearColorFilter();
-                holder.score.setText(submission.getScore() - 1 + "");
+                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() - 1, submission.getScore() - 1));
 
                 submission.setVote(false);
                 submission.setVoted(true);
@@ -752,7 +757,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
                 downvotebutton.clearColorFilter();
                 upvotebutton.clearColorFilter();
-                holder.score.setText(submission.getScore() + "");
+                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore()));
 
                 submission.setVote(false);
                 submission.setVoted(false);
@@ -803,9 +808,12 @@ public class PopulateSubmissionViewHolder {
             big = false;
         }
         holder.thumbImage.setVisibility(View.VISIBLE);
+        ImageView thumbImage2 = null;
         if (!full) {
-            ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)).setImageBitmap(null);
+            thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+            thumbImage2.setVisibility(View.GONE);
         }
+
         if (!(typ == SettingValues.InfoBar.NONE && !full)) {
 
             boolean bigAtEnd = false;
@@ -817,8 +825,8 @@ public class PopulateSubmissionViewHolder {
             } else if (type == ContentType.ImageType.IMAGE) {
                 url = ContentType.getFixedUrl(submission.getUrl());
                 if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                    thumbImage2.setVisibility(View.VISIBLE);
+                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
 
                 } else if (big || fullscreen) {
                     ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
@@ -840,7 +848,8 @@ public class PopulateSubmissionViewHolder {
                 holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                 if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                    thumbImage2.setVisibility(View.VISIBLE);
+                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                 } else if ((big || fullscreen) && !blurry) {
                     ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
 
@@ -859,7 +868,8 @@ public class PopulateSubmissionViewHolder {
                 if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                     bigAtEnd = false;
                     if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, ((ImageView) holder.itemView.findViewById(R.id.thumbimage2)));
+                        thumbImage2.setVisibility(View.VISIBLE);
+                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                     } else {
                         ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
                     }
@@ -893,9 +903,6 @@ public class PopulateSubmissionViewHolder {
             }
             if (typ == SettingValues.InfoBar.THUMBNAIL && !full) {
                 holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
-            } else if (!full) {
-                holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
             }
             title.setVisibility(View.VISIBLE);
             info.setVisibility(View.VISIBLE);
@@ -989,32 +996,31 @@ public class PopulateSubmissionViewHolder {
             addClickFunctions(holder.thumbImage, baseView, type, mContext, submission, back);
             addClickFunctions(holder.leadImage, baseView, type, mContext, submission, back);
             if (!full)
-                addClickFunctions(holder.itemView.findViewById(R.id.thumbimage2), baseView, type, (Activity) mContext, submission, back);
+                addClickFunctions(thumbImage2, baseView, type, mContext, submission, back);
 
-            addClickFunctions(holder.previewContent, baseView, type, (Activity) mContext, submission, back);
+            addClickFunctions(holder.previewContent, baseView, type, mContext, submission, back);
         } else {
             holder.imageArea.setVisibility(View.GONE);
             holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
-            holder.itemView.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
         }
 
         View pinned = holder.itemView.findViewById(R.id.pinned);
 
+
+        View flair = holder.itemView.findViewById(R.id.flairbubble);
+
+        if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
+            flair.setVisibility(View.GONE);
+        } else {
+            flair.setVisibility(View.VISIBLE);
+            Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
+            ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
+        }
+
         if (fullscreen) {
-            View flair = holder.itemView.findViewById(R.id.flairbubble);
-
-            if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
-                flair.setVisibility(View.GONE);
-            } else {
-                flair.setVisibility(View.VISIBLE);
-                Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
-                ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
-            }
-
             ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
             if (!submission.getSelftext().isEmpty()) {
-                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, (Activity) mContext, submission.getSubredditName());
+                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, mContext, submission.getSubredditName());
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
@@ -1035,8 +1041,6 @@ public class PopulateSubmissionViewHolder {
 
 
         try {
-
-
             final TextView points = holder.score;
             final TextView comments = holder.comments;
             if (Authentication.isLoggedIn && !offline) {
@@ -1045,29 +1049,29 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (!submission.voted()) {
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
 
                                 submission.setVote(false);
-                                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                                 submission.setVoted(true);
-                                holder.score.setText(submission.getScore() + 1 + "");
+                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() + 1, submission.getScore() + 1));
 
                                 new Vote(false, points, mContext).execute(submission);
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 new Vote(false, points, mContext).execute(submission);
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
-                                downvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                                 upvotebutton.clearColorFilter();
                                 submission.setVoted(true);
                                 submission.setVote(false);
-                                holder.score.setText(submission.getScore() - 1 + "");
+                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() - 1, submission.getScore() - 1));
 
 
                             } else if (submission.voted() && !submission.getIsUpvoted()) {
                                 new Vote(points, mContext).execute(submission);
                                 points.setTextColor(comments.getCurrentTextColor());
                                 downvotebutton.clearColorFilter();
-                                holder.score.setText(submission.getScore() + "");
+                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore()));
 
                                 submission.setVoted(false);
                                 submission.setVote(false);
@@ -1081,29 +1085,29 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (!submission.voted()) {
-                                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
                                 submission.setVote(true);
                                 submission.setVoted(true);
-                                holder.score.setText(submission.getScore() + 1 + "");
+                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore() + 1));
 
                                 new Vote(true, points, mContext).execute(submission);
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                             } else if (submission.voted() && !submission.getIsUpvoted()) {
                                 new Vote(true, points, mContext).execute(submission);
-                                points.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                                points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 submission.setVote(true);
                                 submission.setVoted(true);
 
-                                upvotebutton.setColorFilter(mContext.getResources().getColor(R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
                                 downvotebutton.clearColorFilter();
-                                holder.score.setText(submission.getScore() + 1 + "");
+                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore() + 1));
 
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 submission.setVote(false);
-                                submission.setVoted(false);
-                                holder.score.setText(submission.getScore() + "");
+
+                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore()));
 
                                 upvotebutton.clearColorFilter();
 

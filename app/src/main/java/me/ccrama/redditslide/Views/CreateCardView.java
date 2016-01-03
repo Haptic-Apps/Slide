@@ -189,6 +189,7 @@ public class CreateCardView {
         if (subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
+                v.findViewById(R.id.placeholder_bottom).setVisibility(View.VISIBLE);
             }
 
             switch (SettingValues.infoBar) {
@@ -226,6 +227,7 @@ public class CreateCardView {
         } else {
             if (!SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible)) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
+                v.findViewById(R.id.placeholder_bottom).setVisibility(View.VISIBLE);
             }
 
             if (getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED) {

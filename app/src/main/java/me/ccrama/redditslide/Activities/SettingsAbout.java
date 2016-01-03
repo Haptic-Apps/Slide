@@ -1,13 +1,12 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 
 
 /**
@@ -31,14 +30,14 @@ public class SettingsAbout extends BaseActivity {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ccrama/Slide/issues")));
+                Reddit.defaultShare("https://github.com/ccrama/Slide/issues", SettingsAbout.this);
             }
         });
 
         changelog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/ccrama/Slide/blob/master/History.md")));
+                Reddit.defaultShare("https://github.com/ccrama/Slide/blob/master/History.md", SettingsAbout.this);
             }
         });
 

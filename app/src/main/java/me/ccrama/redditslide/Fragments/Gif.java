@@ -20,10 +20,16 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import net.dean.jraw.models.Submission;
+
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
+import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
@@ -34,7 +40,7 @@ public class Gif extends Fragment {
 
     private int i = 0;
     private View placeholder;
-    private String dat;
+    private Submission s;
     private View gif;
 
     @Override
@@ -65,8 +71,9 @@ public class Gif extends Fragment {
         TextView title = (TextView) rootView.findViewById(R.id.title);
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
-        title.setVisibility(View.GONE);
-        desc.setVisibility(View.GONE);
+        title.setText(s.getTitle());
+        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreatedUtc().getTime(), getContext()));
+        ContentType.ImageType type = ContentType.getImageType(s);
 
         placeholder = rootView.findViewById(R.id.placeholder);
         gif = rootView.findViewById(R.id.gif);
@@ -75,6 +82,9 @@ public class Gif extends Fragment {
         gif.setVisibility(View.VISIBLE);
         final MediaVideoView v = (MediaVideoView) gif;
         v.clearFocus();
+
+
+        String dat = s.getUrl();
 
 
         if (dat.contains("gfy")) {
@@ -109,8 +119,8 @@ public class Gif extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-
-        dat = bundle.getString("url", "");
+        i = bundle.getInt("page", 0);
+        s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
 
     }
 
@@ -136,8 +146,7 @@ public class Gif extends Fragment {
                             final MediaVideoView videoView =
                                     (MediaVideoView) gif;
 
-                            videoView.setVideoPath(
-                                    result.get("mp4Url").getAsString());
+                            videoView.setVideoPath(GifView.getSmallerGfy(result.get("mp4Url").getAsString()));
                             //videoView.set
 
 
@@ -175,8 +184,7 @@ public class Gif extends Fragment {
                                                             }
                                                         }).create().show();
                                             } else {
-                                                videoView.setVideoPath(
-                                                        result.get("mp4Url").getAsString());
+                                                videoView.setVideoPath(GifView.getSmallerGfy(result.get("mp4Url").getAsString()));
 
 
                                                 videoView.start();

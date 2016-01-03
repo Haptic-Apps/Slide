@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -65,7 +64,7 @@ public class CreateMulti extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_createmulti);
-        setupAppBar(R.id.toolbar, R.string.title_multireddits, true);
+        setupAppBar(R.id.toolbar, R.string.title_create_multi, true);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,29 +262,23 @@ public class CreateMulti extends BaseActivityAnim {
                     });
                 }
 
-            } catch (final NetworkException |  ApiException e) {
+            } catch (final NetworkException | ApiException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         new AlertDialogWrapper.Builder(CreateMulti.this)
                                 .setTitle(R.string.err_title)
-                                .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException)e).getExplanation() + "\n" + getString(R.string.misc_retry): getString(R.string.misc_err))
-                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
+                                .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         finish();
                                     }
-                                }).setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ((FloatingActionButton) findViewById(R.id.send)).show();
-
-                            }
-                        }).create().show();
+                                }).create().show();
                     }
                 });
                 e.printStackTrace();
-            } catch (  IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

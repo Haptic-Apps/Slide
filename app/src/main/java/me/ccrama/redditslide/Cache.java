@@ -20,7 +20,7 @@ public final class Cache {
 
     public static void writeSubreddit(ArrayList<Submission> objects, String subreddit)  {
         StringBuilder s = new StringBuilder();
-        s.append(System.currentTimeMillis() + "<SEPARATOR>");
+        s.append(System.currentTimeMillis()).append("<SEPARATOR>");
         for (Submission sub : objects) {
             s.append(sub.getDataNode().toString());
             s.append("<SEPARATOR>");

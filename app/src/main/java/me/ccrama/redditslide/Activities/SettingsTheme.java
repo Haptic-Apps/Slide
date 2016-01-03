@@ -1,11 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.ActivityManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -52,7 +51,7 @@ public class SettingsTheme extends BaseActivity {
                 int i = 0;
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                     if (type.getThemeType() == 0) {
-                        arrs[i] = getResources().getColor(type.getColor());
+                        arrs[i] = ContextCompat.getColor(SettingsTheme.this, type.getColor());
 
                         i++;
                     }
@@ -68,7 +67,7 @@ public class SettingsTheme extends BaseActivity {
                         int color = colorPicker.getColor();
                         ColorPreferences.Theme t = null;
                         for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                            if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                            if (ContextCompat.getColor(SettingsTheme.this, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                 t = type;
                                 break;
                             }
@@ -94,26 +93,7 @@ public class SettingsTheme extends BaseActivity {
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        int color = colorPicker.getColor();
-                        ColorPreferences.Theme t = null;
-                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                            if (getResources().getColor(type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
-                                t = type;
-                                break;
-                            }
-                        }
-
-
-                        new ColorPreferences(SettingsTheme.this).setFontStyle(t);
-
-                        Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(i);
-                        overridePendingTransition(0, 0);
-
                         finish();
-                        overridePendingTransition(0, 0);
-
                     }
                 });
                 builder.show();
@@ -280,28 +260,7 @@ public class SettingsTheme extends BaseActivity {
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                 final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                colorPicker.setColors(new int[]{
-                        getResources().getColor(R.color.md_red_500),
-                        getResources().getColor(R.color.md_pink_500),
-                        getResources().getColor(R.color.md_purple_500),
-                        getResources().getColor(R.color.md_deep_purple_500),
-                        getResources().getColor(R.color.md_indigo_500),
-                        getResources().getColor(R.color.md_blue_500),
-                        getResources().getColor(R.color.md_light_blue_500),
-                        getResources().getColor(R.color.md_cyan_500),
-                        getResources().getColor(R.color.md_teal_500),
-                        getResources().getColor(R.color.md_green_500),
-                        getResources().getColor(R.color.md_light_green_500),
-                        getResources().getColor(R.color.md_lime_500),
-                        getResources().getColor(R.color.md_yellow_500),
-                        getResources().getColor(R.color.md_amber_500),
-                        getResources().getColor(R.color.md_orange_500),
-                        getResources().getColor(R.color.md_deep_orange_500),
-                        getResources().getColor(R.color.md_brown_500),
-                        getResources().getColor(R.color.md_grey_500),
-                        getResources().getColor(R.color.md_blue_grey_500),
-
-                });
+                colorPicker.setColors(ColorPreferences.getAccentColors(SettingsTheme.this));
                 int currentColor = Palette.getDefaultColor();
                 for (int i : colorPicker.getColors()) {
                     for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
@@ -335,9 +294,8 @@ public class SettingsTheme extends BaseActivity {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                            SettingsTheme.this.setTaskDescription(new ActivityManager.TaskDescription(getString(R.string.title_theme_settings), ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
-
                         }
+                        setRecentBar(getString(R.string.title_theme_settings), colorPicker2.getColor());
 
                     }
                 });
@@ -364,16 +322,7 @@ public class SettingsTheme extends BaseActivity {
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
-                        Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-
-                        startActivity(i);
-                        overridePendingTransition(0, 0);
-
                         finish();
-                        overridePendingTransition(0, 0);
-
                     }
                 });
                 builder.show();

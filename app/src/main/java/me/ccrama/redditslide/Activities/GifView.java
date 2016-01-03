@@ -42,6 +42,13 @@ public class GifView extends FullScreenActivity {
     public ProgressBar loader;
     SharedPreferences prefs;
 
+    public static String getSmallerGfy(String gfyUrl) {
+        gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
+        if (!gfyUrl.endsWith("-mobile.mp4"))
+            gfyUrl = gfyUrl.replaceAll("\\.mp4", "-mobile.mp4");
+        return gfyUrl;
+    }
+
     /**
      * Called when the activity is first created.
      */
@@ -50,7 +57,7 @@ public class GifView extends FullScreenActivity {
 
 
         super.onCreate(savedInstanceState);
-        if(Reddit.fullscreen) {
+        if (Reddit.fullscreen) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
@@ -120,8 +127,7 @@ public class GifView extends FullScreenActivity {
                         final MediaVideoView videoView =
                                 (MediaVideoView) findViewById(R.id.gif);
 
-                        videoView.setVideoPath(
-                                result.get("mp4Url").getAsString());
+                        videoView.setVideoPath(getSmallerGfy(result.get("mp4Url").getAsString()));
                         //videoView.set
 
                         MediaController mediaController = new
@@ -217,8 +223,7 @@ public class GifView extends FullScreenActivity {
                                                         }
                                                     }).create().show();
                                         } else {
-                                            videoView.setVideoPath(
-                                                    result.get("mp4Url").getAsString());
+                                            videoView.setVideoPath(getSmallerGfy(result.get("mp4Url").getAsString()));
 
                                             MediaController mediaController = new
                                                     MediaController(GifView.this);

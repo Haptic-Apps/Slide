@@ -63,7 +63,6 @@
   <string name="drawer_search">Traži podreddit</string>
   <string name="drawer_sync_subs">Uskladi svoje podreddite</string>
   <string name="sidebar_pinned">prikvačeno</string>
-  <string name="sidebar_wiki">Prikaži wiki</string>
   <string name="crash_title">Slide se srušio.</string>
   <string name="crash_report">Prijavi bug na GitHub</string>
   <string name="crash_restart">Ponovno pokrenite aplikaciju</string>
@@ -72,8 +71,6 @@
   <string name="crash_btn">Izvješće</string>
   <string name="profile_yours">Tvoj profil</string>
   <string name="profile_message">Privatne poruka</string>
-  <string name="profile_saved">Spremljeni postovi</string>
-  <string name="profile_upvoted">Pozitivno ocjenjeni postovi</string>
   <string name="profile_err_title">Korisnik nije pronađen</string>
   <string name="profile_err_msg">Reddit korisnika nije moguće pronaći.</string>
   <string name="profile_overview">pregled</string>
@@ -138,7 +135,6 @@
   <string name="backup_info">Slide sigurnosno kopira sve podatke u privatnu mapu Google Drive. Možete sinkronizirati podatke svih uređaja (ili na istog uređaja), a podatci nikada ne idu preko drugih usluga ili poslužitelja.</string>
   <string name="backup_btn">Sigurnosna kopija</string>
   <string name="backup_btn_restore">Vrati</string>
-  <string name="vote_cast">Glasano!</string>
   <string name="vote_err">Pogreška davanja glasa!</string>
   <string name="vote_err_login">Morate biti prijavljeni da bi glasali!</string>
   <string name="mod_reports">Izvješća</string>

@@ -33,6 +33,7 @@
                 android:id="@+id/leadimage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxHeight="200dp"
                 android:layout_alignParentLeft="true"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -337,7 +338,7 @@
                     android:id="@+id/flairbubble"
                     layout="@layout/flair"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="16dp"
 
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"

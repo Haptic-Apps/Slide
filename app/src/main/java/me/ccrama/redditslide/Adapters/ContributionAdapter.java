@@ -14,6 +14,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -44,21 +45,28 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int COMMENT = 1;
     public final Activity mContext;
     private final RecyclerView listView;
+    private final Boolean isHiddenPost;
     public ArrayList<Contribution> dataSet;
 
     public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView) {
-
         this.mContext = mContext;
         this.listView = listView;
         this.dataSet = dataSet.posts;
 
-        boolean isSame = false;
+        this.isHiddenPost = false;
+    }
 
+    public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView, Boolean isHiddenPost) {
+        this.mContext = mContext;
+        this.listView = listView;
+        this.dataSet = dataSet.posts;
+
+        this.isHiddenPost = isHiddenPost;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position == dataSet.size() && dataSet.size() != 0 ) {
+        if (position == dataSet.size() && dataSet.size() != 0) {
             return 5;
         }
         if (dataSet.get(position) instanceof Comment)//IS COMMENT
@@ -163,7 +171,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
                                 new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
                                         .title(R.string.submission_share_title)
@@ -174,7 +182,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText("http://reddit.com" + submission.getPermalink(), mContext);
+                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                                                         break;
                                                     case R.id.link_url:
                                                         Reddit.defaultShareText(submission.getUrl(), mContext);
@@ -222,6 +230,21 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView, false, false);
+
+            final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+            if (hideButton != null && isHiddenPost) {
+                hideButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final int pos = dataSet.indexOf(submission);
+                        final Contribution old = dataSet.get(pos);
+                        dataSet.remove(submission);
+                        notifyItemRemoved(pos);
+
+                        Hidden.undoHidden(old);
+                    }
+                });
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

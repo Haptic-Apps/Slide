@@ -285,6 +285,14 @@
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/placeholder_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:alpha=".5"
+                    android:textColor="?attr/font"
+                    android:visibility="gone"/>
+
 
                 <RelativeLayout
                     android:id="@+id/actionbar"
@@ -303,12 +311,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="16dp"
 
-
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerInParent="true"
                         android:layout_marginLeft="8dp" />
+
+                    <include
+                        android:id="@+id/flairbubble"
+                        layout="@layout/flair"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/gild"
+
+                        android:src="@drawable/pinned" />
 
                     <ImageView
                         android:id="@+id/hide"

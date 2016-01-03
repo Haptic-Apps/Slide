@@ -21,7 +21,6 @@
   <string name="submission_share_content">İçerik URL\'si</string>
   <string name="submission_hide">Mesajı gizle</string>
   <string name="submission_report">Mesajı rapor et</string>
-  <string name="submission_gild">Mesaja altın hediye et</string>
   <string name="submission_save">Mesajı kaydet</string>
   <string name="submission_share">Mesajı paylaş</string>
   <string name="submission_load_full">Tüm mesajları yükle</string>
@@ -72,7 +71,6 @@
   <string name="drawer_moderation">Yönetim</string>
   <string name="drawer_sync_subs">Subredditlerini eşitle</string>
   <string name="sidebar_pinned">sabitlenmiş</string>
-  <string name="sidebar_wiki">Wiki\'yi görüntüle</string>
   <string name="crash_title">Slide çöktü.</string>
   <string name="crash_report">GitHub\'da hatayı rapor et</string>
   <string name="crash_restart">Uygulamayı yeniden başlatın</string>
@@ -83,8 +81,6 @@
   <string name="profile_karma_link">bağlantı karması</string>
   <string name="profile_karma_comment">yorum karması</string>
   <string name="profile_message">Özel Mesaj</string>
-  <string name="profile_saved">Kaydedilmiş mesajlar</string>
-  <string name="profile_upvoted">Upvote edilmiş mesajlar</string>
   <string name="profile_err_title">Kullanıcı bulunamadı</string>
   <string name="profile_err_msg">Reddit kullanıcısına ulaşılamadı.</string>
   <string name="profile_overview">genel bakış</string>
@@ -153,8 +149,6 @@
   <string name="gif_err_title">GIF bulunamadı</string>
   <string name="gif_err_msg">Bu GIF yüklenirken bir hata oluştu. Lütfen GIF\'i yeniden açın ve yüklemeyi yeniden deneyin.</string>
   <string name="gif_saved">GIF kaydedildi</string>
-  <string name="pins_err_title">İğnelenmiş bir şey yok (şimdilik)!</string>
-  <string name="pins_err_msg">Favori subredditlerini subreddit listenin başına sabitleyebilirsin. Bunun için, bir subredditin yan panelini aç (I ikonuna tıkla ya da ekranının sağ kenarından çek) ve \"SABİTLENMİŞ\"i işaretle!</string>
   <string name="pin_select">Sabitlemek için subreddit seçin</string>
   <string name="login_restarting_title">Uygulama yeniden başlıyor</string>
   <string name="login_restart_msg">Subredditlerini ve ayarlarını eşitlemek için, Slide yeniden başlayacak</string>
@@ -184,7 +178,7 @@
   <string name="mail_hint_body">Mesaj Metni</string>
   <string name="mail_send_to">%1$s kişisine bir mesaj gönder</string>
   <string name="mail_send">Bir mesaj gönder</string>
-  <string name="mail_notification_msg">%1$d kişisinden yeni mesaj</string>
+  <string name="mail_notification_msg">%1$s kişisinden yeni mesaj</string>
   <string name="mail_reply_to">%1$s kişisine cevapla</string>
   <string name="mail_notification_author">%2$s kişisinden %1$s</string>
   <string name="mail_theirs">Onların mesajını görüntüle</string>
@@ -192,16 +186,8 @@
     <item quantity="one">%d yeni mesajın var!</item>
     <item quantity="other">%d yeni mesajın var!</item>
   </plurals>
-  <string name="startup_banana">Carter\'a bir muz ver</string>
-  <string name="startup_cats">Kedi videoları bulmak</string>
-  <string name="startup_duARTe">DuARTe\'ye saygılar</string>
-  <string name="startup_karma">Karma hasadı</string>
-  <string name="startup_pitchforks">Sopalar hazırlanıyor</string>
-  <string name="startup_upvotes">Upvote için yalvarılıyor</string>
-  <string name="startup_vine">Vine için yaptım</string>
   <string name="misc_err">Hata</string>
   <string name="misc_none">Hiçbiri</string>
-  <string name="misc_please_wait">Lütfen bekleyin</string>
   <string name="misc_retry">Tekrar denemek ister misiniz?</string>
   <string name="misc_score_hidden">puan gizli</string>
   <string name="misc_you">siz</string>
@@ -239,7 +225,6 @@
   <string name="backup_info">Slide tüm verilerinizi Google Drive\'da kişisel bir dosyaya yedekler. Bu verilerinizi cihazlarınız arasında (ya da aynı cihazda) eşitleyebilirsiniz, ve verileriniz asla üçüncü taraf servis ya da sunuclarına ulaşmaz.</string>
   <string name="backup_btn">Yedekle</string>
   <string name="backup_btn_restore">Geri yükle</string>
-  <string name="vote_cast">Oyunuz verildi!</string>
   <string name="vote_err">Oyunuz verilirken sorun yaşandı!</string>
   <string name="vote_err_login">Oy vermek için giriş yapmış olmalısın!</string>
   <string name="mod_mail">Mod E-Postası</string>
@@ -286,7 +271,6 @@
   <string name="settings_mail_info">Sıklığı yükselttikçe, Slide arka planda daha fazla pil harcayacaktır!</string>
   <string name="settings_main_color_title">Ana rengi değiştirin</string>
   <string name="settings_notification">Yeni posta denetimi her %1$s da bir yapılsın</string>
-  <string name="settings_single_mode">Tekil mod\nSubredditler arasında kaydırarak geçişi kapatır</string>
   <string name="settings_swap_actions">Yorumlarda uzun basma ve değiştirerek tıklama eylemleri</string>
   <string name="settings_disable_nsfw_photo">Tüm İİUD fotoğrafları gizle</string>
   <string name="settings_disable_nsfw">Tüm İİUD mesajları gizle</string>
@@ -316,7 +300,6 @@
   <string name="title_multireddits">Multireddit\'ler</string>
   <string name="title_inbox">Gelen Kutusu</string>
   <string name="title_theme_settings">Tema ayarları</string>
-  <string name="title_default">Ana Ekran</string>
   <string name="title_create_multi">Bir Çoklu Oluştur</string>
   <string name="title_mod">Moderatör</string>
   <string name="donate_amount_title">Bu miktar&#8230;</string>
