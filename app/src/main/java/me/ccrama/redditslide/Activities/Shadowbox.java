@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Window;
-import android.view.WindowManager;
 
 import net.dean.jraw.models.Submission;
 
@@ -22,16 +20,13 @@ import me.ccrama.redditslide.R;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Shadowbox extends BaseActivityAnim {
+public class Shadowbox extends FullScreenActivity {
     private ArrayList<Submission> posts;
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstance);
         applyColorTheme();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_slide);
 
         posts = DataShare.sharedSubreddit;

@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -161,7 +162,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      * @param username       The username to base the theme on
      */
-    protected void setupUserAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
+    protected void setupUserAppBar(@IdRes int toolbar, @Nullable String title, boolean enableUpButton,
                                    String username) {
         int statusBarColor = Palette.getUserStatusBarColor(username);
         mToolbar = (Toolbar) findViewById(toolbar);
@@ -193,7 +194,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupSubredditAppBar(@IdRes int toolbar, String title, boolean enableUpButton,
                                         String subreddit) {
-        int statusBarColor = Palette.getSubredditStatusBarColor(subreddit);
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColor(subreddit));
         setSupportActionBar(mToolbar);
@@ -203,11 +203,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             getSupportActionBar().setTitle(title);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(statusBarColor);
-        }
-        setRecentBar(title, statusBarColor);
+        themeStatusBar(subreddit);
+        setRecentBar(title, Palette.getSubredditStatusBarColor(subreddit));
     }
 
     /**
@@ -217,8 +214,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void themeStatusBar(String subreddit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
+           getWindow().setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
         }
     }
 
@@ -237,10 +233,14 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param title Title as string for the recent app bar
      * @param color Color for the recent app bar
      */
-    protected void setRecentBar(String title, int color) {
+    protected void setRecentBar(@Nullable String title, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            if (title == null || title.equals(""))
+                title = getString(R.string.app_name);
+
             BitmapDrawable drawable = ((BitmapDrawable) ContextCompat.getDrawable(this,
-                    title.equals("androidcirclejerk") ? R.drawable.matiasduarte : R.drawable.ic_launcher));
+                    title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte : R.drawable.ic_launcher));
 
             setTaskDescription(new ActivityManager.TaskDescription(title, drawable.getBitmap(), color));
         }

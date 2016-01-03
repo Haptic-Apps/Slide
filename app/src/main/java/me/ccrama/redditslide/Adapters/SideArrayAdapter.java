@@ -28,7 +28,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class SideArrayAdapter extends ArrayAdapter<String> {
     private final List<String> objects;
     private Filter filter;
-    private ArrayList<String> fitems;
+    public ArrayList<String> fitems;
 
     public SideArrayAdapter(Context context, ArrayList<String> objects) {
         super(context, 0, objects);
@@ -65,11 +65,11 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     Intent inte = new Intent(getContext(), SubredditView.class);
                     inte.putExtra("subreddit", subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);
-                } else {
-                    ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                } else ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                ((MainActivity) getContext()).e.setText("");
                 ((MainActivity) getContext()).drawerLayout.closeDrawers();
             }
         });
@@ -87,6 +87,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 results.values = list;
                 results.count = list.size();
             } else {
+                Boolean showGoTo = true;
                 final ArrayList<String> list = new ArrayList<>(objects);
                 final ArrayList<String> nlist = new ArrayList<>();
                 int count = list.size();
@@ -94,14 +95,16 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 for (int i = 0; i < count; i++) {
                     final String sub = list.get(i);
 
-                    if (sub.contains(prefix)) {
+                    if (sub.contains(prefix))
                         nlist.add(sub);
-                    }
+                    if (sub.equals(prefix))
+                        showGoTo = false;
+
                     results.values = nlist;
                     results.count = nlist.size();
                 }
-                nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
-
+                if (showGoTo)
+                    nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
             }
             return results;
         }

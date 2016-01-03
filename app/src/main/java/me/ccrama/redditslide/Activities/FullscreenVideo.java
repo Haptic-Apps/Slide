@@ -12,7 +12,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 
 
 /**
@@ -33,17 +32,7 @@ public class FullscreenVideo extends FullScreenActivity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-
-
-// set an exit transition
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-
         super.onCreate(savedInstanceState);
-        if(Reddit.fullscreen) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
         setContentView(R.layout.activity_video);
 
 

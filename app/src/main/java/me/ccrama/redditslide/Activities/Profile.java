@@ -45,6 +45,11 @@ public class Profile extends BaseActivityAnim {
     private TabLayout tabs;
     private String[] usedArray;
 
+    public static boolean isValidUsername(String user) {
+        /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
+        return user.matches("^[a-zA-Z0-9_-]{3,20}$");
+    }
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -234,7 +239,6 @@ public class Profile extends BaseActivityAnim {
         });
     }
 
-
     private void setDataSet(String[] data) {
         usedArray = data;
         ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
@@ -244,10 +248,6 @@ public class Profile extends BaseActivityAnim {
         tabs.setupWithViewPager(pager);
 
 
-    }
-
-    public boolean isValidUsername(String user) {
-        return user.matches("^[a-zA-Z0-9_.-]{3,20}$");
     }
 
     private class getProfile extends AsyncTask<String, Void, Void> {

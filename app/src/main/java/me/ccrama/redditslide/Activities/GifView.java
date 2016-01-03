@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
@@ -30,7 +28,6 @@ import java.net.URLConnection;
 
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
@@ -53,14 +50,8 @@ public class GifView extends FullScreenActivity {
      * Called when the activity is first created.
      */
     public void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-
         super.onCreate(savedInstanceState);
-        if (Reddit.fullscreen) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
+
         setContentView(R.layout.activity_gif);
 
         final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
