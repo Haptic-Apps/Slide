@@ -67,11 +67,11 @@
                             android:textSize="?attr/font_cardtitle" />
 
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
 
+                        <com.wefika.flowlayout.FlowLayout
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content">
                             <TextView
                                 android:id="@+id/subreddit"
                                 android:layout_width="wrap_content"
@@ -91,19 +91,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:alpha=".56"
+                                android:layout_marginRight="8dp"
 
                                 android:gravity="center_vertical"
                                 android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
                                 android:textSize="?attr/font_cardinfo" />
-                        </LinearLayout>
-
-                        <com.wefika.flowlayout.FlowLayout
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content">
-
 
                             <TextView
                                 android:id="@+id/score"

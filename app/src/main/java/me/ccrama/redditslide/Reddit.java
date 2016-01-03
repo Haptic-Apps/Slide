@@ -399,6 +399,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
         if (appRestart.contains("back")) {
+            appRestart.edit().remove("back").apply(); //hopefully will stop Slide from opening in the background
             SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
             SubredditStorage.alphabeticalSubscriptions = stringToArray(appRestart.getString("subsalph", ""));
             SubredditStorage.realSubs = stringToArray(appRestart.getString("real", ""));
@@ -406,6 +407,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             Authentication.name = appRestart.getString("name", "");
             active = true;
             startMain();
+
         }
 
         tabletUI = isPackageInstalled(this);

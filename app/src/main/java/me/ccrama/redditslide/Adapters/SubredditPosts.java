@@ -295,6 +295,7 @@ public class SubredditPosts {
                     }
                     paginator.setSorting(Reddit.defaultSorting);
                     paginator.setTimePeriod(Reddit.timePeriod);
+                    paginator.setLimit(25);
                 }
 
                 if (paginator != null && paginator.hasNext()) {

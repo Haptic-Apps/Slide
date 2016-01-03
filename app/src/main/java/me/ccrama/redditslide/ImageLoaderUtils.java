@@ -1,9 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Environment;
-import android.text.format.DateUtils;
 
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
@@ -59,7 +57,7 @@ class ImageLoaderUtils {
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
                         .resetViewBeforeLoading(true)
                         .cacheOnDisk(true)
-                        .cacheInMemory(true)
+                        .cacheInMemory(false)
                         .build())
                 .memoryCacheSize(memory)
                 .build();
@@ -70,21 +68,6 @@ class ImageLoaderUtils {
 
         ImageLoader.getInstance().init(config);
 
-        //I clear it every day instead of every 3 days//
-        SharedPreferences pref = context.getSharedPreferences("IMAGES", 0);
-        long lastClear = pref.getLong("lastClear", 0);
-
-        if (lastClear == 0) {
-            pref.edit().putLong("lastClear", System.currentTimeMillis()).apply();
-        } else {
-            long currentTime = System.currentTimeMillis();
-
-            if (currentTime - lastClear >= DateUtils.DAY_IN_MILLIS) {
-                ImageLoader.getInstance().clearMemoryCache();
-                ImageLoader.getInstance().clearDiskCache();
-                pref.edit().putLong("lastClear", currentTime).apply();
-            }
-        }
     }
 
 }
