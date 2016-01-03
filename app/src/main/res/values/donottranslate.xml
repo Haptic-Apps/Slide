@@ -25,6 +25,17 @@
     <string name="startup_pitchforks">Preparing pitchforks</string>
     <string name="startup_upvotes">Soliciting upvotes</string>
     <string name="startup_vine">Did it for the vine</string>
+    <string name="startup_memes">Finding dank memes</string>
+    <string name="startup_pepes">Showing the rarest pepe</string>
+    <string name="startup_skeletal">Thanking Mr. Skeletal</string>
+    <string name="startup_downvotes">Avoiding the downvote brigade</string>
+    <string name="startup_friend">Asking for a friend</string>
+    <string name="startup_science">Doing it for science</string>
+    <string name="startup_this">Coming here to say this</string>
+    <string name="startup_gold">Getting gold from a stranger</string>
+    <string name="startup_shower">Showering in downvotes</string>
+    <string name="startup_ftfy">Fixing that for OP</string>
+    <string name="startup_frontpage">Making it to the frontpage</string>
 
 
     <!-- Add libraries here, it's important that items have the same position in both arrays -->
