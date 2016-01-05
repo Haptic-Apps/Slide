@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.common.io.Files;
 
@@ -40,6 +41,7 @@ public final class Cache {
     }
 
     public static OfflineSubreddit getSubreddit(String s) {
+        Log.v("Slide", "GETTING SUBREDDIT");
         if (Reddit.appRestart.contains(s.toLowerCase())) {
             return new OfflineSubreddit(Reddit.appRestart.getString(s.toLowerCase(), ""));
         } else {

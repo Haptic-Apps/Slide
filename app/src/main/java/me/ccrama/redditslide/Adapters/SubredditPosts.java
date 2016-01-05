@@ -118,6 +118,7 @@ public class SubredditPosts {
         public void onPostExecute(ArrayList<Submission> subs) {
             loading = false;
 
+            Log.v("Slide", (subs == null) + " AND " + nomore + " AND " + Reddit.cache + " AND " + subreddit.toLowerCase() + " AND " + offline);
             if (subs != null && subs.size() > 0) {
                 if (reset || offline) {
                     posts = subs;
@@ -145,10 +146,12 @@ public class SubredditPosts {
             } else if (subs != null) {
                 nomore = true;
             } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && Reddit.cache) {
+
+                Log.v("Slide", "GETTING SUB " + subreddit.toLowerCase());
                 offline = true;
                 cached = Cache.getSubreddit(subreddit.toLowerCase());
                 posts = cached.submissions;
-                if (cached.submissions.size() > 0 && cached.submissions.get(0).getComments() != null) {
+                if (cached.submissions.size() > 0 ) {
                     stillShow = true;
                 } else {
                     refreshLayout.setRefreshing(false);
@@ -272,11 +275,13 @@ public class SubredditPosts {
         protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
             ArrayList<Submission> things = new ArrayList<>();
 
+            Log.v("Slide", "DOING FOR " + subredditPaginators[0]);
+
             if (posts == null) {
                 posts = new ArrayList<>();
             }
 
-            if (NetworkUtil.getConnectivityStatus(refreshLayout.getContext())) {
+            if (NetworkUtil.getConnectivityStatus(refreshLayout.getContext()) ) {
                 stillShow = true;
                 if (Reddit.cacheDefault && reset && !forced) {
                     offline = true;

@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.dean.jraw.models.Submission;
@@ -19,6 +21,7 @@ public class OfflineSubreddit {
         submissions = new ArrayList<>();
         for(int i = 1; i < split.length; i++){
             try {
+                Log.v("Slide", split[i]);
                 submissions.add(new Submission(new ObjectMapper().readTree(split[i])));
             } catch (IOException e) {
                 e.printStackTrace();
