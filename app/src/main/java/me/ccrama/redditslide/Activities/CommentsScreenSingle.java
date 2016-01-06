@@ -39,21 +39,23 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
         subreddit = getIntent().getExtras().getString("subreddit", "");
         np = getIntent().getExtras().getBoolean("np", false);
+        context = getIntent().getExtras().getString("context", "");
 
         if (subreddit.equals("NOTHING")) {
             new AsyncGetSubredditName().execute(name);
         } else {
-
-
-            themeStatusBar(subreddit);
-
-            pager = (ViewPager) findViewById(R.id.content_view);
-
-            context = getIntent().getExtras().getString("context", "");
-            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-
+            setupAdapter();
         }
 
+    }
+
+    private void setupAdapter() {
+        themeStatusBar(subreddit);
+        setRecentBar(subreddit);
+
+        pager = (ViewPager) findViewById(R.id.content_view);
+        comments = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(comments);
     }
 
     private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
@@ -61,14 +63,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         @Override
         protected void onPostExecute(String s) {
             subreddit = s;
-            themeStatusBar(subreddit);
-            setRecentBar(subreddit);
-
-            pager = (ViewPager) findViewById(R.id.content_view);
-
-            context = getIntent().getExtras().getString("context", "");
-            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-
+            setupAdapter();
         }
 
         @Override
@@ -78,16 +73,19 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 HasSeen.addSeen(s.getFullName());
                 return s.getSubredditName();
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(R.string.submission_not_found).setMessage(R.string.submission_not_found_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this)
+                                .setTitle(R.string.submission_not_found)
+                                .setMessage(R.string.submission_not_found_msg)
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 finish();

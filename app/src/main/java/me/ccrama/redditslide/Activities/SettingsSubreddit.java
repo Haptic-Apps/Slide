@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -23,7 +24,8 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingsSubreddit extends BaseActivity {
     private final static String TAG = "SettingsSubreddit";
-    ArrayList<String> done = new ArrayList<>();
+    public SettingsSubAdapter mSettingsSubAdapter;
+    ArrayList<String> changedSubs = new ArrayList<>();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -44,51 +46,63 @@ public class SettingsSubreddit extends BaseActivity {
         applyColorTheme();
         setContentView(R.layout.activity_settings_subreddit);
         setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true);
-        final ArrayList<String> subs = SubredditStorage.alphabeticalSubscriptions;
-        subs.remove("frontpage");
-        subs.remove("all");
-        initializeAdapter(subs);
+        reloadSubList();
 
         findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ArrayList<String> subs = SubredditStorage.alphabeticalSubscriptions;
+                subs.remove("frontpage");
+                subs.remove("all");
+
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
                 builder.title("Select a subreddit to add")
                         .items(subsAsChar)
-                        .itemsCallback(new MaterialDialog.ListCallback() {
+                        .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
-                            public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                updateAdapter(subsAsChar[which].toString());
-                                Log.v(TAG, "Updated adapter with " + subsAsChar[which]);
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                ArrayList<String> selectedSubs = new ArrayList<>();
+                                for (int i : which) {
+                                    selectedSubs.add(subsAsChar[i].toString());
+                                }
+                                if (mSettingsSubAdapter != null)
+                                    mSettingsSubAdapter.prepareAndShowSubEditor(selectedSubs);
+                                return true;
                             }
-                        }).show();
+                        })
+                        .positiveText(R.string.btn_add)
+                        .negativeText(R.string.btn_cancel)
+                        .show();
             }
         });
     }
 
-    private void initializeAdapter(ArrayList<String> subs) {
-        ListView l = (ListView) findViewById(R.id.subslist);
+    public void reloadSubList() {
+        Log.v(TAG, "adapter init");
+        changedSubs.clear();
+        ArrayList<String> allSubs = SubredditStorage.alphabeticalSubscriptions;
+        allSubs.remove("all");
+        allSubs.remove("frontpage");
+
+        // Check which subreddits are different
+        ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);
         int defaultFont = ColorPreferences.getDefaultFontStyle().getColor();
-        for (String s : subs) {
+
+        for (String s : allSubs) {
             if (Palette.getColor(s) != Palette.getDefaultColor()) { //Main color is different
-                done.add(s);
-            } else if (SettingValues.prefs.contains("PRESET" + s)) { //Alternate Layout is set
-                done.add(s);
-            } else if (new ColorPreferences(SettingsSubreddit.this).getFontStyleSubreddit(s).getColor() !=  defaultFont){ //different accent / font color
-                done.add(s);
+                changedSubs.add(s);
+            } else if (SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)) { //Alternate Layout is set
+                changedSubs.add(s);
+            } else if (colorPrefs.getFontStyleSubreddit(s).getColor() != defaultFont) { //different accent / font color
+                changedSubs.add(s);
             }
         }
-        final SettingsSubAdapter adapter = new SettingsSubAdapter(this, done);
-        l.setAdapter(adapter);
+
+        mSettingsSubAdapter = new SettingsSubAdapter(this, changedSubs);
+        ((ListView) findViewById(R.id.subslist)).setAdapter(mSettingsSubAdapter);
     }
 
-    private void updateAdapter(String subreddit) {
-        ListView l = (ListView) findViewById(R.id.subslist);
-        done.add(subreddit);
-        final SettingsSubAdapter adapter = new SettingsSubAdapter(this, done, subreddit);
-        l.setAdapter(adapter);
-    }
 
 }

@@ -27,6 +27,7 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
+    @Nullable
     protected Toolbar mToolbar;
     private SwipeBackActivityHelper mHelper;
     private boolean enableSwipeBackLayout = true;
@@ -214,7 +215,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void themeStatusBar(String subreddit) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-           getWindow().setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
+            getWindow().setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
         }
     }
 

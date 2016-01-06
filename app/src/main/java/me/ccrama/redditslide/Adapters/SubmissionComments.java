@@ -27,6 +27,7 @@ public class SubmissionComments {
     private String context;
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
     private CommentAdapter adapter;
+    public LoadData mLoadData;
 
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, Submission s) {
         this.fullName = fullName;
@@ -70,6 +71,7 @@ public class SubmissionComments {
             refreshLayout.setRefreshing(false);
         }
     }
+
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -79,6 +81,7 @@ public class SubmissionComments {
 
 
     }
+
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context) {
         this.fullName = fullName;
         this.page = commentPage;
@@ -88,16 +91,16 @@ public class SubmissionComments {
 
     public void setSorting(CommentSort sort) {
         defaultSorting = sort;
-        new LoadData(false).execute(fullName);
 
+        mLoadData = new LoadData(false);
+        mLoadData.execute(fullName);
     }
 
     public void loadMore(CommentAdapter adapter, String subreddit) {
         this.adapter = adapter;
 
-            new LoadData(true).execute(subreddit);
-
-
+        mLoadData = new LoadData(true);
+        mLoadData.execute(fullName);
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {

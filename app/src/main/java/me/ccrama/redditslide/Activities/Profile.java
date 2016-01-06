@@ -11,6 +11,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,7 +62,7 @@ public class Profile extends BaseActivityAnim {
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
         findViewById(R.id.sorting).setVisibility(View.GONE);
         findViewById(R.id.edit).setVisibility(View.GONE);
-        ((ImageView) findViewById(R.id.create)).setImageDrawable(getResources().getDrawable(R.drawable.infonew));
+        ((ImageView) findViewById(R.id.create)).setImageDrawable(ContextCompat.getDrawable(Profile.this, R.drawable.infonew));
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -115,7 +116,8 @@ public class Profile extends BaseActivityAnim {
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setText(name);
-                title.setBackgroundColor(Palette.getColorUser(name));
+                final int currentColor = Palette.getColorUser(name);
+                title.setBackgroundColor(currentColor);
 
                 if (Authentication.isLoggedIn) {
                     dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
@@ -156,7 +158,7 @@ public class Profile extends BaseActivityAnim {
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                 final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                colorPicker.setColors(ColorPreferences.getAccentColors(Profile.this));
+                colorPicker.setColors(ColorPreferences.getBaseColors(Profile.this));
 
                 colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
@@ -169,7 +171,6 @@ public class Profile extends BaseActivityAnim {
                     }
                 });
 
-                int currentColor = Palette.getColorUser(name);
                 for (int i : colorPicker.getColors()) {
                     for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
                         if (i2 == currentColor) {
@@ -184,6 +185,8 @@ public class Profile extends BaseActivityAnim {
                     @Override
                     public void onColorChanged(int i) {
                         findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
+                        if (mToolbar != null)
+                            mToolbar.setBackgroundColor(colorPicker2.getColor());
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
                             window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
@@ -232,6 +235,19 @@ public class Profile extends BaseActivityAnim {
                 }
                 ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
                 ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
+
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        findViewById(R.id.header).setBackgroundColor(currentColor);
+                        if (mToolbar != null)
+                            mToolbar.setBackgroundColor(currentColor);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.setStatusBarColor(Palette.getDarkerColor(currentColor));
+                        }
+                    }
+                });
 
                 builder.setView(dialoglayout);
                 builder.show();

@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.SettingsSubreddit;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -33,7 +34,6 @@ import uz.shift.colorpicker.OnColorChangedListener;
  */
 public class SettingsSubAdapter extends ArrayAdapter<String> {
     private final ArrayList<String> objects;
-    private String subToDisplay;
 
 
     public SettingsSubAdapter(Context context, ArrayList<String> objects) {
@@ -41,26 +41,60 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         this.objects = objects;
     }
 
-    public SettingsSubAdapter(Context context, ArrayList<String> objects, String subToDisplay) {
-        super(context, 0, objects);
-        this.objects = objects;
-        this.subToDisplay = subToDisplay;
-    }
+    /**
+     * Displays the subreddit color chooser
+     * It is possible to color multiple subreddits at the same time
+     *
+     * @param subreddits Subreddits as an array
+     * @param context Context for getting colors
+     * @param dialoglayout The subchooser layout (R.layout.colorsub)
+     */
+    public static void showSubThemeEditor(final ArrayList<String> subreddits, final Activity context, View dialoglayout) {
+        if (subreddits.size() == 0) return;
 
-    public static void showSubThemeEditor(final String subreddit, final Activity context, View dialoglayout) {
+        boolean multipleSubs = subreddits.size() > 1;
+        boolean isAlternateLayout;
+        int currentColor;
+        int currentAccentColor;
+
+        final String subreddit = multipleSubs ? null : subreddits.get(0);
+
+        if (multipleSubs) {
+            currentColor = Palette.getDefaultColor();
+            isAlternateLayout = false;
+            currentAccentColor = ColorPreferences.getDefaultFontStyle().getColor();
+        } else {
+            currentColor = Palette.getColor(subreddit);
+            isAlternateLayout = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit);
+            currentAccentColor = new ColorPreferences(context).getFontStyleSubreddit(subreddit).getColor();
+        }
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-        title.setText("/r/" + subreddit);
-        title.setBackgroundColor(Palette.getColor(subreddit));
+
+        title.setBackgroundColor(currentColor);
+
+        if (multipleSubs) {
+            String titleString = "";
+            for (String sub : subreddits) {
+                titleString = titleString + "/r" + sub + ",";
+            }
+            titleString = titleString.substring(0, titleString.length() - 1);
+            title.setMaxLines(2);
+            title.setText(titleString);
+        } else {
+            title.setText("/r/" + subreddit);
+        }
+
 
         {
 
             LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
             final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-            colorPicker.setColors(ColorPreferences.getAccentColors(context));
-            int currentColor = Palette.getColor(subreddit);
+            colorPicker.setColors(ColorPreferences.getBaseColors(context));
+
+            //Iterate through all colors and check if it matches the current color of the sub, then select it
             for (int i : colorPicker.getColors()) {
                 for (int i2 : ColorPreferences.getColors(context, i)) {
                     if (i2 == currentColor) {
@@ -71,10 +105,12 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                     }
                 }
             }
+
+            //Base color changed
             colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                 @Override
                 public void onColorChanged(int c) {
-
+                    //Show variations of the base color
                     colorPicker2.setColors(ColorPreferences.getColors(context, c));
                     colorPicker2.setSelectedColor(c);
 
@@ -145,6 +181,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
             final LineColorPicker colorPickeracc = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
             {
+                //Get all possible accent colors (for day theme)
                 int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
                 int i = 0;
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
@@ -157,9 +194,9 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
 
                 colorPickeracc.setColors(arrs);
 
-                int topick = new ColorPreferences(context).getFontStyleSubreddit(subreddit).getColor();
+                //fixme this doesn't work (it does not select the current accent color in the color picker)
                 for (int color : arrs) {
-                    if (color == topick) {
+                    if (color == currentAccentColor) {
                         colorPickeracc.setSelectedColorPosition(color);
                         break;
 
@@ -172,13 +209,8 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
             final RadioButton alt = (RadioButton) dialoglayout.findViewById(R.id.alt);
 
             if (Reddit.expandedSettings) {
-                int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                if (i == 0) {
-                    def.setChecked(true);
-                } else {
-                    alt.setChecked(true);
-                }
-
+                if (isAlternateLayout) alt.setChecked(true);
+                else def.setChecked(true);
 
                 def.setText(R.string.settings_layout_default);
                 alt.setText(R.string.settings_title_alternative_layout);
@@ -203,12 +235,10 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
             }
             {
                 TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
-
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Palette.setColor(subreddit, colorPicker2.getColor());
                         int color = colorPickeracc.getColor();
                         ColorPreferences.Theme t = null;
                         for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
@@ -218,16 +248,24 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                             }
                         }
 
-                        new ColorPreferences(context).setFontStyle(t, subreddit);
+                        for (String sub : subreddits) {
+                            // Set main color
+                            Palette.setColor(sub, colorPicker2.getColor());
+                            // Set accent color
+                            new ColorPreferences(context).setFontStyle(t, sub);
 
-
-                        if (alt.isChecked()) {
-                            SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
-                        } else {
-                            SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                            // Set layout
+                            if (alt.isChecked()) {
+                                SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
+                            } else {
+                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
+                            }
                         }
                         if (context instanceof MainActivity)
                             ((MainActivity) context).reloadSubs();
+                        else if (context instanceof SettingsSubreddit) {
+                            ((SettingsSubreddit) context).reloadSubList();
+                        }
                         d.dismiss();
 
                     }
@@ -260,7 +298,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                             public void onClick(DialogInterface dialog, int which) {
                                 Palette.removeColor(subreddit);
                                 // Remove layout settings
-                                SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
                                 // Remove accent / font color settings
                                 new ColorPreferences(getContext()).setFontStyle(
                                         ColorPreferences.getDefaultFontStyle(), subreddit);
@@ -278,7 +316,6 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                         }).show();
             }
         });
-        if (subToDisplay != null) prepareAndShowSubEditor(subToDisplay);
         convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,13 +325,24 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
-    private void prepareAndShowSubEditor(final String subreddit) {
+    public void prepareAndShowSubEditor(ArrayList<String> subreddits) {
+        if (subreddits.size() == 1) prepareAndShowSubEditor(subreddits.get(0));
+        else if (subreddits.size() > 1) {
+            LayoutInflater localInflater = ((Activity) getContext()).getLayoutInflater();
+            final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+            showSubThemeEditor(subreddits, ((Activity) getContext()), dialoglayout);
+        }
+    }
+
+    private void prepareAndShowSubEditor(String subreddit) {
         int style = new ColorPreferences(getContext()).getThemeSubreddit(subreddit);
         final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), style);
         LayoutInflater localInflater = ((Activity) getContext()).getLayoutInflater().cloneInContext(contextThemeWrapper);
         final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-        showSubThemeEditor(subreddit, ((Activity) getContext()), dialoglayout);
-    }
 
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(subreddit);
+        showSubThemeEditor(arrayList, ((Activity) getContext()), dialoglayout);
+    }
 
 }

@@ -160,6 +160,9 @@ public class CommentPage extends Fragment {
                 public void onClick(View v) {
                     mSwipeRefreshLayout.setRefreshing(true);
 
+                    //avoid crashes when load more is clicked before loading is finished
+                    if (comments.mLoadData != null) comments.mLoadData.cancel(true);
+
                     comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
                     comments.setSorting(Reddit.defaultCommentSorting);
                     loadMore = false;
@@ -196,7 +199,7 @@ public class CommentPage extends Fragment {
                     if (adapter.users != null) {
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
-                      for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
+                        for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
                             if (adapter.users.get(adapter.getRealPosition(i)).getCommentNode().isTopLevel()) {
                                 RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
@@ -298,7 +301,7 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-         if (context.isEmpty()) {
+        if (context.isEmpty()) {
 
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
             comments.setSorting(Reddit.defaultCommentSorting);
@@ -320,7 +323,7 @@ public class CommentPage extends Fragment {
         if (!np && !archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setVisibility(View.GONE);
-        } else if(archived){
+        } else if (archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setBackgroundColor(Palette.getColor(id));
 
@@ -351,7 +354,7 @@ public class CommentPage extends Fragment {
                 adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
 
 
-                if(single) {
+                if (single) {
                     adapter.currentSelectedItem = context;
 
 

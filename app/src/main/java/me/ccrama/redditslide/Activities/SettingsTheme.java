@@ -260,7 +260,7 @@ public class SettingsTheme extends BaseActivity {
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                 final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                colorPicker.setColors(ColorPreferences.getAccentColors(SettingsTheme.this));
+                colorPicker.setColors(ColorPreferences.getBaseColors(SettingsTheme.this));
                 int currentColor = Palette.getDefaultColor();
                 for (int i : colorPicker.getColors()) {
                     for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {

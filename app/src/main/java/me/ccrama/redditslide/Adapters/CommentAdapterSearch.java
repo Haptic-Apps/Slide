@@ -7,8 +7,8 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -165,18 +165,18 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             View v = holder.itemView.findViewById(R.id.dot);
             int i22 = baseNode.getDepth() - 2;
             if (i22 % 5 == 0) {
-                v.setBackgroundColor(Color.parseColor("#2196F3")); //blue
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
             } else if (i22 % 4 == 0) {
-                v.setBackgroundColor(Color.parseColor("#4CAF50")); //green
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_green_500));
 
             } else if (i22 % 3 == 0) {
-                v.setBackgroundColor(Color.parseColor("#FFC107")); //yellow
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_yellow_500));
 
             } else if (i22 % 2 == 0) {
-                v.setBackgroundColor(Color.parseColor("#FF9800")); //orange
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
 
             } else {
-                v.setBackgroundColor(Color.parseColor("#F44336")); //red
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_red_500));
             }
         } else {
             holder.itemView.findViewById(R.id.dot).setVisibility(View.GONE);

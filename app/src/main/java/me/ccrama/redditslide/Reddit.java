@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Crash;
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -47,6 +46,7 @@ import me.ccrama.redditslide.util.IabResult;
  * Created by ccrama on 9/17/2015.
  */
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
+    private static final String TAG = "Slide";
     public static final long BACKGROUND_DELAY = 500;
     public static IabHelper mHelper;
     public static boolean single;
@@ -81,6 +81,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static Authentication authentication;
     public static boolean tabletUI;
     public static Sorting defaultSorting;
+
+    public static String PREF_LAYOUT = "PRESET";
 
     public static CommentSort defaultCommentSorting;
     public static TimePeriod timePeriod;
@@ -271,7 +273,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onCreate() {
         super.onCreate();
 
-        Log.v("Slide", "ON CREATED AGAIN");
+        Log.v(TAG, "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
 
 
@@ -303,13 +305,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         Writer writer = new StringWriter();
                         PrintWriter printWriter = new PrintWriter(writer);
                         t.printStackTrace(printWriter);
-                        String s = writer.toString();
-                        s = s.replace(";", ",");
-                        Intent i = new Intent(Reddit.this, Crash.class);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        i.putExtra("stacktrace", s);
+                        String stacktrace = writer.toString().replace(";", ",");;
 
-                        startActivity(i);
+                        SharedPreferences prefs = getSharedPreferences(
+                                "STACKTRACE", Context.MODE_PRIVATE);
+                        prefs.edit().putString("stacktrace", stacktrace).apply();
+
                     } catch (Throwable ignored) {
                     }
                 }
@@ -317,6 +318,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 androidHandler.uncaughtException(thread, t);
             }
         });
+
         //END adaptation
         new SetupIAB().execute();
 
@@ -417,7 +419,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String arrayToString(ArrayList<String> array) {
         StringBuilder b = new StringBuilder();
         for (String s : array) {
-            b.append(s + ",");
+            b.append(s).append(",");
 
         }
         String f = b.toString();
@@ -436,7 +438,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void startMain() {
         if (active) {
             Intent i = new Intent(this, MainActivity.class);
-            Log.v("Slide", "starting new");
+            Log.v(TAG, "starting new");
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
 
@@ -475,7 +477,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
                     public void onIabSetupFinished(IabResult result) {
                         if (!result.isSuccess()) {
-                            Log.d("Slide", "Problem setting up In-app Billing: " + result);
+                            Log.d(TAG, "Problem setting up In-app Billing: " + result);
                         }
 
                     }

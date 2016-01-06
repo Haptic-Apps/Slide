@@ -477,7 +477,7 @@ public class SubredditView extends BaseActivityAnim {
                         LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                         final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                        colorPicker.setColors(ColorPreferences.getAccentColors(SubredditView.this));
+                        colorPicker.setColors(ColorPreferences.getBaseColors(SubredditView.this));
                         int currentColor = Palette.getColor(subreddit);
                         for (int i : colorPicker.getColors()) {
                             for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
@@ -593,7 +593,7 @@ public class SubredditView extends BaseActivityAnim {
                         }
 
                         if (Reddit.expandedSettings) {
-                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
+                            int i = (SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit) ? 1 : 0);
                             if (i == 0) {
                                 def.setChecked(true);
                             } else {
@@ -634,9 +634,9 @@ public class SubredditView extends BaseActivityAnim {
                                     new ColorPreferences(SubredditView.this).setFontStyle(t, subreddit);
 
                                     if (alt.isChecked()) {
-                                        SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
+                                        SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + subreddit, true).apply();
                                     } else {
-                                        SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                        SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
                                     }
 
                                     restartTheme();

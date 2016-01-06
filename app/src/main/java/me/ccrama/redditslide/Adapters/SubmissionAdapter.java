@@ -69,7 +69,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.listView = listView;
         this.dataSet = dataSet;
         this.seen = new ArrayList<>();
-        custom = SettingValues.prefs.contains("PRESET" + subreddit.toLowerCase());
+        custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
 
         Log.v("Slide", subreddit + " CUSTOM IS " + custom);
     }

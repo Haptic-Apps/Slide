@@ -2,8 +2,12 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -229,6 +233,24 @@ public class Settings extends BaseActivity {
                 startActivityForResult(i, 2);
             }
         });
+
+        //Copy the latest stacktrace with a long click on the version number
+        findViewById(R.id.about).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SharedPreferences prefs = getSharedPreferences(
+                        "STACKTRACE", Context.MODE_PRIVATE);
+                String stacktrace = prefs.getString("stacktrace", null);
+                if (stacktrace != null) {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Stacktrace", stacktrace);
+                    clipboard.setPrimaryClip(clip);
+                }
+                prefs.edit().clear().apply();
+                return false;
+            }
+        });
+        
         if (Reddit.expandedSettings) {
             findViewById(R.id.cache).setVisibility(View.VISIBLE);
             findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
