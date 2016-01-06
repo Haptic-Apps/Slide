@@ -162,7 +162,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public ImageLoader getImageLoader() {
         if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
             ImageLoaderUtils.initImageLoader(getApplicationContext());
-            defaultImageLoader = ImageLoader.getInstance();
+            defaultImageLoader = ImageLoaderUtils.imageLoader;
         }
 
         return defaultImageLoader;

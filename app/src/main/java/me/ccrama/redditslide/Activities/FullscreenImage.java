@@ -20,8 +20,11 @@ import android.widget.ProgressBar;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
@@ -57,8 +60,15 @@ public class FullscreenImage extends FullScreenActivity {
             url = url + ".png";
         }
 
-        ((Reddit) getApplication()).getImageLoader()
-                .loadImage(url, new ImageLoadingListener() {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+
+                ((Reddit) getApplication()).getImageLoader()
+                .displayImage(url, new ImageViewAware(new ImageView(FullscreenImage.this)), options, new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 
@@ -72,21 +82,27 @@ public class FullscreenImage extends FullScreenActivity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         i.setImage(ImageSource.bitmap(loadedImage));
+                        ((ProgressBar) findViewById(R.id.progress)).setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
 
                     }
+                }, new ImageLoadingProgressListener() {
+                    @Override
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                        ((ProgressBar) findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
+                    }
                 });
 
-                        i.setOnClickListener(new View.OnClickListener() {
+        i.setOnClickListener(new View.OnClickListener() {
 
-                            @Override
-                            public void onClick(View v2) {
-                                FullscreenImage.this.finish();
-                            }
-                        });
+            @Override
+            public void onClick(View v2) {
+                FullscreenImage.this.finish();
+            }
+        });
 
 
         {
@@ -121,7 +137,7 @@ public class FullscreenImage extends FullScreenActivity {
                                                         String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".PNG");
 
                                                         intent.setDataAndType(Uri.parse(localAbsoluteFilePath), mime);
-                                                        PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0,intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                                        PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
                                                         Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
@@ -158,7 +174,7 @@ public class FullscreenImage extends FullScreenActivity {
 
     }
 
-    private void showShareDialog(final String url){
+    private void showShareDialog(final String url) {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialoglayout = inflater.inflate(R.layout.sharemenu, null);
@@ -181,9 +197,6 @@ public class FullscreenImage extends FullScreenActivity {
         builder.setView(dialoglayout);
         builder.show();
     }
-
-
-
 
 
     private void shareImage(String finalUrl) {
@@ -222,16 +235,14 @@ public class FullscreenImage extends FullScreenActivity {
 
     private String saveImageGallery(final Bitmap _bitmap, String URL) {
 
-        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL , "");
+        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL, "");
 
 
     }
 
     private String saveImageLocally(final Bitmap _bitmap) {
 
-        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap,"SHARED" +  UUID.randomUUID().toString() , "");
-
-
+        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, "SHARED" + UUID.randomUUID().toString(), "");
 
 
     }

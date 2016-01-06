@@ -51,9 +51,9 @@ public class FullscreenVideo extends FullScreenActivity {
         if (!data.contains("cdn.embedly.com")) {
             if (data.contains("?v=")) {
 
-                url = "https://www.youtube.com/embed/" + data.substring(data.indexOf("?v=") + 3, data.length());
+                url = "https://www.youtube.com/embed/" + data.substring(data.indexOf("?v=") + 3, data.length())+"?autoplay=true";
             } else {
-                url = "https://www.youtube.com/embed/" + data.substring(data.lastIndexOf("/") + 1, data.length());
+                url = "https://www.youtube.com/embed/" + data.substring(data.lastIndexOf("/") + 1, data.length())+"?autoplay=true";
             }
         } else {
             Log.v("Slide", data);

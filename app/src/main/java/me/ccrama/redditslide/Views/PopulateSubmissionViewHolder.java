@@ -606,7 +606,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
 
                 } else {
-                    LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                    LayoutInflater inflater = ( mContext).getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
@@ -1003,7 +1003,7 @@ public class PopulateSubmissionViewHolder {
                 addClickFunctions(thumbImage2, baseView, type, mContext, submission, back);
 
             addClickFunctions(holder.previewContent, baseView, type, mContext, submission, back);
-        } else {
+        } else if(submission.isSelfPost()) {
             holder.imageArea.setVisibility(View.GONE);
             holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
         }
