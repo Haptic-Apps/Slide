@@ -68,9 +68,6 @@ public class SubmissionComments {
             page.doData(true);
 
             refreshLayout.setRefreshing(false);
-        } else {
-
-            new LoadData(true).execute(fullName);
         }
     }
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
@@ -80,7 +77,6 @@ public class SubmissionComments {
         this.refreshLayout = layout;
 
 
-            new LoadData(true).execute(fullName);
 
     }
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context) {
