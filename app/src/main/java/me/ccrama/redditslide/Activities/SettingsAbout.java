@@ -1,5 +1,9 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -27,6 +31,26 @@ public class SettingsAbout extends BaseActivity {
         TextView version = (TextView) findViewById(R.id.version);
 
         version.setText("Slide v" + BuildConfig.VERSION_NAME);
+
+        //Copy the latest stacktrace with a long click on the version number
+        if (BuildConfig.DEBUG) {
+            version.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    SharedPreferences prefs = getSharedPreferences(
+                            "STACKTRACE", Context.MODE_PRIVATE);
+                    String stacktrace = prefs.getString("stacktrace", null);
+                    if (stacktrace != null) {
+                        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Stacktrace", stacktrace);
+                        clipboard.setPrimaryClip(clip);
+                    }
+                    prefs.edit().clear().apply();
+                    return false;
+                }
+            });
+        }
+
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,8 +85,6 @@ public class SettingsAbout extends BaseActivity {
             }
         });*/
     }
-
-
 
 
 }

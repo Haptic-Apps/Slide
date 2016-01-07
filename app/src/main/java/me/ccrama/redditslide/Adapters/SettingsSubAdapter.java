@@ -44,8 +44,8 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
      * Displays the subreddit color chooser
      * It is possible to color multiple subreddits at the same time
      *
-     * @param subreddits Subreddits as an array
-     * @param context Context for getting colors
+     * @param subreddits   Subreddits as an array
+     * @param context      Context for getting colors
      * @param dialoglayout The subchooser layout (R.layout.colorsub)
      */
     public static void showSubThemeEditor(final ArrayList<String> subreddits, final Activity context, View dialoglayout) {
@@ -55,31 +55,61 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         boolean isAlternateLayout;
         int currentColor;
         int currentAccentColor;
+        final ColorPreferences colorPrefs = new ColorPreferences(context);
 
         final String subreddit = multipleSubs ? null : subreddits.get(0);
 
         if (multipleSubs) {
+            //Check if all selected subs have the same settings
+            int previousSubColor = 0;
+            int previousSubAccent = 0;
+            boolean sameMainColor = true;
+            boolean sameAccentColor = true;
+            for (String sub : subreddits) {
+                int currentSubColor = Palette.getColor(sub);
+                int currentSubAccent = colorPrefs.getColor("");
+
+                if (previousSubColor != 0 && previousSubAccent != 0){
+                    if (currentSubColor != previousSubColor) {
+                        sameMainColor = false;
+                    } else if (currentSubAccent != previousSubAccent){
+                        sameAccentColor = false;
+                    }
+                }
+                if (!sameMainColor && !sameAccentColor) break;
+
+                previousSubAccent = currentSubAccent;
+                previousSubColor = currentSubColor;
+            }
+
             currentColor = Palette.getDefaultColor();
+            currentAccentColor = colorPrefs.getColor("");
             isAlternateLayout = false;
-            currentAccentColor = ColorPreferences.getDefaultFontStyle().getColor();
-        } else {
+
+            //If all selected subs have the same settings, display them
+            if (sameMainColor)
+                currentColor = previousSubColor;
+            if (sameAccentColor)
+                currentAccentColor = previousSubAccent;
+        }
+        //Is only one selected sub
+        else {
             currentColor = Palette.getColor(subreddit);
             isAlternateLayout = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit);
-            currentAccentColor = new ColorPreferences(context).getFontStyleSubreddit(subreddit).getColor();
+            currentAccentColor = colorPrefs.getColor(subreddit);
         }
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-
         title.setBackgroundColor(currentColor);
 
         if (multipleSubs) {
             String titleString = "";
             for (String sub : subreddits) {
-                titleString = titleString + "/r" + sub + ",";
+                titleString = titleString + "/r/" + sub + ", ";
             }
-            titleString = titleString.substring(0, titleString.length() - 1);
-            title.setMaxLines(2);
+            titleString = titleString.substring(0, titleString.length() - 2);
+            title.setMaxLines(3);
             title.setText(titleString);
         } else {
             title.setText("/r/" + subreddit);
@@ -189,17 +219,10 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
 
                         i++;
                     }
-                }
 
-                colorPickeracc.setColors(arrs);
+                    colorPickeracc.setColors(arrs);
+                    colorPickeracc.setSelectedColor(currentAccentColor);
 
-                //fixme this doesn't work (it does not select the current accent color in the color picker)
-                for (int color : arrs) {
-                    if (color == currentAccentColor) {
-                        colorPickeracc.setSelectedColorPosition(color);
-                        break;
-
-                    }
                 }
             }
 
@@ -224,21 +247,27 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int color = colorPickeracc.getColor();
+                        int accentColor = colorPickeracc.getColor();
+                        int mainColor = colorPicker2.getColor();
                         ColorPreferences.Theme t = null;
-                        for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                            if (ContextCompat.getColor(context, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
-                                t = type;
-                                break;
+
+                        //Do not save accent color if it matches the default accent color
+                        if (accentColor != colorPrefs.getColor("")) {
+                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                if (ContextCompat.getColor(context, type.getColor()) == accentColor && Reddit.themeBack == type.getThemeType()) {
+                                    t = type;
+                                    break;
+                                }
                             }
                         }
 
 
                         for (String sub : subreddits) {
                             // Set main color
-                            Palette.setColor(sub, colorPicker2.getColor());
+                            if (mainColor != Palette.getDefaultColor())
+                                Palette.setColor(sub, mainColor);
                             // Set accent color
-                            new ColorPreferences(context).setFontStyle(t, sub);
+                            if (t != null) colorPrefs.setFontStyle(t, sub);
 
                             // Set layout
 
@@ -284,8 +313,7 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
                                 // Remove layout settings
                                 SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
                                 // Remove accent / font color settings
-                                new ColorPreferences(getContext()).setFontStyle(
-                                        ColorPreferences.getDefaultFontStyle(), subreddit);
+                                new ColorPreferences(getContext()).removeFontStyle(subreddit);
 
                                 dialog.dismiss();
                                 objects.remove(subreddit);

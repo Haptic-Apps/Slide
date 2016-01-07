@@ -282,9 +282,7 @@ public class ColorPreferences {
 
     public Theme getFontStyle() {
         try {
-            return Theme.valueOf(open().getString(FONT_STYLE,
-                    Theme.dark_amber
-                            .name()));
+            return Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
@@ -298,10 +296,6 @@ public class ColorPreferences {
     }
     public void setFontStyle(Theme style) {
         edit().putString(FONT_STYLE, style.name()).commit();
-    }
-
-    public static Theme getDefaultFontStyle(){
-        return Theme.dark_amber;
     }
 
     public int getThemeOverview() {
@@ -367,8 +361,10 @@ public class ColorPreferences {
 
     public void setFontStyle(Theme style, String s) {
         edit().putString(s.toLowerCase(), style.name()).commit();
+    }
 
-
+    public void removeFontStyle(String subreddit){
+        edit().remove(subreddit).commit();
     }
 
     public int getColor(String s) {
