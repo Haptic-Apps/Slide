@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
@@ -17,8 +15,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -34,8 +30,37 @@ public class SettingsTheme extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_theme);
-        setupAppBar(R.id.toolbar, R.string.title_edit_theme, true);
+        setupAppBar(R.id.toolbar, R.string.title_edit_theme, true, true);
 
+        /*  findViewById(R.id.auto).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Reddit.tabletUI) {
+
+                    Intent i = new Intent(Settings.this, SettingsAutonight.class);
+                    startActivity(i);
+                } else {
+                    new AlertDialogWrapper.Builder(Settings.this)
+
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    }).show();
+                }
+            }
+        });
+       */
         findViewById(R.id.accent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +126,7 @@ public class SettingsTheme extends BaseActivity {
             }
 
         });
+        /*Not needed anymore
         if (Reddit.expandedSettings) {
             //Color matching mode//
             //Everywhere, not sub//
@@ -158,7 +184,7 @@ public class SettingsTheme extends BaseActivity {
             findViewById(R.id.colormatching_touch).setVisibility(View.GONE);
             findViewById(R.id.colormatchingwhere_touch).setVisibility(View.GONE);
         }
-
+*/
 
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
             @Override

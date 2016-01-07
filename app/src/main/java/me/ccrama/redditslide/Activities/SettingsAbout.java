@@ -19,7 +19,7 @@ public class SettingsAbout extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_about);
-        setupAppBar(R.id.toolbar, R.string.settings_title_about, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_about, true, true);
 
         View report = findViewById(R.id.report);
         View libs = findViewById(R.id.libs);

@@ -43,7 +43,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
-        setupAppBar(R.id.toolbar, R.string.title_multireddits, true);
+        setupAppBar(R.id.toolbar, R.string.title_multireddits, true, false);
 
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);

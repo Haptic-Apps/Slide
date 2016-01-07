@@ -109,7 +109,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_sync);
-        setupAppBar(R.id.toolbar, R.string.settings_title_backup, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_backup, true, true);
 
         if (Reddit.tabletUI) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)

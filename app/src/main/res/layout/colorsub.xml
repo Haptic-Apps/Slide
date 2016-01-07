@@ -104,33 +104,7 @@
 
 
                 </RelativeLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:id="@+id/layout_title"
-                    android:padding="16dp"
-                    android:text="@string/theme_card_type"
-                    android:textSize="18sp"
-                    android:layout_height="wrap_content" />
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:padding="16dp"
-                    android:layout_height="wrap_content">
 
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:text="@string/settings_layout_default"
-                        android:textSize="16sp"
-                        android:checked="true"
-                        android:id="@+id/def"
-                        android:layout_height="wrap_content" />
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:text="@string/settings_title_alternative_layout"
-                        android:id="@+id/alt"
-
-                        android:textSize="16sp"
-                        android:layout_height="wrap_content" />
-                </RadioGroup>
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -124,8 +124,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param title          String resource for the toolbar's title
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
-    protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton) {
-        setupAppBar(toolbar, getString(title), enableUpButton);
+    protected void setupAppBar(@IdRes int toolbar, @StringRes int title, boolean enableUpButton, boolean colorToolbar) {
+        setupAppBar(toolbar, getString(title), enableUpButton, colorToolbar);
     }
 
     /**
@@ -135,10 +135,12 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param title          String to be set as the toolbar title
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
-    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton) {
+    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, boolean colorToolbar) {
         int statusBarColor = Palette.getStatusBarColor();
-        mToolbar = (Toolbar) findViewById(toolbar);
-        mToolbar.setBackgroundColor(Palette.getDefaultColor());
+        if(colorToolbar) {
+            mToolbar = (Toolbar) findViewById(toolbar);
+            mToolbar.setBackgroundColor(Palette.getDefaultColor());
+        }
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) {

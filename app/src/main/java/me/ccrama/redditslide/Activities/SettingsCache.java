@@ -20,7 +20,7 @@ public class SettingsCache extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_cache);
-        setupAppBar(R.id.toolbar, R.string.settings_title_caching, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_caching, true, true);
 
         SwitchCompat fab = (SwitchCompat) findViewById(R.id.cache);
         final SwitchCompat fabType = (SwitchCompat) findViewById(R.id.cacheDefault);

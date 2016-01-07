@@ -70,6 +70,87 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/enter_animation"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/ic_arrow_back_white_24dp"
+                    android:tint="?attr/tint"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/swipeback"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="@string/settings_general_swipeanywhere"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/notifications"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/notifs"
+                    android:tint="?attr/tint"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_notifications"
+
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                       />
+
+                    <TextView
+                        android:id="@+id/notifications_current"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Check every 15 minutes"
+                        android:textColor="?attr/font"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/enter_animation"
@@ -105,11 +186,6 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
-            <SeekBar
-                android:max="5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/animation_length_sb" />
 
             <LinearLayout
                 android:id="@+id/nsfw_box"
@@ -262,41 +338,6 @@
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/full_screen_images"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/fullscreen"
-                    android:tint="?attr/tint"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/full_screen_images_switch"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_fullscreen_views"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"
-                    android:checked="false" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/sorting"

@@ -19,7 +19,7 @@ public class SettingsFab extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_fab);
-        setupAppBar(R.id.toolbar, R.string.settings_title_fab, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_fab, true, true);
 
         final SwitchCompat fabType = (SwitchCompat) findViewById(R.id.fab_type);
         fabType.setChecked(Reddit.fabType == R.integer.FAB_DISMISS);

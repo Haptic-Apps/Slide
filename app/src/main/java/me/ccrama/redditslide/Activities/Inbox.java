@@ -26,7 +26,7 @@ public class Inbox extends BaseActivityAnim {
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);
-        setupAppBar(R.id.toolbar, R.string.title_inbox, true);
+        setupAppBar(R.id.toolbar, R.string.title_inbox, true, true);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -41,7 +41,7 @@ public class Inbox extends BaseActivityAnim {
             public void onClick(View v) {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-                Settings.setupNotificationSettings(dialoglayout, Inbox.this);
+                SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
             }
         });
     }

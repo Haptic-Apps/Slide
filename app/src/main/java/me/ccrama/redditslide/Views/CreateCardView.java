@@ -39,6 +39,7 @@ public class CreateCardView {
     }
 
     public static View CreateView(ViewGroup viewGroup, Boolean secondary, String sub) {
+        secondary = false; //removing secondary layouts for now
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
         CardEnum cardEnum = CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString()).toUpperCase());
@@ -71,6 +72,7 @@ public class CreateCardView {
     }
 
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
+        secondary = false; //removing secondary layouts for now
 
         subToMatch = subToMatch.toLowerCase();
         if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Palette.getColor(sec) != Palette.getDefaultColor()) {
@@ -102,6 +104,8 @@ public class CreateCardView {
     }
 
     public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, Boolean secondary, String sub) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
         if (subreddit.isEmpty()) {
@@ -118,6 +122,8 @@ public class CreateCardView {
 
 
     public static View setInfoBarVisible(SettingValues.InfoBar b, ViewGroup parent, Boolean secondary, String sub) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
         if (subreddit.isEmpty()) {
@@ -152,6 +158,8 @@ public class CreateCardView {
     }
 
     public static View setActionBarVisible(boolean b, ViewGroup parent, Boolean secondary, String sub) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
         if (subreddit.isEmpty()) {
@@ -168,6 +176,8 @@ public class CreateCardView {
         }
     }
     public static View setMiddleCard(boolean b, ViewGroup parent, Boolean secondary, String sub) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
         if (subreddit.isEmpty()) {
@@ -185,6 +195,8 @@ public class CreateCardView {
         }
     }
     private static void doHideObjects(View v, Boolean secondary) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
         if (subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
@@ -265,17 +277,23 @@ public class CreateCardView {
     }
 
     public static boolean isCard(Boolean secondary) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
 
         return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
     }
     public static boolean isMiddle(Boolean secondary) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
 
         return SettingValues.prefs.getBoolean(subreddit + "middleCard",false);
     }
 
     public static CardEnum getCardView(Boolean secondary) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
 
         return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString()));
@@ -310,12 +328,16 @@ public class CreateCardView {
     }
 
     public static SettingValues.InfoBar getInfoBar(Boolean secondary) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
 
         return SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()));
     }
 
     public static boolean isActionBar(Boolean secondary) {
+        secondary = false; //removing secondary layouts for now
+
         String subreddit = (secondary) ? "second" : "";
 
         return SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible);

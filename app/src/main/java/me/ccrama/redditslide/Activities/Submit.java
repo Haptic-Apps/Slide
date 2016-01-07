@@ -68,7 +68,7 @@ public class Submit extends BaseActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         }
-        setupAppBar(R.id.toolbar, R.string.title_submit_post, true);
+        setupAppBar(R.id.toolbar, R.string.title_submit_post, true, true);
 
 
         Intent intent = getIntent();

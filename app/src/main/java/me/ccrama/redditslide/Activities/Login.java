@@ -40,7 +40,7 @@ public class Login extends BaseActivityAnim {
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_login);
-        setupAppBar(R.id.toolbar, R.string.title_login, true);
+        setupAppBar(R.id.toolbar, R.string.title_login, true, true);
 
         String[] scopes = {"identity", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits"};
         final OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();

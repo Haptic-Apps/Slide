@@ -49,7 +49,7 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_sort);
-        setupAppBar(R.id.toolbar, R.string.title_reorder_pins, false);
+        setupAppBar(R.id.toolbar, R.string.title_reorder_pins, false, true);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override

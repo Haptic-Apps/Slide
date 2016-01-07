@@ -43,7 +43,7 @@ public class SettingsSubreddit extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_subreddit);
-        setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true);
+        setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true, true);
         final ArrayList<String> subs = SubredditStorage.alphabeticalSubscriptions;
         subs.remove("frontpage");
         subs.remove("all");

@@ -20,7 +20,7 @@ public class SettingsHandling extends BaseActivity implements
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_handling);
-        setupAppBar(R.id.toolbar, R.string.settings_link_handling, true);
+        setupAppBar(R.id.toolbar, R.string.settings_link_handling, true, true);
 
         SwitchCompat web = (SwitchCompat) findViewById(R.id.web);
         SwitchCompat image = (SwitchCompat) findViewById(R.id.image);

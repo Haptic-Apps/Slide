@@ -19,7 +19,7 @@ public class SettingsAutonight extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_night);
-        setupAppBar(R.id.toolbar, R.string.settings_title_auto, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_auto, true, true);
 
         SwitchCompat fab = (SwitchCompat) findViewById(R.id.enable);
 

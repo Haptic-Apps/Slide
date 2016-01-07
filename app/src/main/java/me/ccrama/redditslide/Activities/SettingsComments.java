@@ -14,7 +14,7 @@ public class SettingsComments extends BaseActivity {
 
         applyColorTheme();
         setContentView(R.layout.activity_settings_comments);
-        setupAppBar(R.id.toolbar, R.string.settings_title_comments, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_comments, true, true);
 
         SwitchCompat username_to_profile = (SwitchCompat) findViewById(R.id.username_to_profile);
         username_to_profile.setChecked(Reddit.click_user_name_to_profile);

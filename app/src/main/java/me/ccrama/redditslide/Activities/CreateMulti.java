@@ -64,7 +64,7 @@ public class CreateMulti extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_createmulti);
-        setupAppBar(R.id.toolbar, R.string.title_create_multi, true);
+        setupAppBar(R.id.toolbar, "", true, true);
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override

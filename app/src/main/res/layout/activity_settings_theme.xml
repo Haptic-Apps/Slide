@@ -139,103 +139,32 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </LinearLayout>
-
             <LinearLayout
-                android:id="@+id/colormatching_touch"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-
                 android:orientation="horizontal"
+
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/color"
-                    android:tint="?attr/tint" />
 
-                <LinearLayout
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/chrome"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/theme_indicator"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/colormatching"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/theme_card"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="Theme "
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/colormatchingwhere_touch"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/theme"
-                    android:tint="?attr/tint" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_indicator_place"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/colormatchingwhere"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_indicator_everywhere"
-
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

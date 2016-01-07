@@ -41,7 +41,7 @@ public class EditCardsLayout extends BaseActivity {
         setContentView(R.layout.activity_settings_theme_card);
         int title = isAlternate ?
                 R.string.settings_title_alternative_layout : R.string.settings_layout_default;
-        setupAppBar(R.id.toolbar, title, true);
+        setupAppBar(R.id.toolbar, title, true, true);
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();

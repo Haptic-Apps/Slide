@@ -25,7 +25,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -563,8 +562,6 @@ public class SubredditView extends BaseActivityAnim {
 
 
                         }
-                        final RadioButton def = (RadioButton) dialoglayout.findViewById(R.id.def);
-                        final RadioButton alt = (RadioButton) dialoglayout.findViewById(R.id.alt);
 
                         {
                             int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
@@ -592,23 +589,7 @@ public class SubredditView extends BaseActivityAnim {
 
                         }
 
-                        if (Reddit.expandedSettings) {
-                            int i = (SettingValues.prefs.contains("PRESET" + subreddit) ? 1 : 0);
-                            if (i == 0) {
-                                def.setChecked(true);
-                            } else {
-                                alt.setChecked(true);
-                            }
 
-
-                            def.setText(R.string.settings_layout_default);
-                            alt.setText(R.string.settings_title_alternative_layout);
-
-                        } else {
-                            def.setVisibility(View.GONE);
-                            alt.setVisibility(View.GONE);
-                            dialoglayout.findViewById(R.id.layout_title).setVisibility(View.GONE);
-                        }
 
 
                         builder.setView(dialoglayout);
@@ -633,11 +614,9 @@ public class SubredditView extends BaseActivityAnim {
 
                                     new ColorPreferences(SubredditView.this).setFontStyle(t, subreddit);
 
-                                    if (alt.isChecked()) {
-                                        SettingValues.prefs.edit().putBoolean("PRESET" + subreddit, true).apply();
-                                    } else {
+
                                         SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
-                                    }
+
 
                                     restartTheme();
                                     diag.dismiss();

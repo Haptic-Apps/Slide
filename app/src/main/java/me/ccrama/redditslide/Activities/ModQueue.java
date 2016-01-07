@@ -27,7 +27,7 @@ public class ModQueue extends BaseActivityAnim {
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);
-        setupAppBar(R.id.toolbar, R.string.title_mod, true);
+        setupAppBar(R.id.toolbar, R.string.title_mod, true, true);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
