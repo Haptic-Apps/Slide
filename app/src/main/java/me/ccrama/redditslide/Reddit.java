@@ -142,16 +142,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     private static boolean isPackageInstalled(final Context ctx) {
-        boolean result = false;
         try {
             final PackageManager pm = ctx.getPackageManager();
             final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
             if (pi != null && pi.applicationInfo.enabled)
-                result = true;
+                return true;
         } catch (final Throwable ignored) {
         }
-
-        return result;
+        return false;
     }
 
 
