@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -59,6 +60,9 @@ public class FullscreenImage extends FullScreenActivity {
         if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
             url = url + ".png";
         }
+        ImageView fakeImage = new ImageView(FullscreenImage.this);
+        fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
+        fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
@@ -68,11 +72,12 @@ public class FullscreenImage extends FullScreenActivity {
                 .build();
 
                 ((Reddit) getApplication()).getImageLoader()
-                .displayImage(url, new ImageViewAware(new ImageView(FullscreenImage.this)), options, new ImageLoadingListener() {
+                .displayImage(url, new ImageViewAware(fakeImage), options, new ImageLoadingListener() {
+                    private View mView;
+
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
-
-                        Log.v("Slide", "LOADING STARTED");
+                        mView = view;
                     }
 
                     @Override
@@ -84,7 +89,7 @@ public class FullscreenImage extends FullScreenActivity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         i.setImage(ImageSource.bitmap(loadedImage));
-                        ((ProgressBar) findViewById(R.id.progress)).setVisibility(View.GONE);
+                        ( findViewById(R.id.progress)).setVisibility(View.GONE);
                     }
 
                     @Override

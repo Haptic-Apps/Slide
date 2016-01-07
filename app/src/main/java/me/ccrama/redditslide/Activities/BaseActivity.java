@@ -50,9 +50,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
 
-            if (Reddit.single) {
+            if (Reddit.swipeAnywhere) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
-                getSwipeBackLayout().setEdgeSize(metrics.widthPixels - 10);
+                mHelper.getSwipeBackLayout().setEdgeSize(1000);
                 Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
             }
         }

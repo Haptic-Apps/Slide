@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.nostra13.universalimageloader.cache.disc.DiskCache;
@@ -10,6 +11,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,9 +59,11 @@ public class ImageLoaderUtils {
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
                         .resetViewBeforeLoading(true)
                         .cacheOnDisk(true)
+                        .bitmapConfig(Bitmap.Config.RGB_565)
                         .cacheInMemory(false)
                         .build())
                 .memoryCacheSize(memory)
+                .imageDownloader(new BaseImageDownloader(context))
                 .build();
 
         if (ImageLoader.getInstance().isInited()) {

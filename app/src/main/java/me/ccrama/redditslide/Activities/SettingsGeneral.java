@@ -169,6 +169,19 @@ public class SettingsGeneral extends BaseActivity {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.swipeback);
+
+            single.setChecked(Reddit.swipeAnywhere);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.swipeAnywhere = isChecked;
+                    SettingValues.prefs.edit().putBoolean("swipeAnywhere", isChecked).apply();
+
+                }
+            });
+        }
         /* Might need this later
         if (Reddit.expandedSettings) {
             {

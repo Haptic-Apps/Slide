@@ -69,6 +69,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static boolean fullscreen;
     public static boolean blurCheck;
+    public static boolean swipeAnywhere;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -365,6 +366,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         cacheDefault = SettingValues.prefs.getBoolean("cacheDefault", false);
         expandedSettings = SettingValues.prefs.getBoolean("expandedSettings", false);
 
+        swipeAnywhere = SettingValues.prefs.getBoolean("swipeAnywhere", false);
         album = SettingValues.prefs.getBoolean("album", true);
         gif = SettingValues.prefs.getBoolean("gif", true);
         video = SettingValues.prefs.getBoolean("video", true);

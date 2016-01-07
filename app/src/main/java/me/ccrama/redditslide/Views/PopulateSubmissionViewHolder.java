@@ -1146,6 +1146,7 @@ public class PopulateSubmissionViewHolder {
             holder.gildLayout.setVisibility(View.GONE);
         }
 
+
     }
 
 }
