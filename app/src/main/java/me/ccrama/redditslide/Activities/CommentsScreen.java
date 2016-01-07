@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import net.dean.jraw.models.Submission;
@@ -22,9 +23,12 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim {
+    final private static String TAG = "CommentsScreen";
     public ArrayList<Submission> posts;
     OverviewPagerAdapter comments;
     int firstPage;
+    private String subreddit;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -34,25 +38,24 @@ public class CommentsScreen extends BaseActivityAnim {
 
 
         firstPage = getIntent().getExtras().getInt("page", -1);
-        if (firstPage == -1) {
-            //IS SNIGLE POST
+        if (firstPage == RecyclerView.NO_POSITION) {
+            //IS SINGLE POST
+            Log.w(TAG, "Is single post?");
         } else {
             posts = DataShare.sharedSubreddit;
         }
         if (posts == null || posts.get(firstPage) == null) {
             finish();
         } else {
-            themeStatusBar(posts.get(firstPage).getSubredditName());
-            setRecentBar(posts.get(firstPage).getSubredditName());
-            HasSeen.addSeen(posts.get(firstPage).getFullName());
+            updateSubredditAndSubmission(posts.get(firstPage));
 
             ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
-            final OverviewPagerAdapter adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setAdapter(adapter);
+            comments = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(comments);
             pager.setCurrentItem(firstPage);
 
-            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -61,10 +64,7 @@ public class CommentsScreen extends BaseActivityAnim {
                 @Override
                 public void onPageSelected(int position) {
                     //todo load more
-                    themeStatusBar(posts.get(position).getSubredditName());
-                    HasSeen.addSeen(posts.get(position).getFullName());
-
-
+                    updateSubredditAndSubmission(posts.get(position));
                 }
 
                 @Override
@@ -75,6 +75,13 @@ public class CommentsScreen extends BaseActivityAnim {
         }
 
 
+    }
+
+    private void updateSubredditAndSubmission(Submission posts) {
+        subreddit = posts.getSubredditName();
+        themeStatusBar(subreddit);
+        setRecentBar(subreddit);
+        HasSeen.addSeen(posts.getFullName());
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
@@ -107,7 +114,7 @@ public class CommentsScreen extends BaseActivityAnim {
         @Override
         public int getCount() {
             int offset = 0;
-            if(Reddit.single){
+            if (Reddit.single) {
                 offset = 1;
             }
             if (posts == null) {

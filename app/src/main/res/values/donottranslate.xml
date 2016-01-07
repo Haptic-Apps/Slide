@@ -6,8 +6,8 @@
     <string name="example_domain">imgur</string>
     <string name="example_url">imgur.com/a/duARTe</string>
     <string name="example_title">Chameleons are Cool!</string>
-    <string name="example_sub">/r/animals</string>
-    <string name="example_time">6 hours ago</string>
+    <string name="example_sub">animals</string>
+    <string name="example_time">ccrama 6 hours ago</string>
     <string name="example_points">204 points</string>
     <string name="example_points_short">204</string>
     <string name="example_comments">420 comments</string>

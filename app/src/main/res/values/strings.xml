@@ -89,9 +89,9 @@
     <string name="drawer_add_account">Add an account</string>
     <string name="drawer_hello">Hello,</string>
     <string name="drawer_change_account">Switch accounts</string>
-    <string name="drawer_search">Search for a subreddit</string>
+    <string name="drawer_search">Go to subreddit</string>
     <string name="drawer_moderation">Moderation</string>
-    <string name="drawer_sync_subs">Sync your Subreddits</string>
+    <string name="drawer_sync_subs">Sync your subreddits</string>
 
 
     <!-- Sidebar items (That's the one on the right) -->

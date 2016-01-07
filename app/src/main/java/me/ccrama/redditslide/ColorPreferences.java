@@ -248,7 +248,7 @@ public class ColorPreferences {
 
         }
     }
-    public static int[] getAccentColors(Context context) {
+    public static int[] getBaseColors(Context context) {
         return new int[]{
                 ContextCompat.getColor(context, R.color.md_red_500),
                 ContextCompat.getColor(context, R.color.md_pink_500),

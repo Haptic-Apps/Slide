@@ -18,6 +18,7 @@ import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -707,7 +708,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
                 int width = 0;
-                for (int i = 0; i < users.get(nextPos).getMoreCommentNode().getDepth(); i++) {
+                for (int i = 1; i < users.get(nextPos).getMoreCommentNode().getDepth(); i++) {
                     width += dwidth;
                 }
 
@@ -888,7 +889,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
-            for (int i = 0; i < baseNode.getDepth() - 1; i++) {
+
+            //Padding on the left, starting with the third comment
+            for (int i = 2; i < baseNode.getDepth(); i++) {
                 width += dwidth;
             }
             holder.dots.setPadding(width, 0, 0, 0);
@@ -896,18 +899,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
                 if (i22 % 5 == 0) {
-                    holder.dot.setBackgroundColor(Color.parseColor("#2196F3")); //blue
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 } else if (i22 % 4 == 0) {
-                    holder.dot.setBackgroundColor(Color.parseColor("#4CAF50")); //green
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_green_500));
 
                 } else if (i22 % 3 == 0) {
-                    holder.dot.setBackgroundColor(Color.parseColor("#FFC107")); //yellow
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_yellow_500));
 
                 } else if (i22 % 2 == 0) {
-                    holder.dot.setBackgroundColor(Color.parseColor("#FF9800")); //orange
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
 
                 } else {
-                    holder.dot.setBackgroundColor(Color.parseColor("#F44336")); //red
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_red_500));
                 }
             } else {
                 holder.dot.setVisibility(View.GONE);

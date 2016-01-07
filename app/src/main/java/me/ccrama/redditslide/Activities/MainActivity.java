@@ -408,7 +408,9 @@ public class MainActivity extends BaseActivity {
                     final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                    SettingsSubAdapter.showSubThemeEditor(subreddit, MainActivity.this, dialoglayout);
+                    ArrayList<String> arrayList= new ArrayList<>();
+                    arrayList.add(subreddit);
+                    SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
                 }
             });
         } else {

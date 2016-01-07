@@ -476,7 +476,7 @@ public class SubredditView extends BaseActivityAnim {
                         LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                         final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                        colorPicker.setColors(ColorPreferences.getAccentColors(SubredditView.this));
+                        colorPicker.setColors(ColorPreferences.getBaseColors(SubredditView.this));
                         int currentColor = Palette.getColor(subreddit);
                         for (int i : colorPicker.getColors()) {
                             for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
@@ -616,7 +616,6 @@ public class SubredditView extends BaseActivityAnim {
 
 
                                         SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
-
 
                                     restartTheme();
                                     diag.dismiss();

@@ -245,7 +245,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
-            pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

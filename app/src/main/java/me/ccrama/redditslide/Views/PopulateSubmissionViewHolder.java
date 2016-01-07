@@ -188,7 +188,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private static boolean isBlurry(JsonNode s, Context mC, String title) {
-        if(Reddit.blurCheck){
+        if (Reddit.blurCheck) {
             return false;
         } else {
             int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
@@ -231,6 +231,17 @@ public class PopulateSubmissionViewHolder {
 
         }
 
+    }
+
+    public static String getSubmissionScoreString(int score, Resources res, Submission submission) {
+        switch (submission.getSubredditName().toLowerCase()){
+            case "androidcirclejerk":
+                return score + " upDuARTes"; //Praise DuARTe
+            case "xdacirclejerk":
+                return score + " thanks"; //Hit Thanks and Pls buy me a beer! (XDA)
+            default:
+                return res.getQuantityString(R.plurals.submission_points, score, score);
+        }
     }
 
     public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
@@ -720,19 +731,11 @@ public class PopulateSubmissionViewHolder {
                 }
             }
         });
-        int score = submission.getScore();
         int commentCount = submission.getCommentCount();
         final Resources res = mContext.getResources();
         holder.comments.setText(res.getQuantityString(R.plurals.submission_comment_count, commentCount, commentCount));
-        if (submission.getSubredditName().equals("androidcirclejerk")) {
-            holder.score.setText(score + " upDuARTes"); //Praise DuARTe
-        } else {
-            if (submission.getSubredditName().equals("xdacirclejerk")) {
-                holder.score.setText(score + " thanks"); //Hit Thanks and Pls buy me a beer! (XDA)
-            } else {
-                holder.score.setText(res.getQuantityString(R.plurals.submission_points, score, score));
-            }
-        }
+
+        holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
 
         final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
         final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
@@ -746,14 +749,14 @@ public class PopulateSubmissionViewHolder {
                 submission.setVote(true);
                 submission.setVoted(true);
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
-                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() + 1, submission.getScore() + 1));
+                holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
 
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                 upvotebutton.clearColorFilter();
-                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() - 1, submission.getScore() - 1));
+                holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
 
                 submission.setVote(false);
                 submission.setVoted(true);
@@ -761,7 +764,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
                 downvotebutton.clearColorFilter();
                 upvotebutton.clearColorFilter();
-                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore()));
+                holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
 
                 submission.setVote(false);
                 submission.setVoted(false);
@@ -1058,7 +1061,7 @@ public class PopulateSubmissionViewHolder {
                                 submission.setVote(false);
                                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
                                 submission.setVoted(true);
-                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() + 1, submission.getScore() + 1));
+                                holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
 
                                 new Vote(false, points, mContext).execute(submission);
                             } else if (submission.voted() && submission.getIsUpvoted()) {
@@ -1068,14 +1071,14 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.clearColorFilter();
                                 submission.setVoted(true);
                                 submission.setVote(false);
-                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore() - 1, submission.getScore() - 1));
+                                holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
 
 
                             } else if (submission.voted() && !submission.getIsUpvoted()) {
                                 new Vote(points, mContext).execute(submission);
                                 points.setTextColor(comments.getCurrentTextColor());
                                 downvotebutton.clearColorFilter();
-                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore()));
+                                holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
 
                                 submission.setVoted(false);
                                 submission.setVote(false);
@@ -1092,7 +1095,7 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
                                 submission.setVote(true);
                                 submission.setVoted(true);
-                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore() + 1));
+                                holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
 
                                 new Vote(true, points, mContext).execute(submission);
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
@@ -1104,14 +1107,14 @@ public class PopulateSubmissionViewHolder {
 
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
                                 downvotebutton.clearColorFilter();
-                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore() + 1));
+                                holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
 
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 submission.setVote(false);
 
-                                holder.score.setText(res.getQuantityString(R.plurals.submission_points, submission.getScore(), submission.getScore()));
+                                holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
 
                                 upvotebutton.clearColorFilter();
 

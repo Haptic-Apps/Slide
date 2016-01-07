@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Wiki;
@@ -23,6 +22,7 @@ public class OpenRedditLink {
 
     public OpenRedditLink(Context context, String url) {
         // Strip unused prefixes that don't require special handling
+        String oldUrl = url;
         url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
 
         boolean np = false;
@@ -34,7 +34,7 @@ public class OpenRedditLink {
                 np = true;
                 url = url.replaceFirst(domainRegex, "reddit.com");
             } else if (subdomain.matches("blog|store|beta")) {
-                customIntentChooser("http://www." + url, context);
+                customIntentChooser(oldUrl, context);
                 return;
             } else if (subdomain.matches("(?i)([_a-z0-9]{2}-)?[_a-z0-9]{1,2}")) {
                 /*
@@ -114,12 +114,11 @@ public class OpenRedditLink {
             myIntent.putExtra("profile", name);
             context.startActivity(myIntent);
         } else if (url.matches("(?i)reddit\\.com/prefs")) {
-            customIntentChooser("https://www.reddit.com/prefs", context);
+            customIntentChooser(oldUrl, context);
         } else if (url.matches("(?i)reddit\\.com/live/[a-z0-9-_]+")) {
-            customIntentChooser("https://www." + url, context);
-        } else {
-            Intent i = new Intent(context, MainActivity.class);
-            context.startActivity(i);
+            customIntentChooser(oldUrl, context);
+        } else { //Open all links that we can't open in another app
+            customIntentChooser(oldUrl, context);
         }
     }
 
@@ -132,16 +131,16 @@ public class OpenRedditLink {
     }
 
     /**
-     * Exclude a package (this app) from opening an intent.
+     * Show an intent chooser ("Open link with...") and exclude this app from the chooser.
      * Source: http://stackoverflow.com/a/23268821/4026792
      *
      * @param url The url as a String
      * @param c Context for opening the intent
     */
     public static void customIntentChooser(String url, Context c) {
-
         String packageNameToIgnore = BuildConfig.APPLICATION_ID;
         Uri uri = Uri.parse(url);
+
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_VIEW);
         intent.setData(uri);

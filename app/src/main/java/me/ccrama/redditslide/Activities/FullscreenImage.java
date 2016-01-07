@@ -72,10 +72,12 @@ public class FullscreenImage extends FullScreenActivity {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
 
+                        Log.v("Slide", "LOADING STARTED");
                     }
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.v("Slide", "LOADING FAILED");
 
                     }
 
@@ -87,6 +89,7 @@ public class FullscreenImage extends FullScreenActivity {
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
+                        Log.v("Slide", "LOADING CANCELLED");
 
                     }
                 }, new ImageLoadingProgressListener() {
