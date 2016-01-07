@@ -89,14 +89,14 @@ public class SettingsSubreddit extends BaseActivity {
 
         // Check which subreddits are different
         ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);
-        int defaultFont = ColorPreferences.getDefaultFontStyle().getColor();
+        int defaultFont = colorPrefs.getColor("");
 
         for (String s : allSubs) {
             if (Palette.getColor(s) != Palette.getDefaultColor()) { //Main color is different
                 changedSubs.add(s);
             } else if (SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)) { //Alternate Layout is set
                 changedSubs.add(s);
-            } else if (colorPrefs.getFontStyleSubreddit(s).getColor() != defaultFont) { //different accent / font color
+            } else if (colorPrefs.getColor(s) != defaultFont) { //different accent / font color
                 changedSubs.add(s);
             }
         }

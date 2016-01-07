@@ -759,6 +759,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 Intent inte = new Intent(MainActivity.this, Profile.class);
+                                //noinspection ConstantConditions
                                 inte.putExtra("profile", dialog.getInputEditText().getText().toString());
                                 MainActivity.this.startActivity(inte);
                             }
@@ -773,6 +774,9 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, Settings.class);
                 startActivityForResult(i, 1);
+                // Cancel sub loading because exiting the settings will reload it anyway
+                if (mAsyncGetSubreddit != null)
+                    mAsyncGetSubreddit.cancel(true);
                 drawerLayout.closeDrawers();
             }
         });
