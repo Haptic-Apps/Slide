@@ -175,10 +175,10 @@
                         android:id="@+id/leadimage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:adjustViewBounds="true"
                         android:maxHeight="200dp"
+                        android:adjustViewBounds="true"
 
-                        android:scaleType="fitCenter"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/chameleon" />
 
                     <LinearLayout
@@ -188,13 +188,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/leadimage"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/slightshadow"
+                        android:background="#55000000"
                         android:orientation="vertical"
-                        android:paddingBottom="8dp"
+
                         android:paddingLeft="16dp">
 
                         <TextView
                             android:id="@+id/textimage"
+                            android:paddingTop="8dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/example_domain"
@@ -203,6 +204,8 @@
 
                         <TextView
                             android:id="@+id/subtextimage"
+                            android:paddingBottom="8dp"
+
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".56"

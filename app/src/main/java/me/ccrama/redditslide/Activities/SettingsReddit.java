@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -17,6 +16,7 @@ import net.dean.jraw.managers.AccountManager;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -83,8 +83,9 @@ public class SettingsReddit extends BaseActivity {
                 findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/prefs/"));
-
+                        Intent browserIntent = new Intent(SettingsReddit.this, Website.class);
+                        browserIntent.putExtra("url", "https://www.reddit.com/prefs/");
+                        browserIntent.putExtra("color", Palette.getDefaultColor());
                         startActivity(browserIntent);
                     }
                 });
