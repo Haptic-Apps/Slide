@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -89,8 +90,12 @@ public class ContributionPosts extends GeneralPosts {
                     for (Contribution c : paginator.next()) {
                         if (c instanceof Submission) {
                             Submission s = (Submission) c;
+                                if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                    posts.add(s);
+                                } else if (!s.isNsfw()) {
                                     posts.add(s);
 
+                            }
                         } else {
                             posts.add(c);
                         }
@@ -99,8 +104,12 @@ public class ContributionPosts extends GeneralPosts {
                     for (Contribution c : paginator.next()) {
                         if (c instanceof Submission) {
                             Submission s = (Submission) c;
+                                if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                    posts.add(s);
+                                } else if (!s.isNsfw()) {
                                     posts.add(s);
 
+                            }
                         } else {
                             posts.add(c);
                         }

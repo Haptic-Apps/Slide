@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -92,15 +93,20 @@ public class MultiredditPosts {
                 if (reset) {
                     posts = new ArrayList<>();
                     for (Submission s : paginator.next()) {
-
+                            if (SettingValues.NSFWPosts && s.isNsfw()) {
                                 posts.add(s);
-
+                            } else if (!s.isNsfw()) {
+                                posts.add(s);
+                            }
                         }
 
                 } else {
                     for (Submission s : paginator.next()) {
+                        if (SettingValues.NSFWPosts && s.isNsfw()) {
                             posts.add(s);
-
+                        } else if (!s.isNsfw()) {
+                            posts.add(s);
+                        }
                     }
                 }
                 return posts;

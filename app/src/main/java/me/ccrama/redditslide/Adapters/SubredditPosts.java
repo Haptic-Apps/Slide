@@ -136,7 +136,7 @@ public class SubredditPosts {
                     posts.addAll(subs);
                     offline = false;
                     for(Submission s : posts){
-                        contained.add(s.getFullName());
+
                     }
 
                 }
@@ -321,8 +321,11 @@ public class SubredditPosts {
                         try {
                             for (Submission c : paginator.next()) {
                                 Submission s = c;
+                                if (SettingValues.NSFWPosts && s.isNsfw()) {
                                     things.add(s);
-
+                                } else if (!s.isNsfw()) {
+                                    things.add(s);
+                                }
 
 
                             }
@@ -336,8 +339,12 @@ public class SubredditPosts {
                             for (Submission c : paginator.next()) {
                                 Submission s = c;
 
+                                if (SettingValues.NSFWPosts && s.isNsfw()) {
+                                    things.add(s);
+                                } else if (!s.isNsfw()) {
                                     things.add(s);
 
+                                }
 
                             }
                         } catch (Exception ignored) {
