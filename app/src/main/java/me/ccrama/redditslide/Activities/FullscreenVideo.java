@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import me.ccrama.redditslide.R;
 
@@ -51,27 +52,37 @@ public class FullscreenVideo extends FullScreenActivity {
         if (!data.contains("cdn.embedly.com")) {
             if (data.contains("?v=")) {
 
-                url = "https://www.youtube.com/embed/" + data.substring(data.indexOf("?v=") + 3, data.length())+"?autoplay=true";
+                url = "https://www.youtube.com/embed/" + data.substring(data.indexOf("?v=") + 3, data.length());
             } else {
-                url = "https://www.youtube.com/embed/" + data.substring(data.lastIndexOf("/") + 1, data.length())+"?autoplay=true";
+                url = "https://www.youtube.com/embed/" + data.substring(data.lastIndexOf("/") + 1, data.length());
             }
         } else {
-            Log.v("Slide", data);
-            Log.v("Sliide", Html.fromHtml(data).toString());
             String dataurl = Html.fromHtml(data).toString().replace("%2F", "/").replace("%3A", ":").replace("%3F", "?").replace("%3D", "=");
-
-            // String cut = dataurl.substring(dataurl.indexOf("src=\""));
-            // Log.v("Slide", "FINAL:" + cut.substring(dataurl.indexOf("\"")));
-            Log.v("Slide", dataurl);
             String cut = dataurl.substring(dataurl.indexOf("src=\""));
             String secondCut = cut.substring(7, cut.indexOf("width") - 2);
-            Log.v("Slide", secondCut);
             url = "http://" + secondCut;
         }
-        WebSettings wbset = v.getSettings();
-        wbset.setJavaScriptEnabled(true);
+        final WebSettings settings = v.getSettings();
+
+        settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setPluginState(WebSettings.PluginState.ON);
+
+        //TODO: trying to get the video to autoplay. Doesn't seem to be working...
+        v.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                v.loadUrl("javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
+            }
+        });
         v.setWebChromeClient(new WebChromeClient());
 
+
+
+        if(url.contains("youtube.com")){
+            url = url + "&html5=1&autoplay=1";
+        }
+
+        Log.v("Slide", url);
 
         v.loadUrl(url);
 

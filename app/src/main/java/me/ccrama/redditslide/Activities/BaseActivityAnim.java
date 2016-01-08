@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.os.Bundle;
 
 import me.ccrama.redditslide.R;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
+import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 
 public class BaseActivityAnim extends BaseActivity implements SwipeBackActivityBase {
     @Override

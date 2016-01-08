@@ -19,12 +19,14 @@ import android.view.Window;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
+import me.ccrama.redditslide.SwipeLayout.Utils;
+import me.ccrama.redditslide.SwipeLayout.ViewDragHelper;
+import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
+import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.Utils;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityBase;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivityHelper;
+
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     @Nullable
@@ -50,9 +52,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
 
+            ViewDragHelper.override = Reddit.swipeAnywhere;
             if (Reddit.swipeAnywhere) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
-                mHelper.getSwipeBackLayout().setEdgeSize(1000);
+                mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
                 Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
             }
         }
