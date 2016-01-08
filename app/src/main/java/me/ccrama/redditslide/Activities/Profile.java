@@ -53,7 +53,10 @@ public class Profile extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideSwipeFromAnywhere();
+
         super.onCreate(savedInstance);
+
         name = getIntent().getExtras().getString("profile", "");
         applyColorTheme();
         setContentView(R.layout.activity_multireddits);

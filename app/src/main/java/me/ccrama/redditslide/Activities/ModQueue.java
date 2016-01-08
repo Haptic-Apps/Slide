@@ -24,7 +24,10 @@ public class ModQueue extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideSwipeFromAnywhere();
+
         super.onCreate(savedInstance);
+
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);
         setupAppBar(R.id.toolbar, R.string.title_mod, true, true);

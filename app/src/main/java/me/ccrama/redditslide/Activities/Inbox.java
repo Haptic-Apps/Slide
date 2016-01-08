@@ -23,6 +23,8 @@ public class Inbox extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideSwipeFromAnywhere();
+
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);

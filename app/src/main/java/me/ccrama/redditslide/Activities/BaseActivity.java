@@ -33,6 +33,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected Toolbar mToolbar;
     private SwipeBackActivityHelper mHelper;
     private boolean enableSwipeBackLayout = true;
+    private boolean overrideSwipeFromAnywhere = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -51,20 +52,27 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         if (enableSwipeBackLayout) {
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
 
 
             if (Reddit.swipeAnywhere) {
-                if(this instanceof MultiredditOverview || this instanceof Shadowbox || this instanceof ModQueue) {
+                if(overrideSwipeFromAnywhere) {
+                    Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
                     ViewDragHelper.override = false;
+
                 } else {
 
+                    Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
 
-                    ViewDragHelper.override = Reddit.swipeAnywhere;
+                    ViewDragHelper.override = true;
 
-                    DisplayMetrics metrics = getResources().getDisplayMetrics();
                     mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
                     Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
                 }
+            } else {
+                ViewDragHelper.override = false;
+
+
             }
         }
     }
@@ -109,7 +117,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void disableSwipeBackLayout() {
         enableSwipeBackLayout = false;
     }
-
+    protected void overrideSwipeFromAnywhere() {
+        overrideSwipeFromAnywhere = true;
+    }
     /**
      * Applies the activity's base color theme. Should be called before inflating any layouts.
      */

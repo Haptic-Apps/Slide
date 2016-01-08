@@ -1567,22 +1567,24 @@ public class ViewDragHelper {
         return null;
     }
 
-    public static boolean override;
+    public static boolean override = false;
 
     private int getEdgeTouched(int x, int y) {
 
         int result = 0;
-        result = EDGE_LEFT;
-        if (!override)
+        if (!override){
 
-        {
-
+            if (x < mParentView.getLeft() + mEdgeSize)
+                result = EDGE_LEFT;
             if (y < mParentView.getTop() + mEdgeSize)
                 result = EDGE_TOP;
             if (x > mParentView.getRight() - mEdgeSize)
                 result = EDGE_RIGHT;
             if (y > mParentView.getBottom() - mEdgeSize)
                 result = EDGE_BOTTOM;
+        } else {
+            result = EDGE_LEFT;
+
         }
         return result;
     }

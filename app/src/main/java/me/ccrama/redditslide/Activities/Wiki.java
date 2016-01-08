@@ -36,7 +36,10 @@ public class Wiki extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideSwipeFromAnywhere();
+
         super.onCreate(savedInstance);
+
         subreddit = getIntent().getExtras().getString("subreddit", "");
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_slidetabs);

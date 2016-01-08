@@ -40,7 +40,10 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideSwipeFromAnywhere();
+
         super.onCreate(savedInstance);
+
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
         setupAppBar(R.id.toolbar, R.string.title_multireddits, true, false);
