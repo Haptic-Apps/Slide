@@ -64,7 +64,7 @@ public class SettingsReddit extends BaseActivity {
                         }
                     });
 
-                    nsfwprev.setEnabled(SettingValues.NSFWPosts);
+                    nsfwprev.setEnabled(!nsfw.isChecked());
                     nsfwprev.setChecked((Boolean) editor.getArgs().get("no_profanity"));
                     SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", (Boolean) editor.getArgs().get("no_profanity"));
                     nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
