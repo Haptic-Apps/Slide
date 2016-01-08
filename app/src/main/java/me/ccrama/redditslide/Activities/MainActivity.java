@@ -85,7 +85,6 @@ import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class MainActivity extends BaseActivity {
@@ -187,6 +186,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
+
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -258,7 +258,7 @@ public class MainActivity extends BaseActivity {
             }
 
         }
-        getTheme().applyStyle(new FontPreferences(this).getFontStyle().getResId(), true);
+        applyColorTheme();
 
         setContentView(R.layout.activity_overview);
 
@@ -284,9 +284,9 @@ public class MainActivity extends BaseActivity {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         // Disable swiping if single mode is enabled
         if (singleMode) pager.setSwipingEnabled(false);
+        doDrawer();
 
         setDataSet(SubredditStorage.subredditsForHome);
-        doDrawer();
     }
 
     @Override
@@ -454,13 +454,14 @@ public class MainActivity extends BaseActivity {
             }
             pager.setCurrentItem(1);
             pager.setAdapter(adapter);
-            pager.setOffscreenPageLimit(2);
+            pager.setOffscreenPageLimit(1);
 
             themeStatusBar(usedArray.get(0));
             setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
+
             findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
-            // hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (!Reddit.single) {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
