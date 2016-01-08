@@ -52,11 +52,19 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
 
-            ViewDragHelper.override = Reddit.swipeAnywhere;
+
             if (Reddit.swipeAnywhere) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
-                Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+                if(this instanceof MultiredditOverview || this instanceof Shadowbox || this instanceof ModQueue) {
+                    ViewDragHelper.override = false;
+                } else {
+
+
+                    ViewDragHelper.override = Reddit.swipeAnywhere;
+
+                    DisplayMetrics metrics = getResources().getDisplayMetrics();
+                    mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
+                    Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+                }
             }
         }
     }

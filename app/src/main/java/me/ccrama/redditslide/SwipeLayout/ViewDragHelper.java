@@ -1567,12 +1567,13 @@ public class ViewDragHelper {
         return null;
     }
 
+    public static boolean override;
 
     private int getEdgeTouched(int x, int y) {
 
         int result = 0;
         result = EDGE_LEFT;
-        if (!Reddit.swipeAnywhere)
+        if (!override)
 
         {
 
