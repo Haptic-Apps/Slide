@@ -1,12 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -81,7 +77,7 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsAbout.class);
-                startActivityForResult(i, 2);
+                startActivity(i);
             }
         });
 
@@ -96,6 +92,14 @@ public class Settings extends BaseActivity {
 
 
 
+        findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Settings.this, SettingsCache.class);
+                startActivity(i);
+            }
+        });
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,14 +112,14 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsHandling.class);
-                startActivityForResult(i, 2);
+                startActivity(i);
             }
         });
         findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, EditCardsLayout.class);
-                startActivityForResult(i, 2);
+                startActivity(i);
             }
         });
         findViewById(R.id.backup).setOnClickListener(new View.OnClickListener() {

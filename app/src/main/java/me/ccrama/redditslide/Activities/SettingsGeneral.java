@@ -182,6 +182,10 @@ public class SettingsGeneral extends BaseActivity {
                 }
             });
         }
+
+
+
+
         /* Might need this later
         if (Reddit.expandedSettings) {
             {

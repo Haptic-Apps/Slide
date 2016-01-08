@@ -157,6 +157,33 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     }
 
     /**
+     * Sets up the activity's support toolbar and colorizes the status bar to a specific color
+     *
+     * @param toolbar        The toolbar's id
+     * @param title          String to be set as the toolbar title
+     * @param enableUpButton Whether or not the toolbar should have up navigation
+     * @param color Color to color the tab bar
+     */
+    protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, int color, @IdRes int appbar) {
+        int statusBarColor = Palette.getDarkerColor(color);
+            mToolbar = (Toolbar) findViewById(toolbar);
+        findViewById(appbar).setBackgroundColor(color);
+
+        setSupportActionBar(mToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(enableUpButton);
+            getSupportActionBar().setTitle(title);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.setStatusBarColor(statusBarColor);
+        }
+        setRecentBar(title, statusBarColor);
+    }
+
+    /**
      * Sets up the activity's support toolbar and colorizes the status bar. Applies color theming
      * based on the theme for the username specified.
      *

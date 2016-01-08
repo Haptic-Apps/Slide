@@ -808,7 +808,7 @@ public class PopulateSubmissionViewHolder {
         String url = "";
 
         boolean big = true;
-        final String subreddit = (same) ? "second" : "";
+        final String subreddit =  "";
 
         SettingValues.InfoBar typ = SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()).toUpperCase());
         if (typ == SettingValues.InfoBar.INFO_BAR || typ == SettingValues.InfoBar.THUMBNAIL) {
@@ -870,7 +870,6 @@ public class PopulateSubmissionViewHolder {
                     bigAtEnd = false;
                 }
             } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-                holder.leadImage.setMinimumHeight(0);
 
                 if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
                     bigAtEnd = false;

@@ -27,7 +27,19 @@ public class SettingsHandling extends BaseActivity implements
         SwitchCompat gif = (SwitchCompat) findViewById(R.id.gif);
         SwitchCompat album = (SwitchCompat) findViewById(R.id.album);
         SwitchCompat video = (SwitchCompat) findViewById(R.id.video);
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.chrome);
 
+            single.setChecked(Reddit.customtabs);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.customtabs = isChecked;
+                    SettingValues.prefs.edit().putBoolean("customtabs", isChecked).apply();
+
+                }
+            });
+        }
         web.setChecked(Reddit.web);
         image.setChecked(Reddit.image);
         gif.setChecked(Reddit.gif);

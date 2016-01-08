@@ -82,6 +82,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static Authentication authentication;
     public static boolean tabletUI;
     public static Sorting defaultSorting;
+    public static boolean customtabs;
 
     public static String PREF_LAYOUT = "PRESET";
 
@@ -365,6 +366,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         cache = SettingValues.prefs.getBoolean("cache", true);
         cacheDefault = SettingValues.prefs.getBoolean("cacheDefault", false);
         expandedSettings = SettingValues.prefs.getBoolean("expandedSettings", false);
+        customtabs = SettingValues.prefs.getBoolean("customtabs", true);
 
         swipeAnywhere = SettingValues.prefs.getBoolean("swipeAnywhere", false);
         album = SettingValues.prefs.getBoolean("album", true);
