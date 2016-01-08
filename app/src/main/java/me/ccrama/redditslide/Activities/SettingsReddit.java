@@ -51,22 +51,23 @@ public class SettingsReddit extends BaseActivity {
 
                     SwitchCompat nsfw = (SwitchCompat) findViewById(R.id.nsfw);
                     final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
-                    nsfw.setChecked(!(Boolean) editor.getArgs().get("over_18"));
-                    SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !(Boolean) editor.getArgs().get("over_18")).apply();
+                    nsfw.setChecked((Boolean) editor.getArgs().get("over_18"));
+                    SettingValues.prefs.edit().putBoolean("NSFWPostsNew", (Boolean) editor.getArgs().get("over_18")).apply();
 
                     nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !isChecked).apply();
-                            nsfwprev.setEnabled(!SettingValues.NSFWPosts);
-                            SettingValues.NSFWPosts = !isChecked;
-                            editor.over18(!isChecked);
+                            SettingValues.prefs.edit().putBoolean("NSFWPostsNew", isChecked).apply();
+                            SettingValues.NSFWPosts = isChecked;
+
+                            nsfwprev.setEnabled(SettingValues.NSFWPosts);
+                            editor.over18(isChecked);
                         }
                     });
 
-                    nsfwprev.setEnabled(!nsfw.isChecked());
+                    nsfwprev.setEnabled(nsfw.isChecked());
                     nsfwprev.setChecked((Boolean) editor.getArgs().get("no_profanity"));
-                    SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", (Boolean) editor.getArgs().get("no_profanity"));
+                    SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !(Boolean) editor.getArgs().get("no_profanity"));
                     nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -83,6 +84,7 @@ public class SettingsReddit extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/prefs/"));
+
                         startActivity(browserIntent);
                     }
                 });

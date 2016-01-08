@@ -138,8 +138,9 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, boolean colorToolbar) {
         int statusBarColor = Palette.getStatusBarColor();
+        mToolbar = (Toolbar) findViewById(toolbar);
+
         if(colorToolbar) {
-            mToolbar = (Toolbar) findViewById(toolbar);
             mToolbar.setBackgroundColor(Palette.getDefaultColor());
         }
         setSupportActionBar(mToolbar);

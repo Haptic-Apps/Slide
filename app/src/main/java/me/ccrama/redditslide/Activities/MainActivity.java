@@ -1142,6 +1142,7 @@ public class MainActivity extends BaseActivity {
 
                     doSubSidebar(usedArray.get(position));
 
+                   // ((SubmissionsView) getCurrentFragment()).doAdapter();
                     if (adapter.getCurrentFragment() != null) {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
                         if (p.offline) {

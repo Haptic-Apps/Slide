@@ -60,7 +60,7 @@ android:background="?attr/activity_background">
                 android:button="@null"
                 android:buttonTint="?attr/tint"
                 android:hapticFeedbackEnabled="true"
-                android:text="@string/settings_disable_nsfw"
+                android:text="Display NSFW content"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font"/>
         </LinearLayout>

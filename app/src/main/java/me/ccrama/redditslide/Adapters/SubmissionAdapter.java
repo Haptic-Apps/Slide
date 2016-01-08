@@ -361,7 +361,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     static void fixSliding(int position) {
         try {
-            System.out.println("Fixing..");
             Reddit.lastposition.add(position, 0);
         } catch (IndexOutOfBoundsException e) {
             fixSliding(position - 1);

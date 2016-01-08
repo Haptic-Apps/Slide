@@ -300,7 +300,17 @@
                         android:paddingLeft="8dp"
                        android:layout_alignParentLeft="true" />
 
+                    <include
+                        android:id="@+id/flairbubble"
+                        layout="@layout/flair"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:layout_alignBottom="@+id/mod"
 
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/gild"
+
+                        android:src="@drawable/pinned" />
                     <ImageView
                         android:id="@+id/mod"
                         android:layout_width="36dp"

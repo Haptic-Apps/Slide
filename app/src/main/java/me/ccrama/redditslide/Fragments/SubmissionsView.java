@@ -110,26 +110,7 @@ public class SubmissionsView extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
 
-        posts = new SubredditPosts(id);
-        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
-        rv.setAdapter(adapter);
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        refresh();
-                    }
-                }
-        );
 
         if (Reddit.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
@@ -256,9 +237,32 @@ public class SubmissionsView extends Fragment {
         });
         Reddit.isLoading = false;
 
+        doAdapter();
         return v;
     }
 
+    public void doAdapter(){
+        posts = new SubredditPosts(id);
+        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
+        rv.setAdapter(adapter);
+        try {
+            posts.bindAdapter(adapter, mSwipeRefreshLayout);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refresh();
+                    }
+                }
+        );
+    }
     private ArrayList<Submission> clearSeenPosts(boolean forever) {
         if (adapter.dataSet.posts != null) {
             ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
