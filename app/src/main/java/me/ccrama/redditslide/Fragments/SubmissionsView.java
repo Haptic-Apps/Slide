@@ -216,11 +216,21 @@ public class SubmissionsView extends Fragment {
                     totalItemCount = rv.getLayoutManager().getItemCount();
                     if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                         pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                        if(Reddit.scrollSeen){
+                            if(pastVisiblesItems > 0){
+                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                            }
+                        }
                     } else {
                         int[] firstVisibleItems = null;
                         firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                             pastVisiblesItems = firstVisibleItems[0];
+                            if(Reddit.scrollSeen){
+                                if(pastVisiblesItems > 0){
+                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                                }
+                            }
                         }
                     }
 
