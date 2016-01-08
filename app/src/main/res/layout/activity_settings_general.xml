@@ -73,6 +73,7 @@
             <LinearLayout
                 android:id="@+id/swipeaway"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"

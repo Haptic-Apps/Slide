@@ -225,23 +225,22 @@ public class SettingsGeneral extends BaseActivity {
 
                     }
                 });
-                final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
-                animation.setChecked(Reddit.animation);
-                animationMultiplier.setEnabled(Reddit.animation);
-                animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Reddit.animation = isChecked;
-                        SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
-                        animationMultiplier.setEnabled(isChecked);
-                    }
-                });
+
             }
         }
         else {
             findViewById(R.id.animation_length_sb).setVisibility(View.GONE);
             findViewById(R.id.enter_animation).setVisibility(View.GONE);
         }*/
+        final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
+        animation.setChecked(Reddit.animation);
+        animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.animation = isChecked;
+                SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
+            }
+        });
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 
