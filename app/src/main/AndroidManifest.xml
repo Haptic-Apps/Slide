@@ -115,6 +115,11 @@
 
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.SettingsReddit"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.Sendmessage"
             android:configChanges="keyboardHidden|orientation|screenSize"
 

@@ -190,8 +190,8 @@ public class Settings extends BaseActivity {
         findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.reddit.com/prefs/"));
-                startActivity(browserIntent);
+               Intent i = new Intent(Settings.this, SettingsReddit.class);
+                startActivity(i);
             }
         });
 

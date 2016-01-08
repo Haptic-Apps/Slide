@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -51,11 +52,21 @@ public class SingleView extends BaseActivityAnim {
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                     pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    if(Reddit.scrollSeen){
+                        if(pastVisiblesItems > 0){
+                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                        }
+                    }
                 } else {
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         pastVisiblesItems = firstVisibleItems[0];
+                        if(Reddit.scrollSeen){
+                            if(pastVisiblesItems > 0){
+                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                            }
+                        }
                     }
                 }
 
@@ -66,6 +77,7 @@ public class SingleView extends BaseActivityAnim {
 
                     }
                 }
+
             }
         });
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);

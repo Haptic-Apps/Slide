@@ -101,6 +101,7 @@ public class SubredditPosts {
     }
     public OfflineSubreddit cached;
 
+    public ArrayList<String> contained;
     public boolean forced;
 
     public void addData(List<Submission> data) {
@@ -122,9 +123,21 @@ public class SubredditPosts {
             if (subs != null && subs.size() > 0) {
                 if (reset || offline) {
                     posts = subs;
+                    contained = new ArrayList<>();
+                    for(Submission s : posts){
+                        contained.add(s.getFullName());
+                    }
                 } else {
+                   for(Submission s : subs){
+                       if(contained.contains(s.getFullName())){
+                           subs.remove(s);
+                       }
+                   }
                     posts.addAll(subs);
                     offline = false;
+                    for(Submission s : posts){
+                        contained.add(s.getFullName());
+                    }
 
                 }
 

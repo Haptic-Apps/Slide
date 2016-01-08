@@ -151,6 +151,40 @@
                         android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/ic_visibility_white_36dp"
+                    android:tint="?attr/tint"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/scrollseen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="Mark posts as seen when scrolled past"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/enter_animation"
@@ -187,75 +221,6 @@
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/nsfw_box"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/report"
-                    android:tint="?attr/tint"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/nsfw"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_disable_nsfw"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/nsfw_boxprev"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/image"
-                    android:tint="?attr/tint"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/nsfwrpev"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_disable_nsfw_photo"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/fontsize"

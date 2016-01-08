@@ -71,6 +71,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
 
+
         Log.v("Slide", subreddit + " CUSTOM IS " + custom);
     }
 

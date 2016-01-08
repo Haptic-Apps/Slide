@@ -183,7 +183,19 @@ public class SettingsGeneral extends BaseActivity {
             });
         }
 
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.scrollseen);
 
+            single.setChecked(Reddit.scrollSeen);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.scrollSeen = isChecked;
+                    SettingValues.prefs.edit().putBoolean("scrollSeen", isChecked).apply();
+
+                }
+            });
+        }
 
 
         /* Might need this later
@@ -261,34 +273,7 @@ public class SettingsGeneral extends BaseActivity {
             }
         });
 
-        {
 
-
-            SwitchCompat nsfw = (SwitchCompat) findViewById(R.id.nsfw);
-            final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
-
-            nsfw.setChecked(!SettingValues.NSFWPosts);
-            nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.prefs.edit().putBoolean("NSFWPostsNew", !isChecked).apply();
-                    nsfwprev.setEnabled(!SettingValues.NSFWPosts);
-                    SettingValues.NSFWPosts = !isChecked;
-                }
-            });
-
-            nsfwprev.setEnabled(SettingValues.NSFWPosts);
-            nsfwprev.setChecked(!SettingValues.NSFWPreviews);
-            nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();
-                    SettingValues.NSFWPreviews = !isChecked;
-
-                }
-            });
-
-        }
         final TextView color = (TextView) findViewById(R.id.font);
         color.setText(new FontPreferences(this).getFontStyle().getTitle());
         findViewById(R.id.fontsize).setOnClickListener(new View.OnClickListener() {
