@@ -51,6 +51,8 @@ public class GifView extends FullScreenActivity {
      * Called when the activity is first created.
      */
     public void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gif);

@@ -139,6 +139,8 @@ public class Search extends BaseActivityAnim {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstanceState);
         applyColorTheme("");
         setContentView(R.layout.activity_saved);

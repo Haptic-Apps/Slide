@@ -33,6 +33,8 @@ public class FullscreenVideo extends FullScreenActivity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 

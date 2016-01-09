@@ -45,6 +45,7 @@ public class Album extends FullScreenActivity {
     }
 
     public void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 

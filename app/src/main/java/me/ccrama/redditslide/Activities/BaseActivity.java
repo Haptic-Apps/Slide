@@ -46,6 +46,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean overrideRedditSwipeAnywhere = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             DisplayMetrics metrics = getResources().getDisplayMetrics();
 
 
-            if (Reddit.swipeAnywhere) {
+            if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
                 if(overrideSwipeFromAnywhere) {
                     Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
                     ViewDragHelper.override = false;
@@ -120,6 +122,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void overrideSwipeFromAnywhere() {
         overrideSwipeFromAnywhere = true;
     }
+    protected void overrideRedditSwipeAnywhere() {
+        overrideRedditSwipeAnywhere = true;
+    }
+
     /**
      * Applies the activity's base color theme. Should be called before inflating any layouts.
      */

@@ -26,6 +26,8 @@ public class EditCardsLayout extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstance);
 
         boolean isAlternate;

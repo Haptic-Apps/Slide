@@ -61,6 +61,8 @@ public class CreateMulti extends BaseActivityAnim {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_createmulti);

@@ -23,6 +23,8 @@ public class CommentSearch extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_filtercomments);

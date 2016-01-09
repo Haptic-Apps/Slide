@@ -45,6 +45,8 @@ public class FullscreenImage extends FullScreenActivity {
     String toReturn;
 
     public void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
+
         super.onCreate(savedInstanceState);
 
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);

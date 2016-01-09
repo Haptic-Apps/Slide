@@ -292,8 +292,9 @@ public class MainActivity extends BaseActivity {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         // Disable swiping if single mode is enabled
         if (singleMode) pager.setSwipingEnabled(false);
-        doDrawer();
-
+        if (SubredditStorage.subredditsForHome != null && SubredditStorage.subredditsForHome.size() != 0) {
+            doDrawer();
+        }
         setDataSet(SubredditStorage.subredditsForHome);
     }
 
@@ -943,9 +944,10 @@ public class MainActivity extends BaseActivity {
     public void restartTheme() {
         Intent intent = this.getIntent();
         intent.putExtra("pageTo", pager.getCurrentItem());
+        finish();
+
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
-        finish();
     }
 
     @Override
