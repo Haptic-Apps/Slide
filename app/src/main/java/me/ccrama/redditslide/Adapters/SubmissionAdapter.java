@@ -20,9 +20,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -350,7 +350,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 
 
-                slide_up.setInterpolator(new AccelerateDecelerateInterpolator());
+                slide_up.setInterpolator(new DecelerateInterpolator());
                 viewToAnimate.setVisibility(View.VISIBLE);
 
                 viewToAnimate.startAnimation(slide_up);
