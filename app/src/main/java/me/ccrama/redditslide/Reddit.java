@@ -37,7 +37,6 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.LoadingData;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -106,7 +105,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private final List<Listener> listeners = new ArrayList<>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
-    public LoadingData loader;
     private ImageLoader defaultImageLoader;
     private boolean closed = false;
     public boolean mInBackground = true;
@@ -199,11 +197,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notifyOnBecameForeground();
 
             if (hasDone && hasDone2) {
-                loader = null;
 
                 authentication.updateToken(activity);
             } else if (authentication == null) {
-                loader = null;
                 authentication = new Authentication(this);
 
 
@@ -412,7 +408,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
             Authentication.name = appRestart.getString("name", "");
             active = true;
-            startMain();
 
         }
 
@@ -439,19 +434,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return f;
     }
 
-    public void startMain() {
-        if (active) {
-            Intent i = new Intent(this, MainActivity.class);
-            Log.v(TAG, "starting new");
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
 
-            if (loader != null) {
-                loader.finish();
-                loader = null;
-            }
-        }
-    }
 
     public void restart() {
         isRestarting = true;

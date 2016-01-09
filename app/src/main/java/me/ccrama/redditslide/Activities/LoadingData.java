@@ -34,10 +34,10 @@ public class LoadingData extends BaseActivity {
         applyColorTheme();
 
         ((Reddit) getApplication()).active = true;
-        ((Reddit) getApplication()).loader = this;
+    //    ((Reddit) getApplication()).loader = this;
         setContentView(R.layout.activity_loading);
         if (SubredditStorage.alphabeticalSubscriptions != null && isNetworkAvailable()) {
-            ((Reddit) getApplication()).startMain();
+      //      ((Reddit) getApplication()).startMain();
 
         } else if (!isNetworkAvailable()) {
             AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this);

@@ -965,6 +965,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else {
                 firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
+                firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
 
             }
 

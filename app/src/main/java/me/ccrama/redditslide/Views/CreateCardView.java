@@ -201,6 +201,7 @@ public class CreateCardView {
         if (subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
+                if(v.findViewById(R.id.placeholder_bottom) != null)
                 v.findViewById(R.id.placeholder_bottom).setVisibility(View.VISIBLE);
             }
 

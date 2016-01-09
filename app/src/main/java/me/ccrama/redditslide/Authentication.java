@@ -18,7 +18,6 @@ import net.dean.jraw.models.LoggedInAccount;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -128,41 +127,16 @@ public class Authentication {
                     } else {
                         final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                         OAuthData authData = null;
-                        if (reddit != null) {
                             try {
 
                                 authData = reddit.getOAuthHelper().easyAuth(fcreds);
                                 Authentication.name = "LOGGEDOUT";
                                 mod = false;
 
-                            } catch (Exception e) {
-                                try {
-                                    ((Activity) context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                                    .setMessage(R.string.err_no_connection)
-                                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            new UpdateToken(context).execute();
-                                                        }
-                                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    Reddit.forceRestart(context);
 
-                                                }
-                                            }).show();
-                                        }
-                                    });
-                                    //TODO fail
-                                } catch (Exception ignored) {
-                                    //whelp crap
-                                }
-                            }
-                            try {
                                 reddit.authenticate(authData);
+                                Log.v("Slide", "REAUTH LOGGED IN");
+
                             } catch (Exception e) {
                                 try {
                                     ((Activity) context).runOnUiThread(new Runnable() {
@@ -193,7 +167,7 @@ public class Authentication {
 
 
                     }
-                }
+
 
             }
             return null;
@@ -212,13 +186,6 @@ public class Authentication {
 
         @Override
         public void onPostExecute(Void voids) {
-            if (a.loader != null) {
-
-                String[] strings = StartupStrings.startupStrings(mContext);
-                a.loader.loading.setText(strings[new Random().nextInt(strings.length)]);
-
-            }
-
 
             new SubredditStorage(mContext).execute(a);
 
@@ -281,6 +248,7 @@ public class Authentication {
                         OAuthData authData = null;
                         try {
                             authData = reddit.getOAuthHelper().easyAuth(fcreds);
+                            reddit.authenticate(authData);
                             Authentication.name = "LOGGEDOUT";
                             return null;
 

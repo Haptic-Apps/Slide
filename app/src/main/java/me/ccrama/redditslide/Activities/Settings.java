@@ -11,6 +11,7 @@ import android.view.View;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.rey.material.widget.Slider;
 
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -187,13 +188,24 @@ public class Settings extends BaseActivity {
                 Settings.this.startActivity(inte);
             }
         });
-        findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent i = new Intent(Settings.this, SettingsReddit.class);
-                startActivity(i);
+                Intent inte = new Intent(Settings.this, SettingsComments.class);
+                Settings.this.startActivity(inte);
             }
         });
+        if(Authentication.isLoggedIn) {
+            findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(Settings.this, SettingsReddit.class);
+                    startActivity(i);
+                }
+            });
+        } else {
+            findViewById(R.id.reddit_settings).setVisibility(View.GONE);
+        }
 
     }
 

@@ -126,12 +126,16 @@ public class MainActivity extends BaseActivity {
             restartTheme();
         } else if (requestCode == 3) {
             new SubredditStorageNoContext().execute(this);
-        } else if (requestCode == 4 && resultCode != 4) {
+        } else if (requestCode == 4 && resultCode != 4) { //what?
             if (e != null) {
                 e.clearFocus();
                 e.setText("");
                 drawerLayout.closeDrawers();
             }
+        } else if(requestCode == 55){
+            doDrawer();
+
+            setDataSet(SubredditStorage.subredditsForHome);
         }
     }
 
@@ -212,6 +216,10 @@ public class MainActivity extends BaseActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
+        }
+        if (!Reddit.colors.contains("Tutorial")) {
+            Intent i = new Intent(this, Tutorial.class);
+            startActivityForResult(i, 55);
         }
 
         if (savedInstanceState != null && !changed) {
@@ -408,7 +416,7 @@ public class MainActivity extends BaseActivity {
                     final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                    ArrayList<String> arrayList= new ArrayList<>();
+                    ArrayList<String> arrayList = new ArrayList<>();
                     arrayList.add(subreddit);
                     SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
                 }
@@ -1146,7 +1154,7 @@ public class MainActivity extends BaseActivity {
 
                     doSubSidebar(usedArray.get(position));
 
-                   // ((SubmissionsView) getCurrentFragment()).doAdapter();
+                    // ((SubmissionsView) getCurrentFragment()).doAdapter();
                     if (adapter.getCurrentFragment() != null) {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
                         if (p.offline) {

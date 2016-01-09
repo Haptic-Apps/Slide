@@ -15,7 +15,6 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
@@ -239,15 +238,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
                 }
             }
-            if (params[0].loader != null) {
-                params[0].loader.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String[] strings = StartupStrings.startupStrings(mContext);
-                        params[0].loader.loading.setText(strings[new Random().nextInt(strings.length)]);
-                    }
-                });
-            }
+
             test.addAll(sortNoValue(newValues));
             if (test.contains("")) {
                 test.remove("");
@@ -260,10 +251,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             //  }
 
             alphabeticalSubscriptions = sort(new ArrayList<>(test));
-            if (params[0].loader != null) {
 
-                params[0].startMain();
-            }
             if (shortcut != null) {
                 shortcut.doShortcut();
             }
@@ -305,6 +293,8 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
                 for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")) {
                     if (!test.contains(s)) {
                         newValues.add(s);
+                        realSubs.add(s.toLowerCase());
+
                     }
 
                 }
@@ -324,10 +314,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             }*/
 
             alphabeticalSubscriptions = sort(new ArrayList<>(test));
-            if (params[0].loader != null) {
 
-                params[0].startMain();
-            }
             if (shortcut != null) {
                 shortcut.doShortcut();
             }
