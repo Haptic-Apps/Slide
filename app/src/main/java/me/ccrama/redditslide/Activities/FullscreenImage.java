@@ -21,7 +21,6 @@ import android.widget.ProgressBar;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -32,6 +31,7 @@ import java.io.File;
 import java.util.UUID;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
@@ -66,15 +66,9 @@ public class FullscreenImage extends FullScreenActivity {
         fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
 
                 ((Reddit) getApplication()).getImageLoader()
-                .displayImage(url, new ImageViewAware(fakeImage), options, new ImageLoadingListener() {
+                .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
                     private View mView;
 
                     @Override

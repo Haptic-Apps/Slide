@@ -71,17 +71,14 @@ public class GifView extends FullScreenActivity {
             }
         });
 
-        if (dat.contains("gfy")) {
-            findViewById(R.id.gifsave).setVisibility(View.GONE);
-            new AsyncGyfcat().execute(dat.substring(3, dat.length()));
-        } else {
+
             if (dat.endsWith("v")) {
                 dat = dat.substring(0, dat.length() - 1);
             } else if (dat.contains("gfycat")) {
                 dat = dat.substring(3, dat.length());
             }
             new AsyncImageLoader().execute(dat);
-        }
+
 
 
         prefs = getSharedPreferences("DATA", 0);
@@ -121,95 +118,104 @@ public class GifView extends FullScreenActivity {
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, final JsonObject result) {
+                                new AsyncTask<Void, Void, Void>() {
 
-                                final MediaVideoView videoView = (MediaVideoView) findViewById(R.id.gif);
-                                String obj = "";
-                                if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        final MediaVideoView videoView = (MediaVideoView) findViewById(R.id.gif);
+                                        String obj = "";
+                                        if (result == null || result.get("gfyItem") == null || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
-                                    new AlertDialogWrapper.Builder(GifView.this)
-                                            .setTitle(R.string.gif_err_title)
-                                            .setMessage(R.string.gif_err_msg)
-                                            .setCancelable(false)
-                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    finish();
-                                                }
-                                            }).create().show();
-
-                                } else {
-                                    obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
-
-                                }
-                                try {
-                                    URL url = new URL(obj);
-                                    final File f = new File(ImageLoaderUtils.getCacheDirectory(GifView.this).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
-
-
-                                    if (!f.exists()) {
-                                        URLConnection ucon = url.openConnection();
-                                        ucon.setReadTimeout(5000);
-                                        ucon.setConnectTimeout(10000);
-                                        InputStream is = ucon.getInputStream();
-                                        BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
-
-                                        int length = ucon.getContentLength();
-
-
-                                        f.createNewFile();
-
-                                        FileOutputStream outStream = new FileOutputStream(f);
-                                        byte[] buff = new byte[5 * 1024];
-
-                                        int len;
-                                        int readBytes = 0;
-                                        while ((len = inStream.read(buff)) != -1) {
-                                            outStream.write(buff, 0, len);
-                                            Log.v("Slide", f.length() + " OVER " + length);
-                                            final int percent = Math.round(100.0f * f.length() / length);
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    loader.setProgress(percent);
-                                                    if (percent == 100) {
-                                                        loader.setVisibility(View.GONE);
-
-                                                    }
+                                                    new AlertDialogWrapper.Builder(GifView.this)
+                                                            .setTitle(R.string.gif_err_title)
+                                                            .setMessage(R.string.gif_err_msg)
+                                                            .setCancelable(false)
+                                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    finish();
+                                                                }
+                                                            }).create().show();
                                                 }
                                             });
 
+
+                                        } else {
+                                            obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
+
                                         }
+                                        try {
+                                            URL url = new URL(obj);
+                                            final File f = new File(ImageLoaderUtils.getCacheDirectory(GifView.this).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
-                                        outStream.flush();
-                                        outStream.close();
-                                        inStream.close();
-                                    } else {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
+                                            if (!f.exists()) {
+                                                URLConnection ucon = url.openConnection();
+                                                ucon.setReadTimeout(5000);
+                                                ucon.setConnectTimeout(10000);
+                                                InputStream is = ucon.getInputStream();
+                                                BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
 
-                                                loader.setVisibility(View.GONE);
+                                                int length = ucon.getContentLength();
 
+
+                                                f.createNewFile();
+
+                                                FileOutputStream outStream = new FileOutputStream(f);
+                                                byte[] buff = new byte[5 * 1024];
+
+                                                int len;
+                                                int readBytes = 0;
+                                                while ((len = inStream.read(buff)) != -1) {
+                                                    outStream.write(buff, 0, len);
+                                                    Log.v("Slide", f.length() + " OVER " + length);
+                                                    final int percent = Math.round(100.0f * f.length() / length);
+                                                    runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            loader.setProgress(percent);
+                                                            if (percent == 100) {
+                                                                loader.setVisibility(View.GONE);
+
+                                                            }
+                                                        }
+                                                    });
+
+                                                }
+
+
+                                                outStream.flush();
+                                                outStream.close();
+                                                inStream.close();
+                                            } else {
+                                                runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        loader.setVisibility(View.GONE);
+
+                                                    }
+                                                });
                                             }
-                                        });
-                                    }
 
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            videoView.setVideoPath(f.getAbsolutePath());
-                                            //videoView.set
-
-                                            MediaController mediaController = new
-                                                    MediaController(GifView.this);
-                                            mediaController.setAnchorView(findViewById(R.id.placeholder));
-                                            videoView.setMediaController(mediaController);
-
-                                            loader.setIndeterminate(false);
-                                            findViewById(R.id.gifsave).setOnClickListener(new View.OnClickListener() {
+                                            runOnUiThread(new Runnable() {
                                                 @Override
-                                                public void onClick(View v) {
+                                                public void run() {
+                                                    videoView.setVideoPath(f.getAbsolutePath());
+                                                    //videoView.set
+
+                                                    MediaController mediaController = new
+                                                            MediaController(GifView.this);
+                                                    mediaController.setAnchorView(findViewById(R.id.placeholder));
+                                                    videoView.setMediaController(mediaController);
+
+                                                    loader.setIndeterminate(false);
+                                                    findViewById(R.id.gifsave).setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
 
                                                     /*
                                                     Notification.Builder notif = new Notification.Builder(GifView.this)
@@ -222,34 +228,42 @@ public class GifView extends FullScreenActivity {
                                                     mNotificationManager.notify(1, notif.build());
                                                     //todo save gifs*/
 
+                                                        }
+                                                    });
+
+
+                                                    videoView.start();
+                                                    videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                                        @Override
+                                                        public void onPrepared(MediaPlayer mp) {
+                                                            View placeholder = findViewById(R.id.placeholder);
+
+                                                            placeholder.setVisibility(View.GONE);
+                                                            mp.setLooping(true);
+
+
+                                                        }
+
+                                                    });
+
                                                 }
                                             });
-
-
-                                            videoView.start();
-                                            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                                @Override
-                                                public void onPrepared(MediaPlayer mp) {
-                                                    View placeholder = findViewById(R.id.placeholder);
-
-                                                    placeholder.setVisibility(View.GONE);
-                                                    mp.setLooping(true);
-
-
-                                                }
-
-                                            });
-
+                                        } catch (Exception e2) {
+                                            e2.printStackTrace();
                                         }
-                                    });
-                                } catch (Exception e2) {
-                                    e2.printStackTrace();
-                                }
+                                        return null;
+                                    };
+
+
+                                }.execute();
                             }
+
 
                         });
 
-            } else {
+            } else
+
+            {
                 if (s.endsWith("v")) {
                     s = s.substring(0, s.length() - 1);
                 }
@@ -494,7 +508,7 @@ public class GifView extends FullScreenActivity {
         }
 
 
-    }
+            }
 
     public static class AsyncSaveToFile extends AsyncTask<String, Void, Void> {
 

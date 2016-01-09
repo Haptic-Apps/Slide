@@ -55,9 +55,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/leadimage"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/slightshadow"
+                    android:background="#55000000"
                     android:orientation="vertical"
-                    android:paddingBottom="8dp"
                     android:paddingLeft="16dp">
 
                     <TextView
@@ -65,6 +64,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/example_domain"
+                        android:paddingTop="8dp"
                         android:textColor="#ffffff"
                         android:textSize="16sp" />
 
@@ -73,6 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".56"
+                        android:paddingBottom="8dp"
 
                         android:text="@string/example_url"
                         android:textColor="#ffffff"

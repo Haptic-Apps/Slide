@@ -51,17 +51,18 @@ public class ImageLoaderUtils {
 
         final int memory = (int) (Runtime.getRuntime().maxMemory() / 8);
 
+        options = new DisplayImageOptions.Builder()
+                .resetViewBeforeLoading(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .cacheInMemory(false)
+                .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(threadPoolSize)
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCache(discCache)
 
-                .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
-                        .resetViewBeforeLoading(true)
-                        .cacheOnDisk(true)
-                        .bitmapConfig(Bitmap.Config.RGB_565)
-                        .cacheInMemory(false)
-                        .build())
+                .defaultDisplayImageOptions(options)
                 .memoryCacheSize(memory)
                 .imageDownloader(new BaseImageDownloader(context))
                 .build();
@@ -74,5 +75,6 @@ public class ImageLoaderUtils {
         imageLoader.init(config);
 
     }
+    public static DisplayImageOptions options;
 
 }
