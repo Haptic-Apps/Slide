@@ -301,7 +301,12 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        if (context.isEmpty()) {
+        if(DataShare.sharedSubreddit.get(page).getComments() != null){
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
+            if (DataShare.sharedSubreddit != null)
+                adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
+            rv.setAdapter(adapter);
+        } else if (context.isEmpty()) {
 
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
             comments.setSorting(Reddit.defaultCommentSorting);

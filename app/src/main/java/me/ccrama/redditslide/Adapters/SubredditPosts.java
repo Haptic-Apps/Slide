@@ -135,9 +135,7 @@ public class SubredditPosts {
                    }
                     posts.addAll(subs);
                     offline = false;
-                    for(Submission s : posts){
 
-                    }
 
                 }
 
@@ -360,6 +358,8 @@ public class SubredditPosts {
                 return things;
 
 
+            } else {
+                offline = true;
             }
             return null;
 

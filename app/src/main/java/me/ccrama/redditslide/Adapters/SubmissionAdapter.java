@@ -122,7 +122,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 @Override
                 public void onClick(View arg0) {
-                    if (dataSet.stillShow) {
+
+                    if (Authentication.didOnline || submission.getComments() != null) {
                         DataShare.sharedSubreddit = dataSet.posts;
                         holder2.itemView.setAlpha(0.5f);
                         if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -136,7 +137,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             (mContext).startActivity(i2);
                         }
                     } else {
-                        Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, "Please go back online and select 'Cache Posts' from the 3 dot menu to view comments offline.", Snackbar.LENGTH_SHORT).show();
                     }
 
                 }
@@ -230,7 +231,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             }
                         });
                         dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
-                        if (!Authentication.isLoggedIn) {
+                        if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                             dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                             dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 

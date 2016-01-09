@@ -36,7 +36,8 @@ public class SubmissionComments {
         this.refreshLayout = layout;
 
         if(s.getComments() != null){
-            CommentNode baseComment = submission.getComments();
+            submission = s;
+            CommentNode baseComment = s.getComments();
             comments = new ArrayList<>();
 
             int i = 0;
@@ -66,9 +67,9 @@ public class SubmissionComments {
                 adapter.notifyDataSetChanged();
 
             }
-            page.doData(true);
 
             refreshLayout.setRefreshing(false);
+            refreshLayout.setEnabled(false);
         }
     }
 

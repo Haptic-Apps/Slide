@@ -694,7 +694,7 @@ public class PopulateSubmissionViewHolder {
                         }
                     });
                     dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
-                    if (!Authentication.isLoggedIn) {
+                    if (!Authentication.isLoggedIn|| !Authentication.didOnline) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
@@ -742,7 +742,7 @@ public class PopulateSubmissionViewHolder {
         if (submission.isArchived()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
-        } else if (Authentication.isLoggedIn && !submission.voted() && !offline) {
+        } else if (Authentication.isLoggedIn && !submission.voted() && !offline && Authentication.didOnline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
                 downvotebutton.clearColorFilter();
 
@@ -1049,7 +1049,7 @@ public class PopulateSubmissionViewHolder {
         try {
             final TextView points = holder.score;
             final TextView comments = holder.comments;
-            if (Authentication.isLoggedIn && !offline) {
+            if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
                 {
                     downvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override

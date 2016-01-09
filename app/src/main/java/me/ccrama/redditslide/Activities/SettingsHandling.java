@@ -31,10 +31,8 @@ public class SettingsHandling extends BaseActivity implements
             SwitchCompat single = (SwitchCompat) findViewById(R.id.chrome);
 
             single.setChecked(Reddit.customtabs);
-            if(Reddit.web){
-                single.setEnabled(SettingValues.NSFWPosts);
+                single.setEnabled(Reddit.web);
 
-            }
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -434,7 +434,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 delete.setVisibility(View.GONE);
             }
         }
-        if (Authentication.isLoggedIn && !submission.isArchived()) {
+        if (Authentication.isLoggedIn && !submission.isArchived() && Authentication.didOnline) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -529,7 +529,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
 
-                if (!Authentication.isLoggedIn) {
+                if (!Authentication.isLoggedIn || !Authentication.didOnline) {
 
                     dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
@@ -923,7 +923,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         } else {
             new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
-            if (Authentication.isLoggedIn) {
+            if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived())
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
                 else {
@@ -1055,7 +1055,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         });
                     } else dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
 
-                    if (!Authentication.isLoggedIn) {
+                    if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 

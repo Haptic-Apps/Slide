@@ -193,7 +193,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }
                         }
                     });
-                    if (!Authentication.isLoggedIn) {
+                    if (!Authentication.isLoggedIn || !Authentication.didOnline ) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 

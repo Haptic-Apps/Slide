@@ -196,7 +196,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         );
                         dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
 
-                        if(!Authentication.isLoggedIn)
+                        if(!Authentication.isLoggedIn || !Authentication.didOnline)
 
                         {
                             dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);

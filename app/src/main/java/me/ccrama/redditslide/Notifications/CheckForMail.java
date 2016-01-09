@@ -190,7 +190,7 @@ public class CheckForMail extends BroadcastReceiver {
         @Override
         protected List<Message> doInBackground(Void... params) {
             try {
-                if (Authentication.isLoggedIn) {
+                if (Authentication.isLoggedIn && Authentication.didOnline) {
                     InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
 
                     ArrayList<Message> messages = new ArrayList<>();

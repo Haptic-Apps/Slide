@@ -41,6 +41,7 @@ public class Authentication {
     private Reddit a;
 
     public boolean hasDone;
+    public static boolean didOnline;
 
     public Authentication(Context context) {
         if(NetworkUtil.getConnectivityStatus(context)) {
@@ -50,6 +51,17 @@ public class Authentication {
             this.a = (Reddit) context;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.3"));
             new VerifyCredentials(context).execute();
+        } else {
+
+            for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+                if (s.contains(authentication.getString("lasttoken", ""))) {
+                   name = (s.split(":")[0]);
+                    break;
+                }
+            }
+            isLoggedIn = true;
+            new SubredditStorage(context).execute(a);
+
         }
 
 
@@ -72,6 +84,7 @@ public class Authentication {
         @Override
         protected Void doInBackground(Void... params) {
             if (NetworkUtil.getConnectivityStatus(context)) {
+                didOnline = true;
                 if (name != null && !name.isEmpty()) {
                     Log.v("Slide", "REAUTH");
                     if (isLoggedIn) {
@@ -187,6 +200,7 @@ public class Authentication {
         @Override
         public void onPostExecute(Void voids) {
 
+            didOnline = true;
             new SubredditStorage(mContext).execute(a);
 
 

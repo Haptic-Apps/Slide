@@ -198,7 +198,7 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         if (Authentication.mod) {
             doModOf();
         }
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && Authentication.didOnline) {
             getMultireddits();
         }
         realSubs = new ArrayList<>();

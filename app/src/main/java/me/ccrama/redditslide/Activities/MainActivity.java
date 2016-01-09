@@ -52,7 +52,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.fasterxml.jackson.databind.JsonNode;
 
+import net.dean.jraw.JrawUtils;
+import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.CommentSort;
@@ -63,8 +67,10 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
@@ -230,6 +236,8 @@ public class MainActivity extends BaseActivity {
             SubredditStorage.realSubs = savedInstanceState.getStringArrayList(REAL_SUBS);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
+            Authentication.didOnline = savedInstanceState.getBoolean("ONLINE");
+
             Authentication.mod = savedInstanceState.getBoolean(IS_MOD);
         } else {
             changed = false;
@@ -312,6 +320,8 @@ public class MainActivity extends BaseActivity {
         savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubscriptions);
         savedInstanceState.putStringArrayList(REAL_SUBS, SubredditStorage.realSubs);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
+        savedInstanceState.putBoolean("ONLINE", Authentication.didOnline);
+
         savedInstanceState.putBoolean(IS_MOD, Authentication.mod);
         savedInstanceState.putString(USERNAME, Authentication.name);
     }
@@ -340,7 +350,7 @@ public class MainActivity extends BaseActivity {
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
                 View submit = (dialoglayout.findViewById(R.id.submit));
-                if (!Authentication.isLoggedIn) {
+                if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
@@ -632,7 +642,7 @@ public class MainActivity extends BaseActivity {
         final LayoutInflater inflater = getLayoutInflater();
         final View header;
 
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && Authentication.didOnline) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             hea = header.findViewById(R.id.back);
@@ -1095,21 +1105,20 @@ public class MainActivity extends BaseActivity {
 
     public void saveOffline(ArrayList<Submission> submissions, final String subreddit) {
         final MaterialDialog d = new MaterialDialog.Builder(this).title(R.string.offline_caching)
-                .progress(false, submissions.size())
+                .progress(false, submissions.size() )
                 .cancelable(false)
                 .show();
-        final ArrayList<Submission> newSubmissions = new ArrayList<>();
+        final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
         for (final Submission s : submissions) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    Submission s2 = Authentication.reddit.getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                    JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                     newSubmissions.add(s2);
                     d.setProgress(newSubmissions.size());
                     if (d.getCurrentProgress() == d.getMaxProgress()) {
                         d.cancel();
-                        Cache.writeSubreddit(newSubmissions, subreddit);
-
+                        Cache.writeSubredditJson(newSubmissions, subreddit);
 
                     }
                     return null;
@@ -1117,7 +1126,30 @@ public class MainActivity extends BaseActivity {
             }.execute();
         }
     }
+    public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {
+        Map<String, String> args = new HashMap<>();
+        if (request.getDepth() != null)
+            args.put("depth", Integer.toString(request.getDepth()));
+        if (request.getContext() != null)
+            args.put("context", Integer.toString(request.getContext()));
+        if (request.getLimit() != null)
+            args.put("limit", Integer.toString(request.getLimit()));
+        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
+            args.put("comment", request.getFocus());
 
+        CommentSort sort = request.getSort();
+        if (sort == null)
+            // Reddit sorts by confidence by default
+            sort = CommentSort.CONFIDENCE;
+        args.put("sort", sort.name().toLowerCase());
+
+
+        RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
+                .path(String.format("/comments/%s", request.getId()))
+                .query(args)
+                .build());
+        return response.getJson();
+    }
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
@@ -1157,7 +1189,7 @@ public class MainActivity extends BaseActivity {
                     // ((SubmissionsView) getCurrentFragment()).doAdapter();
                     if (adapter.getCurrentFragment() != null) {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
-                        if (p.offline) {
+                        if (p.offline && p.cached != null) {
                             Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
 
 
