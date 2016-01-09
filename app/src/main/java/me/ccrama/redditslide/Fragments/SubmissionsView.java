@@ -35,6 +35,7 @@ import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class SubmissionsView extends Fragment {
@@ -100,6 +101,9 @@ public class SubmissionsView extends Fragment {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
+
+
+        rv.setItemAnimator(new SubtleSlideInUp(getContext()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();

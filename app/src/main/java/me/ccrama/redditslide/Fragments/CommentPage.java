@@ -27,6 +27,7 @@ import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
@@ -301,7 +302,7 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        if(DataShare.sharedSubreddit.get(page).getComments() != null){
+        if(!Authentication.didOnline && DataShare.sharedSubreddit != null && DataShare.sharedSubreddit.get(page).getComments() != null){
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
             if (DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());

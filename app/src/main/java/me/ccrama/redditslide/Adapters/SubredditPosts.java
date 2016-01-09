@@ -121,12 +121,17 @@ public class SubredditPosts {
 
             Log.v("Slide", (subs == null) + " AND " + nomore + " AND " + Reddit.cache + " AND " + subreddit.toLowerCase() + " AND " + offline);
             if (subs != null && subs.size() > 0) {
+                int start = 0;
+                if(posts != null){
+                    start = posts.size() + 1;
+                }
                 if (reset || offline) {
                     posts = subs;
                     contained = new ArrayList<>();
                     for(Submission s : posts){
                         contained.add(s.getFullName());
                     }
+                    start =0;
                 } else {
                    for(Submission s : subs){
                        if(contained.contains(s.getFullName())){
@@ -140,6 +145,7 @@ public class SubredditPosts {
                 }
 
 
+                final int finalStart = start;
                 (adapter.mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -150,7 +156,7 @@ public class SubredditPosts {
                         }
 
 
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRangeInserted(finalStart, posts.size());
 
                     }
                 });
@@ -180,7 +186,7 @@ public class SubredditPosts {
                         }
 
 
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemRangeInserted(0, posts.size());
 
 
                     }

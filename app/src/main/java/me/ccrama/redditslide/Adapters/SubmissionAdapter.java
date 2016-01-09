@@ -4,7 +4,6 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 3/22/2015.
  */
 
-import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -15,14 +14,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -343,16 +343,17 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public static void setAnimation(View viewToAnimate, int position) {
         try {
             if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1 && Reddit.animation) {
-                int cx = viewToAnimate.getWidth() / 2;
-                int cy = viewToAnimate.getHeight() / 2;
-                int finalRadius = Math.max(viewToAnimate.getWidth(), viewToAnimate.getHeight());
 
-                final Animator anim =
-                        ViewAnimationUtils.createCircularReveal(viewToAnimate, cx, cy, 0, finalRadius);
-                anim.setDuration(Reddit.enter_animation_time);
-                anim.setInterpolator(new FastOutSlowInInterpolator());
+                Animation slide_up = AnimationUtils.loadAnimation(mContext,
+                        R.anim.slide_up);
+
+
+
+
+                slide_up.setInterpolator(new AccelerateDecelerateInterpolator());
                 viewToAnimate.setVisibility(View.VISIBLE);
-                anim.start();
+
+                viewToAnimate.startAnimation(slide_up);
                 Reddit.lastposition.set(Reddit.currentPosition, Reddit.lastposition.get(Reddit.currentPosition) + 1);
             }
         } catch (IndexOutOfBoundsException e) {
