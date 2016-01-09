@@ -2,9 +2,7 @@
 package me.ccrama.redditslide;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -116,11 +114,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int currentPosition;
 
     public static void forceRestart(Context context) {
-        Intent mStartActivity = new Intent(context, LoadingData.class);
-        int mPendingIntentId = 654321;
-        PendingIntent mPendingIntent = PendingIntent.getActivity(context, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(launchIntent);
         System.exit(0);
     }
 
