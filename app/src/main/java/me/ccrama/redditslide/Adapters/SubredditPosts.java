@@ -245,7 +245,7 @@ public class SubredditPosts {
                                     ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
 
                                 }
-                            } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
+                            } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") ) {
 
                                 boolean blurry = isBlurry(s.getDataNode(), refreshLayout.getContext(), s.getTitle());
                                 url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();

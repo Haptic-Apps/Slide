@@ -196,7 +196,19 @@ public class SettingsGeneral extends BaseActivity {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.lowq);
 
+            single.setChecked(!Reddit.blurCheck);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.blurCheck = !isChecked;
+                    SettingValues.prefs.edit().putBoolean("blur", !isChecked).apply();
+
+                }
+            });
+        }
 
         /* Might need this later
         if (Reddit.expandedSettings) {

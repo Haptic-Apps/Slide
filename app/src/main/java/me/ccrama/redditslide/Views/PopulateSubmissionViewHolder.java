@@ -849,7 +849,7 @@ public class PopulateSubmissionViewHolder {
                     holder.previewContent.setVisibility(View.VISIBLE);
                     bigAtEnd = false;
                 }
-            } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
+            } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
 
                 boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
                 holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
