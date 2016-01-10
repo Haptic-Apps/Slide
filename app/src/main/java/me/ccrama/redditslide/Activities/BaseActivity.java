@@ -60,19 +60,19 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
                 if(overrideSwipeFromAnywhere) {
                     Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
-                    ViewDragHelper.override = false;
+                    mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
                 } else {
 
                     Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
 
-                    ViewDragHelper.override = true;
+                    mHelper.getSwipeBackLayout().mDragHelper.override = true;
 
                     mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
                     Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
                 }
             } else {
-                ViewDragHelper.override = false;
+                mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
 
             }

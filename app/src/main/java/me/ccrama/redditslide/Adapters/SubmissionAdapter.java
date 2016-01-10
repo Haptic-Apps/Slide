@@ -137,7 +137,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             (mContext).startActivity(i2);
                         }
                     } else {
-                        Snackbar.make(holder.itemView, "Please go back online and select 'Cache Posts' from the 3 dot menu to view comments offline.", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, "Please go back online and select 'Cache comments' from the 3 dot menu to view comments offline.", Snackbar.LENGTH_SHORT).show();
                     }
 
                 }
@@ -275,7 +275,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 @Override
                 public void onLayoutChange(final View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     v.removeOnLayoutChangeListener(this);
-                    setAnimation(v, i);
+                    //setAnimation(v, i);
 
                 }
             });

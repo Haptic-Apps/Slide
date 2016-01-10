@@ -19,6 +19,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class MultiredditView extends Fragment {
@@ -59,7 +60,8 @@ public class MultiredditView extends Fragment {
         posts = new MultiredditPosts(SubredditStorage.multireddits.get(id));
         adapter = new MultiredditAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
-
+        if(Reddit.animation)
+            rv.setItemAnimator(new SubtleSlideInUp(getContext()));
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
         } catch (ExecutionException | InterruptedException e) {

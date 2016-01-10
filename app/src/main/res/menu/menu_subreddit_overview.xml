@@ -26,7 +26,7 @@
         android:title="@string/btn_theme_toggle"
         app:showAsAction="never"/>
     <item android:id="@+id/save"
-        android:title="@string/btn_offline"
+        android:title="Cache comments"
         app:showAsAction="never"/>
 
 </menu>

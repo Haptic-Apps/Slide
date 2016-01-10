@@ -103,6 +103,7 @@ public class SubmissionsView extends Fragment {
         }
 
 
+        if(Reddit.animation)
         rv.setItemAnimator(new SubtleSlideInUp(getContext()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);

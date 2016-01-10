@@ -223,9 +223,49 @@ public class MainActivity extends BaseActivity {
                 // result of the request.
             }
         }
+        boolean first =false;
         if (!Reddit.colors.contains("Tutorial")) {
+            first = true;
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, 55);
+        } else if(!Reddit.colors.contains("v4.5update")){
+            new MaterialDialog.Builder(this)
+                    .title("Slide v4.5 ALPHA")
+                    .content("I’m proud to announce Slide v4.5. RAM use has been greatly reduced, stability increased, and lots of new features added! \n" +
+                            "\t•Offline mode and auto data caching\n" +
+                            "\t•Startup time now close to instant\n" +
+                            "\t•Swipe back from anywhere (enable in General Settings)\n" +
+                            "\t•Improved toolbar and subreddit sidebar\n" +
+                            "\t•Search reddit\n" +
+                            "\t•Center image card mode\n" +
+                            "\t•Improved theme dialog\n" +
+                            "\t•Edit and delete comments\n" +
+                            "\t•Redesigned settings\n" +
+                            "\t•Reduced memory use by ¾\n" +
+                            "\t•TONS of stability improvements and bugfixes\n" +
+                            "\t•Improved backup and restore settings\n" +
+                            "\t•Enter animations\n" +
+                            "\t•Fixed opening from background randomly\n" +
+                            "\t•Cache gifs for faster retrieval and less data use\n" +
+                            "\t•Mutliselect edit subreddit theme\n" +
+                            "\t•Much more!\n"
+                    + "Make sure to report all bugs to the G+ group!")
+                    .positiveText("Will do!")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Reddit.colors.edit().putBoolean("v4.5update", true).apply();
+
+                        }
+                    })
+                    .dismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            Reddit.colors.edit().putBoolean("v4.5update", true).apply();
+
+                        }
+                    })
+                    .show();
         }
 
         if (savedInstanceState != null && !changed) {
@@ -300,7 +340,7 @@ public class MainActivity extends BaseActivity {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         // Disable swiping if single mode is enabled
         if (singleMode) pager.setSwipingEnabled(false);
-        if (SubredditStorage.subredditsForHome != null && SubredditStorage.subredditsForHome.size() != 0) {
+        if (!first) {
             doDrawer();
         }
         setDataSet(SubredditStorage.subredditsForHome);
@@ -1022,6 +1062,7 @@ public class MainActivity extends BaseActivity {
                 }
                 return true;
             case R.id.action_refresh:
+                if(adapter != null && adapter.getCurrentFragment() != null)
                 ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
                 return true;
             case R.id.action_sort:

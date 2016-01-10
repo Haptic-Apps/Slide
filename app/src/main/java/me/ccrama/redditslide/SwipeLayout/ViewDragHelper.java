@@ -1567,7 +1567,7 @@ public class ViewDragHelper {
         return null;
     }
 
-    public static boolean override = false;
+    public boolean override = false;
 
     private int getEdgeTouched(int x, int y) {
 

@@ -92,7 +92,7 @@ public class SwipeBackLayout extends FrameLayout {
 
     private View mContentView;
 
-    private ViewDragHelper mDragHelper;
+    public ViewDragHelper mDragHelper;
 
     private float mScrollPercent;
 

@@ -131,7 +131,7 @@ public class SubredditPosts {
                     for(Submission s : posts){
                         contained.add(s.getFullName());
                     }
-                    start =0;
+                    start = -1;
                 } else {
                    for(Submission s : subs){
                        if(contained.contains(s.getFullName())){
@@ -156,7 +156,11 @@ public class SubredditPosts {
                         }
 
 
-                        adapter.notifyItemRangeInserted(finalStart, posts.size());
+                        if(finalStart != -1) {
+                            adapter.notifyItemRangeInserted(finalStart, posts.size());
+                        } else {
+                            adapter.notifyDataSetChanged();
+                        }
 
                     }
                 });
@@ -186,7 +190,8 @@ public class SubredditPosts {
                         }
 
 
-                        adapter.notifyItemRangeInserted(0, posts.size());
+
+                            adapter.notifyDataSetChanged();
 
 
                     }
