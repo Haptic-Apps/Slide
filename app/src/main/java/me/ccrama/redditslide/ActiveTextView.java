@@ -38,9 +38,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.devspark.robototextview.widget.RobotoTextView;
+
 import java.net.URI;
 
-public class ActiveTextView extends TextView {
+public class ActiveTextView extends RobotoTextView {
 
     private boolean mLinkSet;
     private String mUrl;

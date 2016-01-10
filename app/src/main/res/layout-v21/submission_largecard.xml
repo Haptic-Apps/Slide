@@ -110,7 +110,7 @@
                         android:paddingRight="16dp"
                         android:paddingTop="24dp">
 
-                        <TextView
+                        <me.ccrama.redditslide.Views.TitleTextView
                             android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

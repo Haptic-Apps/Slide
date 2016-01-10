@@ -15,7 +15,7 @@ android {
         applicationId "me.ccrama.redditslide"
         minSdkVersion 17
         targetSdkVersion 23
-        versionCode 92
+        versionCode 93
         versionName "4.5"
         multiDexEnabled = true
     }
@@ -76,6 +76,8 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.1'
     compile 'com.cocosw:bottomsheet:1.2.0@aar'
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.github.johnkil.android-robototextview:robototextview:2.4.3'
+
     compile 'com.android.support:appcompat-v7:23.1.1'
 }
 

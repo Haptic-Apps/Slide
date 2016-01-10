@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -23,6 +22,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +52,11 @@ import java.util.HashMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -620,10 +620,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.dots.setVisibility(View.VISIBLE);
 
         holder.menuArea.removeAllViews();
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit(submission.getSubredditName(), true).getBaseId(), new int[]{R.attr.card_background});
-        int attributeResourceId = a.getResourceId(0, 0);
-
-        holder.itemView.findViewById(R.id.background).setBackgroundColor(attributeResourceId);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = mContext.getTheme();
+        theme.resolveAttribute(R.attr.card_background, typedValue, true);
+        int color = typedValue.data;
+        holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
     }
 
     public void doUnHighlighted(CommentViewHolder holder, Comment comment) {
@@ -632,9 +633,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.menuArea.removeAllViews();
         holder.dots.setVisibility(View.VISIBLE);
 
-        TypedArray a = mContext.getTheme().obtainStyledAttributes(new ColorPreferences(mContext).getThemeSubreddit(submission.getSubredditName(), true).getBaseId(), new int[]{R.attr.card_background});
-        int attributeResourceId = a.getResourceId(0, 0);
-        holder.itemView.findViewById(R.id.background).setBackgroundColor(attributeResourceId);
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = mContext.getTheme();
+        theme.resolveAttribute(R.attr.card_background, typedValue, true);
+        int color = typedValue.data;
+        holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
     }
 
     public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
@@ -1137,7 +1140,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void hideAll(CommentNode n, int i) {
         int counter = hideNumber(n, 0);
-        listView.setItemAnimator(new FadeInAnimator());
+        listView.setItemAnimator(new SlideInDownAnimator());
 
         notifyItemRangeRemoved(i, counter);
 

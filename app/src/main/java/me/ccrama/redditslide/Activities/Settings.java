@@ -131,7 +131,13 @@ public class Settings extends BaseActivity {
             }
         });
 
-
+        findViewById(R.id.font).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsFont.class);
+                startActivity(i);
+            }
+        });
         findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

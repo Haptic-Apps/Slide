@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -18,6 +19,8 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
+
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,6 +39,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
 
@@ -303,6 +307,11 @@ public class MakeTextviewClickable {
         }
 
         this.c = c;
+
+        Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                c,
+                new FontPreferences(c).getFontTypeComment().getTypeface());
+        comm.setTypeface(typeface);
 
         rawHTML = rawHTML.replace("&lt;", "<").replace("&gt;", ">").replace("&quot;", "\"").replace("&apos;", "'").replace("&amp;", "&").replace("<li><p>", "<p>• ").replace("</li>", "<br>").replaceAll("<li.*?>", "• ").replace("<p>", "<div>").replace("</p>", "</div>").replace("</del>", "</strike>").replace("<del>", "<strike>");
         if (rawHTML.contains("\n")) {

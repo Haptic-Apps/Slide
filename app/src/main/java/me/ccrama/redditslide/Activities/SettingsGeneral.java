@@ -285,30 +285,7 @@ public class SettingsGeneral extends BaseActivity {
         });
 
 
-        final TextView color = (TextView) findViewById(R.id.font);
-        color.setText(new FontPreferences(this).getFontStyle().getTitle());
-        findViewById(R.id.fontsize).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
-                popup.getMenu().add("Large");
-                popup.getMenu().add("Medium");
-                popup.getMenu().add("Small");
 
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-
-                        new FontPreferences(SettingsGeneral.this).setFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
-                        color.setText(new FontPreferences(SettingsGeneral.this).getFontStyle().getTitle());
-
-                        return true;
-                    }
-                });
-
-                popup.show();
-            }
-        });
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);
 
         {

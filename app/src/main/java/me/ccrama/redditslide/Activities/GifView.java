@@ -148,7 +148,7 @@ public class GifView extends FullScreenActivity {
 
                                         }
                                         try {
-                                            URL url = new URL(obj);
+                                            final URL url = new URL(obj);
                                             final File f = new File(ImageLoaderUtils.getCacheDirectory(GifView.this).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
@@ -217,16 +217,7 @@ public class GifView extends FullScreenActivity {
                                                         @Override
                                                         public void onClick(View v) {
 
-                                                    /*
-                                                    Notification.Builder notif = new Notification.Builder(GifView.this)
-                                                            .setContentTitle(getString(R.string.gif_saved))
-                                                            .setSmallIcon(R.drawable.notif);
 
-
-                                                    NotificationManager mNotificationManager =
-                                                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                                    mNotificationManager.notify(1, notif.build());
-                                                    //todo save gifs*/
 
                                                         }
                                                     });
@@ -284,7 +275,7 @@ public class GifView extends FullScreenActivity {
                                 protected Void doInBackground(Void... params) {
                                     try {
 
-                                        URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
+                                        final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
                                         final File f = new File(ImageLoaderUtils.getCacheDirectory(GifView.this).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
@@ -352,16 +343,6 @@ public class GifView extends FullScreenActivity {
                                                     @Override
                                                     public void onClick(View v) {
 
-                                                    /*
-                                                    Notification.Builder notif = new Notification.Builder(GifView.this)
-                                                            .setContentTitle(getString(R.string.gif_saved))
-                                                            .setSmallIcon(R.drawable.notif);
-
-
-                                                    NotificationManager mNotificationManager =
-                                                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                                    mNotificationManager.notify(1, notif.build());
-                                                    //todo save gifs*/
 
                                                     }
                                                 });
@@ -421,7 +402,7 @@ public class GifView extends FullScreenActivity {
                                                                 }
                                                             }).create().show();
                                                 } else {
-                                                    URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
+                                                    final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
                                                     URLConnection ucon = url.openConnection();
                                                     ucon.setReadTimeout(5000);
                                                     ucon.setConnectTimeout(10000);
@@ -470,7 +451,6 @@ public class GifView extends FullScreenActivity {
                                                                 public void onClick(View v) {
 
 
-                                                                    //todo save gifs
 
                                                                 }
                                                             });

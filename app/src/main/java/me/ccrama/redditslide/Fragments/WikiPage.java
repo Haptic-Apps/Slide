@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -27,7 +27,7 @@ public class WikiPage extends Fragment {
         View v = inflater.inflate(R.layout.justtext, container, false);
 
         final ActiveTextView body = (ActiveTextView) v.findViewById(R.id.body);
-        final SwipeRefreshLayout ref = (SwipeRefreshLayout) v.findViewById(R.id.ref);
+        final GeneralSwipeRefreshLayout ref = (GeneralSwipeRefreshLayout) v.findViewById(R.id.ref);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         ref.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
