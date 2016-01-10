@@ -34,7 +34,7 @@ public class CheckForMail extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
-        if(NetworkUtil.getConnectivityStatus(c)) {
+        if(NetworkUtil.isConnected(c)) {
             new AsyncGetMail().execute();
             Log.v("Slide", "CHECKING MAIL");
         }

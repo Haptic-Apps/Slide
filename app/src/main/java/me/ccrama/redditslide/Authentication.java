@@ -44,7 +44,7 @@ public class Authentication {
     public static boolean didOnline;
 
     public Authentication(Context context) {
-        if(NetworkUtil.getConnectivityStatus(context)) {
+        if (NetworkUtil.isConnected(context)) {
 
             hasDone =true;
             isLoggedIn = false;
@@ -85,7 +85,7 @@ public class Authentication {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (NetworkUtil.getConnectivityStatus(context)) {
+            if (NetworkUtil.isConnected(context)) {
                 didOnline = true;
                 if (name != null && !name.isEmpty()) {
                     Log.v("Slide", "REAUTH");
