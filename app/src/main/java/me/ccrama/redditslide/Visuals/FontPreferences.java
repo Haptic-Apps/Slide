@@ -94,8 +94,8 @@ public class FontPreferences {
         }
     }
     public enum FontTypeTitle {
-        Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_REGULAR, "Slab"),
-        Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed"),
+        Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_BOLD, "Slab"),
+        Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_BOLD, "Condensed"),
         Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular");
 
         private final int typeface;
