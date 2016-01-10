@@ -15,7 +15,6 @@ import net.dean.jraw.managers.WikiManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.WeakHashMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.WikiPage;
@@ -32,7 +31,6 @@ public class Wiki extends BaseActivityAnim {
     private String subreddit;
     private Wiki.OverviewPagerAdapter adapter;
     private List<String> pages;
-    private WeakHashMap<String, String> values;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -52,24 +50,21 @@ public class Wiki extends BaseActivityAnim {
 
         new AsyncGetWiki().execute();
     }
-
+    public WikiManager wiki;
     private class AsyncGetWiki extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
 
-            WikiManager wiki = new WikiManager(Authentication.reddit);
+           wiki = new WikiManager(Authentication.reddit);
             try {
                 pages = wiki.getPages(subreddit);
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
-                values = new WeakHashMap<>();
                 ArrayList<String> toRemove = new ArrayList<>();
                 for (String s : pages) {
-                    values.put(s, wiki.get(subreddit, s).getDataNode().get("content_html").asText());
-                    if (values.get(s).isEmpty() || s.startsWith("config")) {
+                    if (s.startsWith("config")) {
                         toRemove.add(s);
-                        values.remove(s);
                     }
                 }
                 pages.removeAll(toRemove);
@@ -136,7 +131,7 @@ public class Wiki extends BaseActivityAnim {
             Fragment f = new WikiPage();
             Bundle args = new Bundle();
 
-            args.putString("text", values.get(pages.get(i)));
+            args.putString("title", pages.get(i));
             args.putString("subreddit", subreddit);
 
             f.setArguments(args);
