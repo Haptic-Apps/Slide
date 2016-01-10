@@ -1033,18 +1033,15 @@ public class PopulateSubmissionViewHolder {
             }
         }
         View nsfw = holder.itemView.findViewById(R.id.nsfw);
-        if (submission.isStickied()) {
-            pinned.setVisibility(View.VISIBLE);
-        } else {
-            pinned.setVisibility(View.GONE);
-        }
-        if (submission.isNsfw()) {
-            nsfw.setVisibility(View.VISIBLE);
-        } else {
-            nsfw.setVisibility(View.GONE);
-
+        int pinnedVisibility = submission.isStickied() ? View.VISIBLE : View.GONE;
+        if (pinned.getVisibility() != pinnedVisibility) {
+            pinned.setVisibility(pinnedVisibility);
         }
 
+        int nsfwVisibility = submission.isNsfw() ? View.VISIBLE : View.GONE;
+        if (nsfw.getVisibility() != nsfwVisibility) {
+            nsfw.setVisibility(nsfwVisibility);
+        }
 
         try {
             final TextView points = holder.score;
