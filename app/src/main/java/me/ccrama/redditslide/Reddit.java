@@ -266,6 +266,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onCreate() {
         super.onCreate();
 
+    doMainStuff();
+    }
+
+    public void doMainStuff(){
         Log.v(TAG, "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
 
@@ -408,6 +412,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         tabletUI = isPackageInstalled(this);
+
+
 
     }
 

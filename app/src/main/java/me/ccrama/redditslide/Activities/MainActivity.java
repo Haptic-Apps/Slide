@@ -343,7 +343,15 @@ public class MainActivity extends BaseActivity {
         if (!first) {
             doDrawer();
         }
-        setDataSet(SubredditStorage.subredditsForHome);
+        
+        if(SubredditStorage.subredditsForHome != null) {
+            setDataSet(SubredditStorage.subredditsForHome);
+        } else {
+            ((Reddit)getApplication()).doMainStuff();
+            Intent i = getIntent();
+            finish();
+            startActivity(i);
+        }
     }
 
     @Override
