@@ -248,7 +248,9 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new OpenRedditLink(mContext, "www.reddit.com" + submission.getPermalink());
+                    String url = "www.reddit.com" + submission.getPermalink();
+                    url = url.replace("?ref=search_posts", "");
+                    new OpenRedditLink(mContext,url);
                 }
             });
 
