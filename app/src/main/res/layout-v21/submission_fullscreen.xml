@@ -177,7 +177,7 @@
 
                     </com.wefika.flowlayout.FlowLayout>
 
-                    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    <me.ccrama.redditslide.Views.TitleTextView xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
