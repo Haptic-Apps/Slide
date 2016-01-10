@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,7 +25,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
@@ -303,7 +301,7 @@ public class SubredditPosts {
                 posts = new ArrayList<>();
             }
 
-            if (NetworkUtil.getConnectivityStatus(refreshLayout.getContext()) ) {
+            if (NetworkUtil.isConnected(refreshLayout.getContext()) ) {
                 stillShow = true;
                 if (Reddit.cacheDefault && reset && !forced) {
                     offline = true;
