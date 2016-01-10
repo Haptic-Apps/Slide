@@ -179,7 +179,7 @@ public class SubredditPosts {
 
                     adapter.setError(true);
                 }
-                (adapter.mContext).runOnUiThread(new Runnable() {
+                (SubmissionAdapter.mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (refreshLayout != null) {
