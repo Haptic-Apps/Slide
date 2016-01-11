@@ -18,19 +18,21 @@
 
 
     <!-- Useful strings displayed at startup -->
-    <string name="startup_banana">Giving Carter a banana</string>
-    <string name="startup_cats">Finding videos of cats</string>
-    <string name="startup_duARTe">Praising DuARTe</string>
-    <string name="startup_karma">Farming karma</string>
-    <string name="startup_pitchforks">Preparing pitchforks</string>
-    <string name="startup_upvotes">Soliciting upvotes</string>
-    <string name="startup_vine">Did it for the vine</string>
-    <string name="startup_downvotes">Avoiding the downvote brigade</string>
-    <string name="startup_science">Doing it for science</string>
-    <string name="startup_gold">Getting gold from a stranger</string>
-    <string name="startup_shower">Showered in upvotes</string>
-    <string name="startup_ftfy">Fixing that for OP</string>
-    <string name="startup_frontpage">Making it to the frontpage</string>
+    <string-array name="startup_strings">
+        <item>Giving Carter a banana</item>
+        <item>Finding videos of cats</item>
+        <item>Praising DuARTe</item>
+        <item>Farming karma</item>
+        <item>Preparing pitchforks</item>
+        <item>Soliciting upvotes</item>
+        <item>Did it for the vine</item>
+        <item>Avoiding the downvote brigade</item>
+        <item>Doing it for science</item>
+        <item>Getting gold from a stranger</item>
+        <item>Showered in upvotes</item>
+        <item>Fixing that for OP</item>
+        <item>Making it to the frontpage</item>
+    </string-array>
 
 
     <!-- Add libraries here, it's important that items have the same position in both arrays -->
