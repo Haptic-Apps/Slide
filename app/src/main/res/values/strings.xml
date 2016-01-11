@@ -401,7 +401,7 @@
     <string name="settings_indicator_everywhere">Everywhere</string>
     <string name="settings_indicator_place">Where to Show Color Indicator</string>
     <string name="settings_layout_chooser">Choose a Layout Type</string>
-    <string name="settings_layout_default">Default Layout</string>
+    <string name="settings_layout_default">Post Layout</string>
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_browser">Internal web browser</string>
     <string name="settings_link_gif">Internal GIF view</string>
@@ -447,11 +447,11 @@
     <!-- Settings titles displayed in settings activity-->
     <string name="settings_title_alternative_layout">Alternate Layout</string>
     <string name="settings_title_backup">Backup &amp; Restore</string>
-    <string name="settings_title_default_theme">Base Theme</string>
+    <string name="settings_title_default_theme">Main Theme</string>
     <string name="settings_title_general">General</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_pro">Go Pro</string>
-    <string name="settings_title_sub_theme">Subreddit Themes &amp; Layouts</string>
+    <string name="settings_title_sub_theme">Subreddit Themes</string>
     <string name="settings_title_sorting">Default Sorting</string>
     <string name="settings_title_support">Donate</string>
     <string name="settings_title_appearance">Appearance</string>
