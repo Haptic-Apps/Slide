@@ -155,9 +155,9 @@ public class MainActivity extends BaseActivity {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     if(count == 0){
-                        header.findViewById(R.id.count).setVisibility(View.GONE);
+                        headerMain.findViewById(R.id.count).setVisibility(View.GONE);
                     } else {
-                        ((TextView)header.findViewById(R.id.count)).setText(count + "");
+                        ((TextView)headerMain.findViewById(R.id.count)).setText(count + "");
                     }
                 }
             }.execute();
