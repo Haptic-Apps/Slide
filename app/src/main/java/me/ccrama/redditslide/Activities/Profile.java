@@ -135,9 +135,9 @@ public class Profile extends BaseActivityAnim {
 
                    friend = account.isFriend();
                     if(friend){
-                        ((TextView) findViewById(R.id.friend)).setText("Remove friend");
+                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Remove friend");
                     } else {
-                        ((TextView) findViewById(R.id.friend)).setText("Add friend");
+                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Add friend");
 
                     }
                     dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
@@ -147,7 +147,11 @@ public class Profile extends BaseActivityAnim {
                                 @Override
                                 protected Void doInBackground(Void... params) {
                                     if(friend){
-                                        new AccountManager(Authentication.reddit).deleteFriend(name);
+                                        try {
+                                            new AccountManager(Authentication.reddit).deleteFriend(name);
+                                        } catch(Exception ignored){
+                                            //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works. 
+                                        }
                                         friend = false;
 
                                     } else {
@@ -161,9 +165,9 @@ public class Profile extends BaseActivityAnim {
                                 @Override
                             public void onPostExecute(Void voids){
                                     if(friend){
-                                        ((TextView) findViewById(R.id.friend)).setText("Remove friend");
+                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Remove friend");
                                     } else {
-                                        ((TextView) findViewById(R.id.friend)).setText("Add friend");
+                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Add friend");
 
                                     }
                                 }
