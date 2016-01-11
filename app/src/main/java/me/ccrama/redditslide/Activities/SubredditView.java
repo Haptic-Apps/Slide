@@ -17,6 +17,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -97,6 +99,56 @@ public class SubredditView extends BaseActivityAnim {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setResult(3);
+
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(!drawerLayout.isDrawerOpen(Gravity.RIGHT))
+                drawerLayout.openDrawer(Gravity.RIGHT);
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+                mHelper.getSwipeBackLayout().mDragHelper.override = false;
+
+
+
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+
+                if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
+                    if(overrideSwipeFromAnywhere) {
+                        Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
+                        mHelper.getSwipeBackLayout().mDragHelper.override = false;
+
+                    } else {
+
+                        Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
+
+                        mHelper.getSwipeBackLayout().mDragHelper.override = true;
+
+                        mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
+                        Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+                    }
+                } else {
+                    mHelper.getSwipeBackLayout().mDragHelper.override = false;
+
+
+                }
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
+
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {

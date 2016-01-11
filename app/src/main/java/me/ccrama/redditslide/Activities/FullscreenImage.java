@@ -27,9 +27,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.io.File;
-import java.util.UUID;
-
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
@@ -208,30 +205,11 @@ public class FullscreenImage extends FullScreenActivity {
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        String localAbsoluteFilePath = saveImageLocally(loadedImage);
+                       shareImage(loadedImage);
 
-                        if (!localAbsoluteFilePath.isEmpty() && localAbsoluteFilePath != null) {
-
-                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                            Uri phototUri = Uri.parse(localAbsoluteFilePath);
-
-                            File file = new File(phototUri.getPath());
-
-                            Log.d("Slide", "file path: " + file.getPath());
-
-                            if (file.exists()) {
-                                shareIntent.setData(phototUri);
-                                shareIntent.setType("image/png");
-                                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-
-                                FullscreenImage.this.startActivity(shareIntent);
-                            } else {
-                                // file create fail
-                            }
 
 
                         }
-                    }
 
 
                 });
@@ -244,9 +222,14 @@ public class FullscreenImage extends FullScreenActivity {
 
     }
 
-    private String saveImageLocally(final Bitmap _bitmap) {
+    private void shareImage(final Bitmap bitmap) {
 
-        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, "SHARED" + UUID.randomUUID().toString(), "");
+        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"Shared", null);
+        Uri bmpUri = Uri.parse(pathofBmp);
+        final Intent shareImageIntent = new Intent(     android.content.Intent.ACTION_SEND);
+        shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        shareImageIntent.setType("image/png");
+        startActivity(Intent.createChooser(shareImageIntent, "Share image with"));
 
 
     }

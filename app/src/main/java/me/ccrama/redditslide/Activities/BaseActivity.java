@@ -21,7 +21,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
 import me.ccrama.redditslide.SwipeLayout.Utils;
-import me.ccrama.redditslide.SwipeLayout.ViewDragHelper;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -31,9 +30,9 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     @Nullable
     protected Toolbar mToolbar;
-    private SwipeBackActivityHelper mHelper;
-    private boolean enableSwipeBackLayout = true;
-    private boolean overrideSwipeFromAnywhere = false;
+    protected SwipeBackActivityHelper mHelper;
+    protected boolean enableSwipeBackLayout = true;
+    protected boolean overrideSwipeFromAnywhere = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

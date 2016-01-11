@@ -38,6 +38,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
  */
 public class SubredditPosts {
     public ArrayList<Submission> posts;
+
     public boolean loading;
     public String subreddit;
     public boolean nomore = false;
@@ -119,8 +120,10 @@ public class SubredditPosts {
         public void onPostExecute(ArrayList<Submission> subs) {
             loading = false;
 
-            Log.v("Slide", (subs == null) + " AND " + nomore + " AND " + Reddit.cache + " AND " + subreddit.toLowerCase() + " AND " + offline);
+
+
             if (subs != null && subs.size() > 0) {
+
                 int start = 0;
                 if(posts != null){
                     start = posts.size() + 1;
@@ -135,6 +138,7 @@ public class SubredditPosts {
                 } else {
                    for(Submission s : subs){
                        if(contained.contains(s.getFullName())){
+
                            subs.remove(s);
                        }
                    }
