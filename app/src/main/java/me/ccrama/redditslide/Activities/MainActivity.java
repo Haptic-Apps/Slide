@@ -142,6 +142,25 @@ public class MainActivity extends BaseActivity {
             doDrawer();
 
             setDataSet(SubredditStorage.subredditsForHome);
+        } else if(requestCode == 66){
+            new AsyncTask<Void, Void, Void>() {
+                int count;
+                @Override
+                protected Void doInBackground(Void... params) {
+                    count = Authentication.reddit.me().getInboxCount();
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    if(count == 0){
+                        header.findViewById(R.id.count).setVisibility(View.GONE);
+                    } else {
+                        ((TextView)header.findViewById(R.id.count)).setText(count + "");
+                    }
+                }
+            }.execute();
         }
     }
 
@@ -684,6 +703,8 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
+View headerMain;
     public void doDrawer() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         l.setDividerHeight(0);
@@ -693,6 +714,7 @@ public class MainActivity extends BaseActivity {
         if (Authentication.isLoggedIn && Authentication.didOnline) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
+            headerMain = header;
             hea = header.findViewById(R.id.back);
             l.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
@@ -739,6 +761,25 @@ public class MainActivity extends BaseActivity {
                     chooseAccounts();
                 }
             });
+            new AsyncTask<Void, Void, Void>() {
+                int count;
+                @Override
+                protected Void doInBackground(Void... params) {
+                     count = Authentication.reddit.me().getInboxCount();
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    if(count == 0){
+                        header.findViewById(R.id.count).setVisibility(View.GONE);
+                    } else {
+                        ((TextView)header.findViewById(R.id.count)).setText(count + "");
+                    }
+                }
+            }.execute();
+
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -761,7 +802,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Inbox.class);
-                    MainActivity.this.startActivity(inte);
+                    MainActivity.this.startActivityForResult(inte, 66);
                 }
             });
             if (Authentication.mod) {

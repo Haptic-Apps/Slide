@@ -150,7 +150,7 @@ public class Profile extends BaseActivityAnim {
                                         try {
                                             new AccountManager(Authentication.reddit).deleteFriend(name);
                                         } catch(Exception ignored){
-                                            //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works. 
+                                            //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works.
                                         }
                                         friend = false;
 

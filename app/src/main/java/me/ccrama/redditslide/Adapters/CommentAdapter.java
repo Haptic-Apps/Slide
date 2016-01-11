@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -1337,16 +1338,29 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         @Override
-        public void onPostExecute(String s) {
-            dataSet.refreshLayout.setRefreshing(false);
+        public void onPostExecute(final String s) {
 
             if (s != null) {
 
 
-                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+
+                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dataSet.refreshLayout.setRefreshing(false);
+
+                                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
+                                currentSelectedItem = s;
+                            }
+                        });
 
 
-                currentSelectedItem = s;
+                    }
+                }, 2000);
+
 
             }
 

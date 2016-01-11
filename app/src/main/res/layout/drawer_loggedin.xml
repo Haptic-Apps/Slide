@@ -156,7 +156,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/inbox"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -171,18 +171,35 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
             android:src="@drawable/sidebar_inbox"
+            android:id="@+id/inb"
             android:tint="?attr/tint" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/inb"
             android:text="@string/title_inbox"
 
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
-    </LinearLayout>
+        <TextView
+            android:layout_width="28dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="16dp"
+            android:id="@+id/count"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:text="4"
+
+            android:layout_alignParentRight="true"
+            android:background="@drawable/roundedback"
+            android:layout_centerVertical="true"
+            android:layout_height="28dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/mod"
