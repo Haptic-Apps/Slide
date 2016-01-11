@@ -52,6 +52,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean album;
     public static boolean cache;
     public static boolean expandedSettings;
+    public static boolean hideHeader;
 
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
 
@@ -365,6 +366,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         expandedSettings = SettingValues.prefs.getBoolean("expandedSettings", false);
         customtabs = SettingValues.prefs.getBoolean("customtabs", true);
         scrollSeen = SettingValues.prefs.getBoolean("scrollSeen", false);
+        hideHeader = SettingValues.prefs.getBoolean("hideHeader", false);
 
         swipeAnywhere = SettingValues.prefs.getBoolean("swipeAnywhere", false);
         album = SettingValues.prefs.getBoolean("album", true);

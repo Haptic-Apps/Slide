@@ -716,6 +716,9 @@ View headerMain;
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             headerMain = header;
             hea = header.findViewById(R.id.back);
+            if(Reddit.hideHeader){
+                header.findViewById(R.id.back).setVisibility(View.GONE);
+            }
             l.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
             header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {

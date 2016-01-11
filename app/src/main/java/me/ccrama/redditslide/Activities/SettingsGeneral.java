@@ -5,10 +5,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,7 +24,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -262,6 +259,19 @@ public class SettingsGeneral extends BaseActivity {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     Reddit.exit = isChecked;
                     SettingValues.prefs.edit().putBoolean("Exit", isChecked).apply();
+
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.hidetop);
+
+            single.setChecked(Reddit.hideHeader);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.hideHeader = isChecked;
+                    SettingValues.prefs.edit().putBoolean("hideHeader", isChecked).apply();
 
                 }
             });
