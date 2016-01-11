@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ClickableSpan;
@@ -17,6 +19,7 @@ import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,7 +32,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
@@ -39,6 +41,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -264,7 +267,118 @@ public class MakeTextviewClickable {
 
         return sequence;
     }
+    public  class TextViewLinkHandler extends LinkMovementMethod {
 
+        Activity c;
+        String subreddit;
+        SpoilerRobotoTextView comm;
+        CharSequence sequence;
+        public TextViewLinkHandler(Activity c, String subreddit, CharSequence sequence){
+            this.c = c;
+            this.subreddit = subreddit;
+            this.sequence = sequence;
+        }
+        public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
+            if (event.getAction() != MotionEvent.ACTION_UP)
+                return super.onTouchEvent(widget, buffer, event);
+
+            comm = (SpoilerRobotoTextView) widget;
+
+
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            x -= widget.getTotalPaddingLeft();
+            y -= widget.getTotalPaddingTop();
+
+            x += widget.getScrollX();
+            y += widget.getScrollY();
+
+            Layout layout = widget.getLayout();
+            int line = layout.getLineForVertical(y);
+            int off = layout.getOffsetForHorizontal(line, x);
+
+            URLSpan[] link = buffer.getSpans(off, off, URLSpan.class);
+            if (link.length != 0) {
+                onLinkClick(link[0].getURL());
+            }
+            return true;
+        }
+
+         public void onLinkClick(String url){
+             if (url == null) {
+                 return;
+             }
+
+             ContentType.ImageType type = ContentType.getImageType(url);
+             switch (type) {
+                 case NSFW_IMAGE:
+                     openImage(c, url);
+                     break;
+                 case NSFW_GIF:
+                     openGif(false, c, url);
+                     break;
+                 case NSFW_GFY:
+                     openGif(true, c, url);
+                     break;
+                 case REDDIT:
+                     new OpenRedditLink(c, url);
+                     break;
+                 case LINK:
+                 case IMAGE_LINK:
+                 case NSFW_LINK:
+                     CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
+                     break;
+                 case SELF:
+                     break;
+                 case GFY:
+                     openGif(true, c, url);
+                     break;
+                 case ALBUM:
+                     if (Reddit.album) {
+                         Intent i = new Intent(c, Album.class);
+                         i.putExtra("url", url);
+                         c.startActivity(i);
+                     } else {
+                         Reddit.defaultShare(url, c);
+                     }
+                     break;
+                 case IMAGE:
+                     openImage(c, url);
+                     break;
+                 case GIF:
+                     openGif(false, c, url);
+                     break;
+                 case NONE_GFY:
+                     openGif(true, c, url);
+                     break;
+                 case NONE_GIF:
+                     openGif(false, c, url);
+                     break;
+                 case NONE:
+                     break;
+                 case NONE_IMAGE:
+                     openImage(c, url);
+                     break;
+                 case NONE_URL:
+                     CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
+                     break;
+                 case VIDEO:
+                     if (Reddit.video) {
+                         Intent intent = new Intent(c, FullscreenVideo.class);
+                         intent.putExtra("html", url);
+                         c.startActivity(intent);
+                     } else {
+                         Reddit.defaultShare(url, c);
+                     }
+                 case SPOILER:
+                     comm.spoilerClicked = true;
+
+                     setOrRemoveSpoilerSpans(comm, (Spannable) sequence, url.length());
+                     break;
+             }
+        };
+    }
     /**
      * Moved the spoiler text inside of the "title" attribute to inside the link
      * tag. Then surround the spoiler text with <code>[[s[</code> and <code>]s]]</code>.
@@ -301,7 +415,7 @@ public class MakeTextviewClickable {
         return sequence;
     }
 
-    public void ParseTextWithLinksTextViewComment(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
+    public void ParseTextWithLinksTextViewComment(String rawHTML, final SpoilerRobotoTextView comm, final Activity c, final String subreddit) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -321,87 +435,11 @@ public class MakeTextviewClickable {
         final CharSequence sequence = convertHtmlToCharSequence(rawHTML);
         comm.setText(sequence, TextView.BufferType.SPANNABLE);
 
-        comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
-            @Override
-            public void onClick(String url, int xOffset) {
-                // Decide what to do when a link is clicked.
-                // (This is useful if you want to open an in app-browser)
-                if (url == null) {
-                    return;
-                }
-
-                ContentType.ImageType type = ContentType.getImageType(url);
-                switch (type) {
-                    case NSFW_IMAGE:
-                        openImage(c, url);
-                        break;
-                    case NSFW_GIF:
-                        openGif(false, c, url);
-                        break;
-                    case NSFW_GFY:
-                        openGif(true, c, url);
-                        break;
-                    case REDDIT:
-                        new OpenRedditLink(c, url);
-                        break;
-                    case LINK:
-                    case IMAGE_LINK:
-                    case NSFW_LINK:
-                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
-                        break;
-                    case SELF:
-                        break;
-                    case GFY:
-                        openGif(true, c, url);
-                        break;
-                    case ALBUM:
-                        if (Reddit.album) {
-                            Intent i = new Intent(c, Album.class);
-                            i.putExtra("url", url);
-                            c.startActivity(i);
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                        break;
-                    case IMAGE:
-                        openImage(c, url);
-                        break;
-                    case GIF:
-                        openGif(false, c, url);
-                        break;
-                    case NONE_GFY:
-                        openGif(true, c, url);
-                        break;
-                    case NONE_GIF:
-                        openGif(false, c, url);
-                        break;
-                    case NONE:
-                        break;
-                    case NONE_IMAGE:
-                        openImage(c, url);
-                        break;
-                    case NONE_URL:
-                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
-                        break;
-                    case VIDEO:
-                        if (Reddit.video) {
-                            Intent intent = new Intent(c, FullscreenVideo.class);
-                            intent.putExtra("html", url);
-                            c.startActivity(intent);
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                    case SPOILER:
-                        setOrRemoveSpoilerSpans(comm, (Spannable) sequence, xOffset);
-                        break;
-                }
-
-            }
-        });
+        comm.setMovementMethod(new TextViewLinkHandler(c, subreddit, sequence));
         comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
     }
 
-    public void setOrRemoveSpoilerSpans(ActiveTextView commentView, Spannable text, int endOfLink) {
+    public void setOrRemoveSpoilerSpans(SpoilerRobotoTextView commentView, Spannable text, int endOfLink) {
         // add 2 to end of link since there is a white space between the link text and the spoiler
         ForegroundColorSpan[] foregroundColors = text.getSpans(endOfLink + 2, endOfLink + 2, ForegroundColorSpan.class);
 
@@ -418,7 +456,7 @@ public class MakeTextviewClickable {
         }
     }
 
-    public void ParseTextWithLinksTextView(String rawHTML, final ActiveTextView comm, final Activity c, final String subreddit) {
+    public void ParseTextWithLinksTextView(String rawHTML, final SpoilerRobotoTextView comm, final Activity c, final String subreddit) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -430,82 +468,8 @@ public class MakeTextviewClickable {
 
         CharSequence sequence = convertHtmlToCharSequence(rawHTML);
         comm.setText(sequence);
-        comm.setLinkClickedListener(new ActiveTextView.OnLinkClickedListener() {
-            @Override
-            public void onClick(String url, int xOffset) {
-                // Decide what to do when a link is clicked.
-                // (This is useful if you want to open an in app-browser)
-                if (url == null) {
-                    return;
-                }
+        comm.setMovementMethod(new TextViewLinkHandler(c, subreddit, null));
 
-                if (url.startsWith("/")) {
-                    url = "reddit.com" + url;
-                }
-                ContentType.ImageType type = ContentType.getImageType(url);
-                switch (type) {
-                    case NSFW_IMAGE:
-                        openImage(c, url);
-                        break;
-                    case NSFW_GIF:
-                        openGif(false, c, url);
-                        break;
-                    case NSFW_GFY:
-                        openGif(true, c, url);
-                        break;
-                    case REDDIT:
-                        new OpenRedditLink(c, url);
-                        break;
-                    case LINK:
-                    case IMAGE_LINK:
-                    case NSFW_LINK:
-                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
-                        break;
-                    case SELF:
-                        break;
-                    case GFY:
-                        openGif(true, c, url);
-                        break;
-                    case ALBUM:
-                        if (Reddit.album) {
-                            Intent i = new Intent(c, Album.class);
-                            i.putExtra("url", url);
-                            c.startActivity(i);
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                        break;
-                    case IMAGE:
-                        openImage(c, url);
-                        break;
-                    case GIF:
-                        openGif(false, c, url);
-                        break;
-                    case NONE_GFY:
-                        openGif(true, c, url);
-                        break;
-                    case NONE_GIF:
-                        openGif(false, c, url);
-                        break;
-                    case NONE:
-                        break;
-                    case NONE_IMAGE:
-                        openImage(c, url);
-                        break;
-                    case NONE_URL:
-                        CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
-                        break;
-                    case VIDEO:
-                        if (Reddit.video) {
-                            Intent intent = new Intent(c, FullscreenVideo.class);
-                            intent.putExtra("html", url);
-                            c.startActivity(intent);
-                        } else {
-                            Reddit.defaultShare(url, c);
-                        }
-                }
-            }
-        });
         comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
     }
 }

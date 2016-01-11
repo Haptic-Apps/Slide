@@ -38,7 +38,6 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.concurrent.ExecutionException;
 
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
@@ -48,6 +47,7 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -392,7 +392,7 @@ public class SubredditView extends BaseActivityAnim {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
             final String text = subreddit.getDataNode().get("description_html").asText();
-            final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
+            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
             new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit.getDisplayName());
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -727,7 +727,7 @@ public class SubredditView extends BaseActivityAnim {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.justtext, null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(SubredditView.this);
-                    final ActiveTextView body = (ActiveTextView) dialoglayout.findViewById(R.id.body);
+                    final SpoilerRobotoTextView body = (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.body);
                     new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit);
 
                     builder.setView(dialoglayout).show();

@@ -17,11 +17,11 @@ import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
 
@@ -135,14 +135,14 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        final ActiveTextView text;
-        final ActiveTextView body;
+        final SpoilerRobotoTextView text;
+        final SpoilerRobotoTextView body;
         final ImageView image;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            text = (ActiveTextView) itemView.findViewById(R.id.imagetitle);
-            body = (ActiveTextView) itemView.findViewById(R.id.imageCaption);
+            text = (SpoilerRobotoTextView) itemView.findViewById(R.id.imagetitle);
+            body = (SpoilerRobotoTextView) itemView.findViewById(R.id.imageCaption);
             image = (ImageView) itemView.findViewById(R.id.image);
 
 

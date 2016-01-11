@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -19,7 +19,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final View gild;
     public final LinearLayout commentArea;
     public final View children;
-    public final ActiveTextView content;
+    public final SpoilerRobotoTextView content;
     public final TextView childrenNumber;
     public final TextView flairText;
     public final View flairBubble;
@@ -44,7 +44,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         commentArea = (LinearLayout) v.findViewById(R.id.commentArea);
         childrenNumber = (TextView) children.findViewById(R.id.flairtext);
         gild = v.findViewById(R.id.gild);
-        content = (ActiveTextView) v.findViewById(R.id.content);
+        content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
 
         textColorDown = ContextCompat.getColor(v.getContext(), R.color.md_blue_500);
         textColorRegular = author.getCurrentTextColor();

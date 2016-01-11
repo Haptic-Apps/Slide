@@ -46,7 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
@@ -66,6 +65,7 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -1024,7 +1024,7 @@ public class PopulateSubmissionViewHolder {
         }
 
         if (fullscreen) {
-            ActiveTextView bod = ((ActiveTextView) holder.itemView.findViewById(R.id.body));
+            SpoilerRobotoTextView bod = ((SpoilerRobotoTextView) holder.itemView.findViewById(R.id.body));
             if (!submission.getSelftext().isEmpty()) {
                 new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, mContext, submission.getSubredditName());
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);

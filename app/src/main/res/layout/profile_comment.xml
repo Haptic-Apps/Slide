@@ -113,7 +113,7 @@
                     </LinearLayout>
 
 
-                    <me.ccrama.redditslide.ActiveTextView
+                                    <me.ccrama.redditslide.SpoilerRobotoTextView
                         android:id="@+id/content"
                         android:layout_width="match_parent"
 

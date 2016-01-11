@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.ccrama.redditslide.ActiveTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                        <me.ccrama.redditslide.SpoilerRobotoTextView  xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/body"
 
             android:layout_width="match_parent"

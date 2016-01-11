@@ -278,7 +278,7 @@
                     android:alpha=".5"
                     android:textColor="?attr/font" />
 
-                <me.ccrama.redditslide.ActiveTextView
+                <me.ccrama.redditslide.SpoilerRobotoTextView
                     android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

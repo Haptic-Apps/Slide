@@ -72,7 +72,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -85,6 +84,7 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageFromContext;
 import me.ccrama.redditslide.SubredditStorageNoContext;
@@ -138,13 +138,14 @@ public class MainActivity extends BaseActivity {
                 e.setText("");
                 drawerLayout.closeDrawers();
             }
-        } else if(requestCode == 55){
+        } else if (requestCode == 55) {
             doDrawer();
 
             setDataSet(SubredditStorage.subredditsForHome);
-        } else if(requestCode == 66){
+        } else if (requestCode == 66) {
             new AsyncTask<Void, Void, Void>() {
                 int count;
+
                 @Override
                 protected Void doInBackground(Void... params) {
                     count = Authentication.reddit.me().getInboxCount();
@@ -154,10 +155,10 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    if(count == 0){
+                    if (count == 0) {
                         headerMain.findViewById(R.id.count).setVisibility(View.GONE);
                     } else {
-                        ((TextView)headerMain.findViewById(R.id.count)).setText(count + "");
+                        ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
                     }
                 }
             }.execute();
@@ -242,12 +243,12 @@ public class MainActivity extends BaseActivity {
                 // result of the request.
             }
         }
-        boolean first =false;
+        boolean first = false;
         if (!Reddit.colors.contains("Tutorial")) {
             first = true;
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, 55);
-        } else if(!Reddit.colors.contains("v4.5update")){
+        } else if (!Reddit.colors.contains("v4.5update")) {
             new MaterialDialog.Builder(this)
                     .title("Slide v4.5 ALPHA")
                     .content("I’m proud to announce Slide v4.5. RAM use has been greatly reduced, stability increased, and lots of new features added! \n" +
@@ -268,7 +269,7 @@ public class MainActivity extends BaseActivity {
                             "\t•Cache gifs for faster retrieval and less data use\n" +
                             "\t•Mutliselect edit subreddit theme\n" +
                             "\t•Much more!\n"
-                    + "Make sure to report all bugs to the G+ group!")
+                            + "Make sure to report all bugs to the G+ group!")
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
@@ -363,10 +364,10 @@ public class MainActivity extends BaseActivity {
             doDrawer();
         }
 
-        if(SubredditStorage.subredditsForHome != null) {
+        if (SubredditStorage.subredditsForHome != null) {
             setDataSet(SubredditStorage.subredditsForHome);
         } else {
-            ((Reddit)getApplication()).doMainStuff();
+            ((Reddit) getApplication()).doMainStuff();
             Intent i = getIntent();
             finish();
             startActivity(i);
@@ -568,7 +569,7 @@ public class MainActivity extends BaseActivity {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
             final String text = subreddit.getDataNode().get("description_html").asText();
-            final ActiveTextView body = (ActiveTextView) findViewById(R.id.sidebar_text);
+            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
             new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, MainActivity.this, subreddit.getDisplayName());
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -704,7 +705,8 @@ public class MainActivity extends BaseActivity {
     }
 
 
-View headerMain;
+    View headerMain;
+
     public void doDrawer() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         l.setDividerHeight(0);
@@ -716,7 +718,7 @@ View headerMain;
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             headerMain = header;
             hea = header.findViewById(R.id.back);
-            if(Reddit.hideHeader){
+            if (Reddit.hideHeader) {
                 header.findViewById(R.id.back).setVisibility(View.GONE);
             }
             l.addHeaderView(header, null, false);
@@ -766,19 +768,20 @@ View headerMain;
             });
             new AsyncTask<Void, Void, Void>() {
                 int count;
+
                 @Override
                 protected Void doInBackground(Void... params) {
-                     count = Authentication.reddit.me().getInboxCount();
+                    count = Authentication.reddit.me().getInboxCount();
 
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    if(count == 0){
+                    if (count == 0) {
                         header.findViewById(R.id.count).setVisibility(View.GONE);
                     } else {
-                        ((TextView)header.findViewById(R.id.count)).setText(count + "");
+                        ((TextView) header.findViewById(R.id.count)).setText(count + "");
                     }
                 }
             }.execute();
@@ -1114,8 +1117,8 @@ View headerMain;
                 }
                 return true;
             case R.id.action_refresh:
-                if(adapter != null && adapter.getCurrentFragment() != null)
-                ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
+                if (adapter != null && adapter.getCurrentFragment() != null)
+                    ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
                 return true;
             case R.id.action_sort:
                 openPopup();
@@ -1198,7 +1201,7 @@ View headerMain;
 
     public void saveOffline(ArrayList<Submission> submissions, final String subreddit) {
         final MaterialDialog d = new MaterialDialog.Builder(this).title(R.string.offline_caching)
-                .progress(false, submissions.size() )
+                .progress(false, submissions.size())
                 .cancelable(false)
                 .show();
         final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
@@ -1219,6 +1222,7 @@ View headerMain;
             }.execute();
         }
     }
+
     public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {
         Map<String, String> args = new HashMap<>();
         if (request.getDepth() != null)
@@ -1243,6 +1247,7 @@ View headerMain;
                 .build());
         return response.getJson();
     }
+
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override

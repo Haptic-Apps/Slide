@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 
+
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
@@ -54,7 +55,6 @@ import java.util.HashMap;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
-import me.ccrama.redditslide.ActiveTextView;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -62,6 +62,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
@@ -877,13 +878,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActiveTextView activeTextView = (ActiveTextView) v;
+                    SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
                     if (Reddit.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    } else if (!activeTextView.isSpoilerClicked()) {
+                    } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
                         doOnClick(holder, comment, baseNode);
-                    } else if (activeTextView.isSpoilerClicked()) {
-                        activeTextView.resetSpoilerClicked();
+                    } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
+                        SpoilerRobotoTextView.resetSpoilerClicked();
                     }
                 }
             });

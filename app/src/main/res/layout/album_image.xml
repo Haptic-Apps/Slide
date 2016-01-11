@@ -27,7 +27,7 @@
             android:background="?android:selectableItemBackground"
             android:orientation="vertical">
 
-            <me.ccrama.redditslide.ActiveTextView
+                            <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/imagetitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                 android:textColor="#fff"
                 android:textSize="14sp">
 
-            </me.ccrama.redditslide.ActiveTextView>
+            </me.ccrama.redditslide.SpoilerRobotoTextView >
 
             <ImageView
                 android:id="@+id/image"
@@ -45,7 +45,7 @@
                 android:cropToPadding="false"
                 android:src="@drawable/chameleon" />
 
-            <me.ccrama.redditslide.ActiveTextView
+                            <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/imageCaption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:textColor="#fff"
                 android:textSize="12sp">
 
-            </me.ccrama.redditslide.ActiveTextView>
+            </me.ccrama.redditslide.SpoilerRobotoTextView >
 
 
         </LinearLayout>
