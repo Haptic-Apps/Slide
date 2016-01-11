@@ -126,7 +126,7 @@ public class SubredditPosts {
                 if(posts != null){
                     start = posts.size() + 1;
                 }
-                if (reset || offline) {
+                if (reset || offline || posts == null) {
                     posts = subs;
                     contained = new ArrayList<>();
                     for(Submission s : posts){

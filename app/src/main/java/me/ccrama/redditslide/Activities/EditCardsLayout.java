@@ -166,11 +166,10 @@ public class EditCardsLayout extends BaseActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor edit = SettingValues.prefs.edit();
-                edit.remove(subreddit + "actionBarVisible");
-                edit.remove(subreddit + "largeThumbnails");
-                edit.remove(subreddit + "defaultCardView");
-                edit.remove(subreddit + "NSFWPreviews");
-                edit.remove(subreddit + "infoBarType");
+                edit.remove(subreddit + "actionBarVisibleNew");
+                edit.remove(subreddit + "largeThumbnailsNew");
+                edit.remove(subreddit + "defaultCardViewNew");
+                edit.remove(subreddit + "infoBarTypeNew");
                 edit.apply();
                 layout.removeAllViews();
                 layout.addView(CreateCardView.CreateView(layout, !subreddit.isEmpty(), subreddit));

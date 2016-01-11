@@ -25,6 +25,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Account;
 
 import me.ccrama.redditslide.Authentication;
@@ -50,7 +51,7 @@ public class Profile extends BaseActivityAnim {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
     }
-
+    boolean friend;
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -129,6 +130,45 @@ public class Profile extends BaseActivityAnim {
                             Intent i = new Intent(Profile.this, Sendmessage.class);
                             i.putExtra("name", name);
                             startActivity(i);
+                        }
+                    });
+
+                   friend = account.isFriend();
+                    if(friend){
+                        ((TextView) findViewById(R.id.friend)).setText("Remove friend");
+                    } else {
+                        ((TextView) findViewById(R.id.friend)).setText("Add friend");
+
+                    }
+                    dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    if(friend){
+                                        new AccountManager(Authentication.reddit).deleteFriend(name);
+                                        friend = false;
+
+                                    } else {
+                                        new AccountManager(Authentication.reddit).updateFriend(name);
+                                        friend = true;
+
+
+                                    }
+                                    return null;
+                                }
+                                @Override
+                            public void onPostExecute(Void voids){
+                                    if(friend){
+                                        ((TextView) findViewById(R.id.friend)).setText("Remove friend");
+                                    } else {
+                                        ((TextView) findViewById(R.id.friend)).setText("Add friend");
+
+                                    }
+                                }
+                            }.execute();
+
                         }
                     });
                 } else {

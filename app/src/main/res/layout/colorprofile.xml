@@ -158,6 +158,37 @@
                                 android:textSize="16sp" />
 
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:id="@+id/friend_body"
+
+                            android:orientation="horizontal"
+                            android:paddingRight="16dp">
+
+                            <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="match_parent"
+                                android:alpha=".86"
+                                android:padding="12dp"
+                                android:src="@drawable/profile"
+                                android:tint="?attr/tint" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:id="@+id/friend"
+
+                                android:text="Friend"
+
+                                android:textColor="?attr/font"
+
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/color"
