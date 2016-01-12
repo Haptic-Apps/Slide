@@ -148,7 +148,7 @@ public class SubredditPosts {
 
 
                 final int finalStart = start;
-                (adapter.mContext).runOnUiThread(new Runnable() {
+                (adapter.sContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (refreshLayout != null) {
@@ -181,7 +181,7 @@ public class SubredditPosts {
 
                     adapter.setError(true);
                 }
-                (SubmissionAdapter.mContext).runOnUiThread(new Runnable() {
+                (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (refreshLayout != null) {

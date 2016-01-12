@@ -322,7 +322,7 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="Hide header on sidebar"
+                    android:text="Hide header on drawer"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
             </LinearLayout>
