@@ -123,6 +123,8 @@
     <string name="profile_gilded">gilded</string>
     <string name="profile_downvoted">downvoted</string>
     <string name="profile_hidden">hidden</string>
+    <string name="profile_add_friend">Add friend</string>
+    <string name="profile_remove_friend">Remove friend</string>
 
 
     <!-- Comment text options -->
