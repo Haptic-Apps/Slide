@@ -536,7 +536,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 protected Void doInBackground(Void... params) {
                                     try {
-                                        new AccountManager(Authentication.reddit).unsave(n);
+                                        new AccountManager(Authentication.reddit).save(n);
                                     } catch (ApiException e) {
                                         e.printStackTrace();
                                     }
