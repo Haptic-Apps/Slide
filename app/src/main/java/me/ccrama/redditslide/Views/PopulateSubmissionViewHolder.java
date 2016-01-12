@@ -825,7 +825,7 @@ public class PopulateSubmissionViewHolder {
             thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
         } else if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
-            if (!SettingValues.bigPicEnabled) {
+            if (!full && !SettingValues.bigPicEnabled ) {
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {
