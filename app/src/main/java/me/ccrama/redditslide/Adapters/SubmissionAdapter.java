@@ -51,7 +51,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
-    public static Activity mContext;
+    public static Activity sContext;
     private final RecyclerView listView;
     private final String subreddit;
     private final boolean custom;
@@ -64,7 +64,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.views = new ArrayList<>();
-        this.mContext = mContext;
+        this.sContext = mContext;
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
         this.dataSet = dataSet;
@@ -126,15 +126,15 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (Authentication.didOnline || submission.getComments() != null) {
                         DataShare.sharedSubreddit = dataSet.posts;
                         holder2.itemView.setAlpha(0.5f);
-                        if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
+                        if (Reddit.tabletUI && sContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            Intent i2 = new Intent(sContext, CommentsScreenPopup.class);
                             i2.putExtra("page", holder2.getAdapterPosition());
-                            (mContext).startActivity(i2);
+                            (sContext).startActivity(i2);
 
                         } else {
-                            Intent i2 = new Intent(mContext, CommentsScreen.class);
+                            Intent i2 = new Intent(sContext, CommentsScreen.class);
                             i2.putExtra("page", holder2.getAdapterPosition());
-                            (mContext).startActivity(i2);
+                            (sContext).startActivity(i2);
                         }
                     } else {
                         Snackbar.make(holder.itemView, "Please go back online and select 'Cache comments' from the 3 dot menu to view comments offline.", Snackbar.LENGTH_SHORT).show();
@@ -150,12 +150,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public boolean onLongClick(View v) {
                     if (!dataSet.stillShow) {
 
-                        Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, sContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
 
                     } else {
-                        LayoutInflater inflater = mContext.getLayoutInflater();
+                        LayoutInflater inflater = sContext.getLayoutInflater();
                         final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(sContext);
                         final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                         title.setText(Html.fromHtml(submission.getTitle()));
 
@@ -165,18 +165,18 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             @Override
                             public void onClick(View v) {
 
-                                Intent i = new Intent(mContext, Profile.class);
+                                Intent i = new Intent(sContext, Profile.class);
                                 i.putExtra("profile", submission.getAuthor());
-                                mContext.startActivity(i);
+                                sContext.startActivity(i);
                             }
                         });
 
                         dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent i = new Intent(mContext, SubredditView.class);
+                                Intent i = new Intent(sContext, SubredditView.class);
                                 i.putExtra("subreddit", submission.getSubredditName());
-                                mContext.startActivity(i);
+                                sContext.startActivity(i);
                             }
                         });
 
@@ -200,16 +200,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             @Override
                             public void onClick(View v) {
                                 String urlString = "https://reddit.com" + submission.getPermalink();
-                                OpenRedditLink.customIntentChooser(urlString, mContext);
+                                OpenRedditLink.customIntentChooser(urlString, sContext);
                             }
                         });
                         dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (submission.isSelfPost())
-                                    Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
+                                    Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), sContext);
                                 else {
-                                    new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                    new BottomSheet.Builder(sContext, R.style.BottomSheet_Dialog)
                                             .title(R.string.submission_share_title)
                                             .grid()
                                             .sheet(R.menu.share_menu)
@@ -218,10 +218,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     switch (which) {
                                                         case R.id.reddit_url:
-                                                            Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
+                                                            Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), sContext);
                                                             break;
                                                         case R.id.link_url:
-                                                            Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                            Reddit.defaultShareText(submission.getUrl(), sContext);
                                                             break;
                                                     }
                                                 }
@@ -268,7 +268,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             });
 
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, sContext, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
 
             holder.itemView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -344,7 +344,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         try {
             if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1 && Reddit.animation) {
 
-                Animation slide_up = AnimationUtils.loadAnimation(mContext,
+                Animation slide_up = AnimationUtils.loadAnimation(sContext,
                         R.anim.slide_up);
 
 

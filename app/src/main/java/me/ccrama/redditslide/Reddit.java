@@ -377,15 +377,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         fabClear = seen.getBoolean("fabClear", false);
         hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
 
-        int height = this.getResources().getConfiguration().screenWidthDp;
-
-        int width = this.getResources().getConfiguration().screenHeightDp;
+        int widthDp = this.getResources().getConfiguration().screenWidthDp;
+        int heightDp = this.getResources().getConfiguration().screenHeightDp;
 
         int fina;
-        if (height > width) {
-            fina = height;
+        if (widthDp > heightDp) {
+            fina = widthDp;
         } else {
-            fina = width;
+            fina = heightDp;
         }
         fina = ((fina + 99) / 100) * 100;
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();

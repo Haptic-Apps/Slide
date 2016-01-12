@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -32,118 +31,100 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingsGeneral extends BaseActivity {
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
-        if (Authentication.isLoggedIn) {
-            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
-            final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
-            final CheckBox checkBox = (CheckBox) dialoglayout.findViewById(R.id.load);
+        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
+        final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
+        final CheckBox checkBox = (CheckBox) dialoglayout.findViewById(R.id.load);
 
 
-            if (Reddit.notificationTime == -1) {
-                checkBox.setChecked(false);
-                checkBox.setText(context.getString(R.string.settings_mail_check));
-            } else {
-                checkBox.setChecked(true);
-                landscape.setValue(Reddit.notificationTime / 15, false);
-                checkBox.setText(context.getString(R.string.settings_notification,
-                        TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
-
-            }
-            landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
-                @Override
-                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                    if (checkBox.isChecked())
-                        checkBox.setText(context.getString(R.string.settings_notification,
-                                TimeUtils.getTimeInHoursAndMins(i1 * 15, context.getBaseContext())));
-                }
-            });
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (!isChecked) {
-                        Reddit.notificationTime = -1;
-                        Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                        checkBox.setText(context.getString(R.string.settings_mail_check));
-                        landscape.setValue(0, true);
-                        if (Reddit.notifications != null)
-                            Reddit.notifications.cancel(context.getApplication());
-                    } else {
-                        Reddit.notificationTime = 60;
-                        landscape.setValue(4, true);
-                        checkBox.setText(context.getString(R.string.settings_notification,
-                                TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
-                    }
-                }
-            });
-            dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
-            //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
-
-            //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
-
-
-            final Dialog dialog = builder.setView(dialoglayout).create();
-            dialog.show();
-            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    if (checkBox.isChecked()) {
-                        Reddit.notificationTime = landscape.getValue() * 15;
-                        Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
-                        if (Reddit.notifications == null) {
-                            Reddit.notifications = new NotificationJobScheduler(context.getApplication());
-                        }
-                        Reddit.notifications.cancel(context.getApplication());
-                        Reddit.notifications.start(context.getApplication());
-                    }
-                }
-            });
-            dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View d) {
-                    if (checkBox.isChecked()) {
-                        Reddit.notificationTime = landscape.getValue() * 15;
-                        Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
-                        if (Reddit.notifications == null) {
-                            Reddit.notifications = new NotificationJobScheduler(context.getApplication());
-                        }
-                        Reddit.notifications.cancel(context.getApplication());
-                        Reddit.notifications.start(context.getApplication());
-                        dialog.dismiss();
-                        if (context instanceof Settings)
-                            ((TextView) context.findViewById(R.id.notifications_current)).setText(
-                                    context.getString(R.string.settings_notification_short,
-                                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
-                    } else {
-                        Reddit.notificationTime = -1;
-                        Reddit.seen.edit().putInt("notificationOverride", -1).apply();
-                        if (Reddit.notifications == null) {
-                            Reddit.notifications = new NotificationJobScheduler(context.getApplication());
-                        }
-                        Reddit.notifications.cancel(context.getApplication());
-                        dialog.dismiss();
-                        if (context instanceof Settings)
-                            ((TextView) context.findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
-
-
-                    }
-                }
-            });
-
+        if (Reddit.notificationTime == -1) {
+            checkBox.setChecked(false);
+            checkBox.setText(context.getString(R.string.settings_mail_check));
         } else {
-            new AlertDialogWrapper.Builder(context)
+            checkBox.setChecked(true);
+            landscape.setValue(Reddit.notificationTime / 15, false);
+            checkBox.setText(context.getString(R.string.settings_notification,
+                    TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
 
-                    .setTitle(R.string.general_login)
-                    .setMessage(R.string.err_login)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            Intent inte = new Intent(context, Login.class);
-                            context.startActivity(inte);
-                        }
-                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    context.finish();
-                }
-            }).show();
         }
+        landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
+            @Override
+            public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
+                if (checkBox.isChecked())
+                    checkBox.setText(context.getString(R.string.settings_notification,
+                            TimeUtils.getTimeInHoursAndMins(i1 * 15, context.getBaseContext())));
+            }
+        });
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (!isChecked) {
+                    Reddit.notificationTime = -1;
+                    Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                    checkBox.setText(context.getString(R.string.settings_mail_check));
+                    landscape.setValue(0, true);
+                    if (Reddit.notifications != null)
+                        Reddit.notifications.cancel(context.getApplication());
+                } else {
+                    Reddit.notificationTime = 60;
+                    landscape.setValue(4, true);
+                    checkBox.setText(context.getString(R.string.settings_notification,
+                            TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
+                }
+            }
+        });
+        dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
+        //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
+
+        //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
+
+
+        final Dialog dialog = builder.setView(dialoglayout).create();
+        dialog.show();
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (checkBox.isChecked()) {
+                    Reddit.notificationTime = landscape.getValue() * 15;
+                    Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                    if (Reddit.notifications == null) {
+                        Reddit.notifications = new NotificationJobScheduler(context.getApplication());
+                    }
+                    Reddit.notifications.cancel(context.getApplication());
+                    Reddit.notifications.start(context.getApplication());
+                }
+            }
+        });
+        dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View d) {
+                if (checkBox.isChecked()) {
+                    Reddit.notificationTime = landscape.getValue() * 15;
+                    Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                    if (Reddit.notifications == null) {
+                        Reddit.notifications = new NotificationJobScheduler(context.getApplication());
+                    }
+                    Reddit.notifications.cancel(context.getApplication());
+                    Reddit.notifications.start(context.getApplication());
+                    dialog.dismiss();
+                    if (context instanceof Settings)
+                        ((TextView) context.findViewById(R.id.notifications_current)).setText(
+                                context.getString(R.string.settings_notification_short,
+                                        TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
+                } else {
+                    Reddit.notificationTime = -1;
+                    Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                    if (Reddit.notifications == null) {
+                        Reddit.notifications = new NotificationJobScheduler(context.getApplication());
+                    }
+                    Reddit.notifications.cancel(context.getApplication());
+                    dialog.dismiss();
+                    if (context instanceof Settings)
+                        ((TextView) context.findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
+
+                }
+            }
+        });
+
     }
 
 
@@ -284,16 +265,16 @@ public class SettingsGeneral extends BaseActivity {
             ((TextView) findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
         }
 
-        findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-                setupNotificationSettings(dialoglayout, SettingsGeneral.this);
-
-            }
-        });
-
+        if (Authentication.isLoggedIn)
+            findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
+                    setupNotificationSettings(dialoglayout, SettingsGeneral.this);
+                }
+            });
+        else findViewById(R.id.notifications).setVisibility(View.GONE);
 
 
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId()]);

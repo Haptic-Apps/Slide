@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -115,12 +114,6 @@ public class SettingsTheme extends BaseActivity {
 
 
                 builder.setView(dialoglayout);
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                });
                 builder.show();
 
             }
@@ -315,7 +308,8 @@ public class SettingsTheme extends BaseActivity {
                     @Override
                     public void onColorChanged(int i) {
                         title.setBackgroundColor(colorPicker2.getColor());
-                        mToolbar.setBackgroundColor(colorPicker2.getColor());
+                        if (mToolbar != null)
+                            mToolbar.setBackgroundColor(colorPicker2.getColor());
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             Window window = getWindow();
@@ -342,17 +336,8 @@ public class SettingsTheme extends BaseActivity {
                     }
                 });
 
-
                 builder.setView(dialoglayout);
-
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                });
                 builder.show();
-
             }
 
         });
