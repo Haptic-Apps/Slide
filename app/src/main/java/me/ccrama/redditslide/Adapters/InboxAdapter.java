@@ -94,7 +94,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             final MessageViewHolder holder = (MessageViewHolder) holder2;
 
             final Message comment = dataSet.get(i);
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             holder.user.setText(comment.getAuthor());
 

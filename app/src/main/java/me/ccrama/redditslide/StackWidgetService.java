@@ -82,7 +82,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             rv.setTextViewText(R.id.title, Html.fromHtml(submission.getTitle()));
 
             rv.setTextViewText(R.id.subreddit, submission.getSubredditName());
-            rv.setTextViewText(R.id.info, submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime(), mContext));
+            rv.setTextViewText(R.id.info, submission.getAuthor() + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
 
             Bundle extras = new Bundle();
             extras.putString("url", submission.getUrl());

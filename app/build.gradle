@@ -56,7 +56,7 @@ dependencies {
         transitive = true
     }
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.ccrama:JRAW:d29280c560'
+    compile 'com.github.ccrama:JRAW:6175e54'
     compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }

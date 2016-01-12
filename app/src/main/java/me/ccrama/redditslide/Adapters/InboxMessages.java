@@ -6,7 +6,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
 import net.dean.jraw.paginators.InboxPaginator;
@@ -107,7 +106,7 @@ public class InboxMessages {
         protected ArrayList<Message> doInBackground(String... subredditPaginators) {
             try {
                 if (reset || paginator == null) {
-                    paginator = new InboxManager(Authentication.reddit).read(where);
+                    paginator = new InboxPaginator(Authentication.reddit, where);
                 }
                 if (paginator.hasNext()) {
                     ArrayList<Message> done = new ArrayList<>();

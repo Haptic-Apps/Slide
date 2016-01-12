@@ -266,7 +266,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final Comment comment = (Comment) dataSet.get(i);
             holder.score.setText(comment.getScore() + "");
 
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, comment.getSubredditName());
             if (comment.getTimesGilded() > 0) {

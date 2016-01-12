@@ -253,7 +253,7 @@ public class PopulateSubmissionViewHolder {
 
         holder.title.setText(Html.fromHtml(submission.getTitle()));
 
-        holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreatedUtc().getTime(), mContext));
+        holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
 
         holder.subreddit.setText(submission.getSubredditName());
 

@@ -85,8 +85,8 @@ public class SettingsReddit extends BaseActivity {
 
                 SwitchCompat nsfw = (SwitchCompat) findViewById(R.id.nsfw);
                 final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
-                nsfw.setChecked((Boolean) editor.getArgs().get("over_18"));
-                SettingValues.prefs.edit().putBoolean("NSFWPostsNew", (Boolean) editor.getArgs().get("over_18")).apply();
+                nsfw.setChecked(Boolean.valueOf( editor.getArgs().get("over_18")));
+                SettingValues.prefs.edit().putBoolean("NSFWPostsNew", Boolean.valueOf(editor.getArgs().get("over_18"))).apply();
 
                 nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -95,19 +95,22 @@ public class SettingsReddit extends BaseActivity {
                         SettingValues.NSFWPosts = isChecked;
 
                         nsfwprev.setEnabled(SettingValues.NSFWPosts);
-                        editor.over18(isChecked);
+                       //TODO editor.getArgs(isChecked);
+                        //Broke with JRAW 0.8
                     }
                 });
 
                 nsfwprev.setEnabled(nsfw.isChecked());
-                nsfwprev.setChecked((Boolean) editor.getArgs().get("no_profanity"));
-                SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !(Boolean) editor.getArgs().get("no_profanity"));
+                nsfwprev.setChecked(Boolean.valueOf(editor.getArgs().get("no_profanity")));
+                SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !(Boolean.valueOf(editor.getArgs().get("no_profanity"))));
                 nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();
                         SettingValues.NSFWPreviews = !isChecked;
-                        editor.hideNsfwThumbnails(isChecked);
+                       //TODO  editor.hideNsfwThumbnails(isChecked);
+                        //Broke with JRAW 0.8
+
 
                     }
                 });

@@ -111,7 +111,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
         }
-        holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
+        holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
         new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, comment.getSubredditName());
         if (comment.getTimesGilded() > 0) {

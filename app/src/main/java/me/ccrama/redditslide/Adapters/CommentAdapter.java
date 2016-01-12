@@ -321,7 +321,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     @Override
                                     protected Void doInBackground(Void... params) {
                                         try {
-                                            new AccountManager(Authentication.reddit).updateSelfpost(baseNode.getComment(), e.getText().toString());
+                                            new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
                                             dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
 
 
@@ -503,7 +503,58 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mContext.startActivity(i);
                     }
                 });
+                final boolean[] saved = {n.isSaved()};
+                if(saved[0]){
+                    ((TextView)dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                }
+                dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(saved[0]) {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        new AccountManager(Authentication.reddit).unsave(n);
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
 
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    saved[0] = false;
+                                    ((TextView)dialoglayout.findViewById(R.id.save)).setText(R.string.btn_save);
+                                }
+                            }.execute();
+
+
+                        } else {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        new AccountManager(Authentication.reddit).unsave(n);
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    ((TextView)dialoglayout.findViewById(R.id.save)).setText("Un-save");
+
+                                    saved[0] = true;
+                                }
+                            }.execute();
+
+                        }
+                    }
+                });
 
                 dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -534,6 +585,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
 
                     dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
+                    dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
 
                 }
                 title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
@@ -826,7 +878,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
             }
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreatedUtc().getTime(), mContext));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);

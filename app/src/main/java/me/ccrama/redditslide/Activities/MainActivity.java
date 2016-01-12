@@ -54,7 +54,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import net.dean.jraw.JrawUtils;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
@@ -64,6 +63,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
+import net.dean.jraw.util.JrawUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
