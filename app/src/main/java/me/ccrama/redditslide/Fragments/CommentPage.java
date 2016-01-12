@@ -385,7 +385,9 @@ public class CommentPage extends Fragment {
             adapter.reset(getContext(), comments, rv, comments.submission);
 
         } else if (!b) {
-            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+            try {
+                adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+            } catch(Exception ignored){}
         } else {
             adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
 

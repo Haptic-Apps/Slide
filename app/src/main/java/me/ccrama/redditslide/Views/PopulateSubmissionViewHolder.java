@@ -1126,6 +1126,7 @@ public class PopulateSubmissionViewHolder {
             holder.itemView.setAlpha(1.0f);
         }
 
+
         int timesGilded = submission.getTimesGilded();
         if (timesGilded > 0) {
             holder.gildLayout.setVisibility(View.VISIBLE);

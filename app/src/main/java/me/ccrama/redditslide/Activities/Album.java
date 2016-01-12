@@ -62,6 +62,9 @@ public class Album extends FullScreenActivity {
         if (rawDat.contains("gallery")) {
             gallery = true;
         }
+        if(rawDat.endsWith("/")){
+            rawDat = rawDat.substring(0, rawDat.length() - 1);
+        }
         String rawdat2 = rawDat;
         if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
             rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
@@ -98,7 +101,7 @@ public class Album extends FullScreenActivity {
     private class AsyncImageLoader extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected Void doInBackground(String... sub) {
+        protected Void doInBackground(final String... sub) {
             if (gallery) {
                 Ion.with(Album.this)
                         .load("https://imgur.com/gallery/" + sub[0] + ".json")
@@ -146,16 +149,12 @@ public class Album extends FullScreenActivity {
                                     }
                                 } else {
 
-                                    new AlertDialogWrapper.Builder(Album.this)
-                                            .setTitle(R.string.album_err_not_found)
-                                            .setMessage(R.string.album_err_msg_not_found)
-                                            .setCancelable(false)
-                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    finish();
-                                                }
-                                            }).create().show();
+                                    Intent i = new Intent(Album.this, Website.class);
+                                    i.putExtra("url", "http://imgur.com/gallery/" + sub[0]);
+
+                                    startActivity(i);
+                                    finish();
+                                 //Catch failed api call
                                 }
                             }
 

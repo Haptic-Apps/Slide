@@ -279,7 +279,11 @@ public class SubmissionsView extends Fragment {
                             Hidden.setHidden(adapter.dataSet.posts.get(i));
                         }
                         adapter.dataSet.posts.remove(i);
-                        adapter.notifyItemRemoved(i);
+                        if(i == 0){
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            adapter.notifyItemRemoved(i);
+                        }
                     }
                 } catch (IndexOutOfBoundsException e) {
                     //Let the loop reset itself
