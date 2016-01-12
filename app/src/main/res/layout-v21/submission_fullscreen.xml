@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
 
     android:layout_height="wrap_content"
@@ -57,7 +58,7 @@
                     android:text="@string/example_domain"
                     android:paddingTop="8dp"
                     android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/subtextimage"
@@ -101,8 +102,18 @@
 
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
+                    android:paddingBottom="8dp"
                     android:paddingTop="16dp">
 
+
+                    <me.ccrama.redditslide.Views.TitleTextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="4dp"
+                        android:text="@string/example_title"
+                        android:textColor="?attr/font"
+                        android:textSize="20sp" />
                     <com.wefika.flowlayout.FlowLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -132,7 +143,7 @@
                             android:text="@string/example_time"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -140,7 +151,7 @@
                             android:text="@string/submission_properties_seperator"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/score"
@@ -151,9 +162,8 @@
 
                             android:text="@string/example_points_short"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardinfo"
 
-                            android:textStyle="bold" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -161,7 +171,7 @@
                             android:text="@string/submission_properties_seperator"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/comments"
@@ -173,19 +183,9 @@
                             android:text="@string/example_comments"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo" />
+                            android:textSize="12sp" />
 
                     </com.wefika.flowlayout.FlowLayout>
-
-                    <me.ccrama.redditslide.Views.TitleTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:id="@+id/title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/example_title"
-                        android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle"
-                        android:textStyle="bold" />
-
 
                 </LinearLayout>
             </LinearLayout>
@@ -215,19 +215,22 @@
                     android:orientation="horizontal"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
+                    android:id="@+id/wraparea"
                     android:paddingRight="16dp"
 
-                    android:paddingTop="16dp">
+                    android:paddingTop="8dp">
 
-                    <ImageView
-                        android:id="@+id/thumbimage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="60dp"
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/thumbimage2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
                         android:adjustViewBounds="true"
-                        android:maxWidth="60dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/chameleon" />
+                        android:src="@drawable/chameleon"
+                        app:riv_corner_radius="2dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -245,7 +248,7 @@
                             android:text="@string/example_domain"
                             android:textColor="?attr/font"
                             android:textSize="16sp"
-                            android:textStyle="bold" />
+                  />
 
                         <TextView
                             android:id="@+id/contenturl"

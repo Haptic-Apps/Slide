@@ -21,7 +21,7 @@ public class CreateCardView {
         View v = null;
         switch (cardEnum) {
             case LARGE:
-                if(SettingValues.middleImage){
+                if (SettingValues.middleImage) {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard_middle, viewGroup, false);
 
                 } else {
@@ -46,7 +46,7 @@ public class CreateCardView {
         View v = null;
         switch (cardEnum) {
             case LARGE:
-                if(isMiddle(secondary)){
+                if (isMiddle(secondary)) {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard_middle, viewGroup, false);
 
                 } else {
@@ -121,24 +121,24 @@ public class CreateCardView {
     }
 
 
-    public static View setInfoBarVisible(SettingValues.InfoBar b, ViewGroup parent, Boolean secondary, String sub) {
-        secondary = false; //removing secondary layouts for now
-
-        String subreddit = (secondary) ? "second" : "";
-        sub = sub.toLowerCase();
-        if (subreddit.isEmpty()) {
+    public static View setBigPicEnabled(Boolean b, ViewGroup parent) {
 
 
-            SettingValues.prefs.edit().putString("infoBarTypeNew", b.toString()).apply();
+        SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
 
-            SettingValues.infoBar = b;
-            return CreateView(parent);
+        SettingValues.bigPicEnabled = b;
+        return CreateView(parent);
 
-        } else {
-            SettingValues.prefs.edit().putString(subreddit + "infoBarTypeNew", b.toString()).apply();
-            return CreateView(parent, secondary, sub);
 
-        }
+    }
+    public static View setBigPicCropped(Boolean b, ViewGroup parent) {
+
+
+        SettingValues.prefs.edit().putBoolean("bigPicCropped", b).apply();
+
+        SettingValues.bigPicCropped = b;
+        return CreateView(parent);
+
 
     }
 
@@ -175,6 +175,7 @@ public class CreateCardView {
 
         }
     }
+
     public static View setMiddleCard(boolean b, ViewGroup parent, Boolean secondary, String sub) {
         secondary = false; //removing secondary layouts for now
 
@@ -194,6 +195,7 @@ public class CreateCardView {
 
         }
     }
+
     private static void doHideObjects(View v, Boolean secondary) {
         secondary = false; //removing secondary layouts for now
 
@@ -201,77 +203,45 @@ public class CreateCardView {
         if (subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
-                if(v.findViewById(R.id.placeholder_bottom) != null)
-                v.findViewById(R.id.placeholder_bottom).setVisibility(View.VISIBLE);
+                if (v.findViewById(R.id.placeholder_bottom) != null)
+                    v.findViewById(R.id.placeholder_bottom).setVisibility(View.VISIBLE);
             }
 
-            switch (SettingValues.infoBar) {
-                case THUMBNAIL:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
-
-                    v.findViewById(R.id.base2).setVisibility(View.GONE);
-                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-                    break;
-                case INFO_BAR:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
-                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-                    break;
-                case NONE:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-                    v.findViewById(R.id.thumbimage).setVisibility(View.GONE);
-                    v.findViewById(R.id.base2).setVisibility(View.GONE);
-                    break;
-                case BIG_PICTURE:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-                    break;
-                case BIG_PICTURE_CROPPED:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-                    break;
-            }
-
-            if (SettingValues.infoBar == SettingValues.InfoBar.BIG_PICTURE_CROPPED) {
+            if (SettingValues.bigPicCropped) {
                 ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
+            if (!SettingValues.bigPicEnabled) {
+                v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
 
+                v.findViewById(R.id.base2).setVisibility(View.GONE);
+                v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+
+            } else if (SettingValues.bigPicEnabled) {
+                v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+
+            }
         } else {
             if (!SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible)) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
                 v.findViewById(R.id.placeholder_bottom).setVisibility(View.VISIBLE);
             }
 
-            if (getInfoBar(secondary) == SettingValues.InfoBar.BIG_PICTURE_CROPPED) {
+            if (SettingValues.bigPicCropped) {
                 ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
                 ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             }
-            switch (getInfoBar(secondary)) {
-                case THUMBNAIL:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
+            if (!SettingValues.bigPicEnabled) {
+                v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
 
-                    v.findViewById(R.id.base2).setVisibility(View.GONE);
-                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-                    break;
-                case INFO_BAR:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+                v.findViewById(R.id.base2).setVisibility(View.GONE);
+                v.findViewById(R.id.imagearea).setVisibility(View.GONE);
 
-                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-                    break;
-                case NONE:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-                    v.findViewById(R.id.imagearea).setVisibility(View.GONE);
-                    v.findViewById(R.id.thumbimage).setVisibility(View.GONE);
-                    v.findViewById(R.id.base2).setVisibility(View.GONE);
-                    break;
-                case BIG_PICTURE:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-                    break;
-                case BIG_PICTURE_CROPPED:
-                    v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-                    break;
+            } else if (SettingValues.bigPicEnabled) {
+                v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+
             }
 
         }
@@ -284,12 +254,13 @@ public class CreateCardView {
 
         return CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.LARGE;
     }
+
     public static boolean isMiddle(Boolean secondary) {
         secondary = false; //removing secondary layouts for now
 
         String subreddit = (secondary) ? "second" : "";
 
-        return SettingValues.prefs.getBoolean(subreddit + "middleCard",false);
+        return SettingValues.prefs.getBoolean(subreddit + "middleCard", false);
     }
 
     public static CardEnum getCardView(Boolean secondary) {
@@ -328,13 +299,6 @@ public class CreateCardView {
 
     }
 
-    public static SettingValues.InfoBar getInfoBar(Boolean secondary) {
-        secondary = false; //removing secondary layouts for now
-
-        String subreddit = (secondary) ? "second" : "";
-
-        return SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()));
-    }
 
     public static boolean isActionBar(Boolean secondary) {
         secondary = false; //removing secondary layouts for now

@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingValues {
     public static boolean actionBarVisible;
-    public static InfoBar infoBar;
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting defaultSorting;
     public static TimePeriod timePeriod;
@@ -22,6 +21,8 @@ public class SettingValues {
     public static boolean NSFWPreviews;
     public static boolean NSFWPosts;
     public static boolean middleImage;
+    public static boolean bigPicEnabled;
+    public static boolean bigPicCropped;
 
     public static ColorMatchingMode colorMatchingMode;
     public static ColorIndicator colorIndicator;
@@ -32,10 +33,11 @@ public class SettingValues {
         prefs = settings;
         actionBarVisible = settings.getBoolean("actionBarVisibleNew", true);
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
-        infoBar = InfoBar.valueOf(settings.getString("infoBarTypeNew", "BIG_PICTURE"));
         middleImage =settings.getBoolean("middleImage", false);
 
         NSFWPosts = settings.getBoolean("NSFWPostsNew", false);
+        bigPicCropped = settings.getBoolean("bigPicCropped", false);
+        bigPicEnabled = settings.getBoolean("bigPicEnabled", false);
 
         NSFWPreviews = settings.getBoolean("NSFWPreviewsNew", false);
         colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));
@@ -55,8 +57,5 @@ public class SettingValues {
 
     }
 
-    public enum InfoBar {
-        BIG_PICTURE, BIG_PICTURE_CROPPED, INFO_BAR, THUMBNAIL, NONE
 
-    }
 }

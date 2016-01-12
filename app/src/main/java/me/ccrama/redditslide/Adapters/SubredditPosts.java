@@ -212,7 +212,6 @@ public class SubredditPosts {
 
                     String url = "";
 
-                    boolean big = true;
 
                     ImageLoadingListener l = new ImageLoadingListener() {
                         @Override
@@ -235,59 +234,51 @@ public class SubredditPosts {
 
                         }
                     };
-                    SettingValues.InfoBar typ = SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()).toUpperCase());
-                    if (typ == SettingValues.InfoBar.INFO_BAR || typ == SettingValues.InfoBar.THUMBNAIL) {
-                        big = false;
-                    }
 
-                    if (!(typ == SettingValues.InfoBar.NONE)) {
+
 
                         boolean bigAtEnd = false;
                         if (!s.isNsfw() || SettingValues.NSFWPreviews) {
                             if (type == ContentType.ImageType.IMAGE) {
                                 url = ContentType.getFixedUrl(s.getUrl());
-                                if (CreateCardView.getInfoBar(true) == SettingValues.InfoBar.THUMBNAIL) {
+                                if (SettingValues.bigPicEnabled) {
                                     ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-
-                                } else if (big) {
-                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-
 
                                 } else {
 
-                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                                    if(s.getThumbnailType() != Submission.ThumbnailType.NONE)
+                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
 
                                 }
                             } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") ) {
 
-                                boolean blurry = isBlurry(s.getDataNode(), refreshLayout.getContext(), s.getTitle());
                                 url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                                if (CreateCardView.getInfoBar(true) == SettingValues.InfoBar.THUMBNAIL ) {
+                                if (SettingValues.bigPicEnabled) {
                                     ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                                } else if ((big ) && !blurry) {
-                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-
 
                                 } else {
-                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+
+                                    if(s.getThumbnailType() != Submission.ThumbnailType.NONE)
+                                        ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
 
                                 }
                             } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
 
                                 if ((SettingValues.NSFWPreviews && s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
-                                    bigAtEnd = false;
-                                    if (CreateCardView.getInfoBar(true) == SettingValues.InfoBar.THUMBNAIL ) {
+                                    if (SettingValues.bigPicEnabled) {
                                         ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
 
                                     } else {
-                                        ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+
+                                        if(s.getThumbnailType() != Submission.ThumbnailType.NONE)
+                                            ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
 
                                     }
 
                                 }
                             }
                             
-                        }
+
 
                     }
                 }

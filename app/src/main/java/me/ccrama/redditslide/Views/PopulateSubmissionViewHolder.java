@@ -234,7 +234,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static String getSubmissionScoreString(int score, Resources res, Submission submission) {
-        switch (submission.getSubredditName().toLowerCase()){
+        switch (submission.getSubredditName().toLowerCase()) {
             case "androidcirclejerk":
                 return score + " upDuARTes"; //Praise DuARTe
             case "xdacirclejerk":
@@ -617,7 +617,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
 
                 } else {
-                    LayoutInflater inflater = ( mContext).getLayoutInflater();
+                    LayoutInflater inflater = (mContext).getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
@@ -694,7 +694,7 @@ public class PopulateSubmissionViewHolder {
                         }
                     });
                     dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
-                    if (!Authentication.isLoggedIn|| !Authentication.didOnline) {
+                    if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
@@ -807,109 +807,98 @@ public class PopulateSubmissionViewHolder {
 
         String url = "";
 
-        boolean big = true;
-        final String subreddit =  "";
+        final String subreddit = "";
 
-        SettingValues.InfoBar typ = SettingValues.InfoBar.valueOf(SettingValues.prefs.getString(subreddit + "infoBarTypeNew", SettingValues.infoBar.toString()).toUpperCase());
-        if (typ == SettingValues.InfoBar.INFO_BAR || typ == SettingValues.InfoBar.THUMBNAIL) {
-            big = false;
-        }
-        holder.thumbImage.setVisibility(View.VISIBLE);
+
         ImageView thumbImage2 = null;
-        if (!full) {
-            thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
-            thumbImage2.setVisibility(View.GONE);
+        thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+
+
+        if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
+            holder.imageArea.setVisibility(View.GONE);
+            if (!full) {
+                thumbImage2.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
+            }
+
+            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
+        } else if (type == ContentType.ImageType.IMAGE) {
+            url = ContentType.getFixedUrl(submission.getUrl());
+            if (!SettingValues.bigPicEnabled) {
+                if (!full) {
+                    thumbImage2.setVisibility(View.VISIBLE);
+                } else {
+                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
+                }
+                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+                holder.imageArea.setVisibility(View.GONE);
+
+            } else {
+                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
+                holder.imageArea.setVisibility(View.VISIBLE);
+                if (!full) {
+                    thumbImage2.setVisibility(View.GONE);
+                } else {
+                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
+                }
+            }
+        } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
+
+            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+            if (!SettingValues.bigPicEnabled && !full) {
+                if (!full) {
+                    thumbImage2.setVisibility(View.VISIBLE);
+                } else {
+                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
+                }
+                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+                holder.imageArea.setVisibility(View.GONE);
+
+            } else {
+                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
+                holder.imageArea.setVisibility(View.VISIBLE);
+                if (!full) {
+                    thumbImage2.setVisibility(View.GONE);
+                } else {
+                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
+                }
+            }
+        } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+
+            if (!full) {
+                thumbImage2.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
+            }
+            ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+            holder.imageArea.setVisibility(View.GONE);
+
+
+        } else {
+            if (!full) {
+                thumbImage2.setVisibility(View.GONE);
+            } else {
+                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
+            }
+            holder.imageArea.setVisibility(View.GONE);
         }
 
-        if (!(typ == SettingValues.InfoBar.NONE && !full)) {
-
-            boolean bigAtEnd = false;
-            if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
-                bigAtEnd = false;
-                holder.thumbImage.setVisibility(View.GONE);
-                holder.imageArea.setVisibility(View.GONE);
-                holder.previewContent.setVisibility(View.VISIBLE);
-            } else if (type == ContentType.ImageType.IMAGE) {
-                url = ContentType.getFixedUrl(submission.getUrl());
-                if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                    thumbImage2.setVisibility(View.VISIBLE);
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
-
-                } else if (big || fullscreen) {
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
-
-                    holder.imageArea.setVisibility(View.VISIBLE);
-                    holder.previewContent.setVisibility(View.GONE);
-                    bigAtEnd = true;
-                } else {
-
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
-
-                    holder.imageArea.setVisibility(View.GONE);
-                    holder.previewContent.setVisibility(View.VISIBLE);
-                    bigAtEnd = false;
-                }
-            } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
-
-                boolean blurry = isBlurry(submission.getDataNode(), mContext, submission.getTitle());
-                holder.leadImage.setMinimumHeight(submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt());
-                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                    thumbImage2.setVisibility(View.VISIBLE);
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
-                } else if ((big || fullscreen) && !blurry) {
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
-
-                    holder.imageArea.setVisibility(View.VISIBLE);
-                    holder.previewContent.setVisibility(View.GONE);
-                    bigAtEnd = true;
-                } else {
-                    ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
-                    holder.imageArea.setVisibility(View.GONE);
-                    holder.previewContent.setVisibility(View.VISIBLE);
-                    bigAtEnd = false;
-                }
-            } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-
-                if ((SettingValues.NSFWPreviews && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) || submission.getThumbnailType() == Submission.ThumbnailType.URL) {
-                    bigAtEnd = false;
-                    if (CreateCardView.getInfoBar(same) == SettingValues.InfoBar.THUMBNAIL && !full) {
-                        thumbImage2.setVisibility(View.VISIBLE);
-                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
-                    } else {
-                        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.thumbImage);
-                    }
-                    holder.imageArea.setVisibility(View.GONE);
-                    holder.previewContent.setVisibility(View.VISIBLE);
-                } else {
-                    bigAtEnd = false;
-                    holder.thumbImage.setVisibility(View.GONE);
-                    holder.imageArea.setVisibility(View.GONE);
-                    holder.previewContent.setVisibility(View.VISIBLE);
-                }
-            } else {
-                bigAtEnd = false;
-                holder.thumbImage.setVisibility(View.GONE);
-                holder.imageArea.setVisibility(View.GONE);
-                holder.previewContent.setVisibility(View.VISIBLE);
-            }
+        TextView title;
+        TextView info;
+        if (!full) {
+            title = holder.textImage;
+            info = holder.subTextImage;
+        } else if (holder.itemView.findViewById(R.id.wraparea).getVisibility() == View.VISIBLE) {
+            title = holder.contentTitle;
+            info = holder.contentURL;
+        } else {
+            title = holder.textImage;
+            info = holder.subTextImage;
+        }
 
 
-            if (bigAtEnd) {
-                holder.thumbImage.setVisibility(View.GONE);
-            }
-            TextView title;
-            TextView info;
-            if (bigAtEnd) {
-                title = holder.textImage;
-                info = holder.subTextImage;
-            } else {
-                title = holder.contentTitle;
-                info = holder.contentURL;
-            }
-            if (typ == SettingValues.InfoBar.THUMBNAIL && !full) {
-                holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
-            }
+
             title.setVisibility(View.VISIBLE);
             info.setVisibility(View.VISIBLE);
 
@@ -939,8 +928,7 @@ public class PopulateSubmissionViewHolder {
                 case SELF:
                     title.setVisibility(View.GONE);
                     info.setVisibility(View.GONE);
-                    if (!bigAtEnd)
-                        holder.previewContent.setVisibility(View.GONE);
+
                     break;
 
                 case ALBUM:
@@ -984,6 +972,7 @@ public class PopulateSubmissionViewHolder {
                     title.setText(R.string.type_link);
                     break;
             }
+
             View baseView;
 
             View back = holder.itemView;
@@ -993,23 +982,26 @@ public class PopulateSubmissionViewHolder {
             } catch (URISyntaxException e1) {
                 e1.printStackTrace();
             }
-            if (bigAtEnd) {
-                baseView = holder.imageArea;
-            } else {
-                baseView = holder.previewContent;
-            }
-            addClickFunctions(holder.imageArea, baseView, type, mContext, submission, back);
-            addClickFunctions(holder.thumbImage, baseView, type, mContext, submission, back);
-            addClickFunctions(holder.leadImage, baseView, type, mContext, submission, back);
-            if (!full)
-                addClickFunctions(thumbImage2, baseView, type, mContext, submission, back);
 
-            addClickFunctions(holder.previewContent, baseView, type, mContext, submission, back);
-        } else if(submission.isSelfPost()) {
+            baseView = holder.imageArea;
+
+            addClickFunctions(holder.imageArea, baseView, type, mContext, submission, back);
+            addClickFunctions(holder.leadImage, baseView, type, mContext, submission, back);
+
+            addClickFunctions(thumbImage2, holder.imageArea, type, mContext, submission, holder.itemView);
+
+
+
+        if (submission.isSelfPost() && full) {
             holder.imageArea.setVisibility(View.GONE);
-            holder.itemView.findViewById(R.id.base2).setVisibility(View.GONE);
+
+            holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
         }
 
+        if (full) {
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), holder.imageArea, type, mContext, submission, holder.itemView);
+
+        }
         View pinned = holder.itemView.findViewById(R.id.pinned);
 
 

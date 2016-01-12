@@ -20,7 +20,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final TextView contentTitle;
     public final TextView contentURL;
     public final ImageView thumbImage;
-    public final View previewContent;
     public final TextView score;
     public final TextView comments;
     public final TextView info;
@@ -43,7 +42,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         score = (TextView) v.findViewById(R.id.score);
         comments = (TextView) v.findViewById(R.id.comments);
         View actionBar = v.findViewById(R.id.actionbar);
-        previewContent = v.findViewById(R.id.previewContent);
         gildText = (TextView)v.findViewById(R.id.gildtext);
         gildLayout = v.findViewById(R.id.gild);
 

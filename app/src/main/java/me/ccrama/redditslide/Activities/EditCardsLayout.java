@@ -3,14 +3,11 @@ package me.ccrama.redditslide.Activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -116,38 +113,33 @@ public class EditCardsLayout extends BaseActivity {
 
             }
         });
+        final SwitchCompat cropped = (SwitchCompat) findViewById(R.id.bigpiccropped);
 
-        //Link preview//
-        //Big, Infobar, thumb only//
-        final TextView infobar = (TextView) findViewById(R.id.infobar);
-        infobar.setText(CreateCardView.getInfoBar(!subreddit.isEmpty()).toString().replace("_", " ").toLowerCase());
-        findViewById(R.id.infobar_click).setOnClickListener(new View.OnClickListener() {
+        //Big pic enabled//
+        final SwitchCompat bigpic = (SwitchCompat) findViewById(R.id.bigpicsqitch);
+        bigpic.setChecked(SettingValues.bigPicEnabled);
+        bigpic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
-                //Inflating the Popup using xml file
-                popup.getMenu().add("Big Picture");
-                popup.getMenu().add("Big Picture Cropped");
-                popup.getMenu().add("Info Bar");
-                popup.getMenu().add("Thumbnail");
-                popup.getMenu().add("None");
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setBigPicEnabled(isChecked, layout));
+                cropped.setEnabled(bigpic.isChecked());
 
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        layout.removeAllViews();
-                        layout.addView(CreateCardView.setInfoBarVisible(SettingValues.InfoBar.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())), layout, !subreddit.isEmpty(), subreddit));
-                        infobar.setText(CreateCardView.getInfoBar(!subreddit.isEmpty()).toString().replace("_", " ").toLowerCase());
-
-                        return true;
-                    }
-                });
-
-                popup.show();
             }
         });
+        //Big pic cropped//
 
+        cropped.setChecked(SettingValues.bigPicEnabled);
+            cropped.setEnabled(bigpic.isChecked());
 
+        cropped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setBigPicCropped(isChecked, layout));
+
+            }
+        });
         //Actionbar//
         //Enable, collapse//
         final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.action);
@@ -174,7 +166,6 @@ public class EditCardsLayout extends BaseActivity {
                 layout.removeAllViews();
                 layout.addView(CreateCardView.CreateView(layout, !subreddit.isEmpty(), subreddit));
                 actionbar.setChecked(CreateCardView.isActionBar(!subreddit.isEmpty()));
-                infobar.setText(CreateCardView.getInfoBar(!subreddit.isEmpty()).toString().replace("_", " ").toLowerCase());
 
             }
         });

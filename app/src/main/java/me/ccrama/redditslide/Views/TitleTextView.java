@@ -15,25 +15,31 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 public class TitleTextView extends SpoilerRobotoTextView {
     public TitleTextView(Context c) {
         super(c);
-        Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                c,
-                new FontPreferences(c).getFontTypeTitle().getTypeface());
-        setTypeface(typeface);
+        if(!isInEditMode()) {
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    c,
+                    new FontPreferences(c).getFontTypeTitle().getTypeface());
+            setTypeface(typeface);
+        }
     }
 
     public TitleTextView(Context c, AttributeSet attrs) {
         super(c, attrs);
-        Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                c,
-                new FontPreferences(c).getFontTypeTitle().getTypeface());
-        setTypeface(typeface);
+        if(!isInEditMode()) {
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    c,
+                    new FontPreferences(c).getFontTypeTitle().getTypeface());
+            setTypeface(typeface);
+        }
     }
 
     public TitleTextView(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
-        Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                c,
-                new FontPreferences(c).getFontTypeTitle().getTypeface());
-        setTypeface(typeface);
+        if(!isInEditMode()) {
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    c,
+                    new FontPreferences(c).getFontTypeTitle().getTypeface());
+            setTypeface(typeface);
+        }
     }
 }

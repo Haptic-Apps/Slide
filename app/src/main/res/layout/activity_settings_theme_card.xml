@@ -131,13 +131,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/info"
+                android:id="@+id/bigpic"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="16dp"
+
                 android:paddingRight="16dp">
 
                 <ImageView
@@ -146,59 +146,11 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/image"
+                    android:src="@drawable/ic_insert_photo_white_48dp"
                     android:tint="?attr/tint" />
 
-                <LinearLayout
-                    android:id="@+id/infobar_click"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_image"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/infobar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/misc_none"
-                        android:textColor="?attr/font"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/hide_button"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/hide"
-
-                    android:tint="?attr/tint" />
                 <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/hidebutton"
+                    android:id="@+id/bigpicsqitch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
@@ -208,7 +160,43 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="@string/card_hide_post_button"
+                    android:text="Big picture enabled"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bigpcropped"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/cropped"
+                    android:tint="?attr/tint" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/bigpiccropped"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="Crop big picture"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>
@@ -244,6 +232,40 @@
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/card_actionbar"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/hidebuttonlayout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/hide"
+                    android:tint="?attr/tint" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/hidebutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="@string/card_hide_post_button"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </LinearLayout>

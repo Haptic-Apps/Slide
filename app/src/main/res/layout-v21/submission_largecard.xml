@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
 
     android:layout_height="wrap_content"
     android:gravity="center"
+
 
     android:orientation="vertical">
 
@@ -65,10 +67,10 @@
                         android:id="@+id/textimage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/example_domain"
                         android:paddingTop="8dp"
+                        android:text="@string/example_domain"
                         android:textColor="#ffffff"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/subtextimage"
@@ -91,7 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
 
                 >
 
@@ -108,120 +111,112 @@
                         android:paddingBottom="8dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="24dp">
+                        >
 
                         <me.ccrama.redditslide.Views.TitleTextView
                             android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="8dp"
+                            android:paddingBottom="4dp"
                             android:text="@string/example_title"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
-
-
+                            android:textSize="20sp" />
 
 
                         <com.wefika.flowlayout.FlowLayout
                             android:layout_width="wrap_content"
-
+                            android:alpha=".72"
                             android:layout_height="wrap_content">
+
                             <TextView
                                 android:id="@+id/subreddit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:paddingRight="5dp"
                                 android:text="@string/example_sub"
 
                                 android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardinfo"
+                                android:textSize="12sp"
 
-                                android:textStyle="bold" />
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/submission_properties_seperator"
+                                android:textColor="?attr/font"
 
+                                android:textSize="12sp" />
                             <TextView
                                 android:id="@+id/information"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:alpha=".56"
-                                android:paddingRight="5dp"
-
                                 android:gravity="center_vertical"
+
                                 android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfo" />
+                                android:textSize="12sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/submission_properties_seperator"
+                                android:textColor="?attr/font"
 
+                                android:textSize="12sp" />
                             <TextView
                                 android:id="@+id/score"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_marginRight="8dp"
 
-                                android:alpha=".56"
                                 android:gravity="center_vertical"
                                 android:text="@string/example_points"
+
+                                android:textSize="12sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/submission_properties_seperator"
                                 android:textColor="?attr/font"
-
-                                android:textSize="?attr/font_cardinfo" />
-
+                                android:textSize="12sp" />
                             <TextView
                                 android:id="@+id/comments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_marginRight="8dp"
-                                android:alpha=".56"
 
                                 android:gravity="center_vertical"
                                 android:text="@string/example_comments"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfo" />
+                                android:textSize="12sp" />
 
-                            <include
-                                android:id="@+id/nsfw"
-                                layout="@layout/nsfw"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="8dp"
 
-                                />
-
-                            <include
-                                android:id="@+id/pinned"
-                                layout="@layout/stickied"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:src="@drawable/pinned" />
                         </com.wefika.flowlayout.FlowLayout>
                     </LinearLayout>
 
-                    <ImageView
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/thumbimage2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
                         android:adjustViewBounds="true"
-                        android:maxWidth="70dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/chameleon" />
+                        android:src="@drawable/chameleon"
+                        app:riv_corner_radius="2dp" />
                 </RelativeLayout>
 
-
-                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                <LinearLayout
                     android:id="@+id/previewContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:visibility="gone"
 
+                    android:orientation="vertical">
 
-                    >
 
 
                     <LinearLayout
@@ -232,21 +227,23 @@
                         android:maxHeight="82dp"
 
                         android:orientation="horizontal"
-                        android:paddingBottom="8dp"
+                        android:paddingBottom="4dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
 
                         android:paddingTop="8dp">
 
-                        <ImageView
+                        <com.makeramen.roundedimageview.RoundedImageView
                             android:id="@+id/thumbimage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="60dp"
+                            android:layout_width="65dp"
+                            android:layout_height="65dp"
                             android:layout_marginRight="8dp"
+
                             android:adjustViewBounds="true"
-                            android:maxWidth="60dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/chameleon" />
+                            android:src="@drawable/chameleon"
+                            app:riv_corner_radius="2dp" />
+
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -263,8 +260,9 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/example_domain"
                                 android:textColor="?attr/font"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                />
 
                             <TextView
                                 android:id="@+id/contenturl"
@@ -281,25 +279,19 @@
 
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/placeholder_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:alpha=".5"
-                    android:textColor="?attr/font"
-                    android:visibility="gone"/>
 
 
                 <RelativeLayout
                     android:id="@+id/actionbar"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="-8dp"
 
 
                     android:orientation="horizontal"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp">
+
 
                     <include
                         android:id="@+id/gild"
@@ -307,11 +299,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="16dp"
 
-                        android:orientation="horizontal"
-                        android:paddingLeft="8dp"
+
                         android:layout_alignParentLeft="true"
                         android:layout_centerInParent="true"
-                        android:layout_marginLeft="8dp" />
+                        android:layout_marginLeft="8dp"
+                        android:orientation="horizontal"
+                        android:padding="8dp" />
 
                     <include
                         android:id="@+id/flairbubble"
@@ -324,7 +317,31 @@
                         android:layout_toRightOf="@+id/gild"
 
                         android:src="@drawable/pinned" />
+                    <include
+                        android:id="@+id/nsfw"
+                        layout="@layout/nsfw"
+                        android:layout_toRightOf="@+id/pinned"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
 
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+
+                        />
+
+                    <include
+                        android:id="@+id/pinned"
+                        layout="@layout/stickied"
+                        android:layout_marginLeft="8dp"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+
+                        android:layout_toRightOf="@+id/flairbubble"
+
+                        android:src="@drawable/pinned" />
                     <ImageView
                         android:id="@+id/hide"
                         android:layout_width="36dp"
@@ -341,19 +358,18 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/downvote"
-                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:background="?android:selectableItemBackground"
                         android:padding="8dp"
                         android:src="@drawable/upvoted"
 
                         android:tint="?attr/tint" />
-
 
                     <ImageView
                         android:id="@+id/downvote"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/menu"
-                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:background="?android:selectableItemBackground"
                         android:padding="8dp"
 
                         android:src="@drawable/downvote"
@@ -364,7 +380,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/upvote"
-                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:background="?android:selectableItemBackground"
 
                         android:padding="8dp"
                         android:src="@drawable/mod"
@@ -376,7 +392,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_alignParentRight="true"
-                        android:background="?android:selectableItemBackgroundBorderless"
+                        android:background="?android:selectableItemBackground"
                         android:padding="8dp"
                         android:src="@drawable/more"
 
