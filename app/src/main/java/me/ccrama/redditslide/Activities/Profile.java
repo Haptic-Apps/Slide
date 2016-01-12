@@ -135,9 +135,9 @@ public class Profile extends BaseActivityAnim {
 
                    friend = account.isFriend();
                     if(friend){
-                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Remove friend");
+                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
                     } else {
-                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Add friend");
+                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
 
                     }
                     dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
@@ -164,11 +164,10 @@ public class Profile extends BaseActivityAnim {
                                 }
                                 @Override
                             public void onPostExecute(Void voids){
-                                    if(friend){
-                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Remove friend");
+                                    if (friend) {
+                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
                                     } else {
-                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText("Add friend");
-
+                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
                                     }
                                 }
                             }.execute();
