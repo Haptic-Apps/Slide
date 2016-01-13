@@ -425,31 +425,33 @@ public class MakeTextviewClickable {
             if (url == null) {
                 return;
             }
-            new BottomSheet.Builder(c, R.style.BottomSheet_Dialog)
-                    .title(url)
-                    .grid()
-                    .sheet(R.menu.link_menu)
-                    .listener(new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case R.id.open_link:
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    c.startActivity(browserIntent);
-                                    break;
-                                case R.id.share_link:
-                                    Reddit.defaultShareText(url, c);
-                                    break;
-                                case R.id.copy_link:
-                                    ClipboardManager clipboard = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clip = ClipData.newPlainText("Link", url);
-                                    clipboard.setPrimaryClip(clip);
+            if(!(c).isFinishing()) {
+                new BottomSheet.Builder(c, R.style.BottomSheet_Dialog)
+                        .title(url)
+                        .grid()
+                        .sheet(R.menu.link_menu)
+                        .listener(new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case R.id.open_link:
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                        c.startActivity(browserIntent);
+                                        break;
+                                    case R.id.share_link:
+                                        Reddit.defaultShareText(url, c);
+                                        break;
+                                    case R.id.copy_link:
+                                        ClipboardManager clipboard = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ClipData clip = ClipData.newPlainText("Link", url);
+                                        clipboard.setPrimaryClip(clip);
 
-                                    Toast.makeText(c, "Link copied", Toast.LENGTH_SHORT).show();
-                                    break;
+                                        Toast.makeText(c, "Link copied", Toast.LENGTH_SHORT).show();
+                                        break;
+                                }
                             }
-                        }
-                    }).show();
+                        }).show();
+            }
         }
     }
     /**

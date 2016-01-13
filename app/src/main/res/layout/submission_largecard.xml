@@ -110,7 +110,7 @@
                         android:paddingBottom="8dp"
                         android:paddingLeft="16dp"
                         android:paddingRight="16dp"
-                        android:paddingTop="16dp">
+                        >
 
                         <me.ccrama.redditslide.Views.TitleTextView
                             android:id="@+id/title"
@@ -119,12 +119,12 @@
                             android:paddingBottom="4dp"
                             android:text="@string/example_title"
                             android:textColor="?attr/font"
-                            android:textSize="20sp" />
+                            android:textSize="?attr/font_cardtitle"/>
 
 
                         <com.wefika.flowlayout.FlowLayout
                             android:layout_width="wrap_content"
-
+                            android:alpha=".72"
                             android:layout_height="wrap_content">
 
                             <TextView
@@ -132,14 +132,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:paddingRight="5dp"
                                 android:text="@string/example_sub"
 
                                 android:textColor="?attr/font"
-                                android:textSize="12sp"
+                                android:textSize="?attr/font_cardinfo"
 
                                 />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/submission_properties_seperator"
+                                android:textColor="?attr/font"
 
+                                android:textSize="?attr/font_cardinfo"/>
                             <TextView
                                 android:id="@+id/information"
                                 android:layout_width="wrap_content"
@@ -147,36 +152,44 @@
                                 android:layout_gravity="start"
                                 android:gravity="center_vertical"
 
-                                android:paddingRight="5dp"
                                 android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
-                                android:textSize="12sp" />
+                                android:textSize="?attr/font_cardinfo"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/submission_properties_seperator"
+                                android:textColor="?attr/font"
 
+                                android:textSize="?attr/font_cardinfo"/>
                             <TextView
                                 android:id="@+id/score"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_marginRight="8dp"
 
                                 android:gravity="center_vertical"
                                 android:text="@string/example_points"
 
-                                android:textSize="12sp" />
-
+                                android:textSize="?attr/font_cardinfo"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/submission_properties_seperator"
+                                android:textColor="?attr/font"
+                                android:textSize="?attr/font_cardinfo"/>
                             <TextView
                                 android:id="@+id/comments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:layout_marginRight="8dp"
 
                                 android:gravity="center_vertical"
                                 android:text="@string/example_comments"
                                 android:textColor="?attr/font"
 
-                                android:textSize="12sp" />
+                                android:textSize="?attr/font_cardinfo"/>
 
 
                         </com.wefika.flowlayout.FlowLayout>

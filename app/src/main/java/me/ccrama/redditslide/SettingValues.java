@@ -37,7 +37,7 @@ public class SettingValues {
 
         NSFWPosts = settings.getBoolean("NSFWPostsNew", false);
         bigPicCropped = settings.getBoolean("bigPicCropped", false);
-        bigPicEnabled = settings.getBoolean("bigPicEnabled", false);
+        bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
 
         NSFWPreviews = settings.getBoolean("NSFWPreviewsNew", false);
         colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));
