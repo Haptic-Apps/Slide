@@ -26,6 +26,7 @@ import net.dean.jraw.models.Submission;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -279,9 +280,13 @@ public class SubmissionsView extends Fragment {
                             Hidden.setHidden(adapter.dataSet.posts.get(i));
                         }
                         adapter.dataSet.posts.remove(i);
-                        if(i == 0){
+                        if(adapter.dataSet.posts.size() == 0){
                             adapter.notifyDataSetChanged();
                         } else {
+                            if(Reddit.animation)
+
+                                rv.setItemAnimator(new FadeInAnimator());
+
                             adapter.notifyItemRemoved(i);
                         }
                     }
@@ -289,6 +294,8 @@ public class SubmissionsView extends Fragment {
                     //Let the loop reset itself
                 }
             }
+            if(Reddit.animation)
+                rv.setItemAnimator(new SubtleSlideInUp(getContext()));
             return originalDataSetPosts;
         }
         return null;

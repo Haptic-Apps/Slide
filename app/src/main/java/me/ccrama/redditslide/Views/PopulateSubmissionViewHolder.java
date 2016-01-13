@@ -823,6 +823,15 @@ public class PopulateSubmissionViewHolder {
             }
 
             thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
+        } else  if (submission.getThumbnailType() == Submission.ThumbnailType.NONE && type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF) {
+            holder.imageArea.setVisibility(View.GONE);
+            if (!full) {
+                thumbImage2.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
+            }
+
+            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nothumb));
         } else if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
             if (!full && !SettingValues.bigPicEnabled ) {
