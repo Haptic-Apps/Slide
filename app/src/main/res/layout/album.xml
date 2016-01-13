@@ -20,16 +20,36 @@
 
         >
 
+        <ImageView
+            android:id="@+id/slider"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+
+            android:padding="15dp"
+
+            android:src="@drawable/shadowbox" />
+
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-
-        android:id="@+id/images"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:dividerHeight="0dp" />
+        android:layout_height="match_parent">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/images_horizontal"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent" />
+
+        <android.support.v7.widget.RecyclerView
+
+            android:id="@+id/images"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+    </RelativeLayout>
 
 </LinearLayout>

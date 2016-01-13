@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
@@ -21,6 +23,7 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
+import me.ccrama.redditslide.Adapters.AlbumViewPager;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -89,6 +92,8 @@ public class Album extends FullScreenActivity {
 
     }
 
+    boolean slider;
+
     private String cutEnds(String s) {
         if (s.endsWith("/")) {
             return s.substring(0, s.length() - 1);
@@ -113,7 +118,7 @@ public class Album extends FullScreenActivity {
                                     Log.v("Slide", result.toString());
 
 
-                                    ArrayList<JsonElement> jsons = new ArrayList<>();
+                                    final ArrayList<JsonElement> jsons = new ArrayList<>();
 
 
                                     if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
@@ -139,11 +144,32 @@ public class Album extends FullScreenActivity {
                                             getSupportActionBar().setTitle(getString(R.string.album_title_count, jsons.size()));
 
 
-                                            RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                           final RecyclerView v = (RecyclerView) findViewById(R.id.images);
                                             final PreCachingLayoutManager mLayoutManager;
                                             mLayoutManager = new PreCachingLayoutManager(Album.this);
                                             v.setLayoutManager(mLayoutManager);
                                             v.setAdapter(new AlbumView(Album.this, jsons, true));
+                                            findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v3) {
+                                                    if(slider){
+                                                        v.setVisibility(View.VISIBLE);
+                                                        final PreCachingLayoutManager mLayoutManager;
+                                                        mLayoutManager = new PreCachingLayoutManager(Album.this);
+                                                        v.setLayoutManager(mLayoutManager);
+                                                        v.setAdapter(new AlbumView(Album.this, jsons, true));
+                                                        findViewById(R.id.images_horizontal).setVisibility(View.GONE);
+                                                        slider = false;
+                                                    } else {
+                                                        v.setVisibility(View.GONE);
+                                                        ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+                                                        p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, true));
+                                                        p.setVisibility(View.VISIBLE);
+
+                                                        slider = true;
+                                                    }
+                                                }
+                                            });
 
                                         }
                                     }
@@ -181,7 +207,7 @@ public class Album extends FullScreenActivity {
                                 if (result != null) {
                                     Log.v("Slide", result.toString());
 
-                                    ArrayList<JsonElement> jsons = new ArrayList<>();
+                                    final ArrayList<JsonElement> jsons = new ArrayList<>();
 
                                     if (result.has("album")) {
                                         if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
@@ -200,12 +226,32 @@ public class Album extends FullScreenActivity {
                                             }
 
 
-                                            RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                            final RecyclerView v = (RecyclerView) findViewById(R.id.images);
                                             final PreCachingLayoutManager mLayoutManager;
                                             mLayoutManager = new PreCachingLayoutManager(Album.this);
                                             v.setLayoutManager(mLayoutManager);
                                             v.setAdapter(new AlbumView(Album.this, jsons, false));
+                                            findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v3) {
+                                                    if (slider) {
+                                                        v.setVisibility(View.VISIBLE);
+                                                        final PreCachingLayoutManager mLayoutManager;
+                                                        mLayoutManager = new PreCachingLayoutManager(Album.this);
+                                                        v.setLayoutManager(mLayoutManager);
+                                                        v.setAdapter(new AlbumView(Album.this, jsons, false));
+                                                        findViewById(R.id.images_horizontal).setVisibility(View.GONE);
+                                                        slider = false;
+                                                    } else {
+                                                        v.setVisibility(View.GONE);
+                                                        ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+                                                        p.setVisibility(View.VISIBLE);
 
+                                                        p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, false));
+                                                        slider = true;
+                                                    }
+                                                }
+                                            });
                                         } else {
 
                                             new AlertDialogWrapper.Builder(Album.this)

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+
+        android:layout_alignParentTop="true"
+        android:textColor="#fff"
+        android:textSize="12sp"/>
+    <me.ccrama.redditslide.SpoilerRobotoTextView
+        android:id="@+id/imagetitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/page"
+        android:padding="16dp"
+        android:layout_alignParentTop="true"
+        android:textColor="#fff"
+        android:textSize="14sp"/>
+
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+       />
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:indeterminate="false"
+        android:max="100"
+
+        android:progress="0"
+        />
+    <me.ccrama.redditslide.SpoilerRobotoTextView
+        android:id="@+id/imageCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+
+        android:layout_alignParentBottom="true"
+        android:textColor="#fff"
+        android:textSize="12sp"/>
+
+
+</RelativeLayout>
