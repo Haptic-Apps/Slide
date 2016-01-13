@@ -106,6 +106,7 @@ public class SubredditPosts {
     public void addData(List<Submission> data) {
         posts.addAll(data);
     }
+    boolean doneOnce;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
         final boolean reset;
@@ -298,10 +299,12 @@ public class SubredditPosts {
 
             if (NetworkUtil.isConnected(refreshLayout.getContext()) ) {
                 stillShow = true;
-                if (Reddit.cacheDefault && reset && !forced) {
+                if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce) {
                     offline = true;
+                    doneOnce = true;
                     return null;
                 }
+
                 offline = false;
 
                 if (reset || paginator == null) {

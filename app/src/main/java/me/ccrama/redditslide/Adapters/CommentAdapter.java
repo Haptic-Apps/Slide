@@ -53,6 +53,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 import me.ccrama.redditslide.Activities.Profile;
@@ -1194,7 +1195,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void hideAll(CommentNode n, int i) {
         int counter = hideNumber(n, 0);
-        listView.setItemAnimator(new SlideInDownAnimator());
+        listView.setItemAnimator(new FadeInDownAnimator());
 
         notifyItemRangeRemoved(i, counter);
 

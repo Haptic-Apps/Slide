@@ -46,7 +46,7 @@ public class CustomTabUtil {
                 Log.w("OpenCustomTab", "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
             }
-        } else if(!Reddit.customtabs) {
+        } else if(!Reddit.customtabs && Reddit.web) {
             Intent i = new Intent(contextActivity, Website.class);
             i.putExtra("url", url);
             i.putExtra("color", color);

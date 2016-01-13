@@ -15,6 +15,7 @@
         <attr name="font_commentbody" format="dimension" />
 
     </declare-styleable>
+
     <declare-styleable name="Theme">
         <attr name="activity_background" format="color" />
         <attr name="card_background" format="color" />
