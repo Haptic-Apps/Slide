@@ -3,7 +3,6 @@
 
     android:layout_height="wrap_content"
 
-    android:background="?attr/card_background"
 
     android:clipChildren="false"
 
@@ -15,6 +14,7 @@
         android:id="@+id/dots"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/activity_background"
 
         android:orientation="horizontal">
 
@@ -29,23 +29,37 @@
 
         android:background="?attr/tint" />
 
-
-    <Button
-
-        android:id="@+id/content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
         android:background="?attr/card_background"
 
-        android:gravity="center_vertical"
-        android:paddingLeft="8dp"
+        android:layout_height="wrap_content">
+        <TextView
 
-        android:text="@string/comment_load_more"
-        android:textAllCaps="false"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+
+            android:text="@string/comment_load_more"
+            android:textAllCaps="false"
+
+            android:background="?attr/card_background"
+            android:layout_toRightOf="@+id/loading"
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_commenttitle"/>
+        <ProgressBar
+            android:layout_width="35dp"
+            android:id="@+id/loading"
+            android:indeterminate="true"
+
+            android:layout_height="35dp" />
+    </RelativeLayout>
 
 
-        android:textColor="?attr/font"
-        android:textSize="?attr/font_commenttitle" />
+
 
 
 </LinearLayout>

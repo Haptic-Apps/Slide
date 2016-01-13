@@ -771,10 +771,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     width += dwidth;
                 }
 
+                final View progress = moreComments.findViewById(R.id.loading);
+                progress.setVisibility(View.GONE);
                 (moreComments.findViewById(R.id.content)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
+                        if(progress.getVisibility() == View.GONE) {
+                            progress.setVisibility(View.VISIBLE);
+                            ((TextView)moreComments.findViewById(R.id.content)).setText("Loading more comments...");
+                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
+                        }
 
 
                     }
