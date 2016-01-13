@@ -25,10 +25,10 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -85,8 +85,9 @@ public class SubredditPosts {
         new LoadData(reset).execute(subreddit);
 
     }
+
     private static boolean isBlurry(JsonNode s, Context mC, String title) {
-        if(Reddit.blurCheck){
+        if (Reddit.blurCheck) {
             return false;
         } else {
             int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
@@ -98,6 +99,7 @@ public class SubredditPosts {
             return dp < screenWidthDp / 3;
         }
     }
+
     public OfflineSubreddit cached;
 
     public ArrayList<String> contained;
@@ -106,6 +108,7 @@ public class SubredditPosts {
     public void addData(List<Submission> data) {
         posts.addAll(data);
     }
+
     boolean doneOnce;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
@@ -120,28 +123,37 @@ public class SubredditPosts {
             loading = false;
 
 
-
             if (subs != null && subs.size() > 0) {
 
                 int start = 0;
-                if(posts != null){
+                if (posts != null) {
                     start = posts.size() + 1;
                 }
                 if (reset || offline || posts == null) {
-                    posts = subs;
+
+                    ArrayList<Submission> finalSubs = new ArrayList<>();
+                    for (Submission s : subs) {
+
+                        if (!PostMatch.doesMatch(s)) {
+                            finalSubs.add(s);
+                        }
+                    }
+                    posts = finalSubs;
                     contained = new ArrayList<>();
-                    for(Submission s : posts){
+                    for (Submission s : posts) {
                         contained.add(s.getFullName());
                     }
                     start = -1;
                 } else {
-                   for(Submission s : subs){
-                       if(contained.contains(s.getFullName())){
+                    ArrayList<Submission> finalSubs = new ArrayList<>();
+                    for (Submission s : subs) {
 
-                           subs.remove(s);
-                       }
-                   }
-                    posts.addAll(subs);
+                        if (!contained.contains(s.getFullName()) && !PostMatch.doesMatch(s)) {
+                            finalSubs.add(s);
+                        }
+                    }
+
+                    posts.addAll(finalSubs);
                     offline = false;
 
 
@@ -159,7 +171,7 @@ public class SubredditPosts {
                         }
 
 
-                        if(finalStart != -1) {
+                        if (finalStart != -1) {
                             adapter.notifyItemRangeInserted(finalStart, posts.size());
                         } else {
                             adapter.notifyDataSetChanged();
@@ -174,8 +186,16 @@ public class SubredditPosts {
                 Log.v("Slide", "GETTING SUB " + subreddit.toLowerCase());
                 offline = true;
                 cached = Cache.getSubreddit(subreddit.toLowerCase());
-                posts = cached.submissions;
-                if (cached.submissions.size() > 0 ) {
+                ArrayList<Submission> finalSubs = new ArrayList<>();
+                for (Submission s : cached.submissions) {
+
+                    if (!PostMatch.doesMatch(s)) {
+                        finalSubs.add(s);
+                    }
+                }
+
+                posts = finalSubs;
+                if (cached.submissions.size() > 0) {
                     stillShow = true;
                 } else {
                     refreshLayout.setRefreshing(false);
@@ -193,8 +213,7 @@ public class SubredditPosts {
                         }
 
 
-
-                            adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
 
 
                     }
@@ -237,48 +256,46 @@ public class SubredditPosts {
                     };
 
 
+                    boolean bigAtEnd = false;
+                    if (!s.isNsfw() || SettingValues.NSFWPreviews) {
+                        if (type == ContentType.ImageType.IMAGE) {
+                            url = ContentType.getFixedUrl(s.getUrl());
+                            if (SettingValues.bigPicEnabled) {
+                                ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
 
-                        boolean bigAtEnd = false;
-                        if (!s.isNsfw() || SettingValues.NSFWPreviews) {
-                            if (type == ContentType.ImageType.IMAGE) {
-                                url = ContentType.getFixedUrl(s.getUrl());
-                                if (SettingValues.bigPicEnabled) {
-                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                            } else {
 
-                                } else {
-
-                                    if(s.getThumbnailType() != Submission.ThumbnailType.NONE)
+                                if (s.getThumbnailType() != Submission.ThumbnailType.NONE)
                                     ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
 
-                                }
-                            } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") ) {
+                            }
+                        } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
 
-                                url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                            url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                            if (SettingValues.bigPicEnabled) {
+                                ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+
+                            } else {
+
+                                if (s.getThumbnailType() != Submission.ThumbnailType.NONE)
+                                    ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
+
+                            }
+                        } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+
+                            if ((SettingValues.NSFWPreviews && s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
                                 if (SettingValues.bigPicEnabled) {
                                     ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
 
                                 } else {
 
-                                    if(s.getThumbnailType() != Submission.ThumbnailType.NONE)
+                                    if (s.getThumbnailType() != Submission.ThumbnailType.NONE)
                                         ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
 
                                 }
-                            } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
 
-                                if ((SettingValues.NSFWPreviews && s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
-                                    if (SettingValues.bigPicEnabled) {
-                                        ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-
-                                    } else {
-
-                                        if(s.getThumbnailType() != Submission.ThumbnailType.NONE)
-                                            ((Reddit) refreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-
-                                    }
-
-                                }
                             }
-                            
+                        }
 
 
                     }
@@ -297,7 +314,7 @@ public class SubredditPosts {
                 posts = new ArrayList<>();
             }
 
-            if (NetworkUtil.isConnected(refreshLayout.getContext()) ) {
+            if (NetworkUtil.isConnected(refreshLayout.getContext())) {
                 stillShow = true;
                 if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce) {
                     offline = true;

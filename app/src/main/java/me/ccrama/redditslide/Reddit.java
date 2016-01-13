@@ -32,6 +32,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.LoadingData;
@@ -69,6 +70,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
     public static boolean scrollSeen;
+    public static String titleFilters;
+    public static String textFilters;
+    public static String domainFilters;
+    public static String titleFiltersRegex;
+    public static String textFiltersRegex;
+    public static String domainFiltersRegex;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -158,7 +165,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         super.onLowMemory();
         getImageLoader().clearMemoryCache();
     }
-
+    public static String regex(String toSplit) {
+        String[] names = toSplit.split(",");
+        final StringBuilder b = new StringBuilder();
+        String separator = "";
+        for (final String name: names) {
+            b.append(separator);
+            b.append(Pattern.quote(name.trim()));
+            separator = "|";
+        }
+        return b.toString();
+    }
     public ImageLoader getImageLoader() {
         if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
             ImageLoaderUtils.initImageLoader(getApplicationContext());
@@ -369,6 +386,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         customtabs = SettingValues.prefs.getBoolean("customtabs", true);
         scrollSeen = SettingValues.prefs.getBoolean("scrollSeen", false);
         hideHeader = SettingValues.prefs.getBoolean("hideHeader", false);
+        titleFilters = SettingValues.prefs.getString("titleFilters", "");
+        textFilters = SettingValues.prefs.getString("textFilters", "");
+        domainFilters = SettingValues.prefs.getString("domainFilters", "");
+
+        titleFiltersRegex = regex(titleFilters);
+        textFiltersRegex = regex(textFilters);
+        domainFiltersRegex = regex(domainFilters);
 
         swipeAnywhere = SettingValues.prefs.getBoolean("swipeAnywhere", false);
         album = SettingValues.prefs.getBoolean("album", true);

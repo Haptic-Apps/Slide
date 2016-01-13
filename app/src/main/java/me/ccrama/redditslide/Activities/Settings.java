@@ -93,6 +93,14 @@ public class Settings extends BaseActivity {
 
 
 
+        findViewById(R.id.filter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Settings.this, SettingsFilter.class);
+                startActivity(i);
+            }
+        });
         findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
