@@ -115,8 +115,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int currentPosition;
 
     public static void forceRestart(Context context) {
-        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (appRestart.contains("back")) {
+            appRestart.edit().remove("back").commit();
+        }Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
+        launchIntent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(launchIntent);
         System.exit(0);
     }

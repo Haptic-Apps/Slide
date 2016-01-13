@@ -71,6 +71,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
@@ -338,7 +339,7 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_overview);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
@@ -360,17 +361,48 @@ public class MainActivity extends BaseActivity {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         // Disable swiping if single mode is enabled
         if (singleMode) pager.setSwipingEnabled(false);
-        if (!first) {
-            doDrawer();
-        }
+
 
         if (SubredditStorage.subredditsForHome != null) {
+            doDrawer();
+
             setDataSet(SubredditStorage.subredditsForHome);
+
         } else {
             ((Reddit) getApplication()).doMainStuff();
-            Intent i = getIntent();
-            finish();
-            startActivity(i);
+
+
+            final Dialog d = new MaterialDialog.Builder(this)
+                    .title("Switching Accounts")
+                    .cancelable(false)
+                    .progress(true, 100)
+                    .show();
+
+            findViewById(R.id.header).setVisibility(View.GONE);
+
+            //Hopefully will allow Authentication time to authenticate and for SubredditStorage to get subs list
+            toolbar.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (SubredditStorage.subredditsForHome != null) {
+                                findViewById(R.id.header).setVisibility(View.VISIBLE);
+
+                                doDrawer();
+
+                                setDataSet(SubredditStorage.subredditsForHome);
+                                d.dismiss();
+                            } else {
+                                toolbar.postDelayed(this, 2000);
+                            }
+                        }
+                    });
+
+                }
+            }, 2000);
+
         }
     }
 
@@ -987,39 +1019,65 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+
     public void chooseAccounts() {
-        final ArrayList<String> accounts = new ArrayList<>();
-        final ArrayList<String> names = new ArrayList<>();
+
+        final HashMap<String, String> accounts = new HashMap<>();
 
         for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
             if (s.contains(":")) {
-                accounts.add(s.split(":")[0]);
+                accounts.put(s.split(":")[0], s.split(":")[1]);
             } else {
-                accounts.add(s);
+
+                accounts.put(s, "");
             }
-            names.add(s);
         }
-        new AlertDialogWrapper.Builder(MainActivity.this)
+        final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+       new AlertDialogWrapper.Builder(MainActivity.this)
                 .setTitle(R.string.general_switch_acc)
-                .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, accounts), new DialogInterface.OnClickListener() {
+                .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (names.get(which).contains(":")) {
-                            String token = names.get(which).split(":")[1];
-                            Authentication.authentication.edit().putString("lasttoken", token).commit();
+                    public void onClick(final DialogInterface dialog, final int which) {
+                        new AlertDialogWrapper.Builder(MainActivity.this)
+                                .setTitle("Switch or Delete")
+                                .setMessage("Would you like to switch to this account or remove this account?")
+                                .setPositiveButton("Switch", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which2) {
+                                        if (!accounts.get(keys.get(which)).isEmpty()) {
+                                            Authentication.authentication.edit().putString("lasttoken", accounts.get(keys.get(which))).commit();
+                                        } else {
+                                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                            Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+                                        }
 
-                        } else {
+                                        Reddit.forceRestart(MainActivity.this);
+                                    }
+                                }).setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog2, int which2) {
+                                Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                Set<String> done = new HashSet<>();
+                                for (String s : accounts2) {
+                                    if (!s.contains(keys.get(which))) {
+                                        done.add(s);
+                                    }
+                                }
+                                Authentication.authentication.edit().putStringSet("accounts", done).commit();
+                                dialog.dismiss();
+                                    dialog2.dismiss();
 
-                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                            Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
 
+                                chooseAccounts();
 
-                        }
+                            }
+                        }).show();
 
-                        Reddit.forceRestart(MainActivity.this);
 
                     }
-                }).create().show();
+                }).show();
+
+
     }
 
     public void resetAdapter() {

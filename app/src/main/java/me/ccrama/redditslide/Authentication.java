@@ -49,7 +49,7 @@ public class Authentication {
             hasDone =true;
             isLoggedIn = false;
             this.a = (Reddit) context;
-            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.3"));
+            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.5"));
             didOnline = true;
 
             new VerifyCredentials(context).execute();
