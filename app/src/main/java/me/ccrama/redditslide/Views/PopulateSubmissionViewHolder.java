@@ -992,11 +992,6 @@ public class PopulateSubmissionViewHolder {
 
 
 
-        if (submission.isSelfPost() && full) {
-            holder.imageArea.setVisibility(View.GONE);
-
-            holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
-        }
 
         if (full) {
             addClickFunctions(holder.itemView.findViewById(R.id.wraparea), holder.imageArea, type, mContext, submission, holder.itemView);
