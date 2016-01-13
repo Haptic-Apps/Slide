@@ -292,7 +292,7 @@
                     android:paddingRight="16dp"
                     android:textColor="?attr/font"
 
-                    android:textSize="14sp" />
+                    android:textSize="?attr/font_commentbody" />
             </LinearLayout>
 
             <RelativeLayout
