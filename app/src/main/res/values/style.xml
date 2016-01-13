@@ -220,15 +220,15 @@
 
     </style>
     <style name="FontStyle.Large">
-        <item name="font_cardtitle">20sp</item>
-        <item name="font_cardinfo">12sp</item>
+        <item name="font_cardtitle">22sp</item>
+        <item name="font_cardinfo">14sp</item>
         <item name="font_commenttitle">14sp</item>
         <item name="font_commentinfo">14sp</item>
         <item name="font_commentbody">16sp</item>
     </style>
     <style name="FontStyle.Larger">
-        <item name="font_cardtitle">22sp</item>
-        <item name="font_cardinfo">14sp</item>
+        <item name="font_cardtitle">24sp</item>
+        <item name="font_cardinfo">16sp</item>
         <item name="font_commenttitle">16sp</item>
         <item name="font_commentinfo">16sp</item>
         <item name="font_commentbody">18sp</item>
