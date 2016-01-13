@@ -109,8 +109,9 @@
                         android:layout_toLeftOf="@+id/thumbimage2"
                         android:orientation="vertical"
                         android:paddingBottom="8dp"
+
                         android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
+                        android:paddingRight="8dp"
                         >
 
                         <me.ccrama.redditslide.Views.TitleTextView
