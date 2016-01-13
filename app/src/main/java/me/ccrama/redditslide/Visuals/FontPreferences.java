@@ -52,9 +52,12 @@ public class FontPreferences {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
     public enum FontStyle {
+        Smaller(R.style.FontStyle_Smaller, "Smaller"),
+
         Small(R.style.FontStyle_Small, "Small"),
         Medium(R.style.FontStyle_Medium, "Medium"),
-        Large(R.style.FontStyle_Large, "Large");
+        Large(R.style.FontStyle_Large, "Large"),
+        Larger(R.style.FontStyle_Larger, "Larger");
 
         private final int resId;
         private final String title;
@@ -94,9 +97,12 @@ public class FontPreferences {
         }
     }
     public enum FontTypeTitle {
-        Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_LIGHT, "Slab"),
-        Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_LIGHT, "Condensed"),
-        Regular(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Regular");
+        Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_LIGHT, "Slab Light"),
+        SlabReg(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_REGULAR, "Slab Regular"),
+        Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_LIGHT, "Condensed Light"),
+        CondensedReg(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed Regular"),
+        Light(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Light"),
+        Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular");
 
         private final int typeface;
         private final String title;

@@ -94,14 +94,14 @@ android:background="?attr/activity_background">
 
 
            <com.devspark.robototextview.widget.RobotoRadioButton
-               android:layout_width="wrap_content"
+               android:layout_width="match_parent"
                android:text="Regular"
                android:background="?android:selectableItemBackground"
                android:id="@+id/creg"
                app:typeface="roboto_regular"
                android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:text="Slab"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/cslab"
@@ -109,7 +109,7 @@ android:background="?attr/activity_background">
                 app:typeface="roboto_slab_regular"
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/ccond"
 
@@ -139,7 +139,7 @@ android:background="?attr/activity_background">
 
 
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:text="Regular"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/sreg"
@@ -147,7 +147,15 @@ android:background="?attr/activity_background">
                 app:typeface="roboto_regular"
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Light"
+                android:background="?android:selectableItemBackground"
+                android:id="@+id/sregl"
+
+                app:typeface="roboto_regular"
+                android:layout_height="wrap_content" />
+            <com.devspark.robototextview.widget.RobotoRadioButton
+                android:layout_width="match_parent"
                 android:text="Slab"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/sslab"
@@ -155,13 +163,29 @@ android:background="?attr/activity_background">
                 app:typeface="roboto_slab_regular"
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Slab Light"
+                android:background="?android:selectableItemBackground"
+                android:id="@+id/sslabl"
+
+                app:typeface="roboto_slab_light"
+                android:layout_height="wrap_content" />
+            <com.devspark.robototextview.widget.RobotoRadioButton
+                android:layout_width="match_parent"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/scond"
 
                 android:text="Condensed"
                 app:typeface="roboto_condensed_regular"
                 android:layout_height="wrap_content" />
+            <com.devspark.robototextview.widget.RobotoRadioButton
+            android:layout_width="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:id="@+id/scondl"
+
+            android:text="Condensed Light"
+            app:typeface="roboto_condensed_light"
+            android:layout_height="wrap_content" />
 
         </RadioGroup>
 

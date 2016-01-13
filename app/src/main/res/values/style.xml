@@ -194,7 +194,7 @@
     </style>
 
     <style name="FontStyle.Medium">
-        <item name="font_cardtitle">18sp</item>
+        <item name="font_cardtitle">20sp</item>
         <item name="font_cardinfo">12sp</item>
         <item name="font_commenttitle">12sp</item>
         <item name="font_commentinfo">12sp</item>
@@ -204,6 +204,14 @@
     <style name="FontStyle"></style>
 
     <style name="FontStyle.Small">
+        <item name="font_cardtitle">18sp</item>
+        <item name="font_cardinfo">10sp</item>
+        <item name="font_commenttitle">10sp</item>
+        <item name="font_commentinfo">10sp</item>
+        <item name="font_commentbody">12sp</item>
+
+    </style>
+    <style name="FontStyle.Smaller">
         <item name="font_cardtitle">16sp</item>
         <item name="font_cardinfo">10sp</item>
         <item name="font_commenttitle">10sp</item>
@@ -211,15 +219,20 @@
         <item name="font_commentbody">12sp</item>
 
     </style>
-
     <style name="FontStyle.Large">
-        <item name="font_cardtitle">20sp</item>
-        <item name="font_cardinfo">12sp</item>
+        <item name="font_cardtitle">22sp</item>
+        <item name="font_cardinfo">14sp</item>
         <item name="font_commenttitle">14sp</item>
         <item name="font_commentinfo">14sp</item>
         <item name="font_commentbody">16sp</item>
     </style>
-
+    <style name="FontStyle.Larger">
+        <item name="font_cardtitle">24sp</item>
+        <item name="font_cardinfo">16sp</item>
+        <item name="font_commenttitle">16sp</item>
+        <item name="font_commentinfo">16sp</item>
+        <item name="font_commentbody">18sp</item>
+    </style>
     <style name="Theme.LIGHT" parent="swipestylelight">
         <item name="activity_background">#dedede</item>
         <item name="card_background">#FFFFFF</item>
