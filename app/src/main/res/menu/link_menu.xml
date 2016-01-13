@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/open_link"
+        android:title="@string/submission_link_extern"
+        android:icon="@drawable/ic_open_in_browser" />
+    <item
+        android:id="@+id/share_link"
+        android:title="@string/share_link"
+        android:icon="@drawable/ic_share" />
+    <item
+        android:id="@+id/copy_link"
+        android:title="@string/submission_link_copy"
+        android:icon="@drawable/ic_content_copy" />
+</menu>

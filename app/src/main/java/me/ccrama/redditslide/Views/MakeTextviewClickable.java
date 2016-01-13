@@ -1,10 +1,15 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Handler;
 import android.text.Html;
 import android.text.Layout;
 import android.text.Spannable;
@@ -22,7 +27,9 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import java.net.URI;
@@ -273,13 +280,32 @@ public class MakeTextviewClickable {
         String subreddit;
         SpoilerRobotoTextView comm;
         CharSequence sequence;
+
+        boolean clickHandled;
+        Handler handler;
+        Runnable longClicked;
+        URLSpan[] link;
+
         public TextViewLinkHandler(Activity c, String subreddit, CharSequence sequence){
             this.c = c;
             this.subreddit = subreddit;
             this.sequence = sequence;
+
+            clickHandled = false;
+            handler = new Handler();
+            longClicked = new Runnable() {
+                @Override
+                public void run() {
+                    // long click
+                    clickHandled = true;
+                    handler.removeCallbacksAndMessages(null);
+
+                    onLinkLongClick(link[0].getURL());
+                }
+            };
         }
-        public boolean onTouchEvent(TextView widget, Spannable buffer, MotionEvent event) {
-            if (event.getAction() != MotionEvent.ACTION_UP)
+        public boolean onTouchEvent(TextView widget, final Spannable buffer, MotionEvent event) {
+            if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN))
                 return super.onTouchEvent(widget, buffer, event);
 
             comm = (SpoilerRobotoTextView) widget;
@@ -296,11 +322,27 @@ public class MakeTextviewClickable {
 
             Layout layout = widget.getLayout();
             int line = layout.getLineForVertical(y);
-            int off = layout.getOffsetForHorizontal(line, x);
+            final int off = layout.getOffsetForHorizontal(line, x);
 
-            URLSpan[] link = buffer.getSpans(off, off, URLSpan.class);
-            if (link.length != 0) {
-                onLinkClick(link[0].getURL());
+            link = buffer.getSpans(off, off, URLSpan.class);
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    clickHandled = false;
+                    if (link.length != 0) {
+                        handler.postDelayed(longClicked,
+                                android.view.ViewConfiguration.getLongPressTimeout());
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    handler.removeCallbacksAndMessages(null);
+                    if (!clickHandled) {
+                        // regular click
+                        if (link.length != 0) {
+                            onLinkClick(link[0].getURL());
+                        }
+                    }
+                    break;
             }
             return true;
         }
@@ -378,6 +420,37 @@ public class MakeTextviewClickable {
                      break;
              }
         };
+
+        public void onLinkLongClick(final String url) {
+            if (url == null) {
+                return;
+            }
+            new BottomSheet.Builder(c, R.style.BottomSheet_Dialog)
+                    .title(url)
+                    .grid()
+                    .sheet(R.menu.link_menu)
+                    .listener(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case R.id.open_link:
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    c.startActivity(browserIntent);
+                                    break;
+                                case R.id.share_link:
+                                    Reddit.defaultShareText(url, c);
+                                    break;
+                                case R.id.copy_link:
+                                    ClipboardManager clipboard = (ClipboardManager) c.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("Link", url);
+                                    clipboard.setPrimaryClip(clip);
+
+                                    Toast.makeText(c, "Link copied", Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }
+                    }).show();
+        }
     }
     /**
      * Moved the spoiler text inside of the "title" attribute to inside the link
