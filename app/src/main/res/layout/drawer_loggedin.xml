@@ -193,7 +193,6 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#fff"
-            android:text="4"
 
             android:layout_alignParentRight="true"
             android:background="@drawable/roundedback"

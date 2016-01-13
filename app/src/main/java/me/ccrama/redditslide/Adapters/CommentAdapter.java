@@ -167,8 +167,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         replie = new ArrayList<>();
 
 
+        notifyItemRangeChanged(1, users.size() + 1);
         isSame = false;
-        notifyDataSetChanged();
+
 
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 1;

@@ -104,7 +104,7 @@ public class SubmissionComments {
         mLoadData.execute(fullName);
     }
 
-    public class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
+    public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;
 
         public LoadData(boolean reset) {
@@ -112,20 +112,18 @@ public class SubmissionComments {
         }
 
         @Override
-        public void onPostExecute(ArrayList<Submission> subs) {
+        public void onPostExecute(ArrayList<CommentObject> subs) {
 
 
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
 
-            }
-            page.doData(reset);
+                page.doData(reset);
+
 
             refreshLayout.setRefreshing(false);
         }
 
         @Override
-        protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
+        protected ArrayList<CommentObject> doInBackground(String... subredditPaginators) {
             SubmissionRequest.Builder builder;
             if (context == null) {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
@@ -160,6 +158,7 @@ public class SubmissionComments {
                     i++;
 
                 }
+                return comments;
             } catch (NetworkException e) {
                 //Todo reauthenticate
             }
