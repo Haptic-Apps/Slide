@@ -89,8 +89,27 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
                 }
             }
         } else {
-            holder.body.setVisibility(View.GONE);
-            holder.text.setVisibility(View.GONE);
+            if(user.getAsJsonObject().has("title")){
+                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("title").getAsString(), holder.text, (Activity) main, "");
+                if (holder.text.getText().toString().isEmpty()) {
+                    holder.text.setVisibility(View.GONE);
+                }
+
+            } else {
+
+                holder.text.setVisibility(View.GONE);
+
+            }
+            if(user.getAsJsonObject().has("description")){
+                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("description").getAsString(), holder.body, (Activity) main, "");
+                if (holder.body.getText().toString().isEmpty()) {
+                    holder.body.setVisibility(View.GONE);
+                }
+            } else {
+                holder.body.setVisibility(View.GONE);
+
+            }
+
 
         }
         View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
