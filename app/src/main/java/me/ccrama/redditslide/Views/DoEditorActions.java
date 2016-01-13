@@ -140,14 +140,10 @@ public class DoEditorActions {
                 final EditText titleBox = new EditText(editText.getContext());
                 titleBox.setHint(R.string.editor_url);
                 layout.addView(titleBox);
-                titleBox.setTextColor(Color.WHITE);
-                titleBox.setHintTextColor(Color.WHITE);
 
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_text);
                 layout.addView(descriptionBox);
-                descriptionBox.setTextColor(Color.WHITE);
-                descriptionBox.setHintTextColor(Color.WHITE);
                 layout.setPadding(16, 16, 16, 16);
 
                 new AlertDialogWrapper.Builder(editText.getContext())
@@ -164,6 +160,7 @@ public class DoEditorActions {
                                         editText.getText().insert(Math.max(start, end), s);
                                     }
                                 }).show();
+
             }
         });
         baseView.findViewById(R.id.size).setOnClickListener(new View.OnClickListener() {
