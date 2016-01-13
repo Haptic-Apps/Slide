@@ -1033,49 +1033,55 @@ public class MainActivity extends BaseActivity {
             }
         }
         final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
-       new AlertDialogWrapper.Builder(MainActivity.this)
-                .setTitle(R.string.general_switch_acc)
-                .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(final DialogInterface dialog, final int which) {
-                        new AlertDialogWrapper.Builder(MainActivity.this)
-                                .setTitle("Switch or Delete")
-                                .setMessage("Would you like to switch to this account or remove this account?")
-                                .setPositiveButton("Switch", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which2) {
-                                        if (!accounts.get(keys.get(which)).isEmpty()) {
-                                            Authentication.authentication.edit().putString("lasttoken", accounts.get(keys.get(which))).commit();
-                                        } else {
-                                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                            Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
-                                        }
+        if(keys.size() == 0){
+            Authentication.authentication.edit().remove("lasttoken").commit();
 
-                                        Reddit.forceRestart(MainActivity.this);
+                    Reddit.forceRestart(this);
+        } else {
+            new AlertDialogWrapper.Builder(MainActivity.this)
+                    .setTitle(R.string.general_switch_acc)
+                    .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialog, final int which) {
+                            new AlertDialogWrapper.Builder(MainActivity.this)
+                                    .setTitle("Switch or Delete")
+                                    .setMessage("Would you like to switch to this account or remove this account?")
+                                    .setPositiveButton("Switch", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which2) {
+                                            if (!accounts.get(keys.get(which)).isEmpty()) {
+                                                Authentication.authentication.edit().putString("lasttoken", accounts.get(keys.get(which))).commit();
+                                            } else {
+                                                ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                                Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+                                            }
+
+                                            Reddit.forceRestart(MainActivity.this);
+                                        }
+                                    }).setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog2, int which2) {
+                                    Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                    Set<String> done = new HashSet<>();
+                                    for (String s : accounts2) {
+                                        if (!s.contains(keys.get(which))) {
+                                            done.add(s);
+                                        }
                                     }
-                                }).setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog2, int which2) {
-                                Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                                Set<String> done = new HashSet<>();
-                                for (String s : accounts2) {
-                                    if (!s.contains(keys.get(which))) {
-                                        done.add(s);
-                                    }
-                                }
-                                Authentication.authentication.edit().putStringSet("accounts", done).commit();
-                                dialog.dismiss();
+                                    Authentication.authentication.edit().putStringSet("accounts", done).commit();
+                                    dialog.dismiss();
                                     dialog2.dismiss();
 
 
-                                chooseAccounts();
+                                    chooseAccounts();
 
-                            }
-                        }).show();
+                                }
+                            }).show();
 
 
-                    }
-                }).show();
+                        }
+                    }).show();
+        }
 
 
     }
