@@ -23,6 +23,8 @@
                 android:background="@color/md_light_green_500"
                 android:padding="24dp"
                 android:text="@string/multi_column_title"
+                android:textColor="#fff"
+
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

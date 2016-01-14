@@ -24,6 +24,8 @@
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#fff"
+
                     android:background="@color/md_light_green_500"
                     android:padding="24dp"
                     android:text="@string/settings_main_color_title"
