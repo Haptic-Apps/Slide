@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class Website extends BaseActivityAnim {
@@ -46,8 +47,8 @@ public class Website extends BaseActivityAnim {
                 startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
                 return true;
             case R.id.share:
-                Intent browserIntent2 = new Intent(Intent.ACTION_SEND, Uri.parse(v.getUrl()));
-                startActivity(Intent.createChooser(browserIntent2, getDomainName(v.getUrl())));
+                Reddit.defaultShareText(v.getUrl(), Website.this);
+
                 return true;
 
         }
