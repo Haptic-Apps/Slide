@@ -85,7 +85,7 @@ public class FullscreenVideo extends FullScreenActivity {
             if(url.contains("&t")){
                 time = url.substring(url.indexOf("&t") , url.length());
             }
-            time.replace("&", "?");
+            time = time.replace("&", "?");
             if(url.contains("&feature")){
                 url = url.substring(0, url.indexOf("&fea"));
             }
