@@ -164,8 +164,8 @@ public class ColorPreferences {
         } else if (c == ContextCompat.getColor(context, R.color.md_yellow_500)) {
             return new int[]{
                   //  ContextCompat.getColor(context, R.color.md_yellow_100),
-                    ContextCompat.getColor(context, R.color.md_yellow_200),
-                    ContextCompat.getColor(context, R.color.md_yellow_300),
+                    //ContextCompat.getColor(context, R.color.md_yellow_200),
+                   // ContextCompat.getColor(context, R.color.md_yellow_300),
                     ContextCompat.getColor(context, R.color.md_yellow_400),
                     ContextCompat.getColor(context, R.color.md_yellow_500),
                     ContextCompat.getColor(context, R.color.md_yellow_600),
@@ -224,8 +224,8 @@ public class ColorPreferences {
         } else if (c == ContextCompat.getColor(context, R.color.md_grey_500)) {
             return new int[]{
                 //    ContextCompat.getColor(context, R.color.md_grey_100),
-                    ContextCompat.getColor(context, R.color.md_grey_200),
-                    ContextCompat.getColor(context, R.color.md_grey_300),
+                  //  ContextCompat.getColor(context, R.color.md_grey_200),
+                   // ContextCompat.getColor(context, R.color.md_grey_300),
                     ContextCompat.getColor(context, R.color.md_grey_400),
                     ContextCompat.getColor(context, R.color.md_grey_500),
                     ContextCompat.getColor(context, R.color.md_grey_600),
@@ -236,7 +236,7 @@ public class ColorPreferences {
         } else {
             return new int[]{
                   //  ContextCompat.getColor(context, R.color.md_blue_grey_100),
-                    ContextCompat.getColor(context, R.color.md_blue_grey_200),
+                //    ContextCompat.getColor(context, R.color.md_blue_grey_200),
                     ContextCompat.getColor(context, R.color.md_blue_grey_300),
                     ContextCompat.getColor(context, R.color.md_blue_grey_400),
                     ContextCompat.getColor(context, R.color.md_blue_grey_500),
