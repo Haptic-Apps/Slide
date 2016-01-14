@@ -57,14 +57,19 @@ public class SubmissionsView extends Fragment {
         int currentOrientation = getResources().getConfiguration().orientation;
 
 
-        if (rv.getLayoutManager() instanceof  LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             int i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-            if (Reddit.tabletUI) {
-                final StaggeredGridLayoutManager mLayoutManager;
+            final StaggeredGridLayoutManager mLayoutManager;
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-                rv.setLayoutManager(mLayoutManager);
-                mLayoutManager.scrollToPosition(i);
+            } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            } else {
+                mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+
             }
+            rv.setLayoutManager(mLayoutManager);
+            mLayoutManager.scrollToPosition(i);
 
 
         } else {
@@ -86,6 +91,8 @@ public class SubmissionsView extends Fragment {
         }
     }
 
+    boolean down = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -93,19 +100,20 @@ public class SubmissionsView extends Fragment {
         View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
-            rv.setLayoutManager(mLayoutManager);
-        } else {
-            final StaggeredGridLayoutManager mLayoutManager;
+        final StaggeredGridLayoutManager mLayoutManager;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-            rv.setLayoutManager(mLayoutManager);
+        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        } else {
+            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+
         }
+        rv.setLayoutManager(mLayoutManager);
 
 
-        if(Reddit.animation)
-        rv.setItemAnimator(new SubtleSlideInUp(getContext()));
+        if (Reddit.animation)
+            rv.setItemAnimator(new SubtleSlideInUp(getContext()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
@@ -115,7 +123,6 @@ public class SubmissionsView extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-
 
 
         if (Reddit.fab) {
@@ -192,6 +199,7 @@ public class SubmissionsView extends Fragment {
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
+
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -203,8 +211,8 @@ public class SubmissionsView extends Fragment {
                     totalItemCount = rv.getLayoutManager().getItemCount();
                     if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                         pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                        if(Reddit.scrollSeen){
-                            if(pastVisiblesItems > 0){
+                        if (Reddit.scrollSeen) {
+                            if (pastVisiblesItems > 0) {
                                 HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                             }
                         }
@@ -213,8 +221,8 @@ public class SubmissionsView extends Fragment {
                         firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                             pastVisiblesItems = firstVisibleItems[0];
-                            if(Reddit.scrollSeen){
-                                if(pastVisiblesItems > 0){
+                            if (Reddit.scrollSeen) {
+                                if (pastVisiblesItems > 0) {
                                     HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                                 }
                             }
@@ -228,6 +236,16 @@ public class SubmissionsView extends Fragment {
 
                     }
                 }
+
+                /*
+                if(dy <= 0 && !down){
+                    (getActivity()).findViewById(R.id.header).animate().translationY(((BaseActivity)getActivity()).mToolbar.getTop()).setInterpolator(new AccelerateInterpolator()).start();
+                    down = true;
+                } else if(down){
+                    (getActivity()).findViewById(R.id.header).animate().translationY(((BaseActivity)getActivity()).mToolbar.getTop()).setInterpolator(new AccelerateInterpolator()).start();
+                    down = false;
+                }*///todo For future implementation instead of scrollFlags
+
                 if (fab != null) {
                     if (dy <= 0 && fab.getId() != 0 && Reddit.fab) {
 
@@ -247,7 +265,7 @@ public class SubmissionsView extends Fragment {
         return v;
     }
 
-    public void doAdapter(){
+    public void doAdapter() {
         posts = new SubredditPosts(id);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
         rv.setAdapter(adapter);
@@ -269,6 +287,7 @@ public class SubmissionsView extends Fragment {
                 }
         );
     }
+
     private ArrayList<Submission> clearSeenPosts(boolean forever) {
         if (adapter.dataSet.posts != null) {
             ArrayList<Submission> originalDataSetPosts = adapter.dataSet.posts;
@@ -280,10 +299,10 @@ public class SubmissionsView extends Fragment {
                             Hidden.setHidden(adapter.dataSet.posts.get(i));
                         }
                         adapter.dataSet.posts.remove(i);
-                        if(adapter.dataSet.posts.size() == 0){
+                        if (adapter.dataSet.posts.size() == 0) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            if(Reddit.animation)
+                            if (Reddit.animation)
 
                                 rv.setItemAnimator(new FadeInAnimator());
 
@@ -294,7 +313,7 @@ public class SubmissionsView extends Fragment {
                     //Let the loop reset itself
                 }
             }
-            if(Reddit.animation)
+            if (Reddit.animation)
                 rv.setItemAnimator(new SubtleSlideInUp(getContext()));
             return originalDataSetPosts;
         }

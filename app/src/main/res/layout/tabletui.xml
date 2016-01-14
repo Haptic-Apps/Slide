@@ -39,40 +39,41 @@
                     android:paddingBottom="20dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-
-                    android:paddingTop="8dp">
+                    android:paddingTop="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
                         android:text="@string/multi_column_landscape"
-                        android:textAllCaps="true"
+                        android:id="@+id/progressnumber"
                         android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"
+                        />
 
-                    <com.rey.material.widget.Slider
+                    <SeekBar
                         android:id="@+id/landscape"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="8dp"
-                        app:sl_discreteMode="true"
-                        app:sl_maxValue="7"
-                        app:sl_minValue="1"
-                        app:sl_secondaryColor="?attr/tint" />
+                        android:max="5"
+                    />
 
-                    <TextView
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/dualcolumns"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:alpha=".7"
-                        android:padding="16dp"
-                        android:text="@string/multi_column_portrait"
-                        android:textAllCaps="true"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="Dual columns in portrait mode"
                         android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textColorHint="?attr/font" />
+
 
                 </LinearLayout>
 

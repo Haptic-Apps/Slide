@@ -76,6 +76,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String titleFiltersRegex;
     public static String textFiltersRegex;
     public static String domainFiltersRegex;
+    public static boolean saveButton;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
@@ -89,6 +90,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean tabletUI;
     public static Sorting defaultSorting;
     public static boolean customtabs;
+    public static boolean dualPortrait;
 
     public static String PREF_LAYOUT = "PRESET";
 
@@ -389,6 +391,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         titleFilters = SettingValues.prefs.getString("titleFilters", "");
         textFilters = SettingValues.prefs.getString("textFilters", "");
         domainFilters = SettingValues.prefs.getString("domainFilters", "");
+        dualPortrait = SettingValues.prefs.getBoolean("dualPortrait", false);
+
 
         titleFiltersRegex = regex(titleFilters);
         textFiltersRegex = regex(textFilters);
@@ -402,6 +406,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         fastscroll = SettingValues.prefs.getBoolean("Fastscroll", false);
         fabClear = seen.getBoolean("fabClear", false);
         hideButton = SettingValues.prefs.getBoolean("Hidebutton", false);
+        saveButton = SettingValues.prefs.getBoolean("saveButton", false);
 
         int widthDp = this.getResources().getConfiguration().screenWidthDp;
         int heightDp = this.getResources().getConfiguration().screenHeightDp;

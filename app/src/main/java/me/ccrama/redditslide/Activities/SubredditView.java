@@ -51,7 +51,6 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
-import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
@@ -103,8 +102,8 @@ public class SubredditView extends BaseActivityAnim {
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if(!drawerLayout.isDrawerOpen(Gravity.RIGHT))
-                drawerLayout.openDrawer(Gravity.RIGHT);
+                if (!drawerLayout.isDrawerOpen(Gravity.RIGHT))
+                    drawerLayout.openDrawer(Gravity.RIGHT);
 
             }
 
@@ -114,7 +113,6 @@ public class SubredditView extends BaseActivityAnim {
                 mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
 
-
             }
 
             @Override
@@ -122,7 +120,7 @@ public class SubredditView extends BaseActivityAnim {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
 
                 if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
-                    if(overrideSwipeFromAnywhere) {
+                    if (overrideSwipeFromAnywhere) {
                         Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
                         mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
@@ -149,42 +147,36 @@ public class SubredditView extends BaseActivityAnim {
         });
 
 
-
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(this);
-            rv.setLayoutManager(mLayoutManager);
-        } else {
-            final StaggeredGridLayoutManager mLayoutManager;
+
+        final StaggeredGridLayoutManager mLayoutManager;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-            rv.setLayoutManager(mLayoutManager);
-        }
+        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        } else {
+            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+
+        }        rv.setLayoutManager(mLayoutManager);
+
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
-                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                    if(Reddit.scrollSeen){
-                        if(pastVisiblesItems > 0){
+
+                int[] firstVisibleItems = null;
+                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    pastVisiblesItems = firstVisibleItems[0];
+                    if (Reddit.scrollSeen) {
+                        if (pastVisiblesItems > 0) {
                             HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                         }
                     }
-                } else {
-                    int[] firstVisibleItems = null;
-                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        pastVisiblesItems = firstVisibleItems[0];
-                        if(Reddit.scrollSeen){
-                            if(pastVisiblesItems > 0){
-                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                            }
-                        }
-                    }
                 }
+
 
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
@@ -653,8 +645,6 @@ public class SubredditView extends BaseActivityAnim {
                         }
 
 
-
-
                         builder.setView(dialoglayout);
                         final Dialog diag = builder.show();
 
@@ -678,7 +668,7 @@ public class SubredditView extends BaseActivityAnim {
                                     new ColorPreferences(SubredditView.this).setFontStyle(t, subreddit);
 
 
-                                        SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                    SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
 
                                     restartTheme();
                                     diag.dismiss();

@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class SingleView extends BaseActivityAnim {
@@ -35,29 +34,25 @@ public class SingleView extends BaseActivityAnim {
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(this);
-            rv.setLayoutManager(mLayoutManager);
-        } else {
+
             final StaggeredGridLayoutManager mLayoutManager;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-            rv.setLayoutManager(mLayoutManager);
+        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        } else {
+            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+
         }
+            rv.setLayoutManager(mLayoutManager);
+
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
-                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                    if(Reddit.scrollSeen){
-                        if(pastVisiblesItems > 0){
-                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                        }
-                    }
-                } else {
+
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
@@ -68,7 +63,7 @@ public class SingleView extends BaseActivityAnim {
                             }
                         }
                     }
-                }
+
 
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {

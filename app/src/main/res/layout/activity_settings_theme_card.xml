@@ -31,6 +31,7 @@
             android:id="@+id/reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
             android:text="@string/btn_reset"
@@ -54,6 +55,7 @@
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_marginBottom="20dp"
 
                 android:orientation="vertical">
@@ -62,214 +64,297 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/card_background"
+                android:elevation="4dp"
+                android:orientation="vertical">
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-
-                    android:paddingTop="16dp"
-                    android:src="@drawable/card"
-                    android:tint="?attr/tint" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/cardmode"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_card_mode"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:orientation="horizontal"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+
+                        android:paddingTop="16dp"
+                        android:src="@drawable/card"
+                        android:tint="?attr/tint" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/cardmode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="@string/settings_card_mode"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/middle"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/card_background"
+                android:elevation="4dp"
+                android:orientation="vertical">
 
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="IMAGES"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textAllCaps="true"
                     android:paddingTop="16dp"
-                    android:src="@drawable/middle"
-                    android:tint="?attr/tint" />
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="24dp"
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/middlechk"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/bigpic"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_middle_card"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/ic_insert_photo_white_48dp"
+                        android:tint="?attr/tint" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/bigpicsqitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="Big picture enabled"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/bigpcropped"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/cropped"
+                        android:tint="?attr/tint" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/bigpiccropped"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="Crop big picture"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/middle"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/middle"
+                        android:tint="?attr/tint" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/middlechk"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="@string/settings_middle_card"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/bigpic"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/card_background"
+                android:elevation="4dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="Actionbar"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textAllCaps="true"
                     android:paddingTop="16dp"
-                    android:src="@drawable/ic_insert_photo_white_48dp"
-                    android:tint="?attr/tint" />
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="24dp"
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/bigpicsqitch"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/theme"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="Big picture enabled"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
 
+                    android:paddingRight="16dp">
 
-            <LinearLayout
-                android:id="@+id/bigpcropped"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/more"
+                        android:tint="?attr/tint" />
 
-                android:paddingRight="16dp">
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/action"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="@string/card_actionbar"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/cropped"
-                    android:tint="?attr/tint" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/bigpiccropped"
+                <LinearLayout
+                    android:id="@+id/hidebuttonlayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="Crop big picture"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
 
-            <LinearLayout
-                android:id="@+id/theme"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-                android:paddingRight="16dp">
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/hide"
+                        android:tint="?attr/tint" />
 
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/more"
-                    android:tint="?attr/tint" />
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/hidebutton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="@string/card_hide_post_button"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/action"
+                <LinearLayout
+                    android:id="@+id/savebuttonlayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/card_actionbar"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/saved"
+                        android:tint="?attr/tint" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/savebutton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
+                        android:text="''Save post'' button in actionbar"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font" />
+                </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/hidebuttonlayout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-                android:paddingLeft="16dp"
-
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/hide"
-                    android:tint="?attr/tint" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/hidebutton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/card_hide_post_button"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

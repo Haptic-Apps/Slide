@@ -339,8 +339,8 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_overview);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar  = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
 
         if (getIntent() != null && getIntent().hasExtra("pageTo"))
@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity {
             findViewById(R.id.header).setVisibility(View.GONE);
 
             //Hopefully will allow Authentication time to authenticate and for SubredditStorage to get subs list
-            toolbar.postDelayed(new Runnable() {
+            mToolbar.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     runOnUiThread(new Runnable() {
@@ -395,7 +395,7 @@ public class MainActivity extends BaseActivity {
                                 setDataSet(SubredditStorage.subredditsForHome);
                                 d.dismiss();
                             } else {
-                                toolbar.postDelayed(this, 2000);
+                                mToolbar.postDelayed(this, 2000);
                             }
                         }
                     });
@@ -1433,4 +1433,7 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+
+
+
 }

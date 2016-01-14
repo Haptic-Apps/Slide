@@ -5,15 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.rey.material.widget.Slider;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -159,18 +163,46 @@ public class Settings extends BaseActivity {
 
                     dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
-                    final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
+                    final SeekBar landscape = (SeekBar) dialoglayout.findViewById(R.id.landscape);
 
                     //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
-                    landscape.setValue(Reddit.dpWidth, false);
+                    landscape.setProgress(Reddit.dpWidth - 1);
 
+                    ((TextView)dialoglayout.findViewById(R.id.progressnumber)).setText(landscape.getProgress() + 1 + " columns in landscape");
+
+                    landscape.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                        @Override
+                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                            ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(landscape.getProgress() + 1 + " columns in landscape");
+
+                        }
+
+                        @Override
+                        public void onStartTrackingTouch(SeekBar seekBar) {
+
+                        }
+
+                        @Override
+                        public void onStopTrackingTouch(SeekBar seekBar) {
+
+                        }
+                    });
                     final Dialog dialog = builder.setView(dialoglayout).create();
                     dialog.show();
                     dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.dpWidth = landscape.getValue();
-                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getValue()).apply();
+                            Reddit.dpWidth = landscape.getProgress() + 1;
+                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getProgress() + 1).apply();
+                        }
+                    });
+                    SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);
+                    s.setChecked(Reddit.dualPortrait);
+                    s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            Reddit.dualPortrait = isChecked;
+                            SettingValues.prefs.edit().putBoolean("dualPortrait", isChecked).apply();
                         }
                     });
                 } else {

@@ -363,7 +363,16 @@
                         android:src="@drawable/upvoted"
 
                         android:tint="?attr/tint" />
+                    <ImageView
+                        android:id="@+id/save"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_toLeftOf="@+id/hide"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="8dp"
 
+                        android:src="@drawable/saved"
+                        android:tint="?attr/tint" />
                     <ImageView
                         android:id="@+id/downvote"
                         android:layout_width="36dp"

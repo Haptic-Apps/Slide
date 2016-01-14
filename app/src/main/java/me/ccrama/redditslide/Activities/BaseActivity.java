@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     @Nullable
-    protected Toolbar mToolbar;
+    public Toolbar mToolbar;
     protected SwipeBackActivityHelper mHelper;
     protected boolean enableSwipeBackLayout = true;
     protected boolean overrideSwipeFromAnywhere = false;

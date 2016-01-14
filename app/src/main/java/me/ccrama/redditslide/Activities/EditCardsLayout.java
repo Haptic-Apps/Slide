@@ -24,6 +24,7 @@ public class EditCardsLayout extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideRedditSwipeAnywhere();
+        overrideSwipeFromAnywhere();
 
         super.onCreate(savedInstance);
 
@@ -100,8 +101,9 @@ public class EditCardsLayout extends BaseActivity {
         });
 
 
-        SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
+        final SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
         layout.findViewById(R.id.hide).setVisibility(Reddit.hideButton ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.save).setVisibility(Reddit.saveButton ? View.VISIBLE : View.GONE);
 
         hidebutton.setChecked(Reddit.hideButton);
         hidebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -110,6 +112,19 @@ public class EditCardsLayout extends BaseActivity {
                 Reddit.hideButton = isChecked;
                 layout.findViewById(R.id.hide).setVisibility(Reddit.hideButton ? View.VISIBLE : View.GONE);
                 SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
+
+            }
+        });
+        final SwitchCompat savebutton = (SwitchCompat) findViewById(R.id.savebutton);
+        layout.findViewById(R.id.save).setVisibility(Reddit.saveButton ? View.VISIBLE : View.GONE);
+
+        savebutton.setChecked(Reddit.saveButton);
+        savebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.saveButton = isChecked;
+                layout.findViewById(R.id.save).setVisibility(Reddit.saveButton ? View.VISIBLE : View.GONE);
+                SettingValues.prefs.edit().putBoolean("saveButton", isChecked).apply();
 
             }
         });
@@ -149,10 +164,13 @@ public class EditCardsLayout extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 layout.removeAllViews();
                 layout.addView(CreateCardView.setActionBarVisible(isChecked, layout, !subreddit.isEmpty(), subreddit));
-
+                hidebutton.setEnabled(actionbar.isChecked());
+                savebutton.setEnabled(actionbar.isChecked());
             }
         });
 
+        hidebutton.setEnabled(actionbar.isChecked());
+        savebutton.setEnabled(actionbar.isChecked());
 
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override

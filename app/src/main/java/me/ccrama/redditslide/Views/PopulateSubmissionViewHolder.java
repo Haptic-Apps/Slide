@@ -728,6 +728,7 @@ public class PopulateSubmissionViewHolder {
                     } else {
                         dialoglayout.findViewById(R.id.hide).setVisibility(View.GONE);
                     }
+
                 }
             }
         });
@@ -799,6 +800,49 @@ public class PopulateSubmissionViewHolder {
                 });
             } else {
                 hideButton.setVisibility(View.GONE);
+            }
+            if (Reddit.saveButton && Authentication.isLoggedIn) {
+                holder.itemView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final boolean[] saved = {submission.isSaved()};
+
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                try {
+                                    if (saved[0]) {
+                                        new AccountManager(Authentication.reddit).unsave(submission);
+                                        saved[0] = false;
+                                    } else {
+                                        new AccountManager(Authentication.reddit).save(submission);
+                                        saved[0] = true;
+
+                                    }
+                                } catch (ApiException e) {
+                                    e.printStackTrace();
+                                }
+
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                if (saved[0]) {
+                                    Snackbar.make(recyclerview, "Submission saved", Snackbar.LENGTH_SHORT).show();
+                                } else {
+                                    Snackbar.make(recyclerview, "Submission un-saved", Snackbar.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+                        }.execute();
+
+
+                    }
+                });
+            } else {
+                holder.itemView.findViewById(R.id.save).setVisibility(View.GONE);
             }
         }
 
