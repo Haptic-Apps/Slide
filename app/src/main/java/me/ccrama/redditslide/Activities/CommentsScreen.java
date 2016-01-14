@@ -114,7 +114,7 @@ public class CommentsScreen extends BaseActivityAnim {
         @Override
         public int getCount() {
             int offset = 0;
-            if (Reddit.single) {
+            if (Reddit.single || Reddit.swipeAnywhere) {
                 offset = 1;
             }
             if (posts == null) {

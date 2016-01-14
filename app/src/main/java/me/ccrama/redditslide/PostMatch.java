@@ -26,19 +26,19 @@ public class PostMatch {
         if(Reddit.titleFilters.isEmpty()){
             titlec = false;
         } else {
-            titlec = contains(title, Reddit.titleFiltersRegex);
+            titlec = contains(title.toLowerCase(), Reddit.titleFiltersRegex);
 
         }
         if(Reddit.textFilters.isEmpty()){
             bodyc = false;
         } else {
-            bodyc = contains(title, Reddit.textFiltersRegex);
+            bodyc = contains(body.toLowerCase(), Reddit.textFiltersRegex);
 
         }
         if(Reddit.domainFilters.isEmpty()){
             domainc = false;
         } else {
-            domainc = contains(title, Reddit.domainFiltersRegex);
+            domainc = contains(domain.toLowerCase(), Reddit.domainFiltersRegex);
 
         }
         return (titlec || bodyc || domainc);
