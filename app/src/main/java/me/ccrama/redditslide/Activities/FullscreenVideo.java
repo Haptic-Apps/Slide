@@ -81,10 +81,14 @@ public class FullscreenVideo extends FullScreenActivity {
 
 
         if(url.contains("youtube.com")){
+            String time = "";
+            if(url.contains("&t")){
+                time = url.substring(url.indexOf("&t" , url.length()));
+            }
             if(url.contains("&feature")){
                 url = url.substring(0, url.indexOf("&fea"));
             }
-            url = url + "&html5=1&autoplay=1";
+            url = url + time;
         }
 
         Log.v("Slide", url);

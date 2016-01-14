@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -72,34 +73,11 @@ public class CreateCardView {
     }
 
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
-        secondary = false; //removing secondary layouts for now
 
-        subToMatch = subToMatch.toLowerCase();
-        if (SettingValues.colorIndicator != SettingValues.ColorIndicator.NONE && Palette.getColor(sec) != Palette.getDefaultColor()) {
-            resetColorCard(v);
-            if (SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.ALWAYS_MATCH) {
-                switch (SettingValues.colorIndicator) {
-                    case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
+        resetColorCard(v);
+        if (Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) {
+            ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
 
-                        break;
-                    case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Palette.getColor(sec));
-
-                        break;
-                }
-            } else if (!subToMatch.equals(sec) && SettingValues.colorMatchingMode == SettingValues.ColorMatchingMode.MATCH_EXTERNALLY) {
-                switch (SettingValues.colorIndicator) {
-                    case CARD_BACKGROUND:
-                        ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
-
-                        break;
-                    case TEXT_COLOR:
-                        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(Palette.getColor(sec));
-
-                        break;
-                }
-            }
         }
     }
 
@@ -131,6 +109,7 @@ public class CreateCardView {
 
 
     }
+
     public static View setBigPicCropped(Boolean b, ViewGroup parent) {
 
 

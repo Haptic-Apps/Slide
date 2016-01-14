@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -14,6 +16,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -342,6 +345,15 @@ public class SettingsTheme extends BaseActivity {
 
         });
 
+        SwitchCompat s = (SwitchCompat) findViewById(R.id.colorback);
+        s.setChecked(Reddit.colorBack);
+        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.colorBack = isChecked;
+                SettingValues.prefs.edit().putBoolean("colorBack", isChecked).apply();
+            }
+        });
     }
 
 }

@@ -348,7 +348,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/mod"
-                        android:background="?android:selectableItemBackground"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
 
                         android:src="@drawable/hide"
@@ -358,7 +358,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/hide"
-                        android:background="?android:selectableItemBackground"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
 
                         android:src="@drawable/saved"
@@ -368,7 +368,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/downvote"
-                        android:background="?android:selectableItemBackground"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
                         android:src="@drawable/upvoted"
 
@@ -379,7 +379,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/menu"
-                        android:background="?android:selectableItemBackground"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
 
                         android:src="@drawable/downvote"
@@ -390,7 +390,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/upvote"
-                        android:background="?android:selectableItemBackground"
+                        android:background="?android:selectableItemBackgroundBorderless"
 
                         android:padding="8dp"
                         android:src="@drawable/mod"
@@ -402,7 +402,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_alignParentRight="true"
-                        android:background="?android:selectableItemBackground"
+                        android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
                         android:src="@drawable/more"
 

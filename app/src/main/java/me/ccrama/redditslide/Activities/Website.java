@@ -42,11 +42,11 @@ public class Website extends BaseActivityAnim {
                 v.goBack();
                 return true;
             case R.id.chrome:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
                 startActivity(browserIntent);
                 return true;
             case R.id.share:
-                Intent browserIntent2 = new Intent(Intent.ACTION_SEND, Uri.parse(url));
+                Intent browserIntent2 = new Intent(Intent.ACTION_SEND, Uri.parse(v.getUrl()));
                 startActivity(browserIntent2);
                 return true;
 
