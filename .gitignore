@@ -27,4 +27,4 @@ cd
 *.log
 
 
-/app/src/main/java/me/ccrama/redditslide/SecretConstants.java
+/app/src/main/assets/secretconstants.properties
