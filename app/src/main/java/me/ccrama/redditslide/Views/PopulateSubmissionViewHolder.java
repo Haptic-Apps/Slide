@@ -649,8 +649,10 @@ public class PopulateSubmissionViewHolder {
                         public void onClick(View v) {
                             if (submission.saved) {
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save);
+                                submission.saved = false;
                             } else {
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
+                                submission.saved = true;
 
                             }
                             new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
@@ -805,18 +807,17 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final boolean[] saved = {submission.isSaved()};
 
                         new AsyncTask<Void, Void, Void>() {
                             @Override
                             protected Void doInBackground(Void... params) {
                                 try {
-                                    if (saved[0]) {
+                                    if (submission.isSaved()) {
                                         new AccountManager(Authentication.reddit).unsave(submission);
-                                        saved[0] = false;
+                                        submission.saved = false;
                                     } else {
                                         new AccountManager(Authentication.reddit).save(submission);
-                                        saved[0] = true;
+                                        submission.saved = true;
 
                                     }
                                 } catch (ApiException e) {
@@ -828,7 +829,7 @@ public class PopulateSubmissionViewHolder {
 
                             @Override
                             protected void onPostExecute(Void aVoid) {
-                                if (saved[0]) {
+                                if (submission.saved) {
                                     Snackbar.make(recyclerview, "Submission saved", Snackbar.LENGTH_SHORT).show();
                                 } else {
                                     Snackbar.make(recyclerview, "Submission un-saved", Snackbar.LENGTH_SHORT).show();
