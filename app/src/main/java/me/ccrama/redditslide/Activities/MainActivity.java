@@ -513,11 +513,8 @@ public class MainActivity extends BaseActivity {
                 });
 
             }
-            findViewById(R.id.wiki).setBackgroundColor(Palette.getColor(subreddit));
 
-            dialoglayout.findViewById(R.id.submit).setBackgroundColor(Palette.getColor(subreddit));
 
-            findViewById(R.id.sub_theme).setBackgroundColor(Palette.getColor(subreddit));
             findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
