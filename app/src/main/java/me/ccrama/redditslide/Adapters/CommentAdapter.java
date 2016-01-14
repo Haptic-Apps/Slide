@@ -35,7 +35,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 
-
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
@@ -55,7 +54,6 @@ import java.util.HashMap;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -506,13 +504,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 });
                 final boolean[] saved = {n.isSaved()};
-                if(saved[0]){
-                    ((TextView)dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                if (saved[0]) {
+                    ((TextView) dialoglayout.findViewById(R.id.save)).setText("Un-save");
                 }
                 dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(saved[0]) {
+                        if (saved[0]) {
                             new AsyncTask<Void, Void, Void>() {
                                 @Override
                                 protected Void doInBackground(Void... params) {
@@ -528,7 +526,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
                                     saved[0] = false;
-                                    ((TextView)dialoglayout.findViewById(R.id.save)).setText(R.string.btn_save);
+                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.btn_save);
                                 }
                             }.execute();
 
@@ -548,7 +546,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
-                                    ((TextView)dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText("Un-save");
 
                                     saved[0] = true;
                                 }
@@ -776,9 +774,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 (moreComments.findViewById(R.id.content)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(progress.getVisibility() == View.GONE) {
+                        if (progress.getVisibility() == View.GONE) {
                             progress.setVisibility(View.VISIBLE);
-                            ((TextView)moreComments.findViewById(R.id.content)).setText("Loading more comments...");
+                            ((TextView) moreComments.findViewById(R.id.content)).setText("Loading more comments...");
                             new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
                         }
 
@@ -1089,23 +1087,26 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
-                                    .title(R.string.submission_share_title)
-                                    .grid()
-                                    .sheet(R.menu.share_menu)
-                                    .listener(new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            switch (which) {
-                                                case R.id.reddit_url:
-                                                    Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
-                                                    break;
-                                                case R.id.link_url:
-                                                    Reddit.defaultShareText(submission.getUrl(), mContext);
-                                                    break;
+                            if (submission.isSelfPost())
+                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
+                            else
+                                new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                        .title(R.string.submission_share_title)
+                                        .grid()
+                                        .sheet(R.menu.share_menu)
+                                        .listener(new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                switch (which) {
+                                                    case R.id.reddit_url:
+                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
+                                                        break;
+                                                    case R.id.link_url:
+                                                        Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                        break;
+                                                }
                                             }
-                                        }
-                                    }).show();
+                                        }).show();
                         }
                     });
 
@@ -1408,7 +1409,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 handler.postDelayed(new Runnable() {
                     public void run() {
 
-                        ((Activity)mContext).runOnUiThread(new Runnable() {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 dataSet.refreshLayout.setRefreshing(false);

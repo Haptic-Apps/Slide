@@ -53,9 +53,38 @@ public class EditCardsLayout extends BaseActivity {
         final SwitchCompat cardmode = (SwitchCompat) findViewById(R.id.cardmode);
         cardmode.setChecked(CreateCardView.isCard(!subreddit.isEmpty()));
 
+        final SwitchCompat bigpic = (SwitchCompat) findViewById(R.id.bigpicsqitch);
+        final SwitchCompat cropped = (SwitchCompat) findViewById(R.id.bigpiccropped);
+
+        //Big pic enabled//
+
+        bigpic.setChecked(SettingValues.bigPicEnabled);
+        bigpic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setBigPicEnabled(isChecked, layout));
+                cropped.setEnabled(bigpic.isChecked());
+
+            }
+        });
+        //Big pic cropped//
+
+        cropped.setChecked(SettingValues.bigPicEnabled);
+        cropped.setEnabled(bigpic.isChecked());
+
+        cropped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setBigPicCropped(isChecked, layout));
+
+            }
+        });
+
         final SwitchCompat middle = (SwitchCompat) findViewById(R.id.middlechk);
 
-        if(cardmode.isChecked()){
+        if (cardmode.isChecked() && bigpic.isChecked()) {
             middle.setAlpha(1f);
             middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
 
@@ -128,33 +157,7 @@ public class EditCardsLayout extends BaseActivity {
 
             }
         });
-        final SwitchCompat cropped = (SwitchCompat) findViewById(R.id.bigpiccropped);
 
-        //Big pic enabled//
-        final SwitchCompat bigpic = (SwitchCompat) findViewById(R.id.bigpicsqitch);
-        bigpic.setChecked(SettingValues.bigPicEnabled);
-        bigpic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setBigPicEnabled(isChecked, layout));
-                cropped.setEnabled(bigpic.isChecked());
-
-            }
-        });
-        //Big pic cropped//
-
-        cropped.setChecked(SettingValues.bigPicEnabled);
-            cropped.setEnabled(bigpic.isChecked());
-
-        cropped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setBigPicCropped(isChecked, layout));
-
-            }
-        });
         //Actionbar//
         //Enable, collapse//
         final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.action);
