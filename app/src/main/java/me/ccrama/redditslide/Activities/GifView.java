@@ -15,7 +15,6 @@ import android.os.Environment;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
@@ -226,14 +225,14 @@ public class GifView extends FullScreenActivity {
 
                                                             Intent intent = new Intent();
                                                             intent.setAction(android.content.Intent.ACTION_VIEW);
-                                                            String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".MP4");
 
-                                                            intent.setDataAndType(Uri.parse(to.getAbsolutePath()), mime);
-                                                            PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
+                                                            intent.setData(Uri.parse(to.getAbsolutePath()));
+                                                            intent.setData(Uri.parse(to.getAbsolutePath()));
+                                                            Intent newI = Intent.createChooser(intent, "Open Video");
+                                                            PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, newI, PendingIntent.FLAG_CANCEL_CURRENT);
 
                                                             Notification notif = new NotificationCompat.Builder(GifView.this)
-                                                                    .setContentTitle(getString(R.string.info_photo_saved))
+                                                                    .setContentTitle("Gif saved to Downloads")
                                                                     .setSmallIcon(R.drawable.notif)
                                                                     .setContentIntent(contentIntent)
                                                                     .build();
@@ -242,7 +241,6 @@ public class GifView extends FullScreenActivity {
                                                             NotificationManager mNotificationManager =
                                                                     (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                                                             mNotificationManager.notify(1, notif);
-
 
                                                         }
                                                     });
@@ -373,14 +371,14 @@ public class GifView extends FullScreenActivity {
 
                                                         Intent intent = new Intent();
                                                         intent.setAction(android.content.Intent.ACTION_VIEW);
-                                                        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".MP4");
 
-                                                        intent.setDataAndType(Uri.parse(to.getAbsolutePath()), mime);
-                                                        PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
+                                                        intent.setData(Uri.parse(to.getAbsolutePath()));
+                                                        intent.setData(Uri.parse(to.getAbsolutePath()));
+                                                        Intent newI = Intent.createChooser(intent, "Open Video");
+                                                        PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, newI, PendingIntent.FLAG_CANCEL_CURRENT);
 
                                                         Notification notif = new NotificationCompat.Builder(GifView.this)
-                                                                .setContentTitle(getString(R.string.info_photo_saved))
+                                                                .setContentTitle("Gif saved to Downloads")
                                                                 .setSmallIcon(R.drawable.notif)
                                                                 .setContentIntent(contentIntent)
                                                                 .build();
@@ -501,14 +499,14 @@ public class GifView extends FullScreenActivity {
 
                                                                     Intent intent = new Intent();
                                                                     intent.setAction(android.content.Intent.ACTION_VIEW);
-                                                                    String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".MP4");
 
-                                                                    intent.setDataAndType(Uri.parse(to.getAbsolutePath()), mime);
-                                                                    PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                                                    intent.setData(Uri.parse(to.getAbsolutePath()));
+                                                                    Intent newI = Intent.createChooser(intent, "Open Video");
+                                                                    PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, newI, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
                                                                     Notification notif = new NotificationCompat.Builder(GifView.this)
-                                                                            .setContentTitle(getString(R.string.info_photo_saved))
+                                                                            .setContentTitle("Gif saved to Downloads")
                                                                             .setSmallIcon(R.drawable.notif)
                                                                             .setContentIntent(contentIntent)
                                                                             .build();
@@ -518,9 +516,9 @@ public class GifView extends FullScreenActivity {
                                                                             (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                                                                     mNotificationManager.notify(1, notif);
 
-
                                                                 }
                                                             });
+
 
 
                                                             videoView.start();

@@ -141,7 +141,6 @@ public class MainActivity extends BaseActivity {
             }
         } else if (requestCode == 55) {
             doDrawer();
-
             setDataSet(SubredditStorage.subredditsForHome);
         } else if (requestCode == 66) {
             new AsyncTask<Void, Void, Void>() {
@@ -251,7 +250,7 @@ public class MainActivity extends BaseActivity {
             startActivityForResult(i, 55);
         } else if (!Reddit.colors.contains("v4.5update")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.5 ALPHA")
+                    .title("Slide v4.5")
                     .content("I’m proud to announce Slide v4.5. RAM use has been greatly reduced, stability increased, and lots of new features added! \n" +
                             "\t•Offline mode and auto data caching\n" +
                             "\t•Startup time now close to instant\n" +
@@ -369,12 +368,12 @@ public class MainActivity extends BaseActivity {
 
             setDataSet(SubredditStorage.subredditsForHome);
 
-        } else {
+        } else if(!first){
             ((Reddit) getApplication()).doMainStuff();
 
 
             final Dialog d = new MaterialDialog.Builder(this)
-                    .title("Switching Accounts")
+                    .title("Loading Data")
                     .cancelable(false)
                     .progress(true, 100)
                     .show();

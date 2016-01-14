@@ -140,7 +140,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/theme"
+                android:id="@+id/theme2"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
