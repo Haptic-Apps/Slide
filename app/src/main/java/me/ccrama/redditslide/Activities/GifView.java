@@ -2,16 +2,20 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 
@@ -217,6 +221,27 @@ public class GifView extends FullScreenActivity {
                                                         @Override
                                                         public void onClick(View v) {
 
+                                                            File to = new File(Environment.DIRECTORY_DOWNLOADS + File.separator + f.getName());
+                                                            f.renameTo(to);
+
+                                                            Intent intent = new Intent();
+                                                            intent.setAction(android.content.Intent.ACTION_VIEW);
+                                                            String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".MP4");
+
+                                                            intent.setDataAndType(Uri.parse(to.getAbsolutePath()), mime);
+                                                            PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+                                                            Notification notif = new NotificationCompat.Builder(GifView.this)
+                                                                    .setContentTitle(getString(R.string.info_photo_saved))
+                                                                    .setSmallIcon(R.drawable.notif)
+                                                                    .setContentIntent(contentIntent)
+                                                                    .build();
+
+
+                                                            NotificationManager mNotificationManager =
+                                                                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                                            mNotificationManager.notify(1, notif);
 
 
                                                         }
@@ -343,6 +368,27 @@ public class GifView extends FullScreenActivity {
                                                     @Override
                                                     public void onClick(View v) {
 
+                                                        File to = new File(Environment.DIRECTORY_DOWNLOADS + File.separator + f.getName());
+                                                        f.renameTo(to);
+
+                                                        Intent intent = new Intent();
+                                                        intent.setAction(android.content.Intent.ACTION_VIEW);
+                                                        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".MP4");
+
+                                                        intent.setDataAndType(Uri.parse(to.getAbsolutePath()), mime);
+                                                        PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+                                                        Notification notif = new NotificationCompat.Builder(GifView.this)
+                                                                .setContentTitle(getString(R.string.info_photo_saved))
+                                                                .setSmallIcon(R.drawable.notif)
+                                                                .setContentIntent(contentIntent)
+                                                                .build();
+
+
+                                                        NotificationManager mNotificationManager =
+                                                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                                        mNotificationManager.notify(1, notif);
 
                                                     }
                                                 });
@@ -450,6 +496,27 @@ public class GifView extends FullScreenActivity {
                                                                 @Override
                                                                 public void onClick(View v) {
 
+                                                                    File to = new File(Environment.DIRECTORY_DOWNLOADS + File.separator + f.getName());
+                                                                    f.renameTo(to);
+
+                                                                    Intent intent = new Intent();
+                                                                    intent.setAction(android.content.Intent.ACTION_VIEW);
+                                                                    String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".MP4");
+
+                                                                    intent.setDataAndType(Uri.parse(to.getAbsolutePath()), mime);
+                                                                    PendingIntent contentIntent = PendingIntent.getActivity(GifView.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+                                                                    Notification notif = new NotificationCompat.Builder(GifView.this)
+                                                                            .setContentTitle(getString(R.string.info_photo_saved))
+                                                                            .setSmallIcon(R.drawable.notif)
+                                                                            .setContentIntent(contentIntent)
+                                                                            .build();
+
+
+                                                                    NotificationManager mNotificationManager =
+                                                                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                                                    mNotificationManager.notify(1, notif);
 
 
                                                                 }

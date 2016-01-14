@@ -364,6 +364,7 @@ public class MainActivity extends BaseActivity {
 
 
         if (SubredditStorage.subredditsForHome != null) {
+            if(!first)
             doDrawer();
 
             setDataSet(SubredditStorage.subredditsForHome);
