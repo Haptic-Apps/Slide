@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="/r/Android"
+                android:textColor="#fff"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -48,6 +49,7 @@
                 android:id="@+id/subscribers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#fff"
 
                 android:paddingLeft="16dp"
                 android:text="A sub for 2 years"
@@ -57,6 +59,8 @@
                 android:id="@+id/sub_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#fff"
+
                 android:padding="16dp"
                 android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
                 android:textSize="14sp"/>
