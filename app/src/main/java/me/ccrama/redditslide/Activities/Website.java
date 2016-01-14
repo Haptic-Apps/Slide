@@ -43,11 +43,11 @@ public class Website extends BaseActivityAnim {
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
-                startActivity(browserIntent);
+                startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
                 return true;
             case R.id.share:
                 Intent browserIntent2 = new Intent(Intent.ACTION_SEND, Uri.parse(v.getUrl()));
-                startActivity(browserIntent2);
+                startActivity(Intent.createChooser(browserIntent2, getDomainName(v.getUrl())));
                 return true;
 
         }
