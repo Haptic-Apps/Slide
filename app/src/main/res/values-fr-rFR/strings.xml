@@ -22,6 +22,7 @@
   <string name="submission_share_content">Contenu</string>
   <string name="submission_hide">Masquer la publication</string>
   <string name="submission_report">Signaler la publication</string>
+  <string name="submission_gild">Ouvrir dans un navigateur</string>
   <string name="submission_save">Enregistrer la publication</string>
   <string name="submission_share">Partager la publication</string>
   <string name="submission_load_full">Charger entièrement le fil</string>
@@ -279,7 +280,6 @@ Merci beaucoup !</string>
   <string name="settings_indicator_everywhere">Partout</string>
   <string name="settings_indicator_place">Où Monter l\'Indicateur Coloré</string>
   <string name="settings_layout_chooser">Choisir un Type de Disposition</string>
-  <string name="settings_layout_default">Disposition par Défaut</string>
   <string name="settings_link_album">Voir les albums en interne</string>
   <string name="settings_link_browser">Voir les pages Web en interne</string>
   <string name="settings_link_gif">Voir les gif en interne</string>
@@ -313,11 +313,9 @@ Merci beaucoup !</string>
   <string name="settings_notifdisabled">Notifications désactivées.</string>
   <string name="settings_title_alternative_layout">Disposition alternative</string>
   <string name="settings_title_backup">Sauver &amp; restaurer</string>
-  <string name="settings_title_default_theme">Thème par Défaut</string>
   <string name="settings_title_general">Général</string>
   <string name="settings_title_notifications">Paramètres de notifications</string>
   <string name="settings_title_pro">Passez à la version Pro</string>
-  <string name="settings_title_sub_theme">Paramètres de subreddit</string>
   <string name="settings_title_sorting">Tri par défaut</string>
   <string name="settings_title_support">Faire un don</string>
   <string name="settings_title_appearance">Apparence</string>

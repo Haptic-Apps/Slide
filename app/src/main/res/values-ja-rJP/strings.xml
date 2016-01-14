@@ -16,12 +16,14 @@
   <string name="submission_stickied">ピン留め</string>
   <string name="submission_link_internal">内部で開く</string>
   <string name="submission_link_extern">外部で開く</string>
+  <string name="submission_link_copy">URL をコピー</string>
   <string name="submission_link_share">共有 URL</string>
   <string name="submission_share_title">リンクを共有しますか？</string>
   <string name="submission_share_reddit">Reddit URL</string>
   <string name="submission_share_content">コンテンツ URL</string>
   <string name="submission_hide">投稿を隠す</string>
   <string name="submission_report">投稿を報告</string>
+  <string name="submission_gild">ブラウザーで開く</string>
   <string name="submission_save">投稿を保存</string>
   <string name="submission_share">投稿を共有</string>
   <string name="submission_load_full">完全なスレッドを読み込む</string>
@@ -57,6 +59,7 @@
   <string name="card_actionbar">アクションバーを表示</string>
   <string name="card_picture">大きな画像</string>
   <string name="card_picture_cropped">大きな画像をトリミング</string>
+  <string name="card_hide_post_button">アクションバーの \"投稿を隠す\" ボタン</string>
   <string name="card_infobar">情報バー</string>
   <string name="card_thumbnail">サムネイル</string>
   <string name="multi_column_title">複数列</string>
@@ -73,6 +76,7 @@
   <string name="drawer_moderation">モデレーション</string>
   <string name="drawer_sync_subs">あなたの Subreddit を同期</string>
   <string name="sidebar_pinned">ピン留め</string>
+  <string name="sidebar_wiki">Wiki</string>
   <string name="crash_title">Slide がクラッシュしました。</string>
   <string name="crash_report">GitHub でバグを報告</string>
   <string name="crash_restart">アプリを再起動</string>
@@ -83,12 +87,18 @@
   <string name="profile_karma_link">リンク カルマ</string>
   <string name="profile_karma_comment">コメントカルマ</string>
   <string name="profile_message">プライベートメッセージ</string>
+  <string name="profile_saved">保存しました</string>
+  <string name="profile_upvoted">↑投票しました</string>
   <string name="profile_err_title">ユーザーが見つかりませんでした。</string>
   <string name="profile_err_msg">Reddit ユーザーを取得できませんでした。</string>
   <string name="profile_overview">概要</string>
   <string name="profile_comments">コメント</string>
   <string name="profile_submitted">送信</string>
   <string name="profile_gilded">ゴールド</string>
+  <string name="profile_downvoted">↓投票しました</string>
+  <string name="profile_hidden">非表示</string>
+  <string name="profile_add_friend">友達を追加</string>
+  <string name="profile_remove_friend">友達を削除</string>
   <string name="comment_gild">コメントをゴールド</string>
   <string name="comment_report">コメントを報告</string>
   <string name="comment_share">コメントを共有</string>
@@ -97,6 +107,7 @@
   <string name="comment_delete_msg">このコメントを削除してもよろしいですか? この操作は元に戻すことができません。</string>
   <string name="comment_delete_err">何か問題があります。</string>
   <string name="comment_delete_err_msg">もう一度試しますか?</string>
+  <string name="comment_deleted">[削除済]</string>
   <string name="tutorial_skip">スキップ</string>
   <string name="tutorial_agree">了解</string>
   <string name="tutorial_swipe">Subreddits の間をスワイプしてください!</string>
@@ -283,6 +294,7 @@
   <string name="search_subreddit">%1$s を検索</string>
   <string name="captcha">上記のコードを入力してください</string>
   <string name="captcha_title">あなたがロボットではないことを証明します</string>
+  <string name="settings_reddit_settings">Reddit の設定</string>
   <string name="settings_accent_title">アクセント カラーを編集</string>
   <string name="settings_card_mode">カード モード</string>
   <string name="settings_delete_sub_settings">/r/%1$s の設定を削除してもよろしいですか?</string>
@@ -290,7 +302,7 @@
   <string name="settings_indicator_everywhere">どこにでも</string>
   <string name="settings_indicator_place">カラーインジケーターを表示する場所</string>
   <string name="settings_layout_chooser">レイアウトの種類を選択</string>
-  <string name="settings_layout_default">デフォルトのレイアウト</string>
+  <string name="settings_layout_default">投稿レイアウト</string>
   <string name="settings_link_album">内部のアルバム表示</string>
   <string name="settings_link_browser">内部 Web ブラウザー</string>
   <string name="settings_link_gif">内部 GIF 表示</string>
@@ -302,6 +314,7 @@
   <string name="settings_main_color_title">メインカラーを編集</string>
   <string name="settings_notification">%1$s ごとに新着メッセージをチェック</string>
   <string name="settings_notification_short">%1$s ごとにチェック</string>
+  <string name="settings_single_mode">Subreddit タブ\nSubreddit 間のスワイプ</string>
   <string name="enter_animation">アニメーションを入力\n公開するアニメーションを表示します</string>
   <string name="settings_swap_actions">コメントでタップと長押し操作を入れ換え</string>
   <string name="settings_disable_nsfw_photo">すべての NSFW 写真を隠す</string>
@@ -333,11 +346,11 @@
   <string name="settings_cache_delete">すべてのキャッシュ データを削除</string>
   <string name="settings_title_alternative_layout">代替のレイアウト</string>
   <string name="settings_title_backup">バックアップ &amp; 復元</string>
-  <string name="settings_title_default_theme">基本のテーマ</string>
+  <string name="settings_title_default_theme">メイン テーマ</string>
   <string name="settings_title_general">一般設定</string>
   <string name="settings_title_notifications">通知設定</string>
   <string name="settings_title_pro">Pro 版</string>
-  <string name="settings_title_sub_theme">Subreddit テーマ &amp; レイアウト</string>
+  <string name="settings_title_sub_theme">Subreddit テーマ</string>
   <string name="settings_title_sorting">デフォルトの並べ替え</string>
   <string name="settings_title_support">寄付</string>
   <string name="settings_title_appearance">外観</string>
@@ -381,6 +394,10 @@
   <string name="network_connected">ネットワークに接続しました</string>
   <string name="network_connected_msg">オフラインモードを終了しますか?</string>
   <string name="time_just_now">たった今</string>
+  <string name="settings_section_general">全般設定</string>
+  <string name="settings_title_other">その他</string>
+  <string name="settings_general_swipeanywhere">どこからでもスワイプ</string>
+  <string name="settings_link_chrome">Chrome カスタムタブを使用する</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分前</item>
   </plurals>

@@ -260,7 +260,6 @@
   <string name="settings_indicator_everywhere">Her yerde</string>
   <string name="settings_indicator_place">Renk göstergesinin gösterilme yeri</string>
   <string name="settings_layout_chooser">Bir düzen türü seçin</string>
-  <string name="settings_layout_default">Varsayılan Düzen</string>
   <string name="settings_link_album">Dahili albüm görünümü</string>
   <string name="settings_link_browser">Dahili internet tarayıcısı</string>
   <string name="settings_link_gif">Dahili GIF gösterimi</string>
@@ -279,11 +278,9 @@
   <string name="share_image">Resmi paylaş</string>
   <string name="settings_bugs">Hata raporu</string>
   <string name="settings_title_alternative_layout">Alternatif Düzen</string>
-  <string name="settings_title_default_theme">Varsayılan Tema</string>
   <string name="settings_title_general">Genel</string>
   <string name="settings_title_notifications">Posta Bildirim Ayarları</string>
   <string name="settings_title_pro">Pro sürüme geç</string>
-  <string name="settings_title_sub_theme">Subreddit Ayarları</string>
   <string name="settings_title_sorting">Varsayılan Sıralama</string>
   <string name="settings_title_support">Bağış yapın</string>
   <string name="settings_title_appearance">Görünüm</string>
