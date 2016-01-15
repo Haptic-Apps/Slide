@@ -868,7 +868,7 @@ public class PopulateSubmissionViewHolder {
             }
 
             thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
-        } else  if (submission.getThumbnailType() == Submission.ThumbnailType.NONE && type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF) {
+        } else  if ( type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
             holder.imageArea.setVisibility(View.GONE);
             if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);

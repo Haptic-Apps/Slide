@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-
-
-    android:layout_height="match_parent"
     android:background="?attr/activity_background"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/header"
@@ -26,6 +24,7 @@
             android:clipToPadding="false"
             android:minHeight="56dp"
             android:paddingRight="16dp"
+            app:layout_scrollFlags="scroll|enterAlways"
 
 
             >
@@ -38,7 +37,7 @@
                 android:layout_gravity="end|center_vertical"
 
 
-                android:background="?android:selectableItemBackgroundBorderless"
+                android:background="?android:selectableItemBackground"
                 android:paddingBottom="12dp"
 
                 android:paddingTop="12dp"
@@ -52,9 +51,10 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="end|center_vertical"
-                android:background="?android:selectableItemBackgroundBorderless"
+                android:background="?android:selectableItemBackground"
 
                 android:paddingBottom="12dp"
+
                 android:paddingTop="12dp"
 
 
@@ -90,17 +90,20 @@
             android:id="@+id/loadall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/colorAccent"
+            android:background="?attr/colorAccent"
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/submission_load_full"
             android:textColor="?attr/font"
             android:textSize="14sp" />
+
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    android:layout_height="match_parent">
 
         <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
             android:id="@+id/activity_main_swipe_refresh_layout"
@@ -109,10 +112,10 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/vertical_content"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"></android.support.v7.widget.RecyclerView>
-
+                android:orientation="vertical"/>
 
         </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
@@ -132,7 +135,7 @@
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
+                android:background="?android:selectableItemBackgroundBorderless"
                 android:src="@drawable/up" />
 
             <ImageView
@@ -141,9 +144,8 @@
 
                 android:layout_height="36dp"
                 android:layout_weight="1"
-                android:background="?android:selectableItemBackground"
+                android:background="?android:selectableItemBackgroundBorderless"
                 android:src="@drawable/down" />
         </LinearLayout>
     </RelativeLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

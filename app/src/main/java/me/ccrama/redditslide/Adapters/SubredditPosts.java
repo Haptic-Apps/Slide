@@ -316,7 +316,7 @@ public class SubredditPosts {
 
             if (NetworkUtil.isConnected(refreshLayout.getContext())) {
                 stillShow = true;
-                if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce) {
+                if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && Reddit.cache) {
                     offline = true;
                     doneOnce = true;
                     return null;

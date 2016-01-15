@@ -24,6 +24,7 @@
             android:id="@+id/slider"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:visibility="gone"
             android:layout_gravity="right"
 
             android:padding="15dp"
