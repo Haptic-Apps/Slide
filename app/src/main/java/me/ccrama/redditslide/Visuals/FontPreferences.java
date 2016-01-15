@@ -12,7 +12,7 @@ import me.ccrama.redditslide.R;
  */
 public class FontPreferences {
     private final static String FONT_STYLE_POST = "FONT_STYLE_POST";
-    private final static String FONT_STYLE_COMMENT = "FONT_STYLE_COMMENT"
+    private final static String FONT_STYLE_COMMENT = "FONT_STYLE_COMMENT";
     private final static String FONT_COMMENT = "FONT_COMMENT";
     private final static String FONT_TITLE = "FONT_TITLE";
 
