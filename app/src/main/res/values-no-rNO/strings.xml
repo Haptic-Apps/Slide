@@ -267,7 +267,6 @@
   <string name="settings_indicator_everywhere">Overalt</string>
   <string name="settings_indicator_place">Hvor fargeindikatoren skal vises</string>
   <string name="settings_layout_chooser">Velg oppsett</string>
-  <string name="settings_layout_default">Standardoppsett</string>
   <string name="settings_link_album">Intern albumvisning</string>
   <string name="settings_link_browser">Intern nettleser</string>
   <string name="settings_link_gif">Intern GIF-visning</string>
@@ -295,10 +294,8 @@
   <string name="settings_notifdisabled">Varsler er deaktivert.</string>
   <string name="settings_title_alternative_layout">Alternativt oppsett</string>
   <string name="settings_title_backup">Sikkerhetskopier og gjenopprett</string>
-  <string name="settings_title_default_theme">Standardtema</string>
   <string name="settings_title_general">Generelt</string>
   <string name="settings_title_notifications">Varselinnstillinger</string>
-  <string name="settings_title_sub_theme">Subredditinnstillinger</string>
   <string name="settings_title_sorting">Standardsortering</string>
   <string name="settings_title_support">Doner</string>
   <string name="settings_title_appearance">Utseende</string>

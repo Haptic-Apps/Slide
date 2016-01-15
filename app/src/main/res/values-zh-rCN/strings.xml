@@ -3,7 +3,7 @@
 <resources>
   <string name="general_confirm_exit">确认退出</string>
   <string name="general_confirm_exit_msg">你真的想退出 Slide 吗？</string>
-  <string name="general_switch_acc">切换用户</string>
+  <string name="general_switch_acc">切换帐户</string>
   <string name="general_enable_shadowbox">启用 Shadowbox 模式</string>
   <string name="general_pro_msg">我选择了几个 Slide 功能（包括多栏目模式）仅能通过 Play Store 购买专业版解锁密钥来解锁。\n\n这是为了能让开发持续进行，避免广告出现在免费版的 Slide 中！\n\n其中包含多栏目模式，Shadowbox 模式（图片板块用），还有更多功能马上到来！\n\n你想解锁 Slide for Reddit 专业版吗?</string>
   <string name="general_open_settings">打开版块设置</string>
@@ -12,7 +12,7 @@
   <string name="submission_info_unsaved">未保存提交</string>
   <string name="submission_info_saved">提交已保存</string>
   <string name="submission_post_saved">已保存告示</string>
-  <string name="submission_info_hidden">永久隐藏告示</string>
+  <string name="submission_info_hidden">永久隐藏告示。</string>
   <string name="submission_stickied">已固定</string>
   <string name="submission_link_internal">内部打开</string>
   <string name="submission_link_extern">外部打开</string>
@@ -22,6 +22,7 @@
   <string name="submission_share_content">内容网址</string>
   <string name="submission_hide">隐藏告示</string>
   <string name="submission_report">举报告示</string>
+  <string name="submission_gild">在浏览器中打开</string>
   <string name="submission_save">保存告示</string>
   <string name="submission_share">分享告示</string>
   <string name="submission_load_full">打开完整帖子</string>
@@ -48,7 +49,7 @@
   <string name="theme_indicator">版块颜色指示器</string>
   <string name="theme_match_always">永远匹配</string>
   <string name="theme_match_ext">内部匹配</string>
-  <string name="theme_text">文字顏色</string>
+  <string name="theme_text">文字颜色</string>
   <string name="theme_card_type">卡片类型</string>
   <string name="font_size">字体大小</string>
   <string name="font_large">大</string>
@@ -57,6 +58,7 @@
   <string name="card_actionbar">操作栏可见</string>
   <string name="card_picture">大图</string>
   <string name="card_picture_cropped">剪切过的大图</string>
+  <string name="card_hide_post_button">动作栏放置“隐藏帖子”按钮</string>
   <string name="card_infobar">信息栏</string>
   <string name="card_thumbnail">缩略图</string>
   <string name="multi_column_title">多栏目设置</string>
@@ -73,6 +75,7 @@
   <string name="drawer_moderation">版主管理</string>
   <string name="drawer_sync_subs">同步你的版块</string>
   <string name="sidebar_pinned">已固定</string>
+  <string name="sidebar_wiki">Wiki</string>
   <string name="crash_title">Slide 已崩溃。</string>
   <string name="crash_report">提交 bug 到 GitHub</string>
   <string name="crash_restart">重启应用</string>
@@ -83,12 +86,16 @@
   <string name="profile_karma_link">链接 karma</string>
   <string name="profile_karma_comment">评论 karma</string>
   <string name="profile_message">私人信息</string>
+  <string name="profile_saved">已保存</string>
+  <string name="profile_upvoted">已赞同</string>
   <string name="profile_err_title">用户未找到</string>
   <string name="profile_err_msg">Reddit 用户不能找回。</string>
   <string name="profile_overview">预览</string>
   <string name="profile_comments">评论</string>
   <string name="profile_submitted">已提交</string>
   <string name="profile_gilded">已加精</string>
+  <string name="profile_downvoted">已反对</string>
+  <string name="profile_hidden">已隐藏</string>
   <string name="comment_gild">给评论加精</string>
   <string name="comment_report">举报评论</string>
   <string name="comment_share">分享评论</string>
@@ -284,6 +291,7 @@
   <string name="search_subreddit">搜索 %1$s</string>
   <string name="captcha">输入上面的代码</string>
   <string name="captcha_title">证明你不是个机器人</string>
+  <string name="settings_reddit_settings">Reddit 个性化</string>
   <string name="settings_accent_title">修改强调色</string>
   <string name="settings_card_mode">卡片模式</string>
   <string name="settings_delete_sub_settings">你真的想删除 /r/%1$s 的设置吗？</string>
@@ -291,7 +299,6 @@
   <string name="settings_indicator_everywhere">全局</string>
   <string name="settings_indicator_place">何处显示颜色指示器</string>
   <string name="settings_layout_chooser">选择一个布局类型</string>
-  <string name="settings_layout_default">默认布局</string>
   <string name="settings_link_album">内置专辑查看</string>
   <string name="settings_link_browser">内置网页浏览器</string>
   <string name="settings_link_gif">内置动图查看</string>
@@ -303,6 +310,7 @@
   <string name="settings_main_color_title">修改主颜色</string>
   <string name="settings_notification">每 %1$s 检查新信息</string>
   <string name="settings_notification_short">每 %1$s 检查一次</string>
+  <string name="settings_single_mode">板块标签\n在板块间滑动</string>
   <string name="enter_animation">输入动画\n显示动画</string>
   <string name="settings_swap_actions">评论中的滑动触摸和长按操作</string>
   <string name="settings_disable_nsfw_photo">隐藏所有 NSFW 图片</string>
@@ -334,11 +342,9 @@
   <string name="settings_cache_delete">删除所有缓存的数据</string>
   <string name="settings_title_alternative_layout">备选布局</string>
   <string name="settings_title_backup">备份 &amp; 还原</string>
-  <string name="settings_title_default_theme">默认主题</string>
   <string name="settings_title_general">通用</string>
   <string name="settings_title_notifications">通知设置</string>
   <string name="settings_title_pro">升级为专业版</string>
-  <string name="settings_title_sub_theme">版块设置</string>
   <string name="settings_title_sorting">默认排序</string>
   <string name="settings_title_support">捐赠</string>
   <string name="settings_title_appearance">外观</string>
@@ -376,6 +382,7 @@
   <string name="donate_success_title">捐赠成功！</string>
   <string name="donate_success_msg">非常感谢您支持 Slide for Reddit！这对我来说意义重大。如果你遇到任何问题，随时向我发邮件或者在 /r/slideforreddit 发帖！</string>
   <string name="donate_success_btn">感激不尽！</string>
+  <string name="offline_caching">正在缓存提交</string>
   <string name="offline_msg">请先联网，刷新板块</string>
   <string name="offline_drawer_info">Slide 处于离线模式。连接到网络以查看所有内容！</string>
   <string name="network_connected">网络已连接</string>

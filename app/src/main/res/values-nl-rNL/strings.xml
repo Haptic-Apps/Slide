@@ -22,6 +22,7 @@
   <string name="submission_share_content">Inhouds-URL</string>
   <string name="submission_hide">Post verbergen</string>
   <string name="submission_report">Post melden</string>
+  <string name="submission_gild">Openen in browser</string>
   <string name="submission_save">Post opslaan</string>
   <string name="submission_share">Post delen</string>
   <string name="submission_load_full">Volledige thread laden</string>
@@ -51,6 +52,7 @@
   <string name="theme_match_always">Altijd Matchen</string>
   <string name="theme_match_ext">Extern Matchen</string>
   <string name="theme_text">Tekstkleur</string>
+  <string name="theme_card_type">Kaarttype</string>
   <string name="font_size">Lettergrootte</string>
   <string name="font_large">Groot</string>
   <string name="font_medium">Middelgroot</string>
@@ -58,6 +60,7 @@
   <string name="card_actionbar">Actiebalk zichtbaar</string>
   <string name="card_picture">Grote afbeeldingen</string>
   <string name="card_picture_cropped">Bijgesneden afbeelding</string>
+  <string name="card_hide_post_button">\"Post verbergen\"-knop in actiebalk</string>
   <string name="card_infobar">Infobalk</string>
   <string name="card_thumbnail">Miniatuurafbeelding</string>
   <string name="multi_column_title">Multikolom-instellingen</string>
@@ -74,6 +77,7 @@
   <string name="drawer_moderation">Modereren</string>
   <string name="drawer_sync_subs">Je subreddits synchroniseren</string>
   <string name="sidebar_pinned">gepind</string>
+  <string name="sidebar_wiki">Wiki</string>
   <string name="crash_title">Slide is gecrasht.</string>
   <string name="crash_report">Bug melden op GitHub</string>
   <string name="crash_restart">App herstarten</string>
@@ -84,12 +88,16 @@
   <string name="profile_karma_link">linkkarma</string>
   <string name="profile_karma_comment">reactiekarma</string>
   <string name="profile_message">Privébericht</string>
+  <string name="profile_saved">opgeslagen</string>
+  <string name="profile_upvoted">upvoted</string>
   <string name="profile_err_title">Gebruiker niet gevonden</string>
   <string name="profile_err_msg">Reddit-gebruiker kan niet worden geladen.</string>
   <string name="profile_overview">overzicht</string>
   <string name="profile_comments">reacties</string>
   <string name="profile_submitted">ingezonden</string>
   <string name="profile_gilded">verguld</string>
+  <string name="profile_downvoted">downvoted</string>
+  <string name="profile_hidden">verborgen</string>
   <string name="comment_gild">Reactie vergulden</string>
   <string name="comment_report">Reactie melden</string>
   <string name="comment_share">Reactie delen</string>
@@ -98,6 +106,7 @@
   <string name="comment_delete_msg">Weet je zeker dat je deze reactie wil verwijderen? Dit kan niet ongedaan worden gemaakt.</string>
   <string name="comment_delete_err">Oh oh, er is iets misgegaan.</string>
   <string name="comment_delete_err_msg">Wil je het nog een keer proberen?</string>
+  <string name="comment_deleted">[verwijderd]</string>
   <string name="tutorial_skip">Overslaan</string>
   <string name="tutorial_agree">Ik begrijp het</string>
   <string name="tutorial_swipe">Veeg tussen subreddits!</string>
@@ -151,6 +160,8 @@
   <string name="err_general">Oh oh, er is een fout opgetreden</string>
   <string name="err_no_connection">Reddit kon niet worden bereikt. Opnieuw proberen?</string>
   <string name="err_retry_later">Probeer het zometeen opnieuw!</string>
+  <string name="err_login">Je moet inloggen om deze actie uit te voeren, wil je dat nu doen?</string>
+  <string name="err_permission">Toegang geweigerd</string>
   <string name="gif_err_title">GIF niet gevonden</string>
   <string name="gif_err_msg">Er is een fout opgetreden bij het laden van deze GIF. Probeer de GIF opnieuw te openen.</string>
   <string name="gif_saved">GIF opgeslagen</string>
@@ -158,6 +169,7 @@
   <string name="login_restarting_title">App wordt opnieuw opgestart</string>
   <string name="login_restart_msg">Slide wordt opnieuw opgestart om subreddits en instellingen te synchroniseren</string>
   <string name="multireddit_err_title">(Nog) geen multireddits!</string>
+  <string name="multireddit_err_msg">Wilt U een nieuwe Multireddit maken?</string>
   <string name="multireddit_title_empty">Titel mag niet leeg zijn</string>
   <string name="multireddit_title_empty_msg">Voer een titel in voor je multireddit</string>
   <string name="multireddit_no_subs">Geen subs zijn toegevoegd</string>
@@ -168,6 +180,7 @@
   <string name="album_loading">Album laden</string>
   <string name="album_err_not_found">Album niet gevonden</string>
   <string name="album_err_msg_not_found">Er is een fout opgetreden bij het laden van dit album. Probeer het album opnieuw te openen. Als dit probleem zich blijft voordoen, graag melden in /r/slideforreddit</string>
+  <string name="album_title_count">Galerij (%1$d afbeeldingen)</string>
   <string name="type_nsfw_img">NSFW-afbeelding</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
   <string name="type_reddit">Reddit link</string>
@@ -207,6 +220,7 @@
   <string name="misc_subscribed">Geabboneerd</string>
   <string name="misc_continue">Doorgaan</string>
   <string name="misc_unsubscribed">Afgemeld</string>
+  <string name="misc_no_more_posts">Geen posts meer!</string>
   <string name="user_enter">Gebruikersnaam invoeren</string>
   <string name="user_btn_goto">Naar gebruiker gaan</string>
   <string name="user_invalid">Ongeldige gebruikersnaam</string>
@@ -229,6 +243,8 @@
   <string name="btn_sure">Is goed!</string>
   <string name="btn_undo">Ongedaan maken</string>
   <string name="btn_yes">Ja</string>
+  <string name="btn_refresh">Vernieuwen</string>
+  <string name="btn_confirm">Bevestigen</string>
   <string name="backup_success">Back-up gelukt!</string>
   <string name="backup_restoring">Je instellingen herstellen</string>
   <string name="backup_backing_up">Back-up maken van je instellingen</string>
@@ -259,6 +275,7 @@
   <string name="mod_btn_approve">Goedkeuren</string>
   <string name="mod_btn_spam">Spam</string>
   <string name="mod_ban">Gebruiker verbannen</string>
+  <string name="mod_no_reports">Geen rapporten</string>
   <string name="wiki_err">Geen wiki gevonden</string>
   <string name="wiki_err_msg">Deze subreddit heeft geen wiki!</string>
   <string name="subreddit_subscribers">%1$d abonnees</string>
@@ -268,8 +285,11 @@
   <string name="subreddit_chooser">Kies een subreddit</string>
   <string name="search_comments_hint">Reacties doorzoeken</string>
   <string name="search_goto">Ga naar</string>
+  <string name="search_hint">Zoekterm</string>
+  <string name="search_title">Zoeken</string>
   <string name="captcha">Voer de bovenstaande code in</string>
   <string name="captcha_title">Bewijs dat je geen robot bent</string>
+  <string name="settings_reddit_settings">Reddit-voorkeuren</string>
   <string name="settings_accent_title">Accentkleur aanpassen</string>
   <string name="settings_card_mode">Kaartmodus</string>
   <string name="settings_delete_sub_settings">Wil je echt de instellingen voor /r/%1$s verwijderen?</string>
@@ -277,7 +297,6 @@
   <string name="settings_indicator_everywhere">Overal</string>
   <string name="settings_indicator_place">Waar kleurindicator tonen</string>
   <string name="settings_layout_chooser">Kies een lay-out type</string>
-  <string name="settings_layout_default">Standaardlayout</string>
   <string name="settings_link_album">Interne albumweergave</string>
   <string name="settings_link_browser">Interne webbrowser</string>
   <string name="settings_link_gif">Interne GIF-weergave</string>
@@ -307,13 +326,13 @@
   <string name="settings_google_msg">Slide is aan het verbinden met Google. Probeer het over een paar seconden opnieuw!</string>
   <string name="settings_fabclear_msg">Op de wis-knop tikken verbergt de posts tijdelijk uit de huidige weergave. \nHou de knop ingedrukt om de posts permanent te verbergen!</string>
   <string name="settings_notifdisabled">Meldingen uitgeschakeld.</string>
+  <string name="settings_auto_end">Dag begint om</string>
+  <string name="settings_auto_start">Nacht begint om</string>
   <string name="settings_title_alternative_layout">Alternatieve lay-out</string>
   <string name="settings_title_backup">Back-up &amp; Herstellen</string>
-  <string name="settings_title_default_theme">Basisthema</string>
   <string name="settings_title_general">Algemeen</string>
   <string name="settings_title_notifications">Berichtinstellingen</string>
   <string name="settings_title_pro">Neem Pro</string>
-  <string name="settings_title_sub_theme">Subreddit Themas &amp; Layouts</string>
   <string name="settings_title_sorting">Standaardsortering</string>
   <string name="settings_title_support">Doneren</string>
   <string name="settings_title_appearance">Uiterlijk</string>
@@ -321,6 +340,9 @@
   <string name="settings_title_multi_column">Multikolom-instellingen</string>
   <string name="settings_title_fab">Zwevende actieknop</string>
   <string name="settings_subhead_support">Ondersteuning</string>
+  <string name="settings_title_caching">Cache-instellingen</string>
+  <string name="settings_title_cache">Cache</string>
+  <string name="settings_title_comments">Reacties</string>
   <string name="title_subreddit_settings">Subreddit Thema´s &amp; Layouts</string>
   <string name="title_edit_theme">Thema aanpassen</string>
   <string name="title_submit_post">Post insturen</string>
@@ -347,6 +369,7 @@
   <string name="donate_success_title">Donatie gelukt!</string>
   <string name="donate_success_msg">Bedankt voor het steunen van Slide voor Reddit! Het betekent echt veel voor mij. Als je een probleem ondervindt, stuur me een e-mail of plaats een bericht in /r/slideforreddit!</string>
   <string name="donate_success_btn">Graag gedaan!</string>
+  <string name="network_connected">Netwerk verbonden</string>
   <string name="time_just_now">zojuist</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuut geleden</item>
