@@ -32,6 +32,7 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;

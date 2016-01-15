@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,28 +19,39 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 
-public class SubmissionsView extends Fragment {
+public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
     private RecyclerView rv;
     private FloatingActionButton fab;
@@ -232,7 +244,7 @@ public class SubmissionsView extends Fragment {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         Log.v("Slide", "LOADING MORE" + totalItemCount);
                         posts.loading = true;
-                        posts.loadMore(adapter, false, posts.subreddit);
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
 
                     }
                 }
@@ -269,14 +281,7 @@ public class SubmissionsView extends Fragment {
         posts = new SubredditPosts(id);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
         rv.setAdapter(adapter);
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
 
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -330,7 +335,7 @@ public class SubmissionsView extends Fragment {
 
     private void refresh() {
         posts.forced = true;
-        posts.loadMore(adapter, true, id);
+        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
     }
 
     public void forceRefresh() {
@@ -344,4 +349,156 @@ public class SubmissionsView extends Fragment {
         });
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    @Override
+    public void update(List<Submission> submissions, boolean reset, boolean offline, String subreddit) {
+        if (submissions != null && !submissions.isEmpty()) {
+            int start = 0;
+            if (posts != null) {
+                start = posts.posts.size() + 1;
+            }
+            if (reset || offline || posts == null) {
+
+                ArrayList<Submission> finalSubs = new ArrayList<>();
+                for (Submission s : submissions) {
+
+                    if (!PostMatch.doesMatch(s)) {
+                        finalSubs.add(s);
+                    }
+                }
+                posts.posts = finalSubs;
+                start = -1;
+            } else {
+                ArrayList<Submission> finalSubs = new ArrayList<>();
+                for (Submission s : submissions) {
+                    if (!PostMatch.doesMatch(s)) {
+                        finalSubs.add(s);
+                    }
+                }
+
+                posts.posts.addAll(finalSubs);
+                posts.offline = false;
+            }
+
+            final int finalStart = start;
+            (adapter.sContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    if (finalStart != -1) {
+                        adapter.notifyItemRangeInserted(finalStart, posts.posts.size());
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }
+            });
+        } else if (submissions != null) {
+            posts.nomore = true;
+        } else if (Cache.hasSub(subreddit.toLowerCase()) && !posts.nomore && Reddit.cache) {
+            Log.v("Slide", "GETTING SUB " + subreddit.toLowerCase());
+            posts.offline = true;
+            final OfflineSubreddit cached = Cache.getSubreddit(subreddit.toLowerCase());
+            ArrayList<Submission> finalSubs = new ArrayList<>();
+            for (Submission s : cached.submissions) {
+
+                if (!PostMatch.doesMatch(s)) {
+                    finalSubs.add(s);
+                }
+            }
+
+            posts.posts = finalSubs;
+            if (cached.submissions.size() > 0) {
+                posts.stillShow = true;
+            } else {
+                mSwipeRefreshLayout.setRefreshing(false);
+
+                adapter.setError(true);
+            }
+            (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(mSwipeRefreshLayout.getContext(), "Last updated " + TimeUtils.getTimeAgo(cached.time, mSwipeRefreshLayout.getContext()), Toast.LENGTH_SHORT).show();
+                    }
+
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        } else if (!posts.nomore) {
+            if (mSwipeRefreshLayout != null) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+            adapter.setError(true);
+
+        }
+        if (submissions != null && mSwipeRefreshLayout != null)
+            for (Submission s : submissions) {
+                ContentType.ImageType type = ContentType.getImageType(s);
+
+                String url = "";
+
+                ImageLoadingListener l = new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                };
+
+                if (!s.isNsfw() || SettingValues.NSFWPreviews) {
+                    if (type == ContentType.ImageType.IMAGE) {
+                        url = ContentType.getFixedUrl(s.getUrl());
+                        if (SettingValues.bigPicEnabled) {
+                            ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                        } else {
+                            if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
+                                ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
+                            }
+                        }
+                    } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
+                        url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                        if (SettingValues.bigPicEnabled) {
+                            ((Reddit)mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                        } else {
+                            if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
+                                ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
+                            }
+                        }
+                    } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+                        if ((SettingValues.NSFWPreviews && s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
+                            if (SettingValues.bigPicEnabled) {
+                                ((Reddit)mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                            } else {
+                                if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
+                                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
+                                }
+                            }
+
+                        }
+                    }
+
+
+                }
+            }
+    }
+
 }
