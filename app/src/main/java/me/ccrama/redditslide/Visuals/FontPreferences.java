@@ -11,7 +11,8 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 7/9/2015.
  */
 public class FontPreferences {
-    private final static String FONT_STYLE = "FONT_STYLE";
+    private final static String FONT_STYLE_POST = "FONT_STYLE_POST";
+    private final static String FONT_STYLE_COMMENT = "FONT_STYLE_COMMENT"
     private final static String FONT_COMMENT = "FONT_COMMENT";
     private final static String FONT_TITLE = "FONT_TITLE";
 
@@ -29,10 +30,17 @@ public class FontPreferences {
         return open().edit();
     }
 
-    public FontStyle getFontStyle() {
-        return FontStyle.valueOf(open().getString(FONT_STYLE,
-                FontStyle.Medium.name()));
+    public FontStyle getPostFontStyle() {
+        return FontStyle.valueOf(open().getString(FONT_STYLE_POST,
+                FontStyle.MediumPost.name()));
     }
+
+    public FontStyle getCommentFontStyle() {
+        return FontStyle.valueOf(open().getString(FONT_STYLE_COMMENT,
+                FontStyle.MediumComment.name()));
+    }
+
+
     public FontTypeComment getFontTypeComment() {
         return FontTypeComment.valueOf(open().getString(FONT_COMMENT,
                 FontTypeComment.Regular.name()));
@@ -43,10 +51,10 @@ public class FontPreferences {
     }
 
     public void setPostFontStyle(FontStyle style) {
-        edit().putString(FONT_STYLE, style.name()).commit();
+        edit().putString(FONT_STYLE_POST, style.name()).commit();
     }
     public void setCommentFontStyle(FontStyle style) {
-        edit().putString(FONT_STYLE, style.name()).commit();
+        edit().putString(FONT_STYLE_COMMENT, style.name()).commit();
     }
     public void setCommentFont(FontTypeComment style) {
         edit().putString(FONT_COMMENT, style.name()).commit();
@@ -55,12 +63,16 @@ public class FontPreferences {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
     public enum FontStyle {
-        Smaller(R.style.FontStyle_Smaller, "Smaller"),
-
-        Small(R.style.FontStyle_Small, "Small"),
-        Medium(R.style.FontStyle_Medium, "Medium"),
-        Large(R.style.FontStyle_Large, "Large"),
-        Larger(R.style.FontStyle_Larger, "Larger");
+        SmallerPost(R.style.FontStyle_SmallerPost, "Smaller"),
+        SmallerComment(R.style.FontStyle_SmallerComment, "Smaller"),
+        SmallPost(R.style.FontStyle_SmallPost, "Small"),
+        SmallComment(R.style.FontStyle_SmallPost, "Small"),
+        MediumPost(R.style.FontStyle_MediumPost, "Medium"),
+        MediumComment(R.style.FontStyle_MediumComment, "Medium"),
+        LargePost(R.style.FontStyle_LargePost, "Large"),
+        LargeComment(R.style.FontStyle_LargeComment, "Large"),
+        LargerPost(R.style.FontStyle_LargerPost, "Larger"),
+        LargerComment(R.style.FontStyle_LargerComment, "Larger");
 
         private final int resId;
         private final String title;

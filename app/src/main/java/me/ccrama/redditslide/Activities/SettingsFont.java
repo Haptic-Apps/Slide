@@ -26,7 +26,7 @@ public class SettingsFont extends BaseActivity {
         setupAppBar(R.id.toolbar, "Font Settings", true, true);
 
         final TextView color = (TextView) findViewById(R.id.font);
-        color.setText(new FontPreferences(this).getFontStyle().getTitle());
+        color.setText(new FontPreferences(this).getCommentFontStyle().getTitle());
         findViewById(R.id.commentfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +42,7 @@ public class SettingsFont extends BaseActivity {
                     public boolean onMenuItemClick(MenuItem item) {
 
                         new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
-                        color.setText(new FontPreferences(SettingsFont.this).getFontStyle().getTitle());
+                        color.setText(new FontPreferences(SettingsFont.this).getCommentFontStyle().getTitle());
 
                         return true;
                     }
@@ -67,7 +67,7 @@ public class SettingsFont extends BaseActivity {
                     public boolean onMenuItemClick(MenuItem item) {
 
                         new FontPreferences(SettingsFont.this).setPostFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
-                        color.setText(new FontPreferences(SettingsFont.this).getFontStyle().getTitle());
+                        color.setText(new FontPreferences(SettingsFont.this).getPostFontStyle().getTitle());
 
                         return true;
                     }

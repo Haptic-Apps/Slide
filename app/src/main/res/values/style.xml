@@ -193,9 +193,11 @@
 
     </style>
 
-    <style name="FontStyle.Medium">
+    <style name="FontStyle.MediumPost">
         <item name="font_cardtitle">20sp</item>
         <item name="font_cardinfo">12sp</item>
+    </style>
+    <style name="FontStyle.MediumComment">
         <item name="font_commenttitle">12sp</item>
         <item name="font_commentinfo">12sp</item>
         <item name="font_commentbody">14sp</item>
@@ -203,36 +205,47 @@
 
     <style name="FontStyle"></style>
 
-    <style name="FontStyle.Small">
+    <style name="FontStyle.SmallPost">
         <item name="font_cardtitle">18sp</item>
         <item name="font_cardinfo">10sp</item>
+    </style>
+    <style name="FontStyle.SmallComment">
         <item name="font_commenttitle">10sp</item>
         <item name="font_commentinfo">10sp</item>
         <item name="font_commentbody">12sp</item>
-
     </style>
-    <style name="FontStyle.Smaller">
+
+    <style name="FontStyle.SmallerPost">
         <item name="font_cardtitle">16sp</item>
         <item name="font_cardinfo">10sp</item>
+    </style>
+    <style name="FontStyle.SmallerComment">
         <item name="font_commenttitle">10sp</item>
         <item name="font_commentinfo">10sp</item>
         <item name="font_commentbody">12sp</item>
-
     </style>
-    <style name="FontStyle.Large">
+
+    <style name="FontStyle.LargePost">
         <item name="font_cardtitle">22sp</item>
         <item name="font_cardinfo">14sp</item>
+    </style>
+    <style name="FontStyle.LargeComment">
         <item name="font_commenttitle">14sp</item>
         <item name="font_commentinfo">14sp</item>
         <item name="font_commentbody">16sp</item>
     </style>
-    <style name="FontStyle.Larger">
+
+    <style name="FontStyle.LargerPost">
         <item name="font_cardtitle">24sp</item>
         <item name="font_cardinfo">16sp</item>
+    </style>
+    <style name="FontStyle.LargerComment">
         <item name="font_commenttitle">16sp</item>
         <item name="font_commentinfo">16sp</item>
         <item name="font_commentbody">18sp</item>
     </style>
+
+
     <style name="Theme.LIGHT" parent="swipestylelight">
         <item name="activity_background">#dedede</item>
         <item name="card_background">#FFFFFF</item>
