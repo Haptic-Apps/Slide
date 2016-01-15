@@ -22,7 +22,7 @@
             android:src="@drawable/more"
 
 
-            android:tint="?attr/tint" />
+           />
         <ImageView
             android:id="@+id/edit"
             android:layout_width="0dp"
@@ -34,7 +34,7 @@
             android:src="@drawable/edit"
 
 
-            android:tint="?attr/tint" />
+             />
         <ImageView
             android:id="@+id/delete"
             android:layout_width="0dp"
@@ -46,7 +46,7 @@
             android:src="@drawable/delete"
 
 
-            android:tint="?attr/tint" />
+             />
 
         <ImageView
             android:id="@+id/upvote"
@@ -57,7 +57,7 @@
             android:padding="12dp"
             android:src="@drawable/upvoteicon"
 
-            android:tint="?attr/tint" />
+             />
 
 
         <ImageView
@@ -69,7 +69,7 @@
             android:padding="12dp"
 
             android:src="@drawable/downvoteicon"
-            android:tint="?attr/tint" />
+             />
 
         <ImageView
             android:id="@+id/reply"
@@ -80,7 +80,7 @@
             android:padding="12dp"
 
             android:src="@drawable/reply"
-            android:tint="?attr/tint" />
+             />
     </LinearLayout>
 
     <LinearLayout
@@ -95,13 +95,11 @@
             android:id="@+id/replyLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/tint"
             android:hint="@string/btn_reply"
             android:imeOptions="actionDone|flagNoEnterAction"
             android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
             android:minHeight="30dp"
-            android:textColor="?attr/font"
-            android:textColorHint="?attr/font" />
+         />
 
         <LinearLayout
             android:id="@+id/innersend2"
@@ -129,7 +127,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/image"
-                android:tint="#ffffff" />
+                 />
 
 
             <ImageButton
@@ -144,7 +142,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/link"
-                android:tint="#ffffff" />
+                 />
 
             <ImageButton
                 android:id="@+id/bold"
@@ -158,7 +156,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_format_bold_white_48dp"
-                android:tint="#ffffff" />
+                 />
 
             <ImageButton
                 android:id="@+id/italics"
@@ -172,7 +170,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_format_italic_white_48dp"
-                android:tint="#ffffff" />
+                 />
 
             <ImageButton
                 android:id="@+id/bulletlist"
@@ -186,7 +184,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_format_list_bulleted_white_48dp"
-                android:tint="#ffffff" />
+                 />
 
             <ImageButton
                 android:id="@+id/numlist"
@@ -200,7 +198,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_format_list_numbered_white_48dp"
-                android:tint="#ffffff" />
+                 />
 
             <ImageButton
                 android:id="@+id/quote"
@@ -214,7 +212,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_format_quote_white_48dp"
-                android:tint="#ffffff" />
+                 />
 
             <ImageButton
                 android:id="@+id/size"
@@ -228,7 +226,7 @@
                 android:padding="8dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/fontsizedarker"
-                android:tint="#ffffff" />
+                 />
         </LinearLayout>
 
         <RelativeLayout
@@ -244,23 +242,9 @@
 
                 android:text="@string/btn_discard"
                 android:textAllCaps="true"
-                android:textColor="?attr/font"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/preview"
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:padding="16dp"
-                android:layout_toLeftOf="@id/send"
-                android:text="PREVIEW"
-                android:textAllCaps="true"
-                android:textColor="?attr/font"
-
-                android:textSize="14sp"
-                android:textStyle="bold" />
+          
             <TextView
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
@@ -272,7 +256,6 @@
 
                 android:text="@string/btn_submit"
                 android:textAllCaps="true"
-                android:textColor="?attr/font"
 
                 android:textSize="14sp"
                 android:textStyle="bold" />
