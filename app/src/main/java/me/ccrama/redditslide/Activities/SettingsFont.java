@@ -27,7 +27,7 @@ public class SettingsFont extends BaseActivity {
 
         final TextView color = (TextView) findViewById(R.id.font);
         color.setText(new FontPreferences(this).getFontStyle().getTitle());
-        findViewById(R.id.fontsize).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.commentfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsFont.this, v);
@@ -41,7 +41,32 @@ public class SettingsFont extends BaseActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        new FontPreferences(SettingsFont.this).setFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
+                        new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
+                        color.setText(new FontPreferences(SettingsFont.this).getFontStyle().getTitle());
+
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
+        findViewById(R.id.postfontsize).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsFont.this, v);
+                popup.getMenu().add("Larger");
+                popup.getMenu().add("Large");
+                popup.getMenu().add("Medium");
+                popup.getMenu().add("Small");
+                popup.getMenu().add("Smaller");
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        new FontPreferences(SettingsFont.this).setPostFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
                         color.setText(new FontPreferences(SettingsFont.this).getFontStyle().getTitle());
 
                         return true;

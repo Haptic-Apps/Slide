@@ -42,7 +42,10 @@ public class FontPreferences {
                 FontTypeTitle.Regular.name()));
     }
 
-    public void setFontStyle(FontStyle style) {
+    public void setPostFontStyle(FontStyle style) {
+        edit().putString(FONT_STYLE, style.name()).commit();
+    }
+    public void setCommentFontStyle(FontStyle style) {
         edit().putString(FONT_STYLE, style.name()).commit();
     }
     public void setCommentFont(FontTypeComment style) {
