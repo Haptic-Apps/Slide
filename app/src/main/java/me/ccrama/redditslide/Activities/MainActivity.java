@@ -774,6 +774,7 @@ public class MainActivity extends BaseActivity {
                     if (count == 0) {
                         header.findViewById(R.id.count).setVisibility(View.GONE);
                     } else {
+                        header.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) header.findViewById(R.id.count)).setText(count + "");
                     }
                 }
