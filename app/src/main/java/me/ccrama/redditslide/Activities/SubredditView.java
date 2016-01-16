@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -29,12 +28,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
@@ -42,28 +37,20 @@ import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.SubredditStorageNoContext;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -165,13 +152,12 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         final StaggeredGridLayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
 
         }
-
         rv.setLayoutManager(mLayoutManager);
         final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
@@ -405,15 +391,20 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     //reset check adapter
                 }
             });
-            if (SubredditStorage.realSubs != null)
-                c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            if (SubredditStorage.alphabeticalSubreddits != null)
+                c.setChecked(SubredditStorage.alphabeticalSubreddits.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         public void onPostExecute(Void voids) {
-                            new SubredditStorageNoContext().execute(SubredditView.this);
+                            if (isChecked) {
+                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase());
+                            } else {
+                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase());
+
+                            }
                             Snackbar.make(rv, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
@@ -467,32 +458,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
                     submit.setVisibility(View.GONE);
 
-                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        //reset check adapter
-                    }
-                });
-                if (SubredditStorage.getPins() == null) {
-                    pinned.setChecked(false);
-
-                } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                    pinned.setChecked(true);
-                } else {
-                    pinned.setChecked(false);
-                }
-                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (isChecked) {
-                            SubredditStorage.addPin(subreddit);
-                        } else {
-                            SubredditStorage.removePin(subreddit);
-                        }
-                    }
-                });
-                pinned.setHighlightColor(new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit, true).getColor());
-
+                pinned.setVisibility(View.GONE);
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

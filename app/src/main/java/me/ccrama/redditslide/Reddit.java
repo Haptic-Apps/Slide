@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
-import me.ccrama.redditslide.Activities.LoadingData;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -54,6 +53,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean cache;
     public static boolean expandedSettings;
     public static boolean hideHeader;
+    public static boolean alphabetical_home;
 
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
 
@@ -299,7 +299,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
-        SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
+        SubredditStorage.subscriptions = getSharedPreferences("SUBSNEW", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
         timePeriod = SettingValues.timePeriod;
@@ -353,7 +353,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             SubredditStorage.subscriptions.edit().clear().apply();
             getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
             Authentication.authentication = getSharedPreferences("AUTH", 0);
-            SubredditStorage.subscriptions = getSharedPreferences("SUBS", 0);
+            SubredditStorage.subscriptions = getSharedPreferences("SUBSNEW", 0);
 
 
             SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
@@ -379,6 +379,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         daytime = SettingValues.prefs.getInt("night", 6);
         autoTime = SettingValues.prefs.getBoolean("autotime", false);
         colorBack = SettingValues.prefs.getBoolean("colorBack", false);
+        alphabetical_home = SettingValues.prefs.getBoolean("alphabetical_home", true);
 
         click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick", true);
         swap = SettingValues.prefs.getBoolean("Swap", false);
@@ -437,8 +438,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").apply(); //hopefully will stop Slide from opening in the background
             SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
-            SubredditStorage.alphabeticalSubscriptions = stringToArray(appRestart.getString("subsalph", ""));
-            SubredditStorage.realSubs = stringToArray(appRestart.getString("real", ""));
+            SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
             Authentication.name = appRestart.getString("name", "");
             active = true;
@@ -472,18 +472,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
 
-    public void restart() {
-        isRestarting = true;
-
-        Intent mStartActivity = new Intent(this, LoadingData.class);
-        mStartActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        mStartActivity.putExtra("EXIT", true);
-        this.startActivity(mStartActivity);
-        onCreate();
-
-
-    }
 
     public interface Listener {
         void onBecameForeground();

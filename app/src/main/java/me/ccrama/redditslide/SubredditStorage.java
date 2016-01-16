@@ -10,37 +10,38 @@ import android.util.Log;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
-import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
-
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
- * Created by ccrama on 5/24/2015.
+ * Created by carlo_000 on 1/16/2016.
  */
-public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<String>> {
-
+public class SubredditStorage {
     public static SharedPreferences subscriptions;
-    public static Shortcut shortcut;
-    public static ArrayList<String> subredditsForHome;
-    public static ArrayList<String> alphabeticalSubscriptions;
-    public static ArrayList<MultiReddit> multireddits;
-    public static ArrayList<String> realSubs;
     public static ArrayList<String> modOf;
-    private Context mContext;
-    // Context is only needed to get the startup strings, so it's safe to set it null for all other cases
-    public SubredditStorage() {
-        mContext = null;
-    }
+    public static ArrayList<MultiReddit> multireddits;
+    public static ArrayList<String> subredditsForHome;
+    public static ArrayList<String> alphabeticalSubreddits;
+    public static Shortcut shortcut;
 
-    public SubredditStorage(Context context) {
-        mContext = context;
+    public static void saveState(){
+        SharedPreferences.Editor editor = Reddit.appRestart.edit();
+        editor.putBoolean("back", true);
+        editor.putString("subs", Reddit.arrayToString(subredditsForHome));
+        editor.putString("subsalph", Reddit.arrayToString(alphabeticalSubreddits));
+
+        editor.putBoolean("loggedin", Authentication.isLoggedIn);
+
+        editor.putString("name", Authentication.name);
+
+        editor.commit();
+
     }
 
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
@@ -52,291 +53,78 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         return null;
     }
 
-    public static void addPin(String name) {
-
-        if (!subscriptions.contains("pins" + Authentication.name)) {
-
-            subscriptions.edit().putString("pins" + Authentication.name, name.toLowerCase()).apply();
-            Log.v("Slide", "PIN ADDED FOR " + name.toLowerCase());
-
-        } else {
-            String pins = subscriptions.getString("pins" + Authentication.name, "");
-
-            ArrayList<String> newstrings = new ArrayList<>();
-            for (String s : pins.split(",")) {
-                if (!newstrings.contains(s))
-                    newstrings.add(s);
-            }
-            newstrings.add(name.toLowerCase());
-            String finals = "";
-            for (String s : newstrings) {
-                finals = finals + s + ",";
-            }
-            subscriptions.edit().putString("pins" + Authentication.name, finals).apply();
-            Log.v("Slide", "PIN ADDED FOR " + name.toLowerCase());
-        }
-    }
-
-    public static void saveState(){
-        SharedPreferences.Editor editor = Reddit.appRestart.edit();
-       editor.putBoolean("back", true);
-        editor.putString("subs", Reddit.arrayToString(subredditsForHome));
-        editor.putString("subsalph", Reddit.arrayToString(alphabeticalSubscriptions));
-        editor.putString("real", Reddit.arrayToString(realSubs));
-
-        editor.putBoolean("loggedin", Authentication.isLoggedIn);
-
-        editor.putString("name", Authentication.name);
-
-        editor.apply();
-
-    }
-
-    public static void removePin(String name) {
-        String pins = subscriptions.getString("pins" + Authentication.name, "");
-
-        ArrayList<String> newstrings = new ArrayList<>();
-        Collections.addAll(newstrings, pins.split(","));
-        if (newstrings.contains(name)) {
-            newstrings.remove(name);
-
-        }
-        String finals = "";
-        for (String s : newstrings) {
-            finals = finals + s + ",";
-        }
-        subscriptions.edit().putString("pins" + Authentication.name, finals).apply();
-
-
-    }
-
-    public static ArrayList<String> getPins() {
-        ArrayList<String> newstrings = null;
-
-        if (subscriptions.contains("pins" + Authentication.name) && !subscriptions.getString("pins" + Authentication.name, "").isEmpty()) {
-
-            newstrings = new ArrayList<>();
-            String pins = subscriptions.getString("pins" + Authentication.name, "");
-
-            for (String s : pins.split(",")) {
-                newstrings.add(s.toLowerCase());
-
-            }
-        }
-        return newstrings;
-
-    }
-
-    public static void setPins(ArrayList<String> pinns) {
-        String finals = "";
-        for (String s : pinns) {
-            finals = finals + s + ",";
-        }
-        subscriptions.edit().putString("pins" + Authentication.name, finals).apply();
-    }
-
-    public static ArrayList<String> getSubreddits() {
-        ArrayList<String> newstrings = null;
-
-        if (subscriptions.contains("subs" + Authentication.name)) {
-
-            newstrings = new ArrayList<>();
-            String pins = subscriptions.getString("subs" + Authentication.name, "");
-
-            for (String s : pins.split(",")) {
-                newstrings.add(s.toLowerCase());
-
-            }
-        }
-        return newstrings;
-
-    }
-
-    public static void setSubreddits(ArrayList<String> pinns) {
-        String finals = "";
-        for (String s : pinns) {
-            finals = finals + s + ",";
-        }
-        subscriptions.edit().putString("subs" + Authentication.name, finals).apply();
-    }
-
-    private static ArrayList<String> sortNoValue(ArrayList<String> subs) {
-
-        java.util.Collections.sort(subs);
-        ArrayList<String> finals = new ArrayList<>();
-
-
-        finals.addAll(subs);
-        return finals;
-
-    }
-
-    private static ArrayList<String> sort(ArrayList<String> subs) {
-        if (subs.contains("all")) {
-            subs.remove("all");
-        }
-        if (subs.contains("frontpage")) {
-            subs.remove("frontpage");
-        }
-
-        java.util.Collections.sort(subs);
-        ArrayList<String> finals = new ArrayList<>();
-
-        finals.add("frontpage");
-        finals.add("all");
-        finals.addAll(subs);
-        return finals;
-
-    }
-
-    @Override
-    public void onPostExecute(ArrayList<String> s) {
-        if (Authentication.isLoggedIn) {
-            AsyncTask.execute(new Runnable() {
+    public static void getSubredditsForHome(Reddit a) {
+        String s = subscriptions.getString(Authentication.name, "");
+        Log.v("Slide", "NAME IS " + Authentication.name);
+        final boolean online = NetworkUtil.isConnected(a);
+        if (s.isEmpty()) {
+            Log.v("Slide", "REDOING SUBS");
+            new AsyncTask<Void, Void, Void>() {
                 @Override
-                public void run() {
-                    //doUpdateSubsSaveBackground();
+                protected Void doInBackground(Void... params) {
+                    ArrayList<String> subs = syncSubreddits(false, online);
+                    subredditsForHome =sort(new ArrayList<>(subs));
+                    alphabeticalSubreddits = sort(new ArrayList<>(subs));
+                    saveSubredditsForHome(subredditsForHome);
+                    return null;
                 }
-            });
-        }
-    }
+            }.execute();
 
-    @Override
-    protected ArrayList<String> doInBackground(final Reddit... params) {
-
-
-        if (Authentication.mod) {
-            doModOf();
-        }
-        if (Authentication.isLoggedIn && Authentication.didOnline) {
-            getMultireddits();
-        }
-        realSubs = new ArrayList<>();
-
-        ArrayList<String> value = getPins();
-
-        if (Authentication.isLoggedIn && value != null) {
-
-
-            ArrayList<String> res = new ArrayList<>(value);
-
-            ArrayList<String> test = new ArrayList<>();
-            test.addAll(res);
-            if (test.contains("")) {
-                test.remove("");
-            }
-
-            ArrayList<String> newValues = new ArrayList<>();
-            if (!test.contains("frontpage"))
-                test.add("frontpage");
-            if (!test.contains("all"))
-                test.add("all");
-
-            if (getSubreddits() != null) {
-                for (String s : getSubreddits()) {
-                    if (!test.contains(s)) {
-                        newValues.add(s);
-                    }
-                    realSubs.add(s.toLowerCase());
-                }
-            } else {
-                for (String s : doUpdateSubsSave()) {
-                    if (!test.contains(s)) {
-                        newValues.add(s);
-                    }
-                    realSubs.add(s.toLowerCase());
-
-                }
-            }
-
-            test.addAll(sortNoValue(newValues));
-            if (test.contains("")) {
-                test.remove("");
-            }
-
-            subredditsForHome = test;
-            //  DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
-            // if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
-            //     DataShare.notifs = null;
-            //  }
-
-            alphabeticalSubscriptions = sort(new ArrayList<>(test));
-
-            if (shortcut != null) {
-                shortcut.doShortcut();
-            }
-            saveState();
-
-
-            return test;
         } else {
-            ArrayList<String> test = new ArrayList<>();
-
-            ArrayList<String> newValues = new ArrayList<>();
-            if (!test.contains("frontpage"))
-                test.add("frontpage");
-            if (!test.contains("all"))
-                test.add("all");
-            if (test.contains("")) {
-                test.remove("");
+            subredditsForHome = new ArrayList<>();
+            for (String s2 : s.split(",")) {
+                subredditsForHome.add(s2.toLowerCase());
             }
-            if (Authentication.isLoggedIn) {
-                if (getSubreddits() != null) {
-                    for (String s : getSubreddits()) {
-                        if (!test.contains(s)) {
-                            newValues.add(s);
+            alphabeticalSubreddits = sort(new ArrayList<>(subredditsForHome));
+            if (online) {
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        if (Authentication.mod) {
+                            doModOf();
                         }
-                        realSubs.add(s.toLowerCase());
-
-                    }
-
-                } else {
-                    for (String s : doUpdateSubsSave()) {
-                        if (!test.contains(s)) {
-                            newValues.add(s);
+                        if (Authentication.isLoggedIn && Authentication.didOnline) {
+                            getMultireddits();
                         }
-                        realSubs.add(s.toLowerCase());
-
+                        return null;
                     }
-                }
-            } else {
-                for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")) {
-                    if (!test.contains(s)) {
-                        newValues.add(s);
-                        realSubs.add(s.toLowerCase());
+                }.execute();
 
-                    }
-
-                }
             }
-
-            Log.v("Slide", "SIZE IS " + newValues.size());
-
-
-            test.addAll(sortNoValue(newValues));
-            if (test.contains("")) {
-                test.remove("");
-            }
-            subredditsForHome = test;
-           /* DataShare.notifs = new SubredditPaginator(Authentication.reddit, "slideforredditnotifs" ).next().get(0);
-            if(Reddit.hidden.contains(DataShare.notifs.getFullName())){
-                DataShare.notifs = null;
-            }*/
-
-            alphabeticalSubscriptions = sort(new ArrayList<>(test));
-
-            if (shortcut != null) {
-                shortcut.doShortcut();
-            }
-
-            saveState();
-
-            return test;
         }
-
+        saveState();
     }
 
-    private ArrayList<String> doModOf() {
+
+    public static void addSubscription(String name){
+        subredditsForHome.add(name);
+        alphabeticalSubreddits.add(name);
+        alphabeticalSubreddits = sort(alphabeticalSubreddits);
+        saveSubredditsForHome(subredditsForHome);
+    }
+    public static void removeSubscription(String name){
+        if(subredditsForHome.contains(name)) {
+            subredditsForHome.remove(name);
+            alphabeticalSubreddits.remove(name);
+            alphabeticalSubreddits = sort(alphabeticalSubreddits);
+            saveSubredditsForHome(subredditsForHome);
+        }
+    }
+    public static void saveSubredditsForHome(ArrayList<String> subs) {
+        StringBuilder b = new StringBuilder();
+        for (String s : subs) {
+            b.append(s);
+            b.append(",");
+        }
+        String finalS = b.toString();
+        finalS = finalS.substring(0, finalS.length() - 1);
+        subscriptions.edit().putString(Authentication.name, finalS).commit();
+        subredditsForHome = new ArrayList<>(subs);
+        alphabeticalSubreddits = sort(new ArrayList<>(subs));
+        saveState();
+    }
+
+    private static ArrayList<String> doModOf() {
         ArrayList<String> finished = new ArrayList<>();
 
         UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "moderator");
@@ -361,66 +149,47 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         return finished;
     }
 
-    private ArrayList<String> doUpdateSubsSaveBackground() {
-        ArrayList<String> finished = new ArrayList<>();
+    public static ArrayList<String> syncSubreddits(boolean save, boolean online) {
+        ArrayList<String> toReturn = new ArrayList<>();
+        if (Authentication.isLoggedIn && online) {
+            UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
+            pag.setLimit(100);
 
-        UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
-        pag.setLimit(100);
 
-
-        try {
-            while (pag.hasNext()) {
-                Log.v("Slide", "ADDING NEW SUBS");
-                for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                    Log.v("Slide", s.getDisplayName());
-                    finished.add(s.getDisplayName().toLowerCase());
+            try {
+                while (pag.hasNext()) {
+                    for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                        toReturn.add(s.getDisplayName().toLowerCase());
+                    }
                 }
-            }
-            if (finished.size() == 0) {
-                for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")) {
-                    finished.add(s);
+                if (toReturn.size() == 0) {
+                    for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")) {
+                        toReturn.add(s);
 
+                    }
                 }
+
+            } catch (Exception e) {
+                //failed;
+                e.printStackTrace();
+            }
+            if (save && online) {
+                saveSubredditsForHome(toReturn);
             }
 
-            setSubreddits(finished);
-        } catch (Exception e) {
-            //failed;
-            e.printStackTrace();
+            return toReturn;
+        } else {
+            toReturn.addAll(Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts"));
+            if (save) {
+                saveSubredditsForHome(toReturn);
+            }
+
+            return toReturn;
         }
-
-
-        return finished;
     }
 
-    private ArrayList<String> doUpdateSubsSave() {
-        ArrayList<String> finished = new ArrayList<>();
 
-        UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
-        pag.setLimit(100);
-
-
-        while (pag.hasNext()) {
-            Log.v("Slide", "ADDING NEW SUBS");
-            for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                Log.v("Slide", s.getDisplayName());
-                finished.add(s.getDisplayName().toLowerCase());
-            }
-        }
-        if (finished.size() == 0) {
-            for (String s : Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts")) {
-                finished.add(s);
-
-            }
-        }
-
-        setSubreddits(finished);
-
-
-        return finished;
-    }
-
-    private void getMultireddits() {
+    private static void getMultireddits() {
 
         try {
             multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
@@ -430,6 +199,35 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
             e.printStackTrace();
         }
 
+
+    }
+
+    private static ArrayList<String> sortNoValue(ArrayList<String> subs) {
+
+        java.util.Collections.sort(subs);
+        ArrayList<String> finals = new ArrayList<>();
+
+
+        finals.addAll(subs);
+        return finals;
+
+    }
+
+    public static ArrayList<String> sort(ArrayList<String> subs) {
+        if (subs.contains("all")) {
+            subs.remove("all");
+        }
+        if (subs.contains("frontpage")) {
+            subs.remove("frontpage");
+        }
+
+        java.util.Collections.sort(subs);
+        ArrayList<String> finals = new ArrayList<>();
+
+        finals.add("frontpage");
+        finals.add("all");
+        finals.addAll(subs);
+        return finals;
 
     }
 
@@ -460,6 +258,3 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
         }
     }
 }
-
-
-
