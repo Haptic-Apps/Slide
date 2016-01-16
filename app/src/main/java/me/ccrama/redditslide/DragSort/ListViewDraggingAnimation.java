@@ -16,7 +16,9 @@
 
 package me.ccrama.redditslide.DragSort;
 
+import android.app.Dialog;
 import android.graphics.PorterDuff;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
 
@@ -52,6 +56,43 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
 
+        findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subs = new ArrayList<>(SubredditStorage.sort(subs));
+                adapter = new CustomAdapter(subs);
+                //  adapter.setHasStableIds(true);
+
+                recyclerView.setAdapter(adapter);
+            }
+        });
+        findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog d = new MaterialDialog.Builder(ListViewDraggingAnimation.this).title(R.string.general_sub_sync)
+                        .progress(true, 100)
+                        .cancelable(false).show();
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        subs = new ArrayList<>(SubredditStorage.syncSubreddits(false, true));
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+
+                        d.dismiss();
+                        adapter = new CustomAdapter(subs);
+                        //  adapter.setHasStableIds(true);
+
+                        recyclerView.setAdapter(adapter);
+                    }
+                }.execute();
+
+            }
+        });
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
         dragSortRecycler.setViewHandleId();
         dragSortRecycler.setFloatingAlpha();
@@ -82,7 +123,7 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         recyclerView.addItemDecoration(dragSortRecycler);
         recyclerView.addOnItemTouchListener(dragSortRecycler);
         recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
-        dragSortRecycler.setLeftDragArea(R.id.dragit);
+        dragSortRecycler.setViewHandleId();
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

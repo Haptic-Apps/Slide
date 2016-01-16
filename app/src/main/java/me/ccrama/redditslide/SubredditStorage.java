@@ -202,7 +202,7 @@ public class SubredditStorage {
 
     }
 
-    private static ArrayList<String> sort(ArrayList<String> subs) {
+    public static ArrayList<String> sort(ArrayList<String> subs) {
         if (subs.contains("all")) {
             subs.remove("all");
         }
