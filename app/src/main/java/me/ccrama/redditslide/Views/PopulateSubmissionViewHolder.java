@@ -244,7 +244,7 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
-    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
+    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -868,7 +868,7 @@ public class PopulateSubmissionViewHolder {
             }
 
             thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
-        } else  if (submission.getThumbnailType() == Submission.ThumbnailType.NONE && type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF) {
+        } else  if ( type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
             holder.imageArea.setVisibility(View.GONE);
             if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);

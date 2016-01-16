@@ -10,6 +10,7 @@ import android.util.Log;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
@@ -40,6 +41,15 @@ public final class SubredditStorage extends AsyncTask<Reddit, Void, ArrayList<St
 
     public SubredditStorage(Context context) {
         mContext = context;
+    }
+
+    public static MultiReddit getMultiredditByDisplayName(String displayName) {
+        for (MultiReddit multiReddit : SubredditStorage.multireddits) {
+            if (multiReddit.getDisplayName().equals(displayName)) {
+                return multiReddit;
+            }
+        }
+        return null;
     }
 
     public static void addPin(String name) {

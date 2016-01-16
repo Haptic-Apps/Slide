@@ -5,5 +5,11 @@ import net.dean.jraw.models.Submission;
 import java.util.List;
 
 public interface SubmissionDisplay {
-    void update(List<Submission> submissions, boolean reset, boolean offline, String subreddit);
+    void updateSuccess(List<Submission> submissions, int startIndex);
+
+    void updateOffline(List<Submission> submissions, long cacheTime);
+
+    void updateOfflineError();
+
+    void updateError();
 }

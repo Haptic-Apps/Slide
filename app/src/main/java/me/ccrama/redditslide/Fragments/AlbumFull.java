@@ -92,6 +92,7 @@ public class AlbumFull extends Fragment {
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra("page", i);
+                    i2.putExtra("subreddit", s.getSubredditName());
                     (getActivity()).startActivity(i2);
                 }
             }

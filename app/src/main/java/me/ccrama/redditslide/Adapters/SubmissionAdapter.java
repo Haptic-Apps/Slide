@@ -32,7 +32,6 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
@@ -135,6 +134,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             Intent i2 = new Intent(sContext, CommentsScreen.class);
                             i2.putExtra("page", holder2.getAdapterPosition());
+                            i2.putExtra("subreddit", subreddit);
                             (sContext).startActivity(i2);
                         }
                     } else {

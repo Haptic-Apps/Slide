@@ -12,6 +12,7 @@ import android.view.Window;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -24,7 +25,7 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class CommentsScreenPopup extends BaseActivityAnim {
     OverviewPagerAdapter comments;
-    private ArrayList<Submission> posts;
+    private List<Submission> posts;
 
     @Override
     public void onCreate(Bundle savedInstance) {

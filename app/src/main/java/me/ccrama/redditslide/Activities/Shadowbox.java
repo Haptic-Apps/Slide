@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
@@ -21,7 +22,7 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/17/2015.
  */
 public class Shadowbox extends FullScreenActivity {
-    private ArrayList<Submission> posts;
+    private List<Submission> posts;
 
     @Override
     public void onCreate(Bundle savedInstance) {

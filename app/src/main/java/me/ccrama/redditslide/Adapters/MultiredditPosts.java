@@ -1,8 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.Submission;
@@ -10,74 +9,65 @@ import net.dean.jraw.paginators.MultiRedditPaginator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubredditStorage;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class MultiredditPosts {
+public class MultiredditPosts implements PostLoader {
     public ArrayList<Submission> posts;
     public boolean loading;
     private MultiRedditPaginator paginator;
-    private SwipeRefreshLayout refreshLayout;
-    private MultiReddit subreddit;
-    private MultiredditAdapter adapter;
+    private MultiReddit multiReddit;
 
-    public MultiredditPosts(ArrayList<Submission> firstData, MultiRedditPaginator paginator) {
-        posts = firstData;
-        this.paginator = paginator;
+    public MultiredditPosts(String multiRedditDisplayName) {
+        posts = new ArrayList<>();
+        this.multiReddit = SubredditStorage.getMultiredditByDisplayName(multiRedditDisplayName);
     }
 
-    public MultiredditPosts(MultiReddit subreddit) {
-        this.subreddit = subreddit;
+    public MultiReddit getMultiReddit() {
+        return multiReddit;
     }
 
-    public void bindAdapter(MultiredditAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
-        this.adapter = a;
-        this.refreshLayout = layout;
-        loadMore(a, subreddit);
+    @Override
+    public void loadMore(Context context, SubmissionDisplay displayer, boolean reset) {
+        new LoadData(context, displayer, reset).execute(multiReddit);
     }
 
-    public void loadMore(MultiredditAdapter adapter, MultiReddit subreddit) {
-
-            new LoadData(true).execute(subreddit);
-
-
-
+    @Override
+    public List<Submission> getPosts() {
+        return posts;
     }
 
-    public void addData(List<Submission> data) {
-        posts.addAll(data);
+    @Override
+    public boolean hasMore() {
+        return true; // TODO when is this false
     }
 
-    public class LoadData extends AsyncTask<MultiReddit, Void, ArrayList<Submission>> {
+    private class LoadData extends AsyncTask<MultiReddit, Void, ArrayList<Submission>> {
         final boolean reset;
+        final Context context;
+        final SubmissionDisplay displayer;
 
-        public LoadData(boolean reset) {
+        public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {
+            this.context = context;
+            this.displayer = displayer;
             this.reset = reset;
         }
 
         @Override
-        public void onPostExecute(ArrayList<Submission> subs) {
-            if (subs != null) {
-
+        public void onPostExecute(ArrayList<Submission> submissions) {
+            if (submissions != null) {
                 loading = false;
-                ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshLayout.setRefreshing(false);
-                        adapter.notifyDataSetChanged();
-
-                    }
-                });
+                displayer.updateSuccess(submissions, -1);
             } else {
-                adapter.setError(true);
-                refreshLayout.setRefreshing(false);
-
+                displayer.updateError();
             }
         }
 
@@ -85,30 +75,23 @@ public class MultiredditPosts {
         protected ArrayList<Submission> doInBackground(MultiReddit... subredditPaginators) {
             try {
                 if (reset || paginator == null) {
-
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
                     paginator.setSorting(Reddit.defaultSorting);
                     paginator.setTimePeriod(Reddit.timePeriod);
                 }
+
                 if (reset) {
                     posts = new ArrayList<>();
-                    for (Submission s : paginator.next()) {
-                            if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                posts.add(s);
-                            } else if (!s.isNsfw()) {
-                                posts.add(s);
-                            }
-                        }
+                }
 
-                } else {
-                    for (Submission s : paginator.next()) {
-                        if (SettingValues.NSFWPosts && s.isNsfw()) {
-                            posts.add(s);
-                        } else if (!s.isNsfw()) {
-                            posts.add(s);
-                        }
+                for (Submission s : paginator.next()) {
+                    if (SettingValues.NSFWPosts || !s.isNsfw()) {
+                        posts.add(s);
                     }
                 }
+
+                DataShare.sharedSubreddit = posts; // set this since it gets out of sync at CommentPage
+
                 return posts;
             } catch (Exception e) {
                 return null;
