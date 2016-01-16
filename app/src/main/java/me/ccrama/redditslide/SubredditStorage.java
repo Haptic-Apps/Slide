@@ -49,9 +49,10 @@ public class SubredditStorage {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    ArrayList<String> subs = syncSubreddits(true, online);
+                    ArrayList<String> subs = syncSubreddits(false, online);
                     subredditsForHome =sort(new ArrayList<>(subs));
                     alphabeticalSubreddits = sort(new ArrayList<>(subs));
+                    saveSubredditsForHome(subredditsForHome);
                     return null;
                 }
             }.execute();
