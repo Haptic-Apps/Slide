@@ -63,12 +63,19 @@ public class SubredditStorage {
             }
             alphabeticalSubreddits = sort(new ArrayList<>(subredditsForHome));
             if (online) {
-                if (Authentication.mod) {
-                    doModOf();
-                }
-                if (Authentication.isLoggedIn && Authentication.didOnline) {
-                    getMultireddits();
-                }
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        if (Authentication.mod) {
+                            doModOf();
+                        }
+                        if (Authentication.isLoggedIn && Authentication.didOnline) {
+                            getMultireddits();
+                        }
+                        return null;
+                    }
+                }.execute();
+
             }
         }
     }
