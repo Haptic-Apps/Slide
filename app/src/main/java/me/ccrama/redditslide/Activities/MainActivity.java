@@ -905,8 +905,8 @@ public class MainActivity extends BaseActivity {
             }
         });*/
         ArrayList<String> copy = new ArrayList<>();
-        if (SubredditStorage.alphabeticalSubreddits != null)
-            for (String s : SubredditStorage.alphabeticalSubreddits) {
+        if ((Reddit.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null) || (!Reddit.alphabetical_home && SubredditStorage.subredditsForHome != null))
+            for (String s : Reddit.alphabetical_home? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
                 copy.add(s);
             }
         e = ((EditText) header.findViewById(R.id.sort));

@@ -299,7 +299,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
-        SubredditStorage.subscriptions = getSharedPreferences("NEWSUBS", 0);
+        SubredditStorage.subscriptions = getSharedPreferences("SUBSNEW", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
         timePeriod = SettingValues.timePeriod;
@@ -353,7 +353,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             SubredditStorage.subscriptions.edit().clear().apply();
             getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
             Authentication.authentication = getSharedPreferences("AUTH", 0);
-            SubredditStorage.subscriptions = getSharedPreferences("NEWSUBS", 0);
+            SubredditStorage.subscriptions = getSharedPreferences("SUBSNEW", 0);
 
 
             SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
