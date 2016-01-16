@@ -54,7 +54,6 @@ public class Authentication {
 
             new VerifyCredentials(context).execute();
         } else {
-
             for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
                 if (s.contains(authentication.getString("lasttoken", ""))) {
                     name = (s.split(":")[0]);
@@ -111,6 +110,7 @@ public class Authentication {
                                 Authentication.isLoggedIn = true;
 
                             }
+                            Log.v("Slide", "AUTHENTICATED");
                         } catch (Exception e) {
                             try {
                                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -202,6 +202,8 @@ public class Authentication {
         public void onPostExecute(Void voids) {
 
             didOnline = true;
+            Log.v("Slide", "LOADING SUBS");
+
             SubredditStorage.getSubredditsForHome(a);
 
 
@@ -232,6 +234,7 @@ public class Authentication {
                         }
                         final String name = me.getFullName();
                         Authentication.name = name;
+                        Log.v("Slide", "AUTHENTICATED");
 
                         if (reddit.isAuthenticated()) {
                             final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
@@ -241,7 +244,6 @@ public class Authentication {
                                 Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
 
                             }
-                            Authentication.name = name;
                             mod = me.isMod();
 
                             Authentication.isLoggedIn = true;

@@ -39,7 +39,7 @@ public class SubredditStorage {
 
         editor.putString("name", Authentication.name);
 
-        editor.apply();
+        editor.commit();
 
     }
     public static void getSubredditsForHome(Reddit a) {
@@ -81,6 +81,7 @@ public class SubredditStorage {
 
             }
         }
+        saveState();
     }
 
 
@@ -109,6 +110,7 @@ public class SubredditStorage {
         subscriptions.edit().putString(Authentication.name, finalS).commit();
         subredditsForHome = new ArrayList<>(subs);
         alphabeticalSubreddits = sort(new ArrayList<>(subs));
+        saveState();
     }
 
     private static ArrayList<String> doModOf() {
