@@ -26,11 +26,13 @@
             android:id="@+id/ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAllCaps="true"
             android:layout_gravity="center_vertical|right"
             android:padding="16dp"
-            android:text="@string/btn_ok"
+            android:text="@string/btn_save"
             android:textSize="14sp"
             android:textStyle="bold" />
+
 
     </android.support.v7.widget.Toolbar>
 
@@ -45,12 +47,5 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <include
-        android:id="@+id/add"
-        layout="@layout/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dp" />
+
 </RelativeLayout>

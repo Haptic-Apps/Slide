@@ -144,12 +144,12 @@ public class CreateMulti extends BaseActivityAnim {
     }
 
     public void showSelectDialog() {
-        final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size() - 2];
+        final String[] all = new String[SubredditStorage.alphabeticalSubreddits.size() - 2];
         final List<String> s2 = new ArrayList<>(subs);
         boolean[] checked = new boolean[all.length];
 
         int i = 0;
-        for (String s : SubredditStorage.alphabeticalSubscriptions) {
+        for (String s : SubredditStorage.alphabeticalSubreddits) {
             if (!(s.equals("all") || s.equals("frontpage"))) {
                 all[i] = s;
                 if (s2.contains(s)) {

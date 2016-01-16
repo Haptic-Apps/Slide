@@ -87,8 +87,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.SubredditStorageFromContext;
-import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
@@ -132,7 +130,7 @@ public class MainActivity extends BaseActivity {
         } else if (requestCode == 1) {
             restartTheme();
         } else if (requestCode == 3) {
-            new SubredditStorageNoContext().execute(this);
+             SubredditStorage.refresh(this);
         } else if (requestCode == 4 && resultCode != 4) { //what?
             if (e != null) {
                 e.clearFocus();
@@ -291,9 +289,8 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
-            SubredditStorage.alphabeticalSubscriptions =
+            SubredditStorage.alphabeticalSubreddits =
                     savedInstanceState.getStringArrayList(SUBS_ALPHA);
-            SubredditStorage.realSubs = savedInstanceState.getStringArrayList(REAL_SUBS);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
             Authentication.didOnline = savedInstanceState.getBoolean("ONLINE");
@@ -417,8 +414,7 @@ public class MainActivity extends BaseActivity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
-        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubscriptions);
-        savedInstanceState.putStringArrayList(REAL_SUBS, SubredditStorage.realSubs);
+        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubreddits);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean("ONLINE", Authentication.didOnline);
 
@@ -458,34 +454,10 @@ public class MainActivity extends BaseActivity {
                 if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
                     submit.setVisibility(View.GONE);
 
-                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        //reset check adapter
-                    }
-                });
-                if (SubredditStorage.getPins() == null) {
-                    pinned.setChecked(false);
+                pinned.setVisibility(View.GONE);
 
-                } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                    pinned.setChecked(true);
-                } else {
-                    pinned.setChecked(false);
-                }
-                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                        if (isChecked) {
-                            SubredditStorage.addPin(subreddit);
-                        } else {
-                            SubredditStorage.removePin(subreddit);
-                        }
-                        subToDo = subreddit;
-                        new SubredditStorageNoContext().execute(MainActivity.this);
-                    }
-                });
-                pinned.setHighlightColor(new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit, true).getColor());
+
 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -611,14 +583,19 @@ public class MainActivity extends BaseActivity {
                     //reset check adapter
                 }
             });
-            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setChecked(SubredditStorage.subredditsForHome.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         public void onPostExecute(Void voids) {
-                            new SubredditStorageNoContext().execute(MainActivity.this);
+                            if (isChecked) {
+                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase());
+                            } else {
+                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase());
+
+                            }
                             Snackbar.make(header, isChecked ?
                                     getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
@@ -780,15 +757,7 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Dialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.general_sub_sync)
-                            .progress(true, 100)
-                            .cancelable(false).show();
-                    new SubredditStorageFromContext(MainActivity.this, d).execute((Reddit) getApplication());
-                }
-            });
+            header.findViewById(R.id.sync).setVisibility(View.GONE);
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -936,8 +905,8 @@ public class MainActivity extends BaseActivity {
             }
         });*/
         ArrayList<String> copy = new ArrayList<>();
-        if (SubredditStorage.alphabeticalSubscriptions != null)
-            for (String s : SubredditStorage.alphabeticalSubscriptions) {
+        if (SubredditStorage.alphabeticalSubreddits != null)
+            for (String s : SubredditStorage.alphabeticalSubreddits) {
                 copy.add(s);
             }
         e = ((EditText) header.findViewById(R.id.sort));

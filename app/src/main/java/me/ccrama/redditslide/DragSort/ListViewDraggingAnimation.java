@@ -16,21 +16,16 @@
 
 package me.ccrama.redditslide.DragSort;
 
-import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.R;
@@ -51,14 +46,8 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         setContentView(R.layout.activity_sort);
         setupAppBar(R.id.toolbar, R.string.title_reorder_pins, false, true);
 
-        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showSelectDialog();
-            }
-        });
 
-        subs = SubredditStorage.getPins();
+        subs = new ArrayList<>(SubredditStorage.subredditsForHome);
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
@@ -93,10 +82,11 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         recyclerView.addItemDecoration(dragSortRecycler);
         recyclerView.addOnItemTouchListener(dragSortRecycler);
         recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
+        dragSortRecycler.setLeftDragArea(R.id.dragit);
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SubredditStorage.setPins(new ArrayList<>(subs));
+                SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
                 finish();
             }
         });
@@ -115,54 +105,6 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
     }
 
 
-    public void showSelectDialog() {
-        final String[] all = new String[SubredditStorage.alphabeticalSubscriptions.size()];
-        final List<String> s2;
-        if (subs != null) {
-            s2 = new ArrayList<>(subs);
-        } else {
-            s2 = new ArrayList<>();
-        }
-        boolean[] checked = new boolean[all.length];
-
-        int i = 0;
-        for (String s : SubredditStorage.alphabeticalSubscriptions) {
-            all[i] = s;
-
-            if (s2.contains(s)) {
-                checked[i] = true;
-            }
-            i++;
-        }
-        final ArrayList<String> toCheck = new ArrayList<>();
-
-
-        if (subs != null)
-            toCheck.addAll(subs);
-        new AlertDialogWrapper.Builder(this)
-                .setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        if (!isChecked) {
-                            toCheck.remove(all[which]);
-                        } else {
-                            toCheck.add(all[which]);
-                        }
-                        Log.v("Slide", "Done with " + all[which]);
-                    }
-                }).setTitle(R.string.pin_select)
-                .setPositiveButton(getString(R.string.btn_save).toUpperCase(), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        subs = toCheck;
-                        Log.v("Slide", subs.size() + "SIZE ");
-                        adapter = new CustomAdapter(subs);
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-
-                    }
-                }).show();
-    }
 
     public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
