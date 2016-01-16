@@ -98,6 +98,7 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 final int finalStart = start;
+                DataShare.sharedSubreddit = posts; // TODO remove. set this since it gets out of sync at CommentPage
                 // update online
                 displayer.updateSuccess(posts, finalStart);
             } else if (submissions != null) {
@@ -117,6 +118,7 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 posts = finalSubs;
+                DataShare.sharedSubreddit = posts; // TODO remove. set this since it gets out of sync at CommentPage
                 if (cached.submissions.size() > 0) {
                     stillShow = true;
                 } else {
@@ -173,7 +175,6 @@ public class SubredditPosts implements PostLoader {
                     Cache.writeSubreddit(things, subredditPaginators[0]);
                 }
 
-                DataShare.sharedSubreddit = things; // set this since it gets out of sync at CommentPage
 
                 return things;
             } else {

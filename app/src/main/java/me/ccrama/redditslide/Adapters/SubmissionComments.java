@@ -40,12 +40,10 @@ public class SubmissionComments {
             CommentNode baseComment = s.getComments();
             comments = new ArrayList<>();
 
-            int i = 0;
             int toPut = -1;
             MoreChildren toDo = null;
             CommentNode toDoComment = null;
             for (CommentNode n : baseComment.walkTree()) {
-
                 CommentObject obj = new CommentObject(n);
                 if (n.getDepth() <= toPut && toDo != null) {
                     obj.setMoreChildren(toDo, toDoComment);
@@ -60,12 +58,9 @@ public class SubmissionComments {
                     toDo = n.getMoreChildren();
                     toDoComment = n;
                 }
-                i++;
-
             }
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
-
             }
 
             refreshLayout.setRefreshing(false);
@@ -78,9 +73,6 @@ public class SubmissionComments {
         this.page = commentPage;
 
         this.refreshLayout = layout;
-
-
-
     }
 
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, String context) {
@@ -88,6 +80,12 @@ public class SubmissionComments {
         this.page = commentPage;
         this.context = context;
         this.refreshLayout = layout;
+    }
+
+    public void cancelLoad() {
+        if (mLoadData != null) {
+            mLoadData.cancel(true);
+        }
     }
 
     public void setSorting(CommentSort sort) {
@@ -113,12 +111,7 @@ public class SubmissionComments {
 
         @Override
         public void onPostExecute(ArrayList<CommentObject> subs) {
-
-
-
-                page.doData(reset);
-
-
+            page.doData(reset);
             refreshLayout.setRefreshing(false);
         }
 
