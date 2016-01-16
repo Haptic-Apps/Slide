@@ -58,7 +58,6 @@ public class CommentPage extends Fragment {
 
     private void openPopup(View view) {
         if (comments.comments != null && !comments.comments.isEmpty()) {
-
             final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
                 @Override
@@ -308,7 +307,6 @@ public class CommentPage extends Fragment {
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else if (context.isEmpty()) {
-
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
             comments.setSorting(Reddit.defaultCommentSorting);
             if (DataShare.sharedSubreddit != null)
@@ -318,7 +316,6 @@ public class CommentPage extends Fragment {
             if (context.equals("NOTHING")) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 comments.setSorting(Reddit.defaultCommentSorting);
-
             } else {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
                 comments.setSorting(Reddit.defaultCommentSorting);
@@ -354,15 +351,11 @@ public class CommentPage extends Fragment {
     }
 
     public void doData(Boolean b) {
-
         if (adapter == null || single) {
             if (context != null && !context.equals("NOTHING")) {
                 adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-
-
                 if (single) {
                     adapter.currentSelectedItem = context;
-
 
                     int i = 1;
                     for (CommentObject n : comments.comments) {
@@ -376,24 +369,18 @@ public class CommentPage extends Fragment {
                         i++;
                     }
                 }
-
             } else {
                 adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-
             }
             rv.setAdapter(adapter);
             adapter.reset(getContext(), comments, rv, comments.submission);
-
         } else if (!b) {
             try {
                 adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
             } catch(Exception ignored){}
         } else {
             adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
-
         }
-
-
     }
 
     @Override
@@ -408,6 +395,12 @@ public class CommentPage extends Fragment {
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
         loadMore = (!context.isEmpty() && !context.equals("NOTHING"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        comments.cancelLoad();
     }
 
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
