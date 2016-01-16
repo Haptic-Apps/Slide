@@ -18,6 +18,10 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 
 /**
+ * This class is reponsible for loading multireddit specific submissions
+ * {@Link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
+ * asynchronously.
+ *
  * Created by ccrama on 9/17/2015.
  */
 public class MultiredditPosts implements PostLoader {
@@ -26,6 +30,10 @@ public class MultiredditPosts implements PostLoader {
     private MultiRedditPaginator paginator;
     private MultiReddit multiReddit;
 
+    /**
+     *
+     * @param multiRedditDisplayName the display name of the multireddit
+     */
     public MultiredditPosts(String multiRedditDisplayName) {
         posts = new ArrayList<>();
         this.multiReddit = SubredditStorage.getMultiredditByDisplayName(multiRedditDisplayName);

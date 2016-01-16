@@ -24,6 +24,7 @@ import net.dean.jraw.models.CommentSort;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
+import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
@@ -36,6 +37,11 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 
+/**
+ * Fragment which displays comment trees.
+ *
+ * @see CommentsScreen
+ */
 public class CommentPage extends Fragment {
 
     boolean np;

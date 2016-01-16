@@ -24,6 +24,15 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
+ * This activity is responsible for the view when clicking on a post, showing
+ * the post and its comments underneath with the slide left/right for the next
+ * post.
+ *
+ * When the end of the currently loaded posts is being reached, more posts are
+ * loaded asynchronously in {@Link OverviewPagerAdapter}.
+ *
+ * Comments are displayed in the {@Link CommentPage} fragment.
+ *
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
@@ -74,7 +83,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                 @Override
                 public void onPageSelected(int position) {
-                    //todo load more
                     updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
                 }
 
@@ -138,7 +146,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             Fragment f = new CommentPage();
             Bundle args = new Bundle();
 
-            // TODO is there a better point load more mosts (instead of the second to last element)?
+            // TODO is there a better point load more posts (instead of the second to last element)?
             if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
                 subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
             }

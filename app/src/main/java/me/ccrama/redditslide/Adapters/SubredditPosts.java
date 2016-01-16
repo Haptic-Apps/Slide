@@ -21,6 +21,10 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
+ * This class is reponsible for loading subreddit specific submissions
+ * {@Link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
+ * asynchronously.
+ *
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditPosts implements PostLoader {
@@ -41,13 +45,13 @@ public class SubredditPosts implements PostLoader {
     }
 
     @Override
-    public void loadMore(Context context, SubmissionDisplay displayer, boolean reset) {
-        new LoadData(context, displayer, reset).execute(subreddit);
+    public void loadMore(Context context, SubmissionDisplay display, boolean reset) {
+        new LoadData(context, display, reset).execute(subreddit);
     }
 
-    public void loadMore(Context context, SubmissionDisplay displayer, boolean reset, String subreddit) {
+    public void loadMore(Context context, SubmissionDisplay display, boolean reset, String subreddit) {
         this.subreddit = subreddit;
-        loadMore(context, displayer, reset);
+        loadMore(context, display, reset);
     }
 
     @Override
@@ -60,7 +64,10 @@ public class SubredditPosts implements PostLoader {
         return !nomore;
     }
 
-    private class LoadData extends AsyncTask<String, Void, ArrayList<Submission>> {
+    /**
+     * Asynchronous task for loading data
+     */
+    private class LoadData extends AsyncTask<String, Void, List<Submission>> {
         final boolean reset;
         final Context context;
         final SubmissionDisplay displayer;
@@ -72,7 +79,7 @@ public class SubredditPosts implements PostLoader {
         }
 
         @Override
-        public void onPostExecute(ArrayList<Submission> submissions) {
+        public void onPostExecute(List<Submission> submissions) {
             loading = false;
 
             if (submissions != null && !submissions.isEmpty()) {
@@ -133,54 +140,53 @@ public class SubredditPosts implements PostLoader {
         }
 
         @Override
-        protected ArrayList<Submission> doInBackground(String... subredditPaginators) {
+        protected List<Submission> doInBackground(String... subredditPaginators) {
             Log.v("Slide", "DOING FOR " + subredditPaginators[0]);
 
-            if (NetworkUtil.isConnected(context)) {
-                stillShow = true;
-                if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && Reddit.cache) {
-                    offline = true;
-                    doneOnce = true;
-                    return null;
-                }
-
-                offline = false;
-
-                if (reset || paginator == null) {
-                    offline = false;
-                    if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
-                        paginator = new SubredditPaginator(Authentication.reddit);
-                    } else {
-                        paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
-
-                    }
-                    paginator.setSorting(Reddit.defaultSorting);
-                    paginator.setTimePeriod(Reddit.timePeriod);
-                    paginator.setLimit(25);
-                }
-
-                ArrayList<Submission> things = new ArrayList<>();
-
-                if (paginator != null && paginator.hasNext()) {
-                    for (Submission submission : paginator.next()) {
-                        if (SettingValues.NSFWPosts || !submission.isNsfw()) {
-                            things.add(submission);
-                        }
-                    }
-                } else {
-                    nomore = true;
-                }
-
-                if (Reddit.cache) {
-                    Cache.writeSubreddit(things, subredditPaginators[0]);
-                }
-
-
-                return things;
-            } else {
+            if (!NetworkUtil.isConnected(context)) {
                 offline = true;
+                return null;
+            } else {
+                offline = false;
             }
-            return null;
+
+            stillShow = true;
+            if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && Reddit.cache) {
+                offline = true;
+                doneOnce = true;
+                return null;
+            }
+
+            if (reset || paginator == null) {
+                offline = false;
+                if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
+                    paginator = new SubredditPaginator(Authentication.reddit);
+                } else {
+                    paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
+
+                }
+                paginator.setSorting(Reddit.defaultSorting);
+                paginator.setTimePeriod(Reddit.timePeriod);
+                paginator.setLimit(25);
+            }
+
+            List<Submission> things = new ArrayList<>();
+
+            if (paginator != null && paginator.hasNext()) {
+                for (Submission submission : paginator.next()) {
+                    if (SettingValues.NSFWPosts || !submission.isNsfw()) {
+                        things.add(submission);
+                    }
+                }
+            } else {
+                nomore = true;
+            }
+
+            if (Reddit.cache) {
+                Cache.writeSubreddit(things, subredditPaginators[0]);
+            }
+
+            return things;
         }
     }
 }

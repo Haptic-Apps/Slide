@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by carlo_000 on 11/18/2015.
@@ -20,7 +21,7 @@ public final class Cache {
     private Cache() {
     }
 
-    public static void writeSubreddit(ArrayList<Submission> objects, String subreddit)  {
+    public static void writeSubreddit(List<Submission> objects, String subreddit)  {
         StringBuilder s = new StringBuilder();
         s.append(System.currentTimeMillis()).append("<SEPARATOR>");
         for (Submission sub : objects) {
