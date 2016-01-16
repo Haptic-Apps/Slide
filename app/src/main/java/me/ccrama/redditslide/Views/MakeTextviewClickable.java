@@ -339,7 +339,7 @@ public class MakeTextviewClickable {
                     if (!clickHandled) {
                         // regular click
                         if (link.length != 0) {
-                            onLinkClick(link[0].getURL());
+                            onLinkClick(link[0].getURL(), ((Spannable)sequence).getSpanEnd(link[0]));
                         }
                     }
                     break;
@@ -347,7 +347,12 @@ public class MakeTextviewClickable {
             return true;
         }
 
-         public void onLinkClick(String url){
+        /**
+         *
+         * @param url   the url link (e.g. #s for some spoilers)
+         * @param xOffset   the last index of the url text (not the link)
+         */
+         public void onLinkClick(String url, int xOffset){
              if (url == null) {
                  return;
              }
@@ -416,7 +421,7 @@ public class MakeTextviewClickable {
                  case SPOILER:
                      comm.spoilerClicked = true;
 
-                     setOrRemoveSpoilerSpans(comm, (Spannable) sequence, url.length());
+                     setOrRemoveSpoilerSpans(comm, (Spannable) sequence, xOffset);
                      break;
              }
         };
