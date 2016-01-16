@@ -130,7 +130,7 @@ public class MainActivity extends BaseActivity {
         } else if (requestCode == 1) {
             restartTheme();
         } else if (requestCode == 3) {
-             SubredditStorage.refresh(this);
+            resetAdapter();
         } else if (requestCode == 4 && resultCode != 4) { //what?
             if (e != null) {
                 e.clearFocus();

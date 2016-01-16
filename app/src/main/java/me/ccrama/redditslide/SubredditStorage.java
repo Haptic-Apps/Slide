@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
@@ -14,7 +15,6 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -44,8 +44,10 @@ public class SubredditStorage {
     }
     public static void getSubredditsForHome(Reddit a) {
         String s = subscriptions.getString(Authentication.name, "");
+        Log.v("Slide", "NAME IS " + Authentication.name);
         final boolean online = NetworkUtil.isConnected(a);
         if (s.isEmpty()) {
+            Log.v("Slide", "REDOING SUBS");
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -81,25 +83,7 @@ public class SubredditStorage {
         }
     }
 
-    public static void refresh(final Activity a){
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                ArrayList<String> subs = syncSubreddits(true, NetworkUtil.isConnected(a));
-                subredditsForHome = new ArrayList<>(subs);
-                alphabeticalSubreddits = sort(new ArrayList<>(subs));
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                if (a instanceof MainActivity)
-                    ((MainActivity)a).resetAdapter();
-            }
-        }.execute();
-
-
-    }
     public static void addSubscription(String name){
         subredditsForHome.add(name);
         alphabeticalSubreddits.add(name);
@@ -123,6 +107,8 @@ public class SubredditStorage {
         String finalS = b.toString();
         finalS = finalS.substring(0, finalS.length() - 1);
         subscriptions.edit().putString(Authentication.name, finalS).commit();
+        subredditsForHome = new ArrayList<>(subs);
+        alphabeticalSubreddits = sort(new ArrayList<>(subs));
     }
 
     private static ArrayList<String> doModOf() {
