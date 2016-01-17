@@ -50,6 +50,7 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Imgur;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
@@ -100,6 +101,11 @@ public class PopulateSubmissionViewHolder {
                 switch (type) {
                     case NSFW_IMAGE:
                         openImage(contextActivity, submission);
+                        break;
+                    case IMGUR:
+                        Intent i2 = new Intent(contextActivity, Imgur.class);
+                        i2.putExtra("url", submission.getUrl());
+                        contextActivity.startActivity(i2);
                         break;
                     case EMBEDDED:
                         if (Reddit.video) {
@@ -205,10 +211,10 @@ public class PopulateSubmissionViewHolder {
         if (Reddit.image) {
             DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra("url", ContentType.getFixedUrl(submission.getUrl()));
+            myIntent.putExtra("url", submission.getUrl());
             contextActivity.startActivity(myIntent);
         } else {
-            Reddit.defaultShare(ContentType.getFixedUrl(submission.getUrl()), contextActivity);
+            Reddit.defaultShare(submission.getUrl(), contextActivity);
         }
 
     }
@@ -878,7 +884,7 @@ public class PopulateSubmissionViewHolder {
 
             thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
-            url = ContentType.getFixedUrl(submission.getUrl());
+            url = submission.getUrl();
             if (!full && !SettingValues.bigPicEnabled ) {
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -998,6 +1004,8 @@ public class PopulateSubmissionViewHolder {
                         info.setVisibility(View.GONE);
                     }
                     break;
+                case IMGUR:
+                    title.setText("Imgur content");
 
                 case GFY:
                 case GIF:

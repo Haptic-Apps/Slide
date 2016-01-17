@@ -21,16 +21,6 @@ public class ContentType {
         return (s.contains("imgur") && (s.contains("/a/")) || (s.contains("imgur") && (s.contains("gallery") || s.contains("/g/")) ));
     }
 
-    public static String getFixedUrl(String s) {
-        if (s == null || s.isEmpty()) {
-            return "";
-        }
-        if (s.contains("imgur") && !s.contains(".jpg") && !s.contains("gif") && !s.contains("png") && !isAlbum(s)) {
-            String hash = s.substring(s.lastIndexOf("/") + 1, s.length());
-            s = "http://i.imgur.com/" + hash + ".jpg";
-        }
-        return s;
-    }
 
     public static String getFixedUrlThumb(String s2) {
         String s = s2;
@@ -78,6 +68,9 @@ public class ContentType {
             return ImageType.REDDIT;
         }
 
+        if(url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url)){
+            return ImageType.IMGUR;
+        }
         if (s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
             return ImageType.EMBEDDED;
         }
@@ -213,6 +206,7 @@ public class ContentType {
         GFY,
         ALBUM,
         IMAGE,
+        IMGUR,
         GIF,
         NONE_GFY,
         NONE_GIF,

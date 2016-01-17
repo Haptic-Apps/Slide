@@ -252,7 +252,7 @@ public class ImageFull extends Fragment {
         if (type.toString().toLowerCase().contains("image")) {
             addClickFunctions(image, rootView, type, getActivity(), s);
 
-            url = ContentType.getFixedUrl(s.getUrl());
+            url = s.getUrl();
             ((Reddit) getContext().getApplicationContext()).getImageLoader()
                     .loadImage(url,
                             new SimpleImageLoadingListener() {

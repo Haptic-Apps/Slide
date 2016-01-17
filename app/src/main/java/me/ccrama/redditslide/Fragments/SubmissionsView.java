@@ -379,7 +379,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             if (!s.isNsfw() || SettingValues.NSFWPreviews) {
                 if (type == ContentType.ImageType.IMAGE) {
-                    url = ContentType.getFixedUrl(s.getUrl());
+                    url = s.getUrl();
                     if (SettingValues.bigPicEnabled) {
                         ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
                     } else {
