@@ -258,7 +258,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         @Override
         public int getCount() {
             int offset = 0;
-          
+
             return subredditPosts.getPosts().size() + offset;
         }
 
