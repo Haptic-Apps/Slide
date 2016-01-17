@@ -32,7 +32,7 @@ public class FontPreferences {
 
     public FontStyle getPostFontStyle() {
         return FontStyle.valueOf(open().getString(FONT_STYLE_POST,
-                FontStyle.MediumPost.name()));
+                FontStyle.Medium.name()));
     }
 
     public FontStyle getCommentFontStyle() {
@@ -63,16 +63,16 @@ public class FontPreferences {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
     public enum FontStyle {
-        SmallerPost(R.style.FontStyle_SmallerPost, "Smaller"),
-        SmallerComment(R.style.FontStyle_SmallerComment, "Smaller"),
-        SmallPost(R.style.FontStyle_SmallPost, "Small"),
-        SmallComment(R.style.FontStyle_SmallPost, "Small"),
-        MediumPost(R.style.FontStyle_MediumPost, "Medium"),
-        MediumComment(R.style.FontStyle_MediumComment, "Medium"),
-        LargePost(R.style.FontStyle_LargePost, "Large"),
-        LargeComment(R.style.FontStyle_LargeComment, "Large"),
-        LargerPost(R.style.FontStyle_LargerPost, "Larger"),
-        LargerComment(R.style.FontStyle_LargerComment, "Larger");
+        Smaller(R.style.FontStyle_SmallerPost, "Smaller"),
+        SmallerComment(R.style.FontStyle_SmallerComment, "SmallerComment"),
+        Small(R.style.FontStyle_SmallPost, "Small"),
+        SmallComment(R.style.FontStyle_SmallPost, "SmallComment"),
+        Medium(R.style.FontStyle_MediumPost, "Medium"),
+        MediumComment(R.style.FontStyle_MediumComment, "MediumComment"),
+        Large(R.style.FontStyle_LargePost, "Large"),
+        LargeComment(R.style.FontStyle_LargeComment, "LargeComment"),
+        Larger(R.style.FontStyle_LargerPost, "Larger"),
+        LargerComment(R.style.FontStyle_LargerComment, "LargerComment");
 
         private final int resId;
         private final String title;
@@ -90,6 +90,9 @@ public class FontPreferences {
             this.title = title;
         }
     }
+
+
+
     public enum FontTypeComment {
         Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_REGULAR, "Slab"),
         Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed"),
