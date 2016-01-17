@@ -3,19 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="#000000"
+    android:background="#a0000000"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#000000" />
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="#000000"
 
         android:gravity="center">
 
@@ -33,7 +32,7 @@
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#000000" />
+            android:background="#dc000000" />
 
         <ProgressBar
             android:id="@+id/gifprogress"
