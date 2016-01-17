@@ -115,7 +115,8 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             posts = new SubredditPosts("all");
             Log.v("Slide", "MAKING POSTS");
         }
-        submissions = posts.getPosts();
+        posts.loadMore(mContext, null, true);
+        submissions = posts.posts;
         Log.v("Slide", "POSTS IS SIZE " + submissions.size());
 
 

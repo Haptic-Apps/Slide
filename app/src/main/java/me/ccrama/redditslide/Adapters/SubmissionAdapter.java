@@ -134,6 +134,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             Intent i2 = new Intent(sContext, CommentsScreen.class);
                             i2.putExtra("page", holder2.getAdapterPosition());
+                            i2.putExtra("subreddit", subreddit);
                             (sContext).startActivity(i2);
                         }
                     } else {

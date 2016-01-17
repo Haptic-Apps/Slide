@@ -29,6 +29,7 @@ public class SubredditStorage {
     public static ArrayList<String> subredditsForHome;
     public static ArrayList<String> alphabeticalSubreddits;
     public static Shortcut shortcut;
+
     public static void saveState(){
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
@@ -42,6 +43,16 @@ public class SubredditStorage {
         editor.commit();
 
     }
+
+    public static MultiReddit getMultiredditByDisplayName(String displayName) {
+        for (MultiReddit multiReddit : SubredditStorage.multireddits) {
+            if (multiReddit.getDisplayName().equals(displayName)) {
+                return multiReddit;
+            }
+        }
+        return null;
+    }
+
     public static void getSubredditsForHome(Reddit a) {
         String s = subscriptions.getString(Authentication.name, "");
         Log.v("Slide", "NAME IS " + Authentication.name);

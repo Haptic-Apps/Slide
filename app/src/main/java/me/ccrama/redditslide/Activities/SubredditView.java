@@ -32,13 +32,15 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
@@ -55,8 +57,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
-public class SubredditView extends BaseActivityAnim {
-
+public class SubredditView extends BaseActivityAnim implements SubmissionDisplay {
 
     private DrawerLayout drawerLayout;
     private RecyclerView rv;
@@ -158,6 +159,7 @@ public class SubredditView extends BaseActivityAnim {
 
         }
         rv.setLayoutManager(mLayoutManager);
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -181,13 +183,12 @@ public class SubredditView extends BaseActivityAnim {
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(adapter, false, subreddit);
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, false, subreddit);
 
                     }
                 }
             }
         });
-        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -200,20 +201,13 @@ public class SubredditView extends BaseActivityAnim {
         rv.setAdapter(adapter);
 
         doSubSidebar(subreddit);
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
 
-        //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, true, subreddit);
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, true, subreddit);
 
                         //TODO catch errors
                     }
@@ -685,6 +679,41 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
+    @Override
+    public void updateSuccess(final List<Submission> submissions, final int startIndex) {
+        (adapter.sContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (startIndex != -1) {
+                    adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void updateOffline(List<Submission> submissions, final long cacheTime) {
+        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void updateOfflineError() {
+        adapter.setError(true);
+    }
+
+    @Override
+    public void updateError() {
+        adapter.setError(true);
+    }
+
     private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
         @Override
@@ -751,7 +780,7 @@ public class SubredditView extends BaseActivityAnim {
                 return null;
             }
         }
-    }
 
+    }
 
 }

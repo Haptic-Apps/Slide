@@ -1,23 +1,40 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import net.dean.jraw.models.Submission;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.Cache;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 
-public class SingleView extends BaseActivityAnim {
-
+public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
 
     private SubmissionAdapter adapter;
     private SubredditPosts posts;
@@ -34,8 +51,8 @@ public class SingleView extends BaseActivityAnim {
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
+        final StaggeredGridLayoutManager mLayoutManager;
 
-            final StaggeredGridLayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
         } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
@@ -44,38 +61,34 @@ public class SingleView extends BaseActivityAnim {
             mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
 
         }
-            rv.setLayoutManager(mLayoutManager);
+        rv.setLayoutManager(mLayoutManager);
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
 
-                    int[] firstVisibleItems = null;
-                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        pastVisiblesItems = firstVisibleItems[0];
-                        if(Reddit.scrollSeen){
-                            if(pastVisiblesItems > 0){
-                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                            }
+                int[] firstVisibleItems = null;
+                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    pastVisiblesItems = firstVisibleItems[0];
+                    if(Reddit.scrollSeen){
+                        if(pastVisiblesItems > 0){
+                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                         }
                     }
-
+                }
 
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(adapter, false, subreddit);
-
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, false, subreddit);
                     }
                 }
-
             }
         });
-        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
@@ -87,26 +100,55 @@ public class SingleView extends BaseActivityAnim {
         adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);
 
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, true);
 
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, true, subreddit);
-
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, true, subreddit);
                         //TODO catch errors
                     }
                 }
         );
     }
 
+    @Override
+    public void updateSuccess(final List<Submission> submissions, final int startIndex) {
+        (adapter.sContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (startIndex != -1) {
+                    adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void updateOffline(List<Submission> submissions, final long cacheTime) {
+        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void updateOfflineError() {
+        //mSwipeRefreshLayout.setRefreshing(false);
+        adapter.setError(true);
+    }
+
+    @Override
+    public void updateError() {
+        //mSwipeRefreshLayout.setRefreshing(false);
+        adapter.setError(true);
+    }
 
 }

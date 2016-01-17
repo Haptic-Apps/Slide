@@ -76,8 +76,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         });
 
         setDataSet(SubredditStorage.multireddits);
-
-
     }
 
     public void openPopup(View view) {
@@ -165,8 +163,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
         builder.show();
-
-
     }
 
     private void reloadSubs() {
@@ -272,7 +268,6 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         @Override
         public Fragment getItem(int i) {
-
             Fragment f = new MultiredditView();
             Bundle args = new Bundle();
 
@@ -281,8 +276,6 @@ public class MultiredditOverview extends BaseActivityAnim {
             f.setArguments(args);
 
             return f;
-
-
         }
 
 
@@ -295,12 +288,10 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
         }
 
-
         @Override
         public CharSequence getPageTitle(int position) {
             return usedArray.get(position).getDisplayName();
         }
     }
-
 
 }

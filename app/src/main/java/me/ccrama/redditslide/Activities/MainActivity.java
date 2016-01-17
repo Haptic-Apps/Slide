@@ -1197,7 +1197,7 @@ public class MainActivity extends BaseActivity {
                 return true;*/
             case R.id.action_shadowbox:
                 if (Reddit.tabletUI) {
-                    ArrayList<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         DataShare.sharedSubreddit =
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
@@ -1229,7 +1229,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void saveOffline(ArrayList<Submission> submissions, final String subreddit) {
+    public void saveOffline(List<Submission> submissions, final String subreddit) {
         final MaterialDialog d = new MaterialDialog.Builder(this).title(R.string.offline_caching)
                 .progress(false, submissions.size())
                 .cancelable(false)
