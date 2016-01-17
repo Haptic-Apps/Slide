@@ -41,7 +41,7 @@ public class SettingsFont extends BaseActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyle.valueOf(commentFontPicker(item.getTitle().toString())));
+                        new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyleComment.valueOf(item.getTitle().toString()));
                         color.setText(new FontPreferences(SettingsFont.this).getCommentFontStyle().getTitle());
 
                         return true;
@@ -191,7 +191,7 @@ public class SettingsFont extends BaseActivity {
         });
 
     }
-
+/*
     public String commentFontPicker(String str) {
         switch (str) {
             case "Smaller":
@@ -208,6 +208,6 @@ public class SettingsFont extends BaseActivity {
                 return "nothing";
         }
     }
-
+*/
 
 }
