@@ -200,7 +200,19 @@ public class SettingsGeneral extends BaseActivity {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.cropimage);
 
+            single.setChecked(Reddit.cropImage);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.cropImage = isChecked;
+                    SettingValues.prefs.edit().putBoolean("cropImage", isChecked).apply();
+
+                }
+            });
+        }
         /* Might need this later
         if (Reddit.expandedSettings) {
             {

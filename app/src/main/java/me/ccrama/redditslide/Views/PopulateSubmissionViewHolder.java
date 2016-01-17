@@ -957,6 +957,10 @@ public class PopulateSubmissionViewHolder {
             info = holder.subTextImage;
         }
 
+        if(full && Reddit.cropImage){
+            holder.leadImage.setMaxHeight(dpToPx(200));
+        }
+
 
 
             title.setVisibility(View.VISIBLE);
@@ -1006,7 +1010,7 @@ public class PopulateSubmissionViewHolder {
                     break;
                 case IMGUR:
                     title.setText("Imgur content");
-
+                    break;
                 case GFY:
                 case GIF:
                 case NONE_GFY:
@@ -1194,5 +1198,8 @@ public class PopulateSubmissionViewHolder {
 
 
     }
-
+    public static int dpToPx(int dp)
+    {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
 }
