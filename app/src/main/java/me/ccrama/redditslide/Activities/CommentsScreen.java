@@ -38,8 +38,9 @@ import me.ccrama.redditslide.Visuals.StyleView;
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
     final private static String TAG = "CommentsScreen";
     private PostLoader subredditPosts;
-    OverviewPagerAdapter comments;
     int firstPage;
+
+    OverviewPagerAdapter comments;
     private String subreddit;
 
     @Override

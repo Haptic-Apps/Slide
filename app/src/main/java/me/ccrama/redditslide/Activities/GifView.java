@@ -74,6 +74,12 @@ public class GifView extends FullScreenActivity {
             }
         });
 
+        if(dat.contains("webm") && dat.contains("imgur")){
+            dat = dat.replace("webm", "gifv");
+        }
+        if(dat.contains("mp4") && dat.contains("imgur")){
+            dat = dat.replace("mp4", "gifv");
+        }
 
             if (dat.endsWith("v")) {
                 dat = dat.substring(0, dat.length() - 1);

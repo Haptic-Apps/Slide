@@ -78,10 +78,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String textFiltersRegex;
     public static String domainFiltersRegex;
     public static boolean saveButton;
+    public static boolean colorEverywhere;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
     public static boolean exit;
+    public static boolean cropImage;
+
     public static boolean fastscroll;
     public static boolean fab = true;
     public static int fabType = R.integer.FAB_POST;
@@ -396,6 +399,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         domainFilters = SettingValues.prefs.getString("domainFilters", "");
         dualPortrait = SettingValues.prefs.getBoolean("dualPortrait", false);
 
+        cropImage = SettingValues.prefs.getBoolean("cropImage", true);
 
         titleFiltersRegex = regex(titleFilters);
         textFiltersRegex = regex(textFilters);

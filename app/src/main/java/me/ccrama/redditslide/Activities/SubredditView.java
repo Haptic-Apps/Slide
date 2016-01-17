@@ -231,8 +231,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         if (posts.posts != null && !posts.posts.isEmpty()) {
                             DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
-                            i.putExtra("position", 0);
-                            startActivity(i);
+                            i.putExtra("page",0);
+                            i.putExtra("subreddit",  subreddit);
+                            startActivity(i);                            startActivity(i);
                         }
                     } else {
                         new AlertDialogWrapper.Builder(SubredditView.this)

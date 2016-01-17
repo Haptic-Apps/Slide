@@ -5,25 +5,30 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 
 import net.dean.jraw.models.Submission;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Adapters.MultiredditPosts;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
+import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.Gif;
 import me.ccrama.redditslide.Fragments.ImageFull;
+import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Shadowbox extends FullScreenActivity {
-    private List<Submission> posts;
-
+public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
+    private PostLoader subredditPosts;
+    private String subreddit;
+    int firstPage;
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -32,12 +37,57 @@ public class Shadowbox extends FullScreenActivity {
         applyColorTheme();
         setContentView(R.layout.activity_slide);
 
-        posts = DataShare.sharedSubreddit;
-        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+        firstPage = getIntent().getExtras().getInt("page", -1);
+        subreddit = getIntent().getExtras().getString("subreddit");
+        String multireddit = getIntent().getExtras().getString("multireddit");
+        if (multireddit != null) {
+            subredditPosts = new MultiredditPosts(multireddit);
+        } else {
+            subredditPosts = new SubredditPosts(subreddit);
+        }
+        if (firstPage == RecyclerView.NO_POSITION) {
+            //IS SINGLE POST
+        } else {
+            subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
+            subredditPosts.loadMore(this.getApplicationContext(), this, true);
+        }        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
-        pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+        submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(submissionsPager);
+    }
+    OverviewPagerAdapter submissionsPager;
+    @Override
+    public void updateSuccess(final List<Submission> submissions, final int startIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (startIndex != -1) {
+                    // TODO determine correct behaviour
+                    //comments.notifyItemRangeInserted(startIndex, posts.posts.size());
+                    submissionsPager.notifyDataSetChanged();
+                } else {
+                    submissionsPager.notifyDataSetChanged();
+                }
+
+            }
+        });
     }
 
+    @Override
+    public void updateOffline(List<Submission> submissions, final long cacheTime) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                submissionsPager.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void updateOfflineError() {}
+
+    @Override
+    public void updateError() {}
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
@@ -47,8 +97,13 @@ public class Shadowbox extends FullScreenActivity {
 
         @Override
         public Fragment getItem(int i) {
+
             Fragment f;
-            ContentType.ImageType t = ContentType.getImageType(posts.get(i));
+            ContentType.ImageType t = ContentType.getImageType(subredditPosts.getPosts().get(i));
+
+            if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
+                subredditPosts.loadMore(Shadowbox.this.getApplicationContext(), Shadowbox.this, false);
+            }
             switch (t) {
 
                 case NSFW_IMAGE: {
@@ -202,11 +257,9 @@ public class Shadowbox extends FullScreenActivity {
 
         @Override
         public int getCount() {
-            if (posts == null) {
-                return 1;
-            } else {
-                return posts.size();
-            }
+            int offset = 0;
+
+            return subredditPosts.getPosts().size() + offset;
         }
 
 

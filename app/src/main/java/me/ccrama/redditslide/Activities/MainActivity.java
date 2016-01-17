@@ -1202,7 +1202,8 @@ public class MainActivity extends BaseActivity {
                         DataShare.sharedSubreddit =
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                         Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra("position", pager.getCurrentItem());
+                        i.putExtra("page", 0);
+                        i.putExtra("subreddit",  ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i);
                     }
                 } else {
