@@ -867,7 +867,7 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
             }
 
-            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
+            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfw));
         } else  if ( type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
             holder.imageArea.setVisibility(View.GONE);
             if (!full) {
@@ -876,7 +876,7 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
             }
 
-            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nothumb));
+            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
             url = ContentType.getFixedUrl(submission.getUrl());
             if (!full && !SettingValues.bigPicEnabled ) {
