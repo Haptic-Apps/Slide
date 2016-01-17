@@ -47,6 +47,7 @@ public class ContributionsView extends Fragment {
 
         }
         rv.setLayoutManager(mLayoutManager);
+        rv.setItemViewCacheSize(2);
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();

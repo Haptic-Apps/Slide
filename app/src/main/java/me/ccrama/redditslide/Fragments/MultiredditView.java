@@ -14,11 +14,9 @@ import android.view.ViewGroup;
 import net.dean.jraw.models.Submission;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
-import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -43,16 +41,18 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        final StaggeredGridLayoutManager mLayoutManager;
+        final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
         } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
-            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
 
         }
         rv.setLayoutManager(mLayoutManager);
+        rv.setItemViewCacheSize(2);
+
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
