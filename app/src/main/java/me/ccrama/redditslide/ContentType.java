@@ -14,7 +14,7 @@ public class ContentType {
     }
 
     private static boolean isImage(String s) {
-        return (s.contains(".png") || s.contains(".jpg") || s.contains(".jpeg") || s.contains("imgur"));
+        return (s.contains(".png") || s.contains(".jpg") || s.contains(".jpeg") );
     }
 
     private static boolean isAlbum(String s) {
