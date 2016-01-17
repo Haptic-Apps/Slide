@@ -78,6 +78,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String textFiltersRegex;
     public static String domainFiltersRegex;
     public static boolean saveButton;
+    public static boolean colorEverywhere;
     boolean firstStart = false;
     public static boolean gif;
     public static boolean web;
