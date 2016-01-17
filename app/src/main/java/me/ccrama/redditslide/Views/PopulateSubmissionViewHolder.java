@@ -861,8 +861,7 @@ public class PopulateSubmissionViewHolder {
         final String subreddit = "";
 
 
-        ImageView thumbImage2 = null;
-        thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+        ImageView thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
 
 
         if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
@@ -872,8 +871,8 @@ public class PopulateSubmissionViewHolder {
             } else {
                 holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
             }
-
-            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfw));
+            if (submission.isSelfPost()) thumbImage2.setVisibility(View.GONE);
+            else thumbImage2.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.nsfw));
         } else  if ( type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
             holder.imageArea.setVisibility(View.GONE);
             if (!full) {
@@ -882,7 +881,7 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
             }
 
-            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.web));
+            thumbImage2.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
             url = submission.getUrl();
             if (!full && !SettingValues.bigPicEnabled ) {
