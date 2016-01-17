@@ -35,6 +35,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import me.ccrama.redditslide.R;
+
 
 class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerView.OnItemTouchListener {
 
@@ -86,7 +88,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
     }
 
     public void setViewHandleId() {
-        viewHandleId = me.ccrama.redditslide.R.id.name;
+        viewHandleId = R.id.dragit;
     }
 
     public void setLeftDragArea(int w) {

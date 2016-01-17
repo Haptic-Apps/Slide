@@ -56,7 +56,7 @@ public class Shortcut extends Activity {
         // The meat of our shortcut
 
 
-        if (SubredditStorage.alphabeticalSubscriptions == null) {
+        if (SubredditStorage.alphabeticalSubreddits == null) {
             SubredditStorage.shortcut = this;
         } else {
             doShortcut();
@@ -79,10 +79,10 @@ public class Shortcut extends Activity {
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Shortcut.this);
 
                         builder.setTitle(R.string.subreddit_chooser);
-                        builder.setAdapter(new SubredditListingAdapter(Shortcut.this, SubredditStorage.alphabeticalSubscriptions), new DialogInterface.OnClickListener() {
+                        builder.setAdapter(new SubredditListingAdapter(Shortcut.this, SubredditStorage.alphabeticalSubreddits), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                name = SubredditStorage.alphabeticalSubscriptions.get(which);
+                                name = SubredditStorage.alphabeticalSubreddits.get(which);
                                 final Bitmap src;
                                 final Bitmap bm2;
                                 if (name.toLowerCase().equals("androidcirclejerk")) {
