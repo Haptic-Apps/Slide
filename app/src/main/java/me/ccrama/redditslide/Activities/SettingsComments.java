@@ -25,16 +25,18 @@ public class SettingsComments extends BaseActivity {
                 SettingValues.prefs.edit().putBoolean("UsernameClick", isChecked).apply();
             }
         });
-        SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
-        single.setChecked(Reddit.fastscroll);
-        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.fastscroll = isChecked;
-                SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
+            single.setChecked(Reddit.fastscroll);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.fastscroll = isChecked;
+                    SettingValues.prefs.edit().putBoolean("Fastscroll", isChecked).apply();
 
-            }
-        });
+                }
+            });
+        }
         SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
         check.setChecked(Reddit.swap);
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -45,5 +47,18 @@ public class SettingsComments extends BaseActivity {
 
             }
         });
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.cropimage);
+
+            single.setChecked(Reddit.cropImage);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.cropImage = isChecked;
+                    SettingValues.prefs.edit().putBoolean("cropImage", isChecked).apply();
+
+                }
+            });
+        }
     }
 }
