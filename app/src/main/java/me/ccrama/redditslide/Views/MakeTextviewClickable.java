@@ -384,6 +384,11 @@ public class MakeTextviewClickable {
 
             ContentType.ImageType type = ContentType.getImageType(url);
             switch (type) {
+                case IMGUR:
+                    Intent intent2 = new Intent(c, Imgur.class);
+                    intent2.putExtra("url", url);
+                    c.startActivity(intent2);
+                    break;
                 case NSFW_IMAGE:
                     openImage(c, url);
                     break;
@@ -403,11 +408,7 @@ public class MakeTextviewClickable {
                     break;
                 case SELF:
                     break;
-                case IMGUR:
-                    Intent intent2 = new Intent(c, Imgur.class);
-                    intent2.putExtra("url", url);
-                    c.startActivity(intent2);
-                    break;
+
                 case GFY:
                     openGif(true, c, url);
                     break;

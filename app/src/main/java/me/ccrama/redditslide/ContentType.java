@@ -177,7 +177,9 @@ public class ContentType {
         } else if (url.contains("youtube.com") || url.contains("youtu.be")) {
             return ImageType.VIDEO;
         }
-
+        if(url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url)){
+            return ImageType.IMGUR;
+        }
         if (isAlbum(url)) {
             return ImageType.ALBUM;
         }
