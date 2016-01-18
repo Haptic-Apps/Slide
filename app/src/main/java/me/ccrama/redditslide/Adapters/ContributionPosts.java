@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
@@ -31,16 +32,18 @@ public class ContributionPosts extends GeneralPosts {
         this.where = where;
     }
 
+    public boolean nomore;
+
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout = layout;
-        loadMore(a, subreddit, where);
+        loadMore(a, subreddit, true);
     }
 
-    public void loadMore(ContributionAdapter adapter, String subreddit, String where) {
+    public void loadMore(ContributionAdapter adapter, String subreddit, boolean reset) {
 
 
-            new LoadData(true).execute(subreddit);
+        new LoadData(reset).execute(subreddit);
 
 
     }
@@ -53,31 +56,61 @@ public class ContributionPosts extends GeneralPosts {
         }
 
         @Override
-        public void onPostExecute(ArrayList<Contribution> subs) {
-            if (subs != null) {
+        public void onPostExecute(ArrayList<Contribution> submissions) {
+            loading = false;
 
-                loading = false;
-                if (refreshLayout != null)
-                    ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
+            if (submissions != null && !submissions.isEmpty()) {
+                // new submissions found
 
-                            adapter.dataSet = posts;
+                int start = 0;
+                if (adapter.dataSet != null) {
+                    start = adapter.dataSet.size() + 1;
+                }
 
-                            adapter.notifyDataSetChanged();
-
+                ArrayList<Contribution> filteredSubmissions = new ArrayList<>();
+                for (Contribution c : submissions) {
+                    if (c instanceof Submission) {
+                        if (!PostMatch.doesMatch((Submission) c)) {
+                            filteredSubmissions.add(c);
                         }
-                    });
-            } else {
-                adapter.setError(true);
-                refreshLayout.setRefreshing(false);
+                    } else {
+                        filteredSubmissions.add(c);
+                    }
+                }
+                Log.v("Slide", "SIZE IS " + filteredSubmissions.size());
 
+                if (reset || adapter.dataSet == null) {
+                    adapter.dataSet = filteredSubmissions;
+                    start = -1;
+                } else {
+                    adapter.dataSet.addAll(filteredSubmissions);
+                }
+
+                final int finalStart = start;
+                // update online
+                if (refreshLayout != null) {
+                    refreshLayout.setRefreshing(false);
+                }
+
+                if (finalStart != -1) {
+                    adapter.notifyItemRangeInserted(finalStart, adapter.dataSet.size());
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+
+            } else if (submissions != null) {
+                // end of submissions
+                nomore = true;
+            } else if (!nomore) {
+                // error
+                adapter.setError(true);
             }
+            refreshLayout.setRefreshing(false);
         }
 
         @Override
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
+            ArrayList<Contribution> newData = new ArrayList<>();
             try {
                 if (reset || paginator == null) {
                     paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
@@ -85,37 +118,26 @@ public class ContributionPosts extends GeneralPosts {
                     paginator.setSorting(Reddit.defaultSorting);
                     paginator.setTimePeriod(Reddit.timePeriod);
                 }
-                if (reset) {
-                    posts = new ArrayList<>();
-                    for (Contribution c : paginator.next()) {
-                        if (c instanceof Submission) {
-                            Submission s = (Submission) c;
-                                if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
-                                } else if (!s.isNsfw()) {
-                                    posts.add(s);
 
-                            }
-                        } else {
-                            posts.add(c);
-                        }
-                    }
-                } else {
-                    for (Contribution c : paginator.next()) {
-                        if (c instanceof Submission) {
-                            Submission s = (Submission) c;
-                                if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
-                                } else if (!s.isNsfw()) {
-                                    posts.add(s);
+                if (!paginator.hasNext()) {
+                    nomore = true;
+                    return new ArrayList<>();
+                }
+                for (Contribution c : paginator.next()) {
+                    if (c instanceof Submission) {
+                        Submission s = (Submission) c;
+                        if (SettingValues.NSFWPosts && s.isNsfw()) {
+                            newData.add(s);
+                        } else if (!s.isNsfw()) {
+                            newData.add(s);
 
-                            }
-                        } else {
-                            posts.add(c);
                         }
+                    } else {
+                        newData.add(c);
                     }
                 }
-                return posts;
+
+                return newData;
             } catch (Exception e) {
                 return null;
             }

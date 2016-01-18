@@ -73,7 +73,7 @@ public class ContributionsView extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, id, where);
+                        posts.loadMore(adapter, id, true);
 
                         //TODO catch errors
                     }
@@ -96,9 +96,9 @@ public class ContributionsView extends Fragment {
                 }
 
                 if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount &&! posts.nomore) {
                         posts.loading = true;
-                        posts.loadMore(adapter, id, where);
+                        posts.loadMore(adapter, id, false);
                     }
                 }
             }

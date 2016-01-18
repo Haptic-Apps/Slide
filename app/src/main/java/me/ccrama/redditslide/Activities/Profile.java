@@ -306,7 +306,7 @@ public class Profile extends BaseActivityAnim {
         ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
 
         pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(2);
+        pager.setOffscreenPageLimit(1);
         tabs.setupWithViewPager(pager);
 
 
