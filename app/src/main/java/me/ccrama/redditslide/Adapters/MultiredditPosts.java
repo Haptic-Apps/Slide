@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 
 /**
@@ -142,9 +141,8 @@ public class MultiredditPosts implements PostLoader {
                 }
 
                 for (Submission s : paginator.next()) {
-                    if (SettingValues.NSFWPosts || !s.isNsfw()) {
                         newSubmissions.add(s);
-                    }
+
                 }
 
 

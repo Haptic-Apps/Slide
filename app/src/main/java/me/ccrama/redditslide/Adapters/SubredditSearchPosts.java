@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -142,22 +141,17 @@ public class SubredditSearchPosts extends GeneralPosts {
                 if (reset) {
                     nomore = false;
                     for (Submission s : paginator.next()) {
-                                if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    newSubmissions.add(s);
-                                } else if (!s.isNsfw()) {
+
                                     newSubmissions.add(s);
 
-                            }
+
                         }
 
                 } else  if(!nomore){
                     for (Submission s : paginator.next()) {
-                        if (SettingValues.NSFWPosts && s.isNsfw()) {
-                            newSubmissions.add(s);
-                        } else if (!s.isNsfw()) {
+
                             newSubmissions.add(s);
 
-                        }
                     }
                 }
                 return newSubmissions;

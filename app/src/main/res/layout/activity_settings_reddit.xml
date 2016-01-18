@@ -1,140 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-
-android:background="?attr/activity_background">
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_light_blue_500"
-        android:clipToPadding="false"
+    android:background="?attr/activity_background">
 
-        android:minHeight="56dp"
-        android:paddingRight="16dp"
-        android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways">
-    </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/activity_background"
         android:orientation="vertical">
-        <LinearLayout
-            android:id="@+id/nsfw_box"
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            android:background="@color/md_light_blue_500"
+            android:clipToPadding="false"
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:minHeight="56dp"
+            android:paddingRight="16dp"
+            android:theme="@style/Theme.AppCompat"
+            app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/report"
-                android:tint="?attr/tint"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/activity_background"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/nsfw"
+            <LinearLayout
+                android:id="@+id/nsfw_box"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
-                android:backgroundTint="?attr/tint"
-                android:button="@null"
-                android:buttonTint="?attr/tint"
-                android:hapticFeedbackEnabled="true"
-                android:text="Display NSFW content"
-                android:textColor="?attr/font"
-                android:textColorHint="?attr/font"/>
-        </LinearLayout>
+                android:orientation="horizontal"
 
-        <LinearLayout
-            android:id="@+id/nsfw_boxprev"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
 
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    android:text="If you are not seeing NSFW content or previews, make sure to select 'I am 18 years old' and 'Show NSFW Thumbnails' at the reddit.com preferences screen below."
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/image"
-                android:tint="?attr/tint"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/nsfwrpev"
+            <LinearLayout
+                android:id="@+id/nsfw_boxprev"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:backgroundTint="?attr/tint"
-                android:button="@null"
-                android:buttonTint="?attr/tint"
-                android:hapticFeedbackEnabled="true"
-                android:text="@string/settings_disable_nsfw_photo"
-                android:textColor="?attr/font"
-                android:textColorHint="?attr/font"/>
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/image"
+                    android:tint="?attr/tint" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/nsfwrpev"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="@string/settings_disable_nsfw_photo"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="16dp"
+                    android:src="@drawable/settings"
+                    android:tint="?attr/tint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+
+                    android:text="View all reddit.com preferences"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/delete"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:orientation="horizontal"
-
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/settings"
-                android:tint="?attr/tint"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-
-                android:text="View all reddit.com preferences"
-                android:textColor="?attr/font"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-
-
-
-
-
     </LinearLayout>
-</LinearLayout>
 </ScrollView>
