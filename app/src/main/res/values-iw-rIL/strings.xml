@@ -60,7 +60,7 @@
   <string name="multi_column_portrait">אפשרויות אורך בקרוב</string>
   <string name="drawer_profile">פרופיל</string>
   <string name="drawer_goto_profile">צפה בפרופיל</string>
-  <string name="drawer_reorder_pins">סידור מחדש של הנעוצים</string>
+  <string name="drawer_reorder_subs">סידור מחדש של הנעוצים</string>
   <string name="drawer_add_account">הוסף משתמש</string>
   <string name="drawer_hello">היי</string>
   <string name="drawer_change_account">החלף משתמש</string>
