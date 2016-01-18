@@ -69,7 +69,7 @@
   <string name="drawer_profile">Profiel</string>
   <string name="drawer_support">Neem Pro</string>
   <string name="drawer_goto_profile">Naar profiel gaan</string>
-  <string name="drawer_reorder_pins">Pinvolgorde aanpassen</string>
+  <string name="drawer_reorder_subs">Pinvolgorde aanpassen</string>
   <string name="drawer_add_account">Een account toevoegen</string>
   <string name="drawer_hello">Hallo,</string>
   <string name="drawer_change_account">Van account wisselen</string>
@@ -350,7 +350,7 @@
   <string name="title_report_crash">Een crash melden</string>
   <string name="title_share">Delen met</string>
   <string name="title_login">Inloggen op Reddit</string>
-  <string name="title_reorder_pins">Pinvolgorde aanpassen</string>
+  <string name="title_reorder_subs">Pinvolgorde aanpassen</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Postvak In</string>
   <string name="title_theme_settings">Thema</string>

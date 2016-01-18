@@ -48,7 +48,7 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_sort);
-        setupAppBar(R.id.toolbar, R.string.title_reorder_pins, false, true);
+        setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
 
 
         subs = new ArrayList<>(SubredditStorage.subredditsForHome);

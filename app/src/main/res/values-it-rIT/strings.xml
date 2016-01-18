@@ -69,7 +69,7 @@
   <string name="drawer_profile">Profilo</string>
   <string name="drawer_support">Passa alla versione Pro</string>
   <string name="drawer_goto_profile">Vai al profilo</string>
-  <string name="drawer_reorder_pins">Riordina preferiti</string>
+  <string name="drawer_reorder_subs">Riordina preferiti</string>
   <string name="drawer_add_account">Aggiungi un account</string>
   <string name="drawer_hello">Ciao,</string>
   <string name="drawer_change_account">Cambia account</string>
@@ -366,7 +366,7 @@
   <string name="title_report_crash">Segnala un arresto anomalo</string>
   <string name="title_share">Condividi su</string>
   <string name="title_login">Accedi a Reddit</string>
-  <string name="title_reorder_pins">Riordina preferiti</string>
+  <string name="title_reorder_subs">Riordina preferiti</string>
   <string name="title_multireddits">Multireddit</string>
   <string name="title_inbox">Posta in arrivo</string>
   <string name="title_theme_settings">Tema</string>
