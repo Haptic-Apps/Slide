@@ -117,7 +117,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final Submission submission = dataSet.posts.get(i);
 
             CreateCardView.resetColorCard(holder.itemView);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, custom);
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage")||(subreddit.equals("all"))));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -134,6 +134,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         } else {
                             Intent i2 = new Intent(sContext, CommentsScreen.class);
                             i2.putExtra("page", holder2.getAdapterPosition());
+                            i2.putExtra("subreddit", subreddit);
                             (sContext).startActivity(i2);
                         }
                     } else {

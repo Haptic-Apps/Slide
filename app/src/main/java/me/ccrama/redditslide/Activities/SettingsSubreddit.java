@@ -52,7 +52,7 @@ public class SettingsSubreddit extends BaseActivity {
         findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ArrayList<String> subs = SubredditStorage.alphabeticalSubscriptions;
+                final ArrayList<String> subs = SubredditStorage.alphabeticalSubreddits;
                 subs.remove("frontpage");
                 subs.remove("all");
 
@@ -83,7 +83,7 @@ public class SettingsSubreddit extends BaseActivity {
     public void reloadSubList() {
         Log.v(TAG, "adapter init");
         changedSubs.clear();
-        ArrayList<String> allSubs = SubredditStorage.alphabeticalSubscriptions;
+        ArrayList<String> allSubs = SubredditStorage.alphabeticalSubreddits;
         allSubs.remove("all");
         allSubs.remove("frontpage");
 

@@ -252,7 +252,7 @@ public class ImageFull extends Fragment {
         if (type.toString().toLowerCase().contains("image")) {
             addClickFunctions(image, rootView, type, getActivity(), s);
 
-            url = ContentType.getFixedUrl(s.getUrl());
+            url = s.getUrl();
             ((Reddit) getContext().getApplicationContext()).getImageLoader()
                     .loadImage(url,
                             new SimpleImageLoadingListener() {
@@ -297,6 +297,7 @@ public class ImageFull extends Fragment {
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra("page", i);
+                    i2.putExtra("subreddit", s.getSubredditName());
                     (getActivity()).startActivity(i2);
                 }
             }

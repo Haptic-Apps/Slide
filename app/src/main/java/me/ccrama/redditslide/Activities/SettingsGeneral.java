@@ -175,6 +175,19 @@ public class SettingsGeneral extends BaseActivity {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.alphabetical);
+
+            single.setChecked(Reddit.alphabetical_home);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.alphabetical_home = isChecked;
+                    SettingValues.prefs.edit().putBoolean("alphabetical_home", isChecked).apply();
+
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.lowq);
 
             single.setChecked(!Reddit.blurCheck);

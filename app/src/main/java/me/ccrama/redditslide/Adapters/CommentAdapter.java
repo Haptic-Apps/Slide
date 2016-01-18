@@ -287,7 +287,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     mod.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
-                Log.d("Error loading mod ", e.getMessage());
+                Log.d("Error loading mod ", e.toString());
             }
         }
         {

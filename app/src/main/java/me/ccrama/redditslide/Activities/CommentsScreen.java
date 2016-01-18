@@ -10,23 +10,37 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import me.ccrama.redditslide.Adapters.MultiredditPosts;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
+import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
+ * This activity is responsible for the view when clicking on a post, showing
+ * the post and its comments underneath with the slide left/right for the next
+ * post.
+ *
+ * When the end of the currently loaded posts is being reached, more posts are
+ * loaded asynchronously in {@Link OverviewPagerAdapter}.
+ *
+ * Comments are displayed in the {@Link CommentPage} fragment.
+ *
  * Created by ccrama on 9/17/2015.
  */
-public class CommentsScreen extends BaseActivityAnim {
+public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
     final private static String TAG = "CommentsScreen";
-    public ArrayList<Submission> posts;
-    OverviewPagerAdapter comments;
+    private PostLoader subredditPosts;
     int firstPage;
+
+    OverviewPagerAdapter comments;
     private String subreddit;
 
     @Override
@@ -36,18 +50,25 @@ public class CommentsScreen extends BaseActivityAnim {
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
 
-
         firstPage = getIntent().getExtras().getInt("page", -1);
+        subreddit = getIntent().getExtras().getString("subreddit");
+        String multireddit = getIntent().getExtras().getString("multireddit");
+        if (multireddit != null) {
+            subredditPosts = new MultiredditPosts(multireddit);
+        } else {
+            subredditPosts = new SubredditPosts(subreddit);
+        }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
             Log.w(TAG, "Is single post?");
         } else {
-            posts = DataShare.sharedSubreddit;
+            subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
+            subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
-        if (posts == null || posts.get(firstPage) == null) {
+        if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
             finish();
         } else {
-            updateSubredditAndSubmission(posts.get(firstPage));
+            updateSubredditAndSubmission(subredditPosts.getPosts().get(firstPage));
 
             ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
@@ -63,8 +84,7 @@ public class CommentsScreen extends BaseActivityAnim {
 
                 @Override
                 public void onPageSelected(int position) {
-                    //todo load more
-                    updateSubredditAndSubmission(posts.get(position));
+                    updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
                 }
 
                 @Override
@@ -73,43 +93,74 @@ public class CommentsScreen extends BaseActivityAnim {
                 }
             });
         }
-
-
     }
 
-    private void updateSubredditAndSubmission(Submission posts) {
-        subreddit = posts.getSubredditName();
+    private void updateSubredditAndSubmission(Submission post) {
+        subreddit = post.getSubredditName();
         themeStatusBar(subreddit);
         setRecentBar(subreddit);
-        HasSeen.addSeen(posts.getFullName());
+        HasSeen.addSeen(post.getFullName());
     }
+
+
+    @Override
+    public void updateSuccess(final List<Submission> submissions, final int startIndex) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (startIndex != -1) {
+                    // TODO determine correct behaviour
+                    //comments.notifyItemRangeInserted(startIndex, posts.posts.size());
+                    comments.notifyDataSetChanged();
+                } else {
+                    comments.notifyDataSetChanged();
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void updateOffline(List<Submission> submissions, final long cacheTime) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                comments.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void updateOfflineError() {}
+
+    @Override
+    public void updateError() {}
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
         public Fragment getItem(int i) {
-
             Fragment f = new CommentPage();
             Bundle args = new Bundle();
 
-            String name = posts.get(i).getFullName();
+            // TODO is there a better point load more posts (instead of the second to last element)?
+            if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
+                subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
+            }
+            String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
             Log.v("Slide", name.substring(3, name.length()));
-            args.putString("subreddit", posts.get(i).getSubredditName());
-            args.putBoolean("archived", posts.get(i).isArchived());
+            args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
+            args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
             f.setArguments(args);
 
             return f;
-
-
         }
-
 
         @Override
         public int getCount() {
@@ -117,13 +168,8 @@ public class CommentsScreen extends BaseActivityAnim {
             if (Reddit.single || Reddit.swipeAnywhere) {
                 offset = 1;
             }
-            if (posts == null) {
-                return 1 + offset;
-            } else {
-                return posts.size() + offset;
-            }
+            return subredditPosts.getPosts().size() + offset;
         }
-
 
     }
 

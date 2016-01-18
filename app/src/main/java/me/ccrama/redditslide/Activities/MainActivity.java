@@ -87,8 +87,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.SubredditStorageFromContext;
-import me.ccrama.redditslide.SubredditStorageNoContext;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
@@ -116,6 +114,7 @@ public class MainActivity extends BaseActivity {
     public boolean first = true;
     boolean changed;
     String term;
+    View headerMain;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     private TabLayout mTabLayout;
     private boolean mShowInfoButton;
@@ -132,7 +131,7 @@ public class MainActivity extends BaseActivity {
         } else if (requestCode == 1) {
             restartTheme();
         } else if (requestCode == 3) {
-            new SubredditStorageNoContext().execute(this);
+            resetAdapter();
         } else if (requestCode == 4 && resultCode != 4) { //what?
             if (e != null) {
                 e.clearFocus();
@@ -291,9 +290,8 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
-            SubredditStorage.alphabeticalSubscriptions =
+            SubredditStorage.alphabeticalSubreddits =
                     savedInstanceState.getStringArrayList(SUBS_ALPHA);
-            SubredditStorage.realSubs = savedInstanceState.getStringArrayList(REAL_SUBS);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
             Authentication.didOnline = savedInstanceState.getBoolean("ONLINE");
@@ -338,7 +336,7 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_overview);
 
-        mToolbar  = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
 
@@ -363,12 +361,12 @@ public class MainActivity extends BaseActivity {
 
 
         if (SubredditStorage.subredditsForHome != null) {
-            if(!first)
-            doDrawer();
+            if (!first)
+                doDrawer();
 
             setDataSet(SubredditStorage.subredditsForHome);
 
-        } else if(!first){
+        } else if (!first) {
             ((Reddit) getApplication()).doMainStuff();
 
 
@@ -417,8 +415,7 @@ public class MainActivity extends BaseActivity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
-        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubscriptions);
-        savedInstanceState.putStringArrayList(REAL_SUBS, SubredditStorage.realSubs);
+        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubreddits);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean("ONLINE", Authentication.didOnline);
 
@@ -458,34 +455,8 @@ public class MainActivity extends BaseActivity {
                 if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
                     submit.setVisibility(View.GONE);
 
-                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        //reset check adapter
-                    }
-                });
-                if (SubredditStorage.getPins() == null) {
-                    pinned.setChecked(false);
+                pinned.setVisibility(View.GONE);
 
-                } else if (SubredditStorage.getPins().contains(subreddit.toLowerCase())) {
-                    pinned.setChecked(true);
-                } else {
-                    pinned.setChecked(false);
-                }
-                pinned.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                        if (isChecked) {
-                            SubredditStorage.addPin(subreddit);
-                        } else {
-                            SubredditStorage.removePin(subreddit);
-                        }
-                        subToDo = subreddit;
-                        new SubredditStorageNoContext().execute(MainActivity.this);
-                    }
-                });
-                pinned.setHighlightColor(new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit, true).getColor());
 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -577,7 +548,8 @@ public class MainActivity extends BaseActivity {
             doSubSidebar(usedArray.get(0));
 
             findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
-            hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            if (hea != null)
+                hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (!Reddit.single) {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
@@ -611,14 +583,19 @@ public class MainActivity extends BaseActivity {
                     //reset check adapter
                 }
             });
-            c.setChecked(SubredditStorage.realSubs.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setChecked(SubredditStorage.subredditsForHome.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         public void onPostExecute(Void voids) {
-                            new SubredditStorageNoContext().execute(MainActivity.this);
+                            if (isChecked) {
+                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase());
+                            } else {
+                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase());
+
+                            }
                             Snackbar.make(header, isChecked ?
                                     getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
@@ -733,9 +710,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
-    View headerMain;
-
     public void doDrawer() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         l.setDividerHeight(0);
@@ -747,9 +721,7 @@ public class MainActivity extends BaseActivity {
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             headerMain = header;
             hea = header.findViewById(R.id.back);
-            if (Reddit.hideHeader) {
-                header.findViewById(R.id.back).setVisibility(View.GONE);
-            }
+
             l.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
             header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
@@ -780,15 +752,7 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.sync).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Dialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.general_sub_sync)
-                            .progress(true, 100)
-                            .cancelable(false).show();
-                    new SubredditStorageFromContext(MainActivity.this, d).execute((Reddit) getApplication());
-                }
-            });
+            header.findViewById(R.id.sync).setVisibility(View.GONE);
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -857,7 +821,6 @@ public class MainActivity extends BaseActivity {
             l.addHeaderView(header, null, false);
             hea = header.findViewById(R.id.back);
 
-
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -865,6 +828,9 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+        }
+        if (Reddit.hideHeader) {
+            header.findViewById(R.id.back).setVisibility(View.GONE);
         }
 
         View support = header.findViewById(R.id.support);
@@ -936,8 +902,8 @@ public class MainActivity extends BaseActivity {
             }
         });*/
         ArrayList<String> copy = new ArrayList<>();
-        if (SubredditStorage.alphabeticalSubscriptions != null)
-            for (String s : SubredditStorage.alphabeticalSubscriptions) {
+        if ((Reddit.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null) || (!Reddit.alphabetical_home && SubredditStorage.subredditsForHome != null))
+            for (String s : Reddit.alphabetical_home ? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
                 copy.add(s);
             }
         e = ((EditText) header.findViewById(R.id.sort));
@@ -1030,10 +996,10 @@ public class MainActivity extends BaseActivity {
             }
         }
         final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
-        if(keys.size() == 0){
+        if (keys.size() == 0) {
             Authentication.authentication.edit().remove("lasttoken").commit();
 
-                    Reddit.forceRestart(this);
+            Reddit.forceRestart(this);
         } else {
             new AlertDialogWrapper.Builder(MainActivity.this)
                     .setTitle(R.string.general_switch_acc)
@@ -1228,12 +1194,13 @@ public class MainActivity extends BaseActivity {
                 return true;*/
             case R.id.action_shadowbox:
                 if (Reddit.tabletUI) {
-                    ArrayList<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         DataShare.sharedSubreddit =
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                         Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra("position", pager.getCurrentItem());
+                        i.putExtra("page", 0);
+                        i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i);
                     }
                 } else {
@@ -1260,7 +1227,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void saveOffline(ArrayList<Submission> submissions, final String subreddit) {
+    public void saveOffline(List<Submission> submissions, final String subreddit) {
         final MaterialDialog d = new MaterialDialog.Builder(this).title(R.string.offline_caching)
                 .progress(false, submissions.size())
                 .cancelable(false)
@@ -1430,7 +1397,6 @@ public class MainActivity extends BaseActivity {
 
         }
     }
-
 
 
 }

@@ -344,6 +344,7 @@ public class SettingsTheme extends BaseActivity {
             }
 
         });
+        final SwitchCompat s2 = (SwitchCompat) findViewById(R.id.tint_everywhere);
 
         SwitchCompat s = (SwitchCompat) findViewById(R.id.colorback);
         s.setChecked(Reddit.colorBack);
@@ -352,6 +353,17 @@ public class SettingsTheme extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Reddit.colorBack = isChecked;
                 SettingValues.prefs.edit().putBoolean("colorBack", isChecked).apply();
+                s2.setEnabled(isChecked);
+
+            }
+        });
+        s2.setEnabled(s.isChecked());
+        s2.setChecked(Reddit.colorEverywhere);
+        s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.colorEverywhere = isChecked;
+                SettingValues.prefs.edit().putBoolean("colorEverywhere", isChecked).apply();
             }
         });
     }

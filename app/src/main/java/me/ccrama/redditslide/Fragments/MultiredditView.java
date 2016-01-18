@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.concurrent.ExecutionException;
+import net.dean.jraw.models.Submission;
+
+import java.util.List;
 
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
+import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubredditStorage;
@@ -22,11 +25,11 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 
-public class MultiredditView extends Fragment {
-
+public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     private MultiredditAdapter adapter;
     private MultiredditPosts posts;
+    private SwipeRefreshLayout refreshLayout;
     private int id;
     private int totalItemCount;
     private int visibleItemCount;
@@ -38,42 +41,40 @@ public class MultiredditView extends Fragment {
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        final StaggeredGridLayoutManager mLayoutManager;
+        final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
         } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
-            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
 
         }
         rv.setLayoutManager(mLayoutManager);
+        rv.setItemViewCacheSize(2);
+
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
-        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+        refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.multireddits.get(id).getDisplayName(), getActivity()));
+        refreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.multireddits.get(id).getDisplayName(), getActivity()));
 
-        mSwipeRefreshLayout.setRefreshing(true);
-        posts = new MultiredditPosts(SubredditStorage.multireddits.get(id));
+        refreshLayout.setRefreshing(true);
+        posts = new MultiredditPosts(SubredditStorage.multireddits.get(id).getDisplayName());
         adapter = new MultiredditAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
         if(Reddit.animation)
             rv.setItemAnimator(new SubtleSlideInUp(getContext()));
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        //TODO catch errors
-        mSwipeRefreshLayout.setOnRefreshListener(
+        posts.loadMore(getActivity(), this, false);
+
+        refreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, SubredditStorage.multireddits.get(id));
+                        posts.loadMore(getActivity(), MultiredditView.this, false);
 
                         //TODO catch errors
                     }
@@ -99,8 +100,7 @@ public class MultiredditView extends Fragment {
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(adapter, SubredditStorage.multireddits.get(id));
-
+                        posts.loadMore(getActivity(), MultiredditView.this, false);
                     }
                 }
             }
@@ -116,4 +116,30 @@ public class MultiredditView extends Fragment {
     }
 
 
+    @Override
+    public void updateSuccess(List<Submission> submissions, int startIndex) {
+        adapter.mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(false);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    public void updateOffline(List<Submission> submissions, long cacheTime) {
+        adapter.setError(true);
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void updateOfflineError() {
+
+    }
+
+    @Override
+    public void updateError() {
+
+    }
 }

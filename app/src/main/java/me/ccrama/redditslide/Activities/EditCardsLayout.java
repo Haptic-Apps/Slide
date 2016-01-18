@@ -55,6 +55,7 @@ public class EditCardsLayout extends BaseActivity {
 
         final SwitchCompat bigpic = (SwitchCompat) findViewById(R.id.bigpicsqitch);
         final SwitchCompat cropped = (SwitchCompat) findViewById(R.id.bigpiccropped);
+        final SwitchCompat middle = (SwitchCompat) findViewById(R.id.middlechk);
 
         //Big pic enabled//
 
@@ -64,14 +65,12 @@ public class EditCardsLayout extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 layout.removeAllViews();
                 layout.addView(CreateCardView.setBigPicEnabled(isChecked, layout));
-                cropped.setEnabled(bigpic.isChecked());
+                cropped.setEnabled(isChecked);
+                middle.setEnabled(isChecked && cardmode.isChecked());
 
             }
         });
         //Big pic cropped//
-
-        cropped.setChecked(SettingValues.bigPicEnabled);
-        cropped.setEnabled(bigpic.isChecked());
 
         cropped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,39 +81,29 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
-        final SwitchCompat middle = (SwitchCompat) findViewById(R.id.middlechk);
+        middle.setEnabled(cardmode.isChecked() && bigpic.isChecked());
+        middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
 
-        if (cardmode.isChecked() && bigpic.isChecked()) {
-            middle.setAlpha(1f);
-            middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
 
-            middle.setClickable(true);
-        } else {
-            middle.setAlpha(0.5f);
-            middle.setChecked(false);
-            middle.setClickable(false);
-        }
+
+        cropped.setEnabled(bigpic.isChecked());
+        cropped.setChecked(SettingValues.bigPicEnabled);
+
         cardmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     layout.removeAllViews();
                     layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout, !subreddit.isEmpty(), subreddit));
+
                 } else {
                     layout.removeAllViews();
                     layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, !subreddit.isEmpty(), subreddit));
 
-                }
-                if (cardmode.isChecked()) {
-                    middle.setAlpha(1f);
                     middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
-
-                    middle.setClickable(true);
-                } else {
-                    middle.setAlpha(0.5f);
-                    middle.setChecked(false);
-                    middle.setClickable(false);
                 }
+
+                middle.setEnabled(isChecked);
             }
         });
         middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
@@ -167,8 +156,8 @@ public class EditCardsLayout extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 layout.removeAllViews();
                 layout.addView(CreateCardView.setActionBarVisible(isChecked, layout, !subreddit.isEmpty(), subreddit));
-                hidebutton.setEnabled(actionbar.isChecked());
-                savebutton.setEnabled(actionbar.isChecked());
+                hidebutton.setEnabled(isChecked);
+                savebutton.setEnabled(isChecked);
             }
         });
 
