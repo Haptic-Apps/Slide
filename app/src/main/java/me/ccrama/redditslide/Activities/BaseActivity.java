@@ -144,6 +144,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void applyColorTheme(String subreddit) {
         getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(subreddit), true);
+        getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
+
     }
 
     /**
