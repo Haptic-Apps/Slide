@@ -30,8 +30,18 @@ android:background="?attr/activity_background">
         android:layout_height="match_parent"
         android:background="?attr/activity_background"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Comment font"
+            android:padding="16dp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
-            android:id="@+id/fontsize"
+            android:id="@+id/commentfontsize"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="?android:selectableItemBackground"
@@ -66,7 +76,7 @@ android:background="?attr/activity_background">
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/font"
+                    android:id="@+id/commentFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -75,14 +85,7 @@ android:background="?attr/activity_background">
                     android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="Comment font"
-            android:padding="16dp"
-            android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:layout_height="wrap_content" />
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -128,6 +131,53 @@ android:background="?attr/activity_background">
             android:textStyle="bold"
             android:textSize="14sp"
             android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/postfontsize"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:paddingBottom="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/ic_format_size_white_48dp"
+                android:tint="?attr/tint"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/font_size"
+                    android:textColor="?attr/font"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/postFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/theme_card"
+                    android:textColor="?attr/font"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

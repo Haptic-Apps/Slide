@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity {
     public boolean first = true;
     boolean changed;
     String term;
+    View headerMain;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     private TabLayout mTabLayout;
     private boolean mShowInfoButton;
@@ -335,7 +336,7 @@ public class MainActivity extends BaseActivity {
 
         setContentView(R.layout.activity_overview);
 
-        mToolbar  = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
 
@@ -360,12 +361,12 @@ public class MainActivity extends BaseActivity {
 
 
         if (SubredditStorage.subredditsForHome != null) {
-            if(!first)
-            doDrawer();
+            if (!first)
+                doDrawer();
 
             setDataSet(SubredditStorage.subredditsForHome);
 
-        } else if(!first){
+        } else if (!first) {
             ((Reddit) getApplication()).doMainStuff();
 
 
@@ -455,8 +456,6 @@ public class MainActivity extends BaseActivity {
                     submit.setVisibility(View.GONE);
 
                 pinned.setVisibility(View.GONE);
-
-
 
 
                 submit.setOnClickListener(new View.OnClickListener() {
@@ -549,7 +548,8 @@ public class MainActivity extends BaseActivity {
             doSubSidebar(usedArray.get(0));
 
             findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
-            hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            if (hea != null)
+                hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (!Reddit.single) {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
@@ -710,9 +710,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
-    View headerMain;
-
     public void doDrawer() {
         final ListView l = (ListView) findViewById(R.id.drawerlistview);
         l.setDividerHeight(0);
@@ -724,9 +721,7 @@ public class MainActivity extends BaseActivity {
             header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             headerMain = header;
             hea = header.findViewById(R.id.back);
-            if (Reddit.hideHeader) {
-                header.findViewById(R.id.back).setVisibility(View.GONE);
-            }
+
             l.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
             header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
@@ -826,7 +821,6 @@ public class MainActivity extends BaseActivity {
             l.addHeaderView(header, null, false);
             hea = header.findViewById(R.id.back);
 
-
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -834,6 +828,9 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+        }
+        if (Reddit.hideHeader) {
+            header.findViewById(R.id.back).setVisibility(View.GONE);
         }
 
         View support = header.findViewById(R.id.support);
@@ -906,7 +903,7 @@ public class MainActivity extends BaseActivity {
         });*/
         ArrayList<String> copy = new ArrayList<>();
         if ((Reddit.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null) || (!Reddit.alphabetical_home && SubredditStorage.subredditsForHome != null))
-            for (String s : Reddit.alphabetical_home? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
+            for (String s : Reddit.alphabetical_home ? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
                 copy.add(s);
             }
         e = ((EditText) header.findViewById(R.id.sort));
@@ -999,10 +996,10 @@ public class MainActivity extends BaseActivity {
             }
         }
         final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
-        if(keys.size() == 0){
+        if (keys.size() == 0) {
             Authentication.authentication.edit().remove("lasttoken").commit();
 
-                    Reddit.forceRestart(this);
+            Reddit.forceRestart(this);
         } else {
             new AlertDialogWrapper.Builder(MainActivity.this)
                     .setTitle(R.string.general_switch_acc)
@@ -1203,7 +1200,7 @@ public class MainActivity extends BaseActivity {
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra("page", 0);
-                        i.putExtra("subreddit",  ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i);
                     }
                 } else {
@@ -1400,7 +1397,6 @@ public class MainActivity extends BaseActivity {
 
         }
     }
-
 
 
 }

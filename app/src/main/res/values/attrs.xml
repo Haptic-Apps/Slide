@@ -6,6 +6,7 @@
 
         <attr name="font_cardinfo" format="dimension" />
 
+
         <attr name="font_commenttitle" format="dimension" />
         <attr name="font_commentinfo" format="dimension" />
         <attr name="font_commentbody" format="dimension" />

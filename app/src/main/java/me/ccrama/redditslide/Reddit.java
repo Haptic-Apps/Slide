@@ -462,6 +462,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             for (String s : array) {
                 b.append(s).append(",");
 
+
             }
             String f = b.toString();
             if (f.length() > 0) {
