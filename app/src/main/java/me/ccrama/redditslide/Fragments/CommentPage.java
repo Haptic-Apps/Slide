@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -313,7 +314,9 @@ public class CommentPage extends Fragment {
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else if (context.isEmpty()) {
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
+            Log.v("Slide", "Comments without context from post");
+
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
             if (DataShare.sharedSubreddit != null)
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
