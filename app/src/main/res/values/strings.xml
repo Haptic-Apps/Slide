@@ -86,7 +86,7 @@
     <string name="drawer_profile">Profile</string>
     <string name="drawer_support">Go Pro</string>
     <string name="drawer_goto_profile">Go to profile</string>
-    <string name="drawer_reorder_pins">Reorder your pins</string>
+    <string name="drawer_reorder_subs">Reorder your subs</string>
     <string name="drawer_add_account">Add an account</string>
     <string name="drawer_hello">Hello,</string>
     <string name="drawer_change_account">Switch accounts</string>
@@ -476,7 +476,7 @@
     <string name="title_report_crash">Report a Crash</string>
     <string name="title_share">Share using</string>
     <string name="title_login">Log into Reddit</string>
-    <string name="title_reorder_pins">Reorder Pins</string>
+    <string name="title_reorder_subs">Reorder Subs</string>
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inbox</string>
     <string name="title_theme_settings">Theme</string>

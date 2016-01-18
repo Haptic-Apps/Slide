@@ -68,7 +68,7 @@
   <string name="drawer_profile">プロフィール</string>
   <string name="drawer_support">Pro 版</string>
   <string name="drawer_goto_profile">プロファイルへ</string>
-  <string name="drawer_reorder_pins">あなたのピンを並べ替え</string>
+  <string name="drawer_reorder_subs">あなたのピンを並べ替え</string>
   <string name="drawer_add_account">アカウントを追加</string>
   <string name="drawer_hello">こんにちは，</string>
   <string name="drawer_change_account">アカウントの切り替え</string>
@@ -369,7 +369,7 @@
   <string name="title_report_crash">クラッシュを報告</string>
   <string name="title_share">次で共有</string>
   <string name="title_login">Reddit にログイン</string>
-  <string name="title_reorder_pins">ピンを並べ替え</string>
+  <string name="title_reorder_subs">ピンを並べ替え</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">受信箱</string>
   <string name="title_theme_settings">テーマ</string>

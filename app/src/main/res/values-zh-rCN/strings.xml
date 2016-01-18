@@ -67,7 +67,7 @@
   <string name="drawer_profile">帐户</string>
   <string name="drawer_support">升级为专业版</string>
   <string name="drawer_goto_profile">查看用户资料</string>
-  <string name="drawer_reorder_pins">对你的已固定内容重新排序</string>
+  <string name="drawer_reorder_subs">对你的已固定内容重新排序</string>
   <string name="drawer_add_account">添加帐户</string>
   <string name="drawer_hello">您好,</string>
   <string name="drawer_change_account">切换账户</string>
@@ -363,7 +363,7 @@
   <string name="title_report_crash">报告崩溃</string>
   <string name="title_share">分享通过</string>
   <string name="title_login">登录到 Reddit</string>
-  <string name="title_reorder_pins">重新排列已固定内容</string>
+  <string name="title_reorder_subs">重新排列已固定内容</string>
   <string name="title_multireddits">多板块</string>
   <string name="title_inbox">站内信</string>
   <string name="title_theme_settings">主题设置</string>

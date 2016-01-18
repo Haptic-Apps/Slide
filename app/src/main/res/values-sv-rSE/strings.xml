@@ -69,7 +69,7 @@
   <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Bli pro</string>
   <string name="drawer_goto_profile">Gå till profil</string>
-  <string name="drawer_reorder_pins">Ändra ordning på dina fästa subreddits</string>
+  <string name="drawer_reorder_subs">Ändra ordning på dina fästa subreddits</string>
   <string name="drawer_add_account">Lägga till ett konto</string>
   <string name="drawer_hello">Hej,</string>
   <string name="drawer_change_account">Byt konto</string>
@@ -366,7 +366,7 @@
   <string name="title_report_crash">Rapportera en krasch</string>
   <string name="title_share">Dela via</string>
   <string name="title_login">Logga in på Reddit</string>
-  <string name="title_reorder_pins">Ändra ordning på fästa subreddits</string>
+  <string name="title_reorder_subs">Ändra ordning på fästa subreddits</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Inkorgen</string>
   <string name="title_theme_settings">Temainställningar</string>

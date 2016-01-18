@@ -65,7 +65,7 @@
   <string name="drawer_profile">Perfil</string>
   <string name="drawer_support">Passar-se a Pro</string>
   <string name="drawer_goto_profile">Anar al perfil</string>
-  <string name="drawer_reorder_pins">Reordenar els teus guardats</string>
+  <string name="drawer_reorder_subs">Reordenar els teus guardats</string>
   <string name="drawer_add_account">Afegir un compte</string>
   <string name="drawer_hello">Hola,</string>
   <string name="drawer_change_account">Canviar de compte</string>
