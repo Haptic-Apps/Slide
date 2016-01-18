@@ -832,6 +832,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.op.setVisibility(View.GONE);
 
             }
+            if(comment.getDataNode().get("stickied").asBoolean()){
+                holder.itemView.findViewById(R.id.sticky).setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.findViewById(R.id.sticky).setVisibility(View.GONE);
+
+            }
 
             String distingush = "";
             if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)

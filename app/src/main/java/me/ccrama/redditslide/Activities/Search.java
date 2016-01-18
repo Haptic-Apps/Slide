@@ -23,7 +23,6 @@ import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -60,26 +59,25 @@ public class Search extends BaseActivityAnim {
                 switch (i) {
 
                     case 0:
-                        Reddit.timePeriod = TimePeriod.HOUR;
+                       time = TimePeriod.HOUR;
                         break;
                     case 1:
-                        Reddit.timePeriod = TimePeriod.DAY;
+                        time = TimePeriod.DAY;
                         break;
                     case 2:
-                        Reddit.timePeriod = TimePeriod.WEEK;
+                        time = TimePeriod.WEEK;
                         break;
                     case 3:
-                        Reddit.timePeriod = TimePeriod.MONTH;
+                        time = TimePeriod.MONTH;
                         break;
                     case 4:
-                        Reddit.timePeriod = TimePeriod.YEAR;
+                        time = TimePeriod.YEAR;
                         break;
                     case 5:
-                        Reddit.timePeriod = TimePeriod.ALL;
+                        time = TimePeriod.ALL;
                         break;
 
                 }
-                SettingValues.timePeriod = Reddit.timePeriod;
                 reloadSubs();
 
             }
@@ -123,6 +121,7 @@ public class Search extends BaseActivityAnim {
         builder.show();
 
     }
+    public TimePeriod time = TimePeriod.MONTH;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -194,7 +193,7 @@ public class Search extends BaseActivityAnim {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        posts = new SubredditSearchPosts(subreddit, where.toLowerCase());
+        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(), this);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 

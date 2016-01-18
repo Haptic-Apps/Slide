@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -42,8 +43,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
 
-    public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView) {
+    public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout) {
         this.mContext = mContext;
+        this.refreshLayout = refreshLayout;
         this.listView = listView;
         this.dataSet = dataSet;
     }
@@ -65,6 +67,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         return 1;
     }
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -84,12 +87,13 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "nomatching", false);
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "nomatching", true);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
                     DataShare.sharedSubreddit = dataSet.posts;
+                    holder2.itemView.setAlpha(0.5f);
 
                     if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
