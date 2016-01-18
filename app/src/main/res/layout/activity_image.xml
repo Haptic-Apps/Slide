@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="#000000"
+    android:background="#a0000000"
     android:orientation="vertical">
 
 
@@ -23,16 +23,15 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/submission_image"
-        android:layout_marginTop="-48dp"
+        android:layout_marginTop="-56dp"
         android:gravity="right"
-        android:weightSum="4">
+       >
 
         <ImageView
             android:id="@+id/share"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:padding="10dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="15dp"
             android:src="@drawable/share"
             android:background="?android:selectableItemBackground"
 
@@ -40,10 +39,9 @@
 
         <ImageView
             android:id="@+id/save"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:padding="10dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="15dp"
             android:src="@drawable/save"
             android:background="?android:selectableItemBackground"
 

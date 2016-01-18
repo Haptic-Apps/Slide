@@ -36,7 +36,6 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
 
-
 public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     public final Activity mContext;
@@ -44,13 +43,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final RecyclerView listView;
 
     public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView) {
-
         this.mContext = mContext;
         this.listView = listView;
         this.dataSet = dataSet;
-
-        boolean isSame = false;
-
     }
 
     @Override
@@ -104,7 +99,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     } else {
                         Intent i2 = new Intent(mContext, CommentsScreen.class);
                         i2.putExtra("page", i);
-                        ((Activity) mContext).startActivityForResult(i2, 2);
+                        i2.putExtra("multireddit", dataSet.getMultiReddit().getDisplayName());
+                        mContext.startActivityForResult(i2, 2);
                     }
 
 

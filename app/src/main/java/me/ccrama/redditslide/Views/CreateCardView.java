@@ -76,7 +76,9 @@ public class CreateCardView {
 
         resetColorCard(v);
         if (Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) {
-            ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
+            if(!secondary && !Reddit.colorEverywhere || secondary)
+                ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
+
 
         }
     }

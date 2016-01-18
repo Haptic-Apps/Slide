@@ -14,6 +14,7 @@ public class PreCachingLayoutManager extends LinearLayoutManager {
 
     public PreCachingLayoutManager(Context context) {
         super(context);
+
         this.context = context;
     }
 
@@ -21,6 +22,7 @@ public class PreCachingLayoutManager extends LinearLayoutManager {
         super(context);
         this.context = context;
         this.extraLayoutSpace = extraLayoutSpace;
+
     }
 
     public PreCachingLayoutManager(Context context, int orientation, boolean reverseLayout) {

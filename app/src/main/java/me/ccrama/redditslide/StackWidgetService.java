@@ -60,7 +60,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             String url = "";
             ContentType.ImageType type = ContentType.getImageType(submission);
             if (type == ContentType.ImageType.IMAGE) {
-                url = ContentType.getFixedUrl(submission.getUrl());
+                url = submission.getUrl();
             } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
 
                 url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
@@ -115,7 +115,8 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             posts = new SubredditPosts("all");
             Log.v("Slide", "MAKING POSTS");
         }
-        submissions = posts.getPosts();
+        posts.loadMore(mContext, null, true);
+        submissions = posts.posts;
         Log.v("Slide", "POSTS IS SIZE " + submissions.size());
 
 

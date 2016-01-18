@@ -50,6 +50,7 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Imgur;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
@@ -100,6 +101,11 @@ public class PopulateSubmissionViewHolder {
                 switch (type) {
                     case NSFW_IMAGE:
                         openImage(contextActivity, submission);
+                        break;
+                    case IMGUR:
+                        Intent i2 = new Intent(contextActivity, Imgur.class);
+                        i2.putExtra("url", submission.getUrl());
+                        contextActivity.startActivity(i2);
                         break;
                     case EMBEDDED:
                         if (Reddit.video) {
@@ -205,10 +211,10 @@ public class PopulateSubmissionViewHolder {
         if (Reddit.image) {
             DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra("url", ContentType.getFixedUrl(submission.getUrl()));
+            myIntent.putExtra("url", submission.getUrl());
             contextActivity.startActivity(myIntent);
         } else {
-            Reddit.defaultShare(ContentType.getFixedUrl(submission.getUrl()), contextActivity);
+            Reddit.defaultShare(submission.getUrl(), contextActivity);
         }
 
     }
@@ -244,7 +250,7 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
-    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final ArrayList<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
+    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -855,8 +861,7 @@ public class PopulateSubmissionViewHolder {
         final String subreddit = "";
 
 
-        ImageView thumbImage2 = null;
-        thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+        ImageView thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
 
 
         if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
@@ -866,9 +871,9 @@ public class PopulateSubmissionViewHolder {
             } else {
                 holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
             }
-
-            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nsfwthumb));
-        } else  if (submission.getThumbnailType() == Submission.ThumbnailType.NONE && type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF) {
+            if (submission.isSelfPost()) thumbImage2.setVisibility(View.GONE);
+            else thumbImage2.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.nsfw));
+        } else  if ( type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
             holder.imageArea.setVisibility(View.GONE);
             if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);
@@ -876,9 +881,9 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
             }
 
-            thumbImage2.setImageDrawable(mContext.getResources().getDrawable(R.drawable.nothumb));
+            thumbImage2.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
-            url = ContentType.getFixedUrl(submission.getUrl());
+            url = submission.getUrl();
             if (!full && !SettingValues.bigPicEnabled ) {
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -951,6 +956,10 @@ public class PopulateSubmissionViewHolder {
             info = holder.subTextImage;
         }
 
+        if(full && Reddit.cropImage){
+            holder.leadImage.setMaxHeight(dpToPx(200));
+        }
+
 
 
             title.setVisibility(View.VISIBLE);
@@ -998,7 +1007,9 @@ public class PopulateSubmissionViewHolder {
                         info.setVisibility(View.GONE);
                     }
                     break;
-
+                case IMGUR:
+                    title.setText("Imgur content");
+                    break;
                 case GFY:
                 case GIF:
                 case NONE_GFY:
@@ -1186,5 +1197,8 @@ public class PopulateSubmissionViewHolder {
 
 
     }
-
+    public static int dpToPx(int dp)
+    {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
 }
