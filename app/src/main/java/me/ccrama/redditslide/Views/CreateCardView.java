@@ -1,5 +1,8 @@
 package me.ccrama.redditslide.Views;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -7,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -65,19 +70,77 @@ public class CreateCardView {
     }
 
     public static void resetColorCard(View v) {
+        v.setTag(v.getId(), "none");
+
         ((TextView) v.findViewById(R.id.subreddit)).setTextColor(((TextView) v.findViewById(R.id.information)).getCurrentTextColor());
         TypedValue background = new TypedValue();
         v.getContext().getTheme().resolveAttribute(R.attr.card_background, background, true);
         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(background.data);
 
-    }
 
+        for(View v2 : getViewsByTag((ViewGroup) v, "tint")){
+            if(v2 instanceof TextView) {
+                ((TextView)v2).setTextColor(getCurrentFontColor(v.getContext()));
+            } else if(v2 instanceof ImageView){
+                ((ImageView) v2).setColorFilter(getCurrentTintColor(v.getContext()));
+
+            }
+        }
+
+    }
+    public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
+        final TypedValue tv = new TypedValue();
+        final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
+        return found ? tv.data : defaultValue;
+    }
+    private static ArrayList<View> getViewsByTag(ViewGroup root, String tag){
+        ArrayList<View> views = new ArrayList<View>();
+        final int childCount = root.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = root.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                views.addAll(getViewsByTag((ViewGroup) child, tag));
+            }
+
+            final Object tagObj = child.getTag();
+            if (tagObj != null && tagObj.equals(tag)) {
+                views.add(child);
+            }
+
+        }
+        return views;
+    }
+    public static int getCurrentTintColor(Context v){
+        return getStyleAttribColorValue(v, R.attr.tint,Color.WHITE);
+
+    }
+    public static int getWhiteTintColor(){
+        return Palette.ThemeEnum.DARK.getTint();
+    }
+    public static int getCurrentFontColor(Context v){
+        return getStyleAttribColorValue(v, R.attr.font,Color.WHITE);
+    }
+    public static int getWhiteFontColor(){
+        return Palette.ThemeEnum.DARK.getFontColor();
+
+    }
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
 
         resetColorCard(v);
         if ((Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) ||( subToMatch.equals("nomatching") && (Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor())) ){
-            if(!secondary && !Reddit.colorEverywhere || secondary)
+            if(!secondary && !Reddit.colorEverywhere || secondary) {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
+                v.setTag(v.getId(), "color");
+
+                for(View v2 : getViewsByTag((ViewGroup) v, "tint")){
+                    if(v2 instanceof TextView){
+                        ((TextView)v2).setTextColor(getWhiteFontColor());
+                    } else if(v2 instanceof ImageView ){
+                        ((ImageView) v2).setColorFilter(getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+
+                    }
+                }
+            }
 
 
         }

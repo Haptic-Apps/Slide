@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
 
     android:layout_height="wrap_content"
@@ -93,8 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="16dp"
                 android:paddingBottom="16dp"
+                android:paddingTop="16dp"
 
                 >
 
@@ -111,87 +111,102 @@
                         android:paddingBottom="8dp"
 
                         android:paddingLeft="16dp"
-                        android:paddingRight="8dp"
-                        >
+                        android:paddingRight="8dp">
 
                         <me.ccrama.redditslide.Views.TitleTextView
                             android:id="@+id/title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingBottom="4dp"
+                            android:tag="tint"
                             android:text="@string/example_title"
+
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle"/>
+                            android:textSize="?attr/font_cardtitle" />
 
 
                         <com.wefika.flowlayout.FlowLayout
                             android:layout_width="wrap_content"
-                            android:alpha=".72"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:alpha=".72">
 
                             <TextView
                                 android:id="@+id/subreddit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
+                                android:tag="tint"
                                 android:text="@string/example_sub"
 
                                 android:textColor="?attr/font"
                                 android:textSize="?attr/font_cardinfo"
 
                                 />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:tag="tint"
                                 android:text="@string/submission_properties_seperator"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfo"/>
+                                android:textSize="?attr/font_cardinfo" />
+
                             <TextView
                                 android:id="@+id/information"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:gravity="center_vertical"
+                                android:tag="tint"
 
                                 android:text="@string/example_time"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfo"/>
+                                android:textSize="?attr/font_cardinfo" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:tag="tint"
                                 android:text="@string/submission_properties_seperator"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfo"/>
+                                android:textSize="?attr/font_cardinfo" />
+
                             <TextView
                                 android:id="@+id/score"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-
                                 android:gravity="center_vertical"
+
+                                android:tag="tint"
                                 android:text="@string/example_points"
 
-                                android:textSize="?attr/font_cardinfo"/>
+                                android:textSize="?attr/font_cardinfo" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:tag="tint"
                                 android:text="@string/submission_properties_seperator"
+
                                 android:textColor="?attr/font"
-                                android:textSize="?attr/font_cardinfo"/>
+                                android:textSize="?attr/font_cardinfo" />
+
                             <TextView
                                 android:id="@+id/comments"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-
                                 android:gravity="center_vertical"
+
+                                android:tag="tint"
                                 android:text="@string/example_comments"
                                 android:textColor="?attr/font"
 
-                                android:textSize="?attr/font_cardinfo"/>
+                                android:textSize="?attr/font_cardinfo" />
 
 
                         </com.wefika.flowlayout.FlowLayout>
@@ -214,10 +229,9 @@
                     android:id="@+id/previewContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:orientation="vertical"
 
-                    android:orientation="vertical">
-
+                    android:visibility="gone">
 
 
                     <LinearLayout
@@ -262,8 +276,7 @@
                                 android:text="@string/example_domain"
                                 android:textColor="?attr/font"
                                 android:textSize="14sp"
-                                android:textStyle="bold"
-                                />
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/contenturl"
@@ -279,7 +292,6 @@
                     </LinearLayout>
 
                 </LinearLayout>
-
 
 
                 <RelativeLayout
@@ -318,31 +330,33 @@
                         android:layout_toRightOf="@+id/gild"
 
                         android:src="@drawable/pinned" />
+
                     <include
                         android:id="@+id/nsfw"
                         layout="@layout/nsfw"
-                        android:layout_toRightOf="@+id/pinned"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+
+                        android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
+                        android:layout_toRightOf="@+id/pinned"
 
                         />
 
                     <include
                         android:id="@+id/pinned"
                         layout="@layout/stickied"
-                        android:layout_marginLeft="8dp"
-
                         android:layout_width="wrap_content"
+
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
 
                         android:layout_toRightOf="@+id/flairbubble"
 
                         android:src="@drawable/pinned" />
+
                     <ImageView
                         android:id="@+id/hide"
                         android:layout_width="36dp"
@@ -352,7 +366,10 @@
                         android:padding="8dp"
 
                         android:src="@drawable/hide"
+                        android:tag="tint"
+
                         android:tint="?attr/tint" />
+
                     <ImageView
                         android:id="@+id/save"
                         android:layout_width="36dp"
@@ -360,9 +377,11 @@
                         android:layout_toLeftOf="@+id/hide"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
-
                         android:src="@drawable/saved"
+
+                        android:tag="tint"
                         android:tint="?attr/tint" />
+
                     <ImageView
                         android:id="@+id/upvote"
                         android:layout_width="36dp"
@@ -371,6 +390,7 @@
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
                         android:src="@drawable/upvoted"
+                        android:tag="tint"
 
                         android:tint="?attr/tint" />
 
@@ -381,8 +401,9 @@
                         android:layout_toLeftOf="@+id/menu"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
-
                         android:src="@drawable/downvote"
+
+                        android:tag="tint"
                         android:tint="?attr/tint" />
 
                     <ImageView
@@ -391,9 +412,10 @@
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/upvote"
                         android:background="?android:selectableItemBackgroundBorderless"
-
                         android:padding="8dp"
+
                         android:src="@drawable/mod"
+                        android:tag="tint"
                         android:tint="?attr/tint" />
 
 
@@ -405,6 +427,7 @@
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
                         android:src="@drawable/more"
+                        android:tag="tint"
 
                         android:tint="?attr/tint" />
 

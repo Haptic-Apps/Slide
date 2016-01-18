@@ -67,6 +67,8 @@
                             android:paddingBottom="4dp"
                             android:text="@string/example_title"
                             android:textColor="?attr/font"
+                            android:tag="tint"
+
                             android:textSize="?attr/font_cardtitle"/>
 
 
@@ -81,6 +83,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
                                 android:text="@string/example_sub"
+                                android:tag="tint"
 
                                 android:textColor="?attr/font"
                                 android:textSize="?attr/font_cardinfo"
@@ -91,6 +94,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/submission_properties_seperator"
                                 android:textColor="?attr/font"
+                                android:tag="tint"
 
                                 android:textSize="?attr/font_cardinfo"/>
                             <TextView
@@ -99,6 +103,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:gravity="center_vertical"
+                                android:tag="tint"
 
                                 android:text="@string/example_time"
                                 android:textColor="?attr/font"
@@ -109,6 +114,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/submission_properties_seperator"
                                 android:textColor="?attr/font"
+                                android:tag="tint"
 
                                 android:textSize="?attr/font_cardinfo"/>
                             <TextView
@@ -116,6 +122,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:tag="tint"
 
                                 android:gravity="center_vertical"
                                 android:text="@string/example_points"
@@ -125,6 +132,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/submission_properties_seperator"
+                                android:tag="tint"
+
                                 android:textColor="?attr/font"
                                 android:textSize="?attr/font_cardinfo"/>
                             <TextView
@@ -132,6 +141,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:tag="tint"
 
                                 android:gravity="center_vertical"
                                 android:text="@string/example_comments"
@@ -349,6 +359,7 @@
                         android:layout_toLeftOf="@+id/mod"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
+                        android:tag="tint"
 
                         android:src="@drawable/hide"
                         android:tint="?attr/tint" />
@@ -361,6 +372,7 @@
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
                         android:src="@drawable/upvoted"
+                        android:tag="tint"
 
                         android:tint="?attr/tint" />
                     <ImageView
@@ -370,6 +382,7 @@
                         android:layout_toLeftOf="@+id/hide"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
+                        android:tag="tint"
 
                         android:src="@drawable/saved"
                         android:tint="?attr/tint" />
@@ -380,6 +393,7 @@
                         android:layout_toLeftOf="@+id/menu"
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
+                        android:tag="tint"
 
                         android:src="@drawable/downvote"
                         android:tint="?attr/tint" />
@@ -390,6 +404,7 @@
                         android:layout_height="36dp"
                         android:layout_toLeftOf="@+id/upvote"
                         android:background="?android:selectableItemBackgroundBorderless"
+                        android:tag="tint"
 
                         android:padding="8dp"
                         android:src="@drawable/mod"
@@ -404,6 +419,7 @@
                         android:background="?android:selectableItemBackgroundBorderless"
                         android:padding="8dp"
                         android:src="@drawable/more"
+                        android:tag="tint"
 
                         android:tint="?attr/tint" />
 

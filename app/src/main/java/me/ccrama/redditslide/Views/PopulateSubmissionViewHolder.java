@@ -238,6 +238,13 @@ public class PopulateSubmissionViewHolder {
         }
 
     }
+    public static int getCurrentTintColor(Context v){
+        return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
+
+    }
+    public static int getWhiteTintColor(){
+        return Palette.ThemeEnum.DARK.getTint();
+    }
 
     public static String getSubmissionScoreString(int score, Resources res, Submission submission) {
         switch (submission.getSubredditName().toLowerCase()) {
@@ -250,7 +257,7 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
-    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
+    public <T> void PopulateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -268,9 +275,9 @@ public class PopulateSubmissionViewHolder {
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
             if (reports.size() + reports2.size() > 0) {
-                ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.MULTIPLY);
+                ((ImageView) holder.itemView.findViewById(R.id.mod)).setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.SRC_ATOP);
             } else {
-                ((ImageView) holder.itemView.findViewById(R.id.mod)).getDrawable().setColorFilter(getStyleAttribColorValue(mContext, R.attr.tint, Color.WHITE), PorterDuff.Mode.MULTIPLY);
+                ((ImageView) holder.itemView.findViewById(R.id.mod)).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
             }
 
@@ -753,27 +760,27 @@ public class PopulateSubmissionViewHolder {
             upvotebutton.setVisibility(View.GONE);
         } else if (Authentication.isLoggedIn && !submission.voted() && !offline && Authentication.didOnline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
-                downvotebutton.clearColorFilter();
 
                 submission.setVote(true);
                 submission.setVoted(true);
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
-                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
-                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
-                upvotebutton.clearColorFilter();
+                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
+                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full))? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                 submission.setVote(false);
                 submission.setVoted(true);
             } else {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
-                downvotebutton.clearColorFilter();
-                upvotebutton.clearColorFilter();
                 holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
+                downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                 submission.setVote(false);
                 submission.setVoted(false);
@@ -1107,7 +1114,8 @@ public class PopulateSubmissionViewHolder {
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
 
                                 submission.setVote(false);
-                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
+                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+
                                 submission.setVoted(true);
                                 holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
 
@@ -1115,8 +1123,9 @@ public class PopulateSubmissionViewHolder {
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 new Vote(false, points, mContext).execute(submission);
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
-                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.MULTIPLY);
-                                upvotebutton.clearColorFilter();
+                                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+
                                 submission.setVoted(true);
                                 submission.setVote(false);
                                 holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
@@ -1125,7 +1134,8 @@ public class PopulateSubmissionViewHolder {
                             } else if (submission.voted() && !submission.getIsUpvoted()) {
                                 new Vote(points, mContext).execute(submission);
                                 points.setTextColor(comments.getCurrentTextColor());
-                                downvotebutton.clearColorFilter();
+                                downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+
                                 holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
 
                                 submission.setVoted(false);
@@ -1140,7 +1150,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (!submission.voted()) {
-                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
+                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 submission.setVote(true);
                                 submission.setVoted(true);
                                 holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
@@ -1153,8 +1163,9 @@ public class PopulateSubmissionViewHolder {
                                 submission.setVote(true);
                                 submission.setVoted(true);
 
-                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.MULTIPLY);
-                                downvotebutton.clearColorFilter();
+                                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+
                                 holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
 
                             } else if (submission.voted() && submission.getIsUpvoted()) {
@@ -1164,7 +1175,7 @@ public class PopulateSubmissionViewHolder {
 
                                 holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
 
-                                upvotebutton.clearColorFilter();
+                                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                             }
                         }
