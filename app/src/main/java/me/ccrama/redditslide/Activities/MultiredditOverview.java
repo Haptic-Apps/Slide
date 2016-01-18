@@ -208,7 +208,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     adapter.notifyDataSetChanged();
                 }
                 pager.setAdapter(adapter);
-                pager.setOffscreenPageLimit(2);
+                pager.setOffscreenPageLimit(1);
                 tabs.setupWithViewPager(pager);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

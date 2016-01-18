@@ -75,7 +75,7 @@ public class CreateCardView {
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
 
         resetColorCard(v);
-        if (Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) {
+        if ((Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) ||( subToMatch.equals("nomatching") && (Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor())) ){
             if(!secondary && !Reddit.colorEverywhere || secondary)
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
 

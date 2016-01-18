@@ -30,6 +30,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
@@ -52,6 +54,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.Palette;
 import uz.shift.colorpicker.LineColorPicker;
@@ -67,7 +70,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     private int pastVisiblesItems;
     private SubmissionAdapter adapter;
     private SubredditPosts posts;
-
+    public SwipeRefreshLayout mSwipeRefreshLayout;
     private void restartTheme() {
         Intent intent = this.getIntent();
         startActivity(intent);
@@ -76,6 +79,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
     }
 
+    public String term;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -149,17 +153,50 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
 
-        final StaggeredGridLayoutManager mLayoutManager;
+        final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
-            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new PreCachingLayoutManager(this);
 
         }
+
+        findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(SubredditView.this).title(R.string.search_title)
+                        .alwaysCallInputCallback()
+                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                term = charSequence.toString();
+                            }
+                        })
+                        .positiveText(R.string.search_all)
+                        .negativeText(getString(R.string.search_subreddit, subreddit))
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                Intent i = new Intent(SubredditView.this, Search.class);
+                                i.putExtra("term", term);
+                                startActivity(i);
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                Intent i = new Intent(SubredditView.this, Search.class);
+                                i.putExtra("term", term);
+                                i.putExtra("subreddit", subreddit);
+                                startActivity(i);
+                            }
+                        }).show();
+            }
+        });
         rv.setLayoutManager(mLayoutManager);
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -167,25 +204,31 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
-
-                int[] firstVisibleItems = null;
-                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                    pastVisiblesItems = firstVisibleItems[0];
+                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                     if (Reddit.scrollSeen) {
                         if (pastVisiblesItems > 0) {
                             HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                         }
                     }
+                } else {
+                    int[] firstVisibleItems = null;
+                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        pastVisiblesItems = firstVisibleItems[0];
+                        if (Reddit.scrollSeen) {
+                            if (pastVisiblesItems > 0) {
+                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                            }
+                        }
+                    }
                 }
 
+                if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    Log.v("Slide", "LOADING MORE" + totalItemCount);
+                    posts.loading = true;
+                    posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, false, posts.subreddit);
 
-                if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        posts.loading = true;
-                        posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, false, subreddit);
-
-                    }
                 }
             }
         });
@@ -690,6 +733,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 } else {
                     adapter.notifyDataSetChanged();
                 }
+                mSwipeRefreshLayout.setRefreshing(false);
+
 
             }
         });
@@ -701,6 +746,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(true);
+
             }
         });
     }

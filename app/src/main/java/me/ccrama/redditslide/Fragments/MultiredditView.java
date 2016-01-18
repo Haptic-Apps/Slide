@@ -64,17 +64,17 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         refreshLayout.setRefreshing(true);
         posts = new MultiredditPosts(SubredditStorage.multireddits.get(id).getDisplayName());
-        adapter = new MultiredditAdapter(getActivity(), posts, rv);
+        adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout);
         rv.setAdapter(adapter);
         if(Reddit.animation)
             rv.setItemAnimator(new SubtleSlideInUp(getContext()));
-        posts.loadMore(getActivity(), this, false);
+        posts.loadMore(getActivity(), this, true, adapter);
 
         refreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(getActivity(), MultiredditView.this, false);
+                        posts.loadMore(getActivity(), MultiredditView.this, true, adapter);
 
                         //TODO catch errors
                     }
@@ -98,9 +98,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
 
                 if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && !posts.nomore) {
                         posts.loading = true;
-                        posts.loadMore(getActivity(), MultiredditView.this, false);
+                        posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
                     }
                 }
             }

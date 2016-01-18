@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -11,9 +10,10 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -26,10 +26,13 @@ public class SubredditSearchPosts extends GeneralPosts {
     public SwipeRefreshLayout refreshLayout;
     private ContributionAdapter adapter;
 
-    public SubredditSearchPosts(String subreddit, String term) {
+    public Search parent;
+
+    public SubredditSearchPosts(String subreddit, String term, Search parent) {
         if(subreddit != null) {
             this.subreddit = subreddit;
         }
+        this.parent = parent;
         this.term = term;
     }
 
@@ -69,32 +72,59 @@ public class SubredditSearchPosts extends GeneralPosts {
         }
 
         @Override
-        public void onPostExecute(ArrayList<Contribution> subs) {
-            if (subs != null) {
+        public void onPostExecute(ArrayList<Contribution> submissions) {
+            loading = false;
 
-                loading = false;
-                if (refreshLayout != null)
-                    ( adapter.mContext).runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.setRefreshing(false);
+            if (submissions != null && !submissions.isEmpty()) {
+                // new submissions found
 
-                            adapter.dataSet = posts;
+                int start = 0;
+                if (posts != null) {
+                    start = posts.size() + 1;
+                }
 
-                            adapter.notifyDataSetChanged();
-
+                ArrayList<Contribution> filteredSubmissions = new ArrayList<>();
+                for (Contribution c : submissions) {
+                    if (c instanceof Submission) {
+                        if (!PostMatch.doesMatch((Submission) c)) {
+                            filteredSubmissions.add(c);
                         }
-                    });
-            } else {
+                    } else {
+                        filteredSubmissions.add(c);
+                    }
+                }
+
+                if (reset || posts == null) {
+                   posts = filteredSubmissions;
+                    start = -1;
+                } else {
+                    posts.addAll(filteredSubmissions);
+                }
+
+                final int finalStart = start;
+                // update online
+                if (refreshLayout != null) {
+                    refreshLayout.setRefreshing(false);
+                }
+
+                if (finalStart != -1) {
+                    adapter.notifyItemRangeInserted(finalStart, posts.size());
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+
+            } else if (submissions != null) {
+                // end of submissions
+                nomore = true;
+            } else if (!nomore) {
+                // error
                 adapter.setError(true);
-                refreshLayout.setRefreshing(false);
-
             }
+            refreshLayout.setRefreshing(false);
         }
-
         @Override
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
-            Log.v("Slide", "DOING SEARCH OF " + term + " in " + subreddit);
+            ArrayList<Contribution> newSubmissions = new ArrayList<>();
             try {
                 if (reset || paginator == null) {
                     paginator = new SubmissionSearchPaginator(Authentication.reddit, term);
@@ -102,37 +132,29 @@ public class SubredditSearchPosts extends GeneralPosts {
                     paginator.setSubreddit(subreddit);
 
                     paginator.setSearchSorting(Reddit.search);
-                    paginator.setTimePeriod(Reddit.timePeriod);
+                    paginator.setTimePeriod((parent.time));
                 }
-                if(posts == null){
-                    posts = new ArrayList<>();
-                }
+
                 if(!paginator.hasNext()){
                     nomore = true;
                 }
                 if (reset) {
                     nomore = false;
-                    posts = new ArrayList<>();
                     for (Submission s : paginator.next()) {
-                                if (SettingValues.NSFWPosts && s.isNsfw()) {
-                                    posts.add(s);
-                                } else if (!s.isNsfw()) {
-                                    posts.add(s);
 
-                            }
+                                    newSubmissions.add(s);
+
+
                         }
 
                 } else  if(!nomore){
                     for (Submission s : paginator.next()) {
-                        if (SettingValues.NSFWPosts && s.isNsfw()) {
-                            posts.add(s);
-                        } else if (!s.isNsfw()) {
-                            posts.add(s);
 
-                        }
+                            newSubmissions.add(s);
+
                     }
                 }
-                return posts;
+                return newSubmissions;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
