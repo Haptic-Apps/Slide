@@ -513,7 +513,7 @@
     <string name="settings_section_general">General Settings</string>
     <string name="settings_title_other">Other</string>
     <string name="settings_general_swipeanywhere">Swipe away from anywhere</string>
-    <string name="settings_link_chrome">Use Chrome Customtabs</string>
+    <string name="settings_link_chrome">Use Chrome Custom Tabs</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

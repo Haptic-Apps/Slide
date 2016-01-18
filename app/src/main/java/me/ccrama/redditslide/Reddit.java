@@ -457,6 +457,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static String arrayToString(ArrayList<String> array) {
+        if (array == null) return "";
+
         StringBuilder b = new StringBuilder();
         for (String s : array) {
             b.append(s).append(",");
