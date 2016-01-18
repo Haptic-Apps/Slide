@@ -64,15 +64,10 @@ public class FontPreferences {
     }
     public enum FontStyle {
         Smaller(R.style.FontStyle_SmallerPost, "Smaller"),
-        //SmallerComment(R.style.FontStyle_SmallerComment, "SmallerComment"),
         Small(R.style.FontStyle_SmallPost, "Small"),
-        //SmallComment(R.style.FontStyle_SmallPost, "SmallComment"),
         Medium(R.style.FontStyle_MediumPost, "Medium"),
-        //MediumComment(R.style.FontStyle_MediumComment, "MediumComment"),
         Large(R.style.FontStyle_LargePost, "Large"),
-        //LargeComment(R.style.FontStyle_LargeComment, "LargeComment"),
         Larger(R.style.FontStyle_LargerPost, "Larger");
-        //LargerComment(R.style.FontStyle_LargerComment, "LargerComment");
 
         private final int resId;
         private final String title;

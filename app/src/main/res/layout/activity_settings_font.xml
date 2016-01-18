@@ -76,7 +76,7 @@ android:background="?attr/activity_background">
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/font"
+                    android:id="@+id/commentFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -168,7 +168,7 @@ android:background="?attr/activity_background">
                     android:textSize="14sp"/>
 
                 <TextView
-                    android:id="@+id/font"
+                    android:id="@+id/postFont"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
