@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -42,8 +43,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
 
-    public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView) {
+    public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout) {
         this.mContext = mContext;
+        this.refreshLayout = refreshLayout;
         this.listView = listView;
         this.dataSet = dataSet;
     }
@@ -65,6 +67,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
         return 1;
     }
+    SwipeRefreshLayout refreshLayout;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.PostLoader;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
@@ -29,6 +29,8 @@ public class MultiredditPosts implements PostLoader {
     public boolean loading;
     private MultiRedditPaginator paginator;
     private MultiReddit multiReddit;
+    public boolean nomore = false;
+    public MultiredditAdapter adapter;
 
     /**
      *
@@ -47,7 +49,10 @@ public class MultiredditPosts implements PostLoader {
     public void loadMore(Context context, SubmissionDisplay displayer, boolean reset) {
         new LoadData(context, displayer, reset).execute(multiReddit);
     }
-
+    public void loadMore(Context context, SubmissionDisplay displayer, boolean reset, MultiredditAdapter adapter) {
+        this.adapter = adapter;
+        new LoadData(context, displayer, reset).execute(multiReddit);
+    }
     @Override
     public List<Submission> getPosts() {
         return posts;
@@ -71,16 +76,59 @@ public class MultiredditPosts implements PostLoader {
 
         @Override
         public void onPostExecute(ArrayList<Submission> submissions) {
-            if (submissions != null) {
-                loading = false;
-                displayer.updateSuccess(submissions, -1);
-            } else {
-                displayer.updateError();
+            loading = false;
+
+            if (submissions != null && !submissions.isEmpty()) {
+                // new submissions found
+
+                int start = 0;
+                if (posts != null) {
+                    start = posts.size() + 1;
+                }
+
+                ArrayList<Submission> filteredSubmissions = new ArrayList<>();
+                for (Submission c : submissions) {
+                        if (!PostMatch.doesMatch(c)) {
+                            filteredSubmissions.add(c);
+                        }
+
+                }
+
+                if (reset || posts == null) {
+                    posts = filteredSubmissions;
+                    start = -1;
+                } else {
+                    posts.addAll(filteredSubmissions);
+                }
+
+                final int finalStart = start;
+                // update online
+
+
+                if(adapter != null) {
+                    if (finalStart != -1) {
+                        adapter.notifyItemRangeInserted(finalStart, posts.size());
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+                    adapter.refreshLayout.setRefreshing(false);
+
+                }
+
+            } else if (submissions != null) {
+                // end of submissions
+                nomore = true;
+            } else if (!nomore && adapter != null) {
+                // error
+                adapter.setError(true);
+                adapter.refreshLayout.setRefreshing(false);
             }
         }
 
         @Override
         protected ArrayList<Submission> doInBackground(MultiReddit... subredditPaginators) {
+            ArrayList<Submission> newSubmissions = new ArrayList<>();
+
             try {
                 if (reset || paginator == null) {
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
@@ -88,19 +136,19 @@ public class MultiredditPosts implements PostLoader {
                     paginator.setTimePeriod(Reddit.timePeriod);
                 }
 
-                if (reset) {
-                    posts = new ArrayList<>();
+                if(!paginator.hasNext()){
+                    nomore = true;
+                    return newSubmissions;
                 }
 
                 for (Submission s : paginator.next()) {
                     if (SettingValues.NSFWPosts || !s.isNsfw()) {
-                        posts.add(s);
+                        newSubmissions.add(s);
                     }
                 }
 
-                DataShare.sharedSubreddit = posts; // set this since it gets out of sync at CommentPage
 
-                return posts;
+                return newSubmissions;
             } catch (Exception e) {
                 return null;
             }

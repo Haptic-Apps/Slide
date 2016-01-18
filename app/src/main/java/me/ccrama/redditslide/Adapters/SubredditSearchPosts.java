@@ -95,7 +95,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                     }
                 }
 
-                if (reset || adapter.dataSet == null) {
+                if (reset || posts == null) {
                    posts = filteredSubmissions;
                     start = -1;
                 } else {

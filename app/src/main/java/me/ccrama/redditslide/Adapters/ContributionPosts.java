@@ -79,7 +79,7 @@ public class ContributionPosts extends GeneralPosts {
                 }
                 Log.v("Slide", "SIZE IS " + filteredSubmissions.size());
 
-                if (reset || adapter.dataSet == null) {
+                if (reset || posts == null) {
                     posts = filteredSubmissions;
                     start = -1;
                 } else {
