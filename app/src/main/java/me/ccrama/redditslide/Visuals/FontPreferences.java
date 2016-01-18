@@ -35,9 +35,9 @@ public class FontPreferences {
                 FontStyle.Medium.name()));
     }
 
-    public FontStyle getCommentFontStyle() {
-        return FontStyle.valueOf(open().getString(FONT_STYLE_COMMENT,
-                FontStyle.MediumComment.name()));
+    public FontStyleComment getCommentFontStyle() {
+        return FontStyleComment.valueOf(open().getString(FONT_STYLE_COMMENT,
+                FontStyleComment.Medium.name()));
     }
 
 
@@ -53,7 +53,7 @@ public class FontPreferences {
     public void setPostFontStyle(FontStyle style) {
         edit().putString(FONT_STYLE_POST, style.name()).commit();
     }
-    public void setCommentFontStyle(FontStyle style) {
+    public void setCommentFontStyle(FontStyleComment style) {
         edit().putString(FONT_STYLE_COMMENT, style.name()).commit();
     }
     public void setCommentFont(FontTypeComment style) {
@@ -64,15 +64,10 @@ public class FontPreferences {
     }
     public enum FontStyle {
         Smaller(R.style.FontStyle_SmallerPost, "Smaller"),
-        SmallerComment(R.style.FontStyle_SmallerComment, "SmallerComment"),
         Small(R.style.FontStyle_SmallPost, "Small"),
-        SmallComment(R.style.FontStyle_SmallPost, "SmallComment"),
         Medium(R.style.FontStyle_MediumPost, "Medium"),
-        MediumComment(R.style.FontStyle_MediumComment, "MediumComment"),
         Large(R.style.FontStyle_LargePost, "Large"),
-        LargeComment(R.style.FontStyle_LargeComment, "LargeComment"),
-        Larger(R.style.FontStyle_LargerPost, "Larger"),
-        LargerComment(R.style.FontStyle_LargerComment, "LargerComment");
+        Larger(R.style.FontStyle_LargerPost, "Larger");
 
         private final int resId;
         private final String title;
@@ -86,6 +81,30 @@ public class FontPreferences {
         }
 
         FontStyle(int resId, String title) {
+            this.resId = resId;
+            this.title = title;
+        }
+    }
+
+    public enum FontStyleComment {
+        Smaller(R.style.FontStyle_SmallerComment, "Smaller"),
+        Small(R.style.FontStyle_SmallPost, "Small"),
+        Medium(R.style.FontStyle_MediumComment, "Medium"),
+        Large(R.style.FontStyle_LargeComment, "Large"),
+        Larger(R.style.FontStyle_LargerComment, "Larger");
+
+        private final int resId;
+        private final String title;
+
+        public int getResId() {
+            return resId;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        FontStyleComment(int resId, String title) {
             this.resId = resId;
             this.title = title;
         }

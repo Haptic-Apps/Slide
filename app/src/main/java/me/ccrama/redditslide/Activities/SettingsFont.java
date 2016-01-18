@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoRadioButton;
 
+import org.w3c.dom.Text;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
@@ -25,8 +27,8 @@ public class SettingsFont extends BaseActivity {
         setContentView(R.layout.activity_settings_font);
         setupAppBar(R.id.toolbar, "Font Settings", true, true);
 
-        final TextView color = (TextView) findViewById(R.id.font);
-        color.setText(new FontPreferences(this).getCommentFontStyle().getTitle());
+        final TextView colorComment = (TextView) findViewById(R.id.commentFont);
+        colorComment.setText(new FontPreferences(this).getCommentFontStyle().getTitle());
         findViewById(R.id.commentfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,8 +43,8 @@ public class SettingsFont extends BaseActivity {
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyle.valueOf(commentFontPicker(item.getTitle().toString())));
-                        color.setText(new FontPreferences(SettingsFont.this).getCommentFontStyle().getTitle());
+                        new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyleComment.valueOf(item.getTitle().toString()));
+                        colorComment.setText(new FontPreferences(SettingsFont.this).getCommentFontStyle().getTitle());
 
                         return true;
                     }
@@ -51,7 +53,8 @@ public class SettingsFont extends BaseActivity {
                 popup.show();
             }
         });
-
+        final TextView colorPost = (TextView) findViewById(R.id.postFont);
+        colorPost.setText(new FontPreferences(this).getPostFontStyle().getTitle());
         findViewById(R.id.postfontsize).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +70,7 @@ public class SettingsFont extends BaseActivity {
                     public boolean onMenuItemClick(MenuItem item) {
 
                         new FontPreferences(SettingsFont.this).setPostFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
-                        color.setText(new FontPreferences(SettingsFont.this).getPostFontStyle().getTitle());
+                        colorPost.setText(new FontPreferences(SettingsFont.this).getPostFontStyle().getTitle());
 
                         return true;
                     }
@@ -190,23 +193,6 @@ public class SettingsFont extends BaseActivity {
             }
         });
 
-    }
-
-    public String commentFontPicker(String str) {
-        switch (str) {
-            case "Smaller":
-                return "SmallerComment";
-            case "Small":
-                return "SmallComment";
-            case "Medium":
-                return "MediumComment";
-            case "Large":
-                return "LargeComment";
-            case "Larger":
-                return "LargerComment";
-            default:
-                return "nothing";
-        }
     }
 
 

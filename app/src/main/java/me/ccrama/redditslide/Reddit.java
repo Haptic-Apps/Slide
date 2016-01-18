@@ -383,6 +383,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         autoTime = SettingValues.prefs.getBoolean("autotime", false);
         colorBack = SettingValues.prefs.getBoolean("colorBack", false);
         alphabetical_home = SettingValues.prefs.getBoolean("alphabetical_home", true);
+        colorEverywhere = SettingValues.prefs.getBoolean("colorEverywhere", true);
 
         click_user_name_to_profile = SettingValues.prefs.getBoolean("UsernameClick", true);
         swap = SettingValues.prefs.getBoolean("Swap", false);
@@ -456,6 +457,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static String arrayToString(ArrayList<String> array) {
+        if (array == null) return "";
+
         StringBuilder b = new StringBuilder();
         for (String s : array) {
             b.append(s).append(",");
