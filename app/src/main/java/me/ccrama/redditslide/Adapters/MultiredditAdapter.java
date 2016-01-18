@@ -93,6 +93,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 @Override
                 public void onClick(View arg0) {
                     DataShare.sharedSubreddit = dataSet.posts;
+                    holder2.itemView.setAlpha(0.5f);
 
                     if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
