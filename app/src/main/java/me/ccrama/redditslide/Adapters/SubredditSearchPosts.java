@@ -11,6 +11,7 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -26,10 +27,13 @@ public class SubredditSearchPosts extends GeneralPosts {
     public SwipeRefreshLayout refreshLayout;
     private ContributionAdapter adapter;
 
-    public SubredditSearchPosts(String subreddit, String term) {
+    public Search parent;
+
+    public SubredditSearchPosts(String subreddit, String term, Search parent) {
         if(subreddit != null) {
             this.subreddit = subreddit;
         }
+        this.parent = parent;
         this.term = term;
     }
 
@@ -102,7 +106,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                     paginator.setSubreddit(subreddit);
 
                     paginator.setSearchSorting(Reddit.search);
-                    paginator.setTimePeriod(Reddit.timePeriod);
+                    paginator.setTimePeriod((parent.time));
                 }
                 if(posts == null){
                     posts = new ArrayList<>();

@@ -121,7 +121,7 @@ public class Search extends BaseActivityAnim {
         builder.show();
 
     }
-    TimePeriod time = TimePeriod.MONTH;
+    public TimePeriod time = TimePeriod.MONTH;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -193,7 +193,7 @@ public class Search extends BaseActivityAnim {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        posts = new SubredditSearchPosts(subreddit, where.toLowerCase());
+        posts = new SubredditSearchPosts(subreddit, where.toLowerCase(), this);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);
 
