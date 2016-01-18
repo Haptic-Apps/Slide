@@ -88,7 +88,7 @@ public class FontPreferences {
 
     public enum FontStyleComment {
         Smaller(R.style.FontStyle_SmallerComment, "Smaller"),
-        Small(R.style.FontStyle_SmallPost, "Small"),
+        Small(R.style.FontStyle_SmallComment, "Small"),
         Medium(R.style.FontStyle_MediumComment, "Medium"),
         Large(R.style.FontStyle_LargeComment, "Large"),
         Larger(R.style.FontStyle_LargerComment, "Larger");
