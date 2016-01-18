@@ -80,8 +80,8 @@ public class SubredditSearchPosts extends GeneralPosts {
                 // new submissions found
 
                 int start = 0;
-                if (adapter.dataSet != null) {
-                    start = adapter.dataSet.size() + 1;
+                if (posts != null) {
+                    start = posts.size() + 1;
                 }
 
                 ArrayList<Contribution> filteredSubmissions = new ArrayList<>();
@@ -96,10 +96,10 @@ public class SubredditSearchPosts extends GeneralPosts {
                 }
 
                 if (reset || adapter.dataSet == null) {
-                    adapter.dataSet = filteredSubmissions;
+                   posts = filteredSubmissions;
                     start = -1;
                 } else {
-                    adapter.dataSet.addAll(filteredSubmissions);
+                    posts.addAll(filteredSubmissions);
                 }
 
                 final int finalStart = start;
@@ -109,7 +109,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                 }
 
                 if (finalStart != -1) {
-                    adapter.notifyItemRangeInserted(finalStart, adapter.dataSet.size());
+                    adapter.notifyItemRangeInserted(finalStart, posts.size());
                 } else {
                     adapter.notifyDataSetChanged();
                 }

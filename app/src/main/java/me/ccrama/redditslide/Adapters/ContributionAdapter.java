@@ -24,8 +24,6 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 
-import java.util.ArrayList;
-
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -46,12 +44,12 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public final Activity mContext;
     private final RecyclerView listView;
     private final Boolean isHiddenPost;
-    public ArrayList<Contribution> dataSet;
+    public GeneralPosts dataSet;
 
     public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView) {
         this.mContext = mContext;
         this.listView = listView;
-        this.dataSet = dataSet.posts;
+        this.dataSet = dataSet;
 
         this.isHiddenPost = false;
     }
@@ -59,17 +57,20 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public ContributionAdapter(Activity mContext, GeneralPosts dataSet, RecyclerView listView, Boolean isHiddenPost) {
         this.mContext = mContext;
         this.listView = listView;
-        this.dataSet = dataSet.posts;
+        this.dataSet = dataSet;
 
         this.isHiddenPost = isHiddenPost;
     }
-
+    private final int LOADING_SPINNER = 5;
+    private final int NO_MORE = 3;
     @Override
     public int getItemViewType(int position) {
-        if (position == dataSet.size() && dataSet.size() != 0) {
-            return 5;
+        if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.nomore) {
+            return LOADING_SPINNER;
+        } else if (position == dataSet.posts.size() &&  dataSet.nomore) {
+            return NO_MORE;
         }
-        if (dataSet.get(position) instanceof Comment)//IS COMMENT
+        if (dataSet.posts.get(position) instanceof Comment)
             return COMMENT;
 
         return 2;
@@ -81,15 +82,23 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (i == COMMENT) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
             return new ProfileCommentViewHolder(v);
-        } else if (i == 5) {
+        } else if (i == LOADING_SPINNER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
-            return new EmptyViewHolder(v);
-        } else {
+            return new SubmissionFooterViewHolder(v);
+        } else if (i == NO_MORE) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
+            return new SubmissionFooterViewHolder(v);
+        }  else {
             View v = CreateCardView.CreateView(viewGroup);
             return new SubmissionViewHolder(v);
 
         }
 
+    }
+    public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
+        public SubmissionFooterViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
     @Override
@@ -97,7 +106,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (firstHolder instanceof SubmissionViewHolder) {
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHolder;
-            final Submission submission = (Submission) dataSet.get(i);
+            final Submission submission = (Submission) dataSet.posts.get(i);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -205,9 +214,9 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            final int pos = dataSet.indexOf(submission);
-                            final Contribution old = dataSet.get(pos);
-                            dataSet.remove(submission);
+                            final int pos = dataSet.posts.indexOf(submission);
+                            final Contribution old = dataSet.posts.get(pos);
+                            dataSet.posts.remove(submission);
                             notifyItemRemoved(pos);
                             d.dismiss();
 
@@ -216,7 +225,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    dataSet.add(pos, old);
+                                    dataSet.posts.add(pos, old);
                                     notifyItemInserted(pos);
                                     Hidden.undoHidden(old);
 
@@ -229,16 +238,16 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return true;
                 }
             });
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet, listView, false, false);
+            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false);
 
             final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
             if (hideButton != null && isHiddenPost) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final int pos = dataSet.indexOf(submission);
-                        final Contribution old = dataSet.get(pos);
-                        dataSet.remove(submission);
+                        final int pos = dataSet.posts.indexOf(submission);
+                        final Contribution old = dataSet.posts.get(pos);
+                        dataSet.posts.remove(submission);
                         notifyItemRemoved(pos);
 
                         Hidden.undoHidden(old);
@@ -258,7 +267,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (firstHolder instanceof ProfileCommentViewHolder) {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;
-            final Comment comment = (Comment) dataSet.get(i);
+            final Comment comment = (Comment) dataSet.posts.get(i);
             holder.score.setText(comment.getScore() + "");
 
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
@@ -289,10 +298,10 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        if (dataSet == null || dataSet.size() == 0) {
+        if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.size() + 1;
+            return dataSet.posts.size() + 1;
         }
     }
 
