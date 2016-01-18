@@ -87,7 +87,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "nomatching", false);
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "nomatching", true);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
