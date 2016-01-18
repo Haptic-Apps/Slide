@@ -66,7 +66,7 @@
   <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Passez à la version Pro</string>
   <string name="drawer_goto_profile">Voir le profil</string>
-  <string name="drawer_reorder_pins">Réorganiser les subreddits épinglés</string>
+  <string name="drawer_reorder_subs">Réorganiser les subreddits épinglés</string>
   <string name="drawer_add_account">Ajouter un compte</string>
   <string name="drawer_hello">Bonjour,</string>
   <string name="drawer_change_account">CHANGER DE COMPTE</string>
@@ -330,7 +330,7 @@ Merci beaucoup !</string>
   <string name="title_report_crash">Signaler un Plantage</string>
   <string name="title_share">Partager avec</string>
   <string name="title_login">Se connecter à Reddit</string>
-  <string name="title_reorder_pins">Réorganiser les épinglés</string>
+  <string name="title_reorder_subs">Réorganiser les épinglés</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Boîte de réception</string>
   <string name="title_theme_settings">Paramètres de thème</string>

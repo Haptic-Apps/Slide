@@ -63,7 +63,7 @@
   <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Pro sürüme geç</string>
   <string name="drawer_goto_profile">Profile git</string>
-  <string name="drawer_reorder_pins">Sabitlenmişlerinizi yeniden sıralayın</string>
+  <string name="drawer_reorder_subs">Sabitlenmişlerinizi yeniden sıralayın</string>
   <string name="drawer_add_account">Bir hesap ekleyin</string>
   <string name="drawer_hello">Merhaba,</string>
   <string name="drawer_change_account">Hesap değiştir</string>
