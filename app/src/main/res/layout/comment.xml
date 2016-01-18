@@ -188,6 +188,20 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:src="@drawable/pinned" />
+                <include
+                    android:id="@+id/sticky"
+                    layout="@layout/stickied"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+
+                    android:layout_toRightOf="@+id/op"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                   />
             </com.wefika.flowlayout.FlowLayout>
 
 
