@@ -62,6 +62,7 @@ public class SubredditPosts implements PostLoader {
     public boolean hasMore() {
         return !nomore;
     }
+   public boolean skipOne;
 
     /**
      * Asynchronous task for loading data
@@ -104,7 +105,7 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 final int finalStart = start;
-                DataShare.sharedSubreddit = posts; // TODO remove. set this since it gets out of sync at CommentPage
+                DataShare.sharedSubreddit = posts;// TODO remove. set this since it gets out of sync at CommentPage
                 // update online
                 displayer.updateSuccess(posts, finalStart);
             } else if (submissions != null) {
@@ -167,6 +168,9 @@ public class SubredditPosts implements PostLoader {
                 paginator.setSorting(Reddit.defaultSorting);
                 paginator.setTimePeriod(Reddit.timePeriod);
                 paginator.setLimit(25);
+                if(skipOne){
+                    paginator.next();
+                }
             }
 
             List<Submission> things = new ArrayList<>();

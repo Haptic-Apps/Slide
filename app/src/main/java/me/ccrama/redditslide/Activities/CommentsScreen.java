@@ -55,15 +55,18 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         String multireddit = getIntent().getExtras().getString("multireddit");
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
+            ((MultiredditPosts)subredditPosts).skipOne = true;
+
         } else {
             subredditPosts = new SubredditPosts(subreddit);
+            ((SubredditPosts)subredditPosts).skipOne = true;
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
             Log.w(TAG, "Is single post?");
         } else {
             subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
-            subredditPosts.loadMore(this.getApplicationContext(), this, true);
+           // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
             finish();
