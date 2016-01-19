@@ -314,8 +314,6 @@ public class CommentPage extends Fragment {
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else if (context.isEmpty()) {
-            Log.v("Slide", "Comments without context from post");
-
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
             if (DataShare.sharedSubreddit != null)
@@ -409,6 +407,7 @@ public class CommentPage extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        Log.v("Slide", "PAUSING");
         comments.cancelLoad();
     }
 

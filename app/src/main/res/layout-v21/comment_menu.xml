@@ -96,6 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/btn_reply"
+            android:textColor="#fff"
+            android:textColorHint="#fff"
             android:imeOptions="actionDone|flagNoEnterAction"
             android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
             android:minHeight="30dp"
@@ -238,7 +240,8 @@
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
                 android:padding="16dp"
-
+                android:textColor="#fff"
+                android:textColorHint="#fff"
                 android:text="@string/btn_discard"
                 android:textAllCaps="true"
                 android:textSize="14sp"
@@ -247,6 +250,8 @@
             <TextView
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="?android:selectableItemBackground"

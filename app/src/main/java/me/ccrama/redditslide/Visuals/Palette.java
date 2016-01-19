@@ -143,9 +143,9 @@ public class Palette {
 
 
     public enum ThemeEnum{
-        DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff")),
-        LIGHT("Light",Color.parseColor("#e8e8e8"), Color.parseColor("#ffffff"), Color.parseColor("#ff414141") ),
-        AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"));
+        DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        LIGHT("Light",Color.parseColor("#e8e8e8"), Color.parseColor("#ffffff"), Color.parseColor("#ff414141"), Color.parseColor("#8A000000") ),
+        AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF"));
 
         public String getDisplayName() {
             return displayName;
@@ -162,16 +162,21 @@ public class Palette {
         public int getFontColor() {
             return fontColor;
         }
+        public int getTint() {
+            return tint;
+        }
 
         final String displayName;
         final int backgroundColor;
         final int cardBackgroundColor;
+        final int tint;
         final int fontColor;
-        ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor){
+        ThemeEnum(String s, int backgroundColor, int cardBackgroundColor, int fontColor, int tint){
             this.displayName = s;
             this.backgroundColor = backgroundColor;
             this.cardBackgroundColor = cardBackgroundColor;
             this.fontColor = fontColor;
+            this.tint = tint;
         }
     }
 
