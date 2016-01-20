@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000000"
     android:gravity="center"
 
@@ -47,6 +48,14 @@
                     android:layout_alignParentLeft="true"
                     android:src="@drawable/chameleon" />
 
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/thumbimage2"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="2dp" />
 
             </RelativeLayout>
 

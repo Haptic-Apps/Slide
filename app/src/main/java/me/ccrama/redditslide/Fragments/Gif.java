@@ -38,6 +38,7 @@ import java.net.URLConnection;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
@@ -93,7 +94,10 @@ public class Gif extends Fragment {
                 getString(R.string.submission_properties_seperator) +
                 PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
                 + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));        ContentType.ImageType type = ContentType.getImageType(s);
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
+                        + getString(R.string.submission_properties_seperator)
+                        + Website.getDomainName(s.getUrl()));
+        ContentType.ImageType type = ContentType.getImageType(s);
 
         placeholder = rootView.findViewById(R.id.placeholder);
         gif = rootView.findViewById(R.id.gif);

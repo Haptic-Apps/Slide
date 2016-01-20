@@ -28,6 +28,7 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
@@ -255,8 +256,11 @@ public class ImageFull extends Fragment {
                 getString(R.string.submission_properties_seperator) +
                 PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
                 + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
+                + getString(R.string.submission_properties_seperator)
+                + Website.getDomainName(s.getUrl()));
 
+        (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
 
 
@@ -360,8 +364,11 @@ public class ImageFull extends Fragment {
                     });
 
         } else {
-            addClickFunctions(image, rootView, type, getActivity(), s);
-            image.setImage(ImageSource.resource(R.drawable.web));
+            image.recycle();
+            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+            ((ImageView)rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
+            addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);
+
             (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
 
         }

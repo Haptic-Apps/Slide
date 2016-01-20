@@ -28,6 +28,7 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
@@ -63,7 +64,10 @@ public class AlbumFull extends Fragment {
                 getString(R.string.submission_properties_seperator) +
                 PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
                 + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));        ContentType.ImageType type = ContentType.getImageType(s);
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
+                + getString(R.string.submission_properties_seperator)
+                + Website.getDomainName(s.getUrl())) ;
+        ContentType.ImageType type = ContentType.getImageType(s);
 
         String url = "";
 
