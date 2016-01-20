@@ -247,7 +247,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 .
 
-                PopulateSubmissionViewHolder(holder, submission, mContext, false,false,dataSet, listView, false,false);
+                        populateSubmissionViewHolder(holder, submission, mContext, false,false,dataSet, listView, false,false);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener()
 
