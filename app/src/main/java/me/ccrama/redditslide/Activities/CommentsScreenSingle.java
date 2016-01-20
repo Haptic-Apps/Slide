@@ -51,6 +51,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     private void setupAdapter() {
         themeStatusBar(subreddit);
+        themeNavigationBar(subreddit);
         setRecentBar(subreddit);
 
         pager = (ViewPager) findViewById(R.id.content_view);

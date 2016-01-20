@@ -6,30 +6,13 @@
     android:background="#000000"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="#000000" />
-
-    <RelativeLayout
+    <WebView
+        android:id="@+id/webgif"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:background="#000000"
+        android:layout_centerInParent="true"
+        android:background="#000000">
 
-        android:gravity="center">
-
-        <WebView
-            android:id="@+id/webgif"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_centerInParent="true"
-            android:background="#000000">
-
-        </WebView>
-
-    </RelativeLayout>
-
+    </WebView>
 
 </RelativeLayout>

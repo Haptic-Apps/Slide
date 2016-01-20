@@ -189,6 +189,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp"
             android:id="@+id/count"
+            android:visibility="gone"
             android:gravity="center"
             android:textSize="14sp"
             android:textStyle="bold"

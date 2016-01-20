@@ -280,6 +280,19 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     }
 
     /**
+     * Sets the navigation bar color for the activity based on a specific subreddit.
+     *
+     * @param subreddit The subreddit to base the color on.
+     */
+    protected void themeNavigationBar(String subreddit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Reddit.colorNavBar) {
+                getWindow().setNavigationBarColor(Palette.getSubredditStatusBarColor(subreddit));
+            }
+        }
+    }
+
+    /**
      * Sets the title and color of the recent bar based on the subreddit
      *
      * @param subreddit Name of the subreddit
