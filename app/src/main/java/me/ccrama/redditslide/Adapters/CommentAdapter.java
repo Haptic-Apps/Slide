@@ -248,33 +248,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
-        if (n.isScoreHidden()) {
-            String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
-            holder.score.setText("[" + scoreText + "]");
+        String scoreText;
+        if (n.isScoreHidden())
+            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+        else scoreText = n.getScore().toString();
 
-        }
+        holder.score.setText(scoreText);
+
         if (up.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorUp);
-            if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore() + 1 + "");
-            }
             upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
-
         } else if (down.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorDown);
             downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
-            if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore() - 1 + "");
-            }
         } else {
             holder.score.setTextColor(holder.textColorRegular);
             downvote.clearColorFilter();
-            if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore() + "");
-            }
             upvote.clearColorFilter();
-
         }
         {
             final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
