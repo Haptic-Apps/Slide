@@ -44,11 +44,12 @@ public class Authentication {
     public static boolean didOnline;
 
     public Authentication(Context context) {
+        this.a = (Reddit) context;
+
         if (NetworkUtil.isConnected(context)) {
 
             hasDone = true;
             isLoggedIn = false;
-            this.a = (Reddit) context;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v4.5"));
             didOnline = true;
 

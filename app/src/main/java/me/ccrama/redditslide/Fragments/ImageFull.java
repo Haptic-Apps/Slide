@@ -255,11 +255,16 @@ public class ImageFull extends Fragment {
                 getString(R.string.submission_properties_seperator) +
                 PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
                 + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));        ContentType.ImageType type = ContentType.getImageType(s);
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));
+
+
+
+
+        ContentType.ImageType type = ContentType.getImageType(s);
 
         String url;
 
-        if (type.toString().toLowerCase().contains("image")) {
+        if (type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.IMAGE_LINK) {
             addClickFunctions(image, rootView, type, getActivity(), s);
 
             url = s.getUrl();
@@ -356,8 +361,9 @@ public class ImageFull extends Fragment {
 
         } else {
             addClickFunctions(image, rootView, type, getActivity(), s);
-            Log.v("Slide", "NO IMAGE");
-            image.recycle();
+            image.setImage(ImageSource.resource(R.drawable.web));
+            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+
         }
 
 

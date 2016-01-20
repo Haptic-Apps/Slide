@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -212,6 +211,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public static Loader loader;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -370,13 +370,10 @@ public class MainActivity extends BaseActivity {
             ((Reddit) getApplication()).doMainStuff();
 
 
-            final Dialog d = new MaterialDialog.Builder(this)
-                    .title("Loading Data")
-                    .cancelable(false)
-                    .progress(true, 100)
-                    .show();
 
-            findViewById(R.id.header).setVisibility(View.GONE);
+            Intent i = new Intent(this, Loader.class);
+            startActivity(i);
+
 
             //Hopefully will allow Authentication time to authenticate and for SubredditStorage to get subs list
             mToolbar.postDelayed(new Runnable() {
@@ -386,12 +383,22 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (SubredditStorage.subredditsForHome != null) {
-                                findViewById(R.id.header).setVisibility(View.VISIBLE);
 
-                                doDrawer();
+                                mToolbar.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if(loader != null){
+                                            findViewById(R.id.header).setVisibility(View.VISIBLE);
 
-                                setDataSet(SubredditStorage.subredditsForHome);
-                                d.dismiss();
+                                            doDrawer();
+
+                                            setDataSet(SubredditStorage.subredditsForHome);
+                                            loader.finish();
+                                            loader = null;
+                                            System.gc();
+                                        }
+                                    }
+                                }, 2000);
                             } else {
                                 mToolbar.postDelayed(this, 2000);
                             }
@@ -1060,6 +1067,7 @@ public class MainActivity extends BaseActivity {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 pager.setAdapter(adapter);
+                if(mTabLayout != null)
                 mTabLayout.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));

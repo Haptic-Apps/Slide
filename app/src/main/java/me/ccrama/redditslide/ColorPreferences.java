@@ -2,6 +2,7 @@ package me.ccrama.redditslide;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
 /**
@@ -231,7 +232,8 @@ public class ColorPreferences {
                     ContextCompat.getColor(context, R.color.md_grey_600),
                     ContextCompat.getColor(context, R.color.md_grey_700),
                     ContextCompat.getColor(context, R.color.md_grey_800),
-                    ContextCompat.getColor(context, R.color.md_grey_900)
+                    ContextCompat.getColor(context, R.color.md_grey_900),
+                    Color.parseColor("#000000")
             };
         } else {
             return new int[]{

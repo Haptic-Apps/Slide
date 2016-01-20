@@ -385,7 +385,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         daytime = SettingValues.prefs.getInt("night", 6);
         autoTime = SettingValues.prefs.getBoolean("autotime", false);
         colorBack = SettingValues.prefs.getBoolean("colorBack", false);
-        colorNavBar = SettingValues.prefs.getBoolean("colorNavBar",true);
+        colorNavBar = SettingValues.prefs.getBoolean("colorNavBar",false);
         alphabetical_home = SettingValues.prefs.getBoolean("alphabetical_home", true);
         colorEverywhere = SettingValues.prefs.getBoolean("colorEverywhere", true);
 
