@@ -165,10 +165,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
                 case SELF: {
-                    f = new SelftextFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    f.setArguments(args);
+                    if(subredditPosts.getPosts().get(i).getSelftext().isEmpty()){
+                        f = new TitleFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    } else {
+                        f = new SelftextFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    }
                 }
                 break;
                 case GFY: {
@@ -214,10 +221,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
                 case NONE: {
-                    f = new TitleFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    f.setArguments(args);
+                    if(subredditPosts.getPosts().get(i).getSelftext().isEmpty()){
+                        f = new TitleFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    } else {
+                        f = new SelftextFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    }
                 }
                 break;
                 case NONE_IMAGE: {

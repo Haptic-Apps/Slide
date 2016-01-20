@@ -19,6 +19,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 
 
 /**
@@ -40,8 +41,11 @@ public class SelftextFull extends Fragment {
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
         title.setText(s.getTitle());
-        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()));
-
+        desc.setText(s.getSubredditName() + getString(R.string.submission_properties_seperator) + s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()) +
+                getString(R.string.submission_properties_seperator) +
+                PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
+                + getString(R.string.submission_properties_seperator)
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));
         SpoilerRobotoTextView bod = ((SpoilerRobotoTextView) rootView.findViewById(R.id.imagearea));
         if (!s.getSelftext().isEmpty()) {
             new MakeTextviewClickable().ParseTextWithLinksTextView(s.getDataNode().get("selftext_html").asText(), bod, getActivity(), s.getSubredditName());

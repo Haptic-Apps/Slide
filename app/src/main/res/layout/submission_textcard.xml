@@ -52,6 +52,9 @@
             </LinearLayout>
 
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <me.ccrama.redditslide.SpoilerRobotoTextView
             android:id="@+id/imagearea"
             android:padding="16dp"
@@ -59,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-
+        </ScrollView>
     </LinearLayout>
 
 </LinearLayout>

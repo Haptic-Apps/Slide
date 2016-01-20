@@ -34,6 +34,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 
@@ -58,8 +59,11 @@ public class AlbumFull extends Fragment {
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
         title.setText(s.getTitle());
-        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()));
-        ContentType.ImageType type = ContentType.getImageType(s);
+        desc.setText(s.getSubredditName() + getString(R.string.submission_properties_seperator) + s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()) +
+                getString(R.string.submission_properties_seperator) +
+                PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
+                + getString(R.string.submission_properties_seperator)
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));        ContentType.ImageType type = ContentType.getImageType(s);
 
         String url = "";
 
