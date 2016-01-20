@@ -213,7 +213,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
-
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -402,6 +401,8 @@ public class MainActivity extends BaseActivity {
             }, 2000);
 
         }
+        System.gc();
+
     }
 
     @Override
@@ -1079,7 +1080,6 @@ public class MainActivity extends BaseActivity {
         Intent intent = this.getIntent();
         intent.putExtra("pageTo", pager.getCurrentItem());
         finish();
-
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
     }

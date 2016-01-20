@@ -747,7 +747,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final CommentObject prev = users.get(nextPos);
 
-            if (prev.getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(nextPos - 1).getCommentNode().getComment().getFullName())) {
+
+
+            if (users.get(nextPos).getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(getRealPosition(pos - 2)).getCommentNode().getComment().getFullName())) {
+
                 holder.commentArea.removeAllViews();
                 holder.commentArea.setVisibility(View.VISIBLE);
                 LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -1152,6 +1155,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.children.setVisibility(View.VISIBLE);
                     ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
                     //todo maybe holder.content.setVisibility(View.GONE);
+                    notifyItemChanged(holder.getAdapterPosition() + 1 );
                 }
             }
             clickpos = holder.getAdapterPosition() + 1;

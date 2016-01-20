@@ -174,7 +174,6 @@
             android:layout_height="match_parent"
             android:padding="16dp"
             android:textColor="?attr/font"
-            android:textIsSelectable="true"
             android:textSize="16sp"/>
     </LinearLayout>
 </ScrollView>
