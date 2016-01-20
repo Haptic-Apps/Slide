@@ -982,7 +982,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         } else {
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived())
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);

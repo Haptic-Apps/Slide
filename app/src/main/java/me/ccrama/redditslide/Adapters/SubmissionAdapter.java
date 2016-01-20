@@ -269,7 +269,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             });
 
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, sContext, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, sContext, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
 
             holder.itemView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
