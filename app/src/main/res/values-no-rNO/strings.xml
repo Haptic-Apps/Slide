@@ -64,7 +64,7 @@
   <string name="multi_column_portrait">Portrettinnstillinger kommer snart</string>
   <string name="drawer_profile">Profil</string>
   <string name="drawer_goto_profile">Gå til profil</string>
-  <string name="drawer_reorder_pins">Omorganiser festede subreddits</string>
+  <string name="drawer_reorder_subs">Omorganiser festede subreddits</string>
   <string name="drawer_add_account">Legg til en konto</string>
   <string name="drawer_hello">Hei,</string>
   <string name="drawer_change_account">Bytt konto</string>
@@ -309,7 +309,7 @@
   <string name="title_report_crash">Rapporter et programstopp</string>
   <string name="title_share">Del via</string>
   <string name="title_login">Logg inn på Reddit</string>
-  <string name="title_reorder_pins">Omorganiser festede subreddits</string>
+  <string name="title_reorder_subs">Omorganiser festede subreddits</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Innboks</string>
   <string name="title_theme_settings">Temainnstillinger</string>

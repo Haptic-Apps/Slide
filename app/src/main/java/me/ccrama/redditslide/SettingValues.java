@@ -19,7 +19,6 @@ public class SettingValues {
     public static TimePeriod timePeriod;
     public static CommentSort defaultCommentSorting;
     public static boolean NSFWPreviews;
-    public static boolean NSFWPosts;
     public static boolean middleImage;
     public static boolean bigPicEnabled;
     public static boolean bigPicCropped;
@@ -35,7 +34,6 @@ public class SettingValues {
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         middleImage =settings.getBoolean("middleImage", false);
 
-        NSFWPosts = settings.getBoolean("NSFWPostsNew", false);
         bigPicCropped = settings.getBoolean("bigPicCropped", false);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
 

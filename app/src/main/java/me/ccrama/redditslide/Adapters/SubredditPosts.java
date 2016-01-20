@@ -17,7 +17,6 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -174,9 +173,8 @@ public class SubredditPosts implements PostLoader {
 
             if (paginator != null && paginator.hasNext()) {
                 for (Submission submission : paginator.next()) {
-                    if (SettingValues.NSFWPosts || !submission.isNsfw()) {
                         things.add(submission);
-                    }
+
                 }
             } else {
                 nomore = true;

@@ -73,7 +73,7 @@
   <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Kup Pro</string>
   <string name="drawer_goto_profile">Przejdź do profilu</string>
-  <string name="drawer_reorder_pins">Zmiana kolejności przypięć</string>
+  <string name="drawer_reorder_subs">Zmiana kolejności przypięć</string>
   <string name="drawer_add_account">Dodaj konto</string>
   <string name="drawer_hello">Witaj,</string>
   <string name="drawer_change_account">Zmień konta</string>
@@ -378,7 +378,7 @@
   <string name="title_report_crash">Zgłoś crash</string>
   <string name="title_share">Udostępnij za pomocą</string>
   <string name="title_login">Zaloguj się do Reddit</string>
-  <string name="title_reorder_pins">Zmień kolejność przypięć</string>
+  <string name="title_reorder_subs">Zmień kolejność przypięć</string>
   <string name="title_multireddits">Multireddity</string>
   <string name="title_inbox">Skrzynka pocztowa</string>
   <string name="title_theme_settings">Motyw</string>

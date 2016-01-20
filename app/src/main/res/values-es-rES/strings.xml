@@ -67,7 +67,7 @@
   <string name="drawer_profile">Perfil</string>
   <string name="drawer_support">Conviértete en Pro</string>
   <string name="drawer_goto_profile">Ir al perfil</string>
-  <string name="drawer_reorder_pins">Reordenar tus fijados</string>
+  <string name="drawer_reorder_subs">Reordenar tus fijados</string>
   <string name="drawer_add_account">Añadir cuenta</string>
   <string name="drawer_hello">Hola,</string>
   <string name="drawer_change_account">Cambiar cuentas</string>
@@ -334,7 +334,7 @@
   <string name="title_report_crash">Informar de un error</string>
   <string name="title_share">Compartir con</string>
   <string name="title_login">Iniciar sesión en Reddit</string>
-  <string name="title_reorder_pins">Reordenar Fijados</string>
+  <string name="title_reorder_subs">Reordenar Fijados</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Recibidos</string>
   <string name="title_theme_settings">Ajustes del Tema</string>
