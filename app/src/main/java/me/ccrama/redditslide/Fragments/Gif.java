@@ -319,6 +319,7 @@ public class Gif extends Fragment {
                 final String finalS = s;
                 Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
 
+                if(getActivity() != null)
                 Ion.with(getActivity()).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, final JsonObject result) {
