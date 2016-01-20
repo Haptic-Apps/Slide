@@ -55,7 +55,7 @@ public class ImageLoaderUtils {
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
-                .cacheInMemory(false)
+                .cacheInMemory(true)
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
                 .threadPoolSize(threadPoolSize)

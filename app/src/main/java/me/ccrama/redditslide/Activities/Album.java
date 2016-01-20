@@ -23,7 +23,6 @@ import com.koushikdutta.ion.Ion;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.Adapters.AlbumViewPager;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -163,7 +162,7 @@ public class Album extends FullScreenActivity {
                                                     } else {
                                                         v.setVisibility(View.GONE);
                                                         ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
-                                                        p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, true));
+                                                     //   p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, true));
                                                         p.setVisibility(View.VISIBLE);
 
                                                         slider = true;
@@ -247,7 +246,7 @@ public class Album extends FullScreenActivity {
                                                         ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
                                                         p.setVisibility(View.VISIBLE);
 
-                                                        p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, false));
+                                                       // p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, false));
                                                         slider = true;
                                                     }
                                                 }

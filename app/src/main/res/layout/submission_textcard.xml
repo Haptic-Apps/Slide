@@ -16,52 +16,20 @@
 
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
 
-            android:layout_height="match_parent"
-
-            android:background="#000000">
-
-
-            <RelativeLayout
-                android:id="@+id/imagearea"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
-
-                android:background="#000000">
-
-                <me.ccrama.redditslide.Views.MediaVideoView
-                    android:id="@+id/gif"
-                    android:layout_width="match_parent"
-
-
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
-
-                </me.ccrama.redditslide.Views.MediaVideoView>
-
-                <FrameLayout
-                    android:id="@+id/placeholder"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="#000000"></FrameLayout>
-            </RelativeLayout>
 
 
             <LinearLayout
                 android:id="@+id/base"
                 android:layout_width="match_parent"
-                android:paddingTop="10dp"
 
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imagearea"
                 android:layout_gravity="center_vertical"
 
                 android:background="@drawable/slightshadow"
                 android:orientation="vertical"
                 android:paddingBottom="8dp"
+                android:paddingTop="16dp"
                 android:paddingLeft="16dp">
 
                 <me.ccrama.redditslide.Views.TitleTextView
@@ -84,7 +52,12 @@
             </LinearLayout>
 
 
-        </RelativeLayout>
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:id="@+id/imagearea"
+            android:padding="16dp"
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
     </LinearLayout>

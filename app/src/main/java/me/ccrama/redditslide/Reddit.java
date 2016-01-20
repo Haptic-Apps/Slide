@@ -176,9 +176,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         final StringBuilder b = new StringBuilder();
         String separator = "";
         for (final String name: names) {
-            b.append(separator);
-            b.append(Pattern.quote(name.trim()));
-            separator = "|";
+            if(!name.isEmpty()) {
+                b.append(separator);
+                b.append(Pattern.quote(name.trim()));
+                separator = "|";
+            }
         }
         return b.toString();
     }

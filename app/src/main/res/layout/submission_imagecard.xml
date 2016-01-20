@@ -44,6 +44,7 @@
                 android:id="@+id/base"
                 android:layout_width="match_parent"
 
+                android:paddingTop="10dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/imagearea"
                 android:layout_gravity="center_vertical"
@@ -53,13 +54,13 @@
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp">
 
-                <TextView
+                <me.ccrama.redditslide.Views.TitleTextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/example_domain"
                     android:textColor="#ffffff"
-                    android:textSize="16sp" />
+                    android:textSize="?attr/font_cardtitle"/>
 
                 <TextView
                     android:id="@+id/desc"
