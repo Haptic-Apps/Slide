@@ -120,9 +120,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
         if (requestCode == 2) {
-            // Make sure the request was successful
             int current = pager.getCurrentItem();
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
@@ -247,7 +245,7 @@ public class MainActivity extends BaseActivity {
             first = true;
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, 55);
-        } else if (!Reddit.colors.contains("v4.5update")) {
+        } else if (!Reddit.colors.contains("451update")) {
             new MaterialDialog.Builder(this)
                     .title("Slide v4.5.1")
                     .content("I’m happy to announce Slide v4.5.1!\n" +
@@ -268,14 +266,14 @@ public class MainActivity extends BaseActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("v4.51update", true).apply();
+                            Reddit.colors.edit().putBoolean("451update", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("v4.51update", true).apply();
+                            Reddit.colors.edit().putBoolean("451update", true).apply();
 
                         }
                     })
@@ -1351,8 +1349,11 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
-            pager.setCurrentItem(1);
-            pager.setCurrentItem(0);
+            if(pager.getAdapter() != null) {
+                pager.getAdapter().notifyDataSetChanged();
+                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
+            }
         }
 
 

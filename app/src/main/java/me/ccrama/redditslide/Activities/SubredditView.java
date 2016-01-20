@@ -477,7 +477,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     }
 
     private void doSubSidebar(final String subreddit) {
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.equals("friends")) {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
@@ -514,7 +514,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.toLowerCase().equals("friends")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 

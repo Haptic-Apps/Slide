@@ -55,7 +55,6 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
