@@ -66,6 +66,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int enter_animation_time_multiplier = 1;
 
     public static boolean colorBack;
+    public static boolean colorNavBar;
 
     public static boolean fullscreen;
     public static boolean blurCheck;
@@ -382,6 +383,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         daytime = SettingValues.prefs.getInt("night", 6);
         autoTime = SettingValues.prefs.getBoolean("autotime", false);
         colorBack = SettingValues.prefs.getBoolean("colorBack", false);
+        colorNavBar = SettingValues.prefs.getBoolean("colorNavBar",true);
         alphabetical_home = SettingValues.prefs.getBoolean("alphabetical_home", true);
         colorEverywhere = SettingValues.prefs.getBoolean("colorEverywhere", true);
 

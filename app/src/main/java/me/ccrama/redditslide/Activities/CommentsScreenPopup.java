@@ -62,6 +62,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
             public void onPageSelected(int position) {
                 //todo load more
                 themeStatusBar(posts.get(position).getSubredditName());
+                themeNavigationBar(posts.get(position).getSubredditName());
                 HasSeen.addSeen(posts.get(position).getFullName());
             }
 

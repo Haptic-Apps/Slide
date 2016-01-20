@@ -544,6 +544,7 @@ public class MainActivity extends BaseActivity {
             pager.setOffscreenPageLimit(1);
 
             themeStatusBar(usedArray.get(0));
+            themeNavigationBar(usedArray.get(0));
             setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
 
@@ -1066,6 +1067,7 @@ public class MainActivity extends BaseActivity {
                 hea.setBackgroundColor(color);
                 findViewById(R.id.header).setBackgroundColor(color);
                 themeStatusBar(subToDo);
+                themeNavigationBar(subToDo);
                 setRecentBar(subToDo);
             }
         });
@@ -1326,6 +1328,7 @@ public class MainActivity extends BaseActivity {
                         hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         themeStatusBar(usedArray.get(position));
+                        themeNavigationBar(usedArray.get(position));
                         getSupportActionBar().setTitle(usedArray.get(position));
                     } else {
 
@@ -1333,6 +1336,7 @@ public class MainActivity extends BaseActivity {
                             hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                         themeStatusBar(usedArray.get(position));
+                        themeNavigationBar(usedArray.get(position));
                         mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                     }
                     setRecentBar(usedArray.get(position));
