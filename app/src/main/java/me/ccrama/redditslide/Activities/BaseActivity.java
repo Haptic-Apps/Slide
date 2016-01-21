@@ -14,7 +14,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -28,9 +27,11 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
+    private static final String TAG = "BaseActivity";
     @Nullable
-    public Toolbar mToolbar;
+    protected Toolbar mToolbar;
     protected SwipeBackActivityHelper mHelper;
+    protected boolean overrideRedditSwipeAnywhere = false;
     protected boolean enableSwipeBackLayout = true;
     protected boolean overrideSwipeFromAnywhere = false;
 
@@ -45,8 +46,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean overrideRedditSwipeAnywhere = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +56,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
 
             if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
-                if(overrideSwipeFromAnywhere) {
+                if (overrideSwipeFromAnywhere) {
                     Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
@@ -118,9 +117,11 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void disableSwipeBackLayout() {
         enableSwipeBackLayout = false;
     }
+
     protected void overrideSwipeFromAnywhere() {
         overrideSwipeFromAnywhere = true;
     }
+
     protected void overrideRedditSwipeAnywhere() {
         overrideRedditSwipeAnywhere = true;
     }
@@ -167,10 +168,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param enableUpButton Whether or not the toolbar should have up navigation
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, boolean colorToolbar) {
-        int statusBarColor = Palette.getStatusBarColor();
+        int systemBarColor = Palette.getStatusBarColor();
         mToolbar = (Toolbar) findViewById(toolbar);
 
-        if(colorToolbar) {
+        if (colorToolbar) {
             mToolbar.setBackgroundColor(Palette.getDefaultColor());
         }
         setSupportActionBar(mToolbar);
@@ -180,11 +181,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             getSupportActionBar().setTitle(title);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(statusBarColor);
-        }
-        setRecentBar(title, statusBarColor);
+        themeSystemBars(systemBarColor);
+        setRecentBar(title, systemBarColor);
     }
 
     /**
@@ -193,11 +191,11 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      * @param toolbar        The toolbar's id
      * @param title          String to be set as the toolbar title
      * @param enableUpButton Whether or not the toolbar should have up navigation
-     * @param color Color to color the tab bar
+     * @param color          Color to color the tab bar
      */
     protected void setupAppBar(@IdRes int toolbar, String title, boolean enableUpButton, int color, @IdRes int appbar) {
-        int statusBarColor = Palette.getDarkerColor(color);
-            mToolbar = (Toolbar) findViewById(toolbar);
+        int systemBarColor = Palette.getDarkerColor(color);
+        mToolbar = (Toolbar) findViewById(toolbar);
         findViewById(appbar).setBackgroundColor(color);
 
         setSupportActionBar(mToolbar);
@@ -207,11 +205,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             getSupportActionBar().setTitle(title);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(statusBarColor);
-        }
-        setRecentBar(title, statusBarColor);
+        themeSystemBars(systemBarColor);
+        setRecentBar(title, systemBarColor);
     }
 
     /**
@@ -225,7 +220,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
      */
     protected void setupUserAppBar(@IdRes int toolbar, @Nullable String title, boolean enableUpButton,
                                    String username) {
-        int statusBarColor = Palette.getUserStatusBarColor(username);
+        int systemBarColor = Palette.getUserStatusBarColor(username);
         mToolbar = (Toolbar) findViewById(toolbar);
         mToolbar.setBackgroundColor(Palette.getColorUser(username));
         setSupportActionBar(mToolbar);
@@ -237,11 +232,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.setStatusBarColor(statusBarColor);
-        }
-        setRecentBar(title, statusBarColor);
+        themeSystemBars(systemBarColor);
+        setRecentBar(title, systemBarColor);
     }
 
     /**
@@ -264,30 +256,29 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             getSupportActionBar().setTitle(title);
         }
 
-        themeStatusBar(subreddit);
+        themeSystemBars(subreddit);
         setRecentBar(title, Palette.getSubredditStatusBarColor(subreddit));
     }
 
     /**
-     * Sets the status bar color for the activity based on a specific subreddit.
+     * Sets the status bar and navigation bar color for the activity based on a specific subreddit.
      *
      * @param subreddit The subreddit to base the color on.
      */
-    protected void themeStatusBar(String subreddit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(Palette.getSubredditStatusBarColor(subreddit));
-        }
+    protected void themeSystemBars(String subreddit) {
+        themeSystemBars(Palette.getSubredditStatusBarColor(subreddit));
     }
 
     /**
-     * Sets the navigation bar color for the activity based on a specific subreddit.
+     * Sets the status bar and navigation bar color for the activity
      *
-     * @param subreddit The subreddit to base the color on.
+     * @param color The color to tint the bars with
      */
-    protected void themeNavigationBar(String subreddit) {
+    protected void themeSystemBars(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(color);
             if (Reddit.colorNavBar) {
-                getWindow().setNavigationBarColor(Palette.getSubredditStatusBarColor(subreddit));
+                getWindow().setNavigationBarColor(color);
             }
         }
     }

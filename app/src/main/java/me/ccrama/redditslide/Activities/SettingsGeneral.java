@@ -106,7 +106,7 @@ public class SettingsGeneral extends BaseActivity {
                     Reddit.notifications.cancel(context.getApplication());
                     Reddit.notifications.start(context.getApplication());
                     dialog.dismiss();
-                    if (context instanceof Settings)
+                    if (context instanceof SettingsGeneral)
                         ((TextView) context.findViewById(R.id.notifications_current)).setText(
                                 context.getString(R.string.settings_notification_short,
                                         TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
@@ -118,7 +118,7 @@ public class SettingsGeneral extends BaseActivity {
                     }
                     Reddit.notifications.cancel(context.getApplication());
                     dialog.dismiss();
-                    if (context instanceof Settings)
+                    if (context instanceof SettingsGeneral)
                         ((TextView) context.findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
 
                 }

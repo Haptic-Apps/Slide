@@ -29,6 +29,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     private final List<String> objects;
     private Filter filter;
     public ArrayList<String> fitems;
+    public boolean openInSubView = true;
 
     public SideArrayAdapter(Context context, ArrayList<String> objects) {
         super(context, 0, objects);
@@ -87,24 +88,22 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 results.values = list;
                 results.count = list.size();
             } else {
-                Boolean showGoTo = true;
+                openInSubView = true;
                 final ArrayList<String> list = new ArrayList<>(objects);
                 final ArrayList<String> nlist = new ArrayList<>();
-                int count = list.size();
 
-                for (int i = 0; i < count; i++) {
-                    final String sub = list.get(i);
-
+                for (String sub : list) {
                     if (sub.contains(prefix))
                         nlist.add(sub);
                     if (sub.equals(prefix))
-                        showGoTo = false;
-
-                    results.values = nlist;
-                    results.count = nlist.size();
+                        openInSubView = false;
                 }
-                if (showGoTo)
+                if (openInSubView) {
                     nlist.add(getContext().getString(R.string.search_goto) + " " + prefix);
+                }
+
+                results.values = nlist;
+                results.count = nlist.size();
             }
             return results;
         }

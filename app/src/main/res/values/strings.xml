@@ -293,6 +293,7 @@
     <string name="misc_continue">Continue</string>
     <string name="misc_unsubscribed">Unsubscribed</string>
     <string name="misc_no_more_posts">No more posts!</string>
+    <string name="misc_please_wait">Please wait…</string>
 
 
     <!-- Goto User -->
