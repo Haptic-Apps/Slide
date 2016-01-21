@@ -154,6 +154,7 @@ public class MainActivity extends BaseActivity {
                     if (count == 0) {
                         headerMain.findViewById(R.id.count).setVisibility(View.GONE);
                     } else {
+                        headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
                     }
                 }
