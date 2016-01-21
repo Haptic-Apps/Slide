@@ -889,12 +889,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
                 ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
-            } else {
-
-                if (holder.gild.getVisibility() == View.VISIBLE)
-
+            } else if (holder.gild.getVisibility() == View.VISIBLE)
                     holder.gild.setVisibility(View.GONE);
-            }
 
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
