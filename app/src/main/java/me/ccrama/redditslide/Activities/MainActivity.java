@@ -100,6 +100,12 @@ public class MainActivity extends BaseActivity {
     static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
 
+    static final int TUTORIAL_RESULT = 55;
+    static final int INBOX_RESULT = 66;
+    static final int RESET_ADAPTER_RESULT = 3;
+    static final int RESET_THEME_RESULT = 1;
+    static final int SETTINGS_RESULT = 2;
+
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
@@ -120,14 +126,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 2) {
+        if (requestCode == SETTINGS_RESULT) {
             int current = pager.getCurrentItem();
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);
-        } else if (requestCode == 1) {
+        } else if (requestCode == RESET_THEME_RESULT) {
             restartTheme();
-        } else if (requestCode == 3) {
+        } else if (requestCode == RESET_ADAPTER_RESULT) {
             resetAdapter();
         } else if (requestCode == 4 && resultCode != 4) { //what?
             if (e != null) {
@@ -135,10 +141,10 @@ public class MainActivity extends BaseActivity {
                 e.setText("");
                 drawerLayout.closeDrawers();
             }
-        } else if (requestCode == 55) {
+        } else if (requestCode == TUTORIAL_RESULT) {
             doDrawer();
             setDataSet(SubredditStorage.subredditsForHome);
-        } else if (requestCode == 66) {
+        } else if (requestCode == INBOX_RESULT) {
             new AsyncTask<Void, Void, Void>() {
                 int count;
 
@@ -244,7 +250,7 @@ public class MainActivity extends BaseActivity {
         if (!Reddit.colors.contains("Tutorial")) {
             first = true;
             Intent i = new Intent(this, Tutorial.class);
-            startActivityForResult(i, 55);
+            startActivityForResult(i, TUTORIAL_RESULT);
         } else if (!Reddit.colors.contains("451update")) {
             new MaterialDialog.Builder(this)
                     .title("Slide v4.5.1")
@@ -740,7 +746,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, ListViewDraggingAnimation.class);
-                    MainActivity.this.startActivityForResult(inte, 3);
+                    MainActivity.this.startActivityForResult(inte, RESET_ADAPTER_RESULT);
                     subToDo = usedArray.get(pager.getCurrentItem());
 
 
@@ -805,7 +811,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Inbox.class);
-                    MainActivity.this.startActivityForResult(inte, 66);
+                    MainActivity.this.startActivityForResult(inte, INBOX_RESULT);
                 }
             });
             if (Authentication.mod) {
@@ -890,7 +896,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, Settings.class);
-                startActivityForResult(i, 1);
+                startActivityForResult(i, SETTINGS_RESULT);
                 // Cancel sub loading because exiting the settings will reload it anyway
                 if (mAsyncGetSubreddit != null)
                     mAsyncGetSubreddit.cancel(true);
