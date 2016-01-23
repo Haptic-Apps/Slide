@@ -31,6 +31,7 @@ public class MultiredditPosts implements PostLoader {
     public boolean nomore = false;
     public MultiredditAdapter adapter;
 
+    public boolean skipOne;
     /**
      *
      * @param multiRedditDisplayName the display name of the multireddit
@@ -133,6 +134,8 @@ public class MultiredditPosts implements PostLoader {
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
                     paginator.setSorting(Reddit.defaultSorting);
                     paginator.setTimePeriod(Reddit.timePeriod);
+                    if(skipOne)
+                        paginator.next();
                 }
 
                 if(!paginator.hasNext()){

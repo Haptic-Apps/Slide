@@ -78,6 +78,11 @@
 
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.Loader"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.SettingsFont"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
@@ -243,7 +248,7 @@
 
             android:theme="@style/swipeable" />
         <activity
-            android:name=".DragSort.ListViewDraggingAnimation"
+            android:name=".DragSort.ReorderSubreddits"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:theme="@style/swipeable" />

@@ -366,6 +366,20 @@ public class SettingsTheme extends BaseActivity {
                 SettingValues.prefs.edit().putBoolean("colorEverywhere", isChecked).apply();
             }
         });
+
+        final SwitchCompat colorNavbarSwitch = (SwitchCompat) findViewById(R.id.color_navigation_bar);
+
+        colorNavbarSwitch.setChecked(Reddit.colorNavBar);
+        colorNavbarSwitch.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.colorNavBar = isChecked;
+                SettingValues.prefs.edit().putBoolean("colorNavBar", isChecked).apply();
+                themeSystemBars("");
+
+            }
+        });
     }
 
 }

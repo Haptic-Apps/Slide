@@ -26,12 +26,6 @@
 
             android:background="@drawable/circle" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-
-            android:orientation="vertical">
-
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
@@ -41,6 +35,5 @@
                 android:textColor="?attr/font"
                 android:textSize="16sp" />
 
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

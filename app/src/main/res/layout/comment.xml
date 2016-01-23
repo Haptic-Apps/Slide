@@ -10,11 +10,6 @@
 
     android:scrollbars="none">
 
-    <LinearLayout
-        android:id="@+id/commentArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
 
     <LinearLayout
         android:id="@+id/next"
@@ -98,7 +93,7 @@
 
                     android:paddingRight="5dp"
                     android:text="ccrama"
-
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commenttitle"
                     android:textStyle="bold"
@@ -111,13 +106,14 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
                     android:text="+49"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commentinfo"
 
-                    android:textStyle="bold" />
+                    />
 
                 <TextView
                     android:id="@+id/time"
@@ -126,10 +122,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
                     android:text="4 hours ago"
-
                     android:textColor="?attr/font"
 
                     android:textSize="?attr/font_commentinfo" />
@@ -215,6 +210,7 @@
                 android:layout_below="@+id/flow"
                 android:paddingBottom="8dp"
 
+                android:lineSpacingMultiplier="1.1"
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_commentbody" />
 
@@ -235,5 +231,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
+    <LinearLayout
+        android:id="@+id/commentArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
 
 </LinearLayout>

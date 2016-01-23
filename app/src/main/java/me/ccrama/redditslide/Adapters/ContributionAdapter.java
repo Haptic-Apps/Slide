@@ -238,7 +238,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return true;
                 }
             });
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false);
 
             final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
             if (hideButton != null && isHiddenPost) {
@@ -272,12 +272,14 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
-            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, comment.getSubredditName());
+            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, mContext, comment.getSubredditName());
+
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
-            } else {
+                ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
+            } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
-            }
+
             holder.title.setText(Html.fromHtml(comment.getSubmissionTitle()));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

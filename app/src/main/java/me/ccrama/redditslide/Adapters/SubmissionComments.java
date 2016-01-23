@@ -46,7 +46,7 @@ public class SubmissionComments {
             for (CommentNode n : baseComment.walkTree()) {
                 CommentObject obj = new CommentObject(n);
                 if (n.getDepth() <= toPut && toDo != null) {
-                    obj.setMoreChildren(toDo, toDoComment);
+                   obj.setMoreChildren(toDo, toDoComment);
                     toPut = -1;
                     toDo = null;
                 }
@@ -136,7 +136,7 @@ public class SubmissionComments {
 
                     CommentObject obj = new CommentObject(n);
                     if (n.getDepth() <= toPut && toDo != null) {
-                        obj.setMoreChildren(toDo, toDoComment);
+                        comments.get(comments.size() - 1).setMoreChildren(toDo, toDoComment);
                         toPut = -1;
                         toDo = null;
                     }

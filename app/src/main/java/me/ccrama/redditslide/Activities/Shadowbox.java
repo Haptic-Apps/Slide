@@ -19,6 +19,8 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.Gif;
 import me.ccrama.redditslide.Fragments.ImageFull;
+import me.ccrama.redditslide.Fragments.SelftextFull;
+import me.ccrama.redditslide.Fragments.TitleFull;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 
@@ -163,10 +165,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
                 case SELF: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    f.setArguments(args);
+                    if(subredditPosts.getPosts().get(i).getSelftext().isEmpty()){
+                        f = new TitleFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    } else {
+                        f = new SelftextFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    }
                 }
                 break;
                 case GFY: {
@@ -212,10 +221,17 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
                 case NONE: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    f.setArguments(args);
+                    if(subredditPosts.getPosts().get(i).getSelftext().isEmpty()){
+                        f = new TitleFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    } else {
+                        f = new SelftextFull();
+                        Bundle args = new Bundle();
+                        args.putInt("page", i);
+                        f.setArguments(args);
+                    }
                 }
                 break;
                 case NONE_IMAGE: {

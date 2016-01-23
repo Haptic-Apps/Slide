@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
-import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -65,6 +65,8 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.util.JrawUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -80,7 +82,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
-import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
+import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -93,6 +95,7 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class MainActivity extends BaseActivity {
+    private static final String TAG = "MainActivity";
     // Instance state keys
     static final String SUBS = "subscriptions";
     static final String SUBS_ALPHA = "subscriptionsAlpha";
@@ -100,7 +103,7 @@ public class MainActivity extends BaseActivity {
     static final String LOGGED_IN = "loggedIn";
     static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
-
+    public static Loader loader;
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
@@ -121,9 +124,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
         if (requestCode == 2) {
-            // Make sure the request was successful
             int current = pager.getCurrentItem();
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
@@ -156,7 +157,10 @@ public class MainActivity extends BaseActivity {
                 protected void onPostExecute(Void aVoid) {
                     if (count == 0) {
                         headerMain.findViewById(R.id.count).setVisibility(View.GONE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        notificationManager.cancelAll();
                     } else {
+                        headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
                     }
                 }
@@ -215,7 +219,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
-
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -247,40 +250,35 @@ public class MainActivity extends BaseActivity {
             first = true;
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, 55);
-        } else if (!Reddit.colors.contains("v4.5update")) {
+        } else if (!Reddit.colors.contains("451update")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.5")
-                    .content("I’m proud to announce Slide v4.5. RAM use has been greatly reduced, stability increased, and lots of new features added! \n" +
-                            "\t•Offline mode and auto data caching\n" +
-                            "\t•Startup time now close to instant\n" +
-                            "\t•Swipe back from anywhere (enable in General Settings)\n" +
-                            "\t•Improved toolbar and subreddit sidebar\n" +
-                            "\t•Search reddit\n" +
-                            "\t•Center image card mode\n" +
-                            "\t•Improved theme dialog\n" +
-                            "\t•Edit and delete comments\n" +
-                            "\t•Redesigned settings\n" +
-                            "\t•Reduced memory use by ¾\n" +
-                            "\t•TONS of stability improvements and bugfixes\n" +
-                            "\t•Improved backup and restore settings\n" +
-                            "\t•Enter animations\n" +
-                            "\t•Fixed opening from background randomly\n" +
-                            "\t•Cache gifs for faster retrieval and less data use\n" +
-                            "\t•Mutliselect edit subreddit theme\n" +
-                            "\t•Much more!\n"
+                    .title("Slide v4.5.1")
+                    .content("I’m happy to announce Slide v4.5.1!\n" +
+                            "\t•Revamped Shadowbox mode with title and selftext posts, loading bars, and better layout\n" +
+                            "\t•New image, gif, and album UI\n" +
+                            "\t•Removed pinning, replaced with the ability to reorder all your subs and add non-subscribed subreddits\n" +
+                            "\t•Separate theme option to only color cards outside of the subreddit\n" +
+                            "\t•Amoled black color option for subreddits\n" +
+                            "\t•Search from single subreddit view\n" +
+                            "\t•Fixed readability issues with some subreddit colors and dark/light fonts\n" +
+                            "\t•Ability to tint the navigation bar added\n" +
+                            "\t•Ability to set the comment font size separate from the post title size added\n" +
+                            "\t•Ability to make the drawer subreddit list alphabetical or sortable\n" +
+                            "\t•Fixed some filter bugs\n" +
+                            "\t•Fixed crash in offline mode\n"
                             + "Make sure to report all bugs to the G+ group!")
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("v4.5update", true).apply();
+                            Reddit.colors.edit().putBoolean("451update", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("v4.5update", true).apply();
+                            Reddit.colors.edit().putBoolean("451update", true).apply();
 
                         }
                     })
@@ -369,14 +367,9 @@ public class MainActivity extends BaseActivity {
         } else if (!first) {
             ((Reddit) getApplication()).doMainStuff();
 
+            Intent i = new Intent(this, Loader.class);
+            startActivity(i);
 
-            final Dialog d = new MaterialDialog.Builder(this)
-                    .title("Loading Data")
-                    .cancelable(false)
-                    .progress(true, 100)
-                    .show();
-
-            findViewById(R.id.header).setVisibility(View.GONE);
 
             //Hopefully will allow Authentication time to authenticate and for SubredditStorage to get subs list
             mToolbar.postDelayed(new Runnable() {
@@ -386,12 +379,22 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void run() {
                             if (SubredditStorage.subredditsForHome != null) {
-                                findViewById(R.id.header).setVisibility(View.VISIBLE);
 
-                                doDrawer();
+                                mToolbar.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (loader != null) {
+                                            findViewById(R.id.header).setVisibility(View.VISIBLE);
 
-                                setDataSet(SubredditStorage.subredditsForHome);
-                                d.dismiss();
+                                            doDrawer();
+
+                                            setDataSet(SubredditStorage.subredditsForHome);
+                                            loader.finish();
+                                            loader = null;
+                                            System.gc();
+                                        }
+                                    }
+                                }, 2000);
                             } else {
                                 mToolbar.postDelayed(this, 2000);
                             }
@@ -402,6 +405,8 @@ public class MainActivity extends BaseActivity {
             }, 2000);
 
         }
+        System.gc();
+
     }
 
     @Override
@@ -427,7 +432,7 @@ public class MainActivity extends BaseActivity {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -469,7 +474,7 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")|| subreddit.contains(".") || subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -543,7 +548,7 @@ public class MainActivity extends BaseActivity {
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
 
-            themeStatusBar(usedArray.get(0));
+            themeSystemBars(usedArray.get(0));
             setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
 
@@ -736,7 +741,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, ListViewDraggingAnimation.class);
+                    Intent inte = new Intent(MainActivity.this, ReorderSubreddits.class);
                     MainActivity.this.startActivityForResult(inte, 3);
                     subToDo = usedArray.get(pager.getCurrentItem());
 
@@ -773,7 +778,10 @@ public class MainActivity extends BaseActivity {
                 protected void onPostExecute(Void aVoid) {
                     if (count == 0) {
                         header.findViewById(R.id.count).setVisibility(View.GONE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        notificationManager.cancelAll();
                     } else {
+                        header.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) header.findViewById(R.id.count)).setText(count + "");
                     }
                 }
@@ -815,7 +823,6 @@ public class MainActivity extends BaseActivity {
             } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
             }
-
         } else {
             header = inflater.inflate(R.layout.drawer_loggedout, l, false);
             l.addHeaderView(header, null, false);
@@ -912,7 +919,7 @@ public class MainActivity extends BaseActivity {
         l.setAdapter(adapter);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
                 toolbar,
@@ -942,8 +949,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-
-                    if (adapter.fitems == null || adapter.fitems.get(0).startsWith(getString(R.string.search_goto))) {
+                    //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
+                    if (adapter.fitems == null || adapter.openInSubView) {
                         Intent inte = new Intent(MainActivity.this, SubredditView.class);
                         inte.putExtra("subreddit", e.getText().toString());
                         MainActivity.this.startActivity(inte);
@@ -1058,14 +1065,15 @@ public class MainActivity extends BaseActivity {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 pager.setAdapter(adapter);
-                mTabLayout.setupWithViewPager(pager);
+                if (mTabLayout != null)
+                    mTabLayout.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
 
                 int color = Palette.getColor(subToDo);
                 hea.setBackgroundColor(color);
                 findViewById(R.id.header).setBackgroundColor(color);
-                themeStatusBar(subToDo);
+                themeSystemBars(subToDo);
                 setRecentBar(subToDo);
             }
         });
@@ -1075,7 +1083,6 @@ public class MainActivity extends BaseActivity {
         Intent intent = this.getIntent();
         intent.putExtra("pageTo", pager.getCurrentItem());
         finish();
-
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
     }
@@ -1322,20 +1329,15 @@ public class MainActivity extends BaseActivity {
                         }
                     }
 
-                    if (Reddit.single) {
+                    if (hea != null)
                         hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        themeStatusBar(usedArray.get(position));
-                        getSupportActionBar().setTitle(usedArray.get(position));
-                    } else {
-
-                        if (hea != null)
-                            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        themeStatusBar(usedArray.get(position));
-                        mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
-                    }
+                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                    themeSystemBars(usedArray.get(position));
                     setRecentBar(usedArray.get(position));
+
+                    if (Reddit.single) getSupportActionBar().setTitle(usedArray.get(position));
+                    else mTabLayout.setSelectedTabIndicatorColor(
+                            new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                 }
 
                 @Override
@@ -1343,8 +1345,11 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
-            pager.setCurrentItem(1);
-            pager.setCurrentItem(0);
+            if (pager.getAdapter() != null) {
+                pager.getAdapter().notifyDataSetChanged();
+                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
+            }
         }
 
 
@@ -1389,7 +1394,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null) {
-                return usedArray.get(position);
+                return StringUtils.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

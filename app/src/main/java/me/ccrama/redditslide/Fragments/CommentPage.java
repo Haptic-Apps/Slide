@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -407,7 +406,6 @@ public class CommentPage extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.v("Slide", "PAUSING");
         comments.cancelLoad();
     }
 

@@ -248,33 +248,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
         View discard = baseView.findViewById(R.id.discard);
         final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
-        if (n.isScoreHidden()) {
-            String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
 
-            holder.score.setText("[" + scoreText + "]");
+        String scoreText;
+        if (n.isScoreHidden())
+            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+        else scoreText = n.getScore().toString();
 
-        }
+        holder.score.setText(scoreText);
+
         if (up.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorUp);
-            if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore() + 1 + "");
-            }
             upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
-
         } else if (down.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorDown);
             downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
-            if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore() - 1 + "");
-            }
         } else {
             holder.score.setTextColor(holder.textColorRegular);
             downvote.clearColorFilter();
-            if (!n.isScoreHidden()) {
-                holder.score.setText(n.getScore() + "");
-            }
             upvote.clearColorFilter();
-
         }
         {
             final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
@@ -756,7 +747,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final CommentObject prev = users.get(nextPos);
 
-            if (prev.getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(nextPos - 1).getCommentNode().getComment().getFullName())) {
+
+
+            if (users.get(nextPos).getMoreChildren() != null && nextPos != 0 && !hiddenPersons.contains(users.get(getRealPosition(pos - 2)).getCommentNode().getComment().getFullName())) {
+
                 holder.commentArea.removeAllViews();
                 holder.commentArea.setVisibility(View.VISIBLE);
                 LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
@@ -777,7 +771,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (progress.getVisibility() == View.GONE) {
                             progress.setVisibility(View.VISIBLE);
                             ((TextView) moreComments.findViewById(R.id.content)).setText("Loading more comments...");
-                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
+                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition()  ) + 1, holder.getAdapterPosition() + 1, holder).execute(prev);
                         }
 
 
@@ -895,12 +889,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
                 ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
-            } else {
-
-                if (holder.gild.getVisibility() == View.VISIBLE)
-
+            } else if (holder.gild.getVisibility() == View.VISIBLE)
                     holder.gild.setVisibility(View.GONE);
-            }
 
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
@@ -991,7 +981,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             }
         } else {
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived())
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);

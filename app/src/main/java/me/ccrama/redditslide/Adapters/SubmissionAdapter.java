@@ -117,7 +117,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final Submission submission = dataSet.posts.get(i);
 
             CreateCardView.resetColorCard(holder.itemView);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage")||(subreddit.equals("all"))));
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage")||(subreddit.equals("all"))|| subreddit.contains(".") || subreddit.contains("+")));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -269,7 +269,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             });
 
-            new PopulateSubmissionViewHolder().PopulateSubmissionViewHolder(holder, submission, sContext, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, sContext, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
 
             holder.itemView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @TargetApi(Build.VERSION_CODES.LOLLIPOP)

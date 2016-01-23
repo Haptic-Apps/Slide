@@ -28,7 +28,7 @@ public class SettingsReddit extends BaseActivity {
 
             final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
-            nsfwprev.setEnabled(SettingValues.NSFWPreviews);
+            nsfwprev.setChecked(!SettingValues.NSFWPreviews);
             nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -10,11 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
 import net.dean.jraw.models.Submission;
 
@@ -22,8 +28,10 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
@@ -236,7 +244,7 @@ public class ImageFull extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_imagecard, container, false);
 
         final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
@@ -244,45 +252,125 @@ public class ImageFull extends Fragment {
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
         title.setText(s.getTitle());
-        desc.setText(s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()));
+        desc.setText(s.getSubredditName() + getString(R.string.submission_properties_seperator) + s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()) +
+                getString(R.string.submission_properties_seperator) +
+                PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
+                + getString(R.string.submission_properties_seperator)
+                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
+                + getString(R.string.submission_properties_seperator)
+                + Website.getDomainName(s.getUrl()));
+
+        (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
+
+
+
         ContentType.ImageType type = ContentType.getImageType(s);
 
         String url;
 
-        if (type.toString().toLowerCase().contains("image")) {
+        if (type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.IMAGE_LINK) {
             addClickFunctions(image, rootView, type, getActivity(), s);
 
             url = s.getUrl();
-            ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                    .loadImage(url,
-                            new SimpleImageLoadingListener() {
+            final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
+            bar.setIndeterminate(false);
+            bar.setProgress(0);
+            if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
+                url = url + ".png";
+            }
+            ImageView fakeImage = new ImageView(getActivity());
+            fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
+            fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                                @Override
-                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                    image.setImage(ImageSource.bitmap(loadedImage));
-                                }
 
+            ((Reddit) getActivity().getApplication()).getImageLoader()
+                    .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
+                        private View mView;
 
-                            });
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            mView = view;
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            Log.v("Slide", "LOADING FAILED");
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            image.setImage(ImageSource.bitmap(loadedImage));
+                            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+                            Log.v("Slide", "LOADING CANCELLED");
+
+                        }
+                    }, new ImageLoadingProgressListener() {
+                        @Override
+                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                            ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
+                        }
+                    });
+
         } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
 
             url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            ((Reddit) getContext().getApplicationContext()).getImageLoader()
-                    .loadImage(url,
-                            new SimpleImageLoadingListener() {
+            final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
+            bar.setIndeterminate(false);
+            bar.setProgress(0);
+            if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
+                url = url + ".png";
+            }
+            ImageView fakeImage = new ImageView(getActivity());
+            fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
+            fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                                @Override
-                                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                    image.setImage(ImageSource.bitmap(loadedImage));
-                                }
 
+            ((Reddit) getActivity().getApplication()).getImageLoader()
+                    .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
+                        private View mView;
 
-                            });
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            mView = view;
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            Log.v("Slide", "LOADING FAILED");
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            image.setImage(ImageSource.bitmap(loadedImage));
+                            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+                            Log.v("Slide", "LOADING CANCELLED");
+
+                        }
+                    }, new ImageLoadingProgressListener() {
+                        @Override
+                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                            ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
+                        }
+                    });
 
         } else {
-            addClickFunctions(image, rootView, type, getActivity(), s);
-            Log.v("Slide", "NO IMAGE");
             image.recycle();
+            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+            ((ImageView)rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
+            addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);
+
+            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+
         }
 
 

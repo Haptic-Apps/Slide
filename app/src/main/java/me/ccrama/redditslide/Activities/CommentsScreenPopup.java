@@ -11,7 +11,6 @@ import android.view.Window;
 
 import net.dean.jraw.models.Submission;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.DataShare;
@@ -61,7 +60,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
             @Override
             public void onPageSelected(int position) {
                 //todo load more
-                themeStatusBar(posts.get(position).getSubredditName());
+                themeSystemBars(posts.get(position).getSubredditName());
                 HasSeen.addSeen(posts.get(position).getFullName());
             }
 

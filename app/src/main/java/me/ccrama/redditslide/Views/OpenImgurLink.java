@@ -10,6 +10,7 @@ import com.koushikdutta.ion.Ion;
 
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by carlo_000 on 1/16/2016.
@@ -22,6 +23,7 @@ public class OpenImgurLink {
 
         String hash = url.substring(url.lastIndexOf("/"), url.length());
 
+        if(NetworkUtil.isConnected(c))
         Ion.with(c).load("https://api.imgur.com/2/image/" + hash + ".json")
                 .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
