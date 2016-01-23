@@ -771,7 +771,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (progress.getVisibility() == View.GONE) {
                             progress.setVisibility(View.VISIBLE);
                             ((TextView) moreComments.findViewById(R.id.content)).setText("Loading more comments...");
-                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
+                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition()  ) + 1, holder.getAdapterPosition() + 1, holder).execute(prev);
                         }
 
 
@@ -1151,7 +1151,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.children.setVisibility(View.VISIBLE);
                     ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
                     //todo maybe holder.content.setVisibility(View.GONE);
-                    notifyItemChanged(holder.getAdapterPosition() + 1 );
                 }
             }
             clickpos = holder.getAdapterPosition() + 1;

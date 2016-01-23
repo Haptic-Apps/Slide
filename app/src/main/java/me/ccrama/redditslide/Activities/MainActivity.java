@@ -65,6 +65,8 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.util.JrawUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -430,7 +432,7 @@ public class MainActivity extends BaseActivity {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -472,7 +474,7 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")|| subreddit.contains(".") || subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -1392,7 +1394,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null) {
-                return usedArray.get(position);
+                return StringUtils.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

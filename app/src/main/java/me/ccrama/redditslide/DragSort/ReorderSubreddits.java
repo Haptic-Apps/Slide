@@ -74,6 +74,45 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 recyclerView.setAdapter(adapter);
             }
         });
+        findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
+                subs2.remove("frontpage");
+                subs2.remove("all");
+
+                final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs.size()]);
+
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
+                builder.title("Select a subreddit to add")
+                        .items(subsAsChar)
+                        .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                ArrayList<String> selectedSubs = new ArrayList<>();
+                                for (int i : which) {
+                                    selectedSubs.add(subsAsChar[i].toString());
+                                }
+
+                                StringBuilder b = new StringBuilder();
+
+                                for(String s : selectedSubs){
+                                    b.append(s);
+                                    b.append("+");
+                                }
+                                String finalS = b.toString().substring(0, b.length() - 1);
+                                Log.v("Slide", finalS);
+                                subs.add(finalS);
+                                adapter.notifyDataSetChanged();
+                                recyclerView.smoothScrollToPosition(subs.size());
+                                return true;
+                            }
+                        })
+                        .positiveText(R.string.btn_add)
+                        .negativeText(R.string.btn_cancel)
+                        .show();
+            }
+        });
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

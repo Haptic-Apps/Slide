@@ -10,11 +10,6 @@
 
     android:scrollbars="none">
 
-    <LinearLayout
-        android:id="@+id/commentArea"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" />
 
     <LinearLayout
         android:id="@+id/next"
@@ -111,8 +106,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
                     android:text="+49"
                     android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
@@ -127,10 +122,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
                     android:text="4 hours ago"
-                    android:fontFamily="sans-serif-thin"
                     android:textColor="?attr/font"
 
                     android:textSize="?attr/font_commentinfo" />
@@ -237,5 +231,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
+    <LinearLayout
+        android:id="@+id/commentArea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" />
 
 </LinearLayout>
