@@ -98,7 +98,7 @@
 
                     android:paddingRight="5dp"
                     android:text="ccrama"
-
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commenttitle"
                     android:textStyle="bold"
@@ -114,10 +114,11 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="+49"
+                    android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commentinfo"
 
-                    android:textStyle="bold" />
+                    />
 
                 <TextView
                     android:id="@+id/time"
@@ -129,7 +130,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:text="4 hours ago"
-
+                    android:fontFamily="sans-serif-thin"
                     android:textColor="?attr/font"
 
                     android:textSize="?attr/font_commentinfo" />
@@ -215,6 +216,7 @@
                 android:layout_below="@+id/flow"
                 android:paddingBottom="8dp"
 
+                android:lineSpacingMultiplier="1.1"
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_commentbody" />
 
