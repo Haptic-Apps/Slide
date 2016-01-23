@@ -81,7 +81,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 subs2.remove("frontpage");
                 subs2.remove("all");
 
-                final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs.size()]);
+                final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
                 builder.title("Select a subreddit to add")
