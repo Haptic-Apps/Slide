@@ -7,10 +7,13 @@ import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
-import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -35,28 +38,21 @@ public class SubmissionComments {
 
         this.refreshLayout = layout;
 
-        if(s.getComments() != null){
+        if (s.getComments() != null) {
             submission = s;
             CommentNode baseComment = s.getComments();
             comments = new ArrayList<>();
 
-            int toPut = -1;
-            MoreChildren toDo = null;
-            CommentNode toDoComment = null;
             for (CommentNode n : baseComment.walkTree()) {
-                CommentObject obj = new CommentObject(n);
-                if (n.getDepth() <= toPut && toDo != null) {
-                   obj.setMoreChildren(toDo, toDoComment);
-                    toPut = -1;
-                    toDo = null;
-                }
+
+                CommentObject obj = new CommentItem(n);
+
                 comments.add(obj);
 
 
                 if (n.hasMoreComments()) {
-                    toPut = n.getDepth();
-                    toDo = n.getMoreChildren();
-                    toDoComment = n;
+
+                    comments.add(new MoreChildItem(n, n.getMoreChildren()));
                 }
             }
             if (adapter != null) {
@@ -127,30 +123,37 @@ public class SubmissionComments {
                 submission = Authentication.reddit.getSubmission(builder.build());
                 CommentNode baseComment = submission.getComments();
                 comments = new ArrayList<>();
+                HashMap<Integer, MoreChildItem> waiting  = new HashMap<>();
 
-                int i = 0;
-                int toPut = -1;
-                MoreChildren toDo = null;
-                CommentNode toDoComment = null;
+
                 for (CommentNode n : baseComment.walkTree()) {
 
-                    CommentObject obj = new CommentObject(n);
-                    if (n.getDepth() <= toPut && toDo != null) {
-                        comments.get(comments.size() - 1).setMoreChildren(toDo, toDoComment);
-                        toPut = -1;
-                        toDo = null;
+                    CommentObject obj = new CommentItem(n);
+                    ArrayList<Integer> removed = new ArrayList<>();
+                    Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
+                    map.putAll(waiting);
+
+                    for (Integer i : map.keySet()) {
+                        if(i >= n.getDepth()) {
+                            comments.add(waiting.get(i));
+                            removed.add(i);
+                            waiting.remove(i);
+
+                        }
                     }
+
+
+
                     comments.add(obj);
 
-
                     if (n.hasMoreComments()) {
-                        toPut = n.getDepth();
-                        toDo = n.getMoreChildren();
-                        toDoComment = n;
+
+                        waiting.put(n.getDepth(),new MoreChildItem(n, n.getMoreChildren()) );
                     }
-                    i++;
 
                 }
+
+
                 return comments;
             } catch (NetworkException e) {
                 //Todo reauthenticate

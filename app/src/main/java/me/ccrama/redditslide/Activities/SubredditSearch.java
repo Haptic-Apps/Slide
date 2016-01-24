@@ -11,6 +11,7 @@ import net.dean.jraw.models.CommentNode;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterSearch;
+import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
@@ -35,7 +36,8 @@ public class SubredditSearch extends BaseActivityAnim {
         ArrayList<CommentNode> comments = new ArrayList<>();
         ArrayList<CommentObject> commentsOld = DataShare.sharedComments;
         for (CommentObject o : commentsOld) {
-            comments.add(o.getCommentNode());
+            if(o instanceof CommentItem)
+            comments.add(o.comment);
 
         }
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv, DataShare.subAuthor);
