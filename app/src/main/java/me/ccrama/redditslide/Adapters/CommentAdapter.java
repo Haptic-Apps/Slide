@@ -771,7 +771,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (progress.getVisibility() == View.GONE) {
                             progress.setVisibility(View.VISIBLE);
                             ((TextView) moreComments.findViewById(R.id.content)).setText("Loading more comments...");
-                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) + 1, holder.getAdapterPosition(), holder).execute(prev);
+                            new AsyncLoadMore(getRealPosition(holder.getAdapterPosition()  ) + 1, holder.getAdapterPosition() + 1, holder).execute(prev);
                         }
 
 
@@ -889,12 +889,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
                 ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
-            } else {
-
-                if (holder.gild.getVisibility() == View.VISIBLE)
-
+            } else if (holder.gild.getVisibility() == View.VISIBLE)
                     holder.gild.setVisibility(View.GONE);
-            }
 
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
@@ -1155,7 +1151,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.children.setVisibility(View.VISIBLE);
                     ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
                     //todo maybe holder.content.setVisibility(View.GONE);
-                    notifyItemChanged(holder.getAdapterPosition() + 1 );
                 }
             }
             clickpos = holder.getAdapterPosition() + 1;

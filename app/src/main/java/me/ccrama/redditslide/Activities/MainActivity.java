@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -64,6 +65,8 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.util.JrawUtils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -79,7 +82,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
-import me.ccrama.redditslide.DragSort.ListViewDraggingAnimation;
+import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -92,6 +95,7 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class MainActivity extends BaseActivity {
+    private static final String TAG = "MainActivity";
     // Instance state keys
     static final String SUBS = "subscriptions";
     static final String SUBS_ALPHA = "subscriptionsAlpha";
@@ -99,7 +103,7 @@ public class MainActivity extends BaseActivity {
     static final String LOGGED_IN = "loggedIn";
     static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
-
+    public static Loader loader;
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
@@ -153,7 +157,10 @@ public class MainActivity extends BaseActivity {
                 protected void onPostExecute(Void aVoid) {
                     if (count == 0) {
                         headerMain.findViewById(R.id.count).setVisibility(View.GONE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        notificationManager.cancelAll();
                     } else {
+                        headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
                     }
                 }
@@ -209,7 +216,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static Loader loader;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -361,8 +367,6 @@ public class MainActivity extends BaseActivity {
         } else if (!first) {
             ((Reddit) getApplication()).doMainStuff();
 
-
-
             Intent i = new Intent(this, Loader.class);
             startActivity(i);
 
@@ -379,7 +383,7 @@ public class MainActivity extends BaseActivity {
                                 mToolbar.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if(loader != null){
+                                        if (loader != null) {
                                             findViewById(R.id.header).setVisibility(View.VISIBLE);
 
                                             doDrawer();
@@ -428,7 +432,7 @@ public class MainActivity extends BaseActivity {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage")) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -470,7 +474,7 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")|| subreddit.contains(".") || subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -544,8 +548,7 @@ public class MainActivity extends BaseActivity {
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
 
-            themeStatusBar(usedArray.get(0));
-            themeNavigationBar(usedArray.get(0));
+            themeSystemBars(usedArray.get(0));
             setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
 
@@ -738,7 +741,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, ListViewDraggingAnimation.class);
+                    Intent inte = new Intent(MainActivity.this, ReorderSubreddits.class);
                     MainActivity.this.startActivityForResult(inte, 3);
                     subToDo = usedArray.get(pager.getCurrentItem());
 
@@ -775,6 +778,8 @@ public class MainActivity extends BaseActivity {
                 protected void onPostExecute(Void aVoid) {
                     if (count == 0) {
                         header.findViewById(R.id.count).setVisibility(View.GONE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        notificationManager.cancelAll();
                     } else {
                         header.findViewById(R.id.count).setVisibility(View.VISIBLE);
                         ((TextView) header.findViewById(R.id.count)).setText(count + "");
@@ -818,7 +823,6 @@ public class MainActivity extends BaseActivity {
             } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
             }
-
         } else {
             header = inflater.inflate(R.layout.drawer_loggedout, l, false);
             l.addHeaderView(header, null, false);
@@ -915,7 +919,7 @@ public class MainActivity extends BaseActivity {
         l.setAdapter(adapter);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
                 toolbar,
@@ -945,8 +949,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-
-                    if (adapter.fitems == null || adapter.fitems.get(0).startsWith(getString(R.string.search_goto))) {
+                    //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
+                    if (adapter.fitems == null || adapter.openInSubView) {
                         Intent inte = new Intent(MainActivity.this, SubredditView.class);
                         inte.putExtra("subreddit", e.getText().toString());
                         MainActivity.this.startActivity(inte);
@@ -1061,16 +1065,15 @@ public class MainActivity extends BaseActivity {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 pager.setAdapter(adapter);
-                if(mTabLayout != null)
-                mTabLayout.setupWithViewPager(pager);
+                if (mTabLayout != null)
+                    mTabLayout.setupWithViewPager(pager);
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
 
                 int color = Palette.getColor(subToDo);
                 hea.setBackgroundColor(color);
                 findViewById(R.id.header).setBackgroundColor(color);
-                themeStatusBar(subToDo);
-                themeNavigationBar(subToDo);
+                themeSystemBars(subToDo);
                 setRecentBar(subToDo);
             }
         });
@@ -1326,22 +1329,15 @@ public class MainActivity extends BaseActivity {
                         }
                     }
 
-                    if (Reddit.single) {
+                    if (hea != null)
                         hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        themeStatusBar(usedArray.get(position));
-                        themeNavigationBar(usedArray.get(position));
-                        getSupportActionBar().setTitle(usedArray.get(position));
-                    } else {
-
-                        if (hea != null)
-                            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        themeStatusBar(usedArray.get(position));
-                        themeNavigationBar(usedArray.get(position));
-                        mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
-                    }
+                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                    themeSystemBars(usedArray.get(position));
                     setRecentBar(usedArray.get(position));
+
+                    if (Reddit.single) getSupportActionBar().setTitle(usedArray.get(position));
+                    else mTabLayout.setSelectedTabIndicatorColor(
+                            new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                 }
 
                 @Override
@@ -1349,7 +1345,7 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
-            if(pager.getAdapter() != null) {
+            if (pager.getAdapter() != null) {
                 pager.getAdapter().notifyDataSetChanged();
                 pager.setCurrentItem(1);
                 pager.setCurrentItem(0);
@@ -1398,7 +1394,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null) {
-                return usedArray.get(position);
+                return StringUtils.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

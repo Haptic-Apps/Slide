@@ -376,6 +376,7 @@ public class SettingsTheme extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Reddit.colorNavBar = isChecked;
                 SettingValues.prefs.edit().putBoolean("colorNavBar", isChecked).apply();
+                themeSystemBars("");
 
             }
         });

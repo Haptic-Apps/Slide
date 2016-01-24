@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
@@ -55,10 +54,8 @@ public class SubredditStorage {
 
     public static void getSubredditsForHome(Reddit a) {
         String s = subscriptions.getString(Authentication.name, "");
-        Log.v("Slide", "NAME IS " + Authentication.name);
         final boolean online = NetworkUtil.isConnected(a);
         if (s.isEmpty()) {
-            Log.v("Slide", "REDOING SUBS");
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {

@@ -44,58 +44,12 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
-public class ListViewDraggingAnimation extends BaseActivityAnim {
+public class ReorderSubreddits extends BaseActivityAnim {
     String input;
 
     ArrayList<String> subs;
     CustomAdapter adapter;
     RecyclerView recyclerView;
-    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
-
-        @Override
-        public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null) {
-                subs.add(input);
-                adapter.notifyDataSetChanged();
-                recyclerView.smoothScrollToPosition(subs.size());
-            }
-        }
-
-        @Override
-        protected Subreddit doInBackground(final String... params) {
-            try {
-                return Authentication.reddit.getSubreddit(params[0]);
-            } catch (Exception e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new AlertDialogWrapper.Builder(ListViewDraggingAnimation.this)
-                                    .setTitle(R.string.subreddit_err)
-                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-
-                                        }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-
-                                }
-                            }).show();
-                        } catch (Exception e) {
-
-                        }
-                    }
-                });
-
-                return null;
-            }
-        }
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +74,50 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
                 recyclerView.setAdapter(adapter);
             }
         });
+        findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
+                subs2.remove("frontpage");
+                subs2.remove("all");
+
+                final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
+
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
+                builder.title("Select a subreddit to add")
+                        .items(subsAsChar)
+                        .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                ArrayList<String> selectedSubs = new ArrayList<>();
+                                for (int i : which) {
+                                    selectedSubs.add(subsAsChar[i].toString());
+                                }
+
+                                StringBuilder b = new StringBuilder();
+
+                                for(String s : selectedSubs){
+                                    b.append(s);
+                                    b.append("+");
+                                }
+                                String finalS = b.toString().substring(0, b.length() - 1);
+                                Log.v("Slide", finalS);
+                                subs.add(finalS);
+                                adapter.notifyDataSetChanged();
+                                recyclerView.smoothScrollToPosition(subs.size());
+                                return true;
+                            }
+                        })
+                        .positiveText(R.string.btn_add)
+                        .negativeText(R.string.btn_cancel)
+                        .show();
+            }
+        });
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog d = new MaterialDialog.Builder(ListViewDraggingAnimation.this).title(R.string.general_sub_sync)
+                final Dialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
+                        .content(R.string.misc_please_wait)
                         .progress(true, 100)
                         .cancelable(false).show();
                 new AsyncTask<Void, Void, Void>() {
@@ -176,7 +170,7 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
 
         recyclerView.addItemDecoration(dragSortRecycler);
         recyclerView.addOnItemTouchListener(dragSortRecycler);
-        recyclerView.setOnScrollListener(dragSortRecycler.getScrollListener());
+        recyclerView.addOnScrollListener(dragSortRecycler.getScrollListener());
         dragSortRecycler.setViewHandleId();
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,32 +182,32 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               new MaterialDialog.Builder(ListViewDraggingAnimation.this)
-                       .title("Add a subreddit")
-                       .inputRangeRes(3, 21, R.color.md_red_500)
-                       .alwaysCallInputCallback()
-                       .input("Subreddit name", null, false, new MaterialDialog.InputCallback() {
-                           @Override
-                           public void onInput(MaterialDialog dialog, CharSequence raw) {
-                               input = raw.toString();
-                           }
-                       })
-                       .positiveText("Add")
-                       .onPositive(new MaterialDialog.SingleButtonCallback() {
-                           @Override
-                           public void onClick(MaterialDialog dialog, DialogAction which) {
-                               Log.v("Slide", input);
-                              new AsyncGetSubreddit().execute(input);
+                new MaterialDialog.Builder(ReorderSubreddits.this)
+                        .title("Add a subreddit")
+                        .inputRangeRes(2, 20, R.color.md_red_500)
+                        .alwaysCallInputCallback()
+                        .input("Subreddit name", null, false, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence raw) {
+                                input = raw.toString();
+                            }
+                        })
+                        .positiveText(R.string.btn_add)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                Log.v("Slide", input);
+                                new AsyncGetSubreddit().execute(input);
 
-                           }
-                       })
-                       .negativeText("Cancel")
-                       .onNegative(new MaterialDialog.SingleButtonCallback() {
-                           @Override
-                           public void onClick(MaterialDialog dialog, DialogAction which) {
+                            }
+                        })
+                        .negativeText(R.string.btn_cancel)
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
 
-                           }
-                       }).show();
+                            }
+                        }).show();
             }
         });
         if (subs != null && !subs.isEmpty()) {
@@ -230,7 +224,53 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
         }
     }
 
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
+        @Override
+        public void onPostExecute(Subreddit subreddit) {
+            if (subreddit != null) {
+                subs.add(input);
+                adapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(subs.size());
+            }
+        }
+
+        @Override
+        protected Subreddit doInBackground(final String... params) {
+            try {
+                if (subs.contains(params[0])) return null;
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch (Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                    .setTitle(R.string.subreddit_err)
+                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+
+                                        }
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+
+                                }
+                            }).show();
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                return null;
+            }
+        }
+
+    }
 
     public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
@@ -257,15 +297,15 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    new AlertDialogWrapper.Builder(ListViewDraggingAnimation.this).setTitle("Remove this sub?")
+                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle("Remove this sub?")
                             .setMessage("You will not be unsubscribed, but will not see this subreddit in your sidebar!")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     subs.remove(items.get(position));
                                     adapter.notifyItemRemoved(position);
                                 }
-                            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -282,7 +322,7 @@ public class ListViewDraggingAnimation extends BaseActivityAnim {
             return items.size();
         }
 
-        public  class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             final TextView text;
 
             public ViewHolder(View itemView) {

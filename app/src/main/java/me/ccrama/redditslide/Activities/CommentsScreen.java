@@ -100,8 +100,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     private void updateSubredditAndSubmission(Submission post) {
         subreddit = post.getSubredditName();
-        themeStatusBar(subreddit);
-        themeNavigationBar(subreddit);
+        themeSystemBars(subreddit);
         setRecentBar(subreddit);
         HasSeen.addSeen(post.getFullName());
     }

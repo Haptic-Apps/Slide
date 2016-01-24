@@ -261,7 +261,12 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                 @Override
                 public void onClick(View v) {
                     if(mGoogleApiClient.isConnected()) {
-                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).cancelable(false).progress(true, 1).build();
+                        progress = new MaterialDialog.Builder(SettingsBackup.this)
+                                .title(R.string.backup_restoring)
+                                .content(R.string.misc_please_wait)
+                                .cancelable(false)
+                                .progress(true, 1)
+                                .build();
                         progress.show();
                         appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback);
                     } else {
