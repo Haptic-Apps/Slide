@@ -483,7 +483,7 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all")|| subreddit.contains(".") || subreddit.contains("+")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.contains(".") || subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -1342,7 +1342,8 @@ public class MainActivity extends BaseActivity {
                     themeSystemBars(usedArray.get(position));
                     setRecentBar(usedArray.get(position));
 
-                    if (Reddit.single) getSupportActionBar().setTitle(usedArray.get(position));
+                    if (Reddit.single)
+                        getSupportActionBar().setTitle(usedArray.get(position));
                     else mTabLayout.setSelectedTabIndicatorColor(
                             new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                 }

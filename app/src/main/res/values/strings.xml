@@ -448,6 +448,7 @@
     <string name="settings_middle_card">Image in middle of card</string>
     <string name="settings_cache_delete">Delete all cached data</string>
     <string name="settings_colored_navigation_bar">Colored navigation bar</string>
+    <string name="settings_imageviewer_background">Use Solid Imageviewer background</string>
 
 
     <!-- Settings titles displayed in settings activity-->

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +20,9 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 import com.google.gson.JsonObject;
+
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -33,6 +36,7 @@ import java.net.URLConnection;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
@@ -61,6 +65,10 @@ public class GifView extends FullScreenActivity {
 
         setContentView(R.layout.activity_gif);
 
+        if (Reddit.imageViewerSolidBackground) {
+            findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
+        }
+
         final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
 
@@ -74,20 +82,19 @@ public class GifView extends FullScreenActivity {
             }
         });
 
-        if(dat.contains("webm") && dat.contains("imgur")){
+        if (dat.contains("webm") && dat.contains("imgur")) {
             dat = dat.replace("webm", "gifv");
         }
-        if(dat.contains("mp4") && dat.contains("imgur")){
+        if (dat.contains("mp4") && dat.contains("imgur")) {
             dat = dat.replace("mp4", "gifv");
         }
 
-            if (dat.endsWith("v")) {
-                dat = dat.substring(0, dat.length() - 1);
-            } else if (dat.contains("gfycat")) {
-                dat = dat.substring(3, dat.length());
-            }
-            new AsyncImageLoader().execute(dat);
-
+        if (dat.endsWith("v")) {
+            dat = dat.substring(0, dat.length() - 1);
+        } else if (dat.contains("gfycat")) {
+            dat = dat.substring(3, dat.length());
+        }
+        new AsyncImageLoader().execute(dat);
 
 
         prefs = getSharedPreferences("DATA", 0);
@@ -272,7 +279,9 @@ public class GifView extends FullScreenActivity {
                                             e2.printStackTrace();
                                         }
                                         return null;
-                                    };
+                                    }
+
+                                    ;
 
 
                                 }.execute();
@@ -526,7 +535,6 @@ public class GifView extends FullScreenActivity {
                                                             });
 
 
-
                                                             videoView.start();
                                                             videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                                                 @Override
@@ -559,7 +567,7 @@ public class GifView extends FullScreenActivity {
         }
 
 
-            }
+    }
 
     public static class AsyncSaveToFile extends AsyncTask<String, Void, Void> {
 
@@ -622,13 +630,12 @@ public class GifView extends FullScreenActivity {
                                         outStream.close();
                                         inStream.close();
                                     }
-                                } catch(Exception e2){
+                                } catch (Exception e2) {
                                     e2.printStackTrace();
                                 }
                             }
                         });
-            }else
-            if (s.endsWith("v")) {
+            } else if (s.endsWith("v")) {
                 s = s.substring(0, s.length() - 1);
             }
             s = s.trim();

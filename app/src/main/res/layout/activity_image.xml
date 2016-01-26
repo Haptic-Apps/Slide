@@ -58,7 +58,7 @@
         android:layout_alignParentTop="true"
         android:indeterminate="false"
         android:max="100"
-
+        android:visibility="invisible"
         android:progress="0"
      />
 </RelativeLayout>
