@@ -376,18 +376,19 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         single = SettingValues.prefs.getBoolean("Single", false);
         animation = SettingValues.prefs.getBoolean("Animation", false);
-        enter_animation_time_multiplier = SettingValues.prefs.getInt("AnimationLengthMultiplier", 1);
+        enter_animation_time_multiplier = SettingValues.prefs.getInt( "AnimationLengthMultiplier", 1 );
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
         fullscreen = SettingValues.prefs.getBoolean("Fullscreen", false);
         blurCheck = SettingValues.prefs.getBoolean("blur", false);
 
         fab = SettingValues.prefs.getBoolean("Fab", false);
-        fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
+        fabType = SettingValues.prefs.getInt( "FabType", R.integer.FAB_POST );
         nighttime = SettingValues.prefs.getInt("day", 20);
         daytime = SettingValues.prefs.getInt("night", 6);
-        autoTime = SettingValues.prefs.getBoolean("autotime", false);
+        autoTime = SettingValues.prefs.getBoolean( "autotime", false );
         colorBack = SettingValues.prefs.getBoolean("colorBack", false);
         colorNavBar = SettingValues.prefs.getBoolean("colorNavBar",false);
+        imageViewerSolidBackground = SettingValues.prefs.getBoolean("imageViewerSolidBackground",false);
         alphabetical_home = SettingValues.prefs.getBoolean("alphabetical_home", true);
         colorEverywhere = SettingValues.prefs.getBoolean("colorEverywhere", true);
 
