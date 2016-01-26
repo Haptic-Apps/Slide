@@ -123,45 +123,45 @@ public class MainActivity extends BaseActivity {
     private boolean mShowInfoButton;
 
     @Override
-    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
-        if ( requestCode == 2 ) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 2) {
             int current = pager.getCurrentItem();
-            adapter = new OverviewPagerAdapter( getSupportFragmentManager() );
-            pager.setAdapter( adapter );
-            pager.setCurrentItem( current );
-        } else if ( requestCode == 1 ) {
+            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+            pager.setCurrentItem(current);
+        } else if (requestCode == 1) {
             restartTheme();
-        } else if ( requestCode == 3 ) {
+        } else if (requestCode == 3) {
             resetAdapter();
-        } else if ( requestCode == 4 && resultCode != 4 ) { //what?
-            if ( e != null ) {
+        } else if (requestCode == 4 && resultCode != 4) { //what?
+            if (e != null) {
                 e.clearFocus();
-                e.setText( "" );
+                e.setText("");
                 drawerLayout.closeDrawers();
             }
-        } else if ( requestCode == 55 ) {
+        } else if (requestCode == 55) {
             doDrawer();
-            setDataSet( SubredditStorage.subredditsForHome );
-        } else if ( requestCode == 66 ) {
+            setDataSet(SubredditStorage.subredditsForHome);
+        } else if (requestCode == 66) {
             new AsyncTask<Void, Void, Void>() {
                 int count;
 
                 @Override
-                protected Void doInBackground( Void... params ) {
+                protected Void doInBackground(Void... params) {
                     count = Authentication.reddit.me().getInboxCount();
 
                     return null;
                 }
 
                 @Override
-                protected void onPostExecute( Void aVoid ) {
-                    if ( count == 0 ) {
-                        headerMain.findViewById( R.id.count ).setVisibility( View.GONE );
-                        NotificationManager notificationManager = ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
+                protected void onPostExecute(Void aVoid) {
+                    if (count == 0) {
+                        headerMain.findViewById(R.id.count).setVisibility(View.GONE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.cancelAll();
                     } else {
-                        headerMain.findViewById( R.id.count ).setVisibility( View.VISIBLE );
-                        ( ( TextView ) headerMain.findViewById( R.id.count ) ).setText( count + "" );
+                        headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
+                        ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
                     }
                 }
             }.execute();
@@ -169,45 +169,45 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onConfigurationChanged( Configuration newConfig ) {
-        super.onConfigurationChanged( newConfig );
-        if ( newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ) {
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             changed = true;
-        } else if ( newConfig.orientation == Configuration.ORIENTATION_PORTRAIT ) {
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             changed = true;
         }
     }
 
     @Override
-    public void onRequestPermissionsResult( int requestCode,
-                                            String permissions[], int[] grantResults ) {
-        switch ( requestCode ) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
             case 1: {
                 // If request is cancelled, the result arrays are empty.
-                if ( grantResults.length > 0
-                        && grantResults[ 0 ] == PackageManager.PERMISSION_GRANTED ) {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
                 } else {
 
-                    new AlertDialogWrapper.Builder( this ).setTitle( R.string.err_permission )
-                            .setMessage( R.string.err_permission_msg )
-                            .setPositiveButton( R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    new AlertDialogWrapper.Builder(this).setTitle(R.string.err_permission)
+                            .setMessage(R.string.err_permission_msg)
+                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick( DialogInterface dialog, int which ) {
-                                    ActivityCompat.requestPermissions( MainActivity.this,
-                                            new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                                            1 );
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(MainActivity.this,
+                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            1);
 
                                 }
-                            } ).setNegativeButton( R.string.btn_no, new DialogInterface.OnClickListener() {
+                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick( DialogInterface dialog, int which ) {
+                        public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
-                    } ).show();
+                    }).show();
                 }
             }
 
@@ -217,16 +217,16 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate( final Bundle savedInstanceState ) {
+    protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
-        super.onCreate( savedInstanceState );
-        if ( ContextCompat.checkSelfPermission( this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE )
-                != PackageManager.PERMISSION_GRANTED ) {
+        super.onCreate(savedInstanceState);
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if ( ActivityCompat.shouldShowRequestPermissionRationale( this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE ) ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
@@ -236,9 +236,9 @@ public class MainActivity extends BaseActivity {
 
                 // No explanation needed, we can request the permission.
 
-                ActivityCompat.requestPermissions( this,
-                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                        1 );
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        1);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
@@ -246,14 +246,14 @@ public class MainActivity extends BaseActivity {
             }
         }
         boolean first = false;
-        if ( !Reddit.colors.contains( "Tutorial" ) ) {
+        if (!Reddit.colors.contains("Tutorial")) {
             first = true;
-            Intent i = new Intent( this, Tutorial.class );
-            startActivityForResult( i, 55 );
-        } else if ( !Reddit.colors.contains( "451update" ) ) {
-            new MaterialDialog.Builder( this )
-                    .title( "Slide v4.5.1" )
-                    .content( "I’m happy to announce Slide v4.5.1!\n" +
+            Intent i = new Intent(this, Tutorial.class);
+            startActivityForResult(i, 55);
+        } else if (!Reddit.colors.contains("451update")) {
+            new MaterialDialog.Builder(this)
+                    .title("Slide v4.5.1")
+                    .content("I’m happy to announce Slide v4.5.1!\n" +
                             "\t•Revamped Shadowbox mode with title and selftext posts, loading bars, and better layout\n" +
                             "\t•New image, gif, and album UI\n" +
                             "\t•Removed pinning, replaced with the ability to reorder all your subs and add non-subscribed subreddits\n" +
@@ -266,143 +266,143 @@ public class MainActivity extends BaseActivity {
                             "\t•Ability to make the drawer subreddit list alphabetical or sortable\n" +
                             "\t•Fixed some filter bugs\n" +
                             "\t•Fixed crash in offline mode\n"
-                            + "Make sure to report all bugs to the G+ group!" )
-                    .positiveText( "Will do!" )
-                    .onPositive( new MaterialDialog.SingleButtonCallback() {
+                            + "Make sure to report all bugs to the G+ group!")
+                    .positiveText("Will do!")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
-                        public void onClick( @NonNull MaterialDialog dialog, @NonNull DialogAction which ) {
-                            Reddit.colors.edit().putBoolean( "451update", true ).apply();
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Reddit.colors.edit().putBoolean("451update", true).apply();
 
                         }
-                    } )
-                    .dismissListener( new DialogInterface.OnDismissListener() {
+                    })
+                    .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
-                        public void onDismiss( DialogInterface dialog ) {
-                            Reddit.colors.edit().putBoolean( "451update", true ).apply();
+                        public void onDismiss(DialogInterface dialog) {
+                            Reddit.colors.edit().putBoolean("451update", true).apply();
 
                         }
-                    } )
+                    })
                     .show();
         }
 
-        if ( savedInstanceState != null && !changed ) {
+        if (savedInstanceState != null && !changed) {
 
-            SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList( SUBS );
+            SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
             SubredditStorage.alphabeticalSubreddits =
-                    savedInstanceState.getStringArrayList( SUBS_ALPHA );
-            Authentication.isLoggedIn = savedInstanceState.getBoolean( LOGGED_IN );
-            Authentication.name = savedInstanceState.getString( USERNAME );
-            Authentication.didOnline = savedInstanceState.getBoolean( "ONLINE" );
+                    savedInstanceState.getStringArrayList(SUBS_ALPHA);
+            Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
+            Authentication.name = savedInstanceState.getString(USERNAME);
+            Authentication.didOnline = savedInstanceState.getBoolean("ONLINE");
 
-            Authentication.mod = savedInstanceState.getBoolean( IS_MOD );
+            Authentication.mod = savedInstanceState.getBoolean(IS_MOD);
         } else {
             changed = false;
         }
 
-        if ( getIntent().getBooleanExtra( "EXIT", false ) ) finish();
+        if (getIntent().getBooleanExtra("EXIT", false)) finish();
 
-        if ( Reddit.autoTime ) {
+        if (Reddit.autoTime) {
             int hour = Calendar.getInstance().getTime().getHours();
 
-            String base = new ColorPreferences( MainActivity.this ).getFontStyle().getTitle().toLowerCase();
+            String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
             int number;
-            if ( hour >= Reddit.nighttime && base.contains( "light" ) ) {
+            if (hour >= Reddit.nighttime && base.contains("light")) {
                 number = 0;
-            } else if ( hour >= Reddit.daytime && ( base.contains( "dark" ) || base.contains( "amoled" ) ) ) {
+            } else if (hour >= Reddit.daytime && (base.contains("dark") || base.contains("amoled"))) {
                 number = 1;
             } else {
                 number = 3;
             }
-            if ( number != 3 ) {
-                String name = new ColorPreferences( MainActivity.this ).getFontStyle().getTitle().split( "_" )[ 1 ];
-                final String newName = name.replace( "(", "" );
-                for ( ColorPreferences.Theme theme : ColorPreferences.Theme.values() ) {
-                    if ( theme.toString().contains( newName ) && theme.getThemeType() == number ) {
-                        getTheme().applyStyle( theme.getBaseId(), true );
+            if (number != 3) {
+                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                final String newName = name.replace("(", "");
+                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
+                        getTheme().applyStyle(theme.getBaseId(), true);
                         Reddit.themeBack = theme.getThemeType();
-                        new ColorPreferences( MainActivity.this ).setFontStyle( theme );
+                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
                         break;
                     }
                 }
             } else {
-                getTheme().applyStyle( new ColorPreferences( this ).getFontStyle().getBaseId(), true );
+                getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
             }
 
         }
         applyColorTheme();
 
-        setContentView( R.layout.activity_overview );
+        setContentView(R.layout.activity_overview);
 
-        mToolbar = ( Toolbar ) findViewById( R.id.toolbar );
-        setSupportActionBar( mToolbar );
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
 
-        if ( getIntent() != null && getIntent().hasExtra( "pageTo" ) )
-            toGoto = getIntent().getIntExtra( "pageTo", 0 );
+        if (getIntent() != null && getIntent().hasExtra("pageTo"))
+            toGoto = getIntent().getIntExtra("pageTo", 0);
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
-            window.setStatusBarColor( Palette.getDarkerColor( Palette.getDarkerColor( Palette.getDefaultColor() ) ) );
+            window.setStatusBarColor(Palette.getDarkerColor(Palette.getDarkerColor(Palette.getDefaultColor())));
         }
 
-        mTabLayout = ( TabLayout ) findViewById( R.id.sliding_tabs );
-        header = findViewById( R.id.header );
-        pager = ( ToggleSwipeViewPager ) findViewById( R.id.content_view );
+        mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        header = findViewById(R.id.header);
+        pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
 
         singleMode = Reddit.single;
         // Inflate tabs if single mode is disabled
-        if ( !singleMode )
-            mTabLayout = ( TabLayout ) ( ( ViewStub ) findViewById( R.id.stub_tabs ) ).inflate();
+        if (!singleMode)
+            mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         // Disable swiping if single mode is enabled
-        if ( singleMode ) pager.setSwipingEnabled( false );
+        if (singleMode) pager.setSwipingEnabled(false);
 
 
-        if ( SubredditStorage.subredditsForHome != null ) {
-            if ( !first )
+        if (SubredditStorage.subredditsForHome != null) {
+            if (!first)
                 doDrawer();
 
-            setDataSet( SubredditStorage.subredditsForHome );
+            setDataSet(SubredditStorage.subredditsForHome);
 
-        } else if ( !first ) {
-            ( ( Reddit ) getApplication() ).doMainStuff();
+        } else if (!first) {
+            ((Reddit) getApplication()).doMainStuff();
 
-            Intent i = new Intent( this, Loader.class );
-            startActivity( i );
+            Intent i = new Intent(this, Loader.class);
+            startActivity(i);
 
 
             //Hopefully will allow Authentication time to authenticate and for SubredditStorage to get subs list
-            mToolbar.postDelayed( new Runnable() {
+            mToolbar.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    runOnUiThread( new Runnable() {
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if ( SubredditStorage.subredditsForHome != null ) {
+                            if (SubredditStorage.subredditsForHome != null) {
 
-                                mToolbar.postDelayed( new Runnable() {
+                                mToolbar.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if ( loader != null ) {
-                                            findViewById( R.id.header ).setVisibility( View.VISIBLE );
+                                        if (loader != null) {
+                                            findViewById(R.id.header).setVisibility(View.VISIBLE);
 
                                             doDrawer();
 
-                                            setDataSet( SubredditStorage.subredditsForHome );
+                                            setDataSet(SubredditStorage.subredditsForHome);
                                             loader.finish();
                                             loader = null;
                                             System.gc();
                                         }
                                     }
-                                }, 2000 );
+                                }, 2000);
                             } else {
-                                mToolbar.postDelayed( this, 2000 );
+                                mToolbar.postDelayed(this, 2000);
                             }
                         }
-                    } );
+                    });
 
                 }
-            }, 2000 );
+            }, 2000);
 
         }
         System.gc();
@@ -416,201 +416,201 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void onSaveInstanceState( Bundle savedInstanceState ) {
-        super.onSaveInstanceState( savedInstanceState );
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
 
-        savedInstanceState.putStringArrayList( SUBS, SubredditStorage.subredditsForHome );
-        savedInstanceState.putStringArrayList( SUBS_ALPHA, SubredditStorage.alphabeticalSubreddits );
-        savedInstanceState.putBoolean( LOGGED_IN, Authentication.isLoggedIn );
-        savedInstanceState.putBoolean( "ONLINE", Authentication.didOnline );
+        savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
+        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubreddits);
+        savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
+        savedInstanceState.putBoolean("ONLINE", Authentication.didOnline);
 
-        savedInstanceState.putBoolean( IS_MOD, Authentication.mod );
-        savedInstanceState.putString( USERNAME, Authentication.name );
+        savedInstanceState.putBoolean(IS_MOD, Authentication.mod);
+        savedInstanceState.putString(USERNAME, Authentication.name);
     }
 
-    public void doSubSidebar( final String subreddit ) {
-        if ( mAsyncGetSubreddit != null ) {
-            mAsyncGetSubreddit.cancel( true );
+    public void doSubSidebar(final String subreddit) {
+        if (mAsyncGetSubreddit != null) {
+            mAsyncGetSubreddit.cancel(true);
         }
-        if ( !subreddit.equals( "all" ) && !subreddit.equals( "frontpage" ) && !subreddit.contains( "." ) && !subreddit.contains( "+" ) ) {
-            if ( drawerLayout != null ) {
-                drawerLayout.setDrawerLockMode( DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END );
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
             mShowInfoButton = true;
             invalidateOptionsMenu();
 
             mAsyncGetSubreddit = new AsyncGetSubreddit();
-            mAsyncGetSubreddit.execute( subreddit );
-            findViewById( R.id.loader ).setVisibility( View.VISIBLE );
-            findViewById( R.id.sidebar_text ).setVisibility( View.GONE );
-            findViewById( R.id.sub_title ).setVisibility( View.GONE );
-            findViewById( R.id.subscribers ).setVisibility( View.GONE );
+            mAsyncGetSubreddit.execute(subreddit);
+            findViewById(R.id.loader).setVisibility(View.VISIBLE);
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+            findViewById(R.id.subscribers).setVisibility(View.GONE);
 
-            findViewById( R.id.header_sub ).setBackgroundColor( Palette.getColor( subreddit ) );
-            ( ( TextView ) findViewById( R.id.sub_infotitle ) ).setText( subreddit );
-            View dialoglayout = findViewById( R.id.sidebarsub );
+            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
+            ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
+            View dialoglayout = findViewById(R.id.sidebarsub);
             {
-                CheckBox pinned = ( ( CheckBox ) dialoglayout.findViewById( R.id.pinned ) );
-                View submit = ( dialoglayout.findViewById( R.id.submit ) );
-                if ( !Authentication.isLoggedIn || !Authentication.didOnline ) {
-                    pinned.setVisibility( View.GONE );
-                    findViewById( R.id.subscribed ).setVisibility( View.GONE );
-                    submit.setVisibility( View.GONE );
+                CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
+                View submit = (dialoglayout.findViewById(R.id.submit));
+                if (!Authentication.isLoggedIn || !Authentication.didOnline) {
+                    pinned.setVisibility(View.GONE);
+                    findViewById(R.id.subscribed).setVisibility(View.GONE);
+                    submit.setVisibility(View.GONE);
                 }
-                if ( Reddit.fab && Reddit.fabType == R.integer.FAB_POST )
-                    submit.setVisibility( View.GONE );
+                if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
+                    submit.setVisibility(View.GONE);
 
-                pinned.setVisibility( View.GONE );
+                pinned.setVisibility(View.GONE);
 
 
-                submit.setOnClickListener( new View.OnClickListener() {
+                submit.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick( View view ) {
-                        Intent inte = new Intent( MainActivity.this, Submit.class );
-                        inte.putExtra( "subreddit", subreddit );
-                        MainActivity.this.startActivity( inte );
+                    public void onClick(View view) {
+                        Intent inte = new Intent(MainActivity.this, Submit.class);
+                        inte.putExtra("subreddit", subreddit);
+                        MainActivity.this.startActivity(inte);
                     }
-                } );
+                });
             }
 
 
-            if ( subreddit.toLowerCase().equals( "frontpage" ) || subreddit.toLowerCase().equals( "all" ) || subreddit.contains( "." ) || subreddit.contains( "+" ) ) {
-                dialoglayout.findViewById( R.id.wiki ).setVisibility( View.GONE );
-                dialoglayout.findViewById( R.id.sidebar_text ).setVisibility( View.GONE );
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.contains(".") || subreddit.contains("+")) {
+                dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
+                dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
             } else {
-                dialoglayout.findViewById( R.id.wiki ).setOnClickListener( new View.OnClickListener() {
+                dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick( View v ) {
-                        Intent i = new Intent( MainActivity.this, Wiki.class );
-                        i.putExtra( "subreddit", subreddit );
-                        startActivity( i );
+                    public void onClick(View v) {
+                        Intent i = new Intent(MainActivity.this, Wiki.class);
+                        i.putExtra("subreddit", subreddit);
+                        startActivity(i);
                     }
-                } );
+                });
 
             }
 
 
-            findViewById( R.id.sub_theme ).setOnClickListener( new View.OnClickListener() {
+            findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View v ) {
-                    final String subreddit = usedArray.get( pager.getCurrentItem() );
+                public void onClick(View v) {
+                    final String subreddit = usedArray.get(pager.getCurrentItem());
 
-                    int style = new ColorPreferences( MainActivity.this ).getThemeSubreddit( subreddit );
-                    final Context contextThemeWrapper = new ContextThemeWrapper( MainActivity.this, style );
-                    LayoutInflater localInflater = getLayoutInflater().cloneInContext( contextThemeWrapper );
-                    final View dialoglayout = localInflater.inflate( R.layout.colorsub, null );
+                    int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
+                    final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
+                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                    final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
                     ArrayList<String> arrayList = new ArrayList<>();
-                    arrayList.add( subreddit );
-                    SettingsSubAdapter.showSubThemeEditor( arrayList, MainActivity.this, dialoglayout );
+                    arrayList.add(subreddit);
+                    SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
                 }
-            } );
+            });
         } else {
             //Hide info button on frontpage and all
             mShowInfoButton = false;
             invalidateOptionsMenu();
 
-            if ( drawerLayout != null )
-                drawerLayout.setDrawerLockMode( DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END );
+            if (drawerLayout != null)
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
         }
     }
 
     public void reloadSubs() {
         int current = pager.getCurrentItem();
-        adapter = new OverviewPagerAdapter( getSupportFragmentManager() );
-        pager.setAdapter( adapter );
-        pager.setCurrentItem( current );
+        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(current);
     }
 
-    public void updateColor( int color, String subreddit ) {
-        hea.setBackgroundColor( color );
-        findViewById( R.id.header ).setBackgroundColor( color );
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+    public void updateColor(int color, String subreddit) {
+        hea.setBackgroundColor(color);
+        findViewById(R.id.header).setBackgroundColor(color);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
-            window.setStatusBarColor( Palette.getDarkerColor( color ) );
+            window.setStatusBarColor(Palette.getDarkerColor(color));
         }
-        setRecentBar( subreddit, color );
-        findViewById( R.id.header_sub ).setBackgroundColor( color );
+        setRecentBar(subreddit, color);
+        findViewById(R.id.header_sub).setBackgroundColor(color);
 
     }
 
-    public void setDataSet( List<String> data ) {
+    public void setDataSet(List<String> data) {
 
-        if ( data != null ) {
+        if (data != null) {
 
             usedArray = data;
-            if ( adapter == null ) {
-                adapter = new OverviewPagerAdapter( getSupportFragmentManager() );
+            if (adapter == null) {
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             } else {
                 adapter.notifyDataSetChanged();
             }
-            pager.setCurrentItem( 1 );
-            pager.setAdapter( adapter );
-            pager.setOffscreenPageLimit( 1 );
+            pager.setCurrentItem(1);
+            pager.setAdapter(adapter);
+            pager.setOffscreenPageLimit(1);
 
-            themeSystemBars( usedArray.get( 0 ) );
-            setRecentBar( usedArray.get( 0 ) );
-            doSubSidebar( usedArray.get( 0 ) );
+            themeSystemBars(usedArray.get(0));
+            setRecentBar(usedArray.get(0));
+            doSubSidebar(usedArray.get(0));
 
-            findViewById( R.id.header ).setBackgroundColor( Palette.getColor( usedArray.get( 0 ) ) );
-            if ( hea != null )
-                hea.setBackgroundColor( Palette.getColor( usedArray.get( 0 ) ) );
-            if ( !Reddit.single ) {
-                mTabLayout.setupWithViewPager( pager );
-                mTabLayout.setSelectedTabIndicatorColor( new ColorPreferences( MainActivity.this ).getColor( usedArray.get( 0 ) ) );
-                pager.setCurrentItem( toGoto );
+            findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            if (hea != null)
+                hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            if (!Reddit.single) {
+                mTabLayout.setupWithViewPager(pager);
+                mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
+                pager.setCurrentItem(toGoto);
             } else {
-                getSupportActionBar().setTitle( usedArray.get( 0 ) );
+                getSupportActionBar().setTitle(usedArray.get(0));
             }
 
-        } else if ( SubredditStorage.subredditsForHome != null ) {
-            setDataSet( SubredditStorage.subredditsForHome );
+        } else if (SubredditStorage.subredditsForHome != null) {
+            setDataSet(SubredditStorage.subredditsForHome);
         }
 
     }
 
-    public void doSubOnlyStuff( final Subreddit subreddit ) {
-        findViewById( R.id.loader ).setVisibility( View.GONE );
-        if ( subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty() ) {
-            findViewById( R.id.sidebar_text ).setVisibility( View.VISIBLE );
+    public void doSubOnlyStuff(final Subreddit subreddit) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
+        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
-            final String text = subreddit.getDataNode().get( "description_html" ).asText();
-            final SpoilerRobotoTextView body = ( SpoilerRobotoTextView ) findViewById( R.id.sidebar_text );
-            new MakeTextviewClickable().ParseTextWithLinksTextView( text, body, MainActivity.this, subreddit.getDisplayName() );
+            final String text = subreddit.getDataNode().get("description_html").asText();
+            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, MainActivity.this, subreddit.getDisplayName());
         } else {
-            findViewById( R.id.sidebar_text ).setVisibility( View.GONE );
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
         {
-            CheckBox c = ( ( CheckBox ) findViewById( R.id.subscribed ) );
-            c.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+            CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     //reset check adapter
                 }
-            } );
-            c.setChecked( SubredditStorage.subredditsForHome.contains( subreddit.getDisplayName().toLowerCase() ) );
-            c.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+            });
+            c.setChecked(SubredditStorage.subredditsForHome.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged( CompoundButton buttonView, final boolean isChecked ) {
+                public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        public void onPostExecute( Void voids ) {
-                            if ( isChecked ) {
-                                SubredditStorage.addSubscription( subreddit.getDisplayName().toLowerCase() );
+                        public void onPostExecute(Void voids) {
+                            if (isChecked) {
+                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase());
                             } else {
-                                SubredditStorage.removeSubscription( subreddit.getDisplayName().toLowerCase() );
+                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase());
 
                             }
-                            Snackbar.make( header, isChecked ?
-                                    getString( R.string.misc_subscribed ) : getString( R.string.misc_unsubscribed ), Snackbar.LENGTH_SHORT );
+                            Snackbar.make(header, isChecked ?
+                                    getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
                         }
 
                         @Override
-                        protected Void doInBackground( Void... params ) {
-                            if ( isChecked ) {
-                                new AccountManager( Authentication.reddit ).subscribe( subreddit );
+                        protected Void doInBackground(Void... params) {
+                            if (isChecked) {
+                                new AccountManager(Authentication.reddit).subscribe(subreddit);
                             } else {
-                                new AccountManager( Authentication.reddit ).unsubscribe( subreddit );
+                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
 
                             }
                             return null;
@@ -618,13 +618,13 @@ public class MainActivity extends BaseActivity {
                     }.execute();
 
                 }
-            } );
+            });
         }
-        ( ( TextView ) findViewById( R.id.sub_title ) ).setText( subreddit.getPublicDescription() );
-        findViewById( R.id.sub_title ).setVisibility( subreddit.getPublicDescription().equals( "" ) ? View.GONE : View.VISIBLE );
+        ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+        findViewById(R.id.sub_title).setVisibility(subreddit.getPublicDescription().equals("") ? View.GONE : View.VISIBLE);
 
-        ( ( TextView ) findViewById( R.id.subscribers ) ).setText( getString( R.string.subreddit_subscribers, subreddit.getSubscriberCount() ) );
-        findViewById( R.id.subscribers ).setVisibility( View.VISIBLE );
+        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
+        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
     }
 
@@ -633,8 +633,8 @@ public class MainActivity extends BaseActivity {
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
             @Override
-            public void onClick( DialogInterface dialogInterface, int i ) {
-                switch ( i ) {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
                     case 0:
                         Reddit.defaultSorting = Sorting.HOT;
                         reloadSubs();
@@ -708,198 +708,198 @@ public class MainActivity extends BaseActivity {
                 SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder( MainActivity.this );
-        builder.setTitle( R.string.sorting_choose );
-        builder.setSingleChoiceItems( Reddit.getSortingStrings( getBaseContext() ), Reddit.getSortingId(), l2 );
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
+        builder.setTitle(R.string.sorting_choose);
+        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
         builder.show();
 
     }
 
     public void doDrawer() {
-        final ListView l = ( ListView ) findViewById( R.id.drawerlistview );
-        l.setDividerHeight( 0 );
+        final ListView l = (ListView) findViewById(R.id.drawerlistview);
+        l.setDividerHeight(0);
         final LayoutInflater inflater = getLayoutInflater();
         final View header;
 
-        if ( Authentication.isLoggedIn && Authentication.didOnline ) {
+        if (Authentication.isLoggedIn && Authentication.didOnline) {
 
-            header = inflater.inflate( R.layout.drawer_loggedin, l, false );
+            header = inflater.inflate(R.layout.drawer_loggedin, l, false);
             headerMain = header;
-            hea = header.findViewById( R.id.back );
+            hea = header.findViewById(R.id.back);
 
-            l.addHeaderView( header, null, false );
-            ( ( TextView ) header.findViewById( R.id.name ) ).setText( Authentication.name );
-            header.findViewById( R.id.multi ).setOnClickListener( new View.OnClickListener() {
+            l.addHeaderView(header, null, false);
+            ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
+            header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    Intent inte = new Intent( MainActivity.this, MultiredditOverview.class );
-                    MainActivity.this.startActivity( inte );
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                    MainActivity.this.startActivity(inte);
 
 
                 }
-            } );
-            header.findViewById( R.id.reorder ).setOnClickListener( new View.OnClickListener() {
+            });
+            header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    Intent inte = new Intent( MainActivity.this, ReorderSubreddits.class );
-                    MainActivity.this.startActivityForResult( inte, 3 );
-                    subToDo = usedArray.get( pager.getCurrentItem() );
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, ReorderSubreddits.class);
+                    MainActivity.this.startActivityForResult(inte, 3);
+                    subToDo = usedArray.get(pager.getCurrentItem());
 
 
                 }
-            } );
+            });
 
-            header.findViewById( R.id.profile ).setOnClickListener( new View.OnClickListener() {
+            header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    Intent inte = new Intent( MainActivity.this, Profile.class );
-                    inte.putExtra( "profile", Authentication.name );
-                    MainActivity.this.startActivity( inte );
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                    inte.putExtra("profile", Authentication.name);
+                    MainActivity.this.startActivity(inte);
                 }
-            } );
-            header.findViewById( R.id.sync ).setVisibility( View.GONE );
-            header.findViewById( R.id.logout ).setOnClickListener( new View.OnClickListener() {
+            });
+            header.findViewById(R.id.sync).setVisibility(View.GONE);
+            header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
+                public void onClick(View view) {
                     chooseAccounts();
                 }
-            } );
+            });
             new AsyncTask<Void, Void, Void>() {
                 int count;
 
                 @Override
-                protected Void doInBackground( Void... params ) {
+                protected Void doInBackground(Void... params) {
                     count = Authentication.reddit.me().getInboxCount();
 
                     return null;
                 }
 
                 @Override
-                protected void onPostExecute( Void aVoid ) {
-                    if ( count == 0 ) {
-                        header.findViewById( R.id.count ).setVisibility( View.GONE );
-                        NotificationManager notificationManager = ( NotificationManager ) getSystemService( Context.NOTIFICATION_SERVICE );
+                protected void onPostExecute(Void aVoid) {
+                    if (count == 0) {
+                        header.findViewById(R.id.count).setVisibility(View.GONE);
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                         notificationManager.cancelAll();
                     } else {
-                        header.findViewById( R.id.count ).setVisibility( View.VISIBLE );
-                        ( ( TextView ) header.findViewById( R.id.count ) ).setText( count + "" );
+                        header.findViewById(R.id.count).setVisibility(View.VISIBLE);
+                        ((TextView) header.findViewById(R.id.count)).setText(count + "");
                     }
                 }
             }.execute();
 
-            header.findViewById( R.id.prof_click ).setOnClickListener( new View.OnClickListener() {
+            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    View body = header.findViewById( R.id.expand_profile );
-                    if ( body.getVisibility() == View.GONE ) {
-                        body.setVisibility( View.VISIBLE );
+                public void onClick(View view) {
+                    View body = header.findViewById(R.id.expand_profile);
+                    if (body.getVisibility() == View.GONE) {
+                        body.setVisibility(View.VISIBLE);
                     } else {
-                        body.setVisibility( View.GONE );
+                        body.setVisibility(View.GONE);
                     }
                 }
-            } );
-            header.findViewById( R.id.add ).setOnClickListener( new View.OnClickListener() {
+            });
+            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    Intent inte = new Intent( MainActivity.this, Login.class );
-                    MainActivity.this.startActivity( inte );
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Login.class);
+                    MainActivity.this.startActivity(inte);
                 }
-            } );
-            header.findViewById( R.id.inbox ).setOnClickListener( new View.OnClickListener() {
+            });
+            header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    Intent inte = new Intent( MainActivity.this, Inbox.class );
-                    MainActivity.this.startActivityForResult( inte, 66 );
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Inbox.class);
+                    MainActivity.this.startActivityForResult(inte, 66);
                 }
-            } );
-            if ( Authentication.mod ) {
-                header.findViewById( R.id.mod ).setOnClickListener( new View.OnClickListener() {
+            });
+            if (Authentication.mod) {
+                header.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick( View view ) {
-                        Intent inte = new Intent( MainActivity.this, ModQueue.class );
-                        MainActivity.this.startActivity( inte );
+                    public void onClick(View view) {
+                        Intent inte = new Intent(MainActivity.this, ModQueue.class);
+                        MainActivity.this.startActivity(inte);
                     }
-                } );
+                });
             } else {
-                header.findViewById( R.id.mod ).setVisibility( View.GONE );
+                header.findViewById(R.id.mod).setVisibility(View.GONE);
             }
         } else {
-            header = inflater.inflate( R.layout.drawer_loggedout, l, false );
-            l.addHeaderView( header, null, false );
-            hea = header.findViewById( R.id.back );
+            header = inflater.inflate(R.layout.drawer_loggedout, l, false);
+            l.addHeaderView(header, null, false);
+            hea = header.findViewById(R.id.back);
 
-            header.findViewById( R.id.profile ).setOnClickListener( new View.OnClickListener() {
+            header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
-                    Intent inte = new Intent( MainActivity.this, Login.class );
-                    MainActivity.this.startActivity( inte );
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Login.class);
+                    MainActivity.this.startActivity(inte);
                 }
-            } );
+            });
         }
-        if ( Reddit.hideHeader ) {
-            header.findViewById( R.id.back ).setVisibility( View.GONE );
+        if (Reddit.hideHeader) {
+            header.findViewById(R.id.back).setVisibility(View.GONE);
         }
 
-        View support = header.findViewById( R.id.support );
-        if ( Reddit.tabletUI ) support.setVisibility( View.GONE );
+        View support = header.findViewById(R.id.support);
+        if (Reddit.tabletUI) support.setVisibility(View.GONE);
         else {
-            header.findViewById( R.id.support ).setOnClickListener( new View.OnClickListener() {
+            header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View view ) {
+                public void onClick(View view) {
                     try {
-                        startActivity( new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=me.ccrama.slideforreddittabletuiunlock" ) ) );
-                    } catch ( android.content.ActivityNotFoundException anfe ) {
-                        startActivity( new Intent( Intent.ACTION_VIEW, Uri.parse( "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock" ) ) );
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                     }
                 }
-            } );
+            });
         }
-        header.findViewById( R.id.prof ).setOnClickListener( new View.OnClickListener() {
+        header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View view ) {
-                new MaterialDialog.Builder( MainActivity.this )
-                        .inputRange( 3, 20 )
+            public void onClick(View view) {
+                new MaterialDialog.Builder(MainActivity.this)
+                        .inputRange(3, 20)
                         .alwaysCallInputCallback()
-                        .inputType( InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS )
-                        .input( getString( R.string.user_enter ), null, new MaterialDialog.InputCallback() {
+                        .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+                        .input(getString(R.string.user_enter), null, new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput( MaterialDialog dialog, CharSequence input ) {
-                                if ( input.toString().matches( "^[a-zA-Z0-9_-]*$" ) ) {
-                                    if ( input.length() >= 3 && input.length() <= 20 )
-                                        dialog.getActionButton( DialogAction.POSITIVE ).setEnabled( true );
-                                    dialog.setContent( "" );
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                if (input.toString().matches("^[a-zA-Z0-9_-]*$")) {
+                                    if (input.length() >= 3 && input.length() <= 20)
+                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                    dialog.setContent("");
                                 } else {
-                                    dialog.getActionButton( DialogAction.POSITIVE ).setEnabled( false );
-                                    dialog.setContent( R.string.user_invalid_msg );
+                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                    dialog.setContent(R.string.user_invalid_msg);
                                 }
                             }
-                        } )
-                        .positiveText( R.string.user_btn_goto )
-                        .onPositive( new MaterialDialog.SingleButtonCallback() {
+                        })
+                        .positiveText(R.string.user_btn_goto)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick( @NonNull MaterialDialog dialog, @NonNull DialogAction which ) {
-                                Intent inte = new Intent( MainActivity.this, Profile.class );
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                Intent inte = new Intent(MainActivity.this, Profile.class);
                                 //noinspection ConstantConditions
-                                inte.putExtra( "profile", dialog.getInputEditText().getText().toString() );
-                                MainActivity.this.startActivity( inte );
+                                inte.putExtra("profile", dialog.getInputEditText().getText().toString());
+                                MainActivity.this.startActivity(inte);
                             }
-                        } )
-                        .negativeText( R.string.btn_cancel )
+                        })
+                        .negativeText(R.string.btn_cancel)
                         .show();
             }
-        } );
+        });
 
-        findViewById( R.id.settings ).setOnClickListener( new View.OnClickListener() {
+        findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View v ) {
-                Intent i = new Intent( MainActivity.this, Settings.class );
-                startActivityForResult( i, 1 );
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, Settings.class);
+                startActivityForResult(i, 1);
                 // Cancel sub loading because exiting the settings will reload it anyway
-                if ( mAsyncGetSubreddit != null )
-                    mAsyncGetSubreddit.cancel( true );
+                if (mAsyncGetSubreddit != null)
+                    mAsyncGetSubreddit.cancel(true);
                 drawerLayout.closeDrawers();
             }
-        } );
+        });
 
       /*  footer.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -909,16 +909,16 @@ public class MainActivity extends BaseActivity {
             }
         });*/
         ArrayList<String> copy = new ArrayList<>();
-        if ( ( Reddit.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null ) || ( !Reddit.alphabetical_home && SubredditStorage.subredditsForHome != null ) )
-            for ( String s : Reddit.alphabetical_home ? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome ) {
-                copy.add( s );
+        if ((Reddit.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null) || (!Reddit.alphabetical_home && SubredditStorage.subredditsForHome != null))
+            for (String s : Reddit.alphabetical_home ? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
+                copy.add(s);
             }
-        e = ( ( EditText ) header.findViewById( R.id.sort ) );
+        e = ((EditText) header.findViewById(R.id.sort));
 
-        final SideArrayAdapter adapter = new SideArrayAdapter( this, copy );
-        l.setAdapter( adapter );
-        drawerLayout = ( DrawerLayout ) findViewById( R.id.drawer_layout );
-        Toolbar toolbar = ( Toolbar ) findViewById( R.id.toolbar );
+        final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
+        l.setAdapter(adapter);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -928,65 +928,65 @@ public class MainActivity extends BaseActivity {
         )
 
         {
-            public void onDrawerClosed( View view ) {
-                super.onDrawerClosed( view );
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
                 invalidateOptionsMenu();
                 syncState();
             }
 
-            public void onDrawerOpened( View drawerView ) {
-                super.onDrawerOpened( drawerView );
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
                 invalidateOptionsMenu();
                 syncState();
             }
         };
 
         actionBarDrawerToggle.syncState();
-        header.findViewById( R.id.back ).setBackgroundColor( Palette.getColor( "alsdkfjasld" ) );
+        header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
 
 
-        e.setOnEditorActionListener( new TextView.OnEditorActionListener() {
+        e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction( TextView arg0, int arg1, KeyEvent arg2 ) {
-                if ( arg1 == EditorInfo.IME_ACTION_SEARCH ) {
+            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
                     //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
-                    if ( adapter.fitems == null || adapter.openInSubView ) {
-                        Intent inte = new Intent( MainActivity.this, SubredditView.class );
-                        inte.putExtra( "subreddit", e.getText().toString() );
-                        MainActivity.this.startActivity( inte );
+                    if (adapter.fitems == null || adapter.openInSubView) {
+                        Intent inte = new Intent(MainActivity.this, SubredditView.class);
+                        inte.putExtra("subreddit", e.getText().toString());
+                        MainActivity.this.startActivity(inte);
                     } else
-                        pager.setCurrentItem( usedArray.indexOf( adapter.fitems.get( 0 ) ) );
+                        pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
 
                     View view = MainActivity.this.getCurrentFocus();
-                    if ( view != null ) {
-                        InputMethodManager imm = ( InputMethodManager ) getSystemService( Context.INPUT_METHOD_SERVICE );
-                        imm.hideSoftInputFromWindow( view.getWindowToken(), 0 );
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                     }
                     drawerLayout.closeDrawers();
-                    e.setText( "" );
+                    e.setText("");
                 }
                 return false;
             }
-        } );
+        });
 
-        e.addTextChangedListener( new TextWatcher() {
+        e.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged( CharSequence charSequence, int i, int i2, int i3 ) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
             }
 
             @Override
-            public void onTextChanged( CharSequence charSequence, int i, int i2, int i3 ) {
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
             }
 
             @Override
-            public void afterTextChanged( Editable editable ) {
-                String result = e.getText().toString().replaceAll( " ", "" );
-                adapter.getFilter().filter( result );
+            public void afterTextChanged(Editable editable) {
+                String result = e.getText().toString().replaceAll(" ", "");
+                adapter.getFilter().filter(result);
 
             }
-        } );
+        });
     }
 
 
@@ -994,51 +994,51 @@ public class MainActivity extends BaseActivity {
 
         final HashMap<String, String> accounts = new HashMap<>();
 
-        for ( String s : Authentication.authentication.getStringSet( "accounts", new HashSet<String>() ) ) {
-            if ( s.contains( ":" ) ) {
-                accounts.put( s.split( ":" )[ 0 ], s.split( ":" )[ 1 ] );
+        for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+            if (s.contains(":")) {
+                accounts.put(s.split(":")[0], s.split(":")[1]);
             } else {
 
-                accounts.put( s, "" );
+                accounts.put(s, "");
             }
         }
-        final ArrayList<String> keys = new ArrayList<>( accounts.keySet() );
-        if ( keys.size() == 0 ) {
-            Authentication.authentication.edit().remove( "lasttoken" ).commit();
+        final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+        if (keys.size() == 0) {
+            Authentication.authentication.edit().remove("lasttoken").commit();
 
-            Reddit.forceRestart( this );
+            Reddit.forceRestart(this);
         } else {
-            new AlertDialogWrapper.Builder( MainActivity.this )
-                    .setTitle( R.string.general_switch_acc )
-                    .setAdapter( new ArrayAdapter<>( MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys ), new DialogInterface.OnClickListener() {
+            new AlertDialogWrapper.Builder(MainActivity.this)
+                    .setTitle(R.string.general_switch_acc)
+                    .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick( final DialogInterface dialog, final int which ) {
-                            new AlertDialogWrapper.Builder( MainActivity.this )
-                                    .setTitle( "Switch or Delete" )
-                                    .setMessage( "Would you like to switch to this account or remove this account?" )
-                                    .setPositiveButton( "Switch", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int which) {
+                            new AlertDialogWrapper.Builder(MainActivity.this)
+                                    .setTitle("Switch or Delete")
+                                    .setMessage("Would you like to switch to this account or remove this account?")
+                                    .setPositiveButton("Switch", new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onClick( DialogInterface dialog, int which2 ) {
-                                            if ( !accounts.get( keys.get( which ) ).isEmpty() ) {
-                                                Authentication.authentication.edit().putString( "lasttoken", accounts.get( keys.get( which ) ) ).commit();
+                                        public void onClick(DialogInterface dialog, int which2) {
+                                            if (!accounts.get(keys.get(which)).isEmpty()) {
+                                                Authentication.authentication.edit().putString("lasttoken", accounts.get(keys.get(which))).commit();
                                             } else {
-                                                ArrayList<String> tokens = new ArrayList<>( Authentication.authentication.getStringSet( "tokens", new HashSet<String>() ) );
-                                                Authentication.authentication.edit().putString( "lasttoken", tokens.get( which ) ).commit();
+                                                ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                                Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
                                             }
 
-                                            Reddit.forceRestart( MainActivity.this );
+                                            Reddit.forceRestart(MainActivity.this);
                                         }
-                                    } ).setNegativeButton( "Delete", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                                 @Override
-                                public void onClick( DialogInterface dialog2, int which2 ) {
-                                    Set<String> accounts2 = Authentication.authentication.getStringSet( "accounts", new HashSet<String>() );
+                                public void onClick(DialogInterface dialog2, int which2) {
+                                    Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                                     Set<String> done = new HashSet<>();
-                                    for ( String s : accounts2 ) {
-                                        if ( !s.contains( keys.get( which ) ) ) {
-                                            done.add( s );
+                                    for (String s : accounts2) {
+                                        if (!s.contains(keys.get(which))) {
+                                            done.add(s);
                                         }
                                     }
-                                    Authentication.authentication.edit().putStringSet( "accounts", done ).commit();
+                                    Authentication.authentication.edit().putStringSet("accounts", done).commit();
                                     dialog.dismiss();
                                     dialog2.dismiss();
 
@@ -1046,67 +1046,67 @@ public class MainActivity extends BaseActivity {
                                     chooseAccounts();
 
                                 }
-                            } ).show();
+                            }).show();
 
 
                         }
-                    } ).show();
+                    }).show();
         }
 
 
     }
 
     public void resetAdapter() {
-        runOnUiThread( new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                usedArray = new ArrayList<>( SubredditStorage.subredditsForHome );
+                usedArray = new ArrayList<>(SubredditStorage.subredditsForHome);
 
-                adapter = new OverviewPagerAdapter( getSupportFragmentManager() );
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
-                pager.setAdapter( adapter );
-                if ( mTabLayout != null )
-                    mTabLayout.setupWithViewPager( pager );
+                pager.setAdapter(adapter);
+                if (mTabLayout != null)
+                    mTabLayout.setupWithViewPager(pager);
 
-                pager.setCurrentItem( usedArray.indexOf( subToDo ) );
+                pager.setCurrentItem(usedArray.indexOf(subToDo));
 
-                int color = Palette.getColor( subToDo );
-                hea.setBackgroundColor( color );
-                findViewById( R.id.header ).setBackgroundColor( color );
-                themeSystemBars( subToDo );
-                setRecentBar( subToDo );
+                int color = Palette.getColor(subToDo);
+                hea.setBackgroundColor(color);
+                findViewById(R.id.header).setBackgroundColor(color);
+                themeSystemBars(subToDo);
+                setRecentBar(subToDo);
             }
-        } );
+        });
     }
 
     public void restartTheme() {
         Intent intent = this.getIntent();
-        intent.putExtra( "pageTo", pager.getCurrentItem() );
+        intent.putExtra("pageTo", pager.getCurrentItem());
         finish();
-        startActivity( intent );
-        overridePendingTransition( R.anim.fade_in_real, R.anim.fading_out_real );
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
     }
 
     @Override
     public void onBackPressed() {
-        if ( drawerLayout.isDrawerOpen( GravityCompat.START ) || drawerLayout.isDrawerOpen( GravityCompat.END ) ) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawers();
-        } else if ( Reddit.exit ) {
-            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder( MainActivity.this );
-            builder.setTitle( R.string.general_confirm_exit );
-            builder.setMessage( R.string.general_confirm_exit_msg );
-            builder.setPositiveButton( R.string.btn_yes, new DialogInterface.OnClickListener() {
+        } else if (Reddit.exit) {
+            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
+            builder.setTitle(R.string.general_confirm_exit);
+            builder.setMessage(R.string.general_confirm_exit_msg);
+            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick( DialogInterface dialog, int which ) {
+                public void onClick(DialogInterface dialog, int which) {
                     finish();
                 }
-            } );
-            builder.setNegativeButton( R.string.btn_no, new DialogInterface.OnClickListener() {
+            });
+            builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick( DialogInterface dialog, int which ) {
+                public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
-            } );
+            });
             builder.show();
         } else {
             super.onBackPressed();
@@ -1114,9 +1114,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu( Menu menu ) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate( R.menu.menu_subreddit_overview, menu );
+        inflater.inflate(R.menu.menu_subreddit_overview, menu);
 
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
         //   else menu.findItem(R.id.action_info).setVisible(false);
@@ -1125,22 +1125,22 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected( MenuItem item ) {
-        switch ( item.getItemId() ) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.night:
-                String base = new ColorPreferences( MainActivity.this ).getFontStyle().getTitle().toLowerCase();
+                String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
                 int number;
-                if ( base.contains( "dark" ) || base.contains( "amoled" ) ) {
+                if (base.contains("dark") || base.contains("amoled")) {
                     number = 1;
                 } else {
                     number = 0;
                 }
-                String name = new ColorPreferences( MainActivity.this ).getFontStyle().getTitle().split( "_" )[ 1 ];
-                final String newName = name.replace( "(", "" );
-                for ( ColorPreferences.Theme theme : ColorPreferences.Theme.values() ) {
-                    if ( theme.toString().contains( newName ) && theme.getThemeType() == number ) {
+                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                final String newName = name.replace("(", "");
+                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
                         Reddit.themeBack = theme.getThemeType();
-                        new ColorPreferences( MainActivity.this ).setFontStyle( theme );
+                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
                         changed = true;
 
 
@@ -1151,44 +1151,44 @@ public class MainActivity extends BaseActivity {
                 }
                 return true;
             case R.id.action_refresh:
-                if ( adapter != null && adapter.getCurrentFragment() != null )
-                    ( ( SubmissionsView ) adapter.getCurrentFragment() ).forceRefresh();
+                if (adapter != null && adapter.getCurrentFragment() != null)
+                    ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
                 return true;
             case R.id.action_sort:
                 openPopup();
                 return true;
             case R.id.search:
-                new MaterialDialog.Builder( this ).title( R.string.search_title )
+                new MaterialDialog.Builder(this).title(R.string.search_title)
                         .alwaysCallInputCallback()
-                        .input( getString( R.string.search_msg ), "", new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
                             @Override
-                            public void onInput( MaterialDialog materialDialog, CharSequence charSequence ) {
+                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
                                 term = charSequence.toString();
                             }
-                        } )
-                        .positiveText( R.string.search_all )
-                        .negativeText( getString( R.string.search_subreddit, ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.subreddit ) )
-                        .onPositive( new MaterialDialog.SingleButtonCallback() {
+                        })
+                        .positiveText(R.string.search_all)
+                        .negativeText(getString(R.string.search_subreddit, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit))
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick( MaterialDialog materialDialog, DialogAction dialogAction ) {
-                                Intent i = new Intent( MainActivity.this, Search.class );
-                                i.putExtra( "term", term );
-                                startActivity( i );
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                Intent i = new Intent(MainActivity.this, Search.class);
+                                i.putExtra("term", term);
+                                startActivity(i);
                             }
-                        } )
-                        .onNegative( new MaterialDialog.SingleButtonCallback() {
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick( MaterialDialog materialDialog, DialogAction dialogAction ) {
-                                Intent i = new Intent( MainActivity.this, Search.class );
-                                i.putExtra( "term", term );
-                                i.putExtra( "subreddit", ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.subreddit );
-                                Log.v( "Slide", "INTENT SHOWS " + term + " AND " + ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.subreddit );
-                                startActivity( i );
+                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                                Intent i = new Intent(MainActivity.this, Search.class);
+                                i.putExtra("term", term);
+                                i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                                Log.v("Slide", "INTENT SHOWS " + term + " AND " + ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                                startActivity(i);
                             }
-                        } ).show();
+                        }).show();
                 return true;
             case R.id.save:
-                saveOffline( ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.posts, ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.subreddit );
+                saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                 return true;
           /*  case R.id.action_info:
                 if (usedArray != null) {
@@ -1200,33 +1200,33 @@ public class MainActivity extends BaseActivity {
                 }
                 return true;*/
             case R.id.action_shadowbox:
-                if ( Reddit.tabletUI ) {
-                    List<Submission> posts = ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.posts;
-                    if ( posts != null && !posts.isEmpty() ) {
+                if (Reddit.tabletUI) {
+                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    if (posts != null && !posts.isEmpty()) {
                         DataShare.sharedSubreddit =
-                                ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.posts;
-                        Intent i = new Intent( this, Shadowbox.class );
-                        i.putExtra( "page", 0 );
-                        i.putExtra( "subreddit", ( ( SubmissionsView ) adapter.getCurrentFragment() ).posts.subreddit );
-                        startActivity( i );
+                                ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                        Intent i = new Intent(this, Shadowbox.class);
+                        i.putExtra("page", 0);
+                        i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        startActivity(i);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder( this )
-                            .setTitle( R.string.general_pro )
-                            .setMessage( R.string.general_pro_msg )
-                            .setPositiveButton( R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick( DialogInterface dialog, int whichButton ) {
+                    new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
                                     try {
-                                        startActivity( new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=me.ccrama.slideforreddittabletuiunlock" ) ) );
-                                    } catch ( ActivityNotFoundException e ) {
-                                        startActivity( new Intent( Intent.ACTION_VIEW, Uri.parse( "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock" ) ) );
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                                     }
                                 }
-                            } ).setNegativeButton( R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick( DialogInterface dialog, int whichButton ) {
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                         }
-                    } ).show();
+                    }).show();
                 }
                 return true;
             default:
@@ -1234,22 +1234,22 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void saveOffline( List<Submission> submissions, final String subreddit ) {
-        final MaterialDialog d = new MaterialDialog.Builder( this ).title( R.string.offline_caching )
-                .progress( false, submissions.size() )
-                .cancelable( false )
+    public void saveOffline(List<Submission> submissions, final String subreddit) {
+        final MaterialDialog d = new MaterialDialog.Builder(this).title(R.string.offline_caching)
+                .progress(false, submissions.size())
+                .cancelable(false)
                 .show();
         final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
-        for ( final Submission s : submissions ) {
+        for (final Submission s : submissions) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
-                protected Void doInBackground( Void... params ) {
-                    JsonNode s2 = getSubmission( new SubmissionRequest.Builder( s.getId() ).sort( CommentSort.CONFIDENCE ).build() );
-                    newSubmissions.add( s2 );
-                    d.setProgress( newSubmissions.size() );
-                    if ( d.getCurrentProgress() == d.getMaxProgress() ) {
+                protected Void doInBackground(Void... params) {
+                    JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                    newSubmissions.add(s2);
+                    d.setProgress(newSubmissions.size());
+                    if (d.getCurrentProgress() == d.getMaxProgress()) {
                         d.cancel();
-                        Cache.writeSubredditJson( newSubmissions, subreddit );
+                        Cache.writeSubredditJson(newSubmissions, subreddit);
 
                     }
                     return null;
@@ -1258,44 +1258,44 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public JsonNode getSubmission( SubmissionRequest request ) throws NetworkException {
+    public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {
         Map<String, String> args = new HashMap<>();
-        if ( request.getDepth() != null )
-            args.put( "depth", Integer.toString( request.getDepth() ) );
-        if ( request.getContext() != null )
-            args.put( "context", Integer.toString( request.getContext() ) );
-        if ( request.getLimit() != null )
-            args.put( "limit", Integer.toString( request.getLimit() ) );
-        if ( request.getFocus() != null && !JrawUtils.isFullname( request.getFocus() ) )
-            args.put( "comment", request.getFocus() );
+        if (request.getDepth() != null)
+            args.put("depth", Integer.toString(request.getDepth()));
+        if (request.getContext() != null)
+            args.put("context", Integer.toString(request.getContext()));
+        if (request.getLimit() != null)
+            args.put("limit", Integer.toString(request.getLimit()));
+        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
+            args.put("comment", request.getFocus());
 
         CommentSort sort = request.getSort();
-        if ( sort == null )
+        if (sort == null)
             // Reddit sorts by confidence by default
             sort = CommentSort.CONFIDENCE;
-        args.put( "sort", sort.name().toLowerCase() );
+        args.put("sort", sort.name().toLowerCase());
 
 
-        RestResponse response = Authentication.reddit.execute( Authentication.reddit.request()
-                .path( String.format( "/comments/%s", request.getId() ) )
-                .query( args )
-                .build() );
+        RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
+                .path(String.format("/comments/%s", request.getId()))
+                .query(args)
+                .build());
         return response.getJson();
     }
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
-        public void onPostExecute( Subreddit subreddit ) {
-            if ( subreddit != null )
-                doSubOnlyStuff( subreddit );
+        public void onPostExecute(Subreddit subreddit) {
+            if (subreddit != null)
+                doSubOnlyStuff(subreddit);
         }
 
         @Override
-        protected Subreddit doInBackground( String... params ) {
+        protected Subreddit doInBackground(String... params) {
             try {
-                return Authentication.reddit.getSubreddit( params[ 0 ] );
-            } catch ( Exception e ) {
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch (Exception e) {
                 return null;
             }
 
@@ -1305,51 +1305,51 @@ public class MainActivity extends BaseActivity {
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private Fragment mCurrentFragment;
 
-        public OverviewPagerAdapter( FragmentManager fm ) {
-            super( fm );
-            pager.addOnPageChangeListener( new ViewPager.OnPageChangeListener() {
+        public OverviewPagerAdapter(FragmentManager fm) {
+            super(fm);
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPageScrolled( int position, float positionOffset, int positionOffsetPixels ) {
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                 }
 
                 @Override
-                public void onPageSelected( int position ) {
+                public void onPageSelected(int position) {
                     Reddit.currentPosition = position;
 
-                    doSubSidebar( usedArray.get( position ) );
+                    doSubSidebar(usedArray.get(position));
 
                     // ((SubmissionsView) getCurrentFragment()).doAdapter();
-                    if ( adapter.getCurrentFragment() != null ) {
-                        SubredditPosts p = ( ( SubmissionsView ) adapter.getCurrentFragment() ).adapter.dataSet;
-                        if ( p.offline && p.cached != null ) {
-                            Toast.makeText( MainActivity.this, "Last updated " + TimeUtils.getTimeAgo( p.cached.time, MainActivity.this ), Toast.LENGTH_LONG ).show();
+                    if (adapter.getCurrentFragment() != null) {
+                        SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
+                        if (p.offline && p.cached != null) {
+                            Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
 
 
                         }
                     }
 
-                    if ( hea != null )
-                        hea.setBackgroundColor( Palette.getColor( usedArray.get( position ) ) );
-                    header.setBackgroundColor( Palette.getColor( usedArray.get( position ) ) );
-                    themeSystemBars( usedArray.get( position ) );
-                    setRecentBar( usedArray.get( position ) );
+                    if (hea != null)
+                        hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                    themeSystemBars(usedArray.get(position));
+                    setRecentBar(usedArray.get(position));
 
-                    if ( Reddit.single )
-                        getSupportActionBar().setTitle( usedArray.get( position ) );
+                    if (Reddit.single)
+                        getSupportActionBar().setTitle(usedArray.get(position));
                     else mTabLayout.setSelectedTabIndicatorColor(
-                            new ColorPreferences( MainActivity.this ).getColor( usedArray.get( position ) ) );
+                            new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                 }
 
                 @Override
-                public void onPageScrollStateChanged( int state ) {
+                public void onPageScrollStateChanged(int state) {
 
                 }
-            } );
-            if ( pager.getAdapter() != null ) {
+            });
+            if (pager.getAdapter() != null) {
                 pager.getAdapter().notifyDataSetChanged();
-                pager.setCurrentItem( 1 );
-                pager.setCurrentItem( 0 );
+                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
             }
         }
 
@@ -1359,21 +1359,21 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        public void setPrimaryItem( ViewGroup container, int position, Object object ) {
-            if ( getCurrentFragment() != object ) {
-                mCurrentFragment = ( ( Fragment ) object );
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
             }
-            super.setPrimaryItem( container, position, object );
+            super.setPrimaryItem(container, position, object);
         }
 
         @Override
-        public Fragment getItem( int i ) {
+        public Fragment getItem(int i) {
 
             SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
 
-            args.putString( "id", usedArray.get( i ) );
-            f.setArguments( args );
+            args.putString("id", usedArray.get(i));
+            f.setArguments(args);
 
             return f;
 
@@ -1383,7 +1383,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            if ( usedArray == null ) {
+            if (usedArray == null) {
                 return 1;
             } else {
                 return usedArray.size();
@@ -1392,10 +1392,10 @@ public class MainActivity extends BaseActivity {
 
 
         @Override
-        public CharSequence getPageTitle( int position ) {
+        public CharSequence getPageTitle(int position) {
 
-            if ( usedArray != null ) {
-                return StringUtils.abbreviate( usedArray.get( position ), 25 );
+            if (usedArray != null) {
+                return StringUtils.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }

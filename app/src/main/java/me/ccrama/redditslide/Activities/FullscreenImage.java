@@ -43,147 +43,147 @@ public class FullscreenImage extends FullScreenActivity {
 
     String toReturn;
 
-    public void onCreate( Bundle savedInstanceState ) {
+    public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
-        super.onCreate( savedInstanceState );
+        super.onCreate(savedInstanceState);
 
-        getTheme().applyStyle( new ColorPreferences( this ).getThemeSubreddit( "" ), true );
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
-        setContentView( R.layout.activity_image );
+        setContentView(R.layout.activity_image);
 
-        if ( Reddit.imageViewerSolidBackground ) {
-            findViewById( R.id.root ).setBackgroundColor( ContextCompat.getColor( this, R.color.darkbg ) );
+        if (Reddit.imageViewerSolidBackground) {
+            findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
-        final SubsamplingScaleImageView i = ( SubsamplingScaleImageView ) findViewById( R.id.submission_image );
+        final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
-        final ProgressBar bar = ( ProgressBar ) findViewById( R.id.progress );
-        bar.setIndeterminate( false );
-        bar.setProgress( 0 );
+        final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
+        bar.setIndeterminate(false);
+        bar.setProgress(0);
 
         final Handler handler = new Handler();
         final Runnable progressBarDelayRunner = new Runnable() {
             public void run() {
-                bar.setVisibility( View.VISIBLE );
+                bar.setVisibility(View.VISIBLE);
             }
         };
-        handler.postDelayed( progressBarDelayRunner, 500 );
+        handler.postDelayed(progressBarDelayRunner, 500);
 
-        String url = getIntent().getExtras().getString( "url" );
-        if ( url != null && url.contains( "imgur" ) && ( !url.contains( ".png" ) || !url.contains( ".jpg" ) || !url.contains( ".jpeg" ) ) ) {
+        String url = getIntent().getExtras().getString("url");
+        if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
             url = url + ".png";
         }
-        ImageView fakeImage = new ImageView( FullscreenImage.this );
-        fakeImage.setLayoutParams( new LinearLayout.LayoutParams( i.getWidth(), i.getHeight() ) );
-        fakeImage.setScaleType( ImageView.ScaleType.CENTER_CROP );
+        ImageView fakeImage = new ImageView(FullscreenImage.this);
+        fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
+        fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
 
-        ( ( Reddit ) getApplication() ).getImageLoader()
-                .displayImage( url, new ImageViewAware( fakeImage ), ImageLoaderUtils.options, new ImageLoadingListener() {
+        ((Reddit) getApplication()).getImageLoader()
+                .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
                     private View mView;
 
                     @Override
-                    public void onLoadingStarted( String imageUri, View view ) {
+                    public void onLoadingStarted(String imageUri, View view) {
                         mView = view;
                     }
 
                     @Override
-                    public void onLoadingFailed( String imageUri, View view, FailReason failReason ) {
-                        Log.v( "Slide", "LOADING FAILED" );
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.v("Slide", "LOADING FAILED");
 
                     }
 
                     @Override
-                    public void onLoadingComplete( String imageUri, View view, Bitmap loadedImage ) {
-                        i.setImage( ImageSource.bitmap( loadedImage ) );
-                        ( findViewById( R.id.progress ) ).setVisibility( View.GONE );
-                        handler.removeCallbacks( progressBarDelayRunner );
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        i.setImage(ImageSource.bitmap(loadedImage));
+                        (findViewById(R.id.progress)).setVisibility(View.GONE);
+                        handler.removeCallbacks(progressBarDelayRunner);
                     }
 
                     @Override
-                    public void onLoadingCancelled( String imageUri, View view ) {
-                        Log.v( "Slide", "LOADING CANCELLED" );
+                    public void onLoadingCancelled(String imageUri, View view) {
+                        Log.v("Slide", "LOADING CANCELLED");
 
                     }
                 }, new ImageLoadingProgressListener() {
                     @Override
-                    public void onProgressUpdate( String imageUri, View view, int current, int total ) {
-                        ( ( ProgressBar ) findViewById( R.id.progress ) ).setProgress( Math.round( 100.0f * current / total ) );
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                        ((ProgressBar) findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
                     }
-                } );
+                });
 
-        i.setOnClickListener( new View.OnClickListener() {
+        i.setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public void onClick( View v2 ) {
+            public void onClick(View v2) {
                 FullscreenImage.this.finish();
             }
-        } );
+        });
 
 
         {
-            final ImageView iv = ( ImageView ) findViewById( R.id.share );
+            final ImageView iv = (ImageView) findViewById(R.id.share);
             final String finalUrl = url;
-            iv.setOnClickListener( new View.OnClickListener() {
+            iv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick( View v ) {
-                    showShareDialog( finalUrl );
+                public void onClick(View v) {
+                    showShareDialog(finalUrl);
                 }
-            } );
+            });
             {
                 final String finalUrl1 = url;
-                findViewById( R.id.save ).setOnClickListener( new View.OnClickListener() {
+                findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 
                     @Override
-                    public void onClick( View v2 ) {
+                    public void onClick(View v2) {
 
 
                         try {
-                            ( ( Reddit ) getApplication() ).getImageLoader()
-                                    .loadImage( finalUrl, new SimpleImageLoadingListener() {
+                            ((Reddit) getApplication()).getImageLoader()
+                                    .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                         @Override
-                                        public void onLoadingComplete( String imageUri, View view, final Bitmap loadedImage ) {
-                                            final String localAbsoluteFilePath = saveImageGallery( loadedImage, finalUrl1 );
+                                        public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                                            final String localAbsoluteFilePath = saveImageGallery(loadedImage, finalUrl1);
 
-                                            if ( localAbsoluteFilePath != null ) {
-                                                MediaScannerConnection.scanFile( FullscreenImage.this, new String[]{ localAbsoluteFilePath }, null, new MediaScannerConnection.OnScanCompletedListener() {
-                                                    public void onScanCompleted( String path, Uri uri ) {
+                                            if (localAbsoluteFilePath != null) {
+                                                MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                                                    public void onScanCompleted(String path, Uri uri) {
                                                         Intent intent = new Intent();
-                                                        intent.setAction( android.content.Intent.ACTION_VIEW );
-                                                        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension( ".PNG" );
+                                                        intent.setAction(android.content.Intent.ACTION_VIEW);
+                                                        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".PNG");
 
-                                                        intent.setDataAndType( Uri.parse( localAbsoluteFilePath ), mime );
-                                                        PendingIntent contentIntent = PendingIntent.getActivity( FullscreenImage.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT );
+                                                        intent.setDataAndType(Uri.parse(localAbsoluteFilePath), mime);
+                                                        PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-                                                        Notification notif = new NotificationCompat.Builder( FullscreenImage.this )
-                                                                .setContentTitle( getString( R.string.info_photo_saved ) )
-                                                                .setSmallIcon( R.drawable.notif )
-                                                                .setLargeIcon( loadedImage )
-                                                                .setContentIntent( contentIntent )
-                                                                .setStyle( new NotificationCompat.BigPictureStyle()
-                                                                        .bigPicture( loadedImage ) ).build();
+                                                        Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
+                                                                .setContentTitle(getString(R.string.info_photo_saved))
+                                                                .setSmallIcon(R.drawable.notif)
+                                                                .setLargeIcon(loadedImage)
+                                                                .setContentIntent(contentIntent)
+                                                                .setStyle(new NotificationCompat.BigPictureStyle()
+                                                                        .bigPicture(loadedImage)).build();
 
 
                                                         NotificationManager mNotificationManager =
-                                                                ( NotificationManager ) getSystemService( NOTIFICATION_SERVICE );
-                                                        mNotificationManager.notify( 1, notif );
+                                                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                                                        mNotificationManager.notify(1, notif);
 
                                                     }
-                                                } );
+                                                });
                                             }
 
                                         }
 
-                                    } );
-                        } catch ( Exception e ) {
-                            Log.v( "RedditSlide", "COULDN'T DOWNLOAD!" );
+                                    });
+                        } catch (Exception e) {
+                            Log.v("RedditSlide", "COULDN'T DOWNLOAD!");
                         }
 
                     }
 
-                } );
+                });
             }
 
 
@@ -191,60 +191,60 @@ public class FullscreenImage extends FullScreenActivity {
 
     }
 
-    private void showShareDialog( final String url ) {
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder( this );
+    private void showShareDialog(final String url) {
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        final View dialoglayout = inflater.inflate( R.layout.sharemenu, null );
+        final View dialoglayout = inflater.inflate(R.layout.sharemenu, null);
 
-        dialoglayout.findViewById( R.id.share_img ).setOnClickListener( new View.OnClickListener() {
+        dialoglayout.findViewById(R.id.share_img).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View v ) {
-                shareImage( url );
+            public void onClick(View v) {
+                shareImage(url);
             }
-        } );
+        });
 
-        dialoglayout.findViewById( R.id.share_link ).setOnClickListener( new View.OnClickListener() {
+        dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick( View v ) {
-                Reddit.defaultShareText( url, FullscreenImage.this );
+            public void onClick(View v) {
+                Reddit.defaultShareText(url, FullscreenImage.this);
             }
-        } );
+        });
 
 
-        builder.setView( dialoglayout );
+        builder.setView(dialoglayout);
         builder.show();
     }
 
 
-    private void shareImage( String finalUrl ) {
-        ( ( Reddit ) getApplication() ).getImageLoader()
-                .loadImage( finalUrl, new SimpleImageLoadingListener() {
+    private void shareImage(String finalUrl) {
+        ((Reddit) getApplication()).getImageLoader()
+                .loadImage(finalUrl, new SimpleImageLoadingListener() {
                     @Override
-                    public void onLoadingComplete( String imageUri, View view, Bitmap loadedImage ) {
-                        shareImage( loadedImage );
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        shareImage(loadedImage);
 
 
                     }
 
 
-                } );
+                });
     }
 
-    private String saveImageGallery( final Bitmap _bitmap, String URL ) {
+    private String saveImageGallery(final Bitmap _bitmap, String URL) {
 
-        return MediaStore.Images.Media.insertImage( getContentResolver(), _bitmap, URL, "" );
+        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL, "");
 
 
     }
 
-    private void shareImage( final Bitmap bitmap ) {
+    private void shareImage(final Bitmap bitmap) {
 
-        String pathofBmp = MediaStore.Images.Media.insertImage( getContentResolver(), bitmap, "Shared", null );
-        Uri bmpUri = Uri.parse( pathofBmp );
-        final Intent shareImageIntent = new Intent( android.content.Intent.ACTION_SEND );
-        shareImageIntent.putExtra( Intent.EXTRA_STREAM, bmpUri );
-        shareImageIntent.setType( "image/png" );
-        startActivity( Intent.createChooser( shareImageIntent, "Share image with" ) );
+        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Shared", null);
+        Uri bmpUri = Uri.parse(pathofBmp);
+        final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        shareImageIntent.setType("image/png");
+        startActivity(Intent.createChooser(shareImageIntent, "Share image with"));
 
 
     }

@@ -133,8 +133,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static void forceRestart(Context context) {
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
-        }Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
-        launchIntent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(launchIntent);
         System.exit(0);
     }
@@ -174,12 +175,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         super.onLowMemory();
         getImageLoader().clearMemoryCache();
     }
+
     public static String regex(String toSplit) {
         String[] names = toSplit.split(",");
         final StringBuilder b = new StringBuilder();
         String separator = "";
-        for (final String name: names) {
-            if(!name.isEmpty()) {
+        for (final String name : names) {
+            if (!name.isEmpty()) {
                 b.append(separator);
                 b.append(Pattern.quote(name.trim()));
                 separator = "|";
@@ -187,6 +189,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         return b.toString();
     }
+
     public ImageLoader getImageLoader() {
         if (defaultImageLoader == null || !defaultImageLoader.isInited()) {
             ImageLoaderUtils.initImageLoader(getApplicationContext());
@@ -297,10 +300,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onCreate() {
         super.onCreate();
 
-    doMainStuff();
+        doMainStuff();
     }
 
-    public void doMainStuff(){
+    public void doMainStuff() {
         Log.v(TAG, "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
 
@@ -333,7 +336,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         Writer writer = new StringWriter();
                         PrintWriter printWriter = new PrintWriter(writer);
                         t.printStackTrace(printWriter);
-                        String stacktrace = writer.toString().replace(";", ",");;
+                        String stacktrace = writer.toString().replace(";", ",");
+                        ;
 
                         SharedPreferences prefs = getSharedPreferences(
                                 "STACKTRACE", Context.MODE_PRIVATE);
@@ -376,19 +380,19 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         single = SettingValues.prefs.getBoolean("Single", false);
         animation = SettingValues.prefs.getBoolean("Animation", false);
-        enter_animation_time_multiplier = SettingValues.prefs.getInt( "AnimationLengthMultiplier", 1 );
+        enter_animation_time_multiplier = SettingValues.prefs.getInt("AnimationLengthMultiplier", 1);
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
         fullscreen = SettingValues.prefs.getBoolean("Fullscreen", false);
         blurCheck = SettingValues.prefs.getBoolean("blur", false);
 
         fab = SettingValues.prefs.getBoolean("Fab", false);
-        fabType = SettingValues.prefs.getInt( "FabType", R.integer.FAB_POST );
+        fabType = SettingValues.prefs.getInt("FabType", R.integer.FAB_POST);
         nighttime = SettingValues.prefs.getInt("day", 20);
         daytime = SettingValues.prefs.getInt("night", 6);
-        autoTime = SettingValues.prefs.getBoolean( "autotime", false );
+        autoTime = SettingValues.prefs.getBoolean("autotime", false);
         colorBack = SettingValues.prefs.getBoolean("colorBack", false);
-        colorNavBar = SettingValues.prefs.getBoolean("colorNavBar",false);
-        imageViewerSolidBackground = SettingValues.prefs.getBoolean("imageViewerSolidBackground",false);
+        colorNavBar = SettingValues.prefs.getBoolean("colorNavBar", false);
+        imageViewerSolidBackground = SettingValues.prefs.getBoolean("imageViewerSolidBackground", false);
         alphabetical_home = SettingValues.prefs.getBoolean("alphabetical_home", true);
         colorEverywhere = SettingValues.prefs.getBoolean("colorEverywhere", true);
 
@@ -460,11 +464,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         tabletUI = isPackageInstalled(this);
 
 
-
     }
 
     public static String arrayToString(ArrayList<String> array) {
-        if(array !=null) {
+        if (array != null) {
             StringBuilder b = new StringBuilder();
             for (String s : array) {
                 b.append(s).append(",");
@@ -487,8 +490,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Collections.addAll(f, string.split(","));
         return f;
     }
-
-
 
 
     public interface Listener {
@@ -543,18 +544,19 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return
                 timePeriod == TimePeriod.HOUR ? 0 :
                         timePeriod == TimePeriod.DAY ? 1 :
-                        timePeriod == TimePeriod.WEEK ? 2 :
-                                timePeriod == TimePeriod.MONTH ? 3 :
-                                        timePeriod == TimePeriod.YEAR ? 4 :
-                                                5
+                                timePeriod == TimePeriod.WEEK ? 2 :
+                                        timePeriod == TimePeriod.MONTH ? 3 :
+                                                timePeriod == TimePeriod.YEAR ? 4 :
+                                                        5
                 ;
     }
+
     public static Integer getTypeSearch() {
         return
                 search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
                         search == SubmissionSearchPaginator.SearchSort.TOP ? 1 :
                                 search == SubmissionSearchPaginator.SearchSort.NEW ? 2 :
-                                      3
+                                        3
                 ;
     }
 
@@ -577,6 +579,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all),
                 };
     }
+
     public static String[] getSearch(Context c) {
         return new String[]
                 {
