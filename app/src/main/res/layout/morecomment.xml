@@ -6,60 +6,79 @@
 
     android:clipChildren="false"
 
-    android:orientation="horizontal"
+    android:orientation="vertical"
 
     android:scrollbars="none">
 
-    <LinearLayout
-        android:id="@+id/dots"
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
-        android:background="?attr/activity_background"
-
-        android:orientation="horizontal">
 
 
+        android:clipChildren="false"
+
+        android:orientation="horizontal"
+
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/activity_background"
+
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/dot"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+
+            android:background="?attr/tint" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="?attr/card_background">
+
+            <TextView
+
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+
+                android:layout_toRightOf="@+id/loading"
+                android:background="?attr/card_background"
+
+                android:gravity="center_vertical"
+                android:paddingLeft="8dp"
+
+                android:text="@string/comment_load_more"
+                android:textAllCaps="false"
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_commenttitle" />
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+
+                android:indeterminate="true" />
+        </RelativeLayout>
     </LinearLayout>
 
-
     <View
-        android:id="@+id/dot"
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-
-        android:background="?attr/tint" />
-
-    <RelativeLayout
         android:layout_width="match_parent"
-        android:background="?attr/card_background"
-
-        android:layout_height="wrap_content">
-        <TextView
-
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-
-            android:gravity="center_vertical"
-            android:paddingLeft="8dp"
-
-            android:text="@string/comment_load_more"
-            android:textAllCaps="false"
-
-            android:background="?attr/card_background"
-            android:layout_toRightOf="@+id/loading"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commenttitle"/>
-        <ProgressBar
-            android:layout_width="35dp"
-            android:id="@+id/loading"
-            android:indeterminate="true"
-
-            android:layout_height="35dp" />
-    </RelativeLayout>
-
-
-
+        android:layout_height="0.25dp"
+        android:layout_below="@id/content"
+        android:alpha="0.2"
+        android:background="?attr/tint" />
 
 
 </LinearLayout>

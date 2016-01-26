@@ -175,17 +175,21 @@ public class SubredditPosts implements PostLoader {
 
             List<Submission> things = new ArrayList<>();
 
-            if (paginator != null && paginator.hasNext()) {
-                for (Submission submission : paginator.next()) {
+            try {
+                if (paginator != null && paginator.hasNext()) {
+                    for (Submission submission : paginator.next()) {
                         things.add(submission);
 
+                    }
+                } else {
+                    nomore = true;
                 }
-            } else {
-                nomore = true;
-            }
 
-            if (Reddit.cache) {
-                Cache.writeSubreddit(things, subredditPaginators[0]);
+                if (Reddit.cache) {
+                    Cache.writeSubreddit(things, subredditPaginators[0]);
+                }
+            } catch(Exception e){
+                e.printStackTrace();
             }
 
             return things;

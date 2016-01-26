@@ -24,7 +24,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 
 import net.dean.jraw.models.Submission;
 
-import me.ccrama.redditslide.Activities.Album;
+import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
@@ -152,7 +152,7 @@ public class ImageFull extends Fragment {
                     @Override
                     public void onClick(View v2) {
                         if (Reddit.album) {
-                            Intent i = new Intent(contextActivity, Album.class);
+                            Intent i = new Intent(contextActivity, AlbumPager.class);
                             i.putExtra("url", submission.getUrl());
                             contextActivity.startActivity(i);
                             contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);

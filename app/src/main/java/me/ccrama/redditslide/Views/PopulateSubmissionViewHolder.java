@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import me.ccrama.redditslide.Activities.Album;
+import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
@@ -144,7 +144,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case ALBUM:
                         if (Reddit.album) {
-                            Intent i = new Intent(contextActivity, Album.class);
+                            Intent i = new Intent(contextActivity, AlbumPager.class);
                             i.putExtra("url", submission.getUrl());
                             contextActivity.startActivity(i);
                         } else {

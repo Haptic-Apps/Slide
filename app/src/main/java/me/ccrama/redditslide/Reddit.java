@@ -54,6 +54,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean expandedSettings;
     public static boolean hideHeader;
     public static boolean alphabetical_home;
+    public static boolean alternateAlbumView;
 
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
 

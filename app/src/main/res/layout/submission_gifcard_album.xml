@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    android:gravity="center"
+
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent">
+
+
+            <RelativeLayout
+                android:id="@+id/imagearea"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center">
+
+                <me.ccrama.redditslide.Views.MediaVideoView
+                    android:id="@+id/gif"
+                    android:layout_width="match_parent"
+
+
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
+                </me.ccrama.redditslide.Views.MediaVideoView>
+
+                <ProgressBar
+                    android:id="@+id/gifprogress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="false"
+                    android:max="100"
+
+                    android:progress="0" />
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imagearea"
+                android:background="#55000000"
+                android:maxHeight="90dp">
+
+                <LinearLayout
+                    android:id="@+id/base"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+
+                    android:orientation="vertical">
+
+                    <me.ccrama.redditslide.Views.TitleTextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#ffffff"
+                        android:textSize="?attr/font_cardtitle" />
+
+                    <me.ccrama.redditslide.SpoilerRobotoTextView
+                        android:id="@+id/desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".56"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="16dp"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
