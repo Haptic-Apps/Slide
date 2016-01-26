@@ -1324,8 +1324,6 @@ public class MainActivity extends BaseActivity {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
                         if (p.offline && p.cached != null) {
                             Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
-
-
                         }
                     }
 
@@ -1347,7 +1345,6 @@ public class MainActivity extends BaseActivity {
             });
             if (pager.getAdapter() != null) {
                 pager.getAdapter().notifyDataSetChanged();
-                pager.setCurrentItem(1);
                 pager.setCurrentItem(0);
             }
         }
