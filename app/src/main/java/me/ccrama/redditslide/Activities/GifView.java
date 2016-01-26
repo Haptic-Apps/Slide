@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,7 @@ import java.net.URLConnection;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 
@@ -60,6 +62,10 @@ public class GifView extends FullScreenActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gif);
+
+        if( Reddit.imageViewerSolidBackground){
+            findViewById( R.id.root ).setBackgroundColor( ContextCompat.getColor( this, R.color.darkbg ) );
+        }
 
         final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();

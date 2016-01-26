@@ -357,15 +357,15 @@ public class SettingsTheme extends BaseActivity {
 
             }
         });
-        s2.setEnabled(s.isChecked());
-        s2.setChecked(Reddit.colorEverywhere);
-        s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        s2.setEnabled( s.isChecked() );
+        s2.setChecked( Reddit.colorEverywhere );
+        s2.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged( CompoundButton buttonView, boolean isChecked ) {
                 Reddit.colorEverywhere = isChecked;
-                SettingValues.prefs.edit().putBoolean("colorEverywhere", isChecked).apply();
+                SettingValues.prefs.edit().putBoolean( "colorEverywhere", isChecked ).apply();
             }
-        });
+        } );
 
         final SwitchCompat colorNavbarSwitch = (SwitchCompat) findViewById(R.id.color_navigation_bar);
 
@@ -376,8 +376,20 @@ public class SettingsTheme extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Reddit.colorNavBar = isChecked;
                 SettingValues.prefs.edit().putBoolean("colorNavBar", isChecked).apply();
-                themeSystemBars("");
+                themeSystemBars( "" );
 
+            }
+        });
+
+        final SwitchCompat imageViewerSolidBackgroundSwitch = (SwitchCompat) findViewById(R.id.imageviewer_background);
+
+        imageViewerSolidBackgroundSwitch.setChecked(Reddit.imageViewerSolidBackground);
+        imageViewerSolidBackgroundSwitch.setOnCheckedChangeListener( new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Reddit.imageViewerSolidBackground = isChecked;
+                SettingValues.prefs.edit().putBoolean("imageViewerSolidBackgroundSwitch", isChecked).apply();
             }
         });
     }

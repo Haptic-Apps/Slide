@@ -68,6 +68,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean colorBack;
     public static boolean colorNavBar;
 
+    public static boolean imageViewerSolidBackground;
+
     public static boolean fullscreen;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
