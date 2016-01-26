@@ -26,6 +26,7 @@ import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
+import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.Authentication;
@@ -134,7 +135,9 @@ public class CommentPage extends Fragment {
                 int i = 1;
                 for (CommentObject n : comments.comments) {
 
-                    if (n.getCommentNode().getComment().getFullName().contains(fullname)) {
+                    if(n instanceof CommentItem)
+
+                    if (n.comment.getComment().getFullName().contains(fullname)) {
                         RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
@@ -207,7 +210,8 @@ public class CommentPage extends Fragment {
 
                         for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
-                            if (adapter.users.get(adapter.getRealPosition(i)).getCommentNode().isTopLevel()) {
+                            if(adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                            if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                                 RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                                 smoothScroller.setTargetPosition(i + 1);
                                 (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
@@ -225,7 +229,9 @@ public class CommentPage extends Fragment {
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
                         for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                            if (adapter.users.get(adapter.getRealPosition(i)).getCommentNode().isTopLevel()) {
+                            if(adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+
+                                if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                                 RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                                 smoothScroller.setTargetPosition(i + 1);
                                 (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
@@ -365,8 +371,9 @@ public class CommentPage extends Fragment {
 
                     int i = 1;
                     for (CommentObject n : comments.comments) {
+                        if(n instanceof CommentItem)
 
-                        if (n.getCommentNode().getComment().getFullName().contains(context)) {
+                        if (n.comment.getComment().getFullName().contains(context)) {
                             RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                             smoothScroller.setTargetPosition(i);
                             (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
