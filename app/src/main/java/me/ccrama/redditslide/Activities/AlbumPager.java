@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -24,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -39,8 +37,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
-import net.dean.jraw.models.Submission;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,22 +46,23 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.MediaVideoView;
-import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
 
 /**
- * Created by ccrama on 3/5/2015.
+ * Created by ccrama on 1/25/2016.
+ *
+ * This is an extension of Album.java which utilizes a ViewPager for Imgur content
+ * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
+ * bars which Album.java doesn't.
+ *
  */
 public class AlbumPager extends FullScreenActivity {
     boolean gallery = false;

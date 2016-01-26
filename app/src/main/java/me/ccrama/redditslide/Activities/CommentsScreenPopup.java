@@ -21,6 +21,10 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by ccrama on 9/17/2015.
+ *
+ * This activity is the same as CommentScreen, but allows for it to show up in a dialog-like
+ * layout for Tablet mode.
+ *
  */
 public class CommentsScreenPopup extends BaseActivityAnim {
     OverviewPagerAdapter comments;

@@ -9,6 +9,8 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 /**
  * Created by tomer aka rosenpin on 11/27/15.
+ *
+ * This Activity allows for fullscreen viewing without the statusbar visible
  */
 public class FullScreenActivity extends BaseActivityAnim {
     @Override

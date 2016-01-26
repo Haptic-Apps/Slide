@@ -49,6 +49,9 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
 
+/**
+ * This class handles creation of Multireddits.
+ */
 
 public class CreateMulti extends BaseActivityAnim {
 
@@ -137,12 +140,10 @@ public class CreateMulti extends BaseActivityAnim {
 
     }
 
-    public void doDoneStuff() {
-        Intent i = new Intent(this, MultiredditOverview.class);
-        startActivity(i);
-        finish();
-    }
 
+    /**
+     * Shows a dialog with all Subscribed subreddits and allows the user to select which ones to include in the Multireddit
+     */
     public void showSelectDialog() {
         final String[] all = new String[SubredditStorage.alphabeticalSubreddits.size() - 2];
         final List<String> s2 = new ArrayList<>(subs);
@@ -185,6 +186,10 @@ public class CreateMulti extends BaseActivityAnim {
         }).show();
     }
 
+
+    /**
+     * Responsible for showing a list of subreddits which are added to this Multireddit
+     */
     public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
 
@@ -231,6 +236,10 @@ public class CreateMulti extends BaseActivityAnim {
 
     }
 
+
+    /**
+     * Saves a Multireddit with applicable data in an async task
+     */
     public class SaveMulti extends AsyncTask<Void, Void, Void> {
 
         @Override

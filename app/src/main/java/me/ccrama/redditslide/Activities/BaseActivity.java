@@ -25,6 +25,13 @@ import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 
+/**
+ *
+ * This is an activity which is the base for most of Slide's activities.
+ * It has support for handling of swiping, setting up the AppBar (toolbar),
+ * and coloring of applicable views.
+ *
+ * */
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     private static final String TAG = "BaseActivity";
@@ -61,13 +68,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
                 } else {
-
-                    Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
-
                     mHelper.getSwipeBackLayout().mDragHelper.override = true;
-
                     mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
-                    Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
                 }
             } else {
                 mHelper.getSwipeBackLayout().mDragHelper.override = false;

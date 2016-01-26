@@ -20,6 +20,10 @@ import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
  * Created by ccrama on 9/17/2015.
+ *
+ * This activity takes parameters for a submission id (through intent or direct link),
+ * retrieves the Submission object, and then displays the submission with its comments.
+ *
  */
 public class CommentsScreenSingle extends BaseActivityAnim {
     OverviewPagerAdapter comments;

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,9 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -25,12 +28,17 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
 
 /**
  * Created by ccrama on 3/5/2015.
+ *
+ * This class is responsible for accessing the Imgur api to get the album json data
+ * from a URL or Imgur hash. It extends FullScreenActivity and supports swipe from anywhere.
+ *
  */
 public class Album extends FullScreenActivity {
     boolean gallery = false;
@@ -53,6 +61,10 @@ public class Album extends FullScreenActivity {
 
         setContentView(R.layout.album);
 
+        if (Reddit.imageViewerSolidBackground) {
+            findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
+        }
+
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setTitle(R.string.album_loading);
         ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
@@ -64,7 +76,7 @@ public class Album extends FullScreenActivity {
         if (rawDat.contains("gallery")) {
             gallery = true;
         }
-        if(rawDat.endsWith("/")){
+        if (rawDat.endsWith("/")) {
             rawDat = rawDat.substring(0, rawDat.length() - 1);
         }
         String rawdat2 = rawDat;
@@ -143,7 +155,7 @@ public class Album extends FullScreenActivity {
                                             getSupportActionBar().setTitle(getString(R.string.album_title_count, jsons.size()));
 
 
-                                           final RecyclerView v = (RecyclerView) findViewById(R.id.images);
+                                            final RecyclerView v = (RecyclerView) findViewById(R.id.images);
                                             final PreCachingLayoutManager mLayoutManager;
                                             mLayoutManager = new PreCachingLayoutManager(Album.this);
                                             v.setLayoutManager(mLayoutManager);
@@ -151,7 +163,7 @@ public class Album extends FullScreenActivity {
                                             findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v3) {
-                                                    if(slider){
+                                                    if (slider) {
                                                         v.setVisibility(View.VISIBLE);
                                                         final PreCachingLayoutManager mLayoutManager;
                                                         mLayoutManager = new PreCachingLayoutManager(Album.this);
@@ -162,7 +174,7 @@ public class Album extends FullScreenActivity {
                                                     } else {
                                                         v.setVisibility(View.GONE);
                                                         ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
-                                                     //   p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, true));
+                                                        //   p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, true));
                                                         p.setVisibility(View.VISIBLE);
 
                                                         slider = true;
@@ -179,7 +191,7 @@ public class Album extends FullScreenActivity {
 
                                     startActivity(i);
                                     finish();
-                                 //Catch failed api call
+                                    //Catch failed api call
                                 }
                             }
 
@@ -246,7 +258,7 @@ public class Album extends FullScreenActivity {
                                                         ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
                                                         p.setVisibility(View.VISIBLE);
 
-                                                       // p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, false));
+                                                        // p.setAdapter(new AlbumViewPager(getSupportFragmentManager(), Album.this, jsons, false));
                                                         slider = true;
                                                     }
                                                 }

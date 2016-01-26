@@ -25,6 +25,8 @@ import me.ccrama.redditslide.util.Purchase;
 
 /**
  * Created by carlo_000 on 5/26/2015.
+ *
+ * Allows a user to donate to Slide using Google Play's IabHelper
  */
 public class DonateView extends BaseActivity {
 
