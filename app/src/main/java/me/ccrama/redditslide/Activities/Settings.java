@@ -25,11 +25,12 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 3/5/2015.
  */
 public class Settings extends BaseActivity {
+    private final static int RESTART_SETTINGS_RESULT = 2;
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 2) {
+        if (requestCode == RESTART_SETTINGS_RESULT) {
             Intent i = new Intent(Settings.this, Settings.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(i);
@@ -75,7 +76,7 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsGeneral.class);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
         findViewById(R.id.about).setOnClickListener(new View.OnClickListener() {
@@ -91,7 +92,7 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsSubreddit.class);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
 
@@ -118,7 +119,7 @@ public class Settings extends BaseActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(Settings.this, SettingsTheme.class);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
         findViewById(R.id.handling).setOnClickListener(new View.OnClickListener() {

@@ -1,18 +1,12 @@
 package me.ccrama.redditslide.Fragments;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +31,6 @@ import java.net.URLConnection;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
@@ -145,10 +138,10 @@ public class Gif extends Fragment {
         });
         return rootView;
     }
+
     public static String getSmallerGfy(String gfyUrl) {
-        gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
-        if (!gfyUrl.endsWith("-mobile.mp4"))
-            gfyUrl = gfyUrl.replaceAll("\\.mp4", "-mobile.mp4");
+        gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs")
+                .replaceAll("\\.mp4|\\.webm", "-mobile.mp4");
         return gfyUrl;
     }
 
