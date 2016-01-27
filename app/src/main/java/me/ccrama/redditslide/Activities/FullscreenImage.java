@@ -8,7 +8,9 @@ import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,11 +52,24 @@ public class FullscreenImage extends FullScreenActivity {
 
         setContentView(R.layout.activity_image);
 
+        if (Reddit.imageViewerSolidBackground) {
+            findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
+        }
+
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
+
+        final Handler handler = new Handler();
+        final Runnable progressBarDelayRunner = new Runnable() {
+            public void run() {
+                bar.setVisibility(View.VISIBLE);
+            }
+        };
+        handler.postDelayed(progressBarDelayRunner, 500);
+
         String url = getIntent().getExtras().getString("url");
         if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
             url = url + ".png";
@@ -64,7 +79,7 @@ public class FullscreenImage extends FullScreenActivity {
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
 
-                ((Reddit) getApplication()).getImageLoader()
+        ((Reddit) getApplication()).getImageLoader()
                 .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
                     private View mView;
 
@@ -82,7 +97,8 @@ public class FullscreenImage extends FullScreenActivity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         i.setImage(ImageSource.bitmap(loadedImage));
-                        ( findViewById(R.id.progress)).setVisibility(View.GONE);
+                        (findViewById(R.id.progress)).setVisibility(View.GONE);
+                        handler.removeCallbacks(progressBarDelayRunner);
                     }
 
                     @Override
@@ -205,11 +221,10 @@ public class FullscreenImage extends FullScreenActivity {
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                       shareImage(loadedImage);
+                        shareImage(loadedImage);
 
 
-
-                        }
+                    }
 
 
                 });
@@ -224,9 +239,9 @@ public class FullscreenImage extends FullScreenActivity {
 
     private void shareImage(final Bitmap bitmap) {
 
-        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap,"Shared", null);
+        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Shared", null);
         Uri bmpUri = Uri.parse(pathofBmp);
-        final Intent shareImageIntent = new Intent(     android.content.Intent.ACTION_SEND);
+        final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareImageIntent.setType("image/png");
         startActivity(Intent.createChooser(shareImageIntent, "Share image with"));

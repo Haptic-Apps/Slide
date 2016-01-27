@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout android:id="@+id/root"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
 
-    android:background="#a0000000"
-    android:orientation="vertical">
+              android:background="#a0000000"
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,12 +25,12 @@
             android:id="@+id/slider"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:visibility="gone"
             android:layout_gravity="right"
-
             android:padding="15dp"
 
-            android:src="@drawable/shadowbox" />
+            android:src="@drawable/shadowbox"
+
+            android:visibility="gone"/>
 
 
     </android.support.v7.widget.Toolbar>
@@ -42,7 +43,7 @@
             android:id="@+id/images_horizontal"
             android:layout_width="match_parent"
 
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <android.support.v7.widget.RecyclerView
 
@@ -50,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
-            android:dividerHeight="0dp" />
+            android:dividerHeight="0dp"/>
     </RelativeLayout>
 
 </LinearLayout>
