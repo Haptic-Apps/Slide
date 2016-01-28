@@ -27,6 +27,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -629,7 +630,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-        ((TextView) findViewById(R.id.sub_title)).setText(subreddit.getPublicDescription());
+        ((TextView) findViewById(R.id.sub_title)).setText(Html.fromHtml(subreddit.getPublicDescription()));
         findViewById(R.id.sub_title).setVisibility(subreddit.getPublicDescription().equals("") ? View.GONE : View.VISIBLE);
 
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
@@ -1165,7 +1166,8 @@ public class MainActivity extends BaseActivity {
                 openPopup();
                 return true;
             case R.id.search:
-                new MaterialDialog.Builder(this).title(R.string.search_title)
+                final String subreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
                         .alwaysCallInputCallback()
                         .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
                             @Override
@@ -1174,25 +1176,30 @@ public class MainActivity extends BaseActivity {
                             }
                         })
                         .positiveText(R.string.search_all)
-                        .negativeText(getString(R.string.search_subreddit, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit))
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
-                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(MainActivity.this, Search.class);
                                 i.putExtra("term", term);
                                 startActivity(i);
                             }
-                        })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
-                                Intent i = new Intent(MainActivity.this, Search.class);
-                                i.putExtra("term", term);
-                                i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
-                                Log.v("Slide", "INTENT SHOWS " + term + " AND " + ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
-                                startActivity(i);
-                            }
-                        }).show();
+                        });
+
+                //Add "search current sub" if it is not frontpage/all/random
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random")) {
+                    builder.negativeText(getString(R.string.search_subreddit, subreddit))
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                    Intent i = new Intent(MainActivity.this, Search.class);
+                                    i.putExtra("term", term);
+                                    i.putExtra("subreddit", subreddit);
+                                    Log.v("Slide", "INTENT SHOWS " + term + " AND " + subreddit);
+                                    startActivity(i);
+                                }
+                            });
+                }
+                builder.show();
                 return true;
             case R.id.save:
                 saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);

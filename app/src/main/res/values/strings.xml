@@ -186,7 +186,7 @@
     <string name="editor_uploading_image">Uploading image to imgur</string>
     <string name="editor_self">Self text</string>
     <string name="editor_select_img">Select picture</string>
-    <string name="editor_hint_optional_body">Body (optional)</string>
+    <string name="editor_hint_optional_body">Text (optional)</string>
     <string name="editor_submit">Submit a post</string>
     <string name="editor_hint_subreddit">Subreddit</string>
 
@@ -263,7 +263,7 @@
     <string name="mail_author_wrote">%1$s wrote…</string>
     <string name="mail_hint_recipient">Recipient</string>
     <string name="mail_hint_subject">Subject</string>
-    <string name="mail_hint_body">Body</string>
+    <string name="mail_hint_body">Text</string>
     <string name="mail_send_to">Send a message to %1$s</string>
     <string name="mail_send">Send a message</string>
     <string name="mail_notification_msg">New message from %1$s</string>
