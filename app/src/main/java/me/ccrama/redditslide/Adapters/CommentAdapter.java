@@ -754,29 +754,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentArea.setVisibility(View.GONE);
 
 
-            if (comment.isScoreHidden()) {
-                String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
+            String scoreText;
+            if (comment.isScoreHidden())
+                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+            else scoreText = comment.getScore().toString();
 
-                holder.score.setText("[" + scoreText + "]");
+            holder.score.setText(scoreText);
 
-            }
-            if (up.contains(comment.getFullName())) {
+            if (up.contains(comment.getFullName()))
                 holder.score.setTextColor(holder.textColorUp);
-                if (!comment.isScoreHidden()) {
-                    holder.score.setText(comment.getScore() + 1 + "");
-                }
-            } else if (down.contains(comment.getFullName())) {
+            else if (down.contains(comment.getFullName()))
                 holder.score.setTextColor(holder.textColorDown);
-                if (!comment.isScoreHidden()) {
-                    holder.score.setText(comment.getScore() - 1 + "");
-                }
-
-            } else {
-                holder.score.setTextColor(holder.textColorRegular);
-                if (!comment.isScoreHidden()) {
-                    holder.score.setText(comment.getScore() + "");
-                }
-            }
+            else holder.score.setTextColor(holder.textColorRegular);
 
 
             if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
