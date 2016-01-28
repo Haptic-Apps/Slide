@@ -153,28 +153,8 @@ public class MainActivity extends BaseActivity {
             doDrawer();
             setDataSet(SubredditStorage.subredditsForHome);
         } else if (requestCode == INBOX_RESULT) {
-            new AsyncTask<Void, Void, Void>() {
-                int count;
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    count = Authentication.reddit.me().getInboxCount();
-
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    if (count == 0) {
-                        headerMain.findViewById(R.id.count).setVisibility(View.GONE);
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        notificationManager.cancelAll();
-                    } else {
-                        headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
-                        ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
-                    }
-                }
-            }.execute();
+            //update notification badge
+            new AsyncNotificationBadge().execute();
         }
     }
 
@@ -772,28 +752,8 @@ public class MainActivity extends BaseActivity {
                     chooseAccounts();
                 }
             });
-            new AsyncTask<Void, Void, Void>() {
-                int count;
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    count = Authentication.reddit.me().getInboxCount();
-
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    if (count == 0) {
-                        header.findViewById(R.id.count).setVisibility(View.GONE);
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        notificationManager.cancelAll();
-                    } else {
-                        header.findViewById(R.id.count).setVisibility(View.VISIBLE);
-                        ((TextView) header.findViewById(R.id.count)).setText(count + "");
-                    }
-                }
-            }.execute();
+            //update notification badge
+            new AsyncNotificationBadge().execute();
 
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1419,6 +1379,33 @@ public class MainActivity extends BaseActivity {
     }
 
 
+    public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
+        int count;
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            count = Authentication.reddit.me().getInboxCount();
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (count == 0) {
+                headerMain.findViewById(R.id.count).setVisibility(View.GONE);
+                NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.cancelAll();
+            } else {
+                headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
+                ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
+            }
+        }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Authentication.isLoggedIn && Authentication.didOnline) {
+            new AsyncNotificationBadge().execute();
+        }
+    }
 }
