@@ -326,6 +326,7 @@
     <string name="btn_offline">Cache posts</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_theme_toggle">Toggle dark theme</string>
+    <string name="mark_as_read">Mark As Read</string>
 
 
     <!-- Backup -->

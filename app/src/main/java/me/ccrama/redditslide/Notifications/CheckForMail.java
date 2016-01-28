@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Inbox;
+import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -34,7 +35,7 @@ public class CheckForMail extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
-        if(NetworkUtil.isConnected(c)) {
+        if (NetworkUtil.isConnected(c)) {
             new AsyncGetMail().execute();
             Log.v("Slide", "CHECKING MAIL");
         }
@@ -46,6 +47,14 @@ public class CheckForMail extends BroadcastReceiver {
         @Override
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
+
+            //create arraylist of the messages fullName for markasread action
+            String[] messageNames = new String[messages.size()];
+            int counter = 0;
+            for (Message x : messages) {
+                messageNames[counter] = x.getFullName();
+                counter++;
+            }
 
             if (messages != null && messages.size() > 0) {
                 if (messages.size() == 1) {
@@ -59,6 +68,11 @@ public class CheckForMail extends BroadcastReceiver {
 
                     PendingIntent intent = PendingIntent.getActivity(c, 0,
                             notificationIntent, 0);
+
+                    //Intent for mark as read notification action
+                    Intent readIntent = new Intent(c, MarkAsReadService.class);
+                    readIntent.putExtra("MESSAGE_FULLNAMES", messageNames);
+                    PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     NotificationCompat.BigTextStyle notiStyle = new
                             NotificationCompat.BigTextStyle();
@@ -74,6 +88,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     messages.get(0).getSubject(), messages.get(0).getAuthor()))
                             .setContentText(Html.fromHtml(messages.get(0).getBody()))
                             .setStyle(notiStyle)
+                            .addAction(R.drawable.ic_check_all_black, "Mark as read", readPI)
                             .build();
                     notificationManager.notify(0, notification);
                 } else {
@@ -96,6 +111,11 @@ public class CheckForMail extends BroadcastReceiver {
                     PendingIntent intent = PendingIntent.getActivity(c, 0,
                             notificationIntent, 0);
 
+                    //Intent for mark as read notification action
+                    Intent readIntent = new Intent(c, MarkAsReadService.class);
+                    readIntent.putExtra("MESSAGE_FULLNAMES", messageNames);
+                    PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
 
                     Notification notification = new NotificationCompat.Builder(c)
                             .setContentIntent(intent)
@@ -105,6 +125,7 @@ public class CheckForMail extends BroadcastReceiver {
                             .setAutoCancel(true)
                             .setContentTitle(res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
                             .setStyle(notiStyle)
+                            .addAction(R.drawable.ic_check_all_black, "Mark as read", readPI)
                             .build();
                     notificationManager.notify(0, notification);
                 }
@@ -185,6 +206,7 @@ public class CheckForMail extends BroadcastReceiver {
                 }
             }*/
         }
+
         ArrayList<Message> modMessages = new ArrayList<>();
 
         @Override
@@ -216,4 +238,6 @@ public class CheckForMail extends BroadcastReceiver {
             return null;
         }
     }
+
+
 }
