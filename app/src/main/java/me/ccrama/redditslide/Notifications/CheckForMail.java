@@ -30,6 +30,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
 
 public class CheckForMail extends BroadcastReceiver {
 
+    public static final String MESSAGE_EXTRA = "MESSAGE_FULLNAMES";
     private Context c;
 
     @Override
@@ -71,7 +72,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     //Intent for mark as read notification action
                     Intent readIntent = new Intent(c, MarkAsReadService.class);
-                    readIntent.putExtra("MESSAGE_FULLNAMES", messageNames);
+                    readIntent.putExtra(MESSAGE_EXTRA, messageNames);
                     PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     NotificationCompat.BigTextStyle notiStyle = new
@@ -113,7 +114,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                     //Intent for mark as read notification action
                     Intent readIntent = new Intent(c, MarkAsReadService.class);
-                    readIntent.putExtra("MESSAGE_FULLNAMES", messageNames);
+                    readIntent.putExtra(MESSAGE_EXTRA, messageNames);
                     PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
