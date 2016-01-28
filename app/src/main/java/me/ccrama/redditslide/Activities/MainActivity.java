@@ -1381,7 +1381,6 @@ public class MainActivity extends BaseActivity {
 
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
         int count;
-        TextView badgeCounter;
 
         @Override
         protected Void doInBackground(Void... params) {
