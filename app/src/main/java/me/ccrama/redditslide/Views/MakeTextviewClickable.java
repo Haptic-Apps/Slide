@@ -172,7 +172,7 @@ public class MakeTextviewClickable {
         String unparsed = html;
         String code;
         while (unparsed.contains("<pre><code>")) {
-            String[] split = html.split("<pre><code>");
+            String[] split = html.split("<pre><code>", 2);
             int closeIndex = split[1].indexOf("</code></pre>");
 
             unparsed = split[1].substring(closeIndex);
