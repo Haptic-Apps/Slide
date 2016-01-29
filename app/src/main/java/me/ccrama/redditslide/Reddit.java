@@ -452,15 +452,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
-        if (appRestart.contains("back")) {
+     /*  if (appRestart.contains("back")) {
             appRestart.edit().remove("back").apply(); //hopefully will stop Slide from opening in the background
-            SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
-            SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
-            Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
-            Authentication.name = appRestart.getString("name", "");
-            active = true;
+        //Removed these because it caused Slide to lose it's sub order*/
+        SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
+        SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
+        Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
+        Authentication.name = appRestart.getString("name", "");
+        active = true;
 
-        }
+        // }
 
         tabletUI = isPackageInstalled(this);
 
