@@ -21,6 +21,7 @@ import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 
@@ -116,7 +117,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if (url.contains("gif")) {
-                    if (Reddit.gif) {
+                    if (SettingValues.gif) {
                         Intent myIntent = new Intent(main, GifView.class);
                         myIntent.putExtra(GifView.EXTRA_URL, url);
                         main.startActivity(myIntent);
@@ -124,7 +125,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
                         Reddit.defaultShare(url, main);
                     }
                 } else {
-                    if (Reddit.image) {
+                    if (SettingValues.image) {
                         Intent myIntent = new Intent(main, FullscreenImage.class);
                         myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
                         main.startActivity(myIntent);

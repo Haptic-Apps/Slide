@@ -23,6 +23,7 @@ import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -154,7 +155,7 @@ public class Search extends BaseActivityAnim {
 
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !SettingValues.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);

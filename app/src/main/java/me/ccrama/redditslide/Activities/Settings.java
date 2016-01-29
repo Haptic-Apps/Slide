@@ -51,14 +51,14 @@ public class Settings extends BaseActivity {
         setContentView(R.layout.activity_settings);
         setupAppBar(R.id.toolbar, R.string.title_settings, true, true);
 
-        Reddit.expandedSettings = true;
+        SettingValues.expandedSettings = true;
         setSettingItems();
 
     }
 
     private void setSettingItems() {
         View pro = findViewById(R.id.pro);
-        if (Reddit.tabletUI) pro.setVisibility(View.GONE);
+        if (SettingValues.tabletUI) pro.setVisibility(View.GONE);
         else {
             pro.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,7 +157,7 @@ public class Settings extends BaseActivity {
                   /*  Intent inte = new Intent(Overview.this, Overview.class);
                     inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
                     Overview.this.startActivity(inte);*/
-                if (Reddit.tabletUI) {
+                if (SettingValues.tabletUI) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
@@ -198,12 +198,12 @@ public class Settings extends BaseActivity {
                         }
                     });
                     SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);
-                    s.setChecked(Reddit.dualPortrait);
+                    s.setChecked(SettingValues.dualPortrait);
                     s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            Reddit.dualPortrait = isChecked;
-                            SettingValues.prefs.edit().putBoolean("dualPortrait", isChecked).apply();
+                            SettingValues.dualPortrait = isChecked;
+                            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_DUAL_PORTRAIT, isChecked).apply();
                         }
                     });
                 } else {

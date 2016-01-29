@@ -199,7 +199,7 @@ public class CommentPage extends Fragment {
 
             }
         });
-        if (!Reddit.fastscroll) {
+        if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {

@@ -20,6 +20,7 @@ import android.util.Log;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 public class CustomTabUtil {
 
@@ -28,7 +29,7 @@ public class CustomTabUtil {
     private static CustomTabsServiceConnection mConnection;
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
-        if (Reddit.web && Reddit.customtabs) {
+        if (SettingValues.web && SettingValues.customtabs) {
             Resources res = contextActivity.getResources();
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
                     .setToolbarColor(color)
@@ -46,7 +47,7 @@ public class CustomTabUtil {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
             }
-        } else if(!Reddit.customtabs && Reddit.web) {
+        } else if(!SettingValues.customtabs && SettingValues.web) {
             Intent i = new Intent(contextActivity, Website.class);
             i.putExtra(Website.EXTRA_URL, url);
             i.putExtra(Website.EXTRA_COLOR, color);

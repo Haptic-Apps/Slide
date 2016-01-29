@@ -60,6 +60,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
@@ -809,7 +810,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doOnClick(holder, comment, baseNode);
                     } else {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
@@ -822,7 +823,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doOnClick(holder, comment, baseNode);
 
                     } else {
@@ -861,7 +862,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.author.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Reddit.click_user_name_to_profile) {
+                    if (SettingValues.click_user_name_to_profile) {
                         Intent i2 = new Intent(mContext, Profile.class);
                         i2.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
                         mContext.startActivity(i2);
@@ -878,7 +879,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else {
                         doOnClick(holder, comment, baseNode);
@@ -889,7 +890,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
                         doOnClick(holder, comment, baseNode);

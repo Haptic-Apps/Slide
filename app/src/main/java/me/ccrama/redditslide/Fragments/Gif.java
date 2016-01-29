@@ -36,7 +36,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
@@ -124,7 +124,7 @@ public class Gif extends Fragment {
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                     (getActivity()).startActivity(i2);

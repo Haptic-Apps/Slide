@@ -127,7 +127,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (Authentication.didOnline || submission.getComments() != null) {
                         DataShare.sharedSubreddit = dataSet.posts;
                         holder2.itemView.setAlpha(0.5f);
-                        if (Reddit.tabletUI && sContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        if (SettingValues.tabletUI && sContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(sContext, CommentsScreenPopup.class);
                             i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition());
                             (sContext).startActivity(i2);
@@ -344,7 +344,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setAnimation(View viewToAnimate, int position) {
         try {
-            if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1 && Reddit.animation) {
+            if (position >= Reddit.lastposition.get(Reddit.currentPosition) - 1 && SettingValues.animation) {
 
                 Animation slide_up = AnimationUtils.loadAnimation(sContext,
                         R.anim.slide_up);

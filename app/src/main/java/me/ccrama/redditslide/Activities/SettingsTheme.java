@@ -347,35 +347,35 @@ public class SettingsTheme extends BaseActivity {
         final SwitchCompat s2 = (SwitchCompat) findViewById(R.id.tint_everywhere);
 
         SwitchCompat s = (SwitchCompat) findViewById(R.id.colorback);
-        s.setChecked(Reddit.colorBack);
+        s.setChecked(SettingValues.colorBack);
         s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.colorBack = isChecked;
-                SettingValues.prefs.edit().putBoolean("colorBack", isChecked).apply();
+                SettingValues.colorBack = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_BACK, isChecked).apply();
                 s2.setEnabled(isChecked);
 
             }
         });
         s2.setEnabled(s.isChecked());
-        s2.setChecked(Reddit.colorEverywhere);
+        s2.setChecked(SettingValues.colorEverywhere);
         s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.colorEverywhere = isChecked;
-                SettingValues.prefs.edit().putBoolean("colorEverywhere", isChecked).apply();
+                SettingValues.colorEverywhere = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_EVERYWHERE, isChecked).apply();
             }
         });
 
         final SwitchCompat colorNavbarSwitch = (SwitchCompat) findViewById(R.id.color_navigation_bar);
 
-        colorNavbarSwitch.setChecked(Reddit.colorNavBar);
+        colorNavbarSwitch.setChecked(SettingValues.colorNavBar);
         colorNavbarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.colorNavBar = isChecked;
-                SettingValues.prefs.edit().putBoolean("colorNavBar", isChecked).apply();
+                SettingValues.colorNavBar = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_NAV_BAR, isChecked).apply();
                 themeSystemBars("");
 
             }
@@ -383,13 +383,13 @@ public class SettingsTheme extends BaseActivity {
 
         final SwitchCompat imageViewerSolidBackgroundSwitch = (SwitchCompat) findViewById(R.id.imageviewer_background);
 
-        imageViewerSolidBackgroundSwitch.setChecked(Reddit.imageViewerSolidBackground);
+        imageViewerSolidBackgroundSwitch.setChecked(SettingValues.imageViewerSolidBackground);
         imageViewerSolidBackgroundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.imageViewerSolidBackground = isChecked;
-                SettingValues.prefs.edit().putBoolean("imageViewerSolidBackgroundSwitch", isChecked).apply();
+                SettingValues.imageViewerSolidBackground = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE_SOLID_BACKGROUND, isChecked).apply();
             }
         });
     }

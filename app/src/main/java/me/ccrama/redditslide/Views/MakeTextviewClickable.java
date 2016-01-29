@@ -50,6 +50,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -69,7 +70,7 @@ public class MakeTextviewClickable {
     private List<Integer> storedSpoilerEnds = new ArrayList<>();
 
     private static void openImage(Activity contextActivity, String submission) {
-        if (Reddit.image) {
+        if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
             myIntent.putExtra(FullscreenImage.EXTRA_URL, submission);
             contextActivity.startActivity(myIntent);
@@ -80,7 +81,7 @@ public class MakeTextviewClickable {
     }
 
     private static void openGif(final boolean gfy, Activity contextActivity, String submission) {
-        if (Reddit.gif) {
+        if (SettingValues.gif) {
             Intent myIntent = new Intent(contextActivity, GifView.class);
             if (gfy) {
                 myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission);
@@ -414,7 +415,7 @@ public class MakeTextviewClickable {
                     openGif(true, c, url);
                     break;
                 case ALBUM:
-                    if (Reddit.album) {
+                    if (SettingValues.album) {
                         Intent i = new Intent(c, Album.class);
                         i.putExtra(Album.EXTRA_URL, url);
                         c.startActivity(i);
@@ -443,7 +444,7 @@ public class MakeTextviewClickable {
                     CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
                     break;
                 case VIDEO:
-                    if (Reddit.video) {
+                    if (SettingValues.video) {
                         Intent intent = new Intent(c, FullscreenVideo.class);
                         intent.putExtra(FullscreenVideo.EXTRA_HTML, url);
                         c.startActivity(intent);

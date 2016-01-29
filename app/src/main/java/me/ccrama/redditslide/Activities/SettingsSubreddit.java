@@ -17,13 +17,13 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsSubreddit extends BaseActivity {
-    private final static String TAG = "SettingsSubreddit";
     public SettingsSubAdapter mSettingsSubAdapter;
     ArrayList<String> changedSubs = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class SettingsSubreddit extends BaseActivity {
     }
 
     public void reloadSubList() {
-        Log.v(TAG, "adapter init");
+        Log.v(LogUtil.getTag(), "adapter init");
         changedSubs.clear();
         ArrayList<String> allSubs = SubredditStorage.alphabeticalSubreddits;
         allSubs.remove("all");

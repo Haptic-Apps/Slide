@@ -17,7 +17,7 @@ import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
 import me.ccrama.redditslide.SwipeLayout.Utils;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
@@ -28,7 +28,6 @@ import me.ccrama.redditslide.util.LogUtil;
 
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
-    private static final String TAG = "BaseActivity";
     @Nullable
     protected Toolbar mToolbar;
     protected SwipeBackActivityHelper mHelper;
@@ -56,7 +55,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             DisplayMetrics metrics = getResources().getDisplayMetrics();
 
 
-            if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
+            if (SettingValues.swipeAnywhere || overrideRedditSwipeAnywhere) {
                 if (overrideSwipeFromAnywhere) {
                     Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
@@ -278,7 +277,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void themeSystemBars(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
-            if (Reddit.colorNavBar) {
+            if (SettingValues.colorNavBar) {
                 getWindow().setNavigationBarColor(color);
             }
         }

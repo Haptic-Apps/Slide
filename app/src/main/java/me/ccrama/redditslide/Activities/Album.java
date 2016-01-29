@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.LogUtil;
@@ -57,7 +57,7 @@ public class Album extends FullScreenActivity {
 
         setContentView(R.layout.album);
 
-        if (Reddit.imageViewerSolidBackground) {
+        if (SettingValues.imageViewerSolidBackground) {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 

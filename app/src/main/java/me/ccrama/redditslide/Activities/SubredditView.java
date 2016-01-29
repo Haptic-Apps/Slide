@@ -127,7 +127,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             public void onDrawerClosed(View drawerView) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
 
-                if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
+                if (SettingValues.swipeAnywhere || overrideRedditSwipeAnywhere) {
                     if (overrideSwipeFromAnywhere) {
                         Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                         mHelper.getSwipeBackLayout().mDragHelper.override = false;
@@ -158,9 +158,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
 
         final RecyclerView.LayoutManager mLayoutManager;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait) {
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(this);
@@ -210,7 +210,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                     pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                    if (Reddit.scrollSeen) {
+                    if (SettingValues.scrollSeen) {
                         if (pastVisiblesItems > 0) {
                             HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                         }
@@ -220,7 +220,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         pastVisiblesItems = firstVisibleItems[0];
-                        if (Reddit.scrollSeen) {
+                        if (SettingValues.scrollSeen) {
                             if (pastVisiblesItems > 0) {
                                 HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                             }
@@ -274,7 +274,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             @Override
             public void onClick(View v) {
                 {
-                    if (Reddit.tabletUI) {
+                    if (SettingValues.tabletUI) {
                         if (posts.posts != null && !posts.posts.isEmpty()) {
                             DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
@@ -503,7 +503,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
                 }
-                if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
+                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST)
                     submit.setVisibility(View.GONE);
 
                 pinned.setVisibility(View.GONE);
@@ -690,7 +690,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                                     new ColorPreferences(SubredditView.this).setFontStyle(t, subreddit);
 
 
-                                    SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                    SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
 
                                     restartTheme();
                                     diag.dismiss();

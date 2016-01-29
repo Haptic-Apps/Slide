@@ -109,7 +109,7 @@ public class PopulateSubmissionViewHolder {
                         contextActivity.startActivity(i2);
                         break;
                     case EMBEDDED:
-                        if (Reddit.video) {
+                        if (SettingValues.video) {
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
@@ -144,7 +144,7 @@ public class PopulateSubmissionViewHolder {
                         openGif(true, contextActivity, submission);
                         break;
                     case ALBUM:
-                        if (Reddit.album) {
+                        if (SettingValues.album) {
                             Intent i = new Intent(contextActivity, Album.class);
                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                             contextActivity.startActivity(i);
@@ -177,7 +177,7 @@ public class PopulateSubmissionViewHolder {
                         CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case VIDEO:
-                        if (Reddit.video) {
+                        if (SettingValues.video) {
                             Intent intent = new Intent(contextActivity, FullscreenVideo.class);
                             intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
                             contextActivity.startActivity(intent);
@@ -195,7 +195,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private static boolean isBlurry(JsonNode s, Context mC, String title) {
-        if (Reddit.blurCheck) {
+        if (SettingValues.blurCheck) {
             return false;
         } else {
             int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
@@ -209,7 +209,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openImage(Activity contextActivity, Submission submission) {
-        if (Reddit.image) {
+        if (SettingValues.image) {
             DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
             myIntent.putExtra(FullscreenImage.EXTRA_URL, submission.getUrl());
@@ -221,7 +221,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openGif(final boolean gfy, Activity contextActivity, Submission submission) {
-        if (Reddit.gif) {
+        if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
             Intent myIntent = new Intent(contextActivity, GifView.class);
@@ -719,7 +719,7 @@ public class PopulateSubmissionViewHolder {
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.show();
-                    if (!Reddit.hideButton) {
+                    if (!SettingValues.hideButton) {
                         dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -792,7 +792,7 @@ public class PopulateSubmissionViewHolder {
         final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
 
         if (hideButton != null) {
-            if (Reddit.hideButton) {
+            if (SettingValues.hideButton) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -817,7 +817,7 @@ public class PopulateSubmissionViewHolder {
             } else {
                 hideButton.setVisibility(View.GONE);
             }
-            if (Reddit.saveButton && Authentication.isLoggedIn) {
+            if (SettingValues.saveButton && Authentication.isLoggedIn) {
                 holder.itemView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -964,7 +964,7 @@ public class PopulateSubmissionViewHolder {
             info = holder.subTextImage;
         }
 
-        if(full && Reddit.cropImage){
+        if(full && SettingValues.cropImage){
             holder.leadImage.setMaxHeight(dpToPx(200));
         }
 

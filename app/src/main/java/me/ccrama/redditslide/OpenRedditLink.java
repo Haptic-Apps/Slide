@@ -19,7 +19,6 @@ import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenRedditLink {
-    private final static String TAG = "OpenRedditLink";
 
     public OpenRedditLink(Context context, String url) {
         String oldUrl = url;
@@ -33,7 +32,7 @@ public class OpenRedditLink {
             np = true;
             url = url.substring(2);
         }
-        Log.v(TAG, "Opening URL " + url);
+        Log.v(LogUtil.getTag(), "Opening URL " + url);
 
         RedditLinkType type = getRedditLinkType(url);
 

@@ -34,7 +34,7 @@ import java.net.URLConnection;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -65,7 +65,7 @@ public class GifView extends FullScreenActivity {
 
         setContentView(R.layout.activity_gif);
 
-        if (Reddit.imageViewerSolidBackground) {
+        if (SettingValues.imageViewerSolidBackground) {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 

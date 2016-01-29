@@ -34,6 +34,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -67,7 +68,7 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        if (Reddit.video) {
+                        if (SettingValues.video) {
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
@@ -154,7 +155,7 @@ public class ImageFull extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        if (Reddit.album) {
+                        if (SettingValues.album) {
                             Intent i = new Intent(contextActivity, Album.class);
                             i.putExtra(Album.EXTRA_URL, submission.getUrl());
                             contextActivity.startActivity(i);
@@ -230,7 +231,7 @@ public class ImageFull extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (Reddit.video) {
+                        if (SettingValues.video) {
                             Intent intent = new Intent(contextActivity, FullscreenVideo.class);
                             intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
                             contextActivity.startActivity(intent);
@@ -287,7 +288,7 @@ public class ImageFull extends Fragment {
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                     (getActivity()).startActivity(i2);

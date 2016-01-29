@@ -34,6 +34,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -55,7 +56,7 @@ public class FullscreenImage extends FullScreenActivity {
 
         setContentView(R.layout.activity_image);
 
-        if (Reddit.imageViewerSolidBackground) {
+        if (SettingValues.imageViewerSolidBackground) {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 

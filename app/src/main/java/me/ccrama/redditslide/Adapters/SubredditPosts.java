@@ -17,6 +17,7 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -112,7 +113,7 @@ public class SubredditPosts implements PostLoader {
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && Reddit.cache) {
+            } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && SettingValues.cache) {
                 // is offline
                 Log.v(LogUtil.getTag(), "GETTING SUB " + subreddit.toLowerCase());
                 offline = true;
@@ -152,7 +153,7 @@ public class SubredditPosts implements PostLoader {
             }
 
             stillShow = true;
-            if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && Reddit.cache) {
+            if (SettingValues.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && SettingValues.cache) {
                 offline = true;
                 doneOnce = true;
                 return null;
@@ -185,7 +186,7 @@ public class SubredditPosts implements PostLoader {
                 nomore = true;
             }
 
-            if (Reddit.cache) {
+            if (SettingValues.cache) {
                 Cache.writeSubreddit(things, subredditPaginators[0]);
             }
 

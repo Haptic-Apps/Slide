@@ -20,6 +20,7 @@ import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
@@ -42,9 +43,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -66,7 +67,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         posts = new MultiredditPosts(SubredditStorage.multireddits.get(id).getDisplayName());
         adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout);
         rv.setAdapter(adapter);
-        if(Reddit.animation)
+        if(SettingValues.animation)
             rv.setItemAnimator(new SubtleSlideInUp(getContext()));
         posts.loadMore(getActivity(), this, true, adapter);
 

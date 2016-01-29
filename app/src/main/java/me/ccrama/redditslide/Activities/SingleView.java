@@ -17,6 +17,7 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
@@ -38,9 +39,9 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final StaggeredGridLayoutManager mLayoutManager;
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -59,7 +60,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
                 firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                     pastVisiblesItems = firstVisibleItems[0];
-                    if (Reddit.scrollSeen) {
+                    if (SettingValues.scrollSeen) {
                         if (pastVisiblesItems > 0) {
                             HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                         }

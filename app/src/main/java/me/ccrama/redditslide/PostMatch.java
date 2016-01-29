@@ -23,11 +23,11 @@ public class PostMatch {
         boolean bodyc;
         boolean domainc;
 
-        titlec = !Reddit.titleFilters.isEmpty() && contains(title.toLowerCase(), Reddit.titleFiltersRegex);
+        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), Reddit.titleFiltersRegex);
 
-        bodyc = !Reddit.textFilters.isEmpty() && contains(body.toLowerCase(), Reddit.textFiltersRegex);
+        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(), Reddit.textFiltersRegex);
 
-        domainc = !Reddit.domainFilters.isEmpty() && contains(domain.toLowerCase(), Reddit.domainFiltersRegex);
+        domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(), Reddit.domainFiltersRegex);
 
         return (titlec || bodyc || domainc);
     }

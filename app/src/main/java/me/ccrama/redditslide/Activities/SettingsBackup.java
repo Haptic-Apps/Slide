@@ -37,6 +37,7 @@ import java.io.Writer;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -204,7 +205,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
     @Override
     protected void onStart() {
         super.onStart();
-        if (Reddit.tabletUI)
+        if (SettingValues.tabletUI)
             mGoogleApiClient.connect();
     }
 
@@ -214,7 +215,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
         setContentView(R.layout.activity_settings_sync);
         setupAppBar(R.id.toolbar, R.string.settings_title_backup, true, true);
 
-        if (Reddit.tabletUI) {
+        if (SettingValues.tabletUI) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Drive.API)
                     .addScope(Drive.SCOPE_FILE)

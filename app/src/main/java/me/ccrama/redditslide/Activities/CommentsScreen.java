@@ -20,7 +20,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.StyleView;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -37,7 +37,6 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
-    final private static String TAG = "CommentsScreen";
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
@@ -67,7 +66,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
-            Log.w(TAG, "Is single post?");
+            Log.w(LogUtil.getTag(), "Is single post?");
         } else {
             subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
@@ -172,7 +171,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
             int offset = 0;
-            if (Reddit.single || Reddit.swipeAnywhere) {
+            if (SettingValues.single || SettingValues.swipeAnywhere) {
                 offset = 1;
             }
             return subredditPosts.getPosts().size() + offset;
