@@ -297,7 +297,7 @@ public class Gif extends Fragment {
                                             e2.printStackTrace();
                                         }
                                         return null;
-                                    };
+                                    }
 
 
                                 }.execute();
@@ -420,7 +420,6 @@ public class Gif extends Fragment {
                                     return null;
                                 }
 
-                                ;
                             }.execute();
 
 

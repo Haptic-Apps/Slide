@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -73,7 +74,7 @@ public class FullscreenImage extends FullScreenActivity {
         handler.postDelayed(progressBarDelayRunner, 500);
 
         String url = getIntent().getExtras().getString(EXTRA_URL);
-        if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
+        if (url != null && ContentType.isImgurLink(url)) {
             url = url + ".png";
         }
         ImageView fakeImage = new ImageView(FullscreenImage.this);

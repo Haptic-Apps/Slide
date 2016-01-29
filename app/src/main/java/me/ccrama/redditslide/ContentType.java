@@ -11,23 +11,23 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class ContentType {
 
-    private static boolean isGif(String s) {
+    public static boolean isGif(String s) {
         return (s.endsWith(".gif") || s.contains("gfycat.com") || s.endsWith(".webm") || s.endsWith(".mp4") || s.endsWith(".gifv"));
     }
 
-    private static boolean isImage(String s) {
+    public static boolean isImage(String s) {
         return (s.contains(".png") || s.contains(".jpg") || s.contains(".jpeg") );
     }
 
-    private static boolean isAlbum(String s) {
+    public static boolean isAlbum(String s) {
         return (s.contains("imgur") && (s.contains("/a/")) || (s.contains("imgur") && (s.contains("gallery") || s.contains("/g/")) ));
     }
 
-    private static boolean isRedditLink(String url) {
+    public static boolean isRedditLink(String url) {
         return (url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("reddit.com/live");
     }
 
-    private static boolean isImgurLink(String url) {
+    public static boolean isImgurLink(String url) {
         return (url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url));
     }
 

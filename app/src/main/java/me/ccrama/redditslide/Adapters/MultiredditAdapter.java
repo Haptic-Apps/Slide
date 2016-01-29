@@ -227,7 +227,6 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     return true;
                 }
             });
-            int lastPosition = i;
         }
 
     }

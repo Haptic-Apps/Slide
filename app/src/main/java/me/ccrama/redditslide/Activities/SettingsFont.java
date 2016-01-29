@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.devspark.robototextview.widget.RobotoRadioButton;
 
-import org.w3c.dom.Text;
-
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 

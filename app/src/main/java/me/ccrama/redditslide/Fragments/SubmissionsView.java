@@ -211,7 +211,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
 
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
@@ -351,7 +351,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        (adapter.sContext).runOnUiThread(new Runnable() {
+        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mSwipeRefreshLayout != null) {

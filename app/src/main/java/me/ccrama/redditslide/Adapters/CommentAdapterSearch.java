@@ -51,7 +51,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
-        RecyclerView listView1 = listView;
         this.subAuthor = subAuthor;
         this.originalDataSet = dataSet;
         List<CommentNode> filteredUserList = new ArrayList<>();

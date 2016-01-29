@@ -340,7 +340,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         PrintWriter printWriter = new PrintWriter(writer);
                         t.printStackTrace(printWriter);
                         String stacktrace = writer.toString().replace(";", ",");
-                        ;
 
                         SharedPreferences prefs = getSharedPreferences(
                                 "STACKTRACE", Context.MODE_PRIVATE);

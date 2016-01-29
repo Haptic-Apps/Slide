@@ -202,7 +202,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         rv.setLayoutManager(mLayoutManager);
          mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
@@ -729,7 +729,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        (adapter.sContext).runOnUiThread(new Runnable() {
+        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (startIndex != -1) {

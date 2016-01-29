@@ -94,7 +94,7 @@ public class CreateCardView {
         return found ? tv.data : defaultValue;
     }
     private static ArrayList<View> getViewsByTag(ViewGroup root, String tag){
-        ArrayList<View> views = new ArrayList<View>();
+        ArrayList<View> views = new ArrayList<>();
         final int childCount = root.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = root.getChildAt(i);

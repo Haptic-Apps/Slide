@@ -458,8 +458,6 @@ public class MakeTextviewClickable {
             }
         }
 
-        ;
-
         public void onLinkLongClick(final String url) {
             if (url == null) {
                 return;

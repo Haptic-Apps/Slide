@@ -263,7 +263,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
 
-            int lastPosition = i;
         } else if (firstHolder instanceof ProfileCommentViewHolder) {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;

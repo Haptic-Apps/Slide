@@ -281,8 +281,6 @@ public class GifView extends FullScreenActivity {
                                         return null;
                                     }
 
-                                    ;
-
 
                                 }.execute();
                             }
@@ -431,7 +429,6 @@ public class GifView extends FullScreenActivity {
                                     return null;
                                 }
 
-                                ;
                             }.execute();
 
 
@@ -694,7 +691,6 @@ public class GifView extends FullScreenActivity {
                                 return null;
                             }
 
-                            ;
                         }.execute();
 
 

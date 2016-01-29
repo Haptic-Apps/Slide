@@ -65,7 +65,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public SubmissionAdapter(Activity mContext, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.views = new ArrayList<>();
-        this.sContext = mContext;
+        sContext = mContext;
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
         this.dataSet = dataSet;

@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Adapters.SubmissionDisplay;
  */
 public interface PostLoader {
     /**
-     * Load more submissions, which will be available in the {@Link #getPosts()}
+     * Load more submissions, which will be available in the {@link #getPosts()}
      * method.
      *
      * @param context   context to get connectivity information

@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -87,10 +88,10 @@ public class Shortcut extends Activity {
                                 final Bitmap src;
                                 final Bitmap bm2;
                                 if (name.toLowerCase().equals("androidcirclejerk")) {
-                                    bm2 = drawableToBitmap(getResources().getDrawable(R.drawable.matiasduarte));
+                                    bm2 = drawableToBitmap(ContextCompat.getDrawable(Shortcut.this, R.drawable.matiasduarte));
                                     Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                                 } else {
-                                    src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
+                                    src = drawableToBitmap(ContextCompat.getDrawable(Shortcut.this, R.drawable.blackandwhite));
                                     final int overlayColor = Palette.getColor(name);
                                     final Paint paint = new Paint();
                                     Canvas c;

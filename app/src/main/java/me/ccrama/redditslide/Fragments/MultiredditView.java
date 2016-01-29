@@ -81,7 +81,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
         );
 
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 

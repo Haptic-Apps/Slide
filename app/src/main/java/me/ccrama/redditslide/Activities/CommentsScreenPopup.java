@@ -53,7 +53,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(firstPage);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

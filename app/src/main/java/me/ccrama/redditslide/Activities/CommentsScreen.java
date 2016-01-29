@@ -30,9 +30,9 @@ import me.ccrama.redditslide.util.LogUtil;
  * post.
  *
  * When the end of the currently loaded posts is being reached, more posts are
- * loaded asynchronously in {@Link OverviewPagerAdapter}.
+ * loaded asynchronously in {@link OverviewPagerAdapter}.
  *
- * Comments are displayed in the {@Link CommentPage} fragment.
+ * Comments are displayed in the {@link CommentPage} fragment.
  *
  * Created by ccrama on 9/17/2015.
  */
