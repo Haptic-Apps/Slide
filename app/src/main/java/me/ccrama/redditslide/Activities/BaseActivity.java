@@ -24,6 +24,7 @@ import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
@@ -57,17 +58,17 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
             if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
                 if (overrideSwipeFromAnywhere) {
-                    Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
+                    Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
                 } else {
 
-                    Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
+                    Log.v(LogUtil.getTag(), "WILL SWIPE FROM ANYWHERE");
 
                     mHelper.getSwipeBackLayout().mDragHelper.override = true;
 
                     mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
-                    Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+                    Log.v(LogUtil.getTag(), "EDGE SIZE IS " + metrics.widthPixels);
                 }
             } else {
                 mHelper.getSwipeBackLayout().mDragHelper.override = false;

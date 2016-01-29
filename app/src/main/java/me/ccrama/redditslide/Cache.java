@@ -14,6 +14,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by carlo_000 on 11/18/2015.
  */
@@ -62,7 +64,7 @@ public final class Cache {
 
     }
     public static OfflineSubreddit getSubreddit(String s) {
-        Log.v("Slide", "GETTING SUBREDDIT");
+        Log.v(LogUtil.getTag(), "GETTING SUBREDDIT");
         if (Reddit.appRestart.contains(s.toLowerCase())) {
             return new OfflineSubreddit(Reddit.appRestart.getString(s.toLowerCase(), ""));
         } else {

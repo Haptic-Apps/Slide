@@ -37,6 +37,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -146,7 +147,7 @@ public class AlbumFull extends Fragment {
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-                                Log.v("Slide", result.toString());
+                                Log.v(LogUtil.getTag(), result.toString());
 
 
                                 ArrayList<JsonElement> jsons = new ArrayList<>();
@@ -200,14 +201,14 @@ public class AlbumFull extends Fragment {
 
                         });
             } else {
-                Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + sub[0] + ".json");
                 Ion.with(getActivity())
                         .load("http://api.imgur.com/2/album" + sub[0] + ".json")
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-                                Log.v("Slide", result.toString());
+                                Log.v(LogUtil.getTag(), result.toString());
 
 
                                 ArrayList<JsonElement> jsons = new ArrayList<>();

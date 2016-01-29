@@ -4,6 +4,8 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by ccrama on 5/26/2015.
  */
@@ -47,12 +49,12 @@ public class ContentType {
         }
         if (s2.contains("?")) {
             String f = s2.substring(s2.lastIndexOf("/") + 1, s2.lastIndexOf("?"));
-            Log.v("Slide", f);
+            Log.v(LogUtil.getTag(), f);
             return f;
         } else {
             if (s2.lastIndexOf("/") < s2.length()) {
                 String f = s2.substring(s2.lastIndexOf("/") + 1, s2.length());
-                Log.v("Slide", f);
+                Log.v(LogUtil.getTag(), f);
                 return f;
 
             } else {
@@ -153,14 +155,14 @@ public class ContentType {
         if (s.endsWith("/")) {
             s = s.substring(0, s.length() - 1);
         }
-        Log.v("Slide", "URL" + s);
+        Log.v(LogUtil.getTag(), "URL" + s);
         String f = s.substring(lastIndex);
-        Log.v("Slide", "URLnew" + f);
+        Log.v(LogUtil.getTag(), "URLnew" + f);
 
         if (f.length() > 6) {
             f = f.substring(0, s.indexOf("/") + 1);
         }
-        Log.v("Slide", f);
+        Log.v(LogUtil.getTag(), f);
         return f;
 
     }

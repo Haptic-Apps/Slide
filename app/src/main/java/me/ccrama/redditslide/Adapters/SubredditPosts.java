@@ -17,6 +17,7 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -113,7 +114,7 @@ public class SubredditPosts implements PostLoader {
                 nomore = true;
             } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && Reddit.cache) {
                 // is offline
-                Log.v("Slide", "GETTING SUB " + subreddit.toLowerCase());
+                Log.v(LogUtil.getTag(), "GETTING SUB " + subreddit.toLowerCase());
                 offline = true;
                 final OfflineSubreddit cached = Cache.getSubreddit(subreddit.toLowerCase());
 
@@ -141,7 +142,7 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
-            Log.v("Slide", "DOING FOR " + subredditPaginators[0]);
+            Log.v(LogUtil.getTag(), "DOING FOR " + subredditPaginators[0]);
 
             if (!NetworkUtil.isConnected(context)) {
                 offline = true;

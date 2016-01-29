@@ -33,6 +33,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -109,7 +110,7 @@ public class Profile extends BaseActivityAnim {
                     }
                 }).show();
             } catch (MaterialDialog.DialogException e) {
-                Log.w("Profile", "Activity already in background, dialog not shown " + e);
+                Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
             return;
         }

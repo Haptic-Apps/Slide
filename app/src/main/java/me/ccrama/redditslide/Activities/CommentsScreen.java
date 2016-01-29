@@ -22,6 +22,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.StyleView;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing
@@ -159,7 +160,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             }
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
-            Log.v("Slide", name.substring(3, name.length()));
+            Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);

@@ -18,6 +18,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -88,7 +89,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
             String name = posts.get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
-            Log.v("Slide", name.substring(3, name.length()));
+            Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putString("subreddit", posts.get(i).getSubredditName());
             args.putBoolean("archived", posts.get(i).isArchived());
             args.putInt("page", i);

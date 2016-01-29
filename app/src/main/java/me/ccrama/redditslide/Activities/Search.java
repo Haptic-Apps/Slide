@@ -25,6 +25,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class Search extends BaseActivityAnim {
 
@@ -149,7 +150,7 @@ public class Search extends BaseActivityAnim {
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         setupUserAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
-        Log.v("Slide", "Searching for " + where + " in " + subreddit);
+        Log.v(LogUtil.getTag(), "Searching for " + where + " in " + subreddit);
 
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));

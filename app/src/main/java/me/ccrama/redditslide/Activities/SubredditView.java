@@ -58,6 +58,7 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -128,17 +129,17 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
                 if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
                     if (overrideSwipeFromAnywhere) {
-                        Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
+                        Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                         mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
                     } else {
 
-                        Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
+                        Log.v(LogUtil.getTag(), "WILL SWIPE FROM ANYWHERE");
 
                         mHelper.getSwipeBackLayout().mDragHelper.override = true;
 
                         mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
-                        Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+                        Log.v(LogUtil.getTag(), "EDGE SIZE IS " + metrics.widthPixels);
                     }
                 } else {
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
@@ -228,7 +229,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 }
 
                 if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                    Log.v("Slide", "LOADING MORE" + totalItemCount);
+                    Log.v(LogUtil.getTag(), "LOADING MORE" + totalItemCount);
                     posts.loading = true;
                     posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, false, posts.subreddit);
 

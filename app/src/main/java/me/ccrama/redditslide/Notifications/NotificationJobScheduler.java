@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 10/13/2015.
@@ -28,7 +29,7 @@ public class NotificationJobScheduler {
 
         AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * Reddit.notificationTime;
-        Log.v("Slide", "NEW NOTIFICATIONS AT " + interval);
+        Log.v(LogUtil.getTag(), "NEW NOTIFICATIONS AT " + interval);
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 
     }

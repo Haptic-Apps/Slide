@@ -54,6 +54,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 7/17/2015.
@@ -319,14 +320,14 @@ public class MakeTextviewClickable {
             if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
                 if(Math.abs((position - event.getY())) > 10){
                     handler.removeCallbacksAndMessages(null);
-                    Log.v("Slide", "POSITION NOT CLICK IS " + event.getY());
+                    Log.v(LogUtil.getTag(), "POSITION NOT CLICK IS " + event.getY());
 
                 }
 
                 return super.onTouchEvent(widget, buffer, event);
             }
 
-            Log.v("Slide", "POSITION IS " + position);
+            Log.v(LogUtil.getTag(), "POSITION IS " + position);
 
 
             comm = (SpoilerRobotoTextView) widget;

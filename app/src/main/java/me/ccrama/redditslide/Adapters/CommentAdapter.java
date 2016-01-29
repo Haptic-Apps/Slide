@@ -69,6 +69,7 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -277,7 +278,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     mod.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
-                Log.d("Error loading mod ", e.toString());
+                Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
             }
         }
         {
@@ -1358,7 +1359,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                 } catch (Exception e) {
-                    Log.w("CommentAdapter", "Cannot load more comments " + e);
+                    Log.w(LogUtil.getTag(), "Cannot load more comments " + e);
                 }
 
 
@@ -1441,7 +1442,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
                 } catch (ApiException e) {
-                    Log.v("Slide", "UH OH!!");
+                    Log.v(LogUtil.getTag(), "UH OH!!");
                     //todo this
                 }
 

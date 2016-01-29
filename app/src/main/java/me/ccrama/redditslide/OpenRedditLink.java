@@ -16,6 +16,7 @@ import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Wiki;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenRedditLink {
     private final static String TAG = "OpenRedditLink";
@@ -67,7 +68,7 @@ public class OpenRedditLink {
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
                     i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
-                    Log.v("Slide", "CONTEXT " + end);
+                    Log.v(LogUtil.getTag(), "CONTEXT " + end);
                 }
                 context.startActivity(i);
                 break;

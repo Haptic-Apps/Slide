@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -93,7 +94,7 @@ public class FullscreenVideo extends FullScreenActivity {
             url = url + time;
         }
 
-        Log.v("Slide", url);
+        Log.v(LogUtil.getTag(), url);
 
         v.loadUrl(url);
 

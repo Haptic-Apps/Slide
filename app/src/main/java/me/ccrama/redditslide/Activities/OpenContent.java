@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/28/2015.
@@ -29,7 +30,7 @@ public class OpenContent extends Activity {
         }
         url = url.toLowerCase();
 
-        Log.v("Slide", url);
+        Log.v(LogUtil.getTag(), url);
 
 
         new OpenRedditLink(this, url);

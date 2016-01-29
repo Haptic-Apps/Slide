@@ -38,6 +38,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -294,7 +295,7 @@ public class ImageFull extends Fragment {
 
                         @Override
                         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            Log.v("Slide", "LOADING FAILED");
+                            Log.v(LogUtil.getTag(), "LOADING FAILED");
 
                         }
 
@@ -306,7 +307,7 @@ public class ImageFull extends Fragment {
 
                         @Override
                         public void onLoadingCancelled(String imageUri, View view) {
-                            Log.v("Slide", "LOADING CANCELLED");
+                            Log.v(LogUtil.getTag(), "LOADING CANCELLED");
 
                         }
                     }, new ImageLoadingProgressListener() {
@@ -341,7 +342,7 @@ public class ImageFull extends Fragment {
 
                         @Override
                         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            Log.v("Slide", "LOADING FAILED");
+                            Log.v(LogUtil.getTag(), "LOADING FAILED");
 
                         }
 
@@ -353,7 +354,7 @@ public class ImageFull extends Fragment {
 
                         @Override
                         public void onLoadingCancelled(String imageUri, View view) {
-                            Log.v("Slide", "LOADING CANCELLED");
+                            Log.v(LogUtil.getTag(), "LOADING CANCELLED");
 
                         }
                     }, new ImageLoadingProgressListener() {

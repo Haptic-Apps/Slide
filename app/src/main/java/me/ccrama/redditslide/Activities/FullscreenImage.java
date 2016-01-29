@@ -33,6 +33,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -91,7 +92,7 @@ public class FullscreenImage extends FullScreenActivity {
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        Log.v("Slide", "LOADING FAILED");
+                        Log.v(LogUtil.getTag(), "LOADING FAILED");
 
                     }
 
@@ -104,7 +105,7 @@ public class FullscreenImage extends FullScreenActivity {
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
-                        Log.v("Slide", "LOADING CANCELLED");
+                        Log.v(LogUtil.getTag(), "LOADING CANCELLED");
 
                     }
                 }, new ImageLoadingProgressListener() {
@@ -179,7 +180,7 @@ public class FullscreenImage extends FullScreenActivity {
 
                                     });
                         } catch (Exception e) {
-                            Log.v("RedditSlide", "COULDN'T DOWNLOAD!");
+                            Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
                         }
 
                     }

@@ -72,6 +72,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -1078,7 +1079,7 @@ public class PopulateSubmissionViewHolder {
             flair.setVisibility(View.GONE);
         } else {
             flair.setVisibility(View.VISIBLE);
-            Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
+            Log.v(LogUtil.getTag(), "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
             ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
         }
 

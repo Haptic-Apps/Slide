@@ -20,6 +20,7 @@ import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 10/2/2015.
@@ -87,7 +88,7 @@ public class Shortcut extends Activity {
                                 final Bitmap bm2;
                                 if (name.toLowerCase().equals("androidcirclejerk")) {
                                     bm2 = drawableToBitmap(getResources().getDrawable(R.drawable.matiasduarte));
-                                    Log.v("Slide", "NULL IS " + (bm2 == null));
+                                    Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                                 } else {
                                     src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
                                     final int overlayColor = Palette.getColor(name);

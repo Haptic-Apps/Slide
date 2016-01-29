@@ -27,6 +27,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -235,7 +236,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 }
             });
             builder.create().show();
-            Log.e("MultiredditOverview", "Cannot load multis:\n" + e);
+            Log.e(LogUtil.getTag(), "Cannot load multis:\n" + e);
         }
 
     }

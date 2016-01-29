@@ -47,6 +47,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -72,13 +73,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
 
 
-        Log.v("Slide", subreddit + " CUSTOM IS " + custom);
+        Log.v(LogUtil.getTag(), subreddit + " CUSTOM IS " + custom);
     }
 
     @Override
     public void setError(Boolean b) {
         listView.setAdapter(new ErrorAdapter());
-        Log.v("Slide", "SETTING ADAPTER");
+        Log.v(LogUtil.getTag(), "SETTING ADAPTER");
     }
 
     @Override

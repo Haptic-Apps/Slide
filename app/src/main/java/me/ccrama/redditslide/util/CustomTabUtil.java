@@ -43,7 +43,7 @@ public class CustomTabUtil {
             try {
                 builder.build().launchUrl(contextActivity, Uri.parse(url));
             } catch (ActivityNotFoundException anfe) {
-                Log.w("OpenCustomTab", "Unknown url: " + anfe);
+                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
             }
         } else if(!Reddit.customtabs && Reddit.web) {
@@ -70,7 +70,7 @@ public class CustomTabUtil {
             mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
                 @Override
                 public void onNavigationEvent(int navigationEvent, Bundle extras) {
-                    Log.w("Slide", "onNavigationEvent: Code = " + navigationEvent);
+                    Log.w(LogUtil.getTag(), "onNavigationEvent: Code = " + navigationEvent);
                 }
             });
         }

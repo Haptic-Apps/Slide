@@ -94,6 +94,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -1155,7 +1156,7 @@ public class MainActivity extends BaseActivity {
                                     Intent i = new Intent(MainActivity.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
-                                    Log.v("Slide", "INTENT SHOWS " + term + " AND " + subreddit);
+                                    Log.v(LogUtil.getTag(), "INTENT SHOWS " + term + " AND " + subreddit);
                                     startActivity(i);
                                 }
                             });

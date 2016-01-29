@@ -44,6 +44,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
@@ -240,7 +241,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
 
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        Log.v("Slide", "LOADING MORE" + totalItemCount);
+                        Log.v(LogUtil.getTag(), "LOADING MORE" + totalItemCount);
                         posts.loading = true;
                         posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
 

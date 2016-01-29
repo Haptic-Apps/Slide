@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -76,7 +77,7 @@ public class ContributionPosts extends GeneralPosts {
                         filteredSubmissions.add(c);
                     }
                 }
-                Log.v("Slide", "SIZE IS " + filteredSubmissions.size());
+                Log.v(LogUtil.getTag(), "SIZE IS " + filteredSubmissions.size());
 
                 if (reset || posts == null) {
                     posts = filteredSubmissions;

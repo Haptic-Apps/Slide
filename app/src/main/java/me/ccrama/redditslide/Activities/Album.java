@@ -15,11 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -31,6 +29,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -123,7 +122,7 @@ public class Album extends FullScreenActivity {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 if (result != null && result.has("data")) {
-                                    Log.v("Slide", result.toString());
+                                    Log.v(LogUtil.getTag(), result.toString());
 
 
                                     final ArrayList<JsonElement> jsons = new ArrayList<>();
@@ -194,7 +193,7 @@ public class Album extends FullScreenActivity {
 
                         });
             } else {
-                Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + sub[0] + ".json");
                 Ion.with(Album.this)
                         .load("http://api.imgur.com/2/album" + sub[0] + ".json")
                         .asJsonObject()
@@ -213,7 +212,7 @@ public class Album extends FullScreenActivity {
                                         }).create();
 
                                 if (result != null) {
-                                    Log.v("Slide", result.toString());
+                                    Log.v(LogUtil.getTag(), result.toString());
 
                                     final ArrayList<JsonElement> jsons = new ArrayList<>();
 
