@@ -68,7 +68,7 @@ public class ImageFull extends Fragment {
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                i.putExtra("html", data);
+                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
                                 contextActivity.startActivity(i);
                             }
                         } else {
@@ -153,7 +153,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View v2) {
                         if (Reddit.album) {
                             Intent i = new Intent(contextActivity, Album.class);
-                            i.putExtra("url", submission.getUrl());
+                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                             contextActivity.startActivity(i);
                             contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                         } else {
@@ -229,7 +229,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View view) {
                         if (Reddit.video) {
                             Intent intent = new Intent(contextActivity, FullscreenVideo.class);
-                            intent.putExtra("html", submission.getUrl());
+                            intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
                             contextActivity.startActivity(intent);
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -379,13 +379,13 @@ public class ImageFull extends Fragment {
             public void onClick(View v) {
                 if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
-                    i2.putExtra("page", i);
+                    i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                    i2.putExtra("page", i);
-                    i2.putExtra("subreddit", s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
                     (getActivity()).startActivity(i2);
                 }
             }

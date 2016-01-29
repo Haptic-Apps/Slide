@@ -127,7 +127,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             public void onClick(View v) {
                 if (Reddit.click_user_name_to_profile) {
                     Intent i2 = new Intent(mContext, Profile.class);
-                    i2.putExtra("profile", comment.getAuthor());
+                    i2.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
                     mContext.startActivity(i2);
                 }
             }

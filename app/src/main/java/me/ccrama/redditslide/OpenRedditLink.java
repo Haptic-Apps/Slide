@@ -43,29 +43,29 @@ public class OpenRedditLink {
         switch (type) {
             case SHORTENED: {
                 Intent i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra("subreddit", "NOTHING");
-                i.putExtra("context", "NOTHING");
-                i.putExtra("np", np);
-                i.putExtra("submission", parts[1]);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, Reddit.EMPTY_STRING);
+                i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
+                i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[1]);
                 context.startActivity(i);
                 break;
             }
             case WIKI: {
                 Intent i = new Intent(context, Wiki.class);
-                i.putExtra("subreddit", parts[2]);
+                i.putExtra(Wiki.EXTRA_SUBREDDIT, parts[2]);
                 context.startActivity(i);
                 break;
             }
             case COMMENT_PERMALINK: {
                 Intent i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra("subreddit", parts[2]);
-                i.putExtra("submission", parts[4]);
-                i.putExtra("np", np);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
+                i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
                 if (parts.length >= 7) {
-                    i.putExtra("loadmore", true);
+                    i.putExtra(CommentsScreenSingle.EXTRA_LOADMORE, true);
                     String end = parts[6];
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
-                    i.putExtra("context", end);
+                    i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
                     Log.v("Slide", "CONTEXT " + end);
                 }
@@ -74,25 +74,25 @@ public class OpenRedditLink {
             }
             case SUBMISSION: {
                 Intent i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra("subreddit", parts[2]);
-                i.putExtra("context", "NOTHING");
-                i.putExtra("np", np);
-                i.putExtra("submission", parts[4]);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+                i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
+                i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
                 context.startActivity(i);
                 break;
             }
             case SUBMISSION_WITHOUT_SUB: {
                 Intent i = new Intent(context, CommentsScreenSingle.class);
-                i.putExtra("subreddit", "NOTHING");
-                i.putExtra("context", "NOTHING");
-                i.putExtra("np", np);
-                i.putExtra("submission", parts[2]);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, Reddit.EMPTY_STRING);
+                i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, Reddit.EMPTY_STRING);
+                i.putExtra(CommentsScreenSingle.EXTRA_NP, np);
+                i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[2]);
                 context.startActivity(i);
                 break;
             }
             case SUBREDDIT: {
                 Intent intent = new Intent(context, SubredditView.class);
-                intent.putExtra("subreddit", parts[2]);
+                intent.putExtra(SubredditView.EXTRA_SUBREDDIT, parts[2]);
                 context.startActivity(intent);
                 break;
             }
@@ -100,7 +100,7 @@ public class OpenRedditLink {
                 String name = parts[2];
                 if (name.equals("me") && Authentication.isLoggedIn) name = Authentication.name;
                 Intent myIntent = new Intent(context, Profile.class);
-                myIntent.putExtra("profile", name);
+                myIntent.putExtra(Profile.EXTRA_PROFILE, name);
                 context.startActivity(myIntent);
                 break;
             }
@@ -114,9 +114,9 @@ public class OpenRedditLink {
 
     public OpenRedditLink(Context c, String submission, String subreddit, String id) {
         Intent i = new Intent(c, CommentsScreenSingle.class);
-        i.putExtra("subreddit", subreddit);
-        i.putExtra("context", id);
-        i.putExtra("submission", submission);
+        i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, subreddit);
+        i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, id);
+        i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, submission);
         c.startActivity(i);
     }
 

@@ -37,6 +37,7 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
  * Created by ccrama on 3/5/2015.
  */
 public class Album extends FullScreenActivity {
+    public static final String EXTRA_URL = "url";
     boolean gallery = false;
 
     @Override
@@ -68,7 +69,7 @@ public class Album extends FullScreenActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        String rawDat = cutEnds(getIntent().getExtras().getString("url", ""));
+        String rawDat = cutEnds(getIntent().getExtras().getString(EXTRA_URL, ""));
         if (rawDat.contains("gallery")) {
             gallery = true;
         }
@@ -131,11 +132,11 @@ public class Album extends FullScreenActivity {
                                     if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
                                         if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
                                             Intent i = new Intent(Album.this, GifView.class);
-                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                                             startActivity(i);
                                         } else {
                                             Intent i = new Intent(Album.this, FullscreenImage.class);
-                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
                                             startActivity(i);
                                         }
                                         finish();
@@ -183,7 +184,7 @@ public class Album extends FullScreenActivity {
                                 } else {
 
                                     Intent i = new Intent(Album.this, Website.class);
-                                    i.putExtra("url", "http://imgur.com/gallery/" + sub[0]);
+                                    i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + sub[0]);
 
                                     startActivity(i);
                                     finish();

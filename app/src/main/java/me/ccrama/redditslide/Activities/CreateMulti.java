@@ -52,6 +52,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 
 public class CreateMulti extends BaseActivityAnim {
 
+    public static final String EXTRA_MULTI = "multi";
     ArrayList<String> subs;
     CustomAdapter adapter;
     EditText title;
@@ -77,8 +78,8 @@ public class CreateMulti extends BaseActivityAnim {
         title = (EditText) findViewById(R.id.name);
 
         subs = new ArrayList<>();
-        if (getIntent().hasExtra("multi")) {
-            String multi = getIntent().getExtras().getString("multi");
+        if (getIntent().hasExtra(EXTRA_MULTI)) {
+            String multi = getIntent().getExtras().getString(EXTRA_MULTI);
             old = multi;
             title.setText(multi.replace("%20", " "));
             for (MultiReddit multiReddit : SubredditStorage.multireddits) {

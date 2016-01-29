@@ -125,13 +125,13 @@ public class Gif extends Fragment {
             public void onClick(View v) {
                 if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
-                    i2.putExtra("page", i);
+                    i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                    i2.putExtra("page", i);
-                    i2.putExtra("subreddit", s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
                     (getActivity()).startActivity(i2);
                 }
             }

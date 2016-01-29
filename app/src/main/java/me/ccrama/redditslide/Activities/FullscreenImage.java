@@ -41,6 +41,7 @@ import me.ccrama.redditslide.Reddit;
 public class FullscreenImage extends FullScreenActivity {
 
 
+    public static final String EXTRA_URL = "url";
     String toReturn;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class FullscreenImage extends FullScreenActivity {
         };
         handler.postDelayed(progressBarDelayRunner, 500);
 
-        String url = getIntent().getExtras().getString("url");
+        String url = getIntent().getExtras().getString(EXTRA_URL);
         if (url != null && url.contains("imgur") && (!url.contains(".png") || !url.contains(".jpg") || !url.contains(".jpeg"))) {
             url = url + ".png";
         }

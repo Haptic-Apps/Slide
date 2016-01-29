@@ -44,6 +44,9 @@ import me.ccrama.redditslide.util.IabResult;
  */
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = "Slide";
+
+    public static final String EMPTY_STRING = "NOTHING";
+
     public static final long BACKGROUND_DELAY = 500;
     public static IabHelper mHelper;
     public static boolean single;

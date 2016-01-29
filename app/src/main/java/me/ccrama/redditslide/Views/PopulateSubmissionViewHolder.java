@@ -104,7 +104,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case IMGUR:
                         Intent i2 = new Intent(contextActivity, Imgur.class);
-                        i2.putExtra("url", submission.getUrl());
+                        i2.putExtra(Imgur.EXTRA_URL, submission.getUrl());
                         contextActivity.startActivity(i2);
                         break;
                     case EMBEDDED:
@@ -112,7 +112,7 @@ public class PopulateSubmissionViewHolder {
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                i.putExtra("html", data);
+                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
                                 contextActivity.startActivity(i);
                             }
                         } else {
@@ -145,7 +145,7 @@ public class PopulateSubmissionViewHolder {
                     case ALBUM:
                         if (Reddit.album) {
                             Intent i = new Intent(contextActivity, Album.class);
-                            i.putExtra("url", submission.getUrl());
+                            i.putExtra(Album.EXTRA_URL, submission.getUrl());
                             contextActivity.startActivity(i);
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -178,7 +178,7 @@ public class PopulateSubmissionViewHolder {
                     case VIDEO:
                         if (Reddit.video) {
                             Intent intent = new Intent(contextActivity, FullscreenVideo.class);
-                            intent.putExtra("html", submission.getUrl());
+                            intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
                             contextActivity.startActivity(intent);
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -211,7 +211,7 @@ public class PopulateSubmissionViewHolder {
         if (Reddit.image) {
             DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra("url", submission.getUrl());
+            myIntent.putExtra(FullscreenImage.EXTRA_URL, submission.getUrl());
             contextActivity.startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -225,9 +225,9 @@ public class PopulateSubmissionViewHolder {
 
             Intent myIntent = new Intent(contextActivity, GifView.class);
             if (gfy) {
-                myIntent.putExtra("url", "gfy" + submission.getUrl());
+                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission.getUrl());
             } else {
-                myIntent.putExtra("url", "" + submission.getUrl());
+                myIntent.putExtra(GifView.EXTRA_URL, "" + submission.getUrl());
 
             }
             contextActivity.startActivity(myIntent);
@@ -642,7 +642,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra("profile", submission.getAuthor());
+                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                             mContext.startActivity(i);
                         }
                     });
@@ -651,7 +651,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, SubredditView.class);
-                            i.putExtra("subreddit", submission.getSubredditName());
+                            i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
                             mContext.startActivity(i);
                         }
                     });

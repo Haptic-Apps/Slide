@@ -144,7 +144,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     @Override
                     public void onClick(View v) {
                         Intent inte = new Intent(getActivity(), Submit.class);
-                        inte.putExtra("subreddit", id);
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, id);
                         getActivity().startActivity(inte);
                     }
                 });

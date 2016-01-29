@@ -23,6 +23,7 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenPopup extends BaseActivityAnim {
+    public static final String EXTRA_PAGE = "page";
     OverviewPagerAdapter comments;
     private List<Submission> posts;
 
@@ -36,7 +37,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
         setContentView(R.layout.activity_slide_popup);
 
 
-        int firstPage = getIntent().getExtras().getInt("page", -1);
+        int firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         if (firstPage == -1) {
             //IS SNIGLE POST
         } else {

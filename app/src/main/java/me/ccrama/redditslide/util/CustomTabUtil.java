@@ -48,8 +48,8 @@ public class CustomTabUtil {
             }
         } else if(!Reddit.customtabs && Reddit.web) {
             Intent i = new Intent(contextActivity, Website.class);
-            i.putExtra("url", url);
-            i.putExtra("color", color);
+            i.putExtra(Website.EXTRA_URL, url);
+            i.putExtra(Website.EXTRA_COLOR, color);
             contextActivity.startActivity(i);
         } else {
             Reddit.defaultShare(url, contextActivity);

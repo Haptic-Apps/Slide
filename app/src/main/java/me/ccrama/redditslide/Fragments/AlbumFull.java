@@ -94,13 +94,13 @@ public class AlbumFull extends Fragment {
             public void onClick(View v) {
                 if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
-                    i2.putExtra("page", i);
+                    i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                    i2.putExtra("page", i);
-                    i2.putExtra("subreddit", s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
                     (getActivity()).startActivity(i2);
                 }
             }
@@ -156,11 +156,11 @@ public class AlbumFull extends Fragment {
                                     if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
                                         if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
                                             Intent i = new Intent(getActivity(), GifView.class);
-                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                                             startActivity(i);
                                         } else {
                                             Intent i = new Intent(getActivity(), FullscreenImage.class);
-                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
                                             startActivity(i);
                                         }
                                         getActivity().finish();

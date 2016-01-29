@@ -109,7 +109,7 @@ public class Shortcut extends Activity {
                                 }
 
 
-                                shortcutIntent.putExtra("url", "reddit.com/r/" + name);
+                                shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + name);
                                 Intent intent = new Intent();
                                 intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
                                 intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + name);

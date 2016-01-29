@@ -37,6 +37,9 @@ import me.ccrama.redditslide.Visuals.StyleView;
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
     final private static String TAG = "CommentsScreen";
+    public static final String EXTRA_PAGE = "page";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_MULTIREDDIT = "multireddit";
     private PostLoader subredditPosts;
     int firstPage;
 
@@ -50,9 +53,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
 
-        firstPage = getIntent().getExtras().getInt("page", -1);
-        subreddit = getIntent().getExtras().getString("subreddit");
-        String multireddit = getIntent().getExtras().getString("multireddit");
+        firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+        String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
             ((MultiredditPosts)subredditPosts).skipOne = true;

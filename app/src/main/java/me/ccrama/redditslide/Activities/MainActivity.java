@@ -104,6 +104,7 @@ public class MainActivity extends BaseActivity {
     static final String LOGGED_IN = "loggedIn";
     static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
+    public static final String EXTRA_PAGE_TO = "pageTo";
 
     public static Loader loader;
 
@@ -328,8 +329,8 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(mToolbar);
 
 
-        if (getIntent() != null && getIntent().hasExtra("pageTo"))
-            toGoto = getIntent().getIntExtra("pageTo", 0);
+        if (getIntent() != null && getIntent().hasExtra(EXTRA_PAGE_TO))
+            toGoto = getIntent().getIntExtra(EXTRA_PAGE_TO, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
@@ -457,7 +458,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         Intent inte = new Intent(MainActivity.this, Submit.class);
-                        inte.putExtra("subreddit", subreddit);
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                         MainActivity.this.startActivity(inte);
                     }
                 });
@@ -473,7 +474,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(MainActivity.this, Wiki.class);
-                        i.putExtra("subreddit", subreddit);
+                        i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
                         startActivity(i);
                     }
                 });
@@ -741,7 +742,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
-                    inte.putExtra("profile", Authentication.name);
+                    inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     MainActivity.this.startActivity(inte);
                 }
             });
@@ -848,7 +849,7 @@ public class MainActivity extends BaseActivity {
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 Intent inte = new Intent(MainActivity.this, Profile.class);
                                 //noinspection ConstantConditions
-                                inte.putExtra("profile", dialog.getInputEditText().getText().toString());
+                                inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
                                 MainActivity.this.startActivity(inte);
                             }
                         })
@@ -920,7 +921,7 @@ public class MainActivity extends BaseActivity {
                     //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
                     if (adapter.fitems == null || adapter.openInSubView) {
                         Intent inte = new Intent(MainActivity.this, SubredditView.class);
-                        inte.putExtra("subreddit", e.getText().toString());
+                        inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
                     } else
                         pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
@@ -1049,7 +1050,7 @@ public class MainActivity extends BaseActivity {
 
     public void restartTheme() {
         Intent intent = this.getIntent();
-        intent.putExtra("pageTo", pager.getCurrentItem());
+        intent.putExtra(EXTRA_PAGE_TO, pager.getCurrentItem());
         finish();
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
@@ -1140,7 +1141,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(MainActivity.this, Search.class);
-                                i.putExtra("term", term);
+                                i.putExtra(Search.EXTRA_TERM, term);
                                 startActivity(i);
                             }
                         });
@@ -1152,8 +1153,8 @@ public class MainActivity extends BaseActivity {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(MainActivity.this, Search.class);
-                                    i.putExtra("term", term);
-                                    i.putExtra("subreddit", subreddit);
+                                    i.putExtra(Search.EXTRA_TERM, term);
+                                    i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
                                     Log.v("Slide", "INTENT SHOWS " + term + " AND " + subreddit);
                                     startActivity(i);
                                 }
@@ -1180,8 +1181,8 @@ public class MainActivity extends BaseActivity {
                         DataShare.sharedSubreddit =
                                 ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                         Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra("page", 0);
-                        i.putExtra("subreddit", ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        i.putExtra(Shadowbox.EXTRA_PAGE, 0);
+                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i);
                     }
                 } else {

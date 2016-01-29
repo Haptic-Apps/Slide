@@ -29,6 +29,8 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class Search extends BaseActivityAnim {
 
 
+    public static final String EXTRA_TERM = "term";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
@@ -143,8 +145,8 @@ public class Search extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme("");
         setContentView(R.layout.activity_saved);
-        where = getIntent().getExtras().getString("term", "");
-        subreddit = getIntent().getExtras().getString("subreddit", "");
+        where = getIntent().getExtras().getString(EXTRA_TERM, "");
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         setupUserAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
         Log.v("Slide", "Searching for " + where + " in " + subreddit);

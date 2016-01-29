@@ -118,7 +118,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
                 if (url.contains("gif")) {
                     if (Reddit.gif) {
                         Intent myIntent = new Intent(main, GifView.class);
-                        myIntent.putExtra("url", url);
+                        myIntent.putExtra(GifView.EXTRA_URL, url);
                         main.startActivity(myIntent);
                     } else {
                         Reddit.defaultShare(url, main);
@@ -126,7 +126,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
                 } else {
                     if (Reddit.image) {
                         Intent myIntent = new Intent(main, FullscreenImage.class);
-                        myIntent.putExtra("url", url);
+                        myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
                         main.startActivity(myIntent);
                     } else {
                         Reddit.defaultShare(url, main);

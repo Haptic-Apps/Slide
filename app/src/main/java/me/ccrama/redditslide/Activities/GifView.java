@@ -45,6 +45,7 @@ import me.ccrama.redditslide.Views.MediaVideoView;
  */
 public class GifView extends FullScreenActivity {
 
+    public static final String EXTRA_URL = "url";
     public ProgressBar loader;
     SharedPreferences prefs;
 
@@ -73,7 +74,7 @@ public class GifView extends FullScreenActivity {
         v.clearFocus();
 
 
-        String dat = getIntent().getExtras().getString("url");
+        String dat = getIntent().getExtras().getString(EXTRA_URL);
 
         findViewById(R.id.exitComment).setOnClickListener(new View.OnClickListener() {
             @Override

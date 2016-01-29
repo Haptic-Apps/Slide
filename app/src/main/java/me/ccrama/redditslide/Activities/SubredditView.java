@@ -63,6 +63,8 @@ import uz.shift.colorpicker.OnColorChangedListener;
 
 public class SubredditView extends BaseActivityAnim implements SubmissionDisplay {
 
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+
     private DrawerLayout drawerLayout;
     private RecyclerView rv;
     private String subreddit;
@@ -96,7 +98,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        subreddit = getIntent().getExtras().getString("subreddit", "");
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
@@ -181,7 +183,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra("term", term);
+                                i.putExtra(Search.EXTRA_TERM, term);
                                 startActivity(i);
                             }
                         })
@@ -189,8 +191,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra("term", term);
-                                i.putExtra("subreddit", subreddit);
+                                i.putExtra(Search.EXTRA_TERM, term);
+                                i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
                                 startActivity(i);
                             }
                         }).show();
@@ -275,8 +277,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         if (posts.posts != null && !posts.posts.isEmpty()) {
                             DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
-                            i.putExtra("page",0);
-                            i.putExtra("subreddit",  subreddit);
+                            i.putExtra(Shadowbox.EXTRA_PAGE,0);
+                            i.putExtra(Shadowbox.EXTRA_SUBREDDIT,  subreddit);
                             startActivity(i);                            startActivity(i);
                         }
                     } else {
@@ -508,7 +510,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     @Override
                     public void onClick(View view) {
                         Intent inte = new Intent(SubredditView.this, Submit.class);
-                        inte.putExtra("subreddit", subreddit);
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                         SubredditView.this.startActivity(inte);
                     }
                 });
@@ -524,7 +526,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(SubredditView.this, Wiki.class);
-                        i.putExtra("subreddit", subreddit);
+                        i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
                         startActivity(i);
                     }
                 });

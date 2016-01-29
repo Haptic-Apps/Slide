@@ -128,13 +128,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder2.itemView.setAlpha(0.5f);
                         if (Reddit.tabletUI && sContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(sContext, CommentsScreenPopup.class);
-                            i2.putExtra("page", holder2.getAdapterPosition());
+                            i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition());
                             (sContext).startActivity(i2);
 
                         } else {
                             Intent i2 = new Intent(sContext, CommentsScreen.class);
-                            i2.putExtra("page", holder2.getAdapterPosition());
-                            i2.putExtra("subreddit", subreddit);
+                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition());
+                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             (sContext).startActivity(i2);
                         }
                     } else {
@@ -167,7 +167,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             public void onClick(View v) {
 
                                 Intent i = new Intent(sContext, Profile.class);
-                                i.putExtra("profile", submission.getAuthor());
+                                i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                                 sContext.startActivity(i);
                             }
                         });
@@ -176,7 +176,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             @Override
                             public void onClick(View v) {
                                 Intent i = new Intent(sContext, SubredditView.class);
-                                i.putExtra("subreddit", submission.getSubredditName());
+                                i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
                                 sContext.startActivity(i);
                             }
                         });

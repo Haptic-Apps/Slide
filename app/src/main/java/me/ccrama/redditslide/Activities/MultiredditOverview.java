@@ -63,7 +63,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                i.putExtra("multi", SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
+                i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
                 startActivity(i);
             }
         });

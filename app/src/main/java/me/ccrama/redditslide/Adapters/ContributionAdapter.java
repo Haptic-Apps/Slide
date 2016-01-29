@@ -114,7 +114,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 /*TODO Single comment screen
                     Intent i2 = new Intent(mContext, CommentsScreen.class);
                     DataShare.sharedSubreddit = dataSet;
-                    i2.putExtra("page", i);
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
                     ((Activity) mContext).startActivityForResult(i2, 2);
 */
 
@@ -137,7 +137,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra("profile", submission.getAuthor());
+                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                             mContext.startActivity(i);
                         }
                     });
@@ -147,7 +147,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, SubredditView.class);
-                            i.putExtra("subreddit", submission.getSubredditName());
+                            i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
                             mContext.startActivity(i);
                         }
                     });

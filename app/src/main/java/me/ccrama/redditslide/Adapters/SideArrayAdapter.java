@@ -64,7 +64,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             public void onClick(View view) {
                 if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ")) {
                     Intent inte = new Intent(getContext(), SubredditView.class);
-                    inte.putExtra("subreddit", subreddit);
+                    inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);
                 } else ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
 

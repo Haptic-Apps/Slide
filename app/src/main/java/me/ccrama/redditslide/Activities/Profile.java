@@ -41,6 +41,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
  */
 public class Profile extends BaseActivityAnim {
 
+    public static final String EXTRA_PROFILE = "profile";
     private String name;
     private Account account;
     private ViewPager pager;
@@ -58,7 +59,7 @@ public class Profile extends BaseActivityAnim {
 
         super.onCreate(savedInstance);
 
-        name = getIntent().getExtras().getString("profile", "");
+        name = getIntent().getExtras().getString(EXTRA_PROFILE, "");
         applyColorTheme();
         setContentView(R.layout.activity_multireddits);
         setupUserAppBar(R.id.toolbar, name, true, name);
@@ -128,7 +129,7 @@ public class Profile extends BaseActivityAnim {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(Profile.this, Sendmessage.class);
-                            i.putExtra("name", name);
+                            i.putExtra(Sendmessage.EXTRA_NAME, name);
                             startActivity(i);
                         }
                     });

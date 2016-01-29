@@ -70,7 +70,7 @@ public class MakeTextviewClickable {
     private static void openImage(Activity contextActivity, String submission) {
         if (Reddit.image) {
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra("url", submission);
+            myIntent.putExtra(FullscreenImage.EXTRA_URL, submission);
             contextActivity.startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission, contextActivity);
@@ -82,9 +82,9 @@ public class MakeTextviewClickable {
         if (Reddit.gif) {
             Intent myIntent = new Intent(contextActivity, GifView.class);
             if (gfy) {
-                myIntent.putExtra("url", "gfy" + submission);
+                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission);
             } else {
-                myIntent.putExtra("url", "" + submission);
+                myIntent.putExtra(GifView.EXTRA_URL, "" + submission);
 
             }
             contextActivity.startActivity(myIntent);
@@ -386,7 +386,7 @@ public class MakeTextviewClickable {
             switch (type) {
                 case IMGUR:
                     Intent intent2 = new Intent(c, Imgur.class);
-                    intent2.putExtra("url", url);
+                    intent2.putExtra(Imgur.EXTRA_URL, url);
                     c.startActivity(intent2);
                     break;
                 case NSFW_IMAGE:
@@ -415,7 +415,7 @@ public class MakeTextviewClickable {
                 case ALBUM:
                     if (Reddit.album) {
                         Intent i = new Intent(c, Album.class);
-                        i.putExtra("url", url);
+                        i.putExtra(Album.EXTRA_URL, url);
                         c.startActivity(i);
                     } else {
                         Reddit.defaultShare(url, c);
@@ -444,7 +444,7 @@ public class MakeTextviewClickable {
                 case VIDEO:
                     if (Reddit.video) {
                         Intent intent = new Intent(c, FullscreenVideo.class);
-                        intent.putExtra("html", url);
+                        intent.putExtra(FullscreenVideo.EXTRA_HTML, url);
                         c.startActivity(intent);
                     } else {
                         Reddit.defaultShare(url, c);
