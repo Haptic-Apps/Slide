@@ -58,10 +58,13 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
 public class SubredditView extends BaseActivityAnim implements SubmissionDisplay {
+
+    public static final String EXTRA_SUBREDDIT = "subreddit";
 
     private DrawerLayout drawerLayout;
     private RecyclerView rv;
@@ -96,7 +99,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        subreddit = getIntent().getExtras().getString("subreddit", "");
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
@@ -124,19 +127,19 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             public void onDrawerClosed(View drawerView) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
 
-                if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
+                if (SettingValues.swipeAnywhere || overrideRedditSwipeAnywhere) {
                     if (overrideSwipeFromAnywhere) {
-                        Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
+                        Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                         mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
                     } else {
 
-                        Log.v("Slide", "WILL SWIPE FROM ANYWHERE");
+                        Log.v(LogUtil.getTag(), "WILL SWIPE FROM ANYWHERE");
 
                         mHelper.getSwipeBackLayout().mDragHelper.override = true;
 
                         mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
-                        Log.v("Slide", "EDGE SIZE IS " + metrics.widthPixels);
+                        Log.v(LogUtil.getTag(), "EDGE SIZE IS " + metrics.widthPixels);
                     }
                 } else {
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
@@ -155,9 +158,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         rv = ((RecyclerView) findViewById(R.id.vertical_content));
 
         final RecyclerView.LayoutManager mLayoutManager;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait) {
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(this);
@@ -181,7 +184,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra("term", term);
+                                i.putExtra(Search.EXTRA_TERM, term);
                                 startActivity(i);
                             }
                         })
@@ -189,8 +192,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                             @Override
                             public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
                                 Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra("term", term);
-                                i.putExtra("subreddit", subreddit);
+                                i.putExtra(Search.EXTRA_TERM, term);
+                                i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
                                 startActivity(i);
                             }
                         }).show();
@@ -199,7 +202,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         rv.setLayoutManager(mLayoutManager);
          mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
@@ -207,7 +210,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                     pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                    if (Reddit.scrollSeen) {
+                    if (SettingValues.scrollSeen) {
                         if (pastVisiblesItems > 0) {
                             HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                         }
@@ -217,7 +220,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         pastVisiblesItems = firstVisibleItems[0];
-                        if (Reddit.scrollSeen) {
+                        if (SettingValues.scrollSeen) {
                             if (pastVisiblesItems > 0) {
                                 HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                             }
@@ -226,7 +229,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 }
 
                 if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                    Log.v("Slide", "LOADING MORE" + totalItemCount);
+                    Log.v(LogUtil.getTag(), "LOADING MORE" + totalItemCount);
                     posts.loading = true;
                     posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, false, posts.subreddit);
 
@@ -271,12 +274,12 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             @Override
             public void onClick(View v) {
                 {
-                    if (Reddit.tabletUI) {
+                    if (SettingValues.tabletUI) {
                         if (posts.posts != null && !posts.posts.isEmpty()) {
                             DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
-                            i.putExtra("page",0);
-                            i.putExtra("subreddit",  subreddit);
+                            i.putExtra(Shadowbox.EXTRA_PAGE,0);
+                            i.putExtra(Shadowbox.EXTRA_SUBREDDIT,  subreddit);
                             startActivity(i);                            startActivity(i);
                         }
                     } else {
@@ -500,7 +503,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
                 }
-                if (Reddit.fab && Reddit.fabType == R.integer.FAB_POST)
+                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST)
                     submit.setVisibility(View.GONE);
 
                 pinned.setVisibility(View.GONE);
@@ -508,7 +511,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     @Override
                     public void onClick(View view) {
                         Intent inte = new Intent(SubredditView.this, Submit.class);
-                        inte.putExtra("subreddit", subreddit);
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                         SubredditView.this.startActivity(inte);
                     }
                 });
@@ -524,7 +527,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(SubredditView.this, Wiki.class);
-                        i.putExtra("subreddit", subreddit);
+                        i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
                         startActivity(i);
                     }
                 });
@@ -687,7 +690,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                                     new ColorPreferences(SubredditView.this).setFontStyle(t, subreddit);
 
 
-                                    SettingValues.prefs.edit().remove("PRESET" + subreddit).apply();
+                                    SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
 
                                     restartTheme();
                                     diag.dismiss();
@@ -726,7 +729,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        (adapter.sContext).runOnUiThread(new Runnable() {
+        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (startIndex != -1) {

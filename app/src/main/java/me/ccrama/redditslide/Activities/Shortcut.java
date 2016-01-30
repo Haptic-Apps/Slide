@@ -12,6 +12,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -20,6 +21,7 @@ import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 10/2/2015.
@@ -86,10 +88,10 @@ public class Shortcut extends Activity {
                                 final Bitmap src;
                                 final Bitmap bm2;
                                 if (name.toLowerCase().equals("androidcirclejerk")) {
-                                    bm2 = drawableToBitmap(getResources().getDrawable(R.drawable.matiasduarte));
-                                    Log.v("Slide", "NULL IS " + (bm2 == null));
+                                    bm2 = drawableToBitmap(ContextCompat.getDrawable(Shortcut.this, R.drawable.matiasduarte));
+                                    Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
                                 } else {
-                                    src = drawableToBitmap(getResources().getDrawable(R.mipmap.blackandwhite));
+                                    src = drawableToBitmap(ContextCompat.getDrawable(Shortcut.this, R.drawable.blackandwhite));
                                     final int overlayColor = Palette.getColor(name);
                                     final Paint paint = new Paint();
                                     Canvas c;
@@ -109,7 +111,7 @@ public class Shortcut extends Activity {
                                 }
 
 
-                                shortcutIntent.putExtra("url", "reddit.com/r/" + name);
+                                shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + name);
                                 Intent intent = new Intent();
                                 intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
                                 intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + name);

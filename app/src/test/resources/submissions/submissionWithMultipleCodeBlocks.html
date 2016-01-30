@@ -1,0 +1,20 @@
+<div class="md"><div>Hi Rustaceans! I&#39;ve recently written this:</div>
+
+<pre><code>for byte in buffer[..read].iter() {
+    result[*byte as usize] += 1;
+    }
+</code></pre>
+
+    <div>And then changed it to this, which also works:</div>
+
+<pre><code>for &amp;byte in buffer[..read].iter() {
+    result[byte as usize] += 1;
+    }
+</code></pre>
+
+    <div>Is one of those preferred? If so, why?</div>
+
+    <div>The nice thing about the second one is that it shows that we&#39;re dealing with a reference right where the loop variable is defined. In the first one, that only becomes apparent when the variable is used.</div>
+
+    <div>On the other hand, if this were using <code>iter_mut</code>, then we&#39;d need to use the first form in order to mutate the value using <code>*byte = value</code>.</div>
+</div>

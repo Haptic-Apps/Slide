@@ -6,10 +6,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
+
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -17,6 +19,7 @@ import me.ccrama.redditslide.util.GifUtils;
  */
 public class GifView extends FullScreenActivity {
 
+    public static final String EXTRA_URL = "url";
     public ProgressBar loader;
     SharedPreferences prefs;
 
@@ -31,7 +34,7 @@ public class GifView extends FullScreenActivity {
 
         setContentView(R.layout.activity_gif);
 
-        if (Reddit.imageViewerSolidBackground) {
+        if (SettingValues.imageViewerSolidBackground) {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
@@ -39,7 +42,7 @@ public class GifView extends FullScreenActivity {
         v.clearFocus();
 
 
-        String dat = getIntent().getExtras().getString("url");
+        String dat = getIntent().getExtras().getString(EXTRA_URL);
 
         findViewById(R.id.exitComment).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +78,6 @@ public class GifView extends FullScreenActivity {
         super.finish();
         overridePendingTransition(0, R.anim.fade_out);
     }
-
 
 
     class Video {

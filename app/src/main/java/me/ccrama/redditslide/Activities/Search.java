@@ -23,12 +23,16 @@ import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class Search extends BaseActivityAnim {
 
 
+    public static final String EXTRA_TERM = "term";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
@@ -143,15 +147,15 @@ public class Search extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme("");
         setContentView(R.layout.activity_saved);
-        where = getIntent().getExtras().getString("term", "");
-        subreddit = getIntent().getExtras().getString("subreddit", "");
+        where = getIntent().getExtras().getString(EXTRA_TERM, "");
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         setupUserAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
-        Log.v("Slide", "Searching for " + where + " in " + subreddit);
+        Log.v(LogUtil.getTag(), "Searching for " + where + " in " + subreddit);
 
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !SettingValues.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);
@@ -160,7 +164,7 @@ public class Search extends BaseActivityAnim {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
             rv.setLayoutManager(mLayoutManager);
         }
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 

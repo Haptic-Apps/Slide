@@ -26,6 +26,9 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 3/5/2015.
  */
 public class Sendmessage extends BaseActivity {
+    public static final String EXTRA_NAME = "name";
+    public static final String EXTRA_REPLY = "reply";
+
     public String URL;
     private Boolean reply;
     private PrivateMessage previousMessage;
@@ -45,14 +48,14 @@ public class Sendmessage extends BaseActivity {
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         final String name;
-        reply = getIntent() != null && getIntent().hasExtra("reply");
+        reply = getIntent() != null && getIntent().hasExtra(EXTRA_REPLY);
         subject = (EditText) findViewById(R.id.subject);
         to = (EditText) findViewById(R.id.to);
         body = (EditText) findViewById(R.id.body);
         View oldMSG = findViewById(R.id.oldMSG);
 
-        if (getIntent() != null && getIntent().hasExtra("name")) {
-            name = getIntent().getExtras().getString("name", "");
+        if (getIntent() != null && getIntent().hasExtra(EXTRA_NAME)) {
+            name = getIntent().getExtras().getString(EXTRA_NAME, "");
             to.setText(name);
             to.setInputType(InputType.TYPE_NULL);
             if (reply) {

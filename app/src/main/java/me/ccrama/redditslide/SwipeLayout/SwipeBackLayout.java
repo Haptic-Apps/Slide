@@ -245,7 +245,7 @@ public class SwipeBackLayout extends FrameLayout {
      */
     public void addSwipeListener(SwipeListener listener) {
         if (mListeners == null) {
-            mListeners = new ArrayList<SwipeListener>();
+            mListeners = new ArrayList<>();
         }
         mListeners.add(listener);
     }

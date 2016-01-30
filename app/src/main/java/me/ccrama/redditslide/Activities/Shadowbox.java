@@ -28,6 +28,9 @@ import me.ccrama.redditslide.R;
  * Created by ccrama on 9/17/2015.
  */
 public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
+    public static final String EXTRA_PAGE = "page";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_MULTIREDDIT = "multireddit";
     private PostLoader subredditPosts;
     private String subreddit;
     int firstPage;
@@ -39,9 +42,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         applyColorTheme();
         setContentView(R.layout.activity_slide);
 
-        firstPage = getIntent().getExtras().getInt("page", -1);
-        subreddit = getIntent().getExtras().getString("subreddit");
-        String multireddit = getIntent().getExtras().getString("multireddit");
+        firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+        String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
         } else {

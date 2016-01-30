@@ -33,6 +33,7 @@ import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -95,15 +96,15 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     DataShare.sharedSubreddit = dataSet.posts;
                     holder2.itemView.setAlpha(0.5f);
 
-                    if (Reddit.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    if (SettingValues.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
-                        i2.putExtra("page", i);
+                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                         (mContext).startActivity(i2);
 
                     } else {
                         Intent i2 = new Intent(mContext, CommentsScreen.class);
-                        i2.putExtra("page", i);
-                        i2.putExtra("multireddit", dataSet.getMultiReddit().getDisplayName());
+                        i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
                         mContext.startActivityForResult(i2, 2);
                     }
 
@@ -127,7 +128,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra("profile", submission.getAuthor());
+                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                             mContext.startActivity(i);
                         }
                     });
@@ -136,7 +137,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, SubredditView.class);
-                            i.putExtra("subreddit", submission.getSubredditName());
+                            i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
                             mContext.startActivity(i);
                         }
                     });
@@ -227,7 +228,6 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     return true;
                 }
             });
-            int lastPosition = i;
         }
 
     }

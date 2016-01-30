@@ -17,13 +17,14 @@ import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
 import me.ccrama.redditslide.SwipeLayout.Utils;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityBase;
 import me.ccrama.redditslide.SwipeLayout.app.SwipeBackActivityHelper;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  *
@@ -34,7 +35,6 @@ import me.ccrama.redditslide.Visuals.Palette;
  * */
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
-    private static final String TAG = "BaseActivity";
     @Nullable
     protected Toolbar mToolbar;
     protected SwipeBackActivityHelper mHelper;
@@ -62,14 +62,20 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
             DisplayMetrics metrics = getResources().getDisplayMetrics();
 
 
-            if (Reddit.swipeAnywhere || overrideRedditSwipeAnywhere) {
+            if (SettingValues.swipeAnywhere || overrideRedditSwipeAnywhere) {
                 if (overrideSwipeFromAnywhere) {
-                    Log.v("Slide", "WONT SWIPE FROM ANYWHERE");
+                    Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
 
                 } else {
+
+
+                    Log.v(LogUtil.getTag(), "WILL SWIPE FROM ANYWHERE");
+
                     mHelper.getSwipeBackLayout().mDragHelper.override = true;
                     mHelper.getSwipeBackLayout().setEdgeSize(metrics.widthPixels);
+
+                    Log.v(LogUtil.getTag(), "EDGE SIZE IS " + metrics.widthPixels);
                 }
             } else {
                 mHelper.getSwipeBackLayout().mDragHelper.override = false;
@@ -279,7 +285,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void themeSystemBars(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
-            if (Reddit.colorNavBar) {
+            if (SettingValues.colorNavBar) {
                 getWindow().setNavigationBarColor(color);
             }
         }

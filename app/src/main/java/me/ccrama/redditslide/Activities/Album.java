@@ -15,11 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -28,9 +26,10 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -41,6 +40,7 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
  *
  */
 public class Album extends FullScreenActivity {
+    public static final String EXTRA_URL = "url";
     boolean gallery = false;
 
     @Override
@@ -61,7 +61,7 @@ public class Album extends FullScreenActivity {
 
         setContentView(R.layout.album);
 
-        if (Reddit.imageViewerSolidBackground) {
+        if (SettingValues.imageViewerSolidBackground) {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
@@ -72,7 +72,7 @@ public class Album extends FullScreenActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        String rawDat = cutEnds(getIntent().getExtras().getString("url", ""));
+        String rawDat = cutEnds(getIntent().getExtras().getString(EXTRA_URL, ""));
         if (rawDat.contains("gallery")) {
             gallery = true;
         }
@@ -126,7 +126,7 @@ public class Album extends FullScreenActivity {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
                                 if (result != null && result.has("data")) {
-                                    Log.v("Slide", result.toString());
+                                    Log.v(LogUtil.getTag(), result.toString());
 
 
                                     final ArrayList<JsonElement> jsons = new ArrayList<>();
@@ -135,11 +135,11 @@ public class Album extends FullScreenActivity {
                                     if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
                                         if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
                                             Intent i = new Intent(Album.this, GifView.class);
-                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                                             startActivity(i);
                                         } else {
                                             Intent i = new Intent(Album.this, FullscreenImage.class);
-                                            i.putExtra("url", "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
                                             startActivity(i);
                                         }
                                         finish();
@@ -187,7 +187,7 @@ public class Album extends FullScreenActivity {
                                 } else {
 
                                     Intent i = new Intent(Album.this, Website.class);
-                                    i.putExtra("url", "http://imgur.com/gallery/" + sub[0]);
+                                    i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + sub[0]);
 
                                     startActivity(i);
                                     finish();
@@ -197,7 +197,7 @@ public class Album extends FullScreenActivity {
 
                         });
             } else {
-                Log.v("Slide", "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + sub[0] + ".json");
                 Ion.with(Album.this)
                         .load("http://api.imgur.com/2/album" + sub[0] + ".json")
                         .asJsonObject()
@@ -216,7 +216,7 @@ public class Album extends FullScreenActivity {
                                         }).create();
 
                                 if (result != null) {
-                                    Log.v("Slide", result.toString());
+                                    Log.v(LogUtil.getTag(), result.toString());
 
                                     final ArrayList<JsonElement> jsons = new ArrayList<>();
 

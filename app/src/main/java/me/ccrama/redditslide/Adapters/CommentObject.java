@@ -8,10 +8,11 @@ import net.dean.jraw.models.CommentNode;
 public class CommentObject {
      public boolean isComment(){
          return false;
-     };
+     }
+
     public String getName(){
         return "";
-    };
+    }
 
     public CommentNode comment;
 }

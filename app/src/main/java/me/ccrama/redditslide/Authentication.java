@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -87,12 +88,12 @@ public class Authentication {
             if (NetworkUtil.isConnected(context)) {
                 didOnline = true;
                 if (name != null && !name.isEmpty()) {
-                    Log.v("Slide", "REAUTH");
+                    Log.v(LogUtil.getTag(), "REAUTH");
                     if (isLoggedIn) {
                         try {
 
                             final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
-                            Log.v("Slide", "REAUTH LOGGED IN");
+                            Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
                             OAuthHelper oAuthHelper = reddit.getOAuthHelper();
 
@@ -111,7 +112,7 @@ public class Authentication {
                                 Authentication.isLoggedIn = true;
 
                             }
-                            Log.v("Slide", "AUTHENTICATED");
+                            Log.v(LogUtil.getTag(), "AUTHENTICATED");
                         } catch (Exception e) {
                             try {
                                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -150,7 +151,7 @@ public class Authentication {
 
 
                             reddit.authenticate(authData);
-                            Log.v("Slide", "REAUTH LOGGED IN");
+                            Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
                         } catch (Exception e) {
                             try {
@@ -203,7 +204,7 @@ public class Authentication {
         public void onPostExecute(Void voids) {
 
             didOnline = true;
-            Log.v("Slide", "LOADING SUBS");
+            Log.v(LogUtil.getTag(), "LOADING SUBS");
 
             SubredditStorage.getSubredditsForHome(a);
 
@@ -214,7 +215,7 @@ public class Authentication {
         protected Void doInBackground(String... subs) {
             try {
                 String token = authentication.getString("lasttoken", "");
-                Log.v("Slide", "TOKEN IS " + token);
+                Log.v(LogUtil.getTag(), "TOKEN IS " + token);
                 if (!token.isEmpty()) {
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
@@ -235,7 +236,7 @@ public class Authentication {
                         }
                         final String name = me.getFullName();
                         Authentication.name = name;
-                        Log.v("Slide", "AUTHENTICATED");
+                        Log.v(LogUtil.getTag(), "AUTHENTICATED");
 
                         if (reddit.isAuthenticated()) {
                             final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
@@ -260,7 +261,7 @@ public class Authentication {
                         e.printStackTrace();
                     }
                 } else {
-                    Log.v("Slide", "NOT LOGGED IN");
+                    Log.v(LogUtil.getTag(), "NOT LOGGED IN");
 
                     final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                     OAuthData authData = null;

@@ -30,8 +30,6 @@ import android.view.animation.Interpolator;
 
 import java.util.Arrays;
 
-import me.ccrama.redditslide.Reddit;
-
 /**
  * By ikew0ng
  *

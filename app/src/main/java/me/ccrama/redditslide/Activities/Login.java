@@ -26,6 +26,7 @@ import java.util.Set;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -49,7 +50,7 @@ public class Login extends BaseActivityAnim {
                 .toExternalForm();
         authorizationUrl = authorizationUrl.replace("www.", "i.");
         authorizationUrl = authorizationUrl.replace("%3A%2F%2Fi", "://www");
-        Log.v("Slide", "Auth URL: " + authorizationUrl);
+        Log.v(LogUtil.getTag(), "Auth URL: " + authorizationUrl);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookie();
         final WebView webView = (WebView) findViewById(R.id.web);
@@ -66,7 +67,7 @@ public class Login extends BaseActivityAnim {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 if (url.contains("code=")) {
-                    Log.v("Slide", "WebView URL: " + url);
+                    Log.v(LogUtil.getTag(), "WebView URL: " + url);
                     new UserChallengeTask(oAuthHelper, credentials).execute(url);
                     webView.setVisibility(View.GONE);
                 }
@@ -79,7 +80,7 @@ public class Login extends BaseActivityAnim {
         private final Credentials mCredentials;
 
         public UserChallengeTask(OAuthHelper oAuthHelper, Credentials credentials) {
-            Log.v("Slide", "UserChallengeTask()");
+            Log.v(LogUtil.getTag(), "UserChallengeTask()");
             mOAuthHelper = oAuthHelper;
             mCredentials = credentials;
         }
@@ -128,13 +129,13 @@ public class Login extends BaseActivityAnim {
 
 
                 } else {
-                    Log.e("RedditSlide", "Passed in OAuthData was null");
+                    Log.e(LogUtil.getTag(), "Passed in OAuthData was null");
                 }
                 return oAuthData;
             } catch (IllegalStateException | NetworkException | OAuthException e) {
                 // Handle me gracefully
-                Log.e("Slide", "OAuth failed");
-                Log.e("Slide", e.getMessage());
+                Log.e(LogUtil.getTag(), "OAuth failed");
+                Log.e(LogUtil.getTag(), e.getMessage());
             }
             return null;
         }

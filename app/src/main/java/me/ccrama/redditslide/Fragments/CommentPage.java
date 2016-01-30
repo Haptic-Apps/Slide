@@ -199,7 +199,7 @@ public class CommentPage extends Fragment {
 
             }
         });
-        if (!Reddit.fastscroll) {
+        if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
@@ -325,7 +325,7 @@ public class CommentPage extends Fragment {
                 adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else {
-            if (context.equals("NOTHING")) {
+            if (context.equals(Reddit.EMPTY_STRING)) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 comments.setSorting(Reddit.defaultCommentSorting);
             } else {
@@ -364,7 +364,7 @@ public class CommentPage extends Fragment {
 
     public void doData(Boolean b) {
         if (adapter == null || single) {
-            if (context != null && !context.equals("NOTHING")) {
+            if (context != null && !context.equals(Reddit.EMPTY_STRING)) {
                 adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
                 if (single) {
                     adapter.currentSelectedItem = context;
@@ -407,7 +407,7 @@ public class CommentPage extends Fragment {
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
-        loadMore = (!context.isEmpty() && !context.equals("NOTHING"));
+        loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 
@@ -24,23 +23,23 @@ public class SettingsCache extends BaseActivity {
         SwitchCompat fab = (SwitchCompat) findViewById(R.id.cache);
         final SwitchCompat fabType = (SwitchCompat) findViewById(R.id.cacheDefault);
 
-        fab.setChecked(Reddit.cache);
+        fab.setChecked(SettingValues.cache);
         fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.cache = isChecked;
-                fabType.setEnabled(Reddit.cache);
-                SettingValues.prefs.edit().putBoolean("cache", isChecked).apply();
+                SettingValues.cache = isChecked;
+                fabType.setEnabled(SettingValues.cache);
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CACHE, isChecked).apply();
             }
         });
 
-        fabType.setChecked(Reddit.cacheDefault);
-        fabType.setEnabled(Reddit.cache);
+        fabType.setChecked(SettingValues.cacheDefault);
+        fabType.setEnabled(SettingValues.cache);
         fabType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.cacheDefault = isChecked;
-                SettingValues.prefs.edit().putBoolean("cacheDefault", isChecked).apply();
+                SettingValues.cacheDefault = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CACHE_DEFAULT, isChecked).apply();
             }
 
 
