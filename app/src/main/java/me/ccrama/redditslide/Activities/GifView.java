@@ -20,9 +20,7 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-
 import com.google.gson.JsonObject;
-
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
@@ -36,8 +34,9 @@ import java.net.URLConnection;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -45,6 +44,7 @@ import me.ccrama.redditslide.Views.MediaVideoView;
  */
 public class GifView extends FullScreenActivity {
 
+    public static final String EXTRA_URL = "url";
     public ProgressBar loader;
     SharedPreferences prefs;
 
@@ -65,7 +65,7 @@ public class GifView extends FullScreenActivity {
 
         setContentView(R.layout.activity_gif);
 
-        if (Reddit.imageViewerSolidBackground) {
+        if (SettingValues.imageViewerSolidBackground) {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
@@ -73,7 +73,7 @@ public class GifView extends FullScreenActivity {
         v.clearFocus();
 
 
-        String dat = getIntent().getExtras().getString("url");
+        String dat = getIntent().getExtras().getString(EXTRA_URL);
 
         findViewById(R.id.exitComment).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +127,7 @@ public class GifView extends FullScreenActivity {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
 
-                Log.v("Slide", "http://gfycat.com/cajax/get" + s);
+                Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/get" + s);
                 Ion.with(GifView.this)
                         .load("http://gfycat.com/cajax/get" + s)
                         .asJsonObject()
@@ -187,7 +187,7 @@ public class GifView extends FullScreenActivity {
                                                 int readBytes = 0;
                                                 while ((len = inStream.read(buff)) != -1) {
                                                     outStream.write(buff, 0, len);
-                                                    Log.v("Slide", f.length() + " OVER " + length);
+                                                    Log.v(LogUtil.getTag(), f.length() + " OVER " + length);
                                                     final int percent = Math.round(100.0f * f.length() / length);
                                                     runOnUiThread(new Runnable() {
                                                         @Override
@@ -281,8 +281,6 @@ public class GifView extends FullScreenActivity {
                                         return null;
                                     }
 
-                                    ;
-
 
                                 }.execute();
                             }
@@ -299,7 +297,7 @@ public class GifView extends FullScreenActivity {
                 s = s.trim();
 
                 final String finalS = s;
-                Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
+                Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/checkUrl/" + s);
 
                 Ion.with(GifView.this).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -336,7 +334,7 @@ public class GifView extends FullScreenActivity {
                                             int readBytes = 0;
                                             while ((len = inStream.read(buff)) != -1) {
                                                 outStream.write(buff, 0, len);
-                                                Log.v("Slide", f.length() + " OVER " + length);
+                                                Log.v(LogUtil.getTag(), f.length() + " OVER " + length);
                                                 final int percent = Math.round(100.0f * f.length() / length);
                                                 runOnUiThread(new Runnable() {
                                                     @Override
@@ -431,7 +429,6 @@ public class GifView extends FullScreenActivity {
                                     return null;
                                 }
 
-                                ;
                             }.execute();
 
 
@@ -584,7 +581,7 @@ public class GifView extends FullScreenActivity {
                 s = params[0].substring(params[0].lastIndexOf("/"), params[0].length());
 
 
-                Log.v("Slide", "http://gfycat.com/cajax/get" + s);
+                Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/get" + s);
                 Ion.with(c)
                         .load("http://gfycat.com/cajax/get" + s)
                         .asJsonObject()
@@ -641,7 +638,7 @@ public class GifView extends FullScreenActivity {
             s = s.trim();
 
             final String finalS = s;
-            Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
+            Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/checkUrl/" + s);
 
             Ion.with(c).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                 @Override
@@ -694,7 +691,6 @@ public class GifView extends FullScreenActivity {
                                 return null;
                             }
 
-                            ;
                         }.execute();
 
 
@@ -761,7 +757,7 @@ public class GifView extends FullScreenActivity {
             String s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
 
-            Log.v("Slide", "http://gfycat.com/cajax/get" + s);
+            Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/get" + s);
             Ion.with(GifView.this)
                     .load("http://gfycat.com/cajax/get" + s)
                     .asJsonObject()
@@ -812,7 +808,7 @@ public class GifView extends FullScreenActivity {
                                 @Override
                                 public void onClick(View v) {
 
-                                    File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + File.separator + "Slide"); //Creates app specific folder
+                                    File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + File.separator + LogUtil.getTag()); //Creates app specific folder
                                     path.mkdirs();
                                     File imageFile = new File(path, DataShare.sharedSubmission.getId() + ".mp4"); // Imagename.png
                                     new SaveGifAsync().execute(result.get("mp4Url").getAsString(), imageFile.getAbsolutePath());

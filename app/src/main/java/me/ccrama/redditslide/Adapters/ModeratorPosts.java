@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -88,7 +89,7 @@ public class ModeratorPosts {
                 if (paginator.hasNext()) {
                     ArrayList<PublicContribution> done = new ArrayList<>(paginator.next());
 
-                    Log.v("Slide", done.size() + "SIZE");
+                    Log.v(LogUtil.getTag(), done.size() + "SIZE");
                     return done;
 
                 }

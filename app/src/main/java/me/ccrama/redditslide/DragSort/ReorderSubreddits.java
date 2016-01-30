@@ -42,6 +42,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 public class ReorderSubreddits extends BaseActivityAnim {
@@ -101,7 +102,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     b.append("+");
                                 }
                                 String finalS = b.toString().substring(0, b.length() - 1);
-                                Log.v("Slide", finalS);
+                                Log.v(LogUtil.getTag(), finalS);
                                 subs.add(finalS);
                                 adapter.notifyDataSetChanged();
                                 recyclerView.smoothScrollToPosition(subs.size());
@@ -196,7 +197,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {
-                                Log.v("Slide", input);
+                                Log.v(LogUtil.getTag(), input);
                                 new AsyncGetSubreddit().execute(input);
 
                             }

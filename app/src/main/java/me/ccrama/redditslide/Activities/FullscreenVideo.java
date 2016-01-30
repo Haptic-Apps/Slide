@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -20,6 +21,7 @@ import me.ccrama.redditslide.R;
  */
 public class FullscreenVideo extends FullScreenActivity {
 
+    public static final String EXTRA_HTML = "html";
     private WebView v;
 
     /**
@@ -39,7 +41,7 @@ public class FullscreenVideo extends FullScreenActivity {
         setContentView(R.layout.activity_video);
 
 
-        String data = getIntent().getExtras().getString("html");
+        String data = getIntent().getExtras().getString(EXTRA_HTML);
         String url;
         if (data.endsWith("/")) {
             data = data.substring(0, data.length() - 1);
@@ -92,7 +94,7 @@ public class FullscreenVideo extends FullScreenActivity {
             url = url + time;
         }
 
-        Log.v("Slide", url);
+        Log.v(LogUtil.getTag(), url);
 
         v.loadUrl(url);
 

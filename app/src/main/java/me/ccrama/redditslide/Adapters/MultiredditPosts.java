@@ -18,7 +18,7 @@ import me.ccrama.redditslide.SubredditStorage;
 
 /**
  * This class is reponsible for loading multireddit specific submissions
- * {@Link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
+ * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
  * asynchronously.
  *
  * Created by ccrama on 9/17/2015.

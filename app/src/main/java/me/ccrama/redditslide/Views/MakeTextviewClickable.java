@@ -50,10 +50,12 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 7/17/2015.
@@ -68,9 +70,9 @@ public class MakeTextviewClickable {
     private List<Integer> storedSpoilerEnds = new ArrayList<>();
 
     private static void openImage(Activity contextActivity, String submission) {
-        if (Reddit.image) {
+        if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra("url", submission);
+            myIntent.putExtra(FullscreenImage.EXTRA_URL, submission);
             contextActivity.startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission, contextActivity);
@@ -79,12 +81,12 @@ public class MakeTextviewClickable {
     }
 
     private static void openGif(final boolean gfy, Activity contextActivity, String submission) {
-        if (Reddit.gif) {
+        if (SettingValues.gif) {
             Intent myIntent = new Intent(contextActivity, GifView.class);
             if (gfy) {
-                myIntent.putExtra("url", "gfy" + submission);
+                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission);
             } else {
-                myIntent.putExtra("url", "" + submission);
+                myIntent.putExtra(GifView.EXTRA_URL, "" + submission);
 
             }
             contextActivity.startActivity(myIntent);
@@ -319,14 +321,14 @@ public class MakeTextviewClickable {
             if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
                 if(Math.abs((position - event.getY())) > 10){
                     handler.removeCallbacksAndMessages(null);
-                    Log.v("Slide", "POSITION NOT CLICK IS " + event.getY());
+                    Log.v(LogUtil.getTag(), "POSITION NOT CLICK IS " + event.getY());
 
                 }
 
                 return super.onTouchEvent(widget, buffer, event);
             }
 
-            Log.v("Slide", "POSITION IS " + position);
+            Log.v(LogUtil.getTag(), "POSITION IS " + position);
 
 
             comm = (SpoilerRobotoTextView) widget;
@@ -386,7 +388,7 @@ public class MakeTextviewClickable {
             switch (type) {
                 case IMGUR:
                     Intent intent2 = new Intent(c, Imgur.class);
-                    intent2.putExtra("url", url);
+                    intent2.putExtra(Imgur.EXTRA_URL, url);
                     c.startActivity(intent2);
                     break;
                 case NSFW_IMAGE:
@@ -413,9 +415,9 @@ public class MakeTextviewClickable {
                     openGif(true, c, url);
                     break;
                 case ALBUM:
-                    if (Reddit.album) {
+                    if (SettingValues.album) {
                         Intent i = new Intent(c, Album.class);
-                        i.putExtra("url", url);
+                        i.putExtra(Album.EXTRA_URL, url);
                         c.startActivity(i);
                     } else {
                         Reddit.defaultShare(url, c);
@@ -442,9 +444,9 @@ public class MakeTextviewClickable {
                     CustomTabUtil.openUrl(url, Palette.getColor(subreddit), c);
                     break;
                 case VIDEO:
-                    if (Reddit.video) {
+                    if (SettingValues.video) {
                         Intent intent = new Intent(c, FullscreenVideo.class);
-                        intent.putExtra("html", url);
+                        intent.putExtra(FullscreenVideo.EXTRA_HTML, url);
                         c.startActivity(intent);
                     } else {
                         Reddit.defaultShare(url, c);
@@ -456,8 +458,6 @@ public class MakeTextviewClickable {
                     break;
             }
         }
-
-        ;
 
         public void onLinkLongClick(final String url) {
             if (url == null) {

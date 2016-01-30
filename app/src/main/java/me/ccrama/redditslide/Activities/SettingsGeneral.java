@@ -137,12 +137,12 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.single);
 
-            single.setChecked(!Reddit.single);
+            single.setChecked(!SettingValues.single);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.single = !isChecked;
-                    SettingValues.prefs.edit().putBoolean("Single", !isChecked).apply();
+                    SettingValues.single = !isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, !isChecked).apply();
 
                 }
             });
@@ -150,12 +150,12 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.swipeback);
 
-            single.setChecked(Reddit.swipeAnywhere);
+            single.setChecked(SettingValues.swipeAnywhere);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.swipeAnywhere = isChecked;
-                    SettingValues.prefs.edit().putBoolean("swipeAnywhere", isChecked).apply();
+                    SettingValues.swipeAnywhere = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWIPE_ANYWHERE, isChecked).apply();
 
                 }
             });
@@ -164,12 +164,12 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.scrollseen);
 
-            single.setChecked(Reddit.scrollSeen);
+            single.setChecked(SettingValues.scrollSeen);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.scrollSeen = isChecked;
-                    SettingValues.prefs.edit().putBoolean("scrollSeen", isChecked).apply();
+                    SettingValues.scrollSeen = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, isChecked).apply();
 
                 }
             });
@@ -177,12 +177,12 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.alphabetical);
 
-            single.setChecked(Reddit.alphabetical_home);
+            single.setChecked(SettingValues.alphabetical_home);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.alphabetical_home = isChecked;
-                    SettingValues.prefs.edit().putBoolean("alphabetical_home", isChecked).apply();
+                    SettingValues.alphabetical_home = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALPHABETICAL_DRAWER, isChecked).apply();
 
                 }
             });
@@ -190,12 +190,12 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.lowq);
 
-            single.setChecked(!Reddit.blurCheck);
+            single.setChecked(!SettingValues.blurCheck);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.blurCheck = !isChecked;
-                    SettingValues.prefs.edit().putBoolean("blur", !isChecked).apply();
+                    SettingValues.blurCheck = !isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_BLUR, !isChecked).apply();
 
                 }
             });
@@ -236,23 +236,23 @@ public class SettingsGeneral extends BaseActivity {
             findViewById(R.id.enter_animation).setVisibility(View.GONE);
         }*/
         final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
-        animation.setChecked(Reddit.animation);
+        animation.setChecked(SettingValues.animation);
         animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.animation = isChecked;
-                SettingValues.prefs.edit().putBoolean("Animation", isChecked).apply();
+                SettingValues.animation = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ANIMATION, isChecked).apply();
             }
         });
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 
-            single.setChecked(Reddit.exit);
+            single.setChecked(SettingValues.exit);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.exit = isChecked;
-                    SettingValues.prefs.edit().putBoolean("Exit", isChecked).apply();
+                    SettingValues.exit = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_EXIT, isChecked).apply();
 
                 }
             });
@@ -260,12 +260,12 @@ public class SettingsGeneral extends BaseActivity {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.hidetop);
 
-            single.setChecked(Reddit.hideHeader);
+            single.setChecked(SettingValues.hideHeader);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Reddit.hideHeader = isChecked;
-                    SettingValues.prefs.edit().putBoolean("hideHeader", isChecked).apply();
+                    SettingValues.hideHeader = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_HEADER, isChecked).apply();
 
                 }
             });

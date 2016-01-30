@@ -48,6 +48,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
  * Created by ccrama on 3/5/2015.
  */
 public class Submit extends BaseActivity {
+    public static final String EXTRA_SUBREDDIT = "subreddit";
     String trying;
     private View image;
     private View self;
@@ -73,7 +74,7 @@ public class Submit extends BaseActivity {
 
         Intent intent = getIntent();
 
-        final String subreddit = intent.getStringExtra("subreddit");
+        final String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
 
         self = findViewById(R.id.selftext);
         subredditText = ((EditText) findViewById(R.id.subreddittext));

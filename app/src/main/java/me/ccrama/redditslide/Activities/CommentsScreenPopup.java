@@ -18,11 +18,13 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreenPopup extends BaseActivityAnim {
+    public static final String EXTRA_PAGE = "page";
     OverviewPagerAdapter comments;
     private List<Submission> posts;
 
@@ -36,7 +38,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
         setContentView(R.layout.activity_slide_popup);
 
 
-        int firstPage = getIntent().getExtras().getInt("page", -1);
+        int firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
@@ -51,7 +53,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(firstPage);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -87,7 +89,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
             String name = posts.get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
-            Log.v("Slide", name.substring(3, name.length()));
+            Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putString("subreddit", posts.get(i).getSubredditName());
             args.putBoolean("archived", posts.get(i).isArchived());
             args.putInt("page", i);

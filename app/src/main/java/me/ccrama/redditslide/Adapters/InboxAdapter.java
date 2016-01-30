@@ -114,8 +114,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         if (comment instanceof PrivateMessage) {
                             DataShare.sharedMessage = (PrivateMessage) comment;
                             Intent i = new Intent(mContext, Sendmessage.class);
-                            i.putExtra("name", comment.getAuthor());
-                            i.putExtra("reply", true);
+                            i.putExtra(Sendmessage.EXTRA_NAME, comment.getAuthor());
+                            i.putExtra(Sendmessage.EXTRA_REPLY, true);
                             mContext.startActivity(i);
                         } else {
                             new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
@@ -136,8 +136,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         if (comment instanceof PrivateMessage) {
                             DataShare.sharedMessage = (PrivateMessage) comment;
                             Intent i = new Intent(mContext, Sendmessage.class);
-                            i.putExtra("name", comment.getAuthor());
-                            i.putExtra("reply", true);
+                            i.putExtra(Sendmessage.EXTRA_NAME, comment.getAuthor());
+                            i.putExtra(Sendmessage.EXTRA_REPLY, true);
                             mContext.startActivity(i);
                         } else {
                             new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());

@@ -26,6 +26,7 @@ import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 public class CheckForMail extends BroadcastReceiver {
@@ -38,7 +39,7 @@ public class CheckForMail extends BroadcastReceiver {
         c = context;
         if (NetworkUtil.isConnected(c)) {
             new AsyncGetMail().execute();
-            Log.v("Slide", "CHECKING MAIL");
+            Log.v(LogUtil.getTag(), "CHECKING MAIL");
         }
     }
 

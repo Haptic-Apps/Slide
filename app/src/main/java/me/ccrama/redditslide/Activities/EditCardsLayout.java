@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 
@@ -120,29 +119,29 @@ public class EditCardsLayout extends BaseActivity {
 
 
         final SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
-        layout.findViewById(R.id.hide).setVisibility(Reddit.hideButton ? View.VISIBLE : View.GONE);
-        layout.findViewById(R.id.save).setVisibility(Reddit.saveButton ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
 
-        hidebutton.setChecked(Reddit.hideButton);
+        hidebutton.setChecked(SettingValues.hideButton);
         hidebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.hideButton = isChecked;
-                layout.findViewById(R.id.hide).setVisibility(Reddit.hideButton ? View.VISIBLE : View.GONE);
-                SettingValues.prefs.edit().putBoolean("Hidebutton", isChecked).apply();
+                SettingValues.hideButton = isChecked;
+                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton ? View.VISIBLE : View.GONE);
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDEBUTTON, isChecked).apply();
 
             }
         });
         final SwitchCompat savebutton = (SwitchCompat) findViewById(R.id.savebutton);
-        layout.findViewById(R.id.save).setVisibility(Reddit.saveButton ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
 
-        savebutton.setChecked(Reddit.saveButton);
+        savebutton.setChecked(SettingValues.saveButton);
         savebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.saveButton = isChecked;
-                layout.findViewById(R.id.save).setVisibility(Reddit.saveButton ? View.VISIBLE : View.GONE);
-                SettingValues.prefs.edit().putBoolean("saveButton", isChecked).apply();
+                SettingValues.saveButton = isChecked;
+                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SAVE_BUTTON, isChecked).apply();
 
             }
         });

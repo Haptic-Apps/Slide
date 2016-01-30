@@ -7,11 +7,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/28/2015.
  */
 public class OpenContent extends Activity {
+
+    public static final String EXTRA_URL = "url";
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -20,13 +24,13 @@ public class OpenContent extends Activity {
         String url;
 
         if (data == null) {
-            url = getIntent().getExtras().getString("url", "");
+            url = getIntent().getExtras().getString(EXTRA_URL, "");
         } else {
             url = data.toString();
         }
         url = url.toLowerCase();
 
-        Log.v("Slide", url);
+        Log.v(LogUtil.getTag(), url);
 
 
         new OpenRedditLink(this, url);

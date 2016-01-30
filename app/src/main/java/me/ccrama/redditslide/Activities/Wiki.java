@@ -26,6 +26,8 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class Wiki extends BaseActivityAnim {
 
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+
     private TabLayout tabs;
     private ViewPager pager;
     private String subreddit;
@@ -38,7 +40,7 @@ public class Wiki extends BaseActivityAnim {
 
         super.onCreate(savedInstance);
 
-        subreddit = getIntent().getExtras().getString("subreddit", "");
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_slidetabs);
         setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
