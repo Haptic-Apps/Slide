@@ -899,15 +899,13 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String s = null;
-                s.split("");
-                /*
+
                 Intent i = new Intent(MainActivity.this, Settings.class);
                 startActivityForResult(i, RESET_THEME_RESULT);
                 // Cancel sub loading because exiting the settings will reload it anyway
                 if (mAsyncGetSubreddit != null)
                     mAsyncGetSubreddit.cancel(true);
-                drawerLayout.closeDrawers();*/
+                drawerLayout.closeDrawers();
             }
         });
 

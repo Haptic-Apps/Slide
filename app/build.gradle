@@ -56,7 +56,6 @@ dependencies {
         transitive = true
     }
     compile 'com.github.ccrama:JRAW:6175e54'
-
     compile 'com.android.support:design:23.1.1'
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
@@ -76,6 +75,7 @@ dependencies {
     compile 'com.github.johnkil.android-robototextview:robototextview:2.4.3'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'org.jsoup:jsoup:1.8.3'
 }
 
 buildscript {

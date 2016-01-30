@@ -122,12 +122,7 @@ public class Gif extends Fragment {
         });
         return rootView;
     }
-    public static String getSmallerGfy(String gfyUrl) {
-        gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
-        if (!gfyUrl.endsWith("-mobile.mp4"))
-            gfyUrl = gfyUrl.replaceAll("\\.mp4", "-mobile.mp4");
-        return gfyUrl;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -455,9 +455,7 @@ public class MakeTextviewClickable {
                     setOrRemoveSpoilerSpans(comm, (Spannable) sequence, xOffset);
                     break;
             }
-        }
-
-        ;
+        };
 
         public void onLinkLongClick(final String url) {
             if (url == null) {
@@ -489,6 +487,12 @@ public class MakeTextviewClickable {
                                 }
                             }
                         }).show();
+
+                //Force Touch code
+                /*
+                Intent i = new Intent(c, ForceTouchLink.class);
+                i.putExtra("url", url);
+                c.startActivity(i);*/
             }
         }
     }
