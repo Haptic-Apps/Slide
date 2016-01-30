@@ -1,4 +1,4 @@
-# Slide [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit) [![Snoonet](https://img.shields.io/badge/IRC-%23slide-CF49FF.svg)](https://kiwiirc.com/client/irc.snoonet.org/#slide)
+# Slide [![Build Status](https://travis-ci.org/ccrama/Slide.svg?branch=master)](https://travis-ci.org/ccrama/Slide) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit) [![Snoonet](https://img.shields.io/badge/IRC-%23slide-CF49FF.svg)](https://kiwiirc.com/client/irc.snoonet.org/#slide)
 
 <img src="app/src/main/res/drawable-xhdpi/ic_launcher.png" align="left"
     hspace="10" vspace="10">
@@ -9,7 +9,7 @@ the [Java Reddit API Wrapper](https://github.com/thatJavaNerd/JRAW).
 Slide is currently available on the Play store.
 
 <a href="https://play.google.com/store/apps/details?id=me.ccrama.redditslide">
-    <img alt="Get it on Google Play" 
+    <img alt="Get it on Google Play"
         height="56"
         src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" />
 </a>
