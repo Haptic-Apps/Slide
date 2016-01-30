@@ -82,9 +82,9 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Cache;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -1186,8 +1186,6 @@ public class MainActivity extends BaseActivity {
                 if (SettingValues.tabletUI) {
                     List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
-                        DataShare.sharedSubreddit =
-                                ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra(Shadowbox.EXTRA_PAGE, 0);
                         i.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
@@ -1232,7 +1230,8 @@ public class MainActivity extends BaseActivity {
                     d.setProgress(newSubmissions.size());
                     if (d.getCurrentProgress() == d.getMaxProgress()) {
                         d.cancel();
-                        Cache.writeSubredditJson(newSubmissions, subreddit);
+
+                        new OfflineSubreddit(subreddit).overwriteSubmissions(newSubmissions).writeToMemory();
 
                     }
                     return null;

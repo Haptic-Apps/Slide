@@ -47,7 +47,6 @@ import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -276,7 +275,6 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 {
                     if (SettingValues.tabletUI) {
                         if (posts.posts != null && !posts.posts.isEmpty()) {
-                            DataShare.sharedSubreddit = posts.posts;
                             Intent i = new Intent(SubredditView.this, Shadowbox.class);
                             i.putExtra(Shadowbox.EXTRA_PAGE,0);
                             i.putExtra(Shadowbox.EXTRA_SUBREDDIT,  subreddit);

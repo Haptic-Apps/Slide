@@ -17,6 +17,7 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.OfflineSubreddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -121,6 +122,8 @@ public class SubmissionComments {
             }
             try {
                 submission = Authentication.reddit.getSubmission(builder.build());
+
+                new OfflineSubreddit(page.subreddit).setComment(submission.getFullName(), submission).writeToMemory();
                 CommentNode baseComment = submission.getComments();
                 comments = new ArrayList<>();
                 HashMap<Integer, MoreChildItem> waiting  = new HashMap<>();

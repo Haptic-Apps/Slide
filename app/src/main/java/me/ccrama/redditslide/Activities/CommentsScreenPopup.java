@@ -13,9 +13,9 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -31,7 +31,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
     public static final String EXTRA_PAGE = "page";
     OverviewPagerAdapter comments;
     private List<Submission> posts;
-
+    String subreddit;
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -41,12 +41,13 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
         setContentView(R.layout.activity_slide_popup);
 
+        subreddit = getIntent().getExtras().getString(CommentsScreen.EXTRA_SUBREDDIT);
 
         int firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
-            posts = DataShare.sharedSubreddit;
+            posts = new OfflineSubreddit(subreddit).submissions;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -97,6 +98,8 @@ public class CommentsScreenPopup extends BaseActivityAnim {
             args.putString("subreddit", posts.get(i).getSubredditName());
             args.putBoolean("archived", posts.get(i).isArchived());
             args.putInt("page", i);
+            args.putString("subreddit", subreddit);
+
             f.setArguments(args);
 
             return f;

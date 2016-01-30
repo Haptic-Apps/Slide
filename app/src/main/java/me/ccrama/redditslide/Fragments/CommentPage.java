@@ -29,9 +29,9 @@ import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -313,16 +313,18 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        if(!Authentication.didOnline && DataShare.sharedSubreddit != null && DataShare.sharedSubreddit.get(page).getComments() != null){
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
-            if (DataShare.sharedSubreddit != null)
-                adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
+
+        OfflineSubreddit o = new OfflineSubreddit(subreddit);
+        if(o.submissions.size() > 0 && o.submissions.get(page).getComments() != null){
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
+            if (o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else if (context.isEmpty()) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
-            if (DataShare.sharedSubreddit != null)
-                adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
+            if (o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else {
             if (context.equals(Reddit.EMPTY_STRING)) {
@@ -389,10 +391,10 @@ public class CommentPage extends Fragment {
             adapter.reset(getContext(), comments, rv, comments.submission);
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+                adapter.reset(getContext(), comments, rv, new OfflineSubreddit(subreddit).submissions.get(page));
             } catch(Exception ignored){}
         } else {
-            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+            adapter.reset(getContext(), comments, rv, new OfflineSubreddit(subreddit).submissions.get(page));
         }
     }
 
@@ -407,9 +409,11 @@ public class CommentPage extends Fragment {
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
+        subreddit = bundle.getString("subreddit", "");
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
     }
 
+    public String subreddit;
     @Override
     public void onPause() {
         super.onPause();

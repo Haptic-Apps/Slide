@@ -38,7 +38,6 @@ import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -125,7 +124,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View arg0) {
 
                     if (Authentication.didOnline || submission.getComments() != null) {
-                        DataShare.sharedSubreddit = dataSet.posts;
                         holder2.itemView.setAlpha(0.5f);
                         if (SettingValues.tabletUI && sContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(sContext, CommentsScreenPopup.class);

@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.OpenImgurLink;
 
@@ -18,6 +19,7 @@ public class Imgur extends FullScreenActivity {
         overrideRedditSwipeAnywhere();
 
         super.onCreate(savedInstanceState);
+        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
 
         String url = getIntent().getExtras().getString(EXTRA_URL);
 

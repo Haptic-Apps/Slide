@@ -79,6 +79,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static ArrayList<Integer> lastposition;
     public static int currentPosition;
     public static int themeBack;
+    public static SharedPreferences cachedData;
     private final List<Listener> listeners = new ArrayList<>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
@@ -372,6 +373,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
 
+        cachedData = getSharedPreferences("cache", 0);
 
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);

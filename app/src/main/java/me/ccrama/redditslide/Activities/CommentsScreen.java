@@ -15,9 +15,9 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
@@ -68,7 +68,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
+            subredditPosts.getPosts().addAll(new OfflineSubreddit(subreddit).submissions);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
@@ -163,6 +163,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
+            args.putString("subreddit", subreddit);
             f.setArguments(args);
 
             return f;

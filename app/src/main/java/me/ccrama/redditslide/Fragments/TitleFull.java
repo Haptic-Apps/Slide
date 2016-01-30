@@ -13,7 +13,7 @@ import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
@@ -71,7 +71,7 @@ public class TitleFull extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = DataShare.sharedSubreddit.get(i);
+        s = new OfflineSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
 
     }
 

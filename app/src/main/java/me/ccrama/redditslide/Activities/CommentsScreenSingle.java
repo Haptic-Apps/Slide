@@ -131,6 +131,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             args.putString("context", context);
             args.putString("subreddit", subreddit);
             args.putBoolean("single", true);
+
             args.putBoolean("np", np);
             f.setArguments(args);
 

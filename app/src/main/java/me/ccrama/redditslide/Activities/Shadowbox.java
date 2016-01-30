@@ -15,12 +15,12 @@ import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.Gif;
 import me.ccrama.redditslide.Fragments.ImageFull;
 import me.ccrama.redditslide.Fragments.SelftextFull;
 import me.ccrama.redditslide.Fragments.TitleFull;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 
@@ -53,7 +53,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
         } else {
-            subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
+            subredditPosts.getPosts().addAll(new OfflineSubreddit(subreddit).submissions);
             subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
