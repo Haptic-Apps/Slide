@@ -49,6 +49,7 @@ public class SettingValues {
     public static final String PREF_SAVE_BUTTON = "saveButton";
     public static final String PREF_IMAGE = "image";
     public static final String PREF_BLUR = "blur";
+    public static final String PREF_ALBUM_SWIPE = "albumswipe";
 
     public static boolean actionBarVisible;
     public static CreateCardView.CardEnum defaultCardView;
@@ -101,7 +102,7 @@ public class SettingValues {
     public static int nighttime;
     public static int daytime;
     public static boolean autoTime;
-    public static boolean AlbumSwipe;
+    public static boolean albumSwipe;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;

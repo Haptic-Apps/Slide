@@ -146,7 +146,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case ALBUM:
                         if (SettingValues.album) {
-                            if(SettingValues.AlbumSwipe){
+                            if(SettingValues.albumSwipe){
                                 Intent i = new Intent(contextActivity, AlbumPager.class);
                                 i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                 contextActivity.startActivity(i);

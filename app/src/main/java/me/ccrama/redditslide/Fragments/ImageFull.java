@@ -158,7 +158,7 @@ public class ImageFull extends Fragment {
                     public void onClick(View v2) {
 
                         if (SettingValues.album) {
-                            if(SettingValues.AlbumSwipe){
+                            if(SettingValues.albumSwipe){
                                 Intent i = new Intent(contextActivity, AlbumPager.class);
                                 i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                 contextActivity.startActivity(i);

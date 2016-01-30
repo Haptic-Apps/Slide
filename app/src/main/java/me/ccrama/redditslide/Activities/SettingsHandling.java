@@ -26,6 +26,7 @@ public class SettingsHandling extends BaseActivity implements
         SwitchCompat gif = (SwitchCompat) findViewById(R.id.gif);
         SwitchCompat album = (SwitchCompat) findViewById(R.id.album);
         SwitchCompat video = (SwitchCompat) findViewById(R.id.video);
+
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.chrome);
 
@@ -37,6 +38,21 @@ public class SettingsHandling extends BaseActivity implements
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.customtabs = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CUSTOMTABS, isChecked).apply();
+
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.albumpager);
+
+            single.setChecked(SettingValues.albumSwipe);
+            single.setEnabled(SettingValues.album);
+
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.albumSwipe = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, isChecked).apply();
 
                 }
             });
