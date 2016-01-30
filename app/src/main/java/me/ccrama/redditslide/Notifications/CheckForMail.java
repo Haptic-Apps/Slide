@@ -46,35 +46,39 @@ public class CheckForMail extends BroadcastReceiver {
 
     private class AsyncGetMail extends AsyncTask<Void, Void, List<Message>> {
 
+        ArrayList<Message> modMessages = new ArrayList<>();
+
         @Override
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
-
-            //create arraylist of the messages fullName for markasread action
-            String[] messageNames = new String[messages.size()];
-            int counter = 0;
-            for (Message x : messages) {
-                messageNames[counter] = x.getFullName();
-                counter++;
-            }
-
             if (messages != null && messages.size() > 0) {
+
+                //create arraylist of the messages fullName for markasread action
+                String[] messageNames = new String[messages.size()];
+                int counter = 0;
+                for (Message x : messages) {
+                    messageNames[counter] = x.getFullName();
+                    counter++;
+                }
+
+                NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+                Intent notificationIntent = new Intent(c, Inbox.class);
+
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                PendingIntent intent = PendingIntent.getActivity(c, 0,
+                        notificationIntent, 0);
+
+                //Intent for mark as read notification action
+                Intent readIntent = new Intent(c, MarkAsReadService.class);
+                readIntent.putExtra(MESSAGE_EXTRA, messageNames);
+                PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
                 if (messages.size() == 1) {
-                    NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-                    Intent notificationIntent = new Intent(c, Inbox.class);
-
-                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                    PendingIntent intent = PendingIntent.getActivity(c, 0,
-                            notificationIntent, 0);
-
-                    //Intent for mark as read notification action
-                    Intent readIntent = new Intent(c, MarkAsReadService.class);
-                    readIntent.putExtra(MESSAGE_EXTRA, messageNames);
-                    PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     NotificationCompat.BigTextStyle notiStyle = new
                             NotificationCompat.BigTextStyle();
@@ -95,7 +99,6 @@ public class CheckForMail extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
                 } else {
                     int amount = messages.size();
-                    NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 
                     NotificationCompat.InboxStyle notiStyle = new
                             NotificationCompat.InboxStyle();
@@ -104,20 +107,6 @@ public class CheckForMail extends BroadcastReceiver {
                     for (Message m : messages) {
                         notiStyle.addLine(c.getString(R.string.mail_notification_msg, m.getAuthor()));
                     }
-
-                    Intent notificationIntent = new Intent(c, Inbox.class);
-
-                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                    PendingIntent intent = PendingIntent.getActivity(c, 0,
-                            notificationIntent, 0);
-
-                    //Intent for mark as read notification action
-                    Intent readIntent = new Intent(c, MarkAsReadService.class);
-                    readIntent.putExtra(MESSAGE_EXTRA, messageNames);
-                    PendingIntent readPI = PendingIntent.getService(c, 2, readIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
                     Notification notification = new NotificationCompat.Builder(c)
                             .setContentIntent(intent)
@@ -208,8 +197,6 @@ public class CheckForMail extends BroadcastReceiver {
                 }
             }*/
         }
-
-        ArrayList<Message> modMessages = new ArrayList<>();
 
         @Override
         protected List<Message> doInBackground(Void... params) {

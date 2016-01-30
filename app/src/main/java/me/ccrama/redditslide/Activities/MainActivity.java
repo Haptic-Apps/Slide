@@ -95,7 +95,6 @@ import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
-
 import me.ccrama.redditslide.util.NetworkUtil;
 
 
@@ -1262,7 +1261,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (Authentication.isLoggedIn && Authentication.didOnline  && NetworkUtil.isConnected(MainActivity.this)) {
+        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this)) {
             new AsyncNotificationBadge().execute();
         }
     }
@@ -1399,13 +1398,15 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
+            View badge = headerMain.findViewById(R.id.count);
             if (count == 0) {
-                headerMain.findViewById(R.id.count).setVisibility(View.GONE);
+                if (badge != null)
+                    badge.setVisibility(View.GONE);
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.cancelAll();
             } else {
-                headerMain.findViewById(R.id.count).setVisibility(View.VISIBLE);
+                if (badge != null)
+                    badge.setVisibility(View.VISIBLE);
                 ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
             }
         }

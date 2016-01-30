@@ -466,6 +466,7 @@
     <string name="settings_general_no_header">Hide header on drawer</string>
     <string name="settings_general_scroll_read">Mark posts as seen when scrolled past</string>
     <string name="settings_link_chrome">Use Chrome Custom Tabs</string>
+    <string name="settings_link_horizontal_album">Horizontal album style</string>
 
 
     <!-- Settings titles displayed in settings activity-->
