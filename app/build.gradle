@@ -55,7 +55,8 @@ dependencies {
     compile('com.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true
     }
-    compile 'com.github.ccrama:JRAW:6175e54'
+
+    compile 'com.github.ccrama:JRAW:b09ade4'
     compile 'com.android.support:design:23.1.1'
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
@@ -76,6 +77,8 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'org.jsoup:jsoup:1.8.3'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }
 
 buildscript {

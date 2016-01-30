@@ -21,106 +21,96 @@ public class OpenRedditLink {
     private final static String TAG = "OpenRedditLink";
 
     public OpenRedditLink(Context context, String url) {
-        // Strip unused prefixes that don't require special handling
         String oldUrl = url;
-        url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
-
         boolean np = false;
-        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/?=&]*.*")) { // tests for subdomain
-            String subdomain = url.split("\\.", 2)[0];
-            String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
-            if (subdomain.equalsIgnoreCase("np")) {
-                // no participation link: https://www.reddit.com/r/NoParticipation/wiki/index
-                np = true;
-                url = url.replaceFirst(domainRegex, "reddit.com");
-            } else if (subdomain.matches("blog|store|beta")) {
-                customIntentChooser(oldUrl, context);
-                return;
-            } else if (subdomain.matches("(?i)([_a-z0-9]{2}-)?[_a-z0-9]{1,2}")) {
-                /*
-                    Either the subdomain is a language tag (with optional region) or
-                    a single letter domain, which for simplicity are ignored.
-                 */
-                url = url.replaceFirst(domainRegex, "reddit.com");
-            } else {
-                // subdomain is a subreddit, change subreddit.reddit.com to reddit.com/r/subreddit
-                url = url.replaceFirst(domainRegex, "reddit.com/r/" + subdomain);
-            }
-        }
 
-        if (url.startsWith("/")) url = "reddit.com" + url;
-        if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
+        url = formatRedditUrl(url);
+        if (url.isEmpty()) {
+            customIntentChooser(oldUrl, context);
+            return;
+        } else if (url.startsWith("np")) {
+            np = true;
+            url = url.substring(2);
+        }
+        Log.v(TAG, "Opening URL " + url);
+
+        RedditLinkType type = getRedditLinkType(url);
 
         String[] parts = url.split("/");
         if (parts[parts.length - 1].startsWith("?"))
             parts = Arrays.copyOf(parts, parts.length - 1);
 
-        Log.v(TAG, "Opening URL " + url);
-
-        if (url.matches("(?i)redd\\.it/\\w+")) {
-            // Redd.it link. Format: redd.it/post_id
-            Intent i = new Intent(context, CommentsScreenSingle.class);
-            i.putExtra("subreddit", "NOTHING");
-            i.putExtra("context", "NOTHING");
-            i.putExtra("np", np);
-            i.putExtra("submission", parts[1]);
-            context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/wiki.*")) {
-            // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
-            Intent i = new Intent(context, Wiki.class);
-            i.putExtra("subreddit", parts[2]);
-            context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/.*")) {
-            // Permalink. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
-            Intent i = new Intent(context, CommentsScreenSingle.class);
-            i.putExtra("subreddit", parts[2]);
-            i.putExtra("submission", parts[4]);
-            i.putExtra("np", np);
-            if (parts.length >= 7) {
-                i.putExtra("loadmore", true);
-                String end = parts[6];
-                if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
-                i.putExtra("context", end);
-
-                Log.v("Slide", "CONTEXT " + end);
+        switch (type) {
+            case SHORTENED: {
+                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i.putExtra("subreddit", "NOTHING");
+                i.putExtra("context", "NOTHING");
+                i.putExtra("np", np);
+                i.putExtra("submission", parts[1]);
+                context.startActivity(i);
+                break;
             }
-            context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
-            // Post comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
-            Intent i = new Intent(context, CommentsScreenSingle.class);
-            i.putExtra("subreddit", parts[2]);
-            i.putExtra("context", "NOTHING");
-            i.putExtra("np", np);
-            i.putExtra("submission", parts[4]);
-            context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/comments/\\w+.*")) {
-            // Post comments without a given subreddit. Format: reddit.com/comments/$post_id/$post_title [optional]
-            Intent i = new Intent(context, CommentsScreenSingle.class);
-            i.putExtra("subreddit", "NOTHING");
-            i.putExtra("context", "NOTHING");
-            i.putExtra("np", np);
-            i.putExtra("submission", parts[2]);
-            context.startActivity(i);
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+.*")) {
-            // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
-            Intent intent = new Intent(context, SubredditView.class);
-            intent.putExtra("subreddit", parts[2]);
-            context.startActivity(intent);
-        } else if (url.matches("(?i)reddit\\.com/u(ser)?/[a-z0-9-_]+.*")) {
-            // User. Format: reddit.com/u [or user]/$username/$page [optional]
-            String name = parts[2];
-            if (name.equals("me") && Authentication.isLoggedIn) name = Authentication.name;
-            Intent myIntent = new Intent(context, Profile.class);
-            myIntent.putExtra("profile", name);
-            context.startActivity(myIntent);
-        } else if (url.matches("(?i)reddit\\.com/prefs")) {
-            customIntentChooser(oldUrl, context);
-        } else if (url.matches("(?i)reddit\\.com/live/[a-z0-9-_]+")) {
-            customIntentChooser(oldUrl, context);
-        } else { //Open all links that we can't open in another app
-            customIntentChooser(oldUrl, context);
+            case WIKI: {
+                Intent i = new Intent(context, Wiki.class);
+                i.putExtra("subreddit", parts[2]);
+                context.startActivity(i);
+                break;
+            }
+            case COMMENT_PERMALINK: {
+                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i.putExtra("subreddit", parts[2]);
+                i.putExtra("submission", parts[4]);
+                i.putExtra("np", np);
+                if (parts.length >= 7) {
+                    i.putExtra("loadmore", true);
+                    String end = parts[6];
+                    if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
+                    i.putExtra("context", end);
+
+                    Log.v("Slide", "CONTEXT " + end);
+                }
+                context.startActivity(i);
+                break;
+            }
+            case SUBMISSION: {
+                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i.putExtra("subreddit", parts[2]);
+                i.putExtra("context", "NOTHING");
+                i.putExtra("np", np);
+                i.putExtra("submission", parts[4]);
+                context.startActivity(i);
+                break;
+            }
+            case SUBMISSION_WITHOUT_SUB: {
+                Intent i = new Intent(context, CommentsScreenSingle.class);
+                i.putExtra("subreddit", "NOTHING");
+                i.putExtra("context", "NOTHING");
+                i.putExtra("np", np);
+                i.putExtra("submission", parts[2]);
+                context.startActivity(i);
+                break;
+            }
+            case SUBREDDIT: {
+                Intent intent = new Intent(context, SubredditView.class);
+                intent.putExtra("subreddit", parts[2]);
+                context.startActivity(intent);
+                break;
+            }
+            case USER: {
+                String name = parts[2];
+                if (name.equals("me") && Authentication.isLoggedIn) name = Authentication.name;
+                Intent myIntent = new Intent(context, Profile.class);
+                myIntent.putExtra("profile", name);
+                context.startActivity(myIntent);
+                break;
+            }
+            case OTHER: {
+                customIntentChooser(oldUrl, context);
+                break;
+            }
         }
     }
+
 
     public OpenRedditLink(Context c, String submission, String subreddit, String id) {
         Intent i = new Intent(c, CommentsScreenSingle.class);
@@ -135,8 +125,8 @@ public class OpenRedditLink {
      * Source: http://stackoverflow.com/a/23268821/4026792
      *
      * @param url The url as a String
-     * @param c Context for opening the intent
-    */
+     * @param c   Context for opening the intent
+     */
     public static void customIntentChooser(String url, Context c) {
         String packageNameToIgnore = BuildConfig.APPLICATION_ID;
         Uri uri = Uri.parse(url);
@@ -163,4 +153,89 @@ public class OpenRedditLink {
         } else
             Reddit.defaultShare(url, c);
     }
+
+    /**
+     * Takes an reddit.com url and formats it for easier use
+     *
+     * @param url The url to format
+     * @return Formatted url without subdomains, language tags & other unused prefixes
+     */
+    public static String formatRedditUrl(String url) {
+
+        // Strip unused prefixes that don't require special handling
+        url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
+
+        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/?=&]*.*")) { // tests for subdomain
+            String subdomain = url.split("\\.", 2)[0];
+            String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
+            if (subdomain.equalsIgnoreCase("np")) {
+                // no participation link: https://www.reddit.com/r/NoParticipation/wiki/index
+                url = url.replaceFirst(domainRegex, "reddit.com");
+                url = "np" + url;
+            } else if (subdomain.matches("blog|store|beta")) {
+                return "";
+            } else if (subdomain.matches("(?i)([_a-z0-9]{2}-)?[_a-z0-9]{1,2}")) {
+                /*
+                    Either the subdomain is a language tag (with optional region) or
+                    a single letter domain, which for simplicity are ignored.
+                 */
+                url = url.replaceFirst(domainRegex, "reddit.com");
+            } else {
+                // subdomain is a subreddit, change subreddit.reddit.com to reddit.com/r/subreddit
+                url = url.replaceFirst(domainRegex, "reddit.com/r/" + subdomain);
+            }
+        }
+
+        if (url.startsWith("/")) url = "reddit.com" + url;
+        if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
+
+        return url;
+    }
+
+    /**
+     * Determines the reddit link type
+     *
+     * @param url Reddit.com link
+     * @return LinkType
+     */
+    public static RedditLinkType getRedditLinkType(String url) {
+        if (url.matches("(?i)redd\\.it/\\w+")) {
+            // Redd.it link. Format: redd.it/post_id
+            return RedditLinkType.SHORTENED;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/wiki.*")) {
+            // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
+            return RedditLinkType.WIKI;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/.*")) {
+            // Permalink to comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
+            return RedditLinkType.COMMENT_PERMALINK;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
+            // Submission. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
+            return RedditLinkType.SUBMISSION;
+        } else if (url.matches("(?i)reddit\\.com/comments/\\w+.*")) {
+            // Submission without a given subreddit. Format: reddit.com/comments/$post_id/$post_title [optional]
+            return RedditLinkType.SUBMISSION_WITHOUT_SUB;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+.*")) {
+            // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
+            return RedditLinkType.SUBREDDIT;
+        } else if (url.matches("(?i)reddit\\.com/u(ser)?/[a-z0-9-_]+.*")) {
+            // User. Format: reddit.com/u [or user]/$username/$page [optional]
+            return RedditLinkType.USER;
+        } else {
+            //Open all links that we can't open in another app
+            return RedditLinkType.OTHER;
+        }
+    }
+
+    public enum RedditLinkType {
+        SHORTENED,
+        WIKI,
+        COMMENT_PERMALINK,
+        SUBMISSION,
+        SUBMISSION_WITHOUT_SUB,
+        SUBREDDIT,
+        USER,
+        OTHER
+    }
+
+
 }

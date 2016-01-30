@@ -10,7 +10,7 @@ import net.dean.jraw.models.Submission;
 public class ContentType {
 
     private static boolean isGif(String s) {
-        return (s.contains(".gif") || s.contains("gfycat.com") || s.contains(".webm") || s.contains(".mp4"));
+        return (s.endsWith(".gif") || s.contains("gfycat.com") || s.endsWith(".webm") || s.endsWith(".mp4") || s.endsWith(".gifv"));
     }
 
     private static boolean isImage(String s) {
@@ -21,6 +21,13 @@ public class ContentType {
         return (s.contains("imgur") && (s.contains("/a/")) || (s.contains("imgur") && (s.contains("gallery") || s.contains("/g/")) ));
     }
 
+    private static boolean isRedditLink(String url) {
+        return (url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("reddit.com/live");
+    }
+
+    private static boolean isImgurLink(String url) {
+        return (url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url));
+    }
 
     public static String getFixedUrlThumb(String s2) {
         String s = s2;
@@ -64,11 +71,10 @@ public class ContentType {
         }
         if (s.isSelfPost()) {
             return ImageType.SELF;
-        } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
+        } else if (isRedditLink(url)) {
             return ImageType.REDDIT;
         }
-
-        if(url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url)){
+        if(isImgurLink(url)){
             return ImageType.IMGUR;
         }
         if (s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
@@ -115,11 +121,8 @@ public class ContentType {
                     if (url.contains("gfy"))
                         return ImageType.NONE_GFY;
                     return ImageType.NONE_GIF;
-                } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
-                    return ImageType.REDDIT;
                 } else if (!url.isEmpty()) {
                     return ImageType.LINK;
-
                 } else {
                     return ImageType.NONE;
                 }
@@ -172,12 +175,12 @@ public class ContentType {
             url = "reddit.com" + url;
         }
 
-        if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
+        if (isRedditLink(url)) {
             return ImageType.REDDIT;
         } else if (url.contains("youtube.com") || url.contains("youtu.be")) {
             return ImageType.VIDEO;
         }
-        if(url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url)){
+        if(isImgurLink(url)){
             return ImageType.IMGUR;
         }
         if (isAlbum(url)) {
@@ -189,8 +192,10 @@ public class ContentType {
             if (url.contains("gfycat"))
                 return ImageType.GFY;
             return ImageType.GIF;
-        } else {
+        } else if (!url.isEmpty()){
             return ImageType.LINK;
+        } else {
+            return ImageType.NONE;
         }
 
     }
