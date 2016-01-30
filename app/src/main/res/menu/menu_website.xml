@@ -10,15 +10,15 @@
 
     <item android:id="@+id/back"
         android:icon="@drawable/left"
-        android:title="@string/general_enable_shadowbox"
+        android:title="@string/website_back"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/chrome"
-        android:title="Open in External Browser"
+        android:title="@string/website_external"
         app:showAsAction="never"/>
 
     <item android:id="@+id/share"
-        android:title="Share"
+        android:title="@string/submission_link_share"
         app:showAsAction="never"/>
 
 

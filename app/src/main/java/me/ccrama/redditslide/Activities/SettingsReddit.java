@@ -22,7 +22,7 @@ public class SettingsReddit extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_reddit);
-        setupAppBar(R.id.toolbar, "Reddit settings", true, true);
+        setupAppBar(R.id.toolbar, R.string.settings_reddit_prefs, true, true);
         {
 
             final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);

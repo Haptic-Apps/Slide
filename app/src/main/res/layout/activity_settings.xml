@@ -282,7 +282,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
 
-                        android:text="Font"
+                        android:text="@string/settings_title_font"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -455,7 +455,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Filters"
+                        android:text="@string/settings_title_filter"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
@@ -515,7 +515,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/settings_reddit_settings"
+                        android:text="@string/settings_reddit_prefs"
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"

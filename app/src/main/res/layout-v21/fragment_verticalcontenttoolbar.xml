@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
-            android:text="This is an archived post. You won't be able to vote or comment."
+            android:text="@string/submission_info_archived"
             android:textColor="?attr/font"
             android:textSize="14sp" />
 

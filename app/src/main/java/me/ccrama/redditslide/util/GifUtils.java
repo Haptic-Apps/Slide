@@ -40,6 +40,13 @@ import me.ccrama.redditslide.Views.MediaVideoView;
  */
 public class GifUtils {
 
+    public static String getSmallerGfy(String gfyUrl) {
+        gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
+        if (!gfyUrl.endsWith("-mobile.mp4"))
+            gfyUrl = gfyUrl.replaceAll("\\.mp4", "-mobile.mp4");
+        return gfyUrl;
+    }
+
     public static class AsyncLoadGif extends AsyncTask<String, Void, Void> {
 
         public Activity c;
@@ -306,12 +313,12 @@ public class GifUtils {
                                             int len;
                                             int readBytes = 0;
 
-                                                while ((len = inStream.read(buff)) != -1) {
+                                            while ((len = inStream.read(buff)) != -1) {
                                                 outStream.write(buff, 0, len);
                                                 final int percent = Math.round(100.0f * f.length() / length);
-                                                    if(progressBar != null) {
+                                                if (progressBar != null) {
 
-                                                        c.runOnUiThread(new Runnable() {
+                                                    c.runOnUiThread(new Runnable() {
                                                         @Override
                                                         public void run() {
                                                             progressBar.setProgress(percent);
@@ -330,7 +337,7 @@ public class GifUtils {
                                             outStream.close();
                                             inStream.close();
                                         } else {
-                                            if(progressBar != null) {
+                                            if (progressBar != null) {
                                                 c.runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
@@ -347,7 +354,7 @@ public class GifUtils {
                                                 video.setVideoPath(f.getAbsolutePath());
                                                 //videoView.set
 
-                                                if(placeholder != null) {
+                                                if (placeholder != null) {
                                                     MediaController mediaController = new
                                                             MediaController(c);
                                                     mediaController.setAnchorView(placeholder);
@@ -355,10 +362,10 @@ public class GifUtils {
 
                                                 }
 
-                                                if(progressBar != null) {
+                                                if (progressBar != null) {
                                                     progressBar.setIndeterminate(false);
                                                 }
-                                                if(gifSave != null) {
+                                                if (gifSave != null) {
                                                     gifSave.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View v) {
@@ -382,7 +389,7 @@ public class GifUtils {
 
 
                                                             NotificationManager mNotificationManager =
-                                                                    (NotificationManager)c.getSystemService(Activity.NOTIFICATION_SERVICE);
+                                                                    (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
                                                             mNotificationManager.notify(1, notif);
 
                                                         }
@@ -395,8 +402,8 @@ public class GifUtils {
                                                     @Override
                                                     public void onPrepared(MediaPlayer mp) {
 
-                                                        if(placeholder != null)
-                                                        placeholder.setVisibility(View.GONE);
+                                                        if (placeholder != null)
+                                                            placeholder.setVisibility(View.GONE);
                                                         mp.setLooping(true);
 
 
@@ -431,17 +438,17 @@ public class GifUtils {
 
                                                 if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
 
-                                                    if(closeIfNull)
-                                                    new AlertDialogWrapper.Builder(c)
-                                                            .setTitle(R.string.gif_err_title)
-                                                            .setMessage(R.string.gif_err_msg)
-                                                            .setCancelable(false)
-                                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                                @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    c.finish();
-                                                                }
-                                                            }).create().show();
+                                                    if (closeIfNull)
+                                                        new AlertDialogWrapper.Builder(c)
+                                                                .setTitle(R.string.gif_err_title)
+                                                                .setMessage(R.string.gif_err_msg)
+                                                                .setCancelable(false)
+                                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        c.finish();
+                                                                    }
+                                                                }).create().show();
                                                 } else {
                                                     final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
                                                     URLConnection ucon = url.openConnection();
@@ -459,13 +466,13 @@ public class GifUtils {
                                                     FileOutputStream outStream = new FileOutputStream(f);
                                                     byte[] buff = new byte[5 * 1024];
 
-                                                        int len;
-                                                        while ((len = inStream.read(buff)) != -1) {
-                                                            outStream.write(buff, 0, len);
-                                                            int percent = Math.round(100.0f * f.length() / length);
-                                                            if(progressBar != null) {
+                                                    int len;
+                                                    while ((len = inStream.read(buff)) != -1) {
+                                                        outStream.write(buff, 0, len);
+                                                        int percent = Math.round(100.0f * f.length() / length);
+                                                        if (progressBar != null) {
 
-                                                                progressBar.setProgress(percent);
+                                                            progressBar.setProgress(percent);
                                                             if (percent == 100) {
                                                                 progressBar.setVisibility(View.GONE);
 
@@ -490,9 +497,9 @@ public class GifUtils {
                                                                 mediaController.setAnchorView(placeholder);
                                                                 video.setMediaController(mediaController);
                                                             }
-                                                            if(progressBar != null)
+                                                            if (progressBar != null)
                                                                 progressBar.setIndeterminate(false);
-                                                            if(gifSave != null) {
+                                                            if (gifSave != null) {
                                                                 gifSave.setOnClickListener(new View.OnClickListener() {
                                                                     @Override
                                                                     public void onClick(View v) {
@@ -529,8 +536,8 @@ public class GifUtils {
                                                                 @Override
                                                                 public void onPrepared(MediaPlayer mp) {
 
-                                                                    if(placeholder != null)
-                                                                    placeholder.setVisibility(View.GONE);
+                                                                    if (placeholder != null)
+                                                                        placeholder.setVisibility(View.GONE);
                                                                     mp.setLooping(true);
 
 
@@ -556,12 +563,6 @@ public class GifUtils {
         }
 
 
-    }
-    public static String getSmallerGfy(String gfyUrl) {
-        gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
-        if (!gfyUrl.endsWith("-mobile.mp4"))
-            gfyUrl = gfyUrl.replaceAll("\\.mp4", "-mobile.mp4");
-        return gfyUrl;
     }
 
 }

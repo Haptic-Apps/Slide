@@ -85,7 +85,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
-                builder.title("Select a subreddit to add")
+                builder.title(R.string.reorder_subreddits_title)
                         .items(subsAsChar)
                         .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
@@ -184,10 +184,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 new MaterialDialog.Builder(ReorderSubreddits.this)
-                        .title("Add a subreddit")
+                        .title(R.string.reorder_add_subreddit)
                         .inputRangeRes(2, 20, R.color.md_red_500)
                         .alwaysCallInputCallback()
-                        .input("Subreddit name", null, false, new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence raw) {
                                 input = raw.toString();
@@ -298,8 +298,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle("Remove this sub?")
-                            .setMessage("You will not be unsubscribed, but will not see this subreddit in your sidebar!")
+                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
+                            .setMessage(R.string.reorder_remove_msg)
                             .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

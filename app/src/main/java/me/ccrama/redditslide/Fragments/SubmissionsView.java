@@ -415,7 +415,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             public void run() {
                 if (mSwipeRefreshLayout != null) {
                     mSwipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(mSwipeRefreshLayout.getContext(), "Last updated " + TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
                 }
                 adapter.notifyDataSetChanged();
             }

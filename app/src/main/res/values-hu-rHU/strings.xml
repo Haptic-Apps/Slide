@@ -11,17 +11,11 @@
   <string name="theme_dark">Sötét</string>
   <string name="theme_subreddit_color">Szín módosítása</string>
   <string name="theme_card">Kártya</string>
-  <string name="theme_match_always">Mindig egyezik</string>
-  <string name="theme_text">Szöveg színe</string>
-  <string name="theme_card_type">Kártyatípus</string>
   <string name="font_size">Betűméret</string>
   <string name="font_large">Nagy</string>
   <string name="font_medium">Közepes</string>
   <string name="font_small">Kicsi</string>
   <string name="card_picture">Nagy kép</string>
-  <string name="card_picture_cropped">Levágott nagy kép</string>
-  <string name="card_infobar">Infósáv</string>
-  <string name="card_thumbnail">Bályegkép</string>
   <string name="multi_column_title">Több oszlop</string>
   <string name="drawer_profile">Profil</string>
   <string name="drawer_goto_profile">Menj a profilra</string>
@@ -42,7 +36,6 @@
   <string name="comment_gild">Hozzászólás aranyozása</string>
   <string name="comment_report">Hozzászólás jelentése</string>
   <string name="comment_share">Hozzászólás megosztása</string>
-  <string name="comment_load_more">További hozzászólások betöltése</string>
   <string name="tutorial_skip">Kihagyás</string>
   <string name="sorting_day">elmúlt 24 óra</string>
   <string name="sorting_week">múlt hét</string>
@@ -59,5 +52,4 @@
   <string name="settings_bugs">Hibajelentés</string>
   <string name="settings_title_notifications">Értesítések</string>
   <string name="settings_title_multi_column">Több oszlop</string>
-  <string name="settings_subhead_support">Segítség</string>
 </resources>

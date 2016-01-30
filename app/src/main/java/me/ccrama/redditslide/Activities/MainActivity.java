@@ -96,6 +96,9 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
+import me.ccrama.redditslide.util.NetworkUtil;
+
+
 public class MainActivity extends BaseActivity {
     public static final String EXTRA_PAGE_TO = "pageTo";
     public static final String IS_ONLINE = "online";
@@ -981,9 +984,9 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(final DialogInterface dialog, final int which) {
                             new AlertDialogWrapper.Builder(MainActivity.this)
-                                    .setTitle("Switch or Delete")
-                                    .setMessage("Would you like to switch to this account or remove this account?")
-                                    .setPositiveButton("Switch", new DialogInterface.OnClickListener() {
+                                    .setTitle(R.string.drawer_account_switch)
+                                    .setMessage(R.string.drawer_account_switch_msg)
+                                    .setPositiveButton(R.string.btn_switch, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which2) {
                                             if (!accounts.get(keys.get(which)).isEmpty()) {
@@ -995,7 +998,7 @@ public class MainActivity extends BaseActivity {
 
                                             Reddit.forceRestart(MainActivity.this);
                                         }
-                                    }).setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                    }).setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog2, int which2) {
                                     Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
@@ -1259,7 +1262,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (Authentication.isLoggedIn && Authentication.didOnline) {
+        if (Authentication.isLoggedIn && Authentication.didOnline  && NetworkUtil.isConnected(MainActivity.this)) {
             new AsyncNotificationBadge().execute();
         }
     }
@@ -1304,7 +1307,7 @@ public class MainActivity extends BaseActivity {
                     if (adapter.getCurrentFragment() != null) {
                         SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
                         if (p.offline && p.cached != null) {
-                            Toast.makeText(MainActivity.this, "Last updated " + TimeUtils.getTimeAgo(p.cached.time, MainActivity.this), Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
 
 
                         }
@@ -1396,6 +1399,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
             if (count == 0) {
                 headerMain.findViewById(R.id.count).setVisibility(View.GONE);
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

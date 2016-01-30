@@ -28,8 +28,6 @@
   <string name="theme_dark">Malluma</string>
   <string name="theme_black">AMOLED-nigra</string>
   <string name="theme_card">Karto</string>
-  <string name="theme_text">Tekstkoloro</string>
-  <string name="theme_card_type">Kartotipo</string>
   <string name="font_size">Tipara grando</string>
   <string name="font_large">Granda</string>
   <string name="font_medium">Meza</string>
@@ -91,6 +89,7 @@
   <string name="mail_author_wrote">%1$s skribis&#8230;</string>
   <string name="mail_hint_recipient">Ricevonto</string>
   <string name="mail_hint_subject">Temo</string>
+  <string name="mail_hint_body">Teksto</string>
   <string name="mail_send_to">Sendi mesaĝon al %1$s</string>
   <string name="mail_send">Sendi mesaĝon</string>
   <string name="mail_notification_msg">Nova mesaĝo de %1$s</string>
@@ -149,6 +148,7 @@
   <string name="title_share">Konigi per</string>
   <string name="title_theme_settings">Etoso</string>
   <string name="donate_btn">Donaci</string>
+  <string name="website_back">Reen</string>
   <string name="time_just_now">ĵus</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto antaŭe</item>

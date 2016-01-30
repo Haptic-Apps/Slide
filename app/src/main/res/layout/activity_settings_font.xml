@@ -33,7 +33,7 @@ android:background="?attr/activity_background">
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="Comment font"
+            android:text="@string/settings_font_comment"
             android:padding="16dp"
             android:textAllCaps="true"
             android:textStyle="bold"
@@ -98,14 +98,14 @@ android:background="?attr/activity_background">
 
            <com.devspark.robototextview.widget.RobotoRadioButton
                android:layout_width="match_parent"
-               android:text="Regular"
+               android:text="@string/settings_font_regular"
                android:background="?android:selectableItemBackground"
                android:id="@+id/creg"
                app:typeface="roboto_regular"
                android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:layout_width="match_parent"
-                android:text="Slab"
+                android:text="@string/settings_font_slab"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/cslab"
 
@@ -116,7 +116,7 @@ android:background="?attr/activity_background">
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/ccond"
 
-                android:text="Condensed"
+                android:text="@string/settings_font_condensed"
                 app:typeface="roboto_condensed_regular"
                 android:layout_height="wrap_content" />
 
@@ -125,7 +125,7 @@ android:background="?attr/activity_background">
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="Post title font"
+            android:text="@string/settings_font_post"
             android:padding="16dp"
             android:textAllCaps="true"
             android:textStyle="bold"
@@ -190,7 +190,7 @@ android:background="?attr/activity_background">
 
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:layout_width="match_parent"
-                android:text="Regular"
+                android:text="@string/settings_font_regular"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/sreg"
 
@@ -198,7 +198,7 @@ android:background="?attr/activity_background">
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:layout_width="match_parent"
-                android:text="Light"
+                android:text="@string/settings_font_light"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/sregl"
 
@@ -206,7 +206,7 @@ android:background="?attr/activity_background">
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:layout_width="match_parent"
-                android:text="Slab"
+                android:text="@string/settings_font_slab"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/sslab"
 
@@ -214,7 +214,7 @@ android:background="?attr/activity_background">
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
                 android:layout_width="match_parent"
-                android:text="Slab Light"
+                android:text="@string/settings_font_slab_light"
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/sslabl"
 
@@ -225,7 +225,7 @@ android:background="?attr/activity_background">
                 android:background="?android:selectableItemBackground"
                 android:id="@+id/scond"
 
-                android:text="Condensed"
+                android:text="@string/settings_font_condensed"
                 app:typeface="roboto_condensed_regular"
                 android:layout_height="wrap_content" />
             <com.devspark.robototextview.widget.RobotoRadioButton
@@ -233,7 +233,7 @@ android:background="?attr/activity_background">
             android:background="?android:selectableItemBackground"
             android:id="@+id/scondl"
 
-            android:text="Condensed Light"
+            android:text="@string/settings_font_condensed_light"
             app:typeface="roboto_condensed_light"
             android:layout_height="wrap_content" />
 

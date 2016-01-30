@@ -248,7 +248,7 @@ public class FullscreenImage extends FullScreenActivity {
         final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
         shareImageIntent.setType("image/png");
-        startActivity(Intent.createChooser(shareImageIntent, "Share image with"));
+        startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
 
 
     }

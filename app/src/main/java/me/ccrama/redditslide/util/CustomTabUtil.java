@@ -37,7 +37,8 @@ public class CustomTabUtil {
                     .setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real)
                     .setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real)
 
-                    .setActionButton(BitmapFactory.decodeResource(res, R.drawable.share), "Share",
+                    .setActionButton(BitmapFactory.decodeResource(res, R.drawable.share),
+                            contextActivity.getString(R.string.submission_link_share),
                             createPendingShareIntent(contextActivity.getApplicationContext(), url))
                     .setCloseButtonIcon(BitmapFactory.decodeResource(res, R.drawable.ic_arrow_back_white_24dp));
 

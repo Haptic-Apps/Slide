@@ -23,7 +23,7 @@ public class SettingsFont extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_font);
-        setupAppBar(R.id.toolbar, "Font Settings", true, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_font, true, true);
 
         final TextView colorComment = (TextView) findViewById(R.id.commentFont);
         colorComment.setText(new FontPreferences(this).getCommentFontStyle().getTitle());

@@ -853,9 +853,9 @@ public class PopulateSubmissionViewHolder {
                             @Override
                             protected void onPostExecute(Void aVoid) {
                                 if (submission.saved) {
-                                    Snackbar.make(recyclerview, "Submission saved", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(recyclerview, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    Snackbar.make(recyclerview, "Submission un-saved", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(recyclerview, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
 
                                 }
 
@@ -1025,7 +1025,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                 case IMGUR:
-                    title.setText("Imgur content");
+                    title.setText(R.string.type_imgur);
                     break;
                 case GFY:
                 case GIF:

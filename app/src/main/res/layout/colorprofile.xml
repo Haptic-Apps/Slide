@@ -184,7 +184,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/friend"
 
-                                android:text="Friend"
+                                android:text="@string/profile_friend"
 
                                 android:textColor="?attr/font"
 

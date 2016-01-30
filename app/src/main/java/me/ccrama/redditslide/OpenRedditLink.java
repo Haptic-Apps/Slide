@@ -147,7 +147,7 @@ public class OpenRedditLink {
             }
         }
         if (targetIntents.size() > 0) {
-            Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), "Open URL with");
+            Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), c.getString(R.string.misc_link_chooser));
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
             c.startActivity(chooserIntent);
         } else

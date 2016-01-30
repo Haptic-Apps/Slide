@@ -17,6 +17,14 @@
     <string name="general_pro">Slide for Reddit Pro</string>
 
 
+    <string name="settings_font_regular">Regular</string>
+    <string name="settings_font_slab">Slab</string>
+    <string name="settings_font_condensed">Condensed</string>
+    <string name="settings_font_condensed_light">Condensed Light</string>
+    <string name="settings_font_slab_light">Slab Light</string>
+    <string name="settings_font_light">Light</string>
+
+
     <!-- Useful strings displayed at startup -->
     <string-array name="startup_strings">
         <item>Giving Carter a banana</item>

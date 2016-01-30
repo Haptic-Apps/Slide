@@ -61,7 +61,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="DOMAIN FILTERS"
+                        android:text="@string/settings_filter_domain"
+                        android:textAllCaps="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font"
                         android:textStyle="bold"/>
@@ -75,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="Enter strings to match separated by commas"
+                    android:hint="@string/settings_filter_hint"
                     android:textSize="14sp"/>
 
 
@@ -110,7 +111,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="SELFTEXT FILTERS"
+                        android:textAllCaps="true"
+                        android:text="@string/settings_filter_selfttext"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font"
                         android:textStyle="bold"/>
@@ -125,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="Enter strings to match separated by commas"
+                    android:hint="@string/settings_filter_hint"
                     android:textSize="14sp"/>
 
 
@@ -160,7 +162,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="TITLE FILTERS"
+                        android:text="@string/settings_filter_title"
+                        android:textAllCaps="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font"
                         android:textStyle="bold"/>
@@ -175,7 +178,7 @@
                     android:layout_marginLeft="16dp"
 
                     android:layout_marginRight="16dp"
-                    android:hint="Enter strings to match separated by commas"
+                    android:hint="@string/settings_filter_hint"
                     android:textSize="14sp"/>
 
 

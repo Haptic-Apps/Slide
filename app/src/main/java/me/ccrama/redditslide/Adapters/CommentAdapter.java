@@ -414,7 +414,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                     }
                                 })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
@@ -497,7 +497,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 });
                 final boolean[] saved = {n.isSaved()};
                 if (saved[0]) {
-                    ((TextView) dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
                 }
                 dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -538,7 +538,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
-                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
 
                                     saved[0] = true;
                                 }
@@ -1093,7 +1093,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             nextPos = getRealPosition(nextPos);
 
             final MoreChildItem baseNode = (MoreChildItem) users.get(nextPos);
-            ((TextView) holder.itemView.findViewById(R.id.content)).setText("Load " + baseNode.children.getCount() + " more");
+            ((TextView) holder.itemView.findViewById(R.id.content)).setText(
+                    mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
 
 
 
@@ -1111,7 +1112,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
-                        ((TextView) holder.itemView.findViewById(R.id.content)).setText("Loading more comments...");
+                        ((TextView) holder.itemView.findViewById(R.id.content)).setText(R.string.comment_loading_more);
                         new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) , holder.getAdapterPosition() , holder).execute(baseNode);
                     }
 

@@ -59,7 +59,7 @@ public class SettingsSubreddit extends BaseActivity {
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
-                builder.title("Select a subreddit to add")
+                builder.title(R.string.reorder_add_subreddit)
                         .items(subsAsChar)
                         .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override

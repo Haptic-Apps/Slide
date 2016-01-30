@@ -23,7 +23,7 @@ public class SettingsFilter extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_filters);
-        setupAppBar(R.id.toolbar, "Filters", true, true);
+        setupAppBar(R.id.toolbar, R.string.settings_title_filter, true, true);
 
 
         title = (EditText) findViewById(R.id.title);

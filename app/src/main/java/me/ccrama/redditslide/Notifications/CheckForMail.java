@@ -90,7 +90,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     messages.get(0).getSubject(), messages.get(0).getAuthor()))
                             .setContentText(Html.fromHtml(messages.get(0).getBody()))
                             .setStyle(notiStyle)
-                            .addAction(R.drawable.ic_check_all_black, "Mark as read", readPI)
+                            .addAction(R.drawable.ic_check_all_black, c.getString(R.string.misc_mark_read), readPI)
                             .build();
                     notificationManager.notify(0, notification);
                 } else {
@@ -127,7 +127,7 @@ public class CheckForMail extends BroadcastReceiver {
                             .setAutoCancel(true)
                             .setContentTitle(res.getQuantityString(R.plurals.mail_notification_title, amount, amount))
                             .setStyle(notiStyle)
-                            .addAction(R.drawable.ic_check_all_black, "Mark as read", readPI)
+                            .addAction(R.drawable.ic_check_all_black, c.getString(R.string.misc_mark_read), readPI)
                             .build();
                     notificationManager.notify(0, notification);
                 }

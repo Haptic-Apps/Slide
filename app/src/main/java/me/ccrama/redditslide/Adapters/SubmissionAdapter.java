@@ -139,7 +139,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             (sContext).startActivity(i2);
                         }
                     } else {
-                        Snackbar.make(holder.itemView, "Please go back online and select 'Cache comments' from the 3 dot menu to view comments offline.", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
                     }
 
                 }

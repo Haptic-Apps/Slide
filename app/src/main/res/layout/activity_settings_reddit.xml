@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:padding="8dp"
                     android:textSize="14sp"
-                    android:text="If you are not seeing NSFW content or previews, make sure to select 'I am 18 years old' and 'Show NSFW Thumbnails' at the reddit.com preferences screen below."
+                    android:text="@string/settings_nsfw_info"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
@@ -108,7 +108,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
 
-                    android:text="View all reddit.com preferences"
+                    android:text="@string/settings_prefs_reddit"
                     android:textColor="?attr/font"
                     android:textSize="16sp"
                     android:textStyle="bold" />
