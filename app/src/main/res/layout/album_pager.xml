@@ -17,7 +17,7 @@
         android:elevation="5dp"
         android:minHeight="60dp"
         android:paddingRight="16dp"
-
+        android:theme="@style/Theme.AppCompat"
         >
 
         <ImageView

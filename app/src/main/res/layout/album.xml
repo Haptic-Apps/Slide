@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:background="#ff282828"
         android:clipToPadding="false"
+        android:theme="@style/Theme.AppCompat"
         android:elevation="5dp"
         android:minHeight="60dp"
         android:paddingRight="16dp"

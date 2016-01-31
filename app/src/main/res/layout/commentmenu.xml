@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:ellipsize="end"
+                android:textColor="#fff"
                 android:maxLines="2"
                 android:padding="24dp"
                 android:text="Post title here"

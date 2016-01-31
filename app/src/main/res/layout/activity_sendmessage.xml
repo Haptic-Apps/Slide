@@ -17,7 +17,7 @@
         android:minHeight="60dp"
         android:paddingRight="16dp"
         android:title="@string/editor_submit"
-
+        android:theme="@style/Theme.AppCompat"
         >
 
 

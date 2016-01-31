@@ -73,7 +73,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/submission_np_link"
-            android:textColor="?attr/font"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
         <TextView
@@ -83,7 +83,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/submission_info_archived"
-            android:textColor="?attr/font"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
         <TextView

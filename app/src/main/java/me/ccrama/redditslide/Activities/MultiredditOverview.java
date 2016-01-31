@@ -291,7 +291,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return usedArray.get(position).getDisplayName();
+            return usedArray.get(position).getFullName();
         }
     }
 

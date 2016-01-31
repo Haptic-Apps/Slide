@@ -23,8 +23,7 @@
             android:minHeight="60dp"
             android:paddingRight="16dp"
             app:layout_scrollFlags="scroll|enterAlways"
-
-            >
+            android:theme="@style/Theme.AppCompat">
 
 
         </android.support.v7.widget.Toolbar>
