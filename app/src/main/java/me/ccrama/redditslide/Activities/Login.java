@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -13,6 +14,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.oauth.Credentials;
@@ -78,11 +81,24 @@ public class Login extends BaseActivityAnim {
     private final class UserChallengeTask extends AsyncTask<String, Void, OAuthData> {
         private final OAuthHelper mOAuthHelper;
         private final Credentials mCredentials;
+        private MaterialDialog mMaterialDialog;
 
         public UserChallengeTask(OAuthHelper oAuthHelper, Credentials credentials) {
             Log.v(LogUtil.getTag(), "UserChallengeTask()");
             mOAuthHelper = oAuthHelper;
             mCredentials = credentials;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //Show a dialog to indicate progress
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)
+                    .title("Slide is authenticating")
+                    .progress(true, 0)
+                    .content(R.string.misc_please_wait)
+                    .cancelable(false);
+            mMaterialDialog = builder.build();
+            mMaterialDialog.show();
         }
 
         @Override
@@ -103,31 +119,6 @@ public class Login extends BaseActivityAnim {
                     editor.putString("lasttoken", refreshToken);
                     Reddit.appRestart.edit().remove("back").commit();
                     editor.apply();
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Login.this);
-                            builder.setTitle(R.string.login_restarting_title);
-                            builder.setMessage(R.string.login_restart_msg);
-                            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Reddit.forceRestart(Login.this);
-                                }
-                            });
-                            builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                @Override
-                                public void onCancel(DialogInterface dialog) {
-                                    Reddit.forceRestart(Login.this);
-
-                                }
-                            });
-
-                            builder.show();
-                        }
-                    });
-
-
                 } else {
                     Log.e(LogUtil.getTag(), "Passed in OAuthData was null");
                 }
@@ -142,8 +133,34 @@ public class Login extends BaseActivityAnim {
 
         @Override
         protected void onPostExecute(OAuthData oAuthData) {
+            //Dismiss old progress dialog
+            mMaterialDialog.dismiss();
 
-
+            if (oAuthData != null) {
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Login.this)
+                        .setTitle(R.string.login_restarting_title)
+                        .setMessage(R.string.login_restart_msg)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Reddit.forceRestart(Login.this);
+                            }
+                        });
+                builder.show();
+            } else {
+                //Show a dialog if data is null
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)
+                        .title(R.string.err_authentication)
+                        .content(R.string.err_retry_later)
+                        .neutralText(R.string.btn_ok)
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@Nullable MaterialDialog dialog, @Nullable DialogAction which) {
+                                Reddit.forceRestart(Login.this);
+                            }
+                        });
+                builder.show();
+            }
         }
     }
 

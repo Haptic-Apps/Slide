@@ -751,7 +751,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    chooseAccounts();
+                    chooseAccounts(true);
                 }
             });
             //update notification badge
@@ -966,7 +966,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public void chooseAccounts() {
+    public void chooseAccounts(boolean cancelable) {
 
         final HashMap<String, String> accounts = new HashMap<>();
 
@@ -986,6 +986,7 @@ public class MainActivity extends BaseActivity {
         } else {
             new AlertDialogWrapper.Builder(MainActivity.this)
                     .setTitle(R.string.general_switch_acc)
+                    .setCancelable(cancelable)
                     .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialog, final int which) {
@@ -1019,7 +1020,7 @@ public class MainActivity extends BaseActivity {
                                     dialog2.dismiss();
 
 
-                                    chooseAccounts();
+                                    chooseAccounts(false);
 
                                 }
                             }).show();

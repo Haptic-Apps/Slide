@@ -211,7 +211,7 @@
     <string name="err_login">You have to log in to do that! Log in now?</string>
     <string name="err_permission">Permission was Denied</string>
     <string name="err_permission_msg">It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(. \nWould you like to allow Slide to access external storage?</string>
-
+    <string name="err_authentication">Authentication failed</string>
 
     <!-- Gif -->
     <string name="gif_err_title">GIF not found</string>
