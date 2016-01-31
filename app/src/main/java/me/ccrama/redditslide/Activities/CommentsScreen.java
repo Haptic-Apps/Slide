@@ -166,7 +166,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
-            args.putString("subreddit", multireddit == null?baseSubreddit:"multi"+multireddit);
+            args.putString("subreddit", multireddit == null?subreddit:multireddit);
+            args.putString("baseSubreddit", multireddit == null?baseSubreddit:"multi"+multireddit);
+
             f.setArguments(args);
 
             return f;

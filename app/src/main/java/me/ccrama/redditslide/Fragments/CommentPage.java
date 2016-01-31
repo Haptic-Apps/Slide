@@ -56,6 +56,7 @@ public class CommentPage extends Fragment {
     private CommentAdapter adapter;
     private String fullname;
     private String id;
+    private String baseSubreddit;
     private String context;
 
     private void reloadSubs() {
@@ -314,7 +315,7 @@ public class CommentPage extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
 
-        OfflineSubreddit o = new OfflineSubreddit(subreddit);
+        OfflineSubreddit o = new OfflineSubreddit(baseSubreddit);
         if(o.submissions.size() > 0 && o.submissions.get(page).getComments() != null){
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
             if (o.submissions.size() > 0)
@@ -391,10 +392,10 @@ public class CommentPage extends Fragment {
             adapter.reset(getContext(), comments, rv, comments.submission);
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, new OfflineSubreddit(subreddit).submissions.get(page));
+                adapter.reset(getContext(), comments, rv, new OfflineSubreddit(baseSubreddit).submissions.get(page));
             } catch(Exception ignored){}
         } else {
-            adapter.reset(getContext(), comments, rv, new OfflineSubreddit(subreddit).submissions.get(page));
+            adapter.reset(getContext(), comments, rv, new OfflineSubreddit(baseSubreddit).submissions.get(page));
         }
     }
 
@@ -410,6 +411,8 @@ public class CommentPage extends Fragment {
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
         subreddit = bundle.getString("subreddit", "");
+        baseSubreddit = bundle.getString("baseSubreddit", "");
+
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
     }
 
