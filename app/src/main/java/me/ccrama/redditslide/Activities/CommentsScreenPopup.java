@@ -32,6 +32,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
     OverviewPagerAdapter comments;
     private List<Submission> posts;
     String subreddit;
+    String multireddit;
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -95,10 +96,9 @@ public class CommentsScreenPopup extends BaseActivityAnim {
             String name = posts.get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
             Log.v(LogUtil.getTag(), name.substring(3, name.length()));
-            args.putString("subreddit", posts.get(i).getSubredditName());
             args.putBoolean("archived", posts.get(i).isArchived());
             args.putInt("page", i);
-            args.putString("subreddit", subreddit);
+            args.putString("subreddit", multireddit==null?subreddit:"multi"+multireddit);
 
             f.setArguments(args);
 

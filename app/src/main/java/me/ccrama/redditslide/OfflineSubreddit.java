@@ -42,14 +42,13 @@ public class OfflineSubreddit {
     }
 
     public OfflineSubreddit setComment(String fullname, Submission submission){
-        int index = 0;
         for(Submission s : submissions){
             if(s.getFullName().equals(fullname)){
+                int index = submissions.indexOf(s);
                 submissions.remove(s);
                 submissions.add(index, submission);
                 break;
             }
-            index++;
         }
         return this;
     }

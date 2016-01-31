@@ -97,6 +97,8 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     if (SettingValues.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
                         i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
+                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
+
                         (mContext).startActivity(i2);
 
                     } else {

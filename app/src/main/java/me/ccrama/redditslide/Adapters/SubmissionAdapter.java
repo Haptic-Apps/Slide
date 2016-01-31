@@ -16,7 +16,6 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +45,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -71,14 +69,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
 
-
-        Log.v(LogUtil.getTag(), subreddit + " CUSTOM IS " + custom);
     }
 
     @Override
     public void setError(Boolean b) {
         listView.setAdapter(new ErrorAdapter());
-        Log.v(LogUtil.getTag(), "SETTING ADAPTER");
     }
 
     @Override
@@ -127,6 +122,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder2.itemView.setAlpha(0.5f);
                         if (SettingValues.tabletUI && sContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(sContext, CommentsScreenPopup.class);
+                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition());
                             (sContext).startActivity(i2);
 

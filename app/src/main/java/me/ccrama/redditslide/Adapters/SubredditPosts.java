@@ -116,8 +116,6 @@ public class SubredditPosts implements PostLoader {
                 // end of submissions
                 nomore = true;
             } else if (!new OfflineSubreddit(subreddit).submissions.isEmpty()  && !nomore && SettingValues.cache) {
-                // is offline
-                Log.v(LogUtil.getTag(), "GETTING SUB " + subreddit.toLowerCase());
                 offline = true;
                 final OfflineSubreddit cached = new OfflineSubreddit(subreddit);
 
@@ -190,7 +188,6 @@ public class SubredditPosts implements PostLoader {
                     nomore = true;
                 }
 
-                new OfflineSubreddit(subreddit).overwriteSubmissions(things).writeToMemory();
             } catch(Exception e){
                 e.printStackTrace();
 

@@ -45,7 +45,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     OverviewPagerAdapter comments;
     private String subreddit;
+    private String baseSubreddit;
 
+    String multireddit;
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -54,21 +56,23 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         StyleView.styleActivity(this);
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
-        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
-        String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
+        baseSubreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+        subreddit = baseSubreddit;
+        multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
             ((MultiredditPosts)subredditPosts).skipOne = true;
 
         } else {
-            subredditPosts = new SubredditPosts(subreddit);
-            ((SubredditPosts)subredditPosts).skipOne = true;
+            baseSubreddit = subreddit.toLowerCase();
+            subredditPosts = new SubredditPosts(baseSubreddit);
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            subredditPosts.getPosts().addAll(new OfflineSubreddit(subreddit).submissions);
+            Log.v(LogUtil.getTag(), "LOADING " + (multireddit == null ? baseSubreddit : "multi" + multireddit));
+                    subredditPosts.getPosts().addAll(new OfflineSubreddit(multireddit == null?baseSubreddit:"multi" +multireddit).submissions);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
@@ -160,10 +164,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
             Log.v(LogUtil.getTag(), name.substring(3, name.length()));
-            args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
-            args.putString("subreddit", subreddit);
+            args.putString("subreddit", multireddit == null?baseSubreddit:"multi"+multireddit);
             f.setArguments(args);
 
             return f;
