@@ -106,6 +106,8 @@
         android:id="@+id/subslist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="true"
         android:layout_below="@id/toolbar"
 
         android:orientation="vertical">
