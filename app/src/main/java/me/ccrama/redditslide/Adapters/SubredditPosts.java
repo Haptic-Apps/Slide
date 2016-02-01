@@ -10,9 +10,9 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Cache;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -168,8 +168,8 @@ public class SubredditPosts implements PostLoader {
                     paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
 
                 }
-                paginator.setSorting(Reddit.defaultSorting);
-                paginator.setTimePeriod(Reddit.timePeriod);
+                paginator.setSorting(Reddit.getSorting(subreddit));
+                paginator.setTimePeriod(Reddit.getTime(subreddit));
                 paginator.setLimit(25);
                 if(skipOne){
                     paginator.next();

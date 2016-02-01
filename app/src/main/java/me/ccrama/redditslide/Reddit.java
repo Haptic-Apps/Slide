@@ -30,6 +30,7 @@ import java.io.Writer;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -490,6 +491,35 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         SettingValues.tabletUI = isPackageInstalled(this);
 
 
+    }
+
+    public static void setSorting(String s, Sorting sort)
+    {
+        sorting.put(s, sort);
+    }
+
+    public static HashMap<String, Sorting> sorting = new HashMap<>();
+    public static Sorting getSorting(String subreddit) {
+        if (sorting.containsKey(subreddit)) {
+            return sorting.get(subreddit);
+        } else {
+            return defaultSorting;
+        }
+    }
+
+
+    public static void setTime(String s, TimePeriod sort)
+    {
+        times.put(s, sort);
+    }
+
+    public static HashMap<String, TimePeriod> times = new HashMap<>();
+    public static TimePeriod getTime(String subreddit) {
+        if (times.containsKey(subreddit)) {
+            return times.get(subreddit);
+        } else {
+            return Reddit.timePeriod;
+        }
     }
 
     public interface Listener {

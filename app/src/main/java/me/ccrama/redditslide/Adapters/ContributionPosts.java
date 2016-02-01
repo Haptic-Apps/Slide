@@ -115,7 +115,7 @@ public class ContributionPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
 
-                    paginator.setSorting(Reddit.defaultSorting);
+                    paginator.setSorting(Reddit.getSorting(subreddit));
                     paginator.setTimePeriod(Reddit.timePeriod);
                 }
 

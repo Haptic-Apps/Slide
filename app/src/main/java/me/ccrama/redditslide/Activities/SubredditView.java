@@ -265,7 +265,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             @Override
             public void onClick(View v) {
                 {
-                    openPopup(v);
+                    openPopup();
                 }
             }
         });
@@ -322,7 +322,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         });
     }
 
-    private void openPopup(View view) {
+    public void openPopup() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -330,81 +330,74 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.defaultSorting = Sorting.HOT;
+                        Reddit.setSorting(subreddit,  Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.defaultSorting = Sorting.NEW;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.defaultSorting = Sorting.RISING;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.HOUR;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.DAY;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.WEEK;
-                        //TODO WEEK
-
-
+                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 6:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.MONTH;
-
+                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 7:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.YEAR;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 8:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.ALL;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.ALL);
                         reloadSubs();
                         break;
                     case 9:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.HOUR;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 10:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.DAY;
-
-
+                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.DAY);
                         reloadSubs();
                         break;
+                    case 11:
+                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.WEEK);
+                        reloadSubs();
+                    case 12:
+                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.MONTH);
+                        reloadSubs();
+                    case 13:
+                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.YEAR);
+                        reloadSubs();
+                    case 14:
+                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.ALL);
+                        reloadSubs();
                 }
-
-                SettingValues.defaultSorting = Reddit.defaultSorting;
-                SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);

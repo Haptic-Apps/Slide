@@ -133,8 +133,8 @@ public class MultiredditPosts implements PostLoader {
             try {
                 if (reset || paginator == null) {
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                    paginator.setSorting(Reddit.defaultSorting);
-                    paginator.setTimePeriod(Reddit.timePeriod);
+                    paginator.setSorting(Reddit.getSorting(multiReddit.getDisplayName()));
+                    paginator.setTimePeriod(Reddit.getTime(multiReddit.getDisplayName()));
                     if(skipOne)
                         paginator.next();
                 }

@@ -54,7 +54,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     private int pastVisiblesItems;
     private int totalItemCount;
     public SubmissionAdapter adapter;
-    private String id;
+    public String id;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -275,6 +275,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         doAdapter();
         return v;
     }
+    public boolean main;
 
     public void doAdapter() {
         posts = new SubredditPosts(id);
@@ -330,6 +331,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
+        main = bundle.getBoolean("main", false);
     }
 
     private void refresh() {

@@ -1,18 +1,13 @@
 package me.ccrama.redditslide;
 
-import android.os.Environment;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.io.Files;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.meta.SubmissionSerializer;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,15 +40,8 @@ public class OfflineSubreddit {
             }
             String finals = s.toString();
             finals = finals.substring(0, finals.length() - 11);
-            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
-            File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "savednew.txt");
-            try {
-                f.createNewFile();
+            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
 
-                Files.write(finals, f, Charset.forName("UTF-8"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } else {
             StringBuilder s = new StringBuilder();
             s.append(System.currentTimeMillis()).append("<SEPARATOR>");
@@ -63,20 +51,14 @@ public class OfflineSubreddit {
             }
             String finals = s.toString();
             finals = finals.substring(0, finals.length() - 11);
-            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
-            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
-            File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator + "savednew.txt");
-            try {
-                f.createNewFile();
+            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
 
-                Files.write(finals, f, Charset.forName("UTF-8"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             dataNodes = null;
             System.gc();
 
         }
+        System.gc();
+
     }
 
     public OfflineSubreddit setCommentAndWrite(String fullname, JsonNode submission, Submission finalSub){

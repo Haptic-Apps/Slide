@@ -55,7 +55,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         super.onDestroy();
         if(o != null){
             o.writeToMemory();
-            System.gc();
         }
     }
     @Override
