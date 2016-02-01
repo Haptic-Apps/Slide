@@ -45,9 +45,19 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     OverviewPagerAdapter comments;
     private String subreddit;
+    public OfflineSubreddit o;
     private String baseSubreddit;
 
     String multireddit;
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(o != null){
+            o.writeToMemory();
+            System.gc();
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -72,7 +82,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
             Log.v(LogUtil.getTag(), "LOADING " + (multireddit == null ? baseSubreddit : "multi" + multireddit));
-                    subredditPosts.getPosts().addAll(new OfflineSubreddit(multireddit == null?baseSubreddit:"multi" +multireddit).submissions);
+            o =new OfflineSubreddit(multireddit == null?baseSubreddit:"multi" +multireddit);
+                    subredditPosts.getPosts().addAll(o.submissions);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
@@ -83,6 +94,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
             comments = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setOffscreenPageLimit(1);
             pager.setAdapter(comments);
             pager.setCurrentItem(firstPage);
 
@@ -166,7 +178,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
-            args.putString("subreddit", multireddit == null?subreddit:multireddit);
+            args.putString("subreddit", multireddit == null ? subreddit : multireddit);
             args.putString("baseSubreddit", multireddit == null?baseSubreddit:"multi"+multireddit);
 
             f.setArguments(args);

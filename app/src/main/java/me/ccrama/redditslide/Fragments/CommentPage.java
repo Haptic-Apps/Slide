@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Fragment which displays comment trees.
@@ -122,6 +124,7 @@ public class CommentPage extends Fragment {
         }
 
     }
+public OfflineSubreddit o;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -315,8 +318,13 @@ public class CommentPage extends Fragment {
 
         mSwipeRefreshLayout.setRefreshing(true);
 
-        OfflineSubreddit o = new OfflineSubreddit(baseSubreddit);
+        if(((CommentsScreen)getActivity()).o != null){
+           o =  ((CommentsScreen)getActivity()).o;
+        } else {
+            o   = new OfflineSubreddit(baseSubreddit);
+        }
         if(o.submissions.size() > 0 && o.submissions.get(page).getComments() != null){
+            Log.v(LogUtil.getTag(), "Loading from cached stuff");
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
             if (o.submissions.size() > 0)
                 adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());

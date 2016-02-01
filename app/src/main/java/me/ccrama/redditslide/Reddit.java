@@ -59,6 +59,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String domainFiltersRegex;
 
 
+
     public static Authentication authentication;
 
     public static Sorting defaultSorting;
