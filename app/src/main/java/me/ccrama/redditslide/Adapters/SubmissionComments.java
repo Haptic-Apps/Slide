@@ -154,10 +154,11 @@ public class SubmissionComments {
             try {
 
                 JsonNode node = getSubmissionNode(builder.build());
-                submission = SubmissionSerializer.withComments(node,  defaultSorting);
+                submission = SubmissionSerializer.withComments(node, defaultSorting);
                 CommentNode baseComment = submission.getComments();
 
-               page.o.setCommentAndWrite(submission.getFullName(), node, submission).writeToMemory();
+              /* if (page.o != null)
+                    page.o.setCommentAndWrite(submission.getFullName(), node, submission).writeToMemory();*/
 
                 comments = new ArrayList<>();
                 HashMap<Integer, MoreChildItem> waiting = new HashMap<>();

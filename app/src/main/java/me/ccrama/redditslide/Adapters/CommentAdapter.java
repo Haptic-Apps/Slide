@@ -166,7 +166,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         replie = new ArrayList<>();
 
 
-        notifyItemRangeChanged(1, users.size() + 1);
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
+            notifyDataSetChanged();
+        } else {
+            notifyItemRangeChanged(1, users.size() + 1);
+        }
         isSame = false;
 
 
@@ -174,12 +178,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int i = 1;
             for (CommentObject n : users) {
 
-                if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                    smoothScroller.setTargetPosition(i);
-                    (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
-                    break;
-                }
+                if (n instanceof CommentItem)
+
+                    if (n.comment.getComment().getFullName().contains(currentSelectedItem)) {
+
+                        Log.v(LogUtil.getTag(), "SCROLLING TO " + i);
+
+                        listView.smoothScrollToPosition(i);
+                        break;
+                    }
                 i++;
             }
         }
@@ -212,9 +219,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             for (CommentObject n : users) {
 
                 if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                    smoothScroller.setTargetPosition(i);
-                    (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
+                    listView.smoothScrollToPosition(i);
+
                     break;
                 }
                 i++;

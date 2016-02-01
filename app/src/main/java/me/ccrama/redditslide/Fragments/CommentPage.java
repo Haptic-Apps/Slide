@@ -124,7 +124,8 @@ public class CommentPage extends Fragment {
         }
 
     }
-public OfflineSubreddit o;
+
+    public OfflineSubreddit o;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -139,14 +140,14 @@ public OfflineSubreddit o;
                 int i = 1;
                 for (CommentObject n : comments.comments) {
 
-                    if(n instanceof CommentItem)
+                    if (n instanceof CommentItem)
 
-                    if (n.comment.getComment().getFullName().contains(fullname)) {
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i);
-                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                        break;
-                    }
+                        if (n.comment.getComment().getFullName().contains(fullname)) {
+                            RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                            smoothScroller.setTargetPosition(i);
+                            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                            break;
+                        }
                     i++;
                 }
 
@@ -214,13 +215,13 @@ public OfflineSubreddit o;
 
                         for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
-                            if(adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-                            if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                                smoothScroller.setTargetPosition(i + 1);
-                                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                                break;
-                            }
+                            if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                                if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                                    RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                                    smoothScroller.setTargetPosition(i + 1);
+                                    (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                                    break;
+                                }
                         }
                     }
                 }
@@ -233,14 +234,14 @@ public OfflineSubreddit o;
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
                         for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                            if(adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                            if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
 
                                 if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                                smoothScroller.setTargetPosition(i + 1);
-                                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                                break;
-                            }
+                                    RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                                    smoothScroller.setTargetPosition(i + 1);
+                                    (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                                    break;
+                                }
                         }
                     }
                 }
@@ -318,12 +319,14 @@ public OfflineSubreddit o;
 
         mSwipeRefreshLayout.setRefreshing(true);
 
-        if(((CommentsScreen)getActivity()).o != null){
-           o =  ((CommentsScreen)getActivity()).o;
-        } else {
-            o   = new OfflineSubreddit(baseSubreddit);
+        if (!single) {
+            if (((CommentsScreen) getActivity()).o != null) {
+                o = ((CommentsScreen) getActivity()).o;
+            } else {
+                o = new OfflineSubreddit(baseSubreddit);
+            }
         }
-        if(o.submissions.size() > 0 && o.submissions.get(page).getComments() != null){
+        if (o != null && o.submissions.size() > 0 && o.submissions.get(page).getComments() != null) {
             Log.v(LogUtil.getTag(), "Loading from cached stuff");
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
             if (o.submissions.size() > 0)
@@ -375,33 +378,21 @@ public OfflineSubreddit o;
 
     public void doData(Boolean b) {
         if (adapter == null || single) {
-            if (context != null && !context.equals(Reddit.EMPTY_STRING)) {
-                adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-                if (single) {
-                    adapter.currentSelectedItem = context;
+            adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
 
-                    int i = 1;
-                    for (CommentObject n : comments.comments) {
-                        if(n instanceof CommentItem)
 
-                        if (n.comment.getComment().getFullName().contains(context)) {
-                            RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                            smoothScroller.setTargetPosition(i);
-                            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                            break;
-                        }
-                        i++;
-                    }
-                }
-            } else {
-                adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-            }
             rv.setAdapter(adapter);
+            adapter.currentSelectedItem = context;
+
             adapter.reset(getContext(), comments, rv, comments.submission);
+
+
+
         } else if (!b) {
             try {
                 adapter.reset(getContext(), comments, rv, new OfflineSubreddit(baseSubreddit).submissions.get(page));
-            } catch(Exception ignored){}
+            } catch (Exception ignored) {
+            }
         } else {
             adapter.reset(getContext(), comments, rv, new OfflineSubreddit(baseSubreddit).submissions.get(page));
         }
@@ -425,6 +416,7 @@ public OfflineSubreddit o;
     }
 
     public String subreddit;
+
     @Override
     public void onPause() {
         super.onPause();
