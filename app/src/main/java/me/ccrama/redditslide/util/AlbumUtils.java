@@ -96,6 +96,8 @@ public class AlbumUtils {
 
         @Override
         protected Void doInBackground(final String... sub) {
+
+
             if (gallery) {
                 Ion.with(baseActivity)
                         .load("https://imgur.com/gallery/" + hash + ".json")
@@ -151,7 +153,7 @@ public class AlbumUtils {
 
                                     if (openExternalNotAlbum) {
                                         Intent i = new Intent(baseActivity, Website.class);
-                                        i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + sub[0]);
+                                        i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
 
                                         baseActivity.startActivity(i);
                                     }
@@ -163,9 +165,9 @@ public class AlbumUtils {
 
                         });
             } else {
-                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + hash + ".json");
                 Ion.with(baseActivity)
-                        .load("http://api.imgur.com/2/album" + sub[0] + ".json")
+                        .load("http://api.imgur.com/2/album" + hash + ".json")
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
@@ -310,9 +312,9 @@ public class AlbumUtils {
 
                         });
             } else {
-                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + sub[0] + ".json");
+                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + hash + ".json");
                 Ion.with(baseActivity)
-                        .load("http://api.imgur.com/2/album" + sub[0] + ".json")
+                        .load("http://api.imgur.com/2/album" +hash + ".json")
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                                          @Override

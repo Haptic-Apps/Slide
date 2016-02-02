@@ -206,8 +206,7 @@
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/thumbimage2"
                         android:layout_width="70dp"
-                        android:layout_height="wrap_content"
-                        android:maxHeight="50dp"
+                        android:layout_height="60dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"

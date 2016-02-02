@@ -6,12 +6,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
-
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -51,25 +49,14 @@ public class GifView extends FullScreenActivity {
             }
         });
 
-        if (dat.contains("webm") && dat.contains("imgur")) {
-            dat = dat.replace("webm", "gifv");
-        }
-        if (dat.contains("mp4") && dat.contains("imgur")) {
-            dat = dat.replace("mp4", "gifv");
-        }
 
-        if (dat.endsWith("v")) {
-            dat = dat.substring(0, dat.length() - 1);
-        } else if (dat.contains("gfycat")) {
-            dat = dat.substring(3, dat.length());
-        }
 
 
         prefs = getSharedPreferences("DATA", 0);
 
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
-        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),findViewById(R.id.gifsave), true).execute(dat);
+        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, null,findViewById(R.id.gifsave), true).execute(dat);
 
     }
 

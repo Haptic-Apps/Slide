@@ -79,6 +79,7 @@ public class SubredditPosts implements PostLoader {
             this.displayer = displayer;
             this.reset = reset;
         }
+        boolean usedOffline;
 
         @Override
         public void onPostExecute(List<Submission> submissions) {
@@ -108,6 +109,7 @@ public class SubredditPosts implements PostLoader {
 
                 final int finalStart = start;
 
+                if(!usedOffline)
                 new OfflineSubreddit(subreddit).overwriteSubmissions(posts).writeToMemory();
 
                 // update online
@@ -158,6 +160,28 @@ public class SubredditPosts implements PostLoader {
                 offline = true;
                 doneOnce = true;
                 return null;
+            }
+
+            OfflineSubreddit o = new OfflineSubreddit(subreddit);
+            if(paginator == null &&  o.submissions.size() > 0 && System.currentTimeMillis() - o.time > 300000 && !usedOffline){
+                usedOffline = true;
+                offline = false;
+
+                return o.submissions;
+            }
+
+            if(usedOffline){
+                Log.v(LogUtil.getTag(), "Loading more from offline state");
+                paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
+                paginator.setLimit(25);
+                paginator.setSorting(Reddit.getSorting(subreddit));
+                paginator.setTimePeriod(Reddit.getTime(subreddit));
+
+                for(int i = 0; i < o.submissions.size(); i+= 25){
+                    paginator.next();
+                    //get it caught up when more data is loaded
+                }
+
             }
 
             if (reset || paginator == null) {

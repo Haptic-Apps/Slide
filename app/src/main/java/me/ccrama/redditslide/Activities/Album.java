@@ -56,7 +56,7 @@ public class Album extends FullScreenActivity {
 
         String url = getIntent().getExtras().getString(EXTRA_URL, "");
 
-        new AlbumUtils.LoadAlbumFromUrl(url, this, true, true, getSupportActionBar(), (RecyclerView)findViewById(R.id.images)).execute();
+        new AlbumUtils.LoadAlbumFromUrl(url, this, true, true, getSupportActionBar(), (RecyclerView)findViewById(R.id.images)).execute(url);
 
     }
 

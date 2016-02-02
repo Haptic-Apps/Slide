@@ -9,12 +9,15 @@ import net.dean.jraw.models.meta.SubmissionSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by carlo_000 on 11/19/2015.
  */
 public class OfflineSubreddit {
+
+    public static HashMap<String, OfflineSubreddit> subredditBackups = new HashMap<>();
     public long time;
     public ArrayList<Submission> submissions;
     public ArrayList<String> dataNodes;
@@ -23,14 +26,19 @@ public class OfflineSubreddit {
 
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
         submissions = new ArrayList<>(data);
+        subredditBackups.put(subreddit, this);
+
         return this;
     }
 
     public void addSubmissions(List<Submission> data) {
         submissions.addAll(data);
+        subredditBackups.put(subreddit, this);
+
     }
 
     public void writeToMemory() {
+        subredditBackups.put(subreddit, this);
         if(dataNodes == null) {
             StringBuilder s = new StringBuilder();
             s.append(System.currentTimeMillis()).append("<SEPARATOR>");
@@ -95,25 +103,28 @@ public class OfflineSubreddit {
     }
 
     public OfflineSubreddit(String subreddit) {
-        this.subreddit = subreddit;
-        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(), "").split("<SEPARATOR>");
-        if (split.length > 1) {
-            time = Long.valueOf(split[0]);
-            submissions = new ArrayList<>();
-            for (int i = 1; i < split.length; i++) {
-                try {
-                    if (split[i].startsWith("[")) {
-                        submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(split[i]), CommentSort.CONFIDENCE));
-                    } else {
-                        submissions.add(new Submission(new ObjectMapper().readTree(split[i])));
+        if(subredditBackups.containsKey(subreddit)){
+            submissions = subredditBackups.get(subreddit).submissions;
+        } else {
+            this.subreddit = subreddit;
+            String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(), "").split("<SEPARATOR>");
+            if (split.length > 1) {
+                time = Long.valueOf(split[0]);
+                submissions = new ArrayList<>();
+                for (int i = 1; i < split.length; i++) {
+                    try {
+                        if (split[i].startsWith("[")) {
+                            submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(split[i]), CommentSort.CONFIDENCE));
+                        } else {
+                            submissions.add(new Submission(new ObjectMapper().readTree(split[i])));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+            } else {
+                submissions = new ArrayList<>();
             }
-        }
-        else {
-            submissions = new ArrayList<>();
         }
     }
 
@@ -126,7 +137,9 @@ public class OfflineSubreddit {
         }
         String finals = s.toString();
         finals = finals.substring(0, finals.length() - 11);
-        Reddit.appRestart.edit().putString(subreddit.toLowerCase() , finals).commit();
-      return this;
+        Reddit.appRestart.edit().putString(subreddit.toLowerCase() , finals).apply();
+        subredditBackups.put(subreddit, this);
+
+        return this;
     }
 }

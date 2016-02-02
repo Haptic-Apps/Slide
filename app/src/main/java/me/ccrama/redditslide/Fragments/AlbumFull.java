@@ -15,7 +15,6 @@ import net.dean.jraw.models.Submission;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
@@ -52,9 +51,6 @@ public class AlbumFull extends Fragment {
                 + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
                 + getString(R.string.submission_properties_seperator)
                 + Website.getDomainName(s.getUrl())) ;
-        ContentType.ImageType type = ContentType.getImageType(s);
-
-        String url = "";
 
         if (s.getUrl().contains("gallery")) {
             gallery = true;
@@ -64,7 +60,7 @@ public class AlbumFull extends Fragment {
 
         list.setVisibility(View.VISIBLE);
 
-            new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), true, true, null, (RecyclerView) list).execute();
+            new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list).execute(s.getUrl());
 
 
 

@@ -76,6 +76,20 @@ public class GifUtils {
         protected Void doInBackground(String... sub) {
 
             String s = sub[0];
+
+            
+            if (s.contains("webm") && s.contains("imgur")) {
+                s = s.replace("webm", "gifv");
+            }
+            if (s.contains("mp4") && s.contains("imgur")) {
+                s = s.replace("mp4", "gifv");
+            }
+
+            if (s.endsWith("v")) {
+                s = s.substring(0, s.length() - 1);
+            } else if (s.contains("gfycat")) {
+                s = s.substring(3, s.length());
+            }
             if (s.contains("gfycat")) {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
