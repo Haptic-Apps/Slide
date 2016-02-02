@@ -115,6 +115,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
                     f.setArguments(args);
                 }
                 break;
@@ -122,6 +123,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -129,6 +132,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -136,6 +141,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -143,6 +150,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -150,6 +159,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -157,6 +168,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -164,6 +177,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -172,11 +187,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                         f = new TitleFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
+                        args.putString("sub", subreddit);
+
                         f.setArguments(args);
                     } else {
                         f = new SelftextFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
+                        args.putString("sub", subreddit);
+
                         f.setArguments(args);
                     }
                 }
@@ -185,6 +204,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -192,6 +213,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new AlbumFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -199,6 +222,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -206,6 +231,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -213,12 +240,16 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
                 case NONE_GIF: {
                     f = new Gif();
                     Bundle args = new Bundle();
+                    args.putString("sub", subreddit);
+
                     args.putInt("page", i);
                     f.setArguments(args);
                 }
@@ -228,11 +259,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                         f = new TitleFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
+                        args.putString("sub", subreddit);
+
                         f.setArguments(args);
                     } else {
                         f = new SelftextFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
+                        args.putString("sub", subreddit);
+
                         f.setArguments(args);
                     }
                 }
@@ -241,6 +276,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
+
                     f.setArguments(args);
                 }
                 break;
@@ -248,6 +286,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -255,6 +295,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
@@ -262,6 +304,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f = new ImageFull();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
                     f.setArguments(args);
                 }
                 break;
