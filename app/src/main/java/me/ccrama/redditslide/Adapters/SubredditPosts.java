@@ -65,6 +65,7 @@ public class SubredditPosts implements PostLoader {
         return !nomore;
     }
    public boolean skipOne;
+    boolean usedOffline;
 
     /**
      * Asynchronous task for loading data
@@ -79,7 +80,6 @@ public class SubredditPosts implements PostLoader {
             this.displayer = displayer;
             this.reset = reset;
         }
-        boolean usedOffline;
 
         @Override
         public void onPostExecute(List<Submission> submissions) {
@@ -129,7 +129,6 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 posts = finalSubs;
-                new OfflineSubreddit(subreddit).overwriteSubmissions(posts).writeToMemory();
 
                 if (cached.submissions.size() > 0) {
                     stillShow = true;
@@ -149,6 +148,8 @@ public class SubredditPosts implements PostLoader {
             Log.v(LogUtil.getTag(), "DOING FOR " + subredditPaginators[0]);
 
             if (!NetworkUtil.isConnected(context)) {
+                Log.v(LogUtil.getTag(), "Using offline data");
+
                 offline = true;
                 return null;
             } else {
@@ -156,21 +157,19 @@ public class SubredditPosts implements PostLoader {
             }
 
             stillShow = true;
-            if (SettingValues.cacheDefault && reset && !forced && !new OfflineSubreddit(subreddit).submissions.isEmpty() && !doneOnce && SettingValues.cache) {
-                offline = true;
-                doneOnce = true;
-                return null;
-            }
+
+
 
             OfflineSubreddit o = new OfflineSubreddit(subreddit);
-            if(paginator == null &&  o.submissions.size() > 0 && System.currentTimeMillis() - o.time > 300000 && !usedOffline){
+            if(paginator == null &&  o.submissions.size() > 0 && ((System.currentTimeMillis() - o.time < 300000) || SettingValues.cacheDefault) && !usedOffline){
                 usedOffline = true;
                 offline = false;
+                Log.v(LogUtil.getTag(), "Using cached data");
 
                 return o.submissions;
             }
 
-            if(usedOffline){
+            if(usedOffline && !reset){
                 Log.v(LogUtil.getTag(), "Loading more from offline state");
                 paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setLimit(25);
@@ -195,9 +194,7 @@ public class SubredditPosts implements PostLoader {
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
                 paginator.setLimit(25);
-                if(skipOne){
-                    paginator.next();
-                }
+
             }
 
             List<Submission> things = new ArrayList<>();

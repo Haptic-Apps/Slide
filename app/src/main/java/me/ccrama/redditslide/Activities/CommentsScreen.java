@@ -20,6 +20,7 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.StyleView;
 import me.ccrama.redditslide.util.LogUtil;
@@ -63,6 +64,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         applyColorTheme();
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
+        Reddit.setDefaultErrorHandler(this);
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         baseSubreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);

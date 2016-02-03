@@ -38,34 +38,36 @@ public class OfflineSubreddit {
     }
 
     public void writeToMemory() {
-        subredditBackups.put(subreddit, this);
-        if(dataNodes == null) {
-            StringBuilder s = new StringBuilder();
-            s.append(System.currentTimeMillis()).append("<SEPARATOR>");
-            for (Submission sub : submissions) {
-                s.append(sub.getDataNode().toString());
-                s.append("<SEPARATOR>");
-            }
-            String finals = s.toString();
-            finals = finals.substring(0, finals.length() - 11);
-            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+        if(subreddit!= null) {
+            subredditBackups.put(subreddit, this);
+            if (dataNodes == null) {
+                StringBuilder s = new StringBuilder();
+                s.append(System.currentTimeMillis()).append("<SEPARATOR>");
+                for (Submission sub : submissions) {
+                    s.append(sub.getDataNode().toString());
+                    s.append("<SEPARATOR>");
+                }
+                String finals = s.toString();
+                finals = finals.substring(0, finals.length() - 11);
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
 
-        } else {
-            StringBuilder s = new StringBuilder();
-            s.append(System.currentTimeMillis()).append("<SEPARATOR>");
-            for (String sub : dataNodes) {
-                s.append(sub);
-                s.append("<SEPARATOR>");
-            }
-            String finals = s.toString();
-            finals = finals.substring(0, finals.length() - 11);
-            Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+            } else {
+                StringBuilder s = new StringBuilder();
+                s.append(System.currentTimeMillis()).append("<SEPARATOR>");
+                for (String sub : dataNodes) {
+                    s.append(sub);
+                    s.append("<SEPARATOR>");
+                }
+                String finals = s.toString();
+                finals = finals.substring(0, finals.length() - 11);
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
 
-            dataNodes = null;
+                dataNodes = null;
+                System.gc();
+
+            }
             System.gc();
-
         }
-        System.gc();
 
     }
 

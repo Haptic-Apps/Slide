@@ -3,6 +3,7 @@ package me.ccrama.redditslide;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -11,9 +12,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.models.CommentSort;
@@ -103,7 +106,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         System.exit(0);
     }
 
-    public static void forceRestart(Context c, boolean forceLoadScreen){
+    public static void forceRestart(Context c, boolean forceLoadScreen) {
         appRestart.edit().putString("startScreen", "").apply();
         forceRestart(c);
 
@@ -349,6 +352,68 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
+    public static void setDefaultErrorHandler(final Context c) {
+        //START code adapted from https://github.com/QuantumBadger/RedReader/
+        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            public void uncaughtException(Thread thread, Throwable t) {
+
+
+                Log.v(LogUtil.getTag(), "ERROR IS " + t.getMessage());
+                if (t.getMessage().contains("doInBackground")) {
+                    //Is reddit API call that failed
+                    final Handler mHandler = new Handler(Looper.getMainLooper());
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                    .setMessage("The connection to Reddit failed, either because of a connection issue or because Reddit refused the request.")
+                                    .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    forceRestart(c);
+                                }
+                            }).show();
+                        }
+                    });
+
+
+                } else {
+                    appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
+
+                    if (t instanceof UnknownHostException) {
+                        Intent i = new Intent(c, Internet.class);
+                        c.startActivity(i);
+                    } else {
+                        try {
+                            Writer writer = new StringWriter();
+                            PrintWriter printWriter = new PrintWriter(writer);
+                            t.printStackTrace(printWriter);
+                            String stacktrace = writer.toString().replace(";", ",");
+
+                            SharedPreferences prefs = c.getSharedPreferences(
+                                    "STACKTRACE", Context.MODE_PRIVATE);
+                            prefs.edit().putString("stacktrace", stacktrace).apply();
+
+                        } catch (Throwable ignored) {
+                        }
+                    }
+
+                    androidHandler.uncaughtException(thread, t);
+                }
+            }
+        });
+        //END adaptation
+
+    }
+
     @Override
     public void onActivityStopped(Activity activity) {
     }
@@ -396,37 +461,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
 
-        //START code adapted from https://github.com/QuantumBadger/RedReader/
-        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread thread, Throwable t) {
-
-
-                Log.v(LogUtil.getTag(), "ERROR IS " + t.getMessage());
-                if (t instanceof UnknownHostException) {
-                    Intent i = new Intent(Reddit.this, Internet.class);
-                    startActivity(i);
-                } else {
-                    try {
-                        Writer writer = new StringWriter();
-                        PrintWriter printWriter = new PrintWriter(writer);
-                        t.printStackTrace(printWriter);
-                        String stacktrace = writer.toString().replace(";", ",");
-
-                        SharedPreferences prefs = getSharedPreferences(
-                                "STACKTRACE", Context.MODE_PRIVATE);
-                        prefs.edit().putString("stacktrace", stacktrace).apply();
-
-                    } catch (Throwable ignored) {
-                    }
-                }
-
-                androidHandler.uncaughtException(thread, t);
-            }
-        });
-
-        //END adaptation
         new SetupIAB().execute();
 
 

@@ -46,6 +46,7 @@ public class Authentication {
 
     public Authentication(Context context) {
         this.a = (Reddit) context;
+        Reddit.setDefaultErrorHandler(context);
 
         if (NetworkUtil.isConnected(context)) {
 

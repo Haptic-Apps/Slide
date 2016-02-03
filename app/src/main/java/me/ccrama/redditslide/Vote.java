@@ -23,6 +23,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         direction = b ? VoteDirection.UPVOTE : VoteDirection.DOWNVOTE;
         this.v = v;
         this.c = c;
+        Reddit.setDefaultErrorHandler(c);
 
     }
 

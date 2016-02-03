@@ -714,7 +714,6 @@ public class MainActivity extends BaseActivity {
         if (Authentication.isLoggedIn && Authentication.didOnline) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, drawerSubList, false);
-            headerMain = header;
             hea = header.findViewById(R.id.back);
 
             drawerSubList.addHeaderView(header, null, false);
@@ -753,7 +752,6 @@ public class MainActivity extends BaseActivity {
                 }
             });
             //update notification badge
-            new AsyncNotificationBadge().execute();
 
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -791,6 +789,10 @@ public class MainActivity extends BaseActivity {
             } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
             }
+            headerMain = header;
+
+            new AsyncNotificationBadge().execute();
+
         } else if (Authentication.didOnline) {
             header = inflater.inflate(R.layout.drawer_loggedout, drawerSubList, false);
             headerMain = header;
@@ -1281,9 +1283,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this)) {
+        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null) {
             new AsyncNotificationBadge().execute();
         }
+        Reddit.setDefaultErrorHandler(this);
     }
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {

@@ -16,7 +16,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +72,6 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -1088,7 +1086,6 @@ public class PopulateSubmissionViewHolder {
             flair.setVisibility(View.GONE);
         } else {
             flair.setVisibility(View.VISIBLE);
-            Log.v(LogUtil.getTag(), "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
             ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
         }
 
