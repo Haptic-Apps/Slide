@@ -404,12 +404,12 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                         .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        Reddit.forceRestart(SettingsBackup.this);
+                        Reddit.forceRestart(SettingsBackup.this, true);
                     }
                 }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Reddit.forceRestart(SettingsBackup.this);
+                        Reddit.forceRestart(SettingsBackup.this, true);
 
                     }
                 }).show();

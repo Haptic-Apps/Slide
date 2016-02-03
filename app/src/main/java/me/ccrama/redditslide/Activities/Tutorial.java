@@ -55,7 +55,7 @@ public class Tutorial extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 Reddit.colors.edit().putBoolean("Tutorial", true).apply();
-                finish();
+               Reddit.forceRestart(Tutorial.this, true);
             }
         });
         findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {

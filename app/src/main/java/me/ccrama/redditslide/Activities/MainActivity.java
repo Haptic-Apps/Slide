@@ -618,7 +618,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
     }
-    
+
 
     public void openPopup() {
 
@@ -628,72 +628,72 @@ public class MainActivity extends BaseActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,  Sorting.HOT);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.NEW);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.RISING);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.TOP);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.HOUR);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.TOP);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.TOP);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.DAY);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.TOP);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.TOP);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.WEEK);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.TOP);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 6:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.TOP);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.MONTH);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.TOP);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 7:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.TOP);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.YEAR);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.TOP);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 8:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.TOP);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.ALL);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.TOP);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.ALL);
                         reloadSubs();
                         break;
                     case 9:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.HOUR);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 10:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.DAY);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 11:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.WEEK);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.WEEK);
                         reloadSubs();
                     case 12:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.MONTH);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.MONTH);
                         reloadSubs();
                     case 13:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.YEAR);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.YEAR);
                         reloadSubs();
                     case 14:
-                        Reddit.setSorting(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,   Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((SubmissionsView)(((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.ALL);
+                        Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.ALL);
                         reloadSubs();
                 }
             }
@@ -791,10 +791,11 @@ public class MainActivity extends BaseActivity {
             } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
             }
-        } else {
+        } else if (Authentication.didOnline) {
             header = inflater.inflate(R.layout.drawer_loggedout, drawerSubList, false);
             headerMain = header;
             drawerSubList.addHeaderView(header, null, false);
+            headerMain = header;
             hea = header.findViewById(R.id.back);
 
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
@@ -804,61 +805,75 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+        } else {
+            header = inflater.inflate(R.layout.drawer_offline, drawerSubList, false);
+            headerMain = header;
+            drawerSubList.addHeaderView(header, null, false);
+            hea = header.findViewById(R.id.back);
+
+            header.findViewById(R.id.online).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((Reddit)getApplication()).forceRestart(MainActivity.this);
+                }
+            });
         }
         if (SettingValues.hideHeader) {
             header.findViewById(R.id.back).setVisibility(View.GONE);
         }
+        if (Authentication.didOnline) {
 
-        View support = header.findViewById(R.id.support);
-        if (SettingValues.tabletUI) support.setVisibility(View.GONE);
-        else {
-            header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+            View support = header.findViewById(R.id.support);
+            if (SettingValues.tabletUI) support.setVisibility(View.GONE);
+            else {
+                header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                        }
+                    }
+                });
+            }
+            header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                    }
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .inputRange(3, 20)
+                            .alwaysCallInputCallback()
+                            .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
+                            .input(getString(R.string.user_enter), null, new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    if (input.toString().matches("^[a-zA-Z0-9_-]*$")) {
+                                        if (input.length() >= 3 && input.length() <= 20)
+                                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                        dialog.setContent("");
+                                    } else {
+                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                        dialog.setContent(R.string.user_invalid_msg);
+                                    }
+                                }
+                            })
+                            .positiveText(R.string.user_btn_goto)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                                    //noinspection ConstantConditions
+                                    inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
+                                    MainActivity.this.startActivity(inte);
+                                }
+                            })
+                            .negativeText(R.string.btn_cancel)
+                            .show();
                 }
             });
         }
-        header.findViewById(R.id.prof).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new MaterialDialog.Builder(MainActivity.this)
-                        .inputRange(3, 20)
-                        .alwaysCallInputCallback()
-                        .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
-                        .input(getString(R.string.user_enter), null, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                if (input.toString().matches("^[a-zA-Z0-9_-]*$")) {
-                                    if (input.length() >= 3 && input.length() <= 20)
-                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                    dialog.setContent("");
-                                } else {
-                                    dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                    dialog.setContent(R.string.user_invalid_msg);
-                                }
-                            }
-                        })
-                        .positiveText(R.string.user_btn_goto)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                Intent inte = new Intent(MainActivity.this, Profile.class);
-                                //noinspection ConstantConditions
-                                inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
-                                MainActivity.this.startActivity(inte);
-                            }
-                        })
-                        .negativeText(R.string.btn_cancel)
-                        .show();
-            }
-        });
 
-        findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
+        header.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -981,7 +996,7 @@ public class MainActivity extends BaseActivity {
         if (keys.size() == 0) {
             Authentication.authentication.edit().remove("lasttoken").commit();
 
-            Reddit.forceRestart(this);
+            Reddit.forceRestart(this, true);
         } else {
             new AlertDialogWrapper.Builder(MainActivity.this)
                     .setTitle(R.string.general_switch_acc)
@@ -1002,7 +1017,7 @@ public class MainActivity extends BaseActivity {
                                                 Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
                                             }
 
-                                            Reddit.forceRestart(MainActivity.this);
+                                            Reddit.forceRestart(MainActivity.this, true);
                                         }
                                     }).setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
                                 @Override

@@ -60,7 +60,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String domainFiltersRegex;
 
 
-
     public static Authentication authentication;
 
     public static Sorting defaultSorting;
@@ -102,6 +101,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(launchIntent);
         System.exit(0);
+    }
+
+    public static void forceRestart(Context c, boolean forceLoadScreen){
+        appRestart.edit().putString("startScreen", "").apply();
+        forceRestart(c);
+
     }
 
     public static void defaultShareText(String url, Context c) {
@@ -397,6 +402,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable t) {
 
+
+                Log.v(LogUtil.getTag(), "ERROR IS " + t.getMessage());
                 if (t instanceof UnknownHostException) {
                     Intent i = new Intent(Reddit.this, Internet.class);
                     startActivity(i);
@@ -477,28 +484,29 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
-     /*  if (appRestart.contains("back")) {
-            appRestart.edit().remove("back").apply(); //hopefully will stop Slide from opening in the background
-        //Removed these because it caused Slide to lose it's sub order*/
-        SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
-        SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
-        Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
-        Authentication.name = appRestart.getString("name", "");
-        active = true;
+        if (!appRestart.contains("startScreen")) {
+            SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
+            SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
+            Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
+            Authentication.name = appRestart.getString("name", "");
+            active = true;
 
-        // }
+        } else {
+            appRestart.edit().remove("startScreen").apply();
+
+        }
 
         SettingValues.tabletUI = isPackageInstalled(this);
 
 
     }
 
-    public static void setSorting(String s, Sorting sort)
-    {
+    public static void setSorting(String s, Sorting sort) {
         sorting.put(s, sort);
     }
 
     public static HashMap<String, Sorting> sorting = new HashMap<>();
+
     public static Sorting getSorting(String subreddit) {
         if (sorting.containsKey(subreddit)) {
             return sorting.get(subreddit);
@@ -508,12 +516,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
 
-    public static void setTime(String s, TimePeriod sort)
-    {
+    public static void setTime(String s, TimePeriod sort) {
         times.put(s, sort);
     }
 
     public static HashMap<String, TimePeriod> times = new HashMap<>();
+
     public static TimePeriod getTime(String subreddit) {
         if (times.containsKey(subreddit)) {
             return times.get(subreddit);
