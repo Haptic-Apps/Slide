@@ -278,89 +278,96 @@ public class AlbumUtils {
             }
         }
 
-        ArrayList<JsonElement> jsonFinal;
+
+        public void doWithData(ArrayList<JsonElement> data){
+
+        }
 
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
-            if (gallery) {
-                Ion.with(baseActivity)
-                        .load("https://imgur.com/gallery/" +  hash + ".json")
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                            @Override
-                            public void onCompleted(Exception e, JsonObject result) {
-                                if (result != null && result.has("data")) {
-                                    Log.v(LogUtil.getTag(), result.toString());
+
+                if (gallery) {
+                    Ion.with(baseActivity)
+                            .load("https://imgur.com/gallery/" + hash + ".json")
+                            .asJsonObject()
+
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    if (result != null && result.has("data")) {
+                                        Log.v(LogUtil.getTag(), result.toString());
 
 
-                                    final ArrayList<JsonElement> jsons = new ArrayList<>();
+                                        final ArrayList<JsonElement> jsons = new ArrayList<>();
 
 
-                                    JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+                                        JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+                                        if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
-                                        for (JsonElement o : obj) {
-                                            jsons.add(o);
+                                            for (JsonElement o : obj) {
+                                                jsons.add(o);
+                                            }
+
+
+                                            doWithData(jsons);
+
                                         }
-
-                                        jsonFinal = jsons;
-
-
                                     }
                                 }
-                            }
 
-                        });
-            } else {
-                Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + hash + ".json");
-                Ion.with(baseActivity)
-                        .load("http://api.imgur.com/2/album" +hash + ".json")
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                                         @Override
-                                         public void onCompleted(Exception e, JsonObject result) {
-                                             Dialog dialog = new AlertDialogWrapper.Builder(baseActivity)
-                                                     .setTitle(R.string.album_err_not_found)
-                                                     .setMessage(R.string.album_err_msg_not_found)
-                                                     .setCancelable(false)
-                                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(DialogInterface dialog, int which) {
-                                                             baseActivity.finish();
+                            });
+                } else {
+                    Log.v(LogUtil.getTag(), "http://api.imgur.com/2/album" + hash + ".json");
+                    Ion.with(baseActivity)
+                            .load("http://api.imgur.com/2/album" + hash + ".json")
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                             @Override
+                                             public void onCompleted(Exception e, JsonObject result) {
+                                                 Dialog dialog = new AlertDialogWrapper.Builder(baseActivity)
+                                                         .setTitle(R.string.album_err_not_found)
+                                                         .setMessage(R.string.album_err_msg_not_found)
+                                                         .setCancelable(false)
+                                                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                             @Override
+                                                             public void onClick(DialogInterface dialog, int which) {
+                                                                 baseActivity.finish();
+                                                             }
+                                                         }).create();
+
+
+                                                 if (result != null) {
+                                                     Log.v(LogUtil.getTag(), result.toString());
+
+                                                     final ArrayList<JsonElement> jsons = new ArrayList<>();
+
+                                                     if (result.has("album")) {
+
+                                                         JsonObject obj = result.getAsJsonObject("album");
+                                                         if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+
+                                                             final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+
+                                                             for (JsonElement o : jsonAuthorsArray) {
+                                                                 jsons.add(o);
+                                                             }
+
+
+                                                             doWithData(jsons);
+
                                                          }
-                                                     }).create();
-
-
-                                             if (result != null) {
-                                                 Log.v(LogUtil.getTag(), result.toString());
-
-                                                 final ArrayList<JsonElement> jsons = new ArrayList<>();
-
-                                                 if (result.has("album")) {
-
-                                                     JsonObject obj = result.getAsJsonObject("album");
-                                                     if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                                                         final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                                                         for (JsonElement o : jsonAuthorsArray) {
-                                                             jsons.add(o);
-                                                         }
-
-
-                                                         jsonFinal = jsons;
-
                                                      }
                                                  }
                                              }
+
                                          }
 
-                                     }
+                            );
+                }
 
-                        );
-            }
+                return null;
 
-            return jsonFinal;
+
 
         }
 

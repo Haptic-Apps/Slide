@@ -26,8 +26,9 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
@@ -44,11 +45,10 @@ import me.ccrama.redditslide.util.GifUtils;
 
 /**
  * Created by ccrama on 1/25/2016.
- *
+ * <p/>
  * This is an extension of Album.java which utilizes a ViewPager for Imgur content
  * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
  * bars which Album.java doesn't.
- *
  */
 public class AlbumPager extends FullScreenActivity {
     boolean gallery = false;
@@ -78,9 +78,23 @@ public class AlbumPager extends FullScreenActivity {
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        AlbumUtils.GetAlbumJsonFromUrl loader = new AlbumUtils.GetAlbumJsonFromUrl(getIntent().getExtras().getString("url", ""), this);
-        try {
-            loader.get();
+
+        new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
+
+    }
+
+
+    public class LoadIntoPager extends AlbumUtils.GetAlbumJsonFromUrl {
+
+        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
+            super(url, baseActivity);
+        }
+
+        @Override
+        public void doWithData(ArrayList<JsonElement> jsonElements) {
+            AlbumPager.this.gallery = LoadIntoPager.this.gallery;
+            images = new ArrayList<>(jsonElements);
+
             ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
 
             getSupportActionBar().setSubtitle(1 + "/" + images.size());
@@ -90,7 +104,7 @@ public class AlbumPager extends FullScreenActivity {
             p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    getSupportActionBar().setSubtitle((position + 1)+ "/" + images.size());
+                    getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
                 }
 
                 @Override
@@ -104,16 +118,8 @@ public class AlbumPager extends FullScreenActivity {
                 }
             });
             adapter.notifyDataSetChanged();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
-
-
-
     }
-
 
 
     public ArrayList<JsonElement> images;
@@ -266,7 +272,6 @@ public class AlbumPager extends FullScreenActivity {
             v.clearFocus();
 
 
-
             String dat;
             if (gallery) {
                 dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".png");
@@ -283,6 +288,7 @@ public class AlbumPager extends FullScreenActivity {
         }
 
         JsonElement user;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -424,8 +430,6 @@ public class AlbumPager extends FullScreenActivity {
         }
 
     }
-
-
 
 
 }
