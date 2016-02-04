@@ -47,22 +47,7 @@
             android:src="@drawable/refresh"
 
             />
-        <ImageView
-            android:id="@+id/multi"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|center_vertical"
-            android:background="?android:selectableItemBackground"
-            android:paddingBottom="8dp"
 
-            android:paddingTop="8dp"
-            android:scaleType="fitCenter"
-
-            android:src="@drawable/collection"
-
-            android:tint="@color/white"
-
-            />
 
         <ImageView
             android:id="@+id/az"
@@ -81,22 +66,6 @@
 
             />
 
-        <ImageView
-            android:id="@+id/add"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|center_vertical"
-            android:background="?android:selectableItemBackground"
-            android:paddingBottom="8dp"
-
-            android:paddingTop="8dp"
-            android:scaleType="fitCenter"
-
-            android:src="@drawable/add"
-
-            android:tint="@color/white"
-
-            />
 
 
 
@@ -116,4 +85,12 @@
     </android.support.v7.widget.RecyclerView>
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:id="@+id/add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:src="@drawable/add"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

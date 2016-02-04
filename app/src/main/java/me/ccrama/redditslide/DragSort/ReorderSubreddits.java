@@ -75,45 +75,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 recyclerView.setAdapter(adapter);
             }
         });
-        findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
-                subs2.remove("frontpage");
-                subs2.remove("all");
 
-                final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
-
-                MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
-                builder.title(R.string.reorder_subreddits_title)
-                        .items(subsAsChar)
-                        .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                            @Override
-                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                ArrayList<String> selectedSubs = new ArrayList<>();
-                                for (int i : which) {
-                                    selectedSubs.add(subsAsChar[i].toString());
-                                }
-
-                                StringBuilder b = new StringBuilder();
-
-                                for(String s : selectedSubs){
-                                    b.append(s);
-                                    b.append("+");
-                                }
-                                String finalS = b.toString().substring(0, b.length() - 1);
-                                Log.v(LogUtil.getTag(), finalS);
-                                subs.add(finalS);
-                                adapter.notifyDataSetChanged();
-                                recyclerView.smoothScrollToPosition(subs.size());
-                                return true;
-                            }
-                        })
-                        .positiveText(R.string.btn_add)
-                        .negativeText(R.string.btn_cancel)
-                        .show();
-            }
-        });
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,33 +142,77 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 finish();
             }
         });
+
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MaterialDialog.Builder(ReorderSubreddits.this)
-                        .title(R.string.reorder_add_subreddit)
-                        .inputRangeRes(2, 20, R.color.md_red_500)
-                        .alwaysCallInputCallback()
-                        .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
+                new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                        .setItems(new CharSequence[]{"Add a Subreddit", "Add a Collection"}, new DialogInterface.OnClickListener() {
                             @Override
-                            public void onInput(MaterialDialog dialog, CharSequence raw) {
-                                input = raw.toString();
-                            }
-                        })
-                        .positiveText(R.string.btn_add)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                Log.v(LogUtil.getTag(), input);
-                                new AsyncGetSubreddit().execute(input);
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (which == 1) {
+                                    final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
+                                    subs2.remove("frontpage");
+                                    subs2.remove("all");
 
-                            }
-                        })
-                        .negativeText(R.string.btn_cancel)
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
 
+                                    MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
+                                    builder.title(R.string.reorder_subreddits_title)
+                                            .items(subsAsChar)
+                                            .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                                                @Override
+                                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                                    ArrayList<String> selectedSubs = new ArrayList<>();
+                                                    for (int i : which) {
+                                                        selectedSubs.add(subsAsChar[i].toString());
+                                                    }
+
+                                                    StringBuilder b = new StringBuilder();
+
+                                                    for (String s : selectedSubs) {
+                                                        b.append(s);
+                                                        b.append("+");
+                                                    }
+                                                    String finalS = b.toString().substring(0, b.length() - 1);
+                                                    Log.v(LogUtil.getTag(), finalS);
+                                                    subs.add(finalS);
+                                                    adapter.notifyDataSetChanged();
+                                                    recyclerView.smoothScrollToPosition(subs.size());
+                                                    return true;
+                                                }
+                                            })
+                                            .positiveText(R.string.btn_add)
+                                            .negativeText(R.string.btn_cancel)
+                                            .show();
+                                } else {
+                                    new MaterialDialog.Builder(ReorderSubreddits.this)
+                                            .title(R.string.reorder_add_subreddit)
+                                            .inputRangeRes(2, 20, R.color.md_red_500)
+                                            .alwaysCallInputCallback()
+                                            .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
+                                                @Override
+                                                public void onInput(MaterialDialog dialog, CharSequence raw) {
+                                                    input = raw.toString();
+                                                }
+                                            })
+                                            .positiveText(R.string.btn_add)
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                    Log.v(LogUtil.getTag(), input);
+                                                    new AsyncGetSubreddit().execute(input);
+
+                                                }
+                                            })
+                                            .negativeText(R.string.btn_cancel)
+                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                                                }
+                                            }).show();
+                                }
                             }
                         }).show();
             }
@@ -298,21 +304,65 @@ public class ReorderSubreddits extends BaseActivityAnim {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
-                            .setMessage(R.string.reorder_remove_msg)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                            .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    subs.remove(items.get(position));
-                                    adapter.notifyItemRemoved(position);
-                                }
-                            }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                                    if(which == 1){
+                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
+                                                .setMessage(R.string.reorder_remove_msg)
+                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        subs.remove(items.get(position));
+                                                        adapter.notifyItemRemoved(position);
+                                                    }
+                                                }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    }).show();
-                    return false;
+                                            }
+                                        }).show();
+                                    } else {
+                                        subs.add(0, items.get(position));
+                                        notifyItemMoved(position, 0);
+                                    }
+                                }
+                            }).show();
+                    return true;
+                }
+            });
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                            .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(which == 1){
+                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
+                                                .setMessage(R.string.reorder_remove_msg)
+                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        subs.remove(items.get(position));
+                                                        adapter.notifyItemRemoved(position);
+                                                    }
+                                                }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+
+                                            }
+                                        }).show();
+                                    } else {
+                                        subs.add(0, items.get(position));
+                                        notifyItemMoved(position, 0);
+                                        recyclerView.smoothScrollToPosition(0);
+
+                                    }
+                                }
+                            }).show();
                 }
             });
 
