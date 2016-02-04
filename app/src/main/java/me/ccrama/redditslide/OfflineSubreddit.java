@@ -105,10 +105,11 @@ public class OfflineSubreddit {
     }
 
     public OfflineSubreddit(String subreddit) {
+        this.subreddit = subreddit;
+
         if(subredditBackups.containsKey(subreddit)){
             submissions = subredditBackups.get(subreddit).submissions;
         } else {
-            this.subreddit = subreddit;
             String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(), "").split("<SEPARATOR>");
             if (split.length > 1) {
                 time = Long.valueOf(split[0]);

@@ -56,6 +56,8 @@ public class Authentication {
             didOnline = true;
 
             new VerifyCredentials(context).execute();
+
+
         } else {
             isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             name = Reddit.appRestart.getString("name", "");
@@ -195,6 +197,8 @@ public class Authentication {
         }
 
     }
+
+
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
         Context mContext;

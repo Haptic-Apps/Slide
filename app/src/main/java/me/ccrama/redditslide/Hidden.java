@@ -16,6 +16,7 @@ public class Hidden {
 
 
     public static void setHidden(final Contribution s) {
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void[] params) {
