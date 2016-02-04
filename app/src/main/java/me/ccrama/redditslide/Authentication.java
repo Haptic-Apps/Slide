@@ -57,15 +57,18 @@ public class Authentication {
 
             new VerifyCredentials(context).execute();
         } else {
-            for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
-                if (s.contains(authentication.getString("lasttoken", ""))) {
-                    name = (s.split(":")[0]);
-                    break;
+            isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
+            name = Reddit.appRestart.getString("name", "");
+            if((name.isEmpty() || !isLoggedIn) &&!authentication.getString("lasttoken", "").isEmpty() ){
+                for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+                    if (s.contains(authentication.getString("lasttoken", ""))) {
+                        name = (s.split(":")[0]);
+                        break;
+                    }
                 }
+                isLoggedIn = true;
             }
-            isLoggedIn = true;
             SubredditStorage.getSubredditsForHome(a);
-
         }
 
 

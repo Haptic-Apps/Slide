@@ -17,6 +17,7 @@ import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
 import me.ccrama.redditslide.SwipeLayout.Utils;
@@ -156,7 +157,12 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
 
     }
+    @Override
+    public void onResume(){
+        super.onResume();
+        Reddit.setDefaultErrorHandler(this); //set defualt reddit api issue handler
 
+    }
     /**
      * Sets up the activity's support toolbar and colorizes the status bar.
      *

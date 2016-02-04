@@ -101,6 +101,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
         }
+
         Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(launchIntent);
@@ -360,9 +361,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable t) {
-
+                Writer writer = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(writer);
+                t.printStackTrace(printWriter);
+                String stacktrace = writer.toString().replace(";", ",");
 
                 Log.v(LogUtil.getTag(), "ERROR IS " + t.getMessage());
+                Log.v(LogUtil.getTag(), "STACK IS " + stacktrace);
+
                 if (t.getMessage().contains("doInBackground")) {
                     //Is reddit API call that failed
                     final Handler mHandler = new Handler(Looper.getMainLooper());
@@ -394,10 +400,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         c.startActivity(i);
                     } else {
                         try {
-                            Writer writer = new StringWriter();
-                            PrintWriter printWriter = new PrintWriter(writer);
-                            t.printStackTrace(printWriter);
-                            String stacktrace = writer.toString().replace(";", ",");
 
                             SharedPreferences prefs = c.getSharedPreferences(
                                     "STACKTRACE", Context.MODE_PRIVATE);
@@ -520,6 +522,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
+
         if (!appRestart.contains("startScreen")) {
             SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
             SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
@@ -529,7 +532,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         } else {
             appRestart.edit().remove("startScreen").apply();
-
         }
 
         SettingValues.tabletUI = isPackageInstalled(this);

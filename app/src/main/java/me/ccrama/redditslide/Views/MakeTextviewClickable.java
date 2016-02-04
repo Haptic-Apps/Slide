@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
+import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
@@ -416,9 +417,19 @@ public class MakeTextviewClickable {
                     break;
                 case ALBUM:
                     if (SettingValues.album) {
-                        Intent i = new Intent(c, Album.class);
-                        i.putExtra(Album.EXTRA_URL, url);
-                        c.startActivity(i);
+                        if(SettingValues.albumSwipe){
+                            Intent i = new Intent(c, AlbumPager.class);
+                            i.putExtra(Album.EXTRA_URL, url);
+                            c.startActivity(i);
+                            c.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        } else {
+                            Intent i = new Intent(c, Album.class);
+                            i.putExtra(Album.EXTRA_URL, url);
+                            c.startActivity(i);
+                            c.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        }
+
+
                     } else {
                         Reddit.defaultShare(url, c);
                     }
