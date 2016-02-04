@@ -81,6 +81,7 @@ import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -93,6 +94,8 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.AlbumUtils;
+import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -1230,29 +1233,57 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void saveOffline(List<Submission> submissions, final String subreddit) {
-        final MaterialDialog d = new MaterialDialog.Builder(this).title(R.string.offline_caching)
-                .progress(false, submissions.size())
-                .cancelable(false)
-                .show();
-        final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
-        for (final Submission s : submissions) {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                    newSubmissions.add(s2);
-                    d.setProgress(newSubmissions.size());
-                    if (d.getCurrentProgress() == d.getMaxProgress()) {
-                        d.cancel();
-
-                        new OfflineSubreddit(subreddit).overwriteSubmissions(newSubmissions).writeToMemory();
-
+    public void saveOffline(final List<Submission> submissions, final String subreddit) {
+        final boolean[] chosen = new boolean[3];
+        new AlertDialogWrapper.Builder(this)
+                .setTitle("Save submissions for offline viewing")
+                .setMultiChoiceItems(new String[]{"Comments", "Images", "Gifs", "Albums"}, new boolean[]{true, true, false, false}, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        chosen[which - 1] = isChecked;
                     }
-                    return null;
+                }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                final MaterialDialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.offline_caching)
+                        .progress(false, submissions.size())
+                        .cancelable(false)
+                        .show();
+                final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
+                for (final Submission s : submissions) {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                            newSubmissions.add(s2);
+                            switch (ContentType.getImageType(s)) {
+                                case GFY:
+                                case GIF:
+                                case NONE_GIF:
+                                case NSFW_GIF:
+                                case NONE_GFY:
+                                case NSFW_GFY:
+                                     GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
+                                    break;
+                                case ALBUM:
+                                    AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                                    break;
+                            }
+                            d.setProgress(newSubmissions.size());
+                            if (d.getCurrentProgress() == d.getMaxProgress()) {
+                                d.cancel();
+
+                                new OfflineSubreddit(subreddit).overwriteSubmissions(newSubmissions).writeToMemory();
+
+                            }
+                            return null;
+                        }
+                    }.execute();
                 }
-            }.execute();
-        }
+            }
+        }).show();
+
+
     }
 
     public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {

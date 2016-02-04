@@ -579,4 +579,219 @@ public class GifUtils {
 
     }
 
+    public static void saveGifToCache(final Activity c, String... sub){
+
+            String s = sub[0];
+
+
+            if (s.contains("webm") && s.contains("imgur")) {
+                s = s.replace("webm", "gifv");
+            }
+            if (s.contains("mp4") && s.contains("imgur")) {
+                s = s.replace("mp4", "gifv");
+            }
+
+            if (s.endsWith("v")) {
+                s = s.substring(0, s.length() - 1);
+            } else if (s.contains("gfycat")) {
+                s = s.substring(3, s.length());
+            }
+            if (s.contains("gfycat")) {
+                s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
+
+
+                Log.v("Slide", "http://gfycat.com/cajax/get" + s);
+                Ion.with(c)
+                        .load("http://gfycat.com/cajax/get" + s)
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, final JsonObject result) {
+                                new AsyncTask<Void, Void, Void>() {
+
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        String obj = "";
+                                        if (result != null && result.get("gfyItem") != null && !result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
+                                            obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
+
+                                        }
+                                        try {
+                                            final URL url = new URL(obj);
+                                            final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+
+
+                                            if (!f.exists()) {
+                                                URLConnection ucon = url.openConnection();
+                                                ucon.setReadTimeout(5000);
+                                                ucon.setConnectTimeout(10000);
+                                                InputStream is = ucon.getInputStream();
+                                                BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+
+                                                int length = ucon.getContentLength();
+
+
+                                                f.createNewFile();
+
+                                                FileOutputStream outStream = new FileOutputStream(f);
+                                                byte[] buff = new byte[5 * 1024];
+
+                                                int len;
+                                                int readBytes = 0;
+                                                while ((len = inStream.read(buff)) != -1) {
+                                                    outStream.write(buff, 0, len);
+
+                                                }
+
+
+                                                outStream.flush();
+                                                outStream.close();
+                                                inStream.close();
+                                            }
+
+
+                                        } catch (
+                                                Exception e2
+                                                )
+
+                                        {
+                                            e2.printStackTrace();
+                                        }
+
+                                        return null;
+                                    }
+
+
+                                }.execute();
+                            }
+
+
+                        });
+
+            } else
+
+            {
+                if (s.endsWith("v")) {
+                    s = s.substring(0, s.length() - 1);
+                }
+                s = s.trim();
+
+                final String finalS = s;
+                Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
+
+                Ion.with(c).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, final JsonObject result) {
+                        if (result != null && result.has("urlKnown") && result.get("urlKnown").getAsBoolean()) {
+
+                            new AsyncTask<Void, Void, Void>() {
+
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+
+                                        final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
+                                        final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+
+
+                                        if (!f.exists()) {
+                                            URLConnection ucon = url.openConnection();
+                                            ucon.setReadTimeout(5000);
+                                            ucon.setConnectTimeout(10000);
+                                            InputStream is = ucon.getInputStream();
+                                            BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+
+                                            int length = ucon.getContentLength();
+
+
+                                            f.createNewFile();
+
+                                            FileOutputStream outStream = new FileOutputStream(f);
+                                            byte[] buff = new byte[5 * 1024];
+
+                                            int len;
+                                            int readBytes = 0;
+
+                                            while ((len = inStream.read(buff)) != -1) {
+                                                outStream.write(buff, 0, len);
+                                                final int percent = Math.round(100.0f * f.length() / length);
+
+
+                                            }
+
+
+                                            outStream.flush();
+                                            outStream.close();
+                                            inStream.close();
+                                        }
+
+
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    return null;
+                                }
+
+                                ;
+                            }.execute();
+
+
+                        } else {
+
+                            Ion.with(c)
+                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS)
+                                    .asJsonObject()
+                                    .setCallback(new FutureCallback<JsonObject>() {
+                                        @Override
+                                        public void onCompleted(Exception e, final JsonObject result) {
+
+                                            try {
+
+                                                if (result != null && result.get("mp4Url") != null && !result.get("mp4Url").isJsonNull()) {
+                                                    final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
+                                                    URLConnection ucon = url.openConnection();
+                                                    ucon.setReadTimeout(5000);
+                                                    ucon.setConnectTimeout(10000);
+                                                    InputStream is = ucon.getInputStream();
+                                                    BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+
+                                                    int length = ucon.getContentLength();
+
+                                                    final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+
+                                                    f.createNewFile();
+
+                                                    FileOutputStream outStream = new FileOutputStream(f);
+                                                    byte[] buff = new byte[5 * 1024];
+
+                                                    int len;
+                                                    while ((len = inStream.read(buff)) != -1) {
+                                                        outStream.write(buff, 0, len);
+                                                        int percent = Math.round(100.0f * f.length() / length);
+
+                                                    }
+
+
+                                                    outStream.flush();
+                                                    outStream.close();
+                                                    inStream.close();
+
+
+                                                }
+                                            } catch (Exception e3) {
+                                                e3.printStackTrace();
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
+
+        }
+
+
+    }
+
 }

@@ -2,6 +2,7 @@ package me.ccrama.redditslide.util;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +30,7 @@ import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 /**
@@ -328,8 +331,7 @@ public class AlbumUtils {
             }
         }
 
-        public void doAlbum(JsonObject result){
-
+        public void doAlbum(JsonObject result) {
 
 
             if (result != null) {
@@ -378,20 +380,24 @@ public class AlbumUtils {
                             });
                 }
             } else {
-                Ion.with(baseActivity)
-                        .load("http://api.imgur.com/2/album" + hash + ".json")
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                                         @Override
-                                         public void onCompleted(Exception e, JsonObject result) {
-                                             albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+                if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
+                    doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
+                } else {
+                    Ion.with(baseActivity)
+                            .load("http://api.imgur.com/2/album" + hash + ".json")
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                             @Override
+                                             public void onCompleted(Exception e, JsonObject result) {
+                                                 albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
 
-                                            doAlbum(result);
+                                                 doAlbum(result);
+                                             }
+
                                          }
 
-                                     }
-
-                        );
+                            );
+                }
             }
 
             return null;
@@ -402,5 +408,95 @@ public class AlbumUtils {
 
     }
 
+
+    public static void saveAlbumToCache(final Activity c, String url) {
+
+        boolean gallery = false;
+
+        final String hash;
+        String rawDat = cutEnds(url);
+        if (rawDat.contains("gallery")) {
+            gallery = true;
+        }
+        if (rawDat.endsWith("/")) {
+            rawDat = rawDat.substring(0, rawDat.length() - 1);
+        }
+        String rawdat2 = rawDat;
+        if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
+            rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
+        }
+        {
+
+            hash = getHash(rawDat);
+
+        }
+        if (gallery) {
+            if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json")) {
+                preloadImages(c, new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject(), true);
+            } else {
+                Ion.with(c)
+                        .load("https://imgur.com/gallery/" + hash + ".json")
+                        .asJsonObject()
+
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
+
+                                preloadImages(c, result, true);
+                            }
+
+                        });
+            }
+        } else {
+            if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
+                preloadImages(c, new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject(), false);
+            } else {
+                Ion.with(c)
+                        .load("http://api.imgur.com/2/album" + hash + ".json")
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                                         @Override
+                                         public void onCompleted(Exception e, JsonObject result) {
+                                             albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+
+                                             preloadImages(c, result, false);
+                                         }
+
+                                     }
+
+                        );
+            }
+        }
+
+
+    }
+
+    public static void preloadImages(Context c, JsonObject result, boolean gallery) {
+        if (gallery) {
+
+            JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+            if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                for (JsonElement o : obj) {
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage("https://imgur.com/" + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
+                }
+
+
+            }
+
+        } else {
+            JsonObject obj = result.getAsJsonObject("album");
+            if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+
+                final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+
+                for (JsonElement o : jsonAuthorsArray) {
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(o.getAsJsonObject().getAsJsonObject("links").get("original").getAsString(), new SimpleImageLoadingListener());
+                }
+
+            }
+        }
+    }
 
 }
