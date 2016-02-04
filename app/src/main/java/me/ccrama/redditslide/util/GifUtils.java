@@ -77,7 +77,7 @@ public class GifUtils {
 
             String s = sub[0];
 
-            
+
             if (s.contains("webm") && s.contains("imgur")) {
                 s = s.replace("webm", "gifv");
             }
@@ -244,10 +244,10 @@ public class GifUtils {
                                                                                 {
                                                                                     @Override
                                                                                     public void onPrepared(MediaPlayer mp) {
-                                                                                        if (placeholder != null) {
+                                                                                        if (placeholder != null)
 
                                                                                             placeholder.setVisibility(View.GONE);
-                                                                                        }
+
                                                                                         mp.setLooping(true);
 
 

@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
@@ -444,6 +445,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
+        AlbumUtils.albumRequests = getSharedPreferences("albums", 0);
 
         cachedData = getSharedPreferences("cache", 0);
 

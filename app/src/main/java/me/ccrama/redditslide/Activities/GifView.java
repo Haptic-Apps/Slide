@@ -22,9 +22,17 @@ public class GifView extends FullScreenActivity {
     SharedPreferences prefs;
 
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(v != null && v.getDuration() > 0){
+            v.start();
+        }
+    }
     /**
      * Called when the activity is first created.
      */
+    public MediaVideoView v;
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
@@ -36,8 +44,10 @@ public class GifView extends FullScreenActivity {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
-        final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
+     v= (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
+
+
 
 
         String dat = getIntent().getExtras().getString(EXTRA_URL);
@@ -56,7 +66,7 @@ public class GifView extends FullScreenActivity {
 
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
-        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, null,findViewById(R.id.gifsave), true).execute(dat);
+        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),findViewById(R.id.gifsave), true).execute(dat);
 
     }
 
