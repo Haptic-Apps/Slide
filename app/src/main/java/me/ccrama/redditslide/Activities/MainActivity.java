@@ -1234,10 +1234,10 @@ public class MainActivity extends BaseActivity {
     }
 
     public void saveOffline(final List<Submission> submissions, final String subreddit) {
-        final boolean[] chosen = new boolean[3];
+        final boolean[] chosen = new boolean[2];
         new AlertDialogWrapper.Builder(this)
                 .setTitle("Save submissions for offline viewing")
-                .setMultiChoiceItems(new String[]{"Comments", "Images", "Gifs", "Albums"}, new boolean[]{true, true, false, false}, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(new String[]{"Gifs", "Albums"}, new boolean[]{false, false}, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which - 1] = isChecked;
@@ -1263,10 +1263,13 @@ public class MainActivity extends BaseActivity {
                                 case NSFW_GIF:
                                 case NONE_GFY:
                                 case NSFW_GFY:
+                                    if(chosen[0])
                                      GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
                                     break;
                                 case ALBUM:
-                                    AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                                    if(chosen[1])
+
+                                        AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
                                     break;
                             }
                             d.setProgress(newSubmissions.size());

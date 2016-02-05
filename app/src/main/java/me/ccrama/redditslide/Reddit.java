@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.IabHelper;
@@ -369,18 +370,20 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 Log.v(LogUtil.getTag(), "ERROR IS " + t.getMessage());
                 Log.v(LogUtil.getTag(), "STACK IS " + stacktrace);
 
-                if (t.getMessage().contains("doInBackground")) {
-                    //Is reddit API call that failed
+                if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException")) {
+                    //is offline
                     final Handler mHandler = new Handler(Looper.getMainLooper());
                     mHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                    .setMessage("The connection to Reddit failed, either because of a connection issue or because Reddit refused the request.")
-                                    .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                    .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
+                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
+                                            if (!(c instanceof MainActivity)) {
+                                                ((Activity) c).finish();
+                                            }
                                         }
                                     }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
                                 @Override
@@ -390,8 +393,48 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             }).show();
                         }
                     });
+                } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
+                    //Un-authenticated
+                    final Handler mHandler = new Handler(Looper.getMainLooper());
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                    .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (!(c instanceof MainActivity)) {
+                                                ((Activity) c).finish();
+                                            }
+                                        }
+                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    authentication.updateToken((c));
+                                }
+                            }).show();
+                        }
+                    });
 
+                } else if (stacktrace.contains("404 Not Found")) {
+                    final Handler mHandler = new Handler(Looper.getMainLooper());
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                    .setMessage("Reddit could not find the requested content.")
+                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (!(c instanceof MainActivity)) {
+                                                ((Activity) c).finish();
+                                            }
+                                        }
 
+                                    }).show();
+                        }
+                    });
                 } else {
                     appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
 
