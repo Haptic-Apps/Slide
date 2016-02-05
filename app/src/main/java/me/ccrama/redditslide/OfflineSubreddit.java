@@ -135,7 +135,25 @@ public class OfflineSubreddit {
             }
         }
     }
+    public void clearSeenPosts(boolean forever) {
+        if (submissions != null) {
 
+            for (int i = submissions.size(); i > -1; i--) {
+                try {
+                    if (HasSeen.getSeen(submissions.get(i).getFullName())) {
+                        if (forever) {
+                            Hidden.setHidden(submissions.get(i));
+                        }
+                        submissions.remove(i);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    //Let the loop reset itself
+                }
+            }
+
+        }
+        subredditBackups.put(subreddit, this);
+    }
     public OfflineSubreddit overwriteSubmissions(ArrayList<JsonNode> newSubmissions) {
         StringBuilder s = new StringBuilder();
         s.append(System.currentTimeMillis()).append("<SEPARATOR>");

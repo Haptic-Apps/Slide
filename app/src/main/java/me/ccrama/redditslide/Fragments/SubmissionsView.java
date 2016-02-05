@@ -37,6 +37,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -322,6 +323,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 rv.setItemAnimator(new SubtleSlideInUp(getContext()));
             return originalDataSetPosts;
         }
+
+        new OfflineSubreddit(id).clearSeenPosts(false);
         return null;
     }
 
