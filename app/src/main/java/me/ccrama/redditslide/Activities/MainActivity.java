@@ -1240,7 +1240,7 @@ public class MainActivity extends BaseActivity {
                 .setMultiChoiceItems(new String[]{"Gifs", "Albums"}, new boolean[]{false, false}, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        chosen[which - 1] = isChecked;
+                        chosen[which] = isChecked;
                     }
                 }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
@@ -1255,28 +1255,32 @@ public class MainActivity extends BaseActivity {
                         @Override
                         protected Void doInBackground(Void... params) {
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                            newSubmissions.add(s2);
-                            switch (ContentType.getImageType(s)) {
-                                case GFY:
-                                case GIF:
-                                case NONE_GIF:
-                                case NSFW_GIF:
-                                case NONE_GFY:
-                                case NSFW_GFY:
-                                    if(chosen[0])
-                                     GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
-                                    break;
-                                case ALBUM:
-                                    if(chosen[1])
+                            if (s2 != null) {
+                                newSubmissions.add(s2);
+                                switch (ContentType.getImageType(s)) {
+                                    case GFY:
+                                    case GIF:
+                                    case NONE_GIF:
+                                    case NSFW_GIF:
+                                    case NONE_GFY:
+                                    case NSFW_GFY:
+                                        if (chosen[0])
+                                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
+                                        break;
+                                    case ALBUM:
+                                        if (chosen[1])
 
-                                        AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
-                                    break;
+                                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                                        break;
+                                }
+                            } else {
+                                d.setMaxProgress((d.getMaxProgress() - 1));
                             }
                             d.setProgress(newSubmissions.size());
                             if (d.getCurrentProgress() == d.getMaxProgress()) {
                                 d.cancel();
 
-                                new OfflineSubreddit(subreddit).overwriteSubmissions(newSubmissions).writeToMemory();
+                                new OfflineSubreddit(subreddit).overwriteSubmissions(newSubmissions);
 
                             }
                             return null;
@@ -1306,12 +1310,16 @@ public class MainActivity extends BaseActivity {
             sort = CommentSort.CONFIDENCE;
         args.put("sort", sort.name().toLowerCase());
 
+        try {
 
-        RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
-                .path(String.format("/comments/%s", request.getId()))
-                .query(args)
-                .build());
-        return response.getJson();
+            RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
+                    .path(String.format("/comments/%s", request.getId()))
+                    .query(args)
+                    .build());
+            return response.getJson();
+        } catch (Exception e){
+            return null;
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 11/19/2015.
@@ -116,6 +120,7 @@ public class OfflineSubreddit {
                 submissions = new ArrayList<>();
                 for (int i = 1; i < split.length; i++) {
                     try {
+                        Log.v(LogUtil.getTag(), split[i]);
                         if (split[i].startsWith("[")) {
                             submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(split[i]), CommentSort.CONFIDENCE));
                         } else {
@@ -140,7 +145,7 @@ public class OfflineSubreddit {
         }
         String finals = s.toString();
         finals = finals.substring(0, finals.length() - 11);
-        Reddit.appRestart.edit().putString(subreddit.toLowerCase() , finals).apply();
+        Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
         subredditBackups.put(subreddit, this);
 
         return this;

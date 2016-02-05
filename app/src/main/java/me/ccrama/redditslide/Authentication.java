@@ -101,7 +101,7 @@ public class Authentication {
                             final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                             Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
-                            OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+                                OAuthHelper oAuthHelper = reddit.getOAuthHelper();
 
                             oAuthHelper.setRefreshToken(refresh);
                             OAuthData finalData = oAuthHelper.refreshToken(credentials);
