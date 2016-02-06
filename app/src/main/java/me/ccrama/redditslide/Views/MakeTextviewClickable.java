@@ -589,7 +589,7 @@ public class MakeTextviewClickable {
 
         CharSequence sequence = convertHtmlToCharSequence(rawHTML);
         comm.setText(sequence);
-        comm.setMovementMethod(new TextViewLinkHandler(c, subreddit, null));
+        comm.setMovementMethod(new TextViewLinkHandler(c, subreddit, sequence));
 
         comm.setLinkTextColor(new ColorPreferences(c).getColor(subreddit));
     }
