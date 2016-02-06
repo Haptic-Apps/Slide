@@ -61,7 +61,20 @@
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
+    <style name="pink_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_pink_A200</item>
 
+    </style>
+
+    <style name="pink_amoled" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
+
+    <style name="pink_light" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
     <style name="amber_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_amber_A700</item>
 
