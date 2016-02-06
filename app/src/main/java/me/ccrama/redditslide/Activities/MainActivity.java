@@ -940,10 +940,12 @@ public class MainActivity extends BaseActivity {
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
         drawerSubList.setAdapter(adapter);
 
-        e.setOnClickListener(new View.OnClickListener() {
+        e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                drawerSubList.scrollTo(0, header.getHeight() - e.getHeight());
+            public void onFocusChange(View v, boolean hasFocus) {
+                drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
+
+
             }
         });
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {

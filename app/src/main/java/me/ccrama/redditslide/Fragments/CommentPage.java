@@ -26,6 +26,7 @@ import net.dean.jraw.models.CommentSort;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
@@ -320,8 +321,8 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setRefreshing(true);
 
         if (!single) {
-            if (((CommentsScreen) getActivity()).o != null) {
-                o = ((CommentsScreen) getActivity()).o;
+            if (getActivity() instanceof  CommentsScreen?((CommentsScreen) getActivity()).o != null:((CommentsScreenPopup) getActivity()).o != null) {
+                o = (getActivity() instanceof  CommentsScreen)?((CommentsScreen) getActivity()).o:((CommentsScreenPopup) getActivity()).o;
             } else {
                 o = new OfflineSubreddit(baseSubreddit);
             }

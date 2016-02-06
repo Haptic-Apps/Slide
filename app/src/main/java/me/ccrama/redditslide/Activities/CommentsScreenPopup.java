@@ -33,6 +33,8 @@ public class CommentsScreenPopup extends BaseActivityAnim {
     private List<Submission> posts;
     String subreddit;
     String multireddit;
+    public OfflineSubreddit o;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
