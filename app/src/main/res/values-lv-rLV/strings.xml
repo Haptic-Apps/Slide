@@ -5,8 +5,6 @@
   <string name="theme_black">AMOLED melns</string>
   <string name="theme_default_color">Pamata krāsa</string>
   <string name="theme_base">Pamata motīvs</string>
-  <string name="theme_text">Teksta krāsa</string>
-  <string name="theme_card_type">Kāršu veids</string>
   <string name="font_size">Teksta izmērs</string>
   <string name="drawer_hello">Sveicināts,</string>
   <string name="drawer_sync_subs">Sinhronizē savus Subredditus</string>
@@ -66,8 +64,6 @@
   <string name="captcha_title">Pierādiet ka neesat robots</string>
   <string name="settings_accent_title">Uzstādīt akcentu krāsu</string>
   <string name="settings_card_mode">Kāršu režīms</string>
-  <string name="settings_image">Bilžu veids</string>
-  <string name="settings_indicator_everywhere">Visur</string>
   <string name="settings_link_album">Iebūvētais albumu skatītājs</string>
   <string name="settings_link_browser">Iebūvētais tīmekļa pārlūks</string>
   <string name="settings_link_gif">Iebūvētais GIF skatītājs</string>

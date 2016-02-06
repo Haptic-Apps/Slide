@@ -36,7 +36,7 @@ public class OpenImgurLink {
 
                     if (type.contains("gif")) {
                         Intent i = new Intent(c, GifView.class);
-                        i.putExtra("url", urls);
+                        i.putExtra(GifView.EXTRA_URL, urls);
                         c.startActivity(i);
                         ((Activity)c).overridePendingTransition(0, 0);
 
@@ -45,7 +45,7 @@ public class OpenImgurLink {
 
                     } else {
                         Intent i = new Intent(c, FullscreenImage.class);
-                        i.putExtra("url", urls);
+                        i.putExtra(FullscreenImage.EXTRA_URL, urls);
                         c.startActivity(i);
                         ((Activity)c).overridePendingTransition(0, 0);
 

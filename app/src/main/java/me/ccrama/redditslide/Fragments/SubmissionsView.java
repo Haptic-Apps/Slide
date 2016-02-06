@@ -44,6 +44,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
@@ -66,9 +67,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             int i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
             final RecyclerView.LayoutManager mLayoutManager;
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-            } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+            } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
                 mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
@@ -110,9 +111,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && Reddit.tabletUI) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && Reddit.dualPortrait){
+        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -122,7 +123,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv.setItemViewCacheSize(2);
 
 
-        if (Reddit.animation)
+        if (SettingValues.animation)
             rv.setItemAnimator(new SubtleSlideInUp(getContext()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -135,16 +136,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.setRefreshing(true);
 
 
-        if (Reddit.fab) {
+        if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
-            if (Reddit.fabType == R.integer.FAB_POST) {
+            if (SettingValues.fabType == R.integer.FAB_POST) {
                 fab.setImageResource(R.drawable.add);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent inte = new Intent(getActivity(), Submit.class);
-                        inte.putExtra("subreddit", id);
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, id);
                         getActivity().startActivity(inte);
                     }
                 });
@@ -159,7 +160,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean("fabClear", true).apply();
+                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(false);
 
@@ -179,7 +180,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean("fabClear", true).apply();
+                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(true);
 
@@ -210,7 +211,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
 
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
@@ -221,7 +222,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     totalItemCount = rv.getLayoutManager().getItemCount();
                     if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                         pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                        if (Reddit.scrollSeen) {
+                        if (SettingValues.scrollSeen) {
                             if (pastVisiblesItems > 0) {
                                 HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                             }
@@ -231,7 +232,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                             pastVisiblesItems = firstVisibleItems[0];
-                            if (Reddit.scrollSeen) {
+                            if (SettingValues.scrollSeen) {
                                 if (pastVisiblesItems > 0) {
                                     HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                                 }
@@ -240,7 +241,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
 
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        Log.v("Slide", "LOADING MORE" + totalItemCount);
+                        Log.v(LogUtil.getTag(), "LOADING MORE" + totalItemCount);
                         posts.loading = true;
                         posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
 
@@ -257,7 +258,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }*///todo For future implementation instead of scrollFlags
 
                 if (fab != null) {
-                    if (dy <= 0 && fab.getId() != 0 && Reddit.fab) {
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
 
                         fab.show();
 
@@ -305,7 +306,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         if (adapter.dataSet.posts.size() == 0) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            if (Reddit.animation)
+                            if (SettingValues.animation)
 
                                 rv.setItemAnimator(new FadeInAnimator());
 
@@ -316,7 +317,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            if (Reddit.animation)
+            if (SettingValues.animation)
                 rv.setItemAnimator(new SubtleSlideInUp(getContext()));
             return originalDataSetPosts;
         }
@@ -350,7 +351,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        (adapter.sContext).runOnUiThread(new Runnable() {
+        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mSwipeRefreshLayout != null) {
@@ -414,7 +415,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             public void run() {
                 if (mSwipeRefreshLayout != null) {
                     mSwipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(mSwipeRefreshLayout.getContext(), "Last updated " + TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
                 }
                 adapter.notifyDataSetChanged();
             }

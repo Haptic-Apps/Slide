@@ -4,23 +4,32 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by ccrama on 5/26/2015.
  */
 public class ContentType {
 
-    private static boolean isGif(String s) {
-        return (s.contains(".gif") || s.contains("gfycat.com") || s.contains(".webm") || s.contains(".mp4"));
+    public static boolean isGif(String s) {
+        return (s.endsWith(".gif") || s.contains("gfycat.com") || s.endsWith(".webm") || s.endsWith(".mp4") || s.endsWith(".gifv"));
     }
 
-    private static boolean isImage(String s) {
+    public static boolean isImage(String s) {
         return (s.contains(".png") || s.contains(".jpg") || s.contains(".jpeg") );
     }
 
-    private static boolean isAlbum(String s) {
+    public static boolean isAlbum(String s) {
         return (s.contains("imgur") && (s.contains("/a/")) || (s.contains("imgur") && (s.contains("gallery") || s.contains("/g/")) ));
     }
 
+    public static boolean isRedditLink(String url) {
+        return (url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("reddit.com/live");
+    }
+
+    public static boolean isImgurLink(String url) {
+        return (url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url));
+    }
 
     public static String getFixedUrlThumb(String s2) {
         String s = s2;
@@ -40,12 +49,12 @@ public class ContentType {
         }
         if (s2.contains("?")) {
             String f = s2.substring(s2.lastIndexOf("/") + 1, s2.lastIndexOf("?"));
-            Log.v("Slide", f);
+            Log.v(LogUtil.getTag(), f);
             return f;
         } else {
             if (s2.lastIndexOf("/") < s2.length()) {
                 String f = s2.substring(s2.lastIndexOf("/") + 1, s2.length());
-                Log.v("Slide", f);
+                Log.v(LogUtil.getTag(), f);
                 return f;
 
             } else {
@@ -64,11 +73,10 @@ public class ContentType {
         }
         if (s.isSelfPost()) {
             return ImageType.SELF;
-        } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
+        } else if (isRedditLink(url)) {
             return ImageType.REDDIT;
         }
-
-        if(url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url)){
+        if(isImgurLink(url)){
             return ImageType.IMGUR;
         }
         if (s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
@@ -115,11 +123,8 @@ public class ContentType {
                     if (url.contains("gfy"))
                         return ImageType.NONE_GFY;
                     return ImageType.NONE_GIF;
-                } else if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
-                    return ImageType.REDDIT;
                 } else if (!url.isEmpty()) {
                     return ImageType.LINK;
-
                 } else {
                     return ImageType.NONE;
                 }
@@ -150,14 +155,14 @@ public class ContentType {
         if (s.endsWith("/")) {
             s = s.substring(0, s.length() - 1);
         }
-        Log.v("Slide", "URL" + s);
+        Log.v(LogUtil.getTag(), "URL" + s);
         String f = s.substring(lastIndex);
-        Log.v("Slide", "URLnew" + f);
+        Log.v(LogUtil.getTag(), "URLnew" + f);
 
         if (f.length() > 6) {
             f = f.substring(0, s.indexOf("/") + 1);
         }
-        Log.v("Slide", f);
+        Log.v(LogUtil.getTag(), f);
         return f;
 
     }
@@ -172,12 +177,12 @@ public class ContentType {
             url = "reddit.com" + url;
         }
 
-        if ((url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("/live")) {
+        if (isRedditLink(url)) {
             return ImageType.REDDIT;
         } else if (url.contains("youtube.com") || url.contains("youtu.be")) {
             return ImageType.VIDEO;
         }
-        if(url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url)){
+        if(isImgurLink(url)){
             return ImageType.IMGUR;
         }
         if (isAlbum(url)) {
@@ -189,8 +194,10 @@ public class ContentType {
             if (url.contains("gfycat"))
                 return ImageType.GFY;
             return ImageType.GIF;
-        } else {
+        } else if (!url.isEmpty()){
             return ImageType.LINK;
+        } else {
+            return ImageType.NONE;
         }
 
     }

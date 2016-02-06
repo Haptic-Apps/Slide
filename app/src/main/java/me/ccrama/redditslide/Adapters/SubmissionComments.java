@@ -117,7 +117,7 @@ public class SubmissionComments {
             if (context == null) {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
             } else {
-                builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(3);
+                builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(5);
             }
             try {
                 submission = Authentication.reddit.getSubmission(builder.build());

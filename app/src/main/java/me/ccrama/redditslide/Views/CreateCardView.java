@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -94,7 +93,7 @@ public class CreateCardView {
         return found ? tv.data : defaultValue;
     }
     private static ArrayList<View> getViewsByTag(ViewGroup root, String tag){
-        ArrayList<View> views = new ArrayList<View>();
+        ArrayList<View> views = new ArrayList<>();
         final int childCount = root.getChildCount();
         for (int i = 0; i < childCount; i++) {
             final View child = root.getChildAt(i);
@@ -127,8 +126,8 @@ public class CreateCardView {
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
 
         resetColorCard(v);
-        if ((Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) ||( subToMatch.equals("nomatching") && (Reddit.colorBack && Palette.getColor(sec) != Palette.getDefaultColor())) ){
-            if(!secondary && !Reddit.colorEverywhere || secondary) {
+        if ((SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) ||( subToMatch.equals("nomatching") && (SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor())) ){
+            if(!secondary && !SettingValues.colorEverywhere || secondary) {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
 

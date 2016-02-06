@@ -17,13 +17,13 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsSubreddit extends BaseActivity {
-    private final static String TAG = "SettingsSubreddit";
     public SettingsSubAdapter mSettingsSubAdapter;
     ArrayList<String> changedSubs = new ArrayList<>();
 
@@ -59,7 +59,7 @@ public class SettingsSubreddit extends BaseActivity {
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
-                builder.title("Select a subreddit to add")
+                builder.title(R.string.reorder_add_subreddit)
                         .items(subsAsChar)
                         .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
@@ -81,7 +81,7 @@ public class SettingsSubreddit extends BaseActivity {
     }
 
     public void reloadSubList() {
-        Log.v(TAG, "adapter init");
+        Log.v(LogUtil.getTag(), "adapter init");
         changedSubs.clear();
         ArrayList<String> allSubs = SubredditStorage.alphabeticalSubreddits;
         allSubs.remove("all");

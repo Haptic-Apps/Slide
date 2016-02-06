@@ -37,6 +37,8 @@ import java.io.Writer;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -93,7 +95,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                                     @Override
                                     public void onResult(DriveApi.DriveContentsResult result) {
                                         final String copy = getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + s;
-                                        Log.v("Slide", "LOCATION IS " + copy);
+                                        Log.v(LogUtil.getTag(), "LOCATION IS " + copy);
                                         if (!result.getStatus().isSuccess()) {
                                             return;
                                         }
@@ -115,7 +117,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                                                         char[] chars = new char[(int) file.length()];
                                                         reader.read(chars);
                                                         content = new String(chars);
-                                                        Log.v("Slide", content);
+                                                        Log.v(LogUtil.getTag(), content);
 
                                                         reader.close();
                                                     } catch (IOException e) {
@@ -129,7 +131,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                                                     writer.write(content);
                                                     writer.close();
                                                 } catch (Exception e) {
-                                                    Log.e("Slide", e.getMessage());
+                                                    Log.e(LogUtil.getTag(), e.getMessage());
                                                 }
 
                                                 MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
@@ -203,7 +205,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
     @Override
     protected void onStart() {
         super.onStart();
-        if (Reddit.tabletUI)
+        if (SettingValues.tabletUI)
             mGoogleApiClient.connect();
     }
 
@@ -213,7 +215,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
         setContentView(R.layout.activity_settings_sync);
         setupAppBar(R.id.toolbar, R.string.settings_title_backup, true, true);
 
-        if (Reddit.tabletUI) {
+        if (SettingValues.tabletUI) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(Drive.API)
                     .addScope(Drive.SCOPE_FILE)
@@ -372,11 +374,11 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                 }
                 contents = builder.toString();
             } catch (IOException e) {
-                Log.e("Slide", "IOException while reading from the stream", e);
+                Log.e(LogUtil.getTag(), "IOException while reading from the stream", e);
             }
 
             File newF = new File(getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + t);
-            Log.v("Slide", "WRITING TO " + newF.getAbsolutePath());
+            Log.v(LogUtil.getTag(), "WRITING TO " + newF.getAbsolutePath());
 
 
             try {
@@ -417,7 +419,7 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
 
                 return;
             }
-            Log.v("Slide", "File contents: " + result);
+            Log.v(LogUtil.getTag(), "File contents: " + result);
         }
     }
 

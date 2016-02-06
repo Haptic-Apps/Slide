@@ -5,5 +5,4 @@
   <string name="general_confirm_exit_msg">Bạn có thực sự muốn thoát khỏi Slide?</string>
   <string name="general_switch_acc">Chuyển đổi tài khoản</string>
   <string name="general_enable_shadowbox">Kích hoạt chế độ Shadowbox</string>
-  <string name="theme_background">Màu nền thẻ</string>
 </resources>

@@ -20,6 +20,7 @@ import android.util.Log;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 public class CustomTabUtil {
 
@@ -28,7 +29,7 @@ public class CustomTabUtil {
     private static CustomTabsServiceConnection mConnection;
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
-        if (Reddit.web && Reddit.customtabs) {
+        if (SettingValues.web && SettingValues.customtabs) {
             Resources res = contextActivity.getResources();
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
                     .setToolbarColor(color)
@@ -36,20 +37,21 @@ public class CustomTabUtil {
                     .setStartAnimations(contextActivity, R.anim.slideright, R.anim.fading_out_real)
                     .setExitAnimations(contextActivity, R.anim.fade_out, R.anim.fade_in_real)
 
-                    .setActionButton(BitmapFactory.decodeResource(res, R.drawable.share), "Share",
+                    .setActionButton(BitmapFactory.decodeResource(res, R.drawable.share),
+                            contextActivity.getString(R.string.submission_link_share),
                             createPendingShareIntent(contextActivity.getApplicationContext(), url))
                     .setCloseButtonIcon(BitmapFactory.decodeResource(res, R.drawable.ic_arrow_back_white_24dp));
 
             try {
                 builder.build().launchUrl(contextActivity, Uri.parse(url));
             } catch (ActivityNotFoundException anfe) {
-                Log.w("OpenCustomTab", "Unknown url: " + anfe);
+                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
             }
-        } else if(!Reddit.customtabs && Reddit.web) {
+        } else if(!SettingValues.customtabs && SettingValues.web) {
             Intent i = new Intent(contextActivity, Website.class);
-            i.putExtra("url", url);
-            i.putExtra("color", color);
+            i.putExtra(Website.EXTRA_URL, url);
+            i.putExtra(Website.EXTRA_COLOR, color);
             contextActivity.startActivity(i);
         } else {
             Reddit.defaultShare(url, contextActivity);
@@ -70,7 +72,7 @@ public class CustomTabUtil {
             mCustomTabsSession = mClient.newSession(new CustomTabsCallback() {
                 @Override
                 public void onNavigationEvent(int navigationEvent, Bundle extras) {
-                    Log.w("Slide", "onNavigationEvent: Code = " + navigationEvent);
+                    Log.w(LogUtil.getTag(), "onNavigationEvent: Code = " + navigationEvent);
                 }
             });
         }

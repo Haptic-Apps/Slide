@@ -20,11 +20,14 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.Purchase;
 
 
 /**
  * Created by carlo_000 on 5/26/2015.
+ *
+ * Allows a user to donate to Slide using Google Play's IabHelper
  */
 public class DonateView extends BaseActivity {
 
@@ -34,7 +37,7 @@ public class DonateView extends BaseActivity {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 
             if (result.isFailure()) {
-                Log.d("Slide", "Error purchasing: " + result);
+                Log.d(LogUtil.getTag(), "Error purchasing: " + result);
                 AlertDialog.Builder builder = new AlertDialog.Builder(DonateView.this);
                 builder.setTitle(R.string.donate_err_title);
                 builder.setMessage(R.string.donate_err_msg);

@@ -12,6 +12,7 @@
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
+    <string name="submission_info_archived">This is an archived post. You won\'t be able to vote or comment.</string>
     <string name="submission_post_saved">Post saved</string>
     <string name="submission_info_hidden">Post hidden forever.</string>
     <string name="submission_stickied">pinned</string>
@@ -50,14 +51,8 @@
     <string name="theme_default_color">Base color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
-    <string name="theme_background">Card Background</string>
     <string name="theme_base">Base theme</string>
     <string name="theme_card">Card</string>
-    <string name="theme_indicator">Subreddit Color Indicator</string>
-    <string name="theme_match_always">Always Match</string>
-    <string name="theme_match_ext">Match Externally</string>
-    <string name="theme_text">Text Color</string>
-    <string name="theme_card_type">Card type</string>
 
 
     <!-- Font settings -->
@@ -70,16 +65,19 @@
     <!-- For editing the submission card layout -->
     <string name="card_actionbar">Action Bar visible</string>
     <string name="card_picture">Big picture</string>
-    <string name="card_picture_cropped">Big picture cropped</string>
+    <string name="card_picture_cropped">Crop big picture</string>
     <string name="card_hide_post_button">\"Hide post\" button in actionbar</string>
-    <string name="card_infobar">Info bar</string>
-    <string name="card_thumbnail">Thumbnail</string>
+    <string name="card_tint_background">Tint card background to subreddit color</string>
+    <string name="card_tint_outside">Only tint outside the subreddit</string>
+    <string name="card_save_button">\'\'Save post\'\' button in actionbar</string>
+    <string name="card_section_images">Images</string>
+    <string name="card_section_actionbar">Actionbar</string>
 
 
     <!-- Settings for Multi-column view -->
     <string name="multi_column_title">Multi-Column</string>
     <string name="multi_column_landscape">Landscape</string>
-    <string name="multi_column_portrait">Portrait settings coming soon</string>
+    <string name="multi_column_portrait">Dual columns in portrait mode</string>
 
 
     <!-- Drawer items (That's the one on the left) -->
@@ -93,6 +91,8 @@
     <string name="drawer_search">Go to subreddit</string>
     <string name="drawer_moderation">Moderation</string>
     <string name="drawer_sync_subs">Sync your subreddits</string>
+    <string name="drawer_account_switch">Switch or Delete</string>
+    <string name="drawer_account_switch_msg">Would you like to switch to this account or remove this account?</string>
 
 
     <!-- Sidebar items (That's the one on the right) -->
@@ -124,6 +124,7 @@
     <string name="profile_gilded">gilded</string>
     <string name="profile_downvoted">downvoted</string>
     <string name="profile_hidden">hidden</string>
+    <string name="profile_friend">Friend</string>
     <string name="profile_add_friend">Add friend</string>
     <string name="profile_remove_friend">Remove friend</string>
 
@@ -132,12 +133,14 @@
     <string name="comment_gild">Gild comment</string>
     <string name="comment_report">Report comment</string>
     <string name="comment_share">Share comment</string>
-    <string name="comment_load_more">Load more comments</string>
     <string name="comment_delete">Delete comment</string>
     <string name="comment_delete_msg">Do you really want to delete this comment? This cannot be undone.</string>
     <string name="comment_delete_err">Uh oh, something went wrong.</string>
     <string name="comment_delete_err_msg">Would you like to try again?</string>
     <string name="comment_deleted">[deleted]</string>
+    <string name="comment_unsave">Un-save</string>
+    <string name="comment_load_more">Load %1$d more</string>
+    <string name="comment_loading_more">Loading more comments…</string>
 
 
     <!-- Tutorial view -->
@@ -186,7 +189,7 @@
     <string name="editor_uploading_image">Uploading image to imgur</string>
     <string name="editor_self">Self text</string>
     <string name="editor_select_img">Select picture</string>
-    <string name="editor_hint_optional_body">Body (optional)</string>
+    <string name="editor_hint_optional_body">Text (optional)</string>
     <string name="editor_submit">Submit a post</string>
     <string name="editor_hint_subreddit">Subreddit</string>
 
@@ -208,7 +211,7 @@
     <string name="err_login">You have to log in to do that! Log in now?</string>
     <string name="err_permission">Permission was Denied</string>
     <string name="err_permission_msg">It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(. \nWould you like to allow Slide to access external storage?</string>
-
+    <string name="err_authentication">Authentication failed</string>
 
     <!-- Gif -->
     <string name="gif_err_title">GIF not found</string>
@@ -257,13 +260,14 @@
     <string name="type_img">Image</string>
     <string name="type_vid">Video</string>
     <string name="type_emb">Embedded</string>
+    <string name="type_imgur">Imgur content</string>
 
 
     <!-- Reply to message -->
     <string name="mail_author_wrote">%1$s wrote…</string>
     <string name="mail_hint_recipient">Recipient</string>
     <string name="mail_hint_subject">Subject</string>
-    <string name="mail_hint_body">Body</string>
+    <string name="mail_hint_body">Text</string>
     <string name="mail_send_to">Send a message to %1$s</string>
     <string name="mail_send">Send a message</string>
     <string name="mail_notification_msg">New message from %1$s</string>
@@ -294,6 +298,9 @@
     <string name="misc_unsubscribed">Unsubscribed</string>
     <string name="misc_no_more_posts">No more posts!</string>
     <string name="misc_please_wait">Please wait…</string>
+    <string name="misc_img_share">Share image with</string>
+    <string name="misc_link_chooser">Open URL with</string>
+    <string name="misc_mark_read">Mark as read</string>
 
 
     <!-- Goto User -->
@@ -323,10 +330,11 @@
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
     <string name="btn_refresh">Refresh</string>
-    <string name="btn_offline">Cache posts</string>
     <string name="btn_confirm">Confirm</string>
     <string name="btn_theme_toggle">Toggle dark theme</string>
-
+    <string name="btn_cache">Cache comments</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_switch">Switch</string>
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
@@ -377,7 +385,6 @@
     <string name="subreddit_subscribers">%1$d subscribers</string>
     <string name="subreddit_err_msg">The subreddit %1$s could not be found. Perhaps it\'s spelled wrong?</string>
     <string name="subreddit_err">Subreddit not found</string>
-    <string name="subreddit_change_card">Change card type for subreddit</string>
     <string name="subreddit_chooser">Pick a subreddit</string>
 
 
@@ -397,14 +404,10 @@
 
 
     <!-- Settings -->
-    <string name="settings_reddit_settings">Reddit Preferences</string>
+    <string name="settings_reddit_prefs">Reddit Preferences</string>
     <string name="settings_accent_title">Edit accent color</string>
     <string name="settings_card_mode">Card Mode</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
-    <string name="settings_image">Image Mode</string>
-    <string name="settings_indicator_everywhere">Everywhere</string>
-    <string name="settings_indicator_place">Where to Show Color Indicator</string>
-    <string name="settings_layout_chooser">Choose a Layout Type</string>
     <string name="settings_layout_default">Post Layout</string>
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_browser">Internal web browser</string>
@@ -444,10 +447,26 @@
     <string name="settings_auto_end">Day starts at</string>
     <string name="settings_cache_always">Always show offline data first (faster startup)</string>
     <string name="settings_auto_start">Night starts at</string>
-    <string name="settings_fullscreen_views">View images in fullscreen</string>
     <string name="settings_middle_card">Image in middle of card</string>
     <string name="settings_cache_delete">Delete all cached data</string>
     <string name="settings_colored_navigation_bar">Colored navigation bar</string>
+    <string name="settings_imageviewer_background">Use Solid Imageviewer background</string>
+    <string name="settings_filter_domain">Domain filters</string>
+    <string name="settings_filter_selfttext">Selfext fitlers</string>
+    <string name="settings_filter_title">Title filters</string>
+    <string name="settings_filter_hint">Enter strings to match separated by commas</string>
+    <string name="settings_prefs_reddit">View all reddit.com preferences</string>
+    <string name="settings_nsfw_info">If you are not seeing NSFW content or previews, make sure to select \'I am 18 years old\' and \'Show NSFW Thumbnails\' at the reddit.com preferences screen below.</string>
+    <string name="settings_font_post">Post title font</string>
+    <string name="settings_font_comment">Comment font</string>
+    <string name="settings_comment_crop">Crop lead image in comment view</string>
+    <string name="settings_general_blur_thumbs">Hide low quality image previews</string>
+    <string name="settings_general_swipeanywhere">Swipe away from anywhere</string>
+    <string name="settings_general_alphabetical">Alphabetical sidebar</string>
+    <string name="settings_general_no_header">Hide header on drawer</string>
+    <string name="settings_general_scroll_read">Mark posts as seen when scrolled past</string>
+    <string name="settings_link_chrome">Use Chrome Custom Tabs</string>
+    <string name="settings_link_horizontal_album">Horizontal album style</string>
 
 
     <!-- Settings titles displayed in settings activity-->
@@ -464,11 +483,16 @@
     <string name="settings_title_about">About</string>
     <string name="settings_title_multi_column">Multi-Column</string>
     <string name="settings_title_fab">Floating Action Button</string>
-    <string name="settings_subhead_support">Support</string>
     <string name="settings_title_caching">Cache settings</string>
     <string name="settings_title_cache">Cache</string>
     <string name="settings_title_auto">Auto Theme</string>
     <string name="settings_title_comments">Comments</string>
+    <string name="settings_title_filter">Filters</string>
+    <string name="settings_title_font">Font</string>
+    <string name="settings_title_other">Other</string>
+
+    <string name="settings_section_support">Support</string>
+    <string name="settings_section_general">General Settings</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -507,16 +531,27 @@
     <string name="offline_caching">Caching submissions</string>
     <string name="offline_msg">Please go online and refresh the subreddit to do that</string>
     <string name="offline_drawer_info">Slide is in offline mode. Connect to the internet to see all content!</string>
+    <string name="offline_last_update">Last updated %1$s</string>
+    <string name="offline_comments_not_loaded">Please go back online and select \'Cache comments\' from the 3 dot menu to view comments offline.</string>
     <string name="network_connected">Network connected</string>
     <string name="network_connected_msg">Would you like to exit offline mode?</string>
 
 
+    <!-- Website -->
+    <string name="website_back">Go back</string>
+    <string name="website_external">Open in External Browser</string>
+
+
+    <!-- Reorder subreddit activity -->
+    <string name="reorder_subreddits_title">Select a subreddit to add</string>
+    <string name="reorder_add_subreddit">Add a subreddit</string>
+    <string name="reorder_subreddit_name">Subreddit name</string>
+    <string name="reorder_remove_title">Remove this sub?</string>
+    <string name="reorder_remove_msg">You will not be unsubscribed, but will not see this subreddit in your sidebar!</string>
+
+
     <!-- Time -->
     <string name="time_just_now">just now</string>
-    <string name="settings_section_general">General Settings</string>
-    <string name="settings_title_other">Other</string>
-    <string name="settings_general_swipeanywhere">Swipe away from anywhere</string>
-    <string name="settings_link_chrome">Use Chrome Custom Tabs</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

@@ -166,7 +166,7 @@
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="Crop lead image in comment view"
+                    android:text="@string/settings_comment_crop"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"/>
             </LinearLayout>

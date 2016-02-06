@@ -38,6 +38,11 @@
 
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".Activities.ForceTouchLink"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".Activities.Album"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
@@ -59,6 +64,11 @@
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.ModQueue"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:theme="@style/swipeable" />
+        <activity
+            android:name=".Activities.AlbumPager"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:theme="@style/swipeable" />
@@ -283,6 +293,9 @@
          <service android:name="StackWidgetService"
              android:permission="android.permission.BIND_REMOTEVIEWS"
              android:exported="false" />!-->
+        <service
+            android:name=".Adapters.MarkAsReadService"
+            android:exported="false" />
 
         <uses-library
             android:name="com.sec.android.app.multiwindow"

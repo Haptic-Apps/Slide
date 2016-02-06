@@ -17,11 +17,13 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * This class is reponsible for loading subreddit specific submissions
- * {@Link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
+ * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
  * asynchronously.
  *
  * Created by ccrama on 9/17/2015.
@@ -111,9 +113,9 @@ public class SubredditPosts implements PostLoader {
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && Reddit.cache) {
+            } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && SettingValues.cache) {
                 // is offline
-                Log.v("Slide", "GETTING SUB " + subreddit.toLowerCase());
+                Log.v(LogUtil.getTag(), "GETTING SUB " + subreddit.toLowerCase());
                 offline = true;
                 final OfflineSubreddit cached = Cache.getSubreddit(subreddit.toLowerCase());
 
@@ -141,7 +143,7 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
-            Log.v("Slide", "DOING FOR " + subredditPaginators[0]);
+            Log.v(LogUtil.getTag(), "DOING FOR " + subredditPaginators[0]);
 
             if (!NetworkUtil.isConnected(context)) {
                 offline = true;
@@ -151,7 +153,7 @@ public class SubredditPosts implements PostLoader {
             }
 
             stillShow = true;
-            if (Reddit.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && Reddit.cache) {
+            if (SettingValues.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && SettingValues.cache) {
                 offline = true;
                 doneOnce = true;
                 return null;
@@ -175,17 +177,22 @@ public class SubredditPosts implements PostLoader {
 
             List<Submission> things = new ArrayList<>();
 
-            if (paginator != null && paginator.hasNext()) {
-                for (Submission submission : paginator.next()) {
+            try {
+                if (paginator != null && paginator.hasNext()) {
+                    for (Submission submission : paginator.next()) {
                         things.add(submission);
 
+                    }
+                } else {
+                    nomore = true;
                 }
-            } else {
-                nomore = true;
-            }
 
-            if (Reddit.cache) {
-                Cache.writeSubreddit(things, subredditPaginators[0]);
+                if (SettingValues.cache) {
+                    Cache.writeSubreddit(things, subredditPaginators[0]);
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+
             }
 
             return things;

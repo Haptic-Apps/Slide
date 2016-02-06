@@ -72,7 +72,7 @@
             android:gravity="center"
             android:padding="8dp"
             android:text="@string/submission_np_link"
-            android:textColor="?attr/font"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
         <TextView
@@ -81,8 +81,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
-            android:text="This is an archived post. You won't be able to vote or comment."
-            android:textColor="?attr/font"
+            android:text="@string/submission_info_archived"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
         <TextView

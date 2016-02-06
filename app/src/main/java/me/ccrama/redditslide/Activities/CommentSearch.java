@@ -19,6 +19,10 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 /**
  * Created by ccrama on 9/17/2015.
+ *
+ * This activity takes the shared comment data and allows for searching through the text of the
+ * CommentNodes.
+ *
  */
 public class CommentSearch extends BaseActivityAnim {
 

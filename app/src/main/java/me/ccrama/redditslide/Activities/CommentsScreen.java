@@ -20,8 +20,9 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.StyleView;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing
@@ -29,14 +30,16 @@ import me.ccrama.redditslide.Visuals.StyleView;
  * post.
  *
  * When the end of the currently loaded posts is being reached, more posts are
- * loaded asynchronously in {@Link OverviewPagerAdapter}.
+ * loaded asynchronously in {@link OverviewPagerAdapter}.
  *
- * Comments are displayed in the {@Link CommentPage} fragment.
+ * Comments are displayed in the {@link CommentPage} fragment.
  *
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
-    final private static String TAG = "CommentsScreen";
+    public static final String EXTRA_PAGE = "page";
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_MULTIREDDIT = "multireddit";
     private PostLoader subredditPosts;
     int firstPage;
 
@@ -50,9 +53,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
 
-        firstPage = getIntent().getExtras().getInt("page", -1);
-        subreddit = getIntent().getExtras().getString("subreddit");
-        String multireddit = getIntent().getExtras().getString("multireddit");
+        firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+        String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
             ((MultiredditPosts)subredditPosts).skipOne = true;
@@ -63,7 +66,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
-            Log.w(TAG, "Is single post?");
+            Log.w(LogUtil.getTag(), "Is single post?");
         } else {
             subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
@@ -156,7 +159,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             }
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
-            Log.v("Slide", name.substring(3, name.length()));
+            Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
@@ -168,7 +171,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
             int offset = 0;
-            if (Reddit.single || Reddit.swipeAnywhere) {
+            if (SettingValues.single || SettingValues.swipeAnywhere) {
                 offset = 1;
             }
             return subredditPosts.getPosts().size() + offset;

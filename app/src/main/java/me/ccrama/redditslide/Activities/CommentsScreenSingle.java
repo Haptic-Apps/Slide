@@ -16,10 +16,15 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
  * Created by ccrama on 9/17/2015.
+ *
+ * This activity takes parameters for a submission id (through intent or direct link),
+ * retrieves the Submission object, and then displays the submission with its comments.
+ *
  */
 public class CommentsScreenSingle extends BaseActivityAnim {
     OverviewPagerAdapter comments;
@@ -29,19 +34,25 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     private String name;
     private String context;
 
+    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_CONTEXT = "context";
+    public static final String EXTRA_SUBMISSION = "submission";
+    public static final String EXTRA_NP = "np";
+    public static final String EXTRA_LOADMORE = "loadmore";
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
-        name = getIntent().getExtras().getString("submission", "");
+        name = getIntent().getExtras().getString(EXTRA_SUBMISSION, "");
 
-        subreddit = getIntent().getExtras().getString("subreddit", "");
-        np = getIntent().getExtras().getBoolean("np", false);
-        context = getIntent().getExtras().getString("context", "");
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
+        np = getIntent().getExtras().getBoolean(EXTRA_NP, false);
+        context = getIntent().getExtras().getString(EXTRA_CONTEXT, "");
 
-        if (subreddit.equals("NOTHING")) {
+        if (subreddit.equals(Reddit.EMPTY_STRING)) {
             new AsyncGetSubredditName().execute(name);
         } else {
             setupAdapter();

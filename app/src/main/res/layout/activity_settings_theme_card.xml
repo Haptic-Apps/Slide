@@ -118,7 +118,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="IMAGES"
+                    android:text="@string/card_section_images"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textAllCaps="true"
@@ -157,7 +157,7 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:text="Big picture enabled"
+                        android:text="@string/card_picture"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
                 </LinearLayout>
@@ -193,7 +193,7 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:text="Crop big picture"
+                        android:text="@string/card_picture_cropped"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
                 </LinearLayout>
@@ -243,7 +243,7 @@
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="Actionbar"
+                    android:text="@string/card_section_actionbar"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textAllCaps="true"
@@ -352,7 +352,7 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:text="''Save post'' button in actionbar"
+                        android:text="@string/card_save_button"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
                 </LinearLayout>

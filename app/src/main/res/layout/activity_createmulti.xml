@@ -15,6 +15,7 @@
         android:clipToPadding="false"
         android:minHeight="56dp"
         android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways"
 
 

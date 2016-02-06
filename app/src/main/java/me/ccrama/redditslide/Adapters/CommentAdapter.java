@@ -42,7 +42,6 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
-import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
@@ -50,8 +49,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
@@ -63,6 +60,7 @@ import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
@@ -72,6 +70,7 @@ import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -280,7 +279,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     mod.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
-                Log.d("Error loading mod ", e.toString());
+                Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
             }
         }
         {
@@ -415,7 +414,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                     }
                                 })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.dismiss();
@@ -492,13 +491,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(mContext, Profile.class);
-                        i.putExtra("profile", n.getAuthor());
+                        i.putExtra(Profile.EXTRA_PROFILE, n.getAuthor());
                         mContext.startActivity(i);
                     }
                 });
                 final boolean[] saved = {n.isSaved()};
                 if (saved[0]) {
-                    ((TextView) dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
                 }
                 dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -539,7 +538,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
-                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText("Un-save");
+                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
 
                                     saved[0] = true;
                                 }
@@ -754,29 +753,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentArea.setVisibility(View.GONE);
 
 
-            if (comment.isScoreHidden()) {
-                String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
+            String scoreText;
+            if (comment.isScoreHidden())
+                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+            else scoreText = comment.getScore().toString();
 
-                holder.score.setText("[" + scoreText + "]");
+            holder.score.setText(scoreText);
 
-            }
-            if (up.contains(comment.getFullName())) {
+            if (up.contains(comment.getFullName()))
                 holder.score.setTextColor(holder.textColorUp);
-                if (!comment.isScoreHidden()) {
-                    holder.score.setText(comment.getScore() + 1 + "");
-                }
-            } else if (down.contains(comment.getFullName())) {
+            else if (down.contains(comment.getFullName()))
                 holder.score.setTextColor(holder.textColorDown);
-                if (!comment.isScoreHidden()) {
-                    holder.score.setText(comment.getScore() - 1 + "");
-                }
-
-            } else {
-                holder.score.setTextColor(holder.textColorRegular);
-                if (!comment.isScoreHidden()) {
-                    holder.score.setText(comment.getScore() + "");
-                }
-            }
+            else holder.score.setTextColor(holder.textColorRegular);
 
 
             if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
@@ -822,7 +810,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.content.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doOnClick(holder, comment, baseNode);
                     } else {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
@@ -835,7 +823,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doOnClick(holder, comment, baseNode);
 
                     } else {
@@ -874,9 +862,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.author.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Reddit.click_user_name_to_profile) {
+                    if (SettingValues.click_user_name_to_profile) {
                         Intent i2 = new Intent(mContext, Profile.class);
-                        i2.putExtra("profile", comment.getAuthor());
+                        i2.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
                         mContext.startActivity(i2);
                     } else {
                         holder.itemView.performClick();
@@ -891,7 +879,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else {
                         doOnClick(holder, comment, baseNode);
@@ -902,7 +890,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
-                    if (Reddit.swap) {
+                    if (SettingValues.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
                     } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
                         doOnClick(holder, comment, baseNode);
@@ -1012,7 +1000,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra("profile", submission.getAuthor());
+                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                             mContext.startActivity(i);
                         }
                     });
@@ -1021,7 +1009,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, SubredditView.class);
-                            i.putExtra("subreddit", submission.getSubredditName());
+                            i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
                             mContext.startActivity(i);
                         }
                     });
@@ -1105,7 +1093,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             nextPos = getRealPosition(nextPos);
 
             final MoreChildItem baseNode = (MoreChildItem) users.get(nextPos);
-            ((TextView) holder.itemView.findViewById(R.id.content)).setText("Load " + baseNode.children.getCount() + " more");
+            ((TextView) holder.itemView.findViewById(R.id.content)).setText(
+                    mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
 
 
 
@@ -1123,7 +1112,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
-                        ((TextView) holder.itemView.findViewById(R.id.content)).setText("Loading more comments...");
+                        ((TextView) holder.itemView.findViewById(R.id.content)).setText(R.string.comment_loading_more);
                         new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) , holder.getAdapterPosition() , holder).execute(baseNode);
                     }
 
@@ -1372,7 +1361,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                 } catch (Exception e) {
-                    Log.w("CommentAdapter", "Cannot load more comments " + e);
+                    Log.w(LogUtil.getTag(), "Cannot load more comments " + e);
                 }
 
 
@@ -1455,7 +1444,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
                 } catch (ApiException e) {
-                    Log.v("Slide", "UH OH!!");
+                    Log.v(LogUtil.getTag(), "UH OH!!");
                     //todo this
                 }
 

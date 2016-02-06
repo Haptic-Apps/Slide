@@ -8,7 +8,6 @@ import android.widget.CompoundButton;
 
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -23,7 +22,7 @@ public class SettingsReddit extends BaseActivity {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_reddit);
-        setupAppBar(R.id.toolbar, "Reddit settings", true, true);
+        setupAppBar(R.id.toolbar, R.string.settings_reddit_prefs, true, true);
         {
 
             final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
@@ -42,10 +41,10 @@ public class SettingsReddit extends BaseActivity {
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Reddit.web) {
+                if (SettingValues.web) {
                     Intent browserIntent = new Intent(SettingsReddit.this, Website.class);
-                    browserIntent.putExtra("url", "https://www.reddit.com/prefs/");
-                    browserIntent.putExtra("color", Palette.getDefaultColor());
+                    browserIntent.putExtra(Website.EXTRA_URL, "https://www.reddit.com/prefs/");
+                    browserIntent.putExtra(Website.EXTRA_COLOR, Palette.getDefaultColor());
                     startActivity(browserIntent);
                 } else OpenRedditLink.customIntentChooser(
                         "https://www.reddit.com/prefs/", SettingsReddit.this);

@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Album;
+import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
@@ -72,6 +73,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -104,15 +106,15 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case IMGUR:
                         Intent i2 = new Intent(contextActivity, Imgur.class);
-                        i2.putExtra("url", submission.getUrl());
+                        i2.putExtra(Imgur.EXTRA_URL, submission.getUrl());
                         contextActivity.startActivity(i2);
                         break;
                     case EMBEDDED:
-                        if (Reddit.video) {
+                        if (SettingValues.video) {
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                i.putExtra("html", data);
+                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
                                 contextActivity.startActivity(i);
                             }
                         } else {
@@ -143,10 +145,18 @@ public class PopulateSubmissionViewHolder {
                         openGif(true, contextActivity, submission);
                         break;
                     case ALBUM:
-                        if (Reddit.album) {
-                            Intent i = new Intent(contextActivity, Album.class);
-                            i.putExtra("url", submission.getUrl());
-                            contextActivity.startActivity(i);
+                        if (SettingValues.album) {
+                            if(SettingValues.albumSwipe){
+                                Intent i = new Intent(contextActivity, AlbumPager.class);
+                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                contextActivity.startActivity(i);
+                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                            } else {
+                                Intent i = new Intent(contextActivity, Album.class);
+                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                contextActivity.startActivity(i);
+                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                            }
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
 
@@ -176,9 +186,9 @@ public class PopulateSubmissionViewHolder {
                         CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case VIDEO:
-                        if (Reddit.video) {
+                        if (SettingValues.video) {
                             Intent intent = new Intent(contextActivity, FullscreenVideo.class);
-                            intent.putExtra("html", submission.getUrl());
+                            intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
                             contextActivity.startActivity(intent);
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -194,7 +204,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     private static boolean isBlurry(JsonNode s, Context mC, String title) {
-        if (Reddit.blurCheck) {
+        if (SettingValues.blurCheck) {
             return false;
         } else {
             int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
@@ -208,10 +218,10 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openImage(Activity contextActivity, Submission submission) {
-        if (Reddit.image) {
+        if (SettingValues.image) {
             DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra("url", submission.getUrl());
+            myIntent.putExtra(FullscreenImage.EXTRA_URL, submission.getUrl());
             contextActivity.startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -220,14 +230,14 @@ public class PopulateSubmissionViewHolder {
     }
 
     public static void openGif(final boolean gfy, Activity contextActivity, Submission submission) {
-        if (Reddit.gif) {
+        if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
             Intent myIntent = new Intent(contextActivity, GifView.class);
             if (gfy) {
-                myIntent.putExtra("url", "gfy" + submission.getUrl());
+                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission.getUrl());
             } else {
-                myIntent.putExtra("url", "" + submission.getUrl());
+                myIntent.putExtra(GifView.EXTRA_URL, "" + submission.getUrl());
 
             }
             contextActivity.startActivity(myIntent);
@@ -642,7 +652,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra("profile", submission.getAuthor());
+                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                             mContext.startActivity(i);
                         }
                     });
@@ -651,7 +661,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(mContext, SubredditView.class);
-                            i.putExtra("subreddit", submission.getSubredditName());
+                            i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
                             mContext.startActivity(i);
                         }
                     });
@@ -718,7 +728,7 @@ public class PopulateSubmissionViewHolder {
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.show();
-                    if (!Reddit.hideButton) {
+                    if (!SettingValues.hideButton) {
                         dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -791,7 +801,7 @@ public class PopulateSubmissionViewHolder {
         final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
 
         if (hideButton != null) {
-            if (Reddit.hideButton) {
+            if (SettingValues.hideButton) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -816,7 +826,7 @@ public class PopulateSubmissionViewHolder {
             } else {
                 hideButton.setVisibility(View.GONE);
             }
-            if (Reddit.saveButton && Authentication.isLoggedIn) {
+            if (SettingValues.saveButton && Authentication.isLoggedIn) {
                 holder.itemView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -843,9 +853,9 @@ public class PopulateSubmissionViewHolder {
                             @Override
                             protected void onPostExecute(Void aVoid) {
                                 if (submission.saved) {
-                                    Snackbar.make(recyclerview, "Submission saved", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(recyclerview, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    Snackbar.make(recyclerview, "Submission un-saved", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(recyclerview, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
 
                                 }
 
@@ -963,7 +973,7 @@ public class PopulateSubmissionViewHolder {
             info = holder.subTextImage;
         }
 
-        if(full && Reddit.cropImage){
+        if(full && SettingValues.cropImage){
             holder.leadImage.setMaxHeight(dpToPx(200));
         }
 
@@ -1015,7 +1025,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                 case IMGUR:
-                    title.setText("Imgur content");
+                    title.setText(R.string.type_imgur);
                     break;
                 case GFY:
                 case GIF:
@@ -1078,7 +1088,7 @@ public class PopulateSubmissionViewHolder {
             flair.setVisibility(View.GONE);
         } else {
             flair.setVisibility(View.VISIBLE);
-            Log.v("Slide", "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
+            Log.v(LogUtil.getTag(), "FLAIR IS '" + submission.getSubmissionFlair().getText() + "'");
             ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
         }
 

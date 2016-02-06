@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
@@ -53,15 +53,15 @@ public class SelftextFull extends Fragment {
         rootView.findViewById(R.id.imagearea).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Reddit.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
-                    i2.putExtra("page", i);
+                    i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                    i2.putExtra("page", i);
-                    i2.putExtra("subreddit", s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
                     (getActivity()).startActivity(i2);
                 }
             }

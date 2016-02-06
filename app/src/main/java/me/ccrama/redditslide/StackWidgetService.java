@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 10/2/2015.
@@ -75,7 +76,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
 
             } catch (Exception e) {
-                Log.v("Slide", e.toString());
+                Log.v(LogUtil.getTag(), e.toString());
             }
 
 
@@ -113,11 +114,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public void onDataSetChanged() {
         if (posts == null) {
             posts = new SubredditPosts("all");
-            Log.v("Slide", "MAKING POSTS");
+            Log.v(LogUtil.getTag(), "MAKING POSTS");
         }
         posts.loadMore(mContext, null, true);
         submissions = posts.posts;
-        Log.v("Slide", "POSTS IS SIZE " + submissions.size());
+        Log.v(LogUtil.getTag(), "POSTS IS SIZE " + submissions.size());
 
 
     }

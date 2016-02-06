@@ -33,6 +33,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 10/18/2015.
@@ -84,7 +85,7 @@ public class DoEditorActions {
 
                         if (data != null) {
                             Uri selectedImageUri = data.getData();
-                            Log.v("Slide", "WORKED! " + selectedImageUri.toString());
+                            Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
                                 new UploadImgur(editText).execute(bitmap);

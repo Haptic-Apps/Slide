@@ -12,13 +12,14 @@ import me.ccrama.redditslide.Views.OpenImgurLink;
 public class Imgur extends FullScreenActivity {
 
 
+    public static final String EXTRA_URL = "url";
 
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
         super.onCreate(savedInstanceState);
 
-        String url = getIntent().getExtras().getString("url");
+        String url = getIntent().getExtras().getString(EXTRA_URL);
 
         OpenImgurLink.openImgurLink(this, url);
 

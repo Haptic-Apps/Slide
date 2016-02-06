@@ -39,28 +39,18 @@
   <string name="theme_default_color">צבע ראשי</string>
   <string name="theme_subreddit_color">שנה צבע</string>
   <string name="theme_accent_color">צבע הדגשה</string>
-  <string name="theme_background">רקע קלפים</string>
   <string name="theme_base">ערכת נושא בסיסית</string>
   <string name="theme_card">קלף</string>
-  <string name="theme_indicator">מחוון צבע Subreddit</string>
-  <string name="theme_match_always">תמיד התאם</string>
-  <string name="theme_match_ext">התאם חיצונית</string>
-  <string name="theme_text">צבע טקסט</string>
   <string name="font_size">גודל גופן</string>
   <string name="font_large">גדול</string>
   <string name="font_medium">בינוני</string>
   <string name="font_small">קטן</string>
   <string name="card_actionbar">שורת פעולה גלויה</string>
   <string name="card_picture">תמונה גדולה</string>
-  <string name="card_picture_cropped">תמונה גדולה חתוכה</string>
-  <string name="card_infobar">שורת מידע</string>
-  <string name="card_thumbnail">תמונה ממוזערת</string>
   <string name="multi_column_title">הגדרות עמודות מרובות</string>
   <string name="multi_column_landscape">רוחב</string>
-  <string name="multi_column_portrait">אפשרויות אורך בקרוב</string>
   <string name="drawer_profile">פרופיל</string>
   <string name="drawer_goto_profile">צפה בפרופיל</string>
-  <string name="drawer_reorder_subs">סידור מחדש של הנעוצים</string>
   <string name="drawer_add_account">הוסף משתמש</string>
   <string name="drawer_hello">היי</string>
   <string name="drawer_change_account">החלף משתמש</string>
@@ -87,7 +77,6 @@
   <string name="comment_gild">תן בזהב</string>
   <string name="comment_report">דווח/י על התגובה</string>
   <string name="comment_share">שתף/י תגובה</string>
-  <string name="comment_load_more">לטעון עוד תגובות</string>
   <string name="tutorial_skip">דלג/י</string>
   <string name="tutorial_agree">הבנתי</string>
   <string name="tutorial_swipe">הלחק בין subreddits!</string>
@@ -128,5 +117,6 @@
   <string name="err_invalid_url">לינק לא תקין</string>
   <string name="err_connection_lost">או או! נראה כי איבדת חיבור לרשת. אנא התחבר/י מחדש לרשת ונסה/י שוב.</string>
   <string name="err_general">אירעה שגיאה</string>
+  <string name="mail_hint_body">טקסט</string>
   <string name="settings_title_multi_column">הגדרות עמודות מרובות</string>
 </resources>

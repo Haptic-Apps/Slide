@@ -14,7 +14,7 @@ public class PostMatch {
         Matcher m = pattern.matcher(target.toLowerCase());
         return m.find();
     }
-    public static boolean doesMatch(Submission s){
+    public static boolean doesMatch(Submission s) {
         String title = s.getTitle();
         String body = s.getSelftext();
         String domain = s.getUrl();
@@ -23,24 +23,12 @@ public class PostMatch {
         boolean bodyc;
         boolean domainc;
 
-        if(Reddit.titleFilters.isEmpty()){
-            titlec = false;
-        } else {
-            titlec = contains(title.toLowerCase(), Reddit.titleFiltersRegex);
+        titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), Reddit.titleFiltersRegex);
 
-        }
-        if(Reddit.textFilters.isEmpty()){
-            bodyc = false;
-        } else {
-            bodyc = contains(body.toLowerCase(), Reddit.textFiltersRegex);
+        bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(), Reddit.textFiltersRegex);
 
-        }
-        if(Reddit.domainFilters.isEmpty()){
-            domainc = false;
-        } else {
-            domainc = contains(domain.toLowerCase(), Reddit.domainFiltersRegex);
+        domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(), Reddit.domainFiltersRegex);
 
-        }
         return (titlec || bodyc || domainc);
     }
 }

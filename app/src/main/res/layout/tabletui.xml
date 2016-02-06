@@ -72,7 +72,7 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:text="Dual columns in portrait mode"
+                        android:text="@string/multi_column_portrait"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
 

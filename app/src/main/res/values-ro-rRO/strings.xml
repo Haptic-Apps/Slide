@@ -23,7 +23,5 @@
   <string name="font_large">Mare</string>
   <string name="font_medium">Mediu</string>
   <string name="font_small">Mic</string>
-  <string name="card_infobar">Bară de informaţii</string>
-  <string name="card_thumbnail">Miniatură</string>
   <string name="sidebar_pinned">fixat</string>
 </resources>

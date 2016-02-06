@@ -5,7 +5,6 @@ import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 
@@ -23,12 +22,12 @@ public class SettingsAutonight extends BaseActivity {
 
         SwitchCompat fab = (SwitchCompat) findViewById(R.id.enable);
 
-        fab.setChecked(Reddit.autoTime);
+        fab.setChecked(SettingValues.autoTime);
         fab.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Reddit.autoTime = isChecked;
-                SettingValues.prefs.edit().putBoolean("autotime", isChecked).apply();
+                SettingValues.autoTime = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_AUTOTHEME, isChecked).apply();
             }
         });
 

@@ -25,11 +25,12 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 3/5/2015.
  */
 public class Settings extends BaseActivity {
+    private final static int RESTART_SETTINGS_RESULT = 2;
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 2) {
+        if (requestCode == RESTART_SETTINGS_RESULT) {
             Intent i = new Intent(Settings.this, Settings.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(i);
@@ -50,14 +51,14 @@ public class Settings extends BaseActivity {
         setContentView(R.layout.activity_settings);
         setupAppBar(R.id.toolbar, R.string.title_settings, true, true);
 
-        Reddit.expandedSettings = true;
+        SettingValues.expandedSettings = true;
         setSettingItems();
 
     }
 
     private void setSettingItems() {
         View pro = findViewById(R.id.pro);
-        if (Reddit.tabletUI) pro.setVisibility(View.GONE);
+        if (SettingValues.tabletUI) pro.setVisibility(View.GONE);
         else {
             pro.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,7 +76,7 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsGeneral.class);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
         findViewById(R.id.about).setOnClickListener(new View.OnClickListener() {
@@ -91,7 +92,7 @@ public class Settings extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsSubreddit.class);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
 
@@ -118,7 +119,7 @@ public class Settings extends BaseActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(Settings.this, SettingsTheme.class);
-                startActivityForResult(i, 2);
+                startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
         findViewById(R.id.handling).setOnClickListener(new View.OnClickListener() {
@@ -156,7 +157,7 @@ public class Settings extends BaseActivity {
                   /*  Intent inte = new Intent(Overview.this, Overview.class);
                     inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
                     Overview.this.startActivity(inte);*/
-                if (Reddit.tabletUI) {
+                if (SettingValues.tabletUI) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
@@ -197,12 +198,12 @@ public class Settings extends BaseActivity {
                         }
                     });
                     SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);
-                    s.setChecked(Reddit.dualPortrait);
+                    s.setChecked(SettingValues.dualPortrait);
                     s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            Reddit.dualPortrait = isChecked;
-                            SettingValues.prefs.edit().putBoolean("dualPortrait", isChecked).apply();
+                            SettingValues.dualPortrait = isChecked;
+                            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_DUAL_PORTRAIT, isChecked).apply();
                         }
                     });
                 } else {
