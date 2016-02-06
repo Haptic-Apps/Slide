@@ -12,6 +12,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -58,6 +59,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             o.writeToMemory();
         }
     }
+    boolean tip;
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -65,6 +67,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
         Reddit.setDefaultErrorHandler(this);
+
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         baseSubreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
@@ -108,6 +111,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 @Override
                 public void onPageSelected(int position) {
                     updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
+                    if (tip) {
+                        Tooltip.removeAll(CommentsScreen.this);
+                        Reddit.appRestart.edit().putString("tutorial_6", "t").apply();
+                    }
                 }
 
                 @Override
@@ -115,6 +122,21 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                 }
             });
+        }
+        if(!Reddit.appRestart.contains("tutorial_6")){
+            tip = true;
+            Tooltip.make(CommentsScreen.this,
+                    new Tooltip.Builder(106)
+                            .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
+                            .text("Swipe left and right to go between submissions. You can disable this in General Settings")
+                            .maxWidth(600)
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            ).show();
         }
     }
 

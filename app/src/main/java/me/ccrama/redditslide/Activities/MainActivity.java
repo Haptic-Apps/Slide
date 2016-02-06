@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity {
     private ListView drawerSubList;
     private boolean mShowInfoButton;
 
-    Tooltip.TooltipView t;
+    public Tooltip.TooltipView t;
     public void doTutorial() {
         if (!Reddit.appRestart.contains("tutorial_1")) {
            t = Tooltip.make(this,
@@ -171,6 +171,20 @@ public class MainActivity extends BaseActivity {
                     new Tooltip.Builder(103)
                             .anchor(e, Tooltip.Gravity.BOTTOM)
                             .text("Type here to filter or search for subreddits")
+                            .maxWidth(500)
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            );
+            t.show();
+        } else if(!Reddit.appRestart.contains("tutorial_4")){
+            t = Tooltip.make(this,
+                    new Tooltip.Builder(104)
+                            .anchor(pager, Tooltip.Gravity.CENTER)
+                            .text("Long press on a post for more options")
                             .maxWidth(500)
                             .activateDelay(800)
                             .showDelay(300)
@@ -968,7 +982,9 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(View drawerView) {
-
+                if(Reddit.appRestart.contains("tutorial_4")) {;
+                    doTutorial();
+                }
             }
 
             @Override

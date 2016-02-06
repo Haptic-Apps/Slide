@@ -110,7 +110,7 @@ public class SettingValues {
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         middleImage = settings.getBoolean("middleImage", false);
 
-        bigPicCropped = settings.getBoolean("bigPicCropped", false);
+        bigPicCropped = settings.getBoolean("bigPicCropped", true);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
 
         NSFWPreviews = settings.getBoolean("NSFWPreviewsNew", false);

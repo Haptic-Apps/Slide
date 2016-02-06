@@ -32,8 +32,10 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -144,6 +146,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+
+                    if(sContext instanceof MainActivity && ((MainActivity)sContext).t != null){
+                        Tooltip.removeAll(sContext);
+                        Reddit.appRestart.edit().putString("tutorial_4", "A").apply();
+                    }
                     if (!dataSet.stillShow) {
 
                         Snackbar.make(holder.itemView, sContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
