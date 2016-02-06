@@ -712,7 +712,7 @@ public class MainActivity extends BaseActivity {
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
         final LayoutInflater inflater = getLayoutInflater();
-        final View header;
+        final  View header;
 
         if (Authentication.isLoggedIn && Authentication.didOnline) {
 
@@ -940,6 +940,12 @@ public class MainActivity extends BaseActivity {
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
         drawerSubList.setAdapter(adapter);
 
+        e.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerSubList.scrollTo(0, header.getHeight() - e.getHeight());
+            }
+        });
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
