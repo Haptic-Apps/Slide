@@ -119,14 +119,15 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     private static boolean isPackageInstalled(final Context ctx) {
-        try {
-            final PackageManager pm = ctx.getPackageManager();
-            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
-            if (pi != null && pi.applicationInfo.enabled)
-                return true;
-        } catch (final Throwable ignored) {
-        }
-        return false;
+//        try {
+//            final PackageManager pm = ctx.getPackageManager();
+//            final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
+//            if (pi != null && pi.applicationInfo.enabled)
+//                return true;
+//        } catch (final Throwable ignored) {
+//        }
+//        return false;
+        return true;
     }
 
     public static String regex(String toSplit) {
