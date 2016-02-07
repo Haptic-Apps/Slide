@@ -33,9 +33,11 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final int textColorRegular;
     public final SpoilerRobotoTextView firstTextView;
     public final CommentOverflow commentOverflow;
+    public final View background;
 
     public CommentViewHolder(View v) {
         super(v);
+        background = v.findViewById(R.id.background);
         flairBubble = v.findViewById(R.id.flairbubble);
         flairText = (TextView) flairBubble.findViewById(R.id.text);
         author = (TextView) v.findViewById(R.id.author);

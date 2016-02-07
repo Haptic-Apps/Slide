@@ -258,7 +258,7 @@ public class PopulateSubmissionViewHolder {
         else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
             distingush = "[A]";
 
-        holder.title.setText(submission.getTitle()); // title is a spoiler roboto textview so it will format the html
+        holder.title.setTextHtml(submission.getTitle()); // title is a spoiler roboto textview so it will format the html
 
         holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
 
@@ -754,14 +754,12 @@ public class PopulateSubmissionViewHolder {
             upvotebutton.setVisibility(View.GONE);
         } else if (Authentication.isLoggedIn && !submission.voted() && !offline && Authentication.didOnline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
-
                 submission.setVote(true);
                 submission.setVoted(true);
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
@@ -778,7 +776,6 @@ public class PopulateSubmissionViewHolder {
 
                 submission.setVote(false);
                 submission.setVoted(false);
-
             }
         }
 
@@ -1046,7 +1043,7 @@ public class PopulateSubmissionViewHolder {
                 newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(
                         context,
                         new FontPreferences(context).getFontTypeComment().getTypeface()));
-                newTextView.setText(block, TextView.BufferType.SPANNABLE);
+                newTextView.setTextHtml(block);
                 newTextView.setPadding(0, 0, 8, 0);
                 scrollView.addView(newTextView);
                 scrollView.setPadding(0, 0, 8, 0);
@@ -1059,14 +1056,14 @@ public class PopulateSubmissionViewHolder {
                     //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
                     //newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
                     //newTextView.setTypeface(commentTypeFace);
-                    newTextView.setText(block, TextView.BufferType.SPANNABLE);
+                    newTextView.setTextHtml(block);
                     newTextView.setPadding(0, 0, 8, 0);
                     holder.commentOverflow.addView(newTextView);
                     holder.commentOverflow.setVisibility(View.VISIBLE);
                 } else {
                     //holder.firstTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
                     //holder.firstTextView.setTypeface(commentTypeFace);
-                    holder.firstTextView.setText(block, TextView.BufferType.SPANNABLE);
+                    holder.firstTextView.setTextHtml(block);
                     firstTextViewPopulated = true;
                 }
             }
