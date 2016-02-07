@@ -306,7 +306,7 @@ public class MainActivity extends BaseActivity {
             first = true;
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, TUTORIAL_RESULT);
-        } else if (Reddit.colors.contains("451update")) { //todo better code here
+        } else if (!Reddit.colors.contains("451update")) { //todo better code here
             new MaterialDialog.Builder(this)
                     .title("Slide v4.5.1")
                     .content("I’m happy to announce Slide v4.5.1!\n" +
