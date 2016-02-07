@@ -258,7 +258,7 @@ public class PopulateSubmissionViewHolder {
         else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
             distingush = "[A]";
 
-        holder.title.setText(Html.fromHtml(submission.getTitle()));
+        holder.title.setText(submission.getTitle()); // title is a spoiler roboto textview so it will format the html
 
         holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
 

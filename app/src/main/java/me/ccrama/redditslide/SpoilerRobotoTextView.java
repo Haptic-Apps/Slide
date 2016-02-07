@@ -79,6 +79,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         return (SpannableStringBuilder)s.subSequence(start, end);
     }
 
+    /**
+     * The text must be html escaped.
+     * @param text
+     * @param type
+     */
     @Override
     public void setText(CharSequence text, BufferType type) {
         SpannableStringBuilder builder = (SpannableStringBuilder)Html.fromHtml(text.toString().trim());
