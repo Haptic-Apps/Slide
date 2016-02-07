@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class WikiPage extends Fragment {
@@ -26,7 +24,7 @@ public class WikiPage extends Fragment {
 
         View v = inflater.inflate(R.layout.justtext, container, false);
 
-        final SpoilerRobotoTextView body = (SpoilerRobotoTextView) v.findViewById(R.id.body);
+        //final SubmissionTextViewGroup body = (SubmissionTextViewGroup) v.findViewById(R.id.body); TODO deadleg
         final GeneralSwipeRefreshLayout ref = (GeneralSwipeRefreshLayout) v.findViewById(R.id.ref);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
@@ -47,7 +45,7 @@ public class WikiPage extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, getActivity(), subreddit);
+                // new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, getActivity(), subreddit); TODO deadleg
 
                 ref.setRefreshing(false);
                 ref.setEnabled(false);

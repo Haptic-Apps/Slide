@@ -158,22 +158,27 @@
                     android:layout_marginTop="8dp"
                     android:alpha=".8"
                     android:background="?attr/tint"/>
-
-
             </LinearLayout>
 
 
         </LinearLayout>
+            <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/sidebar_text"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:textColor="?attr/font"
+                android:textSize="16sp"/>
 
-                        <me.ccrama.redditslide.SpoilerRobotoTextView
-            android:id="@+id/sidebar_text"
-            xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
+                android:id="@+id/sidebarOverflow"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:visibility="gone"></LinearLayout>
 
-            android:layout_width="match_parent"
-
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textColor="?attr/font"
-            android:textSize="16sp"/>
     </LinearLayout>
 </ScrollView>

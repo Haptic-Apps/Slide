@@ -224,16 +224,26 @@
 
 
                 <me.ccrama.redditslide.SpoilerRobotoTextView
-                    android:id="@+id/body"
+                    android:id="@+id/firstTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
+                    android:orientation="vertical"
 
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:textColor="?attr/font"
 
                     android:textSize="?attr/font_commentbody" />
+
+                <LinearLayout
+                    android:id="@+id/commentOverflow"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:visibility="gone"></LinearLayout>
             </LinearLayout>
 
             <RelativeLayout
