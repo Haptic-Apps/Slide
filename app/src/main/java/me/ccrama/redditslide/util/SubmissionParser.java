@@ -139,19 +139,6 @@ public class SubmissionParser {
                 newBlocks.add(startSeperated[0].trim());
                 for (int i = 1; i < startSeperated.length; i++) {
                     String [] split = startSeperated[i].split(TABLE_END_TAG);
-                   // newBlocks.add("&lt;table&gt;" + split[0]
-                   //                 .replace("<thead>", "&lt;thead&gt;")
-                   //                 .replace("</thead>", "&lt;/thead&gt;")
-                   //                 .replace("<tr>", "&lt;tr&gt;")
-                   //                 .replace("</tr>", "&lt;/tr&gt;")
-                   //                 .replaceAll("<td.*?>", "&lt;td&gt;")
-                   //                 .replace("</td>", "&lt;/td&gt;")
-                   //                 .replace("<tbody>", "&lt;body&gt;")
-                   //                 .replace("</tbody>", "&lt;/tbody&gt;")
-                   //                 .replaceAll("<th.*?>", "&lt;th&gt;")
-                   //                 .replace("</th>", "&lt;/th&gt;")
-                   //                 + "&lt;/table&gt;"
-                   // );
 
                     newBlocks.add("<table>" + split[0]
                             .replaceAll("<td.*?>", "<td>")

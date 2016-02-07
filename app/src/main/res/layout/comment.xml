@@ -198,7 +198,7 @@
         android:text="comment"
         />
 
-    <LinearLayout
+    <me.ccrama.redditslide.Views.CommentOverflow
         android:id="@+id/commentOverflow"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -207,7 +207,7 @@
         android:paddingRight="8dp"
         android:layout_toEndOf="@id/dot"
         android:layout_below="@id/firstTextView"
-        android:visibility="gone"></LinearLayout>
+        android:visibility="gone"></me.ccrama.redditslide.Views.CommentOverflow>
 
     <LinearLayout
         android:id="@+id/menuarea"

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Views.CommentOverflow;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -19,7 +20,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final View gild;
     public final LinearLayout commentArea;
     public final View children;
-    //public final SubmissionTextViewGroup content;
     public final TextView childrenNumber;
     public final TextView flairText;
     public final View flairBubble;
@@ -32,7 +32,7 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final int textColorDown;
     public final int textColorRegular;
     public final SpoilerRobotoTextView firstTextView;
-    public final LinearLayout commentOverflow;
+    public final CommentOverflow commentOverflow;
 
     public CommentViewHolder(View v) {
         super(v);
@@ -46,7 +46,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         commentArea = (LinearLayout) v.findViewById(R.id.commentArea);
         childrenNumber = (TextView) children.findViewById(R.id.flairtext);
         gild = v.findViewById(R.id.gild);
-        //content = (SubmissionTextViewGroup) v.findViewById(R.id.content);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
         textColorDown = ContextCompat.getColor(v.getContext(), R.color.md_blue_500);
         textColorRegular = author.getCurrentTextColor();
@@ -55,6 +54,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         op = v.findViewById(R.id.op);
         dots = v.findViewById(R.id.dots);
         score = (TextView) v.findViewById(R.id.score);
-        commentOverflow = (LinearLayout) v.findViewById(R.id.commentOverflow);
+        commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
     }
 }
