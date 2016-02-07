@@ -10,8 +10,6 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;

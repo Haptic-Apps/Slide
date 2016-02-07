@@ -52,7 +52,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/padd"
+                android:id="@+id/background"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,12 +63,6 @@
                 android:scrollbars="none">
 
 
-                <LinearLayout
-                    android:id="@+id/background"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:orientation="vertical">
 
 
                     <LinearLayout
@@ -119,7 +113,6 @@
                         android:textSize="?attr/font_commentbody" />
 
 
-                </LinearLayout>
 
 
             </LinearLayout>

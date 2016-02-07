@@ -31,7 +31,6 @@ import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;

@@ -60,7 +60,20 @@
 
                             android:scaleType="fitCenter"
                             android:src="@drawable/sort" />
+                        <ImageView
+                            android:id="@+id/search"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="end|center_vertical"
+                            android:background="?android:selectableItemBackground"
 
+                            android:paddingBottom="12dp"
+
+                            android:paddingTop="12dp"
+
+
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/search" />
                         <ImageView
                             android:id="@+id/info"
                             android:layout_width="48dp"

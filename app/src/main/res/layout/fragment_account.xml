@@ -19,7 +19,7 @@
             android:padding="20dp"
             android:text="Account"
             android:textColor="#fff"
-            android:textSize="24dp" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <ScrollView
