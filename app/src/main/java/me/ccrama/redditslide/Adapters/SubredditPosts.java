@@ -159,7 +159,7 @@ public class SubredditPosts implements PostLoader {
 
 
             OfflineSubreddit o = new OfflineSubreddit(subreddit);
-            if(paginator == null &&  o.submissions.size() > 0 && ((System.currentTimeMillis() - o.time < 300000) || SettingValues.cacheDefault) && !usedOffline){
+            if( SettingValues.cacheDefault && !usedOffline){
                 usedOffline = true;
                 offline = false;
                 Log.v(LogUtil.getTag(), "Using cached data");

@@ -33,60 +33,11 @@
 
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/imagearea"
+            <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
                 android:layout_width="match_parent"
+                android:id="@+id/headerimage"
 
-                android:layout_height="wrap_content"
-                android:background="?attr/card_background"
-
-                >
-
-
-                <ImageView
-                    android:id="@+id/leadimage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:adjustViewBounds="true"
-
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/chameleon" />
-
-                <LinearLayout
-                    android:id="@+id/base"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/leadimage"
-                    android:layout_gravity="center_vertical"
-                    android:background="#55000000"
-                    android:orientation="vertical"
-                    android:paddingLeft="16dp">
-
-                    <TextView
-                        android:id="@+id/textimage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:text="@string/example_domain"
-                        android:textColor="#ffffff"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/subtextimage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".56"
-                        android:paddingBottom="8dp"
-
-                        android:text="@string/example_url"
-                        android:textColor="#ffffff"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
+                android:layout_height="wrap_content"/>
 
             <LinearLayout
 

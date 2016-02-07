@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -26,7 +25,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
@@ -39,8 +37,6 @@ import net.dean.jraw.models.FlairTemplate;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,25 +75,19 @@ import me.ccrama.redditslide.util.CustomTabUtil;
 public class PopulateSubmissionViewHolder {
 
 
-    private static String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        return domain.startsWith("www.") ? domain.substring(4) : domain;
-    }
-
     public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
         final TypedValue tv = new TypedValue();
         final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final View clickingArea, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final View back) {
+    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final View holder) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HasSeen.addSeen(submission.getFullName());
                 if (contextActivity instanceof MainActivity)
-                    back.setAlpha(0.5f);
+                    holder.setAlpha(0.5f);
                 switch (type) {
                     case NSFW_IMAGE:
                         openImage(contextActivity, submission);
@@ -135,8 +125,8 @@ public class PopulateSubmissionViewHolder {
                         CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case SELF:
-                        if (back != null) {
-                            back.performClick();
+                        if (holder != null) {
+                            holder.performClick();
                         }
                         break;
                     case GFY:
@@ -144,7 +134,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case ALBUM:
                         if (SettingValues.album) {
-                            if(SettingValues.albumSwipe){
+                            if (SettingValues.albumSwipe) {
                                 Intent i = new Intent(contextActivity, AlbumPager.class);
                                 i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                 contextActivity.startActivity(i);
@@ -173,8 +163,8 @@ public class PopulateSubmissionViewHolder {
                         openGif(false, contextActivity, submission);
                         break;
                     case NONE:
-                        if (back != null) {
-                            back.performClick();
+                        if (holder != null) {
+                            holder.performClick();
                         }
                         break;
                     case NONE_IMAGE:
@@ -201,19 +191,6 @@ public class PopulateSubmissionViewHolder {
         new OpenRedditLink(c, url);
     }
 
-    private static boolean isBlurry(JsonNode s, Context mC, String title) {
-        if (SettingValues.blurCheck) {
-            return false;
-        } else {
-            int pixesl = s.get("preview").get("images").get(0).get("source").get("width").asInt();
-            float density = mC.getResources().getDisplayMetrics().density;
-            float dp = pixesl / density;
-            Configuration configuration = mC.getResources().getConfiguration();
-            int screenWidthDp = configuration.screenWidthDp; //The current width of the available screen space, in dp units, corresponding to screen width resource qualifier.
-
-            return dp < screenWidthDp / 3;
-        }
-    }
 
     public static void openImage(Activity contextActivity, Submission submission) {
         if (SettingValues.image) {
@@ -246,11 +223,13 @@ public class PopulateSubmissionViewHolder {
         }
 
     }
-    public static int getCurrentTintColor(Context v){
+
+    public static int getCurrentTintColor(Context v) {
         return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
 
     }
-    public static int getWhiteTintColor(){
+
+    public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
     }
 
@@ -780,7 +759,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
-                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full))? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                 submission.setVote(false);
                 submission.setVoted(true);
@@ -869,212 +848,25 @@ public class PopulateSubmissionViewHolder {
         }
 
 
-        ContentType.ImageType type = ContentType.getImageType(submission);
-
-        String url = "";
-
-        final String subreddit = "";
-
-
         ImageView thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
 
 
-        if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
-            holder.imageArea.setVisibility(View.GONE);
-            if (!full) {
-                thumbImage2.setVisibility(View.VISIBLE);
-            } else {
-                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
-            }
-            if (submission.isSelfPost()) thumbImage2.setVisibility(View.GONE);
-            else thumbImage2.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.nsfw));
-        } else  if ( type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
-            holder.imageArea.setVisibility(View.GONE);
-            if (!full) {
-                thumbImage2.setVisibility(View.VISIBLE);
-            } else {
-                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
-            }
+        holder.leadImage.setThumbnail(thumbImage2);
+        if (full)
+            holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
 
-            thumbImage2.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.web));
-        } else if (type == ContentType.ImageType.IMAGE) {
-            url = submission.getUrl();
-            if (!full && !SettingValues.bigPicEnabled ) {
-                if (!full) {
-                    thumbImage2.setVisibility(View.VISIBLE);
-                } else {
-                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
-                }
-                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
-                holder.imageArea.setVisibility(View.GONE);
+        holder.leadImage.setSubmission(submission, full);
 
-            } else {
-                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
-                holder.imageArea.setVisibility(View.VISIBLE);
-                if (!full) {
-                    thumbImage2.setVisibility(View.GONE);
-                } else {
-                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
-                }
-            }
-        } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
-
-            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            if (!SettingValues.bigPicEnabled && !full) {
-                if (!full) {
-                    thumbImage2.setVisibility(View.VISIBLE);
-                } else {
-                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
-                }
-                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
-                holder.imageArea.setVisibility(View.GONE);
-
-            } else {
-                ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, holder.leadImage);
-                holder.imageArea.setVisibility(View.VISIBLE);
-                if (!full) {
-                    thumbImage2.setVisibility(View.GONE);
-                } else {
-                    holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
-                }
-            }
-        } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-
-            if (!full) {
-                thumbImage2.setVisibility(View.VISIBLE);
-            } else {
-                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.VISIBLE);
-            }
-            ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
-            holder.imageArea.setVisibility(View.GONE);
+        ContentType.ImageType type = ContentType.getImageType(submission);
 
 
-        } else {
-            if (!full) {
-                thumbImage2.setVisibility(View.GONE);
-            } else {
-                holder.itemView.findViewById(R.id.wraparea).setVisibility(View.GONE);
-            }
-            holder.imageArea.setVisibility(View.GONE);
-        }
+        addClickFunctions(holder.leadImage, type, mContext, submission, holder.itemView);
 
-        TextView title;
-        TextView info;
-        if (!full) {
-            title = holder.textImage;
-            info = holder.subTextImage;
-        } else if (holder.itemView.findViewById(R.id.wraparea).getVisibility() == View.VISIBLE) {
-            title = holder.contentTitle;
-            info = holder.contentURL;
-        } else {
-            title = holder.textImage;
-            info = holder.subTextImage;
-        }
-
-        if(full && SettingValues.cropImage){
-            holder.leadImage.setMaxHeight(dpToPx(200));
-        }
-
-
-
-            title.setVisibility(View.VISIBLE);
-            info.setVisibility(View.VISIBLE);
-
-            switch (type) {
-                case NSFW_IMAGE:
-                    title.setText(R.string.type_nsfw_img);
-                    break;
-
-                case NSFW_GIF:
-                case NSFW_GFY:
-                    title.setText(R.string.type_nsfw_gif);
-                    break;
-
-                case REDDIT:
-                    title.setText(R.string.type_reddit);
-                    break;
-
-                case LINK:
-                case IMAGE_LINK:
-                    title.setText(R.string.type_link);
-                    break;
-
-                case NSFW_LINK:
-                    title.setText(R.string.type_nsfw_link);
-
-                    break;
-                case SELF:
-                    title.setVisibility(View.GONE);
-                    info.setVisibility(View.GONE);
-
-                    break;
-
-                case ALBUM:
-                    title.setText(R.string.type_album);
-                    break;
-
-                case IMAGE:
-                    if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
-                        title.setText(R.string.type_nsfw_img);
-
-                    } else {
-                        title.setVisibility(View.GONE);
-                        info.setVisibility(View.GONE);
-                    }
-                    break;
-                case IMGUR:
-                    title.setText(R.string.type_imgur);
-                    break;
-                case GFY:
-                case GIF:
-                case NONE_GFY:
-                case NONE_GIF:
-                    title.setText(R.string.type_gif);
-                    break;
-
-                case NONE:
-                    title.setText(R.string.type_title_only);
-                    break;
-
-                case NONE_IMAGE:
-                    title.setText(R.string.type_img);
-                    break;
-
-                case VIDEO:
-                    title.setText(R.string.type_vid);
-                    break;
-
-                case EMBEDDED:
-                    title.setText(R.string.type_emb);
-                    break;
-
-                case NONE_URL:
-                    title.setText(R.string.type_link);
-                    break;
-            }
-
-            View baseView;
-
-            View back = holder.itemView;
-
-            try {
-                info.setText(getDomainName(submission.getUrl()));
-            } catch (URISyntaxException e1) {
-                e1.printStackTrace();
-            }
-
-            baseView = holder.imageArea;
-
-            addClickFunctions(holder.imageArea, baseView, type, mContext, submission, back);
-            addClickFunctions(holder.leadImage, baseView, type, mContext, submission, back);
-
-            addClickFunctions(thumbImage2, holder.imageArea, type, mContext, submission, holder.itemView);
-
-
+        addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);
 
 
         if (full) {
-            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), holder.imageArea, type, mContext, submission, holder.itemView);
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
 
         }
         View pinned = holder.itemView.findViewById(R.id.pinned);
@@ -1215,8 +1007,5 @@ public class PopulateSubmissionViewHolder {
 
 
     }
-    public static int dpToPx(int dp)
-    {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
+
 }

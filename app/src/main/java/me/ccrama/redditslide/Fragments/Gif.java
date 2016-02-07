@@ -84,7 +84,7 @@ public class Gif extends Fragment {
 
 
 
-        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, null,null, false).execute(dat);
+        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder),null, false).execute(dat);
 
 
 

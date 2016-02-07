@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:id="@+id/root"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:background="#a0000000"
-                android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="#a0000000"
+    android:orientation="vertical">
+    
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,7 +29,7 @@
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#dc000000"/>
+            android:background="#dc000000" />
 
         <ProgressBar
             android:id="@+id/gifprogress"
