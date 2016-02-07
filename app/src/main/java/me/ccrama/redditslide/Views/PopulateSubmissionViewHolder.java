@@ -28,6 +28,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
@@ -70,6 +71,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -1036,6 +1038,21 @@ public class PopulateSubmissionViewHolder {
                 scrollView.setPadding(0, 0, 8, 0);
                 holder.commentOverflow.addView(scrollView);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
+            } else if (block.startsWith("<pre>")) {
+                HorizontalScrollView scrollView = new HorizontalScrollView(context);
+                SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
+                //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
+                newTextView.setLinkTextColor(new ColorPreferences(context).getColor(subreddit));
+                newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(
+                        context,
+                        new FontPreferences(context).getFontTypeComment().getTypeface()));
+                newTextView.setText(block, TextView.BufferType.SPANNABLE);
+                newTextView.setPadding(0, 0, 8, 0);
+                scrollView.addView(newTextView);
+                scrollView.setPadding(0, 0, 8, 0);
+                holder.commentOverflow.addView(scrollView);
+                holder.commentOverflow.setVisibility(View.VISIBLE);
+                firstTextViewPopulated = true;
             } else {
                 if (firstTextViewPopulated) {
                     SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
