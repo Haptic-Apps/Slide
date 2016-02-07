@@ -79,7 +79,7 @@ public class SubmissionParser {
         String code;
         String[] split;
 
-        preSeperated.add(startSeperated[0].trim());
+        preSeperated.add(startSeperated[0].replace("<code>", "<code>[[&lt;[").replace("</code>", "]&gt;]]</code>"));
         for (int i = 1; i < startSeperated.length; i++) {
             text = startSeperated[i];
             split = text.split(endTag);
@@ -89,7 +89,7 @@ public class SubmissionParser {
 
             preSeperated.add(startTag + "[[&lt;[" + code + "]&gt;]]" + endTag);
             if (split.length > 1) {
-                preSeperated.add(split[1].trim());
+                preSeperated.add(split[1].replace("<code>", "<code>[[&lt;[").replace("</code>", "]&gt;]]</code>"));
             }
         }
 

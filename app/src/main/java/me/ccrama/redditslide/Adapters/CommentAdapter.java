@@ -1450,11 +1450,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         for (String block : blocks) {
             if (block.startsWith("<table>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(mContext);
-                TableLayout table = formatTable(block, (Activity)mContext, subreddit);
+                TableLayout table = formatTable(block, (Activity) mContext, subreddit);
                 scrollView.addView(table);
                 scrollView.setPadding(0, 0, 8, 0);
                 holder.commentOverflow.addView(scrollView);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
+                firstTextViewPopulated = true;
+            } else if (block.startsWith("<pre>")) {
+                HorizontalScrollView scrollView = new HorizontalScrollView(mContext);
+                SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(mContext);
+                //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
+                newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
+                newTextView.setTypeface(commentTypeFace);
+                newTextView.setText(block, TextView.BufferType.SPANNABLE);
+                newTextView.setPadding(0, 0, 8, 0);
+                scrollView.addView(newTextView);
+                scrollView.setPadding(0, 0, 8, 0);
+                holder.commentOverflow.addView(scrollView);
+                holder.commentOverflow.setVisibility(View.VISIBLE);
+                firstTextViewPopulated = true;
             } else {
                 if (firstTextViewPopulated) {
                     SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(mContext);
