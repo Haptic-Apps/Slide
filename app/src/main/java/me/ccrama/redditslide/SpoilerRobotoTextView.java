@@ -80,12 +80,13 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     /**
-     * The text must be html escaped.
-     * @param text
-     * @param type
+     * Set the text from html. Handles formatting spoilers, links etc.
+     *
+     * The text must be valid html.
+     *
+     * @param text html text
      */
-    @Override
-    public void setText(CharSequence text, BufferType type) {
+    public void setTextHtml(CharSequence text) {
         SpannableStringBuilder builder = (SpannableStringBuilder)Html.fromHtml(text.toString().trim());
         setCodeFont(builder);
         setSpoilerStyle(builder);

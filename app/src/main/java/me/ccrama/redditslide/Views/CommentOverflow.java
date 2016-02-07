@@ -76,7 +76,7 @@ public class CommentOverflow extends LinearLayout {
                 //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
                 newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
                 newTextView.setTypeface(typeface);
-                newTextView.setText(block, TextView.BufferType.SPANNABLE);
+                newTextView.setTextHtml(block);
                 newTextView.setPadding(0, 0, 8, 0);
                 scrollView.addView(newTextView);
                 scrollView.setPadding(0, 0, 8, 0);
@@ -86,7 +86,7 @@ public class CommentOverflow extends LinearLayout {
                 //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
                 newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
                 newTextView.setTypeface(typeface);
-                newTextView.setText(block, TextView.BufferType.SPANNABLE);
+                newTextView.setTextHtml(block);
                 newTextView.setPadding(0, 0, 8, 0);
                 addView(newTextView);
             }
@@ -146,7 +146,7 @@ public class CommentOverflow extends LinearLayout {
                 SpoilerRobotoTextView textView = new SpoilerRobotoTextView(context);
                 //textView.setMovementMethod(new TextViewLinkHandler(context, subreddit, null));
                 textView.setLinkTextColor(colorPreferences.getColor(subreddit));
-                textView.setText(text.subSequence(columnStart, columnEnd), TextView.BufferType.SPANNABLE);
+                textView.setTextHtml(text.subSequence(columnStart, columnEnd));
                 textView.setPadding(3, 0 ,0 , 0);
 
                 row.addView(textView);

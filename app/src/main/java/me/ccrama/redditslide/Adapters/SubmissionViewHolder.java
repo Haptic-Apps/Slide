@@ -13,7 +13,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
  * Created by ccrama on 9/17/2015.
  */
 public class SubmissionViewHolder extends RecyclerView.ViewHolder {
-    public final TextView title;
+    public final SpoilerRobotoTextView title;
     public final TextView subreddit;
     public final TextView contentTitle;
     public final TextView contentURL;
@@ -28,7 +28,7 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
 
     public SubmissionViewHolder(View v) {
         super(v);
-        title = (TextView) v.findViewById(R.id.title);
+        title = (SpoilerRobotoTextView) v.findViewById(R.id.title);
         info = (TextView) v.findViewById(R.id.information);
         subreddit = (TextView) v.findViewById(R.id.subreddit);
         leadImage = (HeaderImageLinkView) v.findViewById(R.id.headerimage);

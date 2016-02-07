@@ -689,7 +689,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Resources.Theme theme = mContext.getTheme();
         theme.resolveAttribute(R.attr.card_background, typedValue, true);
         int color = typedValue.data;
-        //holder.itemView.findViewById(R.id.background).setBackgroundColor(color); TODO deadleg
+        //holder.itemView.findViewById(R.id.background).setBackgroundColor(color); // TODO deadleg set background
     }
 
     public void doUnHighlighted(CommentViewHolder holder, Comment comment) {
@@ -702,7 +702,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Resources.Theme theme = mContext.getTheme();
         theme.resolveAttribute(R.attr.card_background, typedValue, true);
         int color = typedValue.data;
-        //holder.itemView.findViewById(R.id.background).setBackgroundColor(color); TODO deadleg
+        // holder.itemView.findViewById(R.id.background).setBackgroundColor(color); // TODO deadleg set background
     }
 
     public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
@@ -1129,7 +1129,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         int startIndex = 0;
         if (!blocks.get(0).startsWith("<table>") && !blocks.get(0).startsWith("<pre>")) {
-            holder.firstTextView.setText(blocks.get(0), TextView.BufferType.SPANNABLE);
+            holder.firstTextView.setTextHtml(blocks.get(0));
             startIndex = 1;
         }
 
@@ -1137,7 +1137,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (startIndex == 0) {
                 holder.commentOverflow.setViews(blocks, subredditName);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size() - 1), subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
         }
     }
