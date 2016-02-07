@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-                        <me.ccrama.redditslide.SpoilerRobotoTextView  xmlns:android="http://schemas.android.com/apk/res/android"
+        <me.ccrama.redditslide.SpoilerRobotoTextView  xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/body"
 
             android:layout_width="match_parent"
@@ -21,5 +21,14 @@
             android:textColor="?attr/font"
             android:textIsSelectable="true"
             android:textSize="16sp" />
+
+        <LinearLayout
+            android:id="@+id/commentOverflow"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:visibility="gone"></LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>

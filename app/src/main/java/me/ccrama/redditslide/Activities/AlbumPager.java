@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -30,6 +32,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
@@ -37,12 +40,12 @@ import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 
 /**
@@ -112,7 +115,6 @@ public class AlbumPager extends BaseActivityAnim {
         }
     }
 
-
     public class LoadIntoPager extends AlbumUtils.GetAlbumJsonFromUrl {
 
         public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
@@ -155,11 +157,9 @@ public class AlbumPager extends BaseActivityAnim {
 
     public class AlbumViewPager extends FragmentStatePagerAdapter {
 
-
         public AlbumViewPager(FragmentManager m) {
             super(m);
         }
-
 
         @Override
         public Fragment getItem(int i) {
@@ -167,10 +167,8 @@ public class AlbumPager extends BaseActivityAnim {
             String url;
             if (gallery) {
                 url = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".png");
-
             } else {
                 url = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
-
             }
 
             if (url.contains("gif")) {
@@ -189,10 +187,7 @@ public class AlbumPager extends BaseActivityAnim {
 
                 return f;
             }
-
-
         }
-
 
         @Override
         public int getCount() {
@@ -207,6 +202,8 @@ public class AlbumPager extends BaseActivityAnim {
 
         private int i = 0;
         private View gif;
+        ViewGroup rootView;
+        ProgressBar loader;
 
         @Override
         public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -227,9 +224,6 @@ public class AlbumPager extends BaseActivityAnim {
             }
         }
 
-        ViewGroup rootView;
-        ProgressBar loader;
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -238,68 +232,54 @@ public class AlbumPager extends BaseActivityAnim {
             loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
 
             TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
-            SpoilerRobotoTextView desc = (SpoilerRobotoTextView) rootView.findViewById(R.id.desc);
+            TextView desc = (TextView) rootView.findViewById(R.id.desc);
 
             title.setVisibility(View.VISIBLE);
             desc.setVisibility(View.VISIBLE);
             if (user.getAsJsonObject().has("image")) {
-                {
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-
-                        new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(), desc, (Activity) inflater.getContext(), "");
-                        if (desc.getText().toString().isEmpty()) {
-                            desc.setVisibility(View.GONE);
-                        }
-
-                    } else {
-                        desc.setVisibility(View.GONE);
-
-                    }
-                }
-                {
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                        title.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                        new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), title, (Activity) inflater.getContext(), "");
-
-                        if (title.getText().toString().isEmpty()) {
-                            title.setVisibility(View.GONE);
-                        }
-                    } else {
-                        title.setVisibility(View.GONE);
-
-                    }
-                }
-            } else {
-                if (user.getAsJsonObject().has("title")) {
-                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("title").getAsString(), desc, (Activity) inflater.getContext(), "");
+                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                    desc.setText(Html.fromHtml(text.get(0))); // TODO deadleg what the html looks like. Does it need spoilers/tables?
                     if (desc.getText().toString().isEmpty()) {
                         desc.setVisibility(View.GONE);
                     }
-
                 } else {
-
                     desc.setVisibility(View.GONE);
-
                 }
-                if (user.getAsJsonObject().has("description")) {
-                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("description").getAsString(), title, (Activity) inflater.getContext(), "");
+                if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                    title.setText(Html.fromHtml(text.get(0)));
                     if (title.getText().toString().isEmpty()) {
                         title.setVisibility(View.GONE);
                     }
                 } else {
                     title.setVisibility(View.GONE);
-
                 }
-
-
+            } else {
+                if (user.getAsJsonObject().has("title")) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
+                    desc.setText(Html.fromHtml(text.get(0)));
+                    if (desc.getText().toString().isEmpty()) {
+                        desc.setVisibility(View.GONE);
+                    }
+                } else {
+                    desc.setVisibility(View.GONE);
+                }
+                if (user.getAsJsonObject().has("description")) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
+                    title.setText(Html.fromHtml(text.get(0)));
+                    if (title.getText().toString().isEmpty()) {
+                        title.setVisibility(View.GONE);
+                    }
+                } else {
+                    title.setVisibility(View.GONE);
+                }
             }
             gif = rootView.findViewById(R.id.gif);
-
 
             gif.setVisibility(View.VISIBLE);
             final MediaVideoView v = (MediaVideoView) gif;
             v.clearFocus();
-
 
             String dat;
             if (gallery) {
@@ -333,7 +313,6 @@ public class AlbumPager extends BaseActivityAnim {
 
         private int i = 0;
         private JsonElement user;
-
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -394,46 +373,20 @@ public class AlbumPager extends BaseActivityAnim {
             title.setVisibility(View.VISIBLE);
             desc.setVisibility(View.VISIBLE);
             if (user.getAsJsonObject().has("image")) {
-                {
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-
-                        new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(), desc, (Activity) inflater.getContext(), "");
-                        if (desc.getText().toString().isEmpty()) {
-                            desc.setVisibility(View.GONE);
-                        }
-
-                    } else {
-                        desc.setVisibility(View.GONE);
-
-                    }
-                }
-                {
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                        title.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                        new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), title, (Activity) inflater.getContext(), "");
-
-                        if (title.getText().toString().isEmpty()) {
-                            title.setVisibility(View.GONE);
-                        }
-                    } else {
-                        title.setVisibility(View.GONE);
-
-                    }
-                }
-            } else {
-                if (user.getAsJsonObject().has("title")) {
-                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("title").getAsString(), desc, (Activity) inflater.getContext(), "");
+                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                    title.setText(Html.fromHtml(text.get(0)));
                     if (desc.getText().toString().isEmpty()) {
                         desc.setVisibility(View.GONE);
                     }
-
                 } else {
-
                     desc.setVisibility(View.GONE);
 
                 }
-                if (user.getAsJsonObject().has("description")) {
-                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("description").getAsString(), title, (Activity) inflater.getContext(), "");
+
+                if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                    title.setText(Html.fromHtml(text.get(0)));
                     if (title.getText().toString().isEmpty()) {
                         title.setVisibility(View.GONE);
                     }
@@ -441,11 +394,27 @@ public class AlbumPager extends BaseActivityAnim {
                     title.setVisibility(View.GONE);
 
                 }
+            } else {
+                if (user.getAsJsonObject().has("title")) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
+                    title.setText(Html.fromHtml(text.get(0)));
+                    if (desc.getText().toString().isEmpty()) {
+                        desc.setVisibility(View.GONE);
+                    }
+                } else {
+                    desc.setVisibility(View.GONE);
+                }
 
-
+                if (user.getAsJsonObject().has("description")) {
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
+                    title.setText(Html.fromHtml(text.get(0)));
+                    if (title.getText().toString().isEmpty()) {
+                        title.setVisibility(View.GONE);
+                    }
+                } else {
+                    title.setVisibility(View.GONE);
+                }
             }
-
-
             return rootView;
         }
 
@@ -455,10 +424,6 @@ public class AlbumPager extends BaseActivityAnim {
             Bundle bundle = this.getArguments();
             i = bundle.getInt("page", 0);
             user = images.get(i);
-
         }
-
     }
-
-
 }

@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
@@ -16,7 +17,7 @@ class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
     public final TextView time;
     public final View gild;
     public final SpoilerRobotoTextView content;
-
+    public final LinearLayout overflow;
 
     public ProfileCommentViewHolder(View v) {
         super(v);
@@ -25,8 +26,6 @@ class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
         time = (TextView) v.findViewById(R.id.time);
         gild = v.findViewById(R.id.gild);
         content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
-
+        overflow = (LinearLayout) v.findViewById(R.id.commentOverflow);
     }
-
-
 }

@@ -1,13 +1,9 @@
 package me.ccrama.redditslide.Adapters;
 
-/**
- * Created by ccrama on 3/1/2015.
- */
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +12,7 @@ import android.widget.ImageView;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
@@ -23,8 +20,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
-
+import me.ccrama.redditslide.util.SubmissionParser;
 
 public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
     private final ArrayList<JsonElement> users;
@@ -65,8 +61,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         if (user.getAsJsonObject().has("image")) {
             {
                 if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-
-                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString(), holder.text, (Activity) main, "");
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                    holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                     if (holder.text.getText().toString().isEmpty()) {
                         holder.text.setVisibility(View.GONE);
                     }
@@ -78,9 +74,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
             }
             {
                 if(! user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                    holder.body.setText(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                    new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), holder.body, (Activity) main, "");
-
+                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                    holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                     if (holder.body.getText().toString().isEmpty()) {
                         holder.body.setVisibility(View.GONE);
                     }
@@ -91,7 +86,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
             }
         } else {
             if(user.getAsJsonObject().has("title")){
-                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("title").getAsString(), holder.text, (Activity) main, "");
+                List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
+                holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                 if (holder.text.getText().toString().isEmpty()) {
                     holder.text.setVisibility(View.GONE);
                 }
@@ -102,7 +98,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
 
             }
             if(user.getAsJsonObject().has("description")){
-                new MakeTextviewClickable().ParseTextWithLinksTextViewComment(user.getAsJsonObject().get("description").getAsString(), holder.body, (Activity) main, "");
+                List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
+                holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                 if (holder.body.getText().toString().isEmpty()) {
                     holder.body.setVisibility(View.GONE);
                 }
