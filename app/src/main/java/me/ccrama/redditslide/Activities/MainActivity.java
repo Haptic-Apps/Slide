@@ -795,6 +795,7 @@ public class MainActivity extends BaseActivity {
             }
         } else {
             header = inflater.inflate(R.layout.drawer_loggedout, drawerSubList, false);
+            headerMain = header;
             drawerSubList.addHeaderView(header, null, false);
             hea = header.findViewById(R.id.back);
 
