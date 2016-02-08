@@ -2,8 +2,8 @@
 
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
 
     android:layout_width="match_parent"
@@ -16,226 +16,152 @@
 
     cardview:cardCornerRadius="0dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
-        android:paddingBottom="8dp"
+        android:orientation="vertical"
 
-        android:orientation="vertical">
-
+        android:paddingBottom="8dp">
 
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
-            android:layout_width="match_parent"
             android:id="@+id/headerimage"
             android:padding="8dp"
-
-            android:layout_height="wrap_content"/>
-
-        <RelativeLayout
             android:layout_width="match_parent"
-            android:paddingTop="8dp"
-            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/thumbimage2"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp">
-
-                <me.ccrama.redditslide.Views.TitleTextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:tag="tint"
-                    android:text="@string/example_title"
-
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_cardtitle" />
+            android:layout_height="wrap_content" />
 
 
-                <com.wefika.flowlayout.FlowLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".72">
-
-                    <TextView
-                        android:id="@+id/subreddit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:tag="tint"
-                        android:text="@string/example_sub"
-
-                        android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardinfo"
-
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tag="tint"
-                        android:text="@string/submission_properties_seperator"
-                        android:textColor="?attr/font"
-
-                        android:textSize="?attr/font_cardinfo" />
-
-                    <TextView
-                        android:id="@+id/information"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center_vertical"
-                        android:tag="tint"
-
-                        android:text="@string/example_time"
-                        android:textColor="?attr/font"
-
-                        android:textSize="?attr/font_cardinfo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tag="tint"
-                        android:text="@string/submission_properties_seperator"
-                        android:textColor="?attr/font"
-
-                        android:textSize="?attr/font_cardinfo" />
-
-                    <TextView
-                        android:id="@+id/score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center_vertical"
-
-                        android:tag="tint"
-                        android:text="@string/example_points"
-
-                        android:textSize="?attr/font_cardinfo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:tag="tint"
-                        android:text="@string/submission_properties_seperator"
-
-                        android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardinfo" />
-
-                    <TextView
-                        android:id="@+id/comments"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center_vertical"
-
-                        android:tag="tint"
-                        android:text="@string/example_comments"
-                        android:textColor="?attr/font"
-
-                        android:textSize="?attr/font_cardinfo" />
-
-
-                </com.wefika.flowlayout.FlowLayout>
-            </LinearLayout>
-
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/thumbimage2"
-                android:layout_width="70dp"
-                android:layout_height="60dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/chameleon"
-                app:riv_corner_radius="2dp" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/previewContent"
+        <me.ccrama.redditslide.Views.TitleTextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_below="@+id/headerimage"
 
-            android:visibility="gone">
+            android:layout_toLeftOf="@+id/thumbimage2"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingTop="8dp"
+            android:tag="tint"
+            android:text="@string/example_title"
+
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_cardtitle" />
 
 
-            <LinearLayout
-                android:id="@+id/base2"
-                android:layout_width="match_parent"
+        <com.wefika.flowlayout.FlowLayout
+            android:id="@+id/bod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+
+            android:layout_toLeftOf="@+id/thumbimage2"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:id="@+id/subreddit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:maxHeight="82dp"
+                android:gravity="center_vertical"
+                android:tag="tint"
+                android:text="@string/example_sub"
 
-                android:orientation="horizontal"
-                android:paddingBottom="4dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_cardinfo"
 
-                android:paddingTop="8dp">
+                />
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/thumbimage"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_marginRight="8dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="tint"
+                android:text="@string/submission_properties_seperator"
+                android:textColor="?attr/font"
 
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/chameleon"
-                    app:riv_corner_radius="2dp" />
+                android:textSize="?attr/font_cardinfo" />
+
+            <TextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:tag="tint"
+
+                android:text="@string/example_time"
+                android:textColor="?attr/font"
+
+                android:textSize="?attr/font_cardinfo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="tint"
+                android:text="@string/submission_properties_seperator"
+                android:textColor="?attr/font"
+
+                android:textSize="?attr/font_cardinfo" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+
+                android:tag="tint"
+                android:text="@string/example_points"
+
+                android:textSize="?attr/font_cardinfo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="tint"
+                android:text="@string/submission_properties_seperator"
+
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_cardinfo" />
+
+            <TextView
+                android:id="@+id/comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+
+                android:tag="tint"
+                android:text="@string/example_comments"
+                android:textColor="?attr/font"
+
+                android:textSize="?attr/font_cardinfo" />
 
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+        </com.wefika.flowlayout.FlowLayout>
 
-                    android:layout_gravity="center_vertical"
-
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/contenttitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/example_domain"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/contenturl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".56"
-
-                        android:text="@string/example_url"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/thumbimage2"
+            android:layout_centerVertical="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/chameleon"
+            app:riv_corner_radius="2dp" />
 
 
         <RelativeLayout
             android:id="@+id/actionbar"
             android:layout_width="match_parent"
             android:layout_height="36dp"
+            android:layout_below="@+id/bod"
             android:layout_marginBottom="-8dp"
-
-
             android:orientation="horizontal"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
@@ -370,11 +296,12 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
+            android:layout_below="@+id/actionbar"
             android:background="?attr/tint"
             android:layout_marginBottom="-8dp"
 
             android:alpha="0.6"/>
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>

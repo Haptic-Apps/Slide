@@ -35,124 +35,123 @@
             android:layout_height="wrap_content" />
 
 
+        <me.ccrama.redditslide.Views.TitleTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headerimage"
+
+            android:layout_toLeftOf="@+id/thumbimage2"
+            android:paddingBottom="4dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingTop="16dp"
+            android:tag="tint"
+            android:text="@string/example_title"
+
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_cardtitle" />
 
 
-            <me.ccrama.redditslide.Views.TitleTextView
-                android:id="@+id/title"
-                android:layout_below="@+id/headerimage"
-                android:layout_toLeftOf="@+id/thumbimage2"
-                android:paddingLeft="16dp"
+        <com.wefika.flowlayout.FlowLayout
+            android:id="@+id/bod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
 
-                android:paddingRight="8dp"
-                android:paddingTop="16dp"
-                android:layout_width="match_parent"
+            android:layout_toLeftOf="@+id/thumbimage2"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/subreddit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
+                android:gravity="center_vertical"
                 android:tag="tint"
-                android:text="@string/example_title"
+                android:text="@string/example_sub"
 
                 android:textColor="?attr/font"
-                android:textSize="?attr/font_cardtitle" />
+                android:textSize="?attr/font_cardinfo"
 
+                />
 
-            <com.wefika.flowlayout.FlowLayout
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/title"
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="16dp"
+                android:layout_height="wrap_content"
+                android:tag="tint"
+                android:text="@string/submission_properties_seperator"
+                android:textColor="?attr/font"
 
-                android:layout_toLeftOf="@+id/thumbimage2"
-                android:id="@+id/bod"
-                android:layout_height="wrap_content">
+                android:textSize="?attr/font_cardinfo" />
 
-                <TextView
-                    android:id="@+id/subreddit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:tag="tint"
-                    android:text="@string/example_sub"
+            <TextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:tag="tint"
 
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_cardinfo"
+                android:text="@string/example_time"
+                android:textColor="?attr/font"
 
-                    />
+                android:textSize="?attr/font_cardinfo" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="tint"
-                    android:text="@string/submission_properties_seperator"
-                    android:textColor="?attr/font"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="tint"
+                android:text="@string/submission_properties_seperator"
+                android:textColor="?attr/font"
 
-                    android:textSize="?attr/font_cardinfo" />
+                android:textSize="?attr/font_cardinfo" />
 
-                <TextView
-                    android:id="@+id/information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-                    android:tag="tint"
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
 
-                    android:text="@string/example_time"
-                    android:textColor="?attr/font"
+                android:tag="tint"
+                android:text="@string/example_points"
 
-                    android:textSize="?attr/font_cardinfo" />
+                android:textSize="?attr/font_cardinfo" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="tint"
-                    android:text="@string/submission_properties_seperator"
-                    android:textColor="?attr/font"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tag="tint"
+                android:text="@string/submission_properties_seperator"
 
-                    android:textSize="?attr/font_cardinfo" />
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_cardinfo" />
 
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
+            <TextView
+                android:id="@+id/comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
 
-                    android:tag="tint"
-                    android:text="@string/example_points"
+                android:tag="tint"
+                android:text="@string/example_comments"
+                android:textColor="?attr/font"
 
-                    android:textSize="?attr/font_cardinfo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="tint"
-                    android:text="@string/submission_properties_seperator"
-
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_cardinfo" />
-
-                <TextView
-                    android:id="@+id/comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-
-                    android:tag="tint"
-                    android:text="@string/example_comments"
-                    android:textColor="?attr/font"
-
-                    android:textSize="?attr/font_cardinfo" />
+                android:textSize="?attr/font_cardinfo" />
 
 
-            </com.wefika.flowlayout.FlowLayout>
+        </com.wefika.flowlayout.FlowLayout>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/thumbimage2"
+            android:layout_centerVertical="true"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/headerimage"
             android:layout_marginRight="8dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
