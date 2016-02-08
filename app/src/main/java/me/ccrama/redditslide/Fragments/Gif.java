@@ -82,12 +82,7 @@ public class Gif extends Fragment {
 
         String dat = s.getUrl();
 
-
-
         new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder),null, false).execute(dat);
-
-
-
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -859,7 +859,6 @@ public class PopulateSubmissionViewHolder {
 
         ContentType.ImageType type = ContentType.getImageType(submission);
 
-
         addClickFunctions(holder.leadImage, type, mContext, submission, holder.itemView);
 
         addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);

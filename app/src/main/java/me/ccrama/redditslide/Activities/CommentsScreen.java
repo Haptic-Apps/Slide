@@ -123,7 +123,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
-        if(!Reddit.appRestart.contains("tutorial_6")){
+        if(!Reddit.appRestart.contains("tutorial_comm")){
             tip = true;
             Tooltip.make(CommentsScreen.this,
                     new Tooltip.Builder(106)

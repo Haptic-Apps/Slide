@@ -153,33 +153,37 @@ public class MainActivity extends BaseActivity {
            );
             t.show();
         } else  if (!Reddit.appRestart.contains("tutorial_2")) {
-            t = Tooltip.make(this,
-                    new Tooltip.Builder(102)
-                            .anchor(headerMain, Tooltip.Gravity.RIGHT)
-                            .text("Open the sidebar to view your subreddits")
-                            .maxWidth(500)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            );
-            t.show();
+            if(headerMain != null) {
+                t = Tooltip.make(this,
+                        new Tooltip.Builder(102)
+                                .anchor(headerMain, Tooltip.Gravity.RIGHT)
+                                .text("Open the sidebar to view your subreddits")
+                                .maxWidth(500)
+                                .activateDelay(800)
+                                .showDelay(300)
+                                .withArrow(true)
+                                .withOverlay(true)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .build()
+                );
+                t.show();
+            }
         }else  if (!Reddit.appRestart.contains("tutorial_3")) {
-            t = Tooltip.make(this,
-                    new Tooltip.Builder(103)
-                            .anchor(e, Tooltip.Gravity.BOTTOM)
-                            .text("Type here to filter or search for subreddits")
-                            .maxWidth(500)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            );
-            t.show();
+            if(e != null) {
+                t = Tooltip.make(this,
+                        new Tooltip.Builder(103)
+                                .anchor(e, Tooltip.Gravity.BOTTOM)
+                                .text("Type here to filter or search for subreddits")
+                                .maxWidth(500)
+                                .activateDelay(800)
+                                .showDelay(300)
+                                .withArrow(true)
+                                .withOverlay(true)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .build()
+                );
+                t.show();
+            }
         } else if(!Reddit.appRestart.contains("tutorial_4")){
             t = Tooltip.make(this,
                     new Tooltip.Builder(104)
@@ -780,6 +784,7 @@ public class MainActivity extends BaseActivity {
         if (Authentication.isLoggedIn && Authentication.didOnline) {
 
             header = inflater.inflate(R.layout.drawer_loggedin, drawerSubList, false);
+            headerMain = header;
             hea = header.findViewById(R.id.back);
 
             drawerSubList.addHeaderView(header, null, false);
@@ -861,7 +866,6 @@ public class MainActivity extends BaseActivity {
 
         } else if (Authentication.didOnline) {
             header = inflater.inflate(R.layout.drawer_loggedout, drawerSubList, false);
-            headerMain = header;
             drawerSubList.addHeaderView(header, null, false);
             headerMain = header;
             hea = header.findViewById(R.id.back);
@@ -1030,6 +1034,8 @@ public class MainActivity extends BaseActivity {
                 copy.add(s);
             }
         e = ((EditText) headerMain.findViewById(R.id.sort));
+        doTutorial();
+
 
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
         drawerSubList.setAdapter(adapter);
@@ -1432,6 +1438,7 @@ public class MainActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null) {
+
             new AsyncNotificationBadge().execute();
         }
         Reddit.setDefaultErrorHandler(this);
