@@ -257,7 +257,6 @@ public class CreateCardView {
             if (!SettingValues.bigPicEnabled) {
                 v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
 
-                v.findViewById(R.id.base2).setVisibility(View.GONE);
 
             } else if (SettingValues.bigPicEnabled) {
                 v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
@@ -276,7 +275,6 @@ public class CreateCardView {
             if (!SettingValues.bigPicEnabled) {
                 v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
 
-                v.findViewById(R.id.base2).setVisibility(View.GONE);
                 v.findViewById(R.id.imagearea).setVisibility(View.GONE);
 
             } else if (SettingValues.bigPicEnabled) {
