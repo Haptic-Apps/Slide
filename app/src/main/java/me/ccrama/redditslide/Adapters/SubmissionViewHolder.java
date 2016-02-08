@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
@@ -16,7 +15,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final TextView subreddit;
     public final TextView contentTitle;
     public final TextView contentURL;
-    public final ImageView thumbImage;
     public final TextView score;
     public final TextView comments;
     public final TextView info;
@@ -30,7 +28,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         info = (TextView) v.findViewById(R.id.information);
         subreddit = (TextView) v.findViewById(R.id.subreddit);
         leadImage = (HeaderImageLinkView) v.findViewById(R.id.headerimage);
-        thumbImage = (ImageView) v.findViewById(R.id.thumbimage);
 
         contentTitle = (TextView) v.findViewById(R.id.contenttitle);
         contentURL = (TextView) v.findViewById(R.id.contenturl);
