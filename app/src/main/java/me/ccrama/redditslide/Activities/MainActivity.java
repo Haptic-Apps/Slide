@@ -138,20 +138,22 @@ public class MainActivity extends BaseActivity {
 
     public Tooltip.TooltipView t;
     public void doTutorial() {
-        if (!Reddit.appRestart.contains("tutorial_1")) {
-           t = Tooltip.make(this,
-                   new Tooltip.Builder(101)
-                           .anchor(mTabLayout, Tooltip.Gravity.BOTTOM)
-                           .text("Swipe horizontally between your subreddits")
-                           .maxWidth(500)
-                           .withArrow(true)
-                           .activateDelay(800)
-                           .showDelay(300)
-                           .withOverlay(true)
-                           .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                           .build()
-           );
-            t.show();
+        if (!Reddit.appRestart.contains("tutorial_1") && mTabLayout != null) {
+
+                t = Tooltip.make(this,
+                        new Tooltip.Builder(101)
+                                .anchor(mTabLayout, Tooltip.Gravity.BOTTOM)
+                                .text("Swipe horizontally between your subreddits")
+                                .maxWidth(500)
+                                .withArrow(true)
+                                .activateDelay(800)
+                                .showDelay(300)
+                                .withOverlay(true)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .build()
+                );
+                t.show();
+
         } else  if (!Reddit.appRestart.contains("tutorial_2")) {
             if(headerMain != null) {
                 t = Tooltip.make(this,
@@ -185,19 +187,22 @@ public class MainActivity extends BaseActivity {
                 t.show();
             }
         } else if(!Reddit.appRestart.contains("tutorial_4")){
-            t = Tooltip.make(this,
-                    new Tooltip.Builder(104)
-                            .anchor(pager, Tooltip.Gravity.CENTER)
-                            .text("Long press on a post for more options")
-                            .maxWidth(500)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            );
-            t.show();
+            if(pager != null) {
+
+                t = Tooltip.make(this,
+                        new Tooltip.Builder(104)
+                                .anchor(pager, Tooltip.Gravity.CENTER)
+                                .text("Long press on a post for more options")
+                                .maxWidth(500)
+                                .activateDelay(800)
+                                .showDelay(300)
+                                .withArrow(true)
+                                .withOverlay(true)
+                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                .build()
+                );
+                t.show();
+            }
         }
     }
 
@@ -798,14 +803,7 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
-            header.findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, ReorderSubreddits.class);
-                    MainActivity.this.startActivityForResult(inte, RESET_ADAPTER_RESULT);
-                    subToDo = usedArray.get(pager.getCurrentItem());
-                }
-            });
+
 
             header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
                 @Override

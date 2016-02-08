@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -104,6 +105,13 @@ public class Settings extends BaseActivity {
 
                 Intent i = new Intent(Settings.this, SettingsFilter.class);
                 startActivity(i);
+            }
+        });
+        findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
+                Settings.this.startActivity(inte);
             }
         });
         findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {

@@ -68,7 +68,6 @@
                 android:tag="tint"
                 android:text="@string/example_sub"
 
-                android:textColor="?attr/font"
                 android:textSize="?attr/font_cardinfo"
 
                 />
@@ -78,7 +77,6 @@
                 android:layout_height="wrap_content"
                 android:tag="tint"
                 android:text="@string/submission_properties_seperator"
-                android:textColor="?attr/font"
 
                 android:textSize="?attr/font_cardinfo" />
 
@@ -91,7 +89,6 @@
                 android:tag="tint"
 
                 android:text="@string/example_time"
-                android:textColor="?attr/font"
 
                 android:textSize="?attr/font_cardinfo" />
 
@@ -100,7 +97,6 @@
                 android:layout_height="wrap_content"
                 android:tag="tint"
                 android:text="@string/submission_properties_seperator"
-                android:textColor="?attr/font"
 
                 android:textSize="?attr/font_cardinfo" />
 
@@ -134,7 +130,6 @@
 
                 android:tag="tint"
                 android:text="@string/example_comments"
-                android:textColor="?attr/font"
 
                 android:textSize="?attr/font_cardinfo" />
 
