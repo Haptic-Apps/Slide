@@ -2,79 +2,81 @@
 4.5.1 / 2016-01-14
 ==================
 
-  * Ready for production beta release
   * Made saving gifs work
-  * Merge branch 'master' of https://github.com/ccrama/Slide
   * Small tint changes
-  * fix filters, fix #776, fix #771
-  * Made sidebar buttons untinted
-  * Removed some more hard to read colors
-  * More color fixes
-  * Made inflated dialog titles white, Removed _100 color values from secondary color chooser, Fixed contrast issues with font colors for the most part
-  * Last youtube fix
+  * Fixed filters not scrolling properly
+  * Self posts no longer show a content URL when sharing
+  * Disabled image-in-middle-of-card option when big picture is disabled
+  * Fixed contrast issues with font colors for the most part
+   * Made sidebar buttons untinted
+   * Removed the lighest color variants
+   * Made inflated dialog titles white
   * Made sharing link text use the util in Reddit.class
-  * Fixed youtube issue, Fixed link sharing on internal webview
-  * Fixed small youtube link time issue
-  * Fixed some card background issues, Made borderless card buttons on v21 and above
-  * Made youtube links work from comments again, Added color card background matching mode to theme settings and applicable methods in CreateCardView
+  * Fixed link sharing on internal webview
+  * Fixed some card background issues
+  * Made borderless card buttons on v21 and above
+  * Made youtube links work from comments again
+  * Added color card background matching mode to theme settings and applicable methods in CreateCardView
   * Cleanup of saving code
-  * Redid the multicolumn dialog, Added option for dual portrait columns, Re-organized the edit layout activity, Added save from actionbar button
+  * Redid the multicolumn dialog
+   * Added option for dual portrait columns
+  * Re-organized the edit layout activity
+  * Added save from actionbar button
   * Fixed wrong color text in insert link dialog
-  * Added filter system with support for the SubredditPosts dataset, Added settings option for filters, Created a helper class to create the Regex pattern from a comma separated string and matching based on title, body, or domain
+  * Added filter system with support for the SubredditPosts dataset
+   * Added settings option for filters
+   * Created a helper class to create the Regex pattern from a comma separated string and matching based on title, body, or domain
   * Added progress spinner to load more comments view
   * Started working on horizontal view for Albums
   * Fixed padding between title and thumbnail
   * Fixed flash when loading/reloading comments
   * Added a no thumbnail preview if there are no associated images or previews
   * Made selftext use the same font size as comments
-  * Changed font sizes for the last time
   * Normalized Large and Larger font sizes
   * Added 2 new font sizes, Added 3 new font options for post titles
   * Made font sizes work again for submission titles
-  * Merge pull request #774 from trevorhalvorson/master
   * Implement long click on links within comments for additional actions
   * Re-added image previews to fullscreen post view with selftext
   * Made submissions load if cache is set to always use cached data but no data is stored for that subreddit
   * Added titles and description support to imgur galleries
   * Made app totally log out if all accounts are removed
-  * Made switching accounts work, Made login open new account, Fixed blank page on crash or switching accounts, Added dialog to remove acconts (log out)
+  * Made switching accounts work
+  * Made login open new account
+  * Fixed blank page on crash or switching accounts
+  * Added dialog to remove acconts (log out)
   * Make saving comments actually save, not unsave
-  * Updated to JRAW v0.8 (also updated my fork at /ccrama/JRAW), Added comment saving
-  * Made failed album requests open in browser, Fixed crash when hiding all posts in a subreddit
+  * Updated to JRAW v0.8
+  * Added comment saving
+  * Made failed album requests open in browser
+  * Fixed crash when hiding all posts in a subreddit
   * Made comment screen use full sized image if possible
-  * Merge branch 'master' of https://github.com/ccrama/Slide
-  * Complete redo of card and list modes, Changed options for card layouts and changed the setting activity respectively, New thumbnail for nsfw posts
-  * Merge pull request #768 from thatJavaNerd/master
+  * Complete redo of card and list modes
+  * Changed options for card layouts and changed the setting activity respectively
+  * New thumbnail for nsfw posts
   * Replace "Add friend" and "Remove friend" with XML constants
-  * small fixes and optimizations
   * Removed all instances of ActiveTextView from Slide
-  * Added setting to hide the header on the navbar, Misc fixes
+  * Added setting to hide the header on the navbar
   * Fixed crash going back to MainActivity from Inbox
-  * Added message count bubble in sidebar, Fixed comments sometimes not loading after replying
+  * Added message count bubble in sidebar
+  * Fixed comments sometimes not loading after replying
   * Fixed crash when removing friend
-  * Merge branch 'master' of https://github.com/ccrama/Slide
-  * Added friending from the profile screen, Fixed gradle, Started working on reset button from edit cards layout not working
-  * Merge pull request #759 from thatJavaNerd/master
+  * Added friending from the profile screen
+  * Started working on reset button from edit cards layout not working
   * Moved startup_* strings to a <string-array>
-  * Merge branch 'master' of https://github.com/ccrama/Slide
-  * Fixed sharing images, Fixed not being able to open sidebar in single sub view
+  * Fixed sharing images
+  * Fixed not being able to open sidebar in single sub view
   * Rename some settings in accordance with removal of others
-  * Merge pull request #757 from thatJavaNerd/master
-  * Added TitleTextView to submission_fullscreen
-  * Merge branch 'master' of https://github.com/ccrama/Slide
   * Made title font choices thicker
-  * Start of comment style revamp, Added a setting page for comment and post title fonts
+  * Start of comment style revamp
+  * Added a setting page for comment and post title fonts
   * Rewrote me.ccrama.redditslide.util.NetworkUtil
-  * Merge pull request #754 from thatJavaNerd/master
-  * Reference static variable through a static context
   * Complete wiki overhaul, much faster and more reliable and gives the user more indication of loading progress
   * Recover if SubredditStorage.subredditsForHome is removed from memory
   * Fixed crash when opening search links
-  * Merge branch 'master' of https://github.com/ccrama/Slide
-  * Changed the view animation to an adapter one (no more glitchy movements), Fixed pull to refresh crash, Fixed double drawer on first open, Fixed changing of ViewDragHelper size when returning to activity (made override public not static)
-  * Merge pull request #750 from thatJavaNerd/master
+  * Changed the view animation to an adapter one (no more glitchy movements)
+  * Fixed pull to refresh crash, Fixed double drawer on first open
+  * Fixed changing of ViewDragHelper size when returning to activity (made override public not static)
   * More elegant way of setting view visibility
-  * new release and updated changelog
 
 4.5 / 2016-01-09
 ================
