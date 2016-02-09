@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 2/7/2016.
@@ -42,23 +45,58 @@ public class HeaderImageLinkView extends RelativeLayout {
         init();
     }
 
-    public void setSubmission(Submission submission, boolean full) {
-        ContentType.ImageType type = ContentType.getImageType(submission);
+    public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
+        double ratio = (double) imageHeight / (double) imageWidth;
+
+        Log.v(LogUtil.getTag(), "Ratio is " + ratio);
+        double width = getWidth();
+        return (width * ratio);
+
+    }
+
+    boolean done;
+
+    public void setSubmission(final Submission submission, final boolean full) {
+
+        if (!done) {
+
+            getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if(!done)
+                    doImageAndText(submission, full);
+
+                }
+            });
+        } else {
+            doImageAndText(submission, full);
+        }
+
+    }
+
+    public void doImageAndText(Submission submission, boolean full) {
+        final ContentType.ImageType type = ContentType.getImageType(submission);
 
         String url = "";
-
         boolean forceThumb = false;
 
-        if(full && SettingValues.bigPicCropped){
+        done = true;
+        if (full && SettingValues.bigPicCropped) {
             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
 
-        } else if(submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")){
+        } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("width")) {
             int height = submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt();
-            if(SettingValues.bigPicCropped){
-                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
-            } else if(height >= dpToPx(100)){
-                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, height));
+            int width = submission.getDataNode().get("preview").get("images").get(0).get("source").get("width").asInt();
 
+            if (SettingValues.bigPicCropped) {
+                if (height < dpToPx(200)) {
+                    forceThumb = true;
+                } else {
+                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
+                }
+            } else if (height >= dpToPx(150)) {
+                Log.v(LogUtil.getTag(), "" + getHeightFromAspectRatio(height, width));
+                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
             } else {
                 forceThumb = true;
             }
@@ -157,9 +195,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
 
 
-
-
-
         title.setVisibility(View.VISIBLE);
         info.setVisibility(View.VISIBLE);
 
@@ -244,11 +279,13 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
     }
 
+
     private static String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
         return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
+
     private ImageView thumbImage2;
 
     public void setThumbnail(ImageView v) {
@@ -285,8 +322,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         this.backdrop = (ImageView) findViewById(R.id.leadimage);
     }
 
-    public static int dpToPx(int dp)
-    {
+    public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }
