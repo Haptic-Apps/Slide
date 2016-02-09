@@ -36,60 +36,7 @@
                 app:layout_scrollFlags="scroll|enterAlways"
 
 
-                >
-
-                <ImageView
-                    android:id="@+id/sorting"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:background="?android:selectableItemBackgroundBorderless"
-
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp"
-
-                    android:scaleType="fitCenter"
-
-                    android:src="@drawable/sort"
-
-                    />
-
-                <ImageView
-                    android:id="@+id/edit"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:background="?android:selectableItemBackgroundBorderless"
-
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp"
-
-                    android:scaleType="fitCenter"
-
-                    android:src="@drawable/edit"
-
-                    />
-
-
-                <ImageView
-                    android:id="@+id/create"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:background="?android:selectableItemBackgroundBorderless"
-
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp"
-
-                    android:scaleType="fitCenter"
-
-                    android:src="@drawable/add_plain"
-                    android:tint="@color/white"
-
-                    />
-
-
-            </android.support.v7.widget.Toolbar>
+               />
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"
