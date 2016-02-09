@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Spannable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -1038,12 +1040,11 @@ public class PopulateSubmissionViewHolder {
             } else if (block.startsWith("<pre>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
-                //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
                 newTextView.setLinkTextColor(new ColorPreferences(context).getColor(subreddit));
                 newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(
                         context,
                         new FontPreferences(context).getFontTypeComment().getTypeface()));
-                newTextView.setTextHtml(block);
+                newTextView.setTextHtml(block, subreddit);
                 newTextView.setPadding(0, 0, 8, 0);
                 scrollView.addView(newTextView);
                 scrollView.setPadding(0, 0, 8, 0);
@@ -1053,17 +1054,20 @@ public class PopulateSubmissionViewHolder {
             } else {
                 if (firstTextViewPopulated) {
                     SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
-                    //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
-                    //newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
-                    //newTextView.setTypeface(commentTypeFace);
-                    newTextView.setTextHtml(block);
+                    newTextView.setLinkTextColor(new ColorPreferences(context).getColor(subreddit));
+                    newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(
+                        context,
+                        new FontPreferences(context).getFontTypeComment().getTypeface()));
+                    newTextView.setTextHtml(block, subreddit);
                     newTextView.setPadding(0, 0, 8, 0);
                     holder.commentOverflow.addView(newTextView);
                     holder.commentOverflow.setVisibility(View.VISIBLE);
                 } else {
-                    //holder.firstTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
-                    //holder.firstTextView.setTypeface(commentTypeFace);
-                    holder.firstTextView.setTextHtml(block);
+                    holder.firstTextView.setLinkTextColor(new ColorPreferences(context).getColor(subreddit));
+                    holder.firstTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(
+                            context,
+                            new FontPreferences(context).getFontTypeComment().getTypeface()));
+                    holder.firstTextView.setTextHtml(block, subreddit);
                     firstTextViewPopulated = true;
                 }
             }
