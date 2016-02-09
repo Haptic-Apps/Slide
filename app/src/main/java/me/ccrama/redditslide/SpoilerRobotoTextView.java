@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -18,6 +19,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
@@ -33,6 +35,7 @@ import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Imgur;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
 
 /**
@@ -87,9 +90,25 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * @param text html text
      */
     public void setTextHtml(CharSequence text) {
+        setTextHtml(text, "");
+    }
+
+    /**
+     * Set the text from html. Handles formatting spoilers, links etc.
+     *
+     * The text must be valid html.
+     *
+     * @param text html text
+     * @param subreddit the subreddit to theme
+     */
+    public void setTextHtml(CharSequence text, String subreddit) {
         SpannableStringBuilder builder = (SpannableStringBuilder)Html.fromHtml(text.toString().trim());
         setCodeFont(builder);
         setSpoilerStyle(builder);
+
+        if (!subreddit.isEmpty()) {
+            setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
+        }
 
         builder = removeNewlines(builder);
 
@@ -103,12 +122,21 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
 
         ContentType.ImageType type = ContentType.getImageType(url);
-        Activity context = (Activity)getContext();
+        Context context = getContext();
+        Activity activity = null;
+        if (context instanceof Activity) {
+            activity = (Activity)context;
+        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+            activity = (Activity)((android.support.v7.view.ContextThemeWrapper)context).getBaseContext();
+        } else {
+            throw new RuntimeException("Could not find activity from context:" + context);
+        }
+
         switch (type) {
             case IMGUR:
-                Intent intent2 = new Intent(context, Imgur.class);
+                Intent intent2 = new Intent(activity, Imgur.class);
                 intent2.putExtra(Imgur.EXTRA_URL, url);
-                context.startActivity(intent2);
+                activity.startActivity(intent2);
                 break;
             case NSFW_IMAGE:
                 openImage(url);
@@ -120,12 +148,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 openGif(true, url);
                 break;
             case REDDIT:
-                new OpenRedditLink(context, url);
+                new OpenRedditLink(activity, url);
                 break;
             case LINK:
             case IMAGE_LINK:
             case NSFW_LINK:
-                CustomTabUtil.openUrl(url, Palette.getColor(subreddit), context);
+                CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
                 break;
             case SELF:
                 break;
@@ -135,18 +163,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             case ALBUM:
                 if (SettingValues.album) {
                     if(SettingValues.albumSwipe){
-                        Intent i = new Intent(context, AlbumPager.class);
+                        Intent i = new Intent(activity, AlbumPager.class);
                         i.putExtra(Album.EXTRA_URL, url);
-                        context.startActivity(i);
-                        context.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        activity.startActivity(i);
+                        activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                     } else {
-                        Intent i = new Intent(context, Album.class);
+                        Intent i = new Intent(activity, Album.class);
                         i.putExtra(Album.EXTRA_URL, url);
-                        context.startActivity(i);
-                        context.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        activity.startActivity(i);
+                        activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                     }
                 } else {
-                    Reddit.defaultShare(url, context);
+                    Reddit.defaultShare(url, activity);
                 }
                 break;
             case IMAGE:
@@ -167,15 +195,15 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 openImage(url);
                 break;
             case NONE_URL:
-                CustomTabUtil.openUrl(url, Palette.getColor(subreddit), context);
+                CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
                 break;
             case VIDEO:
                 if (SettingValues.video) {
-                    Intent intent = new Intent(context, FullscreenVideo.class);
+                    Intent intent = new Intent(activity, FullscreenVideo.class);
                     intent.putExtra(FullscreenVideo.EXTRA_HTML, url);
-                    context.startActivity(intent);
+                    activity.startActivity(intent);
                 } else {
-                    Reddit.defaultShare(url, context);
+                    Reddit.defaultShare(url, activity);
                 }
             case SPOILER:
                 spoilerClicked = true;
