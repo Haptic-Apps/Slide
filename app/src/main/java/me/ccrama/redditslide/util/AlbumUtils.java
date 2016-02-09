@@ -312,19 +312,25 @@ public class AlbumUtils {
         public void doGallery(JsonObject result) {
             if (result != null && result.has("data")) {
                 Log.v(LogUtil.getTag(), result.toString());
-
-
                 final ArrayList<JsonElement> jsons = new ArrayList<>();
 
 
-                JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
-                    for (JsonElement o : obj) {
-                        jsons.add(o);
+
+                if(result.has("album_images")) {
+                    JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                        for (JsonElement o : obj) {
+                            jsons.add(o);
+                        }
+
+
+                        doWithData(jsons);
+
                     }
-
-
+                } else if(result.get("data").getAsJsonObject().has("image")) {
+                    jsons.add(result.get("data").getAsJsonObject().get("image"));
                     doWithData(jsons);
 
                 }
@@ -362,8 +368,10 @@ public class AlbumUtils {
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
 
             if (gallery) {
-                if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json")) {
-                    doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+                if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json" ) && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
+                        Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
+                                doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+
                 } else {
                     Ion.with(baseActivity)
                             .load("https://imgur.com/gallery/" + hash + ".json")

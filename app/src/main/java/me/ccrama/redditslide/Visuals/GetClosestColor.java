@@ -191,7 +191,7 @@ public class GetClosestColor {
             colors.put(distance(base, i), i);
         }
         int closest = colors.get(colors.keySet().toArray()[0]);
-        
+
         return closest;
 
     }
