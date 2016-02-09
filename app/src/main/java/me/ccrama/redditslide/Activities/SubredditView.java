@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +25,9 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -55,7 +60,6 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Views.ToastHelpCreation;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
@@ -80,6 +84,99 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
         finish();
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_single_subreddit, menu);
+
+        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        //   else menu.findItem(R.id.action_info).setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                mSwipeRefreshLayout.setRefreshing(true);
+                posts = new SubredditPosts(subreddit);
+                adapter = new SubmissionAdapter(this, posts, rv, subreddit);
+                rv.setAdapter(adapter);
+                posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
+                return true;
+            case R.id.action_sort:
+                openPopup();
+                return true;
+            case R.id.action_info:
+                drawerLayout.openDrawer(Gravity.RIGHT);
+                return true;
+            case R.id.search:
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
+                        .alwaysCallInputCallback()
+                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                term = charSequence.toString();
+                            }
+                        })
+                        .positiveText(R.string.search_all)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                Intent i = new Intent(SubredditView.this, Search.class);
+                                i.putExtra(Search.EXTRA_TERM, term);
+                                startActivity(i);
+                            }
+                        });
+
+                //Add "search current sub" if it is not frontpage/all/random
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random")) {
+                    builder.negativeText(getString(R.string.search_subreddit, subreddit))
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                    Intent i = new Intent(SubredditView.this, Search.class);
+                                    i.putExtra(Search.EXTRA_TERM, term);
+                                    i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
+                                    Log.v(LogUtil.getTag(), "INTENT SHOWS " + term + " AND " + subreddit);
+                                    startActivity(i);
+                                }
+                            });
+                }
+                builder.show();
+                return true;
+            case R.id.action_shadowbox:
+                if (SettingValues.tabletUI) {
+                    if (posts.posts != null && !posts.posts.isEmpty()) {
+                        Intent i = new Intent(this, Shadowbox.class);
+                        i.putExtra(Shadowbox.EXTRA_PAGE, 0);
+                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, subreddit);
+                        startActivity(i);
+                    }
+                } else {
+                    new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
     public String term;
@@ -166,38 +263,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
         }
 
-        findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MaterialDialog.Builder(SubredditView.this).title(R.string.search_title)
-                        .alwaysCallInputCallback()
-                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                term = charSequence.toString();
-                            }
-                        })
-                        .positiveText(R.string.search_all)
-                        .negativeText(getString(R.string.search_subreddit, subreddit))
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
-                                Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra(Search.EXTRA_TERM, term);
-                                startActivity(i);
-                            }
-                        })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
-                                Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra(Search.EXTRA_TERM, term);
-                                i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
-                                startActivity(i);
-                            }
-                        }).show();
-            }
-        });
+
         rv.setLayoutManager(mLayoutManager);
          mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
@@ -261,65 +327,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         );
 
 
-        findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                {
-                    openPopup();
-                }
-            }
-        });
-        findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                {
-                    if (SettingValues.tabletUI) {
-                        if (posts.posts != null && !posts.posts.isEmpty()) {
-                            Intent i = new Intent(SubredditView.this, Shadowbox.class);
-                            i.putExtra(Shadowbox.EXTRA_PAGE,0);
-                            i.putExtra(Shadowbox.EXTRA_SUBREDDIT,  subreddit);
-                            startActivity(i);                            startActivity(i);
-                        }
-                    } else {
-                        new AlertDialogWrapper.Builder(SubredditView.this)
-                                .setTitle(R.string.general_pro)
-                                .setMessage(R.string.general_pro_msg)
-                                .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        try {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        } catch (android.content.ActivityNotFoundException anfe) {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        }
-                                    }
-                                }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                            }
-                        }).show();
-                    }
-                }
-            }
-        });
-        findViewById(R.id.info).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ToastHelpCreation.makeToast(v, getString(R.string.general_open_settings), SubredditView.this);
-                return false;
-            }
-        });
-        findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                {
-                    if (!subreddit.equals("frontpage") && !subreddit.equals("all")) {
-                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
-                    }
-
-                }
-            }
-        });
     }
 
     public void openPopup() {
@@ -596,7 +604,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         Window window = getWindow();
                                         window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
-                                        MainActivity.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
+                                        SubredditView.this.setTaskDescription(new ActivityManager.TaskDescription(subreddit, ((BitmapDrawable) getResources().getDrawable(R.drawable.ic_launcher)).getBitmap(), colorPicker2.getColor()));
 
                                     }
                                     title.setBackgroundColor(Palette.getDefaultColor());

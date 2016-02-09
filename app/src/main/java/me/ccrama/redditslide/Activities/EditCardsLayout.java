@@ -77,6 +77,7 @@ public class EditCardsLayout extends BaseActivity {
                 layout.removeAllViews();
                 layout.addView(CreateCardView.setBigPicCropped(isChecked, layout));
 
+
             }
         });
 
@@ -86,7 +87,7 @@ public class EditCardsLayout extends BaseActivity {
 
 
         cropped.setEnabled(bigpic.isChecked());
-        cropped.setChecked(SettingValues.bigPicEnabled);
+        cropped.setChecked(SettingValues.bigPicCropped);
 
         cardmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
