@@ -178,6 +178,17 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                         posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
                     }
                 }
+                if (fab != null) {
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+
+                        fab.show();
+
+
+                    } else {
+                        fab.hide();
+
+                    }
+                }
             }
         });
         return v;
