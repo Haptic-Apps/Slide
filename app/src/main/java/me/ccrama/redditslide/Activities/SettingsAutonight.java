@@ -11,7 +11,7 @@ import me.ccrama.redditslide.SettingValues;
 /**
  * Created by l3d00m on 11/13/2015.
  */
-public class SettingsAutonight extends BaseActivity {
+public class SettingsAutonight extends BaseActivityAnim {
 
 
     public void onCreate(Bundle savedInstanceState) {

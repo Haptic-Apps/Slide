@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 /**
  * Created by l3d00m on 11/13/2015.
  */
-public class SettingsReddit extends BaseActivity {
+public class SettingsReddit extends BaseActivityAnim {
 
 
     public void onCreate(Bundle savedInstanceState) {

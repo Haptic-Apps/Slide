@@ -11,7 +11,7 @@ import me.ccrama.redditslide.SettingValues;
 /**
  * Created by l3d00m on 11/13/2015.
  */
-public class SettingsHandling extends BaseActivity implements
+public class SettingsHandling extends BaseActivityAnim implements
         CompoundButton.OnCheckedChangeListener {
 
 

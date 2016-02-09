@@ -44,7 +44,7 @@ import me.ccrama.redditslide.util.LogUtil;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsBackup extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     MaterialDialog progress;
     DriveFolder appFolder;
     String title;

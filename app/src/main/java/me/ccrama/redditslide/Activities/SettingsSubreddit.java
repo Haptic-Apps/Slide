@@ -25,7 +25,7 @@ import me.ccrama.redditslide.util.LogUtil;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsSubreddit extends BaseActivity {
+public class SettingsSubreddit extends BaseActivityAnim {
     public SettingsSubAdapter mSettingsSubAdapter;
     ArrayList<String> changedSubs = new ArrayList<>();
 
