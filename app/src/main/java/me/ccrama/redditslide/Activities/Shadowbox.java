@@ -50,12 +50,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         } else {
             subredditPosts = new SubredditPosts(subreddit);
         }
+        subreddit = multireddit == null?subreddit:("multi" + multireddit);
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
         } else {
             subredditPosts.getPosts().addAll(new OfflineSubreddit(subreddit).submissions);
             subredditPosts.loadMore(this.getApplicationContext(), this, true);
-        }        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+        }
+
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);

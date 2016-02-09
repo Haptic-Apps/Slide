@@ -28,7 +28,6 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.List;
 
 import me.ccrama.redditslide.Fragments.MultiredditView;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -75,11 +74,11 @@ public class MultiredditOverview extends BaseActivityAnim {
 
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra(Shadowbox.EXTRA_PAGE, 0);
-                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.getMultiReddit().getDisplayName());
                         startActivity(i);
                     }
                 } else {

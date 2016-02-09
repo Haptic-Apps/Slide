@@ -38,7 +38,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     private MultiredditAdapter adapter;
-    private MultiredditPosts posts;
+    public MultiredditPosts posts;
     private SwipeRefreshLayout refreshLayout;
     private int id;
     private int totalItemCount;

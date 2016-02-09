@@ -307,7 +307,7 @@ public class ImageFull extends Fragment {
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
                 }
             }
@@ -361,12 +361,15 @@ public class ImageFull extends Fragment {
                 });
     }
 
+    public String sub;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = new OfflineSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
+        sub = bundle.getString("sub");
+        s = new OfflineSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
 

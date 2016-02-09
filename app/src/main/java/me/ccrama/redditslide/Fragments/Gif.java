@@ -84,18 +84,19 @@ public class Gif extends Fragment {
 
         new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder),null, false).execute(dat);
 
-        rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
                 }
             }
@@ -104,13 +105,15 @@ public class Gif extends Fragment {
     }
 
 
+    public String sub;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = new OfflineSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
+        sub = bundle.getString("sub");
+        s = new OfflineSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
 
