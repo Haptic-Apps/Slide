@@ -49,7 +49,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         boolean forceThumb = false;
 
-        if(full && SettingValues.cropImage){
+        if(full && SettingValues.bigPicCropped){
             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
 
         } else if(submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")){
