@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SwitchCompat;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -38,9 +37,8 @@ public class EditCardsLayout extends BaseActivity {
         subreddit = subreddit.toLowerCase();
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_settings_theme_card);
-        int title = isAlternate ?
-                R.string.settings_title_alternative_layout : R.string.settings_layout_default;
-        setupAppBar(R.id.toolbar, title, true, true);
+
+        setupAppBar(R.id.toolbar, R.string.settings_layout_default, true, true);
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();
@@ -181,10 +179,7 @@ public class EditCardsLayout extends BaseActivity {
         });
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
        /*todo findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override

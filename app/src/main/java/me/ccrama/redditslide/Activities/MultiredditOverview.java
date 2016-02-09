@@ -1,7 +1,9 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,18 +12,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.List;
 
 import me.ccrama.redditslide.Fragments.MultiredditView;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -38,7 +45,66 @@ public class MultiredditOverview extends BaseActivityAnim {
     private ViewPager pager;
     private TabLayout tabs;
     private List<MultiReddit> usedArray;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_multireddits, menu);
 
+        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        //   else menu.findItem(R.id.action_info).setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_edit: {
+                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
+                startActivity(i);
+            }
+                return true;
+            case R.id.create:
+                Intent i2 = new Intent(MultiredditOverview.this, CreateMulti.class);
+                startActivity(i2);
+                return true;
+            case R.id.action_sort:
+                openPopup();
+                return true;
+
+            case R.id.action_shadowbox:
+                if (SettingValues.tabletUI) {
+                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    if (posts != null && !posts.isEmpty()) {
+                        Intent i = new Intent(this, Shadowbox.class);
+                        i.putExtra(Shadowbox.EXTRA_PAGE, 0);
+                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        startActivity(i);
+                    }
+                } else {
+                    new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+                return true;
+            default:
+                return false;
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -54,32 +120,13 @@ public class MultiredditOverview extends BaseActivityAnim {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         pager = (ViewPager) findViewById(R.id.content_view);
-        findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPopup(v);
-            }
-        });
-        findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
-                startActivity(i);
-            }
-        });
-        findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                startActivity(i);
-            }
-        });
+
+
 
         setDataSet(SubredditStorage.multireddits);
     }
 
-    public void openPopup(View view) {
+    public void openPopup() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
@@ -279,7 +326,19 @@ public class MultiredditOverview extends BaseActivityAnim {
             return f;
         }
 
+        private Fragment mCurrentFragment;
 
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
+        }
         @Override
         public int getCount() {
             if (usedArray == null) {

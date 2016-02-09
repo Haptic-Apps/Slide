@@ -92,6 +92,7 @@ public class SubredditPosts implements PostLoader {
                     start = posts.size() + 1;
                 }
 
+
                 List<Submission> filteredSubmissions = new ArrayList<>();
                 for (Submission s : submissions) {
                     if (!PostMatch.doesMatch(s)) {

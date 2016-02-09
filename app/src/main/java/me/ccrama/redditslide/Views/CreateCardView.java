@@ -240,10 +240,7 @@ public class CreateCardView {
     }
 
     private static void doHideObjects(View v, Boolean secondary) {
-        secondary = false; //removing secondary layouts for now
 
-        String subreddit = (secondary) ? "second" : "";
-        if (subreddit.isEmpty()) {
             if (!SettingValues.actionBarVisible) {
                 v.findViewById(R.id.actionbar).setVisibility(View.GONE);
 
@@ -256,33 +253,13 @@ public class CreateCardView {
             }
             if (!SettingValues.bigPicEnabled) {
                 v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
-
-
-            } else if (SettingValues.bigPicEnabled) {
-                v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
-            }
-        } else {
-            if (!SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible)) {
-                v.findViewById(R.id.actionbar).setVisibility(View.GONE);
-            }
-
-            if (SettingValues.bigPicCropped) {
-                ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
-                ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-            }
-            if (!SettingValues.bigPicEnabled) {
-                v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
-
-                v.findViewById(R.id.imagearea).setVisibility(View.GONE);
+                v.findViewById(R.id.headerimage).setVisibility(View.GONE);
 
             } else if (SettingValues.bigPicEnabled) {
                 v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
 
             }
 
-        }
     }
 
     public static boolean isCard(Boolean secondary) {

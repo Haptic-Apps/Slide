@@ -1,11 +1,13 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.ArrayList;
@@ -49,6 +51,30 @@ public class SettingsSubreddit extends BaseActivity {
         setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true, true);
         reloadSubList();
 
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWrapper.Builder(SettingsSubreddit.this)
+                        .setTitle("Clear all subreddit themes?")
+                        .setMessage("You cannot undo this action.")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for(String s : changedSubs){
+                                    Palette.removeColor(s);
+                                    // Remove layout settings
+                                    SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + s).apply();
+                                    // Remove accent / font color settings
+                                    new ColorPreferences(SettingsSubreddit.this).removeFontStyle(s);
+
+                                }
+                                reloadSubList();
+
+                            }
+                        }).setNegativeButton("No", null)
+                        .show();
+            }
+        });
         findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
