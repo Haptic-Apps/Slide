@@ -41,6 +41,7 @@ import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -52,6 +53,14 @@ public class ReorderSubreddits extends BaseActivityAnim {
     CustomAdapter adapter;
     RecyclerView recyclerView;
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +69,60 @@ public class ReorderSubreddits extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
 
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         subs = new ArrayList<>(SubredditStorage.subredditsForHome);
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
 
+        findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle("Color syncing")
+                        .setMessage("This will try to retrieve the subreddit's 'key color' set by the moderators. It will not overwrite already colored subreddits.")
+                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final MaterialDialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
+                                        .content(R.string.misc_please_wait)
+                                        .progress(false, 100)
+                                        .cancelable(false).show();
+
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        ArrayList<Subreddit> subColors = SubredditStorage.syncSubredditsGetObject();
+                                        d.setMaxProgress(subColors.size());
+                                        int i = 0;
+                                        for (Subreddit s : subColors) {
+                                            if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
+                                                Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), ReorderSubreddits.this));
+                                            }
+                                            d.setProgress(i);
+
+                                            i++;
+                                            if (i == d.getMaxProgress()) {
+                                                d.dismiss();
+                                            }
+
+                                        }
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+
+                                        adapter = new CustomAdapter(subs);
+                                        //  adapter.setHasStableIds(true);
+
+                                        recyclerView.setAdapter(adapter);
+                                    }
+                                }.execute();
+                                d.show();
+                            }
+                        }).setNegativeButton("Cancel", null).show();
+            }
+        });
         findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,6 +137,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 final Dialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
                         .content(R.string.misc_please_wait)
                         .progress(true, 100)
@@ -101,6 +161,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         recyclerView.setAdapter(adapter);
                     }
                 }.execute();
+
 
             }
         });
@@ -135,13 +196,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
         recyclerView.addOnItemTouchListener(dragSortRecycler);
         recyclerView.addOnScrollListener(dragSortRecycler.getScrollListener());
         dragSortRecycler.setViewHandleId();
-        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
-                finish();
-            }
-        });
 
         findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,7 +363,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(which == 1){
+                                    if (which == 1) {
                                         new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
                                                 .setMessage(R.string.reorder_remove_msg)
                                                 .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
@@ -341,7 +395,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(which == 1){
+                                    if (which == 1) {
                                         new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
                                                 .setMessage(R.string.reorder_remove_msg)
                                                 .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {

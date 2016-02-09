@@ -22,16 +22,7 @@
 
         >
 
-        <TextView
-            android:id="@+id/ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:layout_gravity="center_vertical|right"
-            android:padding="16dp"
-            android:text="@string/btn_save"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/refresh"
             android:layout_width="48dp"
@@ -47,6 +38,8 @@
             android:src="@drawable/refresh"
 
             />
+
+
 
 
         <ImageView
@@ -66,7 +59,22 @@
 
             />
 
+        <ImageView
+            android:id="@+id/color"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="?android:selectableItemBackground"
+            android:paddingBottom="8dp"
 
+            android:paddingTop="8dp"
+            android:scaleType="fitCenter"
+
+            android:src="@drawable/color"
+
+            android:tint="@color/white"
+
+            />
 
 
     </android.support.v7.widget.Toolbar>

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
@@ -185,6 +186,30 @@ public class SubredditStorage {
         }
     }
 
+    public static ArrayList<Subreddit> syncSubredditsGetObject() {
+        ArrayList<Subreddit> toReturn = new ArrayList<>();
+        if (Authentication.isLoggedIn) {
+            UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
+            pag.setLimit(100);
+
+
+            try {
+                while (pag.hasNext()) {
+                    for (net.dean.jraw.models.Subreddit s : pag.next()) {
+                        toReturn.add(s);
+                    }
+                }
+
+
+            } catch (Exception e) {
+                //failed;
+                e.printStackTrace();
+            }
+
+            return toReturn;
+        }
+        return toReturn;
+    }
 
     private static void getMultireddits() {
 
