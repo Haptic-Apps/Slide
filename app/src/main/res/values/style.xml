@@ -3,13 +3,17 @@
 
     <style name="AppTheme" parent="swipestyle">
 
-        <item name="android:windowBackground">@color/transparent</item>
 
         <item name="android:spinnerItemStyle">
             @style/spinnerItemStyle
         </item>
     </style>
 
+    <style name="Ripple"/>
+
+    <style name="Ripple.List">
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
     <!-- From SwipeBackLayout !-->
 
         <style name="SwipeBackLayout">
@@ -21,6 +25,7 @@
 
     <!-- !-->
     <style name="swipeable" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
 
         <item name="android:windowIsTranslucent">true</item>
 

@@ -39,7 +39,6 @@ public class OfflineSubreddit {
 
     public void writeToMemory() {
         if(subreddit!= null) {
-            subredditBackups.put(subreddit, this);
             if (dataNodes == null) {
                 StringBuilder s = new StringBuilder();
                 s.append(System.currentTimeMillis()).append("<SEPARATOR>");
@@ -49,7 +48,7 @@ public class OfflineSubreddit {
                 }
                 String finals = s.toString();
                 finals = finals.substring(0, finals.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
 
             } else {
                 StringBuilder s = new StringBuilder();
@@ -60,13 +59,12 @@ public class OfflineSubreddit {
                 }
                 String finals = s.toString();
                 finals = finals.substring(0, finals.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
+
 
                 dataNodes = null;
-                System.gc();
 
             }
-            System.gc();
         }
 
     }
@@ -104,30 +102,33 @@ public class OfflineSubreddit {
         return this;
     }
 
-    public OfflineSubreddit(String subreddit) {
-        this.subreddit = subreddit;
+    public static OfflineSubreddit getSubreddit(String subreddit) {
 
         if(subredditBackups.containsKey(subreddit)){
-            submissions = subredditBackups.get(subreddit).submissions;
+            return subredditBackups.get(subreddit);
         } else {
+            OfflineSubreddit o = new OfflineSubreddit();
             String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(), "").split("<SEPARATOR>");
             if (split.length > 1) {
-                time = Long.valueOf(split[0]);
-                submissions = new ArrayList<>();
+                o.time = Long.valueOf(split[0]);
+                o.submissions = new ArrayList<>();
                 for (int i = 1; i < split.length; i++) {
                     try {
                         if (split[i].startsWith("[")) {
-                            submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(split[i]), CommentSort.CONFIDENCE));
+                            o.submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(split[i]), CommentSort.CONFIDENCE));
                         } else {
-                            submissions.add(new Submission(new ObjectMapper().readTree(split[i])));
+                            o.submissions.add(new Submission(new ObjectMapper().readTree(split[i])));
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
+                subredditBackups.put(subreddit, o);
+
             } else {
-                submissions = new ArrayList<>();
+                o.submissions = new ArrayList<>();
             }
+            return o;
         }
     }
     public void clearSeenPosts(boolean forever) {

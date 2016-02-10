@@ -370,7 +370,7 @@ public class ImageFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
-        s = new OfflineSubreddit(sub).submissions.get(bundle.getInt("page", 0));
+        s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
 

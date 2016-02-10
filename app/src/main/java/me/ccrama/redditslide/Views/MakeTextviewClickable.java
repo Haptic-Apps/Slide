@@ -43,9 +43,9 @@ import java.util.regex.Pattern;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
+import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Imgur;
-import me.ccrama.redditslide.Activities.YouTubeView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -456,8 +456,8 @@ public class MakeTextviewClickable {
                     break;
                 case VIDEO:
                     if (SettingValues.video) {
-                        Intent intent = new Intent(c, YouTubeView.class);
-                        intent.putExtra("url", url);
+                        Intent intent = new Intent(c, FullscreenVideo.class);
+                        intent.putExtra(FullscreenVideo.EXTRA_HTML, url);
                         c.startActivity(intent);
                     } else {
                         Reddit.defaultShare(url, c);

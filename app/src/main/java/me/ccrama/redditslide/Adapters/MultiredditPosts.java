@@ -148,7 +148,7 @@ public class MultiredditPosts implements PostLoader {
                         newSubmissions.add(s);
 
                 }
-                new OfflineSubreddit("multi" + subredditPaginators[0].getFullName()).overwriteSubmissions(newSubmissions).writeToMemory();
+                OfflineSubreddit.getSubreddit("multi" + subredditPaginators[0].getFullName()).overwriteSubmissions(newSubmissions).writeToMemory();
 
                 return newSubmissions;
             } catch (Exception e) {

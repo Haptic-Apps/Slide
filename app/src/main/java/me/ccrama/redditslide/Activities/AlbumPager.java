@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
@@ -78,9 +79,30 @@ public class AlbumPager extends FullScreenActivity {
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        if(!Reddit.appRestart.contains("tutorialAlbum1")){
+            Tooltip.make(this,
+                    new Tooltip.Builder(104)
+                            .text("Drag from the very edge to exit")
+                            .maxWidth(500)
+                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT )
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            ).show();
+        }
         new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
 
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(!Reddit.appRestart.contains("tutorialAlbum1")){
+            Reddit.appRestart.edit().putBoolean("tutorialAlbum1", true).apply();
+        }
     }
 
 

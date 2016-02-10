@@ -83,7 +83,6 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
@@ -138,13 +137,14 @@ public class MainActivity extends BaseActivity {
 
     public Tooltip.TooltipView t;
     public void doTutorial() {
+        Tooltip.removeAll(this);
         if (!Reddit.appRestart.contains("tutorial_1") && mTabLayout != null) {
 
                 t = Tooltip.make(this,
                         new Tooltip.Builder(101)
                                 .anchor(mTabLayout, Tooltip.Gravity.BOTTOM)
                                 .text("Swipe horizontally between your subreddits")
-                                .maxWidth(500)
+                                .maxWidth(750)
                                 .withArrow(true)
                                 .activateDelay(800)
                                 .showDelay(300)
@@ -437,37 +437,38 @@ public class MainActivity extends BaseActivity {
 
 
             //Hopefully will allow Authentication time to authenticate and for SubredditStorage to get subs list
-            mToolbar.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (SubredditStorage.subredditsForHome != null) {
+            if (mToolbar != null) {
+                mToolbar.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (SubredditStorage.subredditsForHome != null) {
 
-                                mToolbar.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (loader != null) {
-                                            findViewById(R.id.header).setVisibility(View.VISIBLE);
+                                    mToolbar.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (loader != null) {
+                                                findViewById(R.id.header).setVisibility(View.VISIBLE);
 
-                                            doDrawer();
+                                                doDrawer();
 
-                                            setDataSet(SubredditStorage.subredditsForHome);
-                                            loader.finish();
-                                            loader = null;
-                                            System.gc();
+                                                setDataSet(SubredditStorage.subredditsForHome);
+                                                loader.finish();
+                                                loader = null;
+                                            }
                                         }
-                                    }
-                                }, 2000);
-                            } else {
-                                mToolbar.postDelayed(this, 2000);
+                                    }, 2000);
+                                } else {
+                                    mToolbar.postDelayed(this, 2000);
+                                }
                             }
-                        }
-                    });
+                        });
 
-                }
-            }, 2000);
+                    }
+                }, 2000);
+            }
 
         }
         doTutorial();
@@ -1390,7 +1391,7 @@ public class MainActivity extends BaseActivity {
                             if (d.getCurrentProgress() == d.getMaxProgress()) {
                                 d.cancel();
 
-                                new OfflineSubreddit(subreddit).overwriteSubmissions(newSubmissions);
+                                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(newSubmissions);
 
                             }
                             return null;

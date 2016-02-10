@@ -862,11 +862,11 @@ public class PopulateSubmissionViewHolder {
 
         addClickFunctions(holder.leadImage, type, mContext, submission, holder.itemView);
 
-        addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);
+       addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);
 
 
         if (full) {
-            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
+           addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
 
         }
         View pinned = holder.itemView.findViewById(R.id.pinned);

@@ -238,7 +238,6 @@ public class GifUtils {
                                                     }
 
 
-                                                    video.start();
                                                     video.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
 
                                                                                 {
@@ -256,6 +255,8 @@ public class GifUtils {
                                                                                 }
 
                                                     );
+                                                    video.start();
+
 
                                                 }
                                             });
@@ -411,7 +412,6 @@ public class GifUtils {
                                                 }
 
 
-                                                video.start();
                                                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                                     @Override
                                                     public void onPrepared(MediaPlayer mp) {
@@ -424,6 +424,8 @@ public class GifUtils {
                                                     }
 
                                                 });
+                                                video.start();
+
 
                                             }
                                         });
@@ -545,7 +547,6 @@ public class GifUtils {
                                                             }
 
 
-                                                            video.start();
                                                             video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                                                 @Override
                                                                 public void onPrepared(MediaPlayer mp) {
@@ -558,6 +559,7 @@ public class GifUtils {
                                                                 }
 
                                                             });
+                                                            video.start();
 
                                                         }
                                                     });

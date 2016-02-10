@@ -223,7 +223,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             return originalDataSetPosts;
         }
 
-        new OfflineSubreddit("multi"  + posts.getMultiReddit().getDisplayName()).clearSeenPosts(false);
+         OfflineSubreddit.getSubreddit("multi"  + posts.getMultiReddit().getDisplayName()).clearSeenPosts(false);
         return null;
     }
     @Override

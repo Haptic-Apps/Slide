@@ -18,6 +18,7 @@ import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.leakcanary.LeakCanary;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -30,6 +31,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.ref.WeakReference;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -355,104 +357,104 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public static void setDefaultErrorHandler(final Context c) {
+    public static void setDefaultErrorHandler( Context base) {
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+        final WeakReference<Context> cont= new WeakReference<Context>(base);
 
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable t) {
-                Writer writer = new StringWriter();
-                PrintWriter printWriter = new PrintWriter(writer);
-                t.printStackTrace(printWriter);
-                String stacktrace = writer.toString().replace(";", ",");
-
-                Log.v(LogUtil.getTag(), "ERROR IS " + t.getMessage());
-                Log.v(LogUtil.getTag(), "STACK IS " + stacktrace);
-
-                if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException")) {
-                    //is offline
-                    final Handler mHandler = new Handler(Looper.getMainLooper());
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                    .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
-                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (!(c instanceof MainActivity)) {
-                                                ((Activity) c).finish();
+                if (cont.get() != null) {
+                    final Context c = cont.get();
+                    Writer writer = new StringWriter();
+                    PrintWriter printWriter = new PrintWriter(writer);
+                    t.printStackTrace(printWriter);
+                    String stacktrace = writer.toString().replace(";", ",");
+                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException")) {
+                        //is offline
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                        .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
                                             }
-                                        }
-                                    }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    forceRestart(c);
-                                }
-                            }).show();
-                        }
-                    });
-                } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
-                    //Un-authenticated
-                    final Handler mHandler = new Handler(Looper.getMainLooper());
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                    .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
-                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (!(c instanceof MainActivity)) {
-                                                ((Activity) c).finish();
+                                        }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        forceRestart(c);
+                                    }
+                                }).show();
+                            }
+                        });
+                    } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
+                        //Un-authenticated
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                        .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
                                             }
-                                        }
-                                    }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    authentication.updateToken((c));
-                                }
-                            }).show();
-                        }
-                    });
+                                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        authentication.updateToken((c));
+                                    }
+                                }).show();
+                            }
+                        });
 
-                } else if (stacktrace.contains("404 Not Found")) {
-                    final Handler mHandler = new Handler(Looper.getMainLooper());
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                    .setMessage("Reddit could not find the requested content.")
-                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (!(c instanceof MainActivity)) {
-                                                ((Activity) c).finish();
+                    } else if (stacktrace.contains("404 Not Found")) {
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                        .setMessage("Reddit could not find the requested content.")
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
                                             }
-                                        }
 
-                                    }).show();
-                        }
-                    });
-                } else {
-                    appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
-
-                    if (t instanceof UnknownHostException) {
-                        Intent i = new Intent(c, Internet.class);
-                        c.startActivity(i);
+                                        }).show();
+                            }
+                        });
                     } else {
-                        try {
+                        appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
 
-                            SharedPreferences prefs = c.getSharedPreferences(
-                                    "STACKTRACE", Context.MODE_PRIVATE);
-                            prefs.edit().putString("stacktrace", stacktrace).apply();
+                        if (t instanceof UnknownHostException) {
+                            Intent i = new Intent(c, Internet.class);
+                            c.startActivity(i);
+                        } else {
+                            try {
 
-                        } catch (Throwable ignored) {
+                                SharedPreferences prefs = c.getSharedPreferences(
+                                        "STACKTRACE", Context.MODE_PRIVATE);
+                                prefs.edit().putString("stacktrace", stacktrace).apply();
+
+                            } catch (Throwable ignored) {
+                            }
                         }
-                    }
 
-                    androidHandler.uncaughtException(thread, t);
+                        androidHandler.uncaughtException(thread, t);
+                    }
                 }
             }
         });
@@ -483,6 +485,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
 
         doMainStuff();
     }

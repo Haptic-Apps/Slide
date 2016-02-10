@@ -324,7 +324,7 @@ public class CommentPage extends Fragment {
             if (getActivity() instanceof  CommentsScreen?((CommentsScreen) getActivity()).o != null:((CommentsScreenPopup) getActivity()).o != null) {
                 o = (getActivity() instanceof  CommentsScreen)?((CommentsScreen) getActivity()).o:((CommentsScreenPopup) getActivity()).o;
             } else {
-                o = new OfflineSubreddit(baseSubreddit);
+                o = OfflineSubreddit.getSubreddit(baseSubreddit);
             }
         }
         if (o != null && o.submissions.size() > 0 && o.submissions.get(page).getComments() != null) {
@@ -391,11 +391,11 @@ public class CommentPage extends Fragment {
 
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, new OfflineSubreddit(baseSubreddit).submissions.get(page));
+                adapter.reset(getContext(), comments, rv, OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
             } catch (Exception ignored) {
             }
         } else {
-            adapter.reset(getContext(), comments, rv, new OfflineSubreddit(baseSubreddit).submissions.get(page));
+            adapter.reset(getContext(), comments, rv, OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
         }
     }
 

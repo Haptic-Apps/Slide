@@ -54,7 +54,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
         } else {
-            subredditPosts.getPosts().addAll(new OfflineSubreddit(subreddit).submissions);
+            subredditPosts.getPosts().addAll(OfflineSubreddit.getSubreddit(subreddit).submissions);
             subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
 

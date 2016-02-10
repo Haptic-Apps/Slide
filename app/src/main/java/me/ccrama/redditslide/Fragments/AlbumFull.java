@@ -99,7 +99,7 @@ public class AlbumFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
 
-        s = new OfflineSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
+        s =OfflineSubreddit.getSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
 
     }
 

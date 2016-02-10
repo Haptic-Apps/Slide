@@ -5,31 +5,24 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="#a0000000"
-    android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+    >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
 
-        android:gravity="center">
 
         <com.google.android.youtube.player.YouTubePlayerView
             android:id="@+id/youtube_view"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginBottom="30dp" />
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+           />
 
 
 
-
-    </RelativeLayout>
-
-
+    <View
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/tutorial"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

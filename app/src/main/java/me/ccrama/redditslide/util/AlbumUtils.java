@@ -330,9 +330,16 @@ public class AlbumUtils {
 
                     }
                 } else if(result.get("data").getAsJsonObject().has("image")) {
-                    jsons.add(result.get("data").getAsJsonObject().get("image"));
-                    doWithData(jsons);
-
+                        if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
+                            Intent i = new Intent(baseActivity, GifView.class);
+                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                            baseActivity.startActivity(i);
+                        } else {
+                            Intent i = new Intent(baseActivity, FullscreenImage.class);
+                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                            baseActivity.startActivity(i);
+                        }
+                    baseActivity.finish();
                 }
             }
         }

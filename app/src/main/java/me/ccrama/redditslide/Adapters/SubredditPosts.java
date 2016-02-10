@@ -72,7 +72,7 @@ public class SubredditPosts implements PostLoader {
      */
     private class LoadData extends AsyncTask<String, Void, List<Submission>> {
         final boolean reset;
-        final Context context;
+         Context context;
         final SubmissionDisplay displayer;
 
         public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {
@@ -84,6 +84,7 @@ public class SubredditPosts implements PostLoader {
         @Override
         public void onPostExecute(List<Submission> submissions) {
             loading = false;
+            context = null;
 
             if (submissions != null && !submissions.isEmpty()) {
                 // new submissions found
@@ -93,7 +94,7 @@ public class SubredditPosts implements PostLoader {
                 }
 
 
-                List<Submission> filteredSubmissions = new ArrayList<>();
+               List<Submission> filteredSubmissions = new ArrayList<>();
                 for (Submission s : submissions) {
                     if (!PostMatch.doesMatch(s)) {
                         filteredSubmissions.add(s);
@@ -101,26 +102,27 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 if (reset || offline || posts == null) {
-                    posts = filteredSubmissions;
+                    posts = submissions;
                     start = -1;
                 } else {
-                    posts.addAll(filteredSubmissions);
+                    posts.addAll(submissions);
                     offline = false;
                 }
 
                 final int finalStart = start;
 
                 if(!usedOffline)
-                new OfflineSubreddit(subreddit).overwriteSubmissions(posts).writeToMemory();
+                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(posts).writeToMemory();
 
                 // update online
                 displayer.updateSuccess(posts, finalStart);
+
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (!new OfflineSubreddit(subreddit).submissions.isEmpty()  && !nomore && SettingValues.cache) {
+            } else if (!OfflineSubreddit.getSubreddit(subreddit).submissions.isEmpty()  && !nomore && SettingValues.cache) {
                 offline = true;
-                final OfflineSubreddit cached = new OfflineSubreddit(subreddit);
+                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit(subreddit);
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
@@ -161,8 +163,8 @@ public class SubredditPosts implements PostLoader {
 
 
 
-            OfflineSubreddit o = new OfflineSubreddit(subreddit);
             if( SettingValues.cacheDefault && !usedOffline){
+                OfflineSubreddit o = OfflineSubreddit.getSubreddit(subreddit);
                 usedOffline = true;
                 offline = false;
                 Log.v(LogUtil.getTag(), "Using cached data");
@@ -171,16 +173,10 @@ public class SubredditPosts implements PostLoader {
             }
 
             if(usedOffline && !reset){
-                Log.v(LogUtil.getTag(), "Loading more from offline state");
                 paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setLimit(25);
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
-
-                for(int i = 0; i < o.submissions.size(); i+= 25){
-                    paginator.next();
-                    //get it caught up when more data is loaded
-                }
 
             }
 
@@ -202,10 +198,7 @@ public class SubredditPosts implements PostLoader {
 
             try {
                 if (paginator != null && paginator.hasNext()) {
-                    for (Submission submission : paginator.next()) {
-                        things.add(submission);
-
-                    }
+                    things.addAll(paginator.next());
                 } else {
                     nomore = true;
                 }

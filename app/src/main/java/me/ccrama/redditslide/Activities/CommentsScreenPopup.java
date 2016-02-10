@@ -55,7 +55,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
         if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
-            posts = new OfflineSubreddit(subreddit).submissions;
+            posts = OfflineSubreddit.getSubreddit(subreddit).submissions;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();

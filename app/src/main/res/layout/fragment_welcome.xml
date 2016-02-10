@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:background="?attr/activity_background"
+        android:background="@drawable/backdrop_welcome"
         android:layout_height="match_parent"/>
    <ImageView
        android:src="@drawable/slogo"

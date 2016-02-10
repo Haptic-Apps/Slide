@@ -36,9 +36,10 @@ public class PreCachingLayoutManager extends LinearLayoutManager {
 
     @Override
     protected int getExtraLayoutSpace(RecyclerView.State state) {
-        if (extraLayoutSpace > 0) {
-            return extraLayoutSpace;
-        }
-        return DEFAULT_EXTRA_LAYOUT_SPACE;
+    //    if (extraLayoutSpace > 0) {
+    //        return extraLayoutSpace;
+     //   }
+     //   return DEFAULT_EXTRA_LAYOUT_SPACE;
+        return 0;
     }
 }

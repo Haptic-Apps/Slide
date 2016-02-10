@@ -11,7 +11,9 @@
         <item name="android:windowContentTransitions">true</item>
 
     </style>
-
+    <style name="Ripple.List">
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+    </style>
     <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:windowSharedElementsUseOverlay">false</item>

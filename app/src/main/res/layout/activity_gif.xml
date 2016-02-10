@@ -7,6 +7,10 @@
     android:background="#a0000000"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -62,7 +66,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="15dp"
 
-            android:src="@drawable/save" />
+            android:src="@drawable/save"/>
 
         <ImageView
             android:id="@+id/exitComment"
@@ -73,7 +77,11 @@
             android:background="?android:selectableItemBackground"
             android:padding="15dp"
 
-            android:src="@drawable/close" />
+            android:src="@drawable/close"/>
     </LinearLayout>
-
+    <View
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/tutorial"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>

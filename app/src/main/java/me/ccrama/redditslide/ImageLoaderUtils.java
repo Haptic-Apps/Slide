@@ -55,9 +55,9 @@ public class ImageLoaderUtils {
         options = new DisplayImageOptions.Builder()
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
-                .displayer(new FadeInBitmapDisplayer(250))
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheInMemory(false)
+                .displayer(new FadeInBitmapDisplayer(250))
 
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
