@@ -117,7 +117,9 @@ public class SubmissionParser {
             spoilerText = matcher.group(1);
             spoilerTeaser = matcher.group(2);
             // Remove the last </a> tag, but keep the < for parsing.
-            html = html.replace(tag, tag.substring(0, tag.length() - 4) + (spoilerTeaser.isEmpty() ? "spoiler" : "") + "&lt; [[s[ " + spoilerText + "]s]]</a>");
+            if (!tag.contains("<a href=\"http")) {
+                html = html.replace(tag, tag.substring(0, tag.length() - 4) + (spoilerTeaser.isEmpty() ? "spoiler" : "") + "&lt; [[s[ " + spoilerText + "]s]]</a>");
+            }
         }
 
         return html;
