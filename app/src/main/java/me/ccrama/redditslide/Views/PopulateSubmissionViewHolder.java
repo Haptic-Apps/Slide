@@ -51,6 +51,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Activities.YouTubeView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
@@ -175,8 +176,8 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case VIDEO:
                         if (SettingValues.video) {
-                            Intent intent = new Intent(contextActivity, FullscreenVideo.class);
-                            intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
+                            Intent intent = new Intent(contextActivity, YouTubeView.class);
+                            intent.putExtra("url", submission.getUrl());
                             contextActivity.startActivity(intent);
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
