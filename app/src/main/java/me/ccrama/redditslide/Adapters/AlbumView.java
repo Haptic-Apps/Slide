@@ -28,18 +28,12 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
     private final Context main;
     private final ArrayList<String> list;
 
-    public AlbumView(Context context, ArrayList<JsonElement> users, boolean gallery) {
+    public AlbumView(Context context, ArrayList<JsonElement> users) {
         main = context;
         this.users = users;
         list = new ArrayList<>();
-        if (gallery) {
-            for (final JsonElement elem : users) {
-                list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
-            }
-        } else {
-            for (final JsonElement elem : users) {
-                list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
-            }
+        for (final JsonElement elem : users) {
+            list.add(elem.getAsJsonObject().get("link").getAsString());
         }
     }
 
@@ -54,66 +48,42 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         final JsonElement user = users.get(position);
 
         final String url = list.get(position);
+        final boolean isGif = user.getAsJsonObject().get("animated").getAsBoolean();
 
         ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
         holder.body.setVisibility(View.VISIBLE);
         holder.text.setVisibility(View.VISIBLE);
-        if (user.getAsJsonObject().has("image")) {
-            {
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
-                    if (holder.text.getText().toString().isEmpty()) {
-                        holder.text.setVisibility(View.GONE);
-                    }
 
-                } else {
-                    holder.text.setVisibility(View.GONE);
-
-                }
-            }
-            {
-                if(! user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                    holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
-                    if (holder.body.getText().toString().isEmpty()) {
-                        holder.body.setVisibility(View.GONE);
-                    }
-                } else {
-                    holder.body.setVisibility(View.GONE);
-
-                }
+        if (!user.getAsJsonObject().get("title").isJsonNull()) {
+            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+            holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
+            if (holder.text.getText().toString().isEmpty()) {
+                holder.text.setVisibility(View.GONE);
             }
         } else {
-            if(user.getAsJsonObject().has("title")){
-                List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
-                holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
-                if (holder.text.getText().toString().isEmpty()) {
-                    holder.text.setVisibility(View.GONE);
-                }
 
-            } else {
-
-                holder.text.setVisibility(View.GONE);
-
-            }
-            if(user.getAsJsonObject().has("description")){
-                List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
-                holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
-                if (holder.body.getText().toString().isEmpty()) {
-                    holder.body.setVisibility(View.GONE);
-                }
-            } else {
-                holder.body.setVisibility(View.GONE);
-
-            }
+            holder.text.setVisibility(View.GONE);
 
 
         }
+
+
+        if (!user.getAsJsonObject().get("description").isJsonNull()) {
+            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("description").getAsString());
+            holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
+
+            if (holder.body.getText().toString().isEmpty()) {
+                holder.body.setVisibility(View.GONE);
+            }
+        } else {
+            holder.body.setVisibility(View.GONE);
+        }
+
+
         View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (url.contains("gif")) {
+                if (isGif) {
                     if (SettingValues.gif) {
                         Intent myIntent = new Intent(main, GifView.class);
                         myIntent.putExtra(GifView.EXTRA_URL, url);
@@ -134,10 +104,10 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         };
 
 
-        if (url.contains("gif")) {
+        if (isGif) {
             holder.body.setVisibility(View.VISIBLE);
             holder.body.setSingleLine(false);
-            holder.body.setText(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...
+            holder.body.setText(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase());
             holder.body.setOnClickListener(onGifImageClickListener);
         }
 

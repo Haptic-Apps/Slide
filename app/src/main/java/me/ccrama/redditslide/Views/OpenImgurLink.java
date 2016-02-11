@@ -16,6 +16,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 1/16/2016.
  */
 public class OpenImgurLink {
+    public static final String IMGUR_CLIENT_ID = "Client-ID " + "bef87913eb202e9";
+
     public static void openImgurLink(final Context c, String url) {
         if (url.endsWith("/")) {
             url = url.substring(0, url.length() - 1);

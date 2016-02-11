@@ -1,9 +1,7 @@
 package me.ccrama.redditslide.util;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -31,6 +28,7 @@ import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.OpenImgurLink;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 /**
@@ -71,12 +69,14 @@ public class AlbumUtils {
         public Activity baseActivity;
         public RecyclerView recyclerView;
 
-        public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, @NotNull boolean finishIfNone, @NotNull boolean openExternalNotAlbum, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView) {
+        public boolean mIsAlbum;
+        public JsonObject mJsonResult;
+
+        public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, boolean finishIfNone, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView) {
 
             this.finishIfNone = finishIfNone;
             this.recyclerView = recyclerView;
             this.supportActionBar = bar;
-            this.openExternalNotAlbum = openExternalNotAlbum;
             this.baseActivity = baseActivity;
 
             String rawDat = cutEnds(url);
@@ -101,178 +101,124 @@ public class AlbumUtils {
         }
 
 
-        public void doGallery(JsonObject result) {
-            final ArrayList<JsonElement> jsons = new ArrayList<>();
 
+        private void catchFailedApiCall(){
+            Log.w(LogUtil.getTag(), "Api call failed");
+            if (openExternalNotAlbum) {
+                Intent i = new Intent(baseActivity, Website.class);
+                i.putExtra(Website.EXTRA_URL, "https://imgur.com/gallery/" + hash);
 
-            if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
-                if (openExternalNotAlbum) {
-                    if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
-                        Intent i = new Intent(baseActivity, GifView.class);
-                        i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
-                        baseActivity.startActivity(i);
-                    } else {
-                        Intent i = new Intent(baseActivity, FullscreenImage.class);
-                        i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
-                        baseActivity.startActivity(i);
-                    }
-
-
-                }
-                if (finishIfNone)
-                    baseActivity.finish();
-            } else {
-                JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
-
-                    for (JsonElement o : obj) {
-                        jsons.add(o);
-                    }
-
-                    if (supportActionBar != null)
-                        supportActionBar.setTitle(baseActivity.getString(R.string.album_title_count, jsons.size()));
-
-
-                    if (recyclerView != null) {
-                        final PreCachingLayoutManager mLayoutManager;
-                        mLayoutManager = new PreCachingLayoutManager(baseActivity);
-                        recyclerView.setLayoutManager(mLayoutManager);
-                        recyclerView.setAdapter(new AlbumView(baseActivity, jsons, true));
-                    }
-
-
-                } else {
-
-                    if (openExternalNotAlbum) {
-                        Intent i = new Intent(baseActivity, Website.class);
-                        i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
-
-                        baseActivity.startActivity(i);
-                    }
-                    if (finishIfNone)
-                        baseActivity.finish();
-                    //Catch failed api call
-                }
+                baseActivity.startActivity(i);
             }
-        }
+            if (finishIfNone)
+                baseActivity.finish();
+            //Catch failed api call
 
-        public void doAlbum(JsonObject result) {
-            Dialog dialog = new AlertDialogWrapper.Builder(baseActivity)
-                    .setTitle(R.string.album_err_not_found)
-                    .setMessage(R.string.album_err_msg_not_found)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            baseActivity.finish();
-                        }
-                    }).create();
-
-
-            if (result != null) {
-                Log.v(LogUtil.getTag(), result.toString());
-
-                final ArrayList<JsonElement> jsons = new ArrayList<>();
-
-                if (result.has("album")) {
-                    if (supportActionBar != null)
-                        if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
-                            supportActionBar.setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
-                        } else {
-                            supportActionBar.setTitle("Album");
-                        }
-                    JsonObject obj = result.getAsJsonObject("album");
-                    if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                        final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                        for (JsonElement o : jsonAuthorsArray) {
-                            jsons.add(o);
-                        }
-
-
-                        if (recyclerView != null) {
-                            final PreCachingLayoutManager mLayoutManager;
-                            mLayoutManager = new PreCachingLayoutManager(baseActivity);
-                            recyclerView.setLayoutManager(mLayoutManager);
-                            recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false));
-                        }
-
-                    } else {
-
-                        if (finishIfNone) {
-                            new AlertDialogWrapper.Builder(baseActivity)
-                                    .setTitle(R.string.album_err_not_found)
-                                    .setMessage(R.string.album_err_msg_not_found)
-                                    .setCancelable(false)
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            baseActivity.finish();
-                                        }
-                                    }).create().show();
-                        }
-                    }
-                } else {
-                    if (finishIfNone)
-                        dialog.show();
-                }
-            } else {
-                if (finishIfNone)
-
-                    dialog.show();
-            }
+            albumRequests.edit().remove("gallery/" + hash).apply();
+            albumRequests.edit().remove("album/" + hash).apply();
         }
 
         @Override
         protected Void doInBackground(final String... sub) {
 
-
             if (gallery) {
 
-                if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json")) {
-                    doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+                if (albumRequests.contains("gallery/" + hash)) {
+                    mJsonResult = new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject();
+                    mIsAlbum = false;
                 } else {
                     Ion.with(baseActivity)
-                            .load("https://imgur.com/gallery/" + hash + ".json")
+                            .load("https://api.imgur.com/3/gallery/" + hash + ".json")
+                            .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
 
-                                    if (result != null && result.has("data")) {
-                                        albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
-
-                                        doGallery(result);
-                                    }
+                                    albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
+                                    mJsonResult = result;
+                                    mIsAlbum = false;
                                 }
-
                             });
                 }
             } else {
-                if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
-                    doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
+                if (albumRequests.contains("album/" + hash)) {
+                    mJsonResult = new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject();
+                    mIsAlbum = true;
                 } else {
                     Ion.with(baseActivity)
-                            .load("http://api.imgur.com/2/album" + hash + ".json")
+                            .load("https://api.imgur.com/3/album" + hash + ".json")
+                            .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
-                                    albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
 
-                                    doAlbum(result);
+                                    albumRequests.edit().putString("album/" + hash, result.toString()).apply();
+                                    mJsonResult = result;
+                                    mIsAlbum = true;
+
                                 }
-
                             });
                 }
             }
 
             return null;
-
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            final ArrayList<JsonElement> jsons = new ArrayList<>();
+            if (mJsonResult != null && mJsonResult.has("data") && mJsonResult.get("success").getAsBoolean()) {
+                JsonObject resultData = mJsonResult.getAsJsonObject("data");
+                Log.v(LogUtil.getTag(), resultData.toString());
 
+                //Is single image
+                if (!mIsAlbum || (resultData.has("is_album") && !resultData.get("is_album").getAsBoolean())) {
+                    if (openExternalNotAlbum) {
+                        if (resultData.get("animated").getAsBoolean()) {
+                            Intent i = new Intent(baseActivity, GifView.class);
+                            i.putExtra(GifView.EXTRA_URL, resultData.get("link").getAsString());
+                            baseActivity.startActivity(i);
+                        } else {
+                            Intent i = new Intent(baseActivity, FullscreenImage.class);
+                            i.putExtra(FullscreenImage.EXTRA_URL, resultData.get("link").getAsString());
+                            baseActivity.startActivity(i);
+                        }
+
+
+                    }
+                    if (finishIfNone)
+                        baseActivity.finish();
+                } else {
+                    //is album
+                    JsonArray obj = resultData.get("images").getAsJsonArray();
+                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                        for (JsonElement o : obj) {
+                            jsons.add(o);
+                        }
+
+                        if (supportActionBar != null) {
+                            if (resultData.has("title") || !resultData.get("title").isJsonNull()) {
+                                supportActionBar.setTitle(resultData.get("title").getAsString());
+                            } else {
+                                supportActionBar.setTitle(baseActivity.getString(R.string.album_title_count, jsons.size()));
+                            }
+                        }
+
+                        if (recyclerView != null) {
+                            final PreCachingLayoutManager mLayoutManager;
+                            mLayoutManager = new PreCachingLayoutManager(baseActivity);
+                            recyclerView.setLayoutManager(mLayoutManager);
+                            recyclerView.setAdapter(new AlbumView(baseActivity, jsons));
+                        }
+
+
+                    } else catchFailedApiCall();
+                }
+            } else catchFailedApiCall();
+        }
     }
 
     public static class GetAlbumJsonFromUrl extends AsyncTask<String, Void, ArrayList<JsonElement>> {
@@ -281,6 +227,9 @@ public class AlbumUtils {
         public String hash;
 
         public Activity baseActivity;
+
+        public boolean mIsAlbum;
+        public JsonObject mJsonResult;
 
         public GetAlbumJsonFromUrl(@NotNull String url, @NotNull Activity baseActivity) {
 
@@ -309,141 +258,92 @@ public class AlbumUtils {
 
         }
 
-        public void doGallery(JsonObject result) {
-            if (result != null && result.has("data")) {
-                Log.v(LogUtil.getTag(), result.toString());
-                final ArrayList<JsonElement> jsons = new ArrayList<>();
-
-
-
-
-                if(result.has("album_images")) {
-                    JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
-
-                        for (JsonElement o : obj) {
-                            jsons.add(o);
-                        }
-
-
-                        doWithData(jsons);
-
-                    }
-                } else if(result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")){
-                    JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
-
-                        for (JsonElement o : obj) {
-                            jsons.add(o);
-                        }
-
-
-                        doWithData(jsons);
-
-                    }
-                } else if(result.get("data").getAsJsonObject().has("image")) {
-                        if ( result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
-                            Intent i = new Intent(baseActivity, GifView.class);
-                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
-                            baseActivity.startActivity(i);
-                        } else {
-                            Intent i = new Intent(baseActivity, FullscreenImage.class);
-                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
-                            baseActivity.startActivity(i);
-                        }
-                    baseActivity.finish();
-                }
-            }
-        }
-
-        public void doAlbum(JsonObject result) {
-
-
-            if (result != null) {
-                Log.v(LogUtil.getTag(), result.toString());
-
-                final ArrayList<JsonElement> jsons = new ArrayList<>();
-
-                if (result.has("album")) {
-
-                    JsonObject obj = result.getAsJsonObject("album");
-                    if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                        final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                        for (JsonElement o : jsonAuthorsArray) {
-                            jsons.add(o);
-                        }
-
-
-                        doWithData(jsons);
-
-                    }
-                }
-            }
-        }
 
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
 
             if (gallery) {
-                if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json" ) && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
-                        Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
-                    baseActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
 
-                        }
-                    });
+                if (albumRequests.contains("gallery/" + hash) && new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject().has("data")) {
+                    Log.v(LogUtil.getTag(), albumRequests.getString("gallery/" + hash, ""));
 
+                    mIsAlbum = false;
+                    mJsonResult = new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject();
                 } else {
                     Ion.with(baseActivity)
-                            .load("https://imgur.com/gallery/" + hash + ".json")
+                            .load("https://api.imgur.com/3/gallery/" + hash + ".json")
+                            .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
-
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject result) {
-                                    albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
+                                    albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
 
-                                    doGallery(result);
+                                    mIsAlbum = false;
+                                    mJsonResult = result;
                                 }
 
                             });
                 }
             } else {
-                if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
-                    baseActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
-                        }
-                    });
+
+                if (albumRequests.contains("album/" + hash)) {
+                    mIsAlbum = true;
+                    mJsonResult = new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject();
                 } else {
                     Ion.with(baseActivity)
-                            .load("http://api.imgur.com/2/album" + hash + ".json")
+                            .load("https://api.imgur.com/3/album" + hash + ".json")
+                            .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                              @Override
                                              public void onCompleted(Exception e, JsonObject result) {
-                                                 albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+                                                 albumRequests.edit().putString("album/" + hash, result.toString()).apply();
 
-                                                 doAlbum(result);
+                                                 mIsAlbum = true;
+                                                 mJsonResult = result;
                                              }
-
                                          }
-
                             );
                 }
             }
-
             return null;
-
-
         }
 
+        @Override
+        protected void onPostExecute(ArrayList<JsonElement> jsonElements) {
+            if (mJsonResult != null && mJsonResult.has("data") && mJsonResult.get("success").getAsBoolean()) {
+                Log.v(LogUtil.getTag(), mJsonResult.toString());
+                final ArrayList<JsonElement> jsons = new ArrayList<>();
 
+                final JsonObject resultData = mJsonResult.getAsJsonObject("data");
+
+
+                if(mIsAlbum || resultData.get("is_album").getAsBoolean()) {
+                    if (resultData.has("images")) {
+                        JsonArray obj = resultData.get("images").getAsJsonArray();
+                        if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                            for (JsonElement o : obj) {
+                                jsons.add(o);
+                            }
+
+                            doWithData(jsons);
+                        }
+                    }
+                } else {
+                    //is single image
+                    jsons.add(resultData);
+                    doWithData(jsons);
+
+                }
+            } else {
+                //Feedback for user todo
+                Log.w(LogUtil.getTag(), "Api call failed, result is: " + mJsonResult == null ? "null" : mJsonResult.toString());
+                albumRequests.edit().remove("gallery/" + hash).apply();
+                albumRequests.edit().remove("album/" + hash).apply();
+            }
+        }
     }
 
 
@@ -456,9 +356,9 @@ public class AlbumUtils {
         if (rawDat.contains("gallery")) {
             gallery = true;
         }
-        if (rawDat.endsWith("/")) {
-            rawDat = rawDat.substring(0, rawDat.length() - 1);
-        }
+
+        rawDat = cutEnds(rawDat);
+
         String rawdat2 = rawDat;
         if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
             rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
@@ -469,36 +369,38 @@ public class AlbumUtils {
 
         }
         if (gallery) {
-            if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json")) {
-                preloadImages(c, new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject(), true);
+            if (albumRequests.contains("gallery/" + hash)) {
+                preloadImages(c, new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject());
             } else {
                 Ion.with(c)
-                        .load("https://imgur.com/gallery/" + hash + ".json")
+                        .load("https://api.imgur.com/3/gallery/" + hash + ".json")
+                        .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                         .asJsonObject()
 
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-                                albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
+                                albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
 
-                                preloadImages(c, result, true);
+                                preloadImages(c, result);
                             }
 
                         });
             }
         } else {
-            if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
-                preloadImages(c, new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject(), false);
+            if (albumRequests.contains("album/" + hash)) {
+                preloadImages(c, new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject());
             } else {
                 Ion.with(c)
-                        .load("http://api.imgur.com/2/album" + hash + ".json")
+                        .load("https://api.imgur.com/3/album" + hash + ".json")
+                        .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                                          @Override
                                          public void onCompleted(Exception e, JsonObject result) {
-                                             albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+                                             albumRequests.edit().putString("album/" + hash, result.toString()).apply();
 
-                                             preloadImages(c, result, false);
+                                             preloadImages(c, result);
                                          }
 
                                      }
@@ -510,30 +412,15 @@ public class AlbumUtils {
 
     }
 
-    public static void preloadImages(Context c, JsonObject result, boolean gallery) {
-        if (gallery) {
+    public static void preloadImages(Context c, JsonObject result) {
+        JsonArray obj = result.getAsJsonObject("data").get("images").getAsJsonArray();
+        if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
-            JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-            if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
-
-                for (JsonElement o : obj) {
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage("https://imgur.com/" + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
-                }
-
-
+            for (JsonElement o : obj) {
+                ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(o.getAsJsonObject().get("link").getAsString(), new SimpleImageLoadingListener());
             }
-
         } else {
-            JsonObject obj = result.getAsJsonObject("album");
-            if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                for (JsonElement o : jsonAuthorsArray) {
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(o.getAsJsonObject().getAsJsonObject("links").get("original").getAsString(), new SimpleImageLoadingListener());
-                }
-
-            }
+            Log.w(LogUtil.getTag(), "Got invalid result");
         }
     }
 
