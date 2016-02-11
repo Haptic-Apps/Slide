@@ -2,12 +2,12 @@ package me.ccrama.redditslide.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView;
+import me.ccrama.redditslide.Views.CommentOverflow;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -24,7 +24,7 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final View gildLayout;
     public final HeaderImageLinkView leadImage;
     public final SpoilerRobotoTextView firstTextView;
-    public final LinearLayout commentOverflow;
+    public final CommentOverflow commentOverflow;
 
     public SubmissionViewHolder(View v) {
         super(v);
@@ -39,6 +39,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         gildText = (TextView)v.findViewById(R.id.gildtext);
         gildLayout = v.findViewById(R.id.gild);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
-        commentOverflow = (LinearLayout) v.findViewById(R.id.commentOverflow);
+        commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
     }
 }

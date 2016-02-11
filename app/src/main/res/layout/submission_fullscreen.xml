@@ -236,14 +236,14 @@
 
                     android:textSize="?attr/font_commentbody" />
 
-                <LinearLayout
+                <me.ccrama.redditslide.Views.CommentOverflow
                     android:id="@+id/commentOverflow"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:visibility="gone"></LinearLayout>
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="gone"></me.ccrama.redditslide.Views.CommentOverflow>
             </LinearLayout>
 
             <RelativeLayout
