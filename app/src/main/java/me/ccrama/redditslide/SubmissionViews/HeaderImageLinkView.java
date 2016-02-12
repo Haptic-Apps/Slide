@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -61,8 +60,8 @@ public class HeaderImageLinkView extends RelativeLayout {
         doImageAndText(submission, full);
 
         if (!done) {
-
-            getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            done = true;
+           /* getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     if (!done) {
@@ -71,7 +70,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     }
 
                 }
-            });
+            });*/
         } else {
             doImageAndText(submission, full);
         }
@@ -283,7 +282,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
 
-    private static String getDomainName(String url) throws URISyntaxException {
+    private  String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
         return domain.startsWith("www.") ? domain.substring(4) : domain;
@@ -325,7 +324,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         this.backdrop = (ImageView) findViewById(R.id.leadimage);
     }
 
-    public static int dpToPx(int dp) {
+    public  int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }

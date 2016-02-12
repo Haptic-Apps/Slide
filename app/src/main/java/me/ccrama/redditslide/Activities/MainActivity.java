@@ -1576,7 +1576,7 @@ public class MainActivity extends BaseActivity {
         protected Void doInBackground(Void... params) {
             try {
                 count = Authentication.reddit.me().getInboxCount();
-            } catch (NetworkException e) {
+            } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbot count");
                 count = -1;
             }
