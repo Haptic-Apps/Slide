@@ -452,7 +452,7 @@
     <string name="settings_colored_navigation_bar">Colored navigation bar</string>
     <string name="settings_imageviewer_background">Use Solid Imageviewer background</string>
     <string name="settings_filter_domain">Domain filters</string>
-    <string name="settings_filter_selfttext">Selfext fitlers</string>
+    <string name="settings_filter_selfttext">Selftext filters</string>
     <string name="settings_filter_title">Title filters</string>
     <string name="settings_filter_hint">Enter strings to match separated by commas</string>
     <string name="settings_prefs_reddit">View all reddit.com preferences</string>
