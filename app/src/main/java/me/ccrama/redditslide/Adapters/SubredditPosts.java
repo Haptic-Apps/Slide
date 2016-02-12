@@ -10,9 +10,9 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Cache;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -65,13 +65,14 @@ public class SubredditPosts implements PostLoader {
         return !nomore;
     }
    public boolean skipOne;
+    boolean usedOffline;
 
     /**
      * Asynchronous task for loading data
      */
     private class LoadData extends AsyncTask<String, Void, List<Submission>> {
         final boolean reset;
-        final Context context;
+         Context context;
         final SubmissionDisplay displayer;
 
         public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {
@@ -83,6 +84,7 @@ public class SubredditPosts implements PostLoader {
         @Override
         public void onPostExecute(List<Submission> submissions) {
             loading = false;
+            context = null;
 
             if (submissions != null && !submissions.isEmpty()) {
                 // new submissions found
@@ -91,7 +93,8 @@ public class SubredditPosts implements PostLoader {
                     start = posts.size() + 1;
                 }
 
-                List<Submission> filteredSubmissions = new ArrayList<>();
+
+               List<Submission> filteredSubmissions = new ArrayList<>();
                 for (Submission s : submissions) {
                     if (!PostMatch.doesMatch(s)) {
                         filteredSubmissions.add(s);
@@ -99,25 +102,27 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 if (reset || offline || posts == null) {
-                    posts = filteredSubmissions;
+                    posts = submissions;
                     start = -1;
                 } else {
-                    posts.addAll(filteredSubmissions);
+                    posts.addAll(submissions);
                     offline = false;
                 }
 
                 final int finalStart = start;
-                DataShare.sharedSubreddit = posts;// TODO remove. set this since it gets out of sync at CommentPage
+
+                if(!usedOffline)
+                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(posts).writeToMemory();
+
                 // update online
                 displayer.updateSuccess(posts, finalStart);
+
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (Cache.hasSub(subreddit.toLowerCase()) && !nomore && SettingValues.cache) {
-                // is offline
-                Log.v(LogUtil.getTag(), "GETTING SUB " + subreddit.toLowerCase());
+            } else if (!OfflineSubreddit.getSubreddit(subreddit).submissions.isEmpty()  && !nomore && SettingValues.cache) {
                 offline = true;
-                final OfflineSubreddit cached = Cache.getSubreddit(subreddit.toLowerCase());
+                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit(subreddit);
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
@@ -127,7 +132,7 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 posts = finalSubs;
-                DataShare.sharedSubreddit = posts; // TODO remove. set this since it gets out of sync at CommentPage
+
                 if (cached.submissions.size() > 0) {
                     stillShow = true;
                 } else {
@@ -146,6 +151,8 @@ public class SubredditPosts implements PostLoader {
             Log.v(LogUtil.getTag(), "DOING FOR " + subredditPaginators[0]);
 
             if (!NetworkUtil.isConnected(context)) {
+                Log.v(LogUtil.getTag(), "Using offline data");
+
                 offline = true;
                 return null;
             } else {
@@ -153,10 +160,24 @@ public class SubredditPosts implements PostLoader {
             }
 
             stillShow = true;
-            if (SettingValues.cacheDefault && reset && !forced && Cache.hasSub(subredditPaginators[0]) && !doneOnce && SettingValues.cache) {
-                offline = true;
-                doneOnce = true;
-                return null;
+
+
+
+            if( SettingValues.cacheDefault && !usedOffline){
+                OfflineSubreddit o = OfflineSubreddit.getSubreddit(subreddit);
+                usedOffline = true;
+                offline = false;
+                Log.v(LogUtil.getTag(), "Using cached data");
+
+                return o.submissions;
+            }
+
+            if(usedOffline && !reset){
+                paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
+                paginator.setLimit(25);
+                paginator.setSorting(Reddit.getSorting(subreddit));
+                paginator.setTimePeriod(Reddit.getTime(subreddit));
+
             }
 
             if (reset || paginator == null) {
@@ -167,29 +188,21 @@ public class SubredditPosts implements PostLoader {
                     paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
 
                 }
-                paginator.setSorting(Reddit.defaultSorting);
-                paginator.setTimePeriod(Reddit.timePeriod);
+                paginator.setSorting(Reddit.getSorting(subreddit));
+                paginator.setTimePeriod(Reddit.getTime(subreddit));
                 paginator.setLimit(25);
-                if(skipOne){
-                    paginator.next();
-                }
+
             }
 
             List<Submission> things = new ArrayList<>();
 
             try {
                 if (paginator != null && paginator.hasNext()) {
-                    for (Submission submission : paginator.next()) {
-                        things.add(submission);
-
-                    }
+                    things.addAll(paginator.next());
                 } else {
                     nomore = true;
                 }
 
-                if (SettingValues.cache) {
-                    Cache.writeSubreddit(things, subredditPaginators[0]);
-                }
             } catch(Exception e){
                 e.printStackTrace();
 

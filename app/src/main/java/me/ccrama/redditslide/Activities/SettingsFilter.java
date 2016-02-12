@@ -12,7 +12,7 @@ import me.ccrama.redditslide.SettingValues;
 /**
  * Created by l3d00m on 11/13/2015.
  */
-public class SettingsFilter extends BaseActivity {
+public class SettingsFilter extends BaseActivityAnim {
 
 
     EditText title;

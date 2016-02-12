@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:orientation="vertical"
+    android:orientation="vertical"
 
-android:background="?attr/activity_background"
+    android:background="?attr/activity_background"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+    android:layout_height="match_parent">
 
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"

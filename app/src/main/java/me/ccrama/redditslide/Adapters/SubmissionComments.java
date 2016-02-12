@@ -3,11 +3,16 @@ package me.ccrama.redditslide.Adapters;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.meta.SubmissionSerializer;
+import net.dean.jraw.util.JrawUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,6 +103,33 @@ public class SubmissionComments {
         mLoadData.execute(fullName);
     }
 
+    public JsonNode getSubmissionNode(SubmissionRequest request) {
+        Map<String, String> args = new HashMap<>();
+        if (request.getDepth() != null)
+            args.put("depth", Integer.toString(request.getDepth()));
+        if (request.getContext() != null)
+            args.put("context", Integer.toString(request.getContext()));
+        if (request.getLimit() != null)
+            args.put("limit", Integer.toString(request.getLimit()));
+        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
+            args.put("comment", request.getFocus());
+
+        CommentSort sort = request.getSort();
+        if (sort == null)
+            // Reddit sorts by confidence by default
+            sort = CommentSort.CONFIDENCE;
+        args.put("sort", sort.name().toLowerCase());
+
+
+        RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
+                .path(String.format("/comments/%s", request.getId()))
+                .query(args)
+                .build());
+
+
+        return response.getJson();
+    }
+
     public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;
 
@@ -120,10 +152,16 @@ public class SubmissionComments {
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(5);
             }
             try {
-                submission = Authentication.reddit.getSubmission(builder.build());
+
+                JsonNode node = getSubmissionNode(builder.build());
+                submission = SubmissionSerializer.withComments(node, defaultSorting);
                 CommentNode baseComment = submission.getComments();
+
+              /* if (page.o != null)
+                    page.o.setCommentAndWrite(submission.getFullName(), node, submission).writeToMemory();*/
+
                 comments = new ArrayList<>();
-                HashMap<Integer, MoreChildItem> waiting  = new HashMap<>();
+                HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
 
 
                 for (CommentNode n : baseComment.walkTree()) {
@@ -134,7 +172,7 @@ public class SubmissionComments {
                     map.putAll(waiting);
 
                     for (Integer i : map.keySet()) {
-                        if(i >= n.getDepth()) {
+                        if (i >= n.getDepth()) {
                             comments.add(waiting.get(i));
                             removed.add(i);
                             waiting.remove(i);
@@ -143,12 +181,11 @@ public class SubmissionComments {
                     }
 
 
-
                     comments.add(obj);
 
                     if (n.hasMoreComments()) {
 
-                        waiting.put(n.getDepth(),new MoreChildItem(n, n.getMoreChildren()) );
+                        waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
                     }
 
                 }

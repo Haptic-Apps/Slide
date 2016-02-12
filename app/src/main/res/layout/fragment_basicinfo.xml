@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/md_deep_orange_500"
+        android:elevation="8dp"
+        android:id="@+id/header"
+        app:layout_heightPercent="25%">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="20dp"
+            android:text="Personalize"
+            android:textColor="#fff"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/bottomBar"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="16dp"
+
+                android:orientation="horizontal"
+                android:id="@+id/primary"
+                android:background="?android:selectableItemBackground"
+
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/circle"
+
+                    android:id="@+id/tint_primary"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="Primary color"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="16dp"
+                android:id="@+id/secondary"
+
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
+
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:id="@+id/tint_accent"
+
+                    android:src="@drawable/circle"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="Accent color"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:padding="16dp"
+                android:id="@+id/base"
+
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
+
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:tint="?attr/card_background"
+                    android:src="@drawable/circle"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="Base theme"
+                    android:textSize="18sp"
+                    android:padding="8dp"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#000"
+                android:alpha="0.3"
+                />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:text="START TUTORIAL"
+            android:textSize="14sp"
+
+            android:id="@+id/next"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textStyle="bold" />
+
+
+</android.support.percent.PercentRelativeLayout>

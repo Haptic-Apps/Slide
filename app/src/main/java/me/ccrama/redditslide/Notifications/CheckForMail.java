@@ -196,6 +196,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                 }
             }*/
+            new NotificationJobScheduler(c).start(c);
         }
 
         @Override

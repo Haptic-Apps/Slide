@@ -17,7 +17,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;

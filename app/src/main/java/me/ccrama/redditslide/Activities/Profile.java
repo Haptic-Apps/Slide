@@ -66,8 +66,6 @@ public class Profile extends BaseActivityAnim {
         setupUserAppBar(R.id.toolbar, name, true, name);
 
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
-        findViewById(R.id.sorting).setVisibility(View.GONE);
-        findViewById(R.id.edit).setVisibility(View.GONE);
         ((ImageView) findViewById(R.id.create)).setImageDrawable(ContextCompat.getDrawable(Profile.this, R.drawable.infonew));
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);

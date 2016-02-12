@@ -6,12 +6,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
-
+import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -24,9 +24,17 @@ public class GifView extends FullScreenActivity {
     SharedPreferences prefs;
 
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(v != null && v.getDuration() > 0){
+            v.start();
+        }
+    }
     /**
      * Called when the activity is first created.
      */
+    public MediaVideoView v;
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
@@ -38,8 +46,10 @@ public class GifView extends FullScreenActivity {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
-        final MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
+     v= (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
+
+
 
 
         String dat = getIntent().getExtras().getString(EXTRA_URL);
@@ -51,18 +61,7 @@ public class GifView extends FullScreenActivity {
             }
         });
 
-        if (dat.contains("webm") && dat.contains("imgur")) {
-            dat = dat.replace("webm", "gifv");
-        }
-        if (dat.contains("mp4") && dat.contains("imgur")) {
-            dat = dat.replace("mp4", "gifv");
-        }
 
-        if (dat.endsWith("v")) {
-            dat = dat.substring(0, dat.length() - 1);
-        } else if (dat.contains("gfycat")) {
-            dat = dat.substring(3, dat.length());
-        }
 
 
         prefs = getSharedPreferences("DATA", 0);
@@ -70,7 +69,28 @@ public class GifView extends FullScreenActivity {
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
         new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),findViewById(R.id.gifsave), true).execute(dat);
+        if(!Reddit.appRestart.contains("tutorialGIF")){
+            Tooltip.make(this,
+                    new Tooltip.Builder(104)
+                            .text("Drag from the very edge to exit")
+                            .maxWidth(500)
+                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            ).show();
+        }
+    }
 
+    @Override
+      public void onDestroy(){
+        super.onDestroy();
+        if(!Reddit.appRestart.contains("tutorialGIF")){
+            Reddit.appRestart.edit().putBoolean("tutorialGIF", true).apply();
+        }
     }
 
     @Override

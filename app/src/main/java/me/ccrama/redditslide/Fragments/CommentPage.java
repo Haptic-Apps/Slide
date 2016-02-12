@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,18 +26,20 @@ import net.dean.jraw.models.CommentSort;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Fragment which displays comment trees.
@@ -56,6 +59,7 @@ public class CommentPage extends Fragment {
     private CommentAdapter adapter;
     private String fullname;
     private String id;
+    private String baseSubreddit;
     private String context;
 
     private void reloadSubs() {
@@ -122,6 +126,8 @@ public class CommentPage extends Fragment {
 
     }
 
+    public OfflineSubreddit o;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -135,14 +141,14 @@ public class CommentPage extends Fragment {
                 int i = 1;
                 for (CommentObject n : comments.comments) {
 
-                    if(n instanceof CommentItem)
+                    if (n instanceof CommentItem)
 
-                    if (n.comment.getComment().getFullName().contains(fullname)) {
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i);
-                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                        break;
-                    }
+                        if (n.comment.getComment().getFullName().contains(fullname)) {
+                            RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                            smoothScroller.setTargetPosition(i);
+                            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                            break;
+                        }
                     i++;
                 }
 
@@ -210,13 +216,13 @@ public class CommentPage extends Fragment {
 
                         for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
-                            if(adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-                            if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                                smoothScroller.setTargetPosition(i + 1);
-                                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                                break;
-                            }
+                            if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                                if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                                    RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                                    smoothScroller.setTargetPosition(i + 1);
+                                    (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                                    break;
+                                }
                         }
                     }
                 }
@@ -229,14 +235,14 @@ public class CommentPage extends Fragment {
                         int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
                         for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                            if(adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                            if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
 
                                 if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                                smoothScroller.setTargetPosition(i + 1);
-                                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                                break;
-                            }
+                                    RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                                    smoothScroller.setTargetPosition(i + 1);
+                                    (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                                    break;
+                                }
                         }
                     }
                 }
@@ -313,16 +319,25 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
-        if(!Authentication.didOnline && DataShare.sharedSubreddit != null && DataShare.sharedSubreddit.get(page).getComments() != null){
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, DataShare.sharedSubreddit.get(page));
-            if (DataShare.sharedSubreddit != null)
-                adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
+
+        if (!single) {
+            if (getActivity() instanceof  CommentsScreen?((CommentsScreen) getActivity()).o != null:((CommentsScreenPopup) getActivity()).o != null) {
+                o = (getActivity() instanceof  CommentsScreen)?((CommentsScreen) getActivity()).o:((CommentsScreenPopup) getActivity()).o;
+            } else {
+                o = OfflineSubreddit.getSubreddit(baseSubreddit);
+            }
+        }
+        if (o != null && o.submissions.size() > 0 && o.submissions.get(page).getComments() != null) {
+            Log.v(LogUtil.getTag(), "Loading from cached stuff");
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
+            if (o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else if (context.isEmpty()) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
-            if (DataShare.sharedSubreddit != null)
-                adapter = new CommentAdapter(this, comments, rv, DataShare.sharedSubreddit.get(page), getFragmentManager());
+            if (o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else {
             if (context.equals(Reddit.EMPTY_STRING)) {
@@ -364,35 +379,23 @@ public class CommentPage extends Fragment {
 
     public void doData(Boolean b) {
         if (adapter == null || single) {
-            if (context != null && !context.equals(Reddit.EMPTY_STRING)) {
-                adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-                if (single) {
-                    adapter.currentSelectedItem = context;
+            adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
 
-                    int i = 1;
-                    for (CommentObject n : comments.comments) {
-                        if(n instanceof CommentItem)
 
-                        if (n.comment.getComment().getFullName().contains(context)) {
-                            RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                            smoothScroller.setTargetPosition(i);
-                            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                            break;
-                        }
-                        i++;
-                    }
-                }
-            } else {
-                adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
-            }
             rv.setAdapter(adapter);
+            adapter.currentSelectedItem = context;
+
             adapter.reset(getContext(), comments, rv, comments.submission);
+
+
+
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
-            } catch(Exception ignored){}
+                adapter.reset(getContext(), comments, rv, OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
+            } catch (Exception ignored) {
+            }
         } else {
-            adapter.reset(getContext(), comments, rv, DataShare.sharedSubreddit.get(page));
+            adapter.reset(getContext(), comments, rv, OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
         }
     }
 
@@ -407,8 +410,13 @@ public class CommentPage extends Fragment {
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
+        subreddit = bundle.getString("subreddit", "");
+        baseSubreddit = bundle.getString("baseSubreddit", "");
+
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
     }
+
+    public String subreddit;
 
     @Override
     public void onPause() {

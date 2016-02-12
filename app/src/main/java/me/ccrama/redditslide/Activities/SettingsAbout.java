@@ -16,7 +16,7 @@ import me.ccrama.redditslide.Reddit;
 /**
  * Created by l3d00m on 11/12/2015.
  */
-public class SettingsAbout extends BaseActivity {
+public class SettingsAbout extends BaseActivityAnim {
 
 
     public void onCreate(Bundle savedInstanceState) {

@@ -28,7 +28,6 @@ import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -93,12 +92,13 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 @Override
                 public void onClick(View arg0) {
-                    DataShare.sharedSubreddit = dataSet.posts;
                     holder2.itemView.setAlpha(0.5f);
 
                     if (SettingValues.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
                         i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
+                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
+
                         (mContext).startActivity(i2);
 
                     } else {

@@ -13,7 +13,7 @@ import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
@@ -53,12 +53,13 @@ public class TitleFull extends Fragment {
                 if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
                 }
             }
@@ -66,12 +67,14 @@ public class TitleFull extends Fragment {
         return rootView;
     }
 
+    public String sub;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = DataShare.sharedSubreddit.get(i);
+        sub = bundle.getString("sub");
+        s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
 

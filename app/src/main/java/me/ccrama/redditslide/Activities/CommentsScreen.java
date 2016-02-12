@@ -12,14 +12,16 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.StyleView;
 import me.ccrama.redditslide.util.LogUtil;
@@ -45,30 +47,47 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     OverviewPagerAdapter comments;
     private String subreddit;
+    public OfflineSubreddit o;
+    private String baseSubreddit;
 
+    String multireddit;
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(o != null){
+            o.writeToMemory();
+        }
+    }
+    boolean tip;
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
         StyleView.styleActivity(this);
+        Reddit.setDefaultErrorHandler(this);
+
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
-        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
-        String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
+        baseSubreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+        subreddit = baseSubreddit;
+        multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
             ((MultiredditPosts)subredditPosts).skipOne = true;
 
         } else {
-            subredditPosts = new SubredditPosts(subreddit);
-            ((SubredditPosts)subredditPosts).skipOne = true;
+            baseSubreddit = subreddit.toLowerCase();
+            subredditPosts = new SubredditPosts(baseSubreddit);
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            subredditPosts.getPosts().addAll(DataShare.sharedSubreddit);
+            Log.v(LogUtil.getTag(), "LOADING " + (multireddit == null ? baseSubreddit : "multi" + multireddit));
+            o =OfflineSubreddit.getSubreddit(multireddit == null?baseSubreddit:"multi" +multireddit);
+                    subredditPosts.getPosts().addAll(o.submissions);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
@@ -79,6 +98,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
             comments = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setOffscreenPageLimit(1);
             pager.setAdapter(comments);
             pager.setCurrentItem(firstPage);
 
@@ -91,6 +111,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 @Override
                 public void onPageSelected(int position) {
                     updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
+                    if (tip) {
+                        Tooltip.removeAll(CommentsScreen.this);
+                        Reddit.appRestart.edit().putString("tutorial_6", "t").apply();
+                    }
                 }
 
                 @Override
@@ -98,6 +122,21 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                 }
             });
+        }
+        if(!Reddit.appRestart.contains("tutorial_comm")){
+            tip = true;
+            Tooltip.make(CommentsScreen.this,
+                    new Tooltip.Builder(106)
+                            .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
+                            .text("Swipe left and right to go between submissions. You can disable this in General Settings")
+                            .maxWidth(600)
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            ).show();
         }
     }
 
@@ -160,9 +199,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
             Log.v(LogUtil.getTag(), name.substring(3, name.length()));
-            args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
+            args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
+            args.putString("baseSubreddit", multireddit == null?baseSubreddit:"multi"+multireddit);
+
             f.setArguments(args);
 
             return f;

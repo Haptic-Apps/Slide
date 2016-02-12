@@ -37,6 +37,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -54,7 +55,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     private int pastVisiblesItems;
     private int totalItemCount;
     public SubmissionAdapter adapter;
-    private String id;
+    public String id;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
@@ -77,7 +78,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
 
             rv.setLayoutManager(mLayoutManager);
-            rv.setItemViewCacheSize(2);
 
             mLayoutManager.scrollToPosition(i);
 
@@ -120,7 +120,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         }
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemViewCacheSize(2);
 
 
         if (SettingValues.animation)
@@ -275,10 +274,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         doAdapter();
         return v;
     }
+    public boolean main;
 
     public void doAdapter() {
         posts = new SubredditPosts(id);
-        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
+        adapter = new SubmissionAdapter(getActivity(),  posts, rv, posts.subreddit);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
 
@@ -321,6 +321,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 rv.setItemAnimator(new SubtleSlideInUp(getContext()));
             return originalDataSetPosts;
         }
+
+        OfflineSubreddit.getSubreddit(id).clearSeenPosts(false);
         return null;
     }
 
@@ -330,6 +332,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
+        main = bundle.getBoolean("main", false);
     }
 
     private void refresh() {
@@ -351,23 +354,25 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(false);
+        if(getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    if (startIndex != -1) {
+                        adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+
                 }
+            });
 
-                if (startIndex != -1) {
-                    adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
-
-            }
-        });
-
-        loadImages(submissions);
+           loadImages(submissions);
+        }
     }
 
     private void loadImages(List<Submission> submissions) {
@@ -410,7 +415,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
-        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (mSwipeRefreshLayout != null) {

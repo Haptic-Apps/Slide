@@ -72,7 +72,7 @@
                 android:padding="16dp"
                 android:text="@string/btn_submit"
                 android:textAllCaps="true"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
         </LinearLayout>

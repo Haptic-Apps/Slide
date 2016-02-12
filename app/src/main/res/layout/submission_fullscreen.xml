@@ -21,59 +21,11 @@
         >
 
 
-        <RelativeLayout
-            android:id="@+id/imagearea"
+        <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
+            android:id="@+id/headerimage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
 
-
-            android:background="?android:selectableItemBackground">
-
-
-            <ImageView
-                android:id="@+id/leadimage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/chameleon" />
-
-            <LinearLayout
-                android:id="@+id/base"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/leadimage"
-                android:layout_gravity="center_vertical"
-                android:background="#55000000"
-                android:orientation="vertical"
-                android:paddingLeft="16dp">
-
-                <TextView
-                    android:id="@+id/textimage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/example_domain"
-                    android:paddingTop="8dp"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/subtextimage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".56"
-                    android:paddingBottom="8dp"
-
-                    android:text="@string/example_url"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
+            android:layout_height="wrap_content" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
@@ -99,9 +51,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
 
+                    android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:paddingBottom="8dp"
                     android:paddingTop="16dp">
 
 
@@ -112,13 +64,13 @@
                         android:paddingBottom="4dp"
                         android:text="@string/example_title"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle"/>
+                        android:textSize="?attr/font_cardtitle" />
 
 
                     <com.wefika.flowlayout.FlowLayout
                         android:layout_width="wrap_content"
-                        android:alpha=".72"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:alpha=".72">
 
                         <TextView
                             android:id="@+id/subreddit"
@@ -131,13 +83,15 @@
                             android:textSize="?attr/font_cardinfo"
 
                             />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submission_properties_seperator"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo"/>
+                            android:textSize="?attr/font_cardinfo" />
+
                         <TextView
                             android:id="@+id/information"
                             android:layout_width="wrap_content"
@@ -148,14 +102,16 @@
                             android:text="@string/example_time"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo"/>
+                            android:textSize="?attr/font_cardinfo" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submission_properties_seperator"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo"/>
+                            android:textSize="?attr/font_cardinfo" />
+
                         <TextView
                             android:id="@+id/score"
                             android:layout_width="wrap_content"
@@ -165,13 +121,15 @@
                             android:gravity="center_vertical"
                             android:text="@string/example_points"
 
-                            android:textSize="?attr/font_cardinfo"/>
+                            android:textSize="?attr/font_cardinfo" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submission_properties_seperator"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardinfo"/>
+                            android:textSize="?attr/font_cardinfo" />
+
                         <TextView
                             android:id="@+id/comments"
                             android:layout_width="wrap_content"
@@ -182,7 +140,7 @@
                             android:text="@string/example_comments"
                             android:textColor="?attr/font"
 
-                            android:textSize="?attr/font_cardinfo"/>
+                            android:textSize="?attr/font_cardinfo" />
 
 
                     </com.wefika.flowlayout.FlowLayout>
@@ -208,14 +166,15 @@
                     android:visibility="gone" />
 
                 <LinearLayout
+                    android:id="@+id/wraparea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
+
                     android:maxHeight="82dp"
                     android:orientation="horizontal"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
-                    android:id="@+id/wraparea"
                     android:paddingRight="16dp"
 
                     android:paddingTop="8dp">
@@ -224,8 +183,6 @@
                         android:id="@+id/thumbimage2"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
@@ -247,8 +204,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/example_domain"
                             android:textColor="?attr/font"
-                            android:textSize="16sp"
-                            />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/contenturl"
@@ -271,7 +227,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
 
                 <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -326,10 +281,10 @@
                     android:layout_height="16dp"
 
 
-                    android:orientation="horizontal"
-                    android:layout_marginLeft="8dp"
                     android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/flairbubble"/>
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/flairbubble"
+                    android:orientation="horizontal" />
 
                 <include
                     android:id="@+id/flairbubble"
@@ -345,10 +300,10 @@
 
                 <ImageView
                     android:id="@+id/more"
+                    style="@style/Ripple.List"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_alignParentRight="true"
-                    android:background="?android:selectableItemBackground"
 
                     android:padding="8dp"
                     android:src="@drawable/more"
@@ -356,10 +311,10 @@
 
                 <ImageView
                     android:id="@+id/upvote"
+                    style="@style/Ripple.List"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_toLeftOf="@+id/downvote"
-                    android:background="?android:selectableItemBackground"
                     android:padding="8dp"
 
 
@@ -368,10 +323,10 @@
 
                 <ImageView
                     android:id="@+id/reply"
+                    style="@style/Ripple.List"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_toLeftOf="@+id/upvote"
-                    android:background="?android:selectableItemBackground"
 
                     android:padding="8dp"
                     android:src="@drawable/reply"
@@ -379,11 +334,11 @@
 
                 <ImageView
                     android:id="@+id/downvote"
+                    style="@style/Ripple.List"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:layout_toLeftOf="@+id/more"
 
-                    android:background="?android:selectableItemBackground"
+                    android:layout_toLeftOf="@+id/more"
                     android:padding="8dp"
                     android:src="@drawable/downvote"
 
@@ -391,10 +346,10 @@
 
                 <ImageView
                     android:id="@+id/mod"
+                    style="@style/Ripple.List"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_toLeftOf="@+id/reply"
-                    android:background="?android:selectableItemBackground"
 
                     android:padding="8dp"
                     android:src="@drawable/mod"

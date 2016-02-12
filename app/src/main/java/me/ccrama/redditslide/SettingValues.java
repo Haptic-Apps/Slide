@@ -110,7 +110,7 @@ public class SettingValues {
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         middleImage = settings.getBoolean("middleImage", false);
 
-        bigPicCropped = settings.getBoolean("bigPicCropped", false);
+        bigPicCropped = settings.getBoolean("bigPicCropped", true);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
 
         NSFWPreviews = settings.getBoolean("NSFWPreviewsNew", false);
@@ -153,6 +153,8 @@ public class SettingValues {
 
         swipeAnywhere = prefs.getBoolean(PREF_SWIPE_ANYWHERE, false);
         album = prefs.getBoolean(PREF_ALBUM, true);
+        albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
+
         gif = prefs.getBoolean(PREF_GIF, true);
         video = prefs.getBoolean(PREF_VIDEO, true);
         exit = prefs.getBoolean(PREF_EXIT, true);

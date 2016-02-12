@@ -44,7 +44,7 @@ import me.ccrama.redditslide.util.LogUtil;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsBackup extends BaseActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     MaterialDialog progress;
     DriveFolder appFolder;
     String title;
@@ -404,12 +404,12 @@ public class SettingsBackup extends BaseActivity implements GoogleApiClient.Conn
                         .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        Reddit.forceRestart(SettingsBackup.this);
+                        Reddit.forceRestart(SettingsBackup.this, true);
                     }
                 }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Reddit.forceRestart(SettingsBackup.this);
+                        Reddit.forceRestart(SettingsBackup.this, true);
 
                     }
                 }).show();

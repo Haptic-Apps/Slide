@@ -1,21 +1,5 @@
 package me.ccrama.redditslide;
 
-import android.os.Environment;
-import android.util.Log;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.io.Files;
-
-import net.dean.jraw.models.Submission;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
-import me.ccrama.redditslide.util.LogUtil;
-
 /**
  * Created by carlo_000 on 11/18/2015.
  */
@@ -23,7 +7,7 @@ public final class Cache {
     private Cache() {
     }
 
-    public static void writeSubreddit(List<Submission> objects, String subreddit)  {
+   /* public static void writeSubreddit(List<Submission> objects, String subreddit)  {
         StringBuilder s = new StringBuilder();
         s.append(System.currentTimeMillis()).append("<SEPARATOR>");
         for (Submission sub : objects) {
@@ -75,5 +59,5 @@ public final class Cache {
 
     public static boolean hasSub(String subredditPaginator) {
         return Reddit.appRestart.contains(subredditPaginator.toLowerCase());
-    }
+    }*/
 }

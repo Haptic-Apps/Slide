@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +15,13 @@ import net.dean.jraw.models.Submission;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.Website;
-import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -33,7 +30,6 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Gif extends Fragment {
 
     private int i = 0;
-    private View placeholder;
     private Submission s;
     private View gif;
 
@@ -75,9 +71,7 @@ public class Gif extends Fragment {
                 + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
                         + getString(R.string.submission_properties_seperator)
                         + Website.getDomainName(s.getUrl()));
-        ContentType.ImageType type = ContentType.getImageType(s);
 
-        placeholder = rootView.findViewById(R.id.placeholder);
         gif = rootView.findViewById(R.id.gif);
 
 
@@ -88,36 +82,21 @@ public class Gif extends Fragment {
 
         String dat = s.getUrl();
 
+        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder),null, false).execute(dat);
 
-        if(dat.contains("webm") && dat.contains("imgur")){
-            dat = dat.replace("webm", "gifv");
-        }
-        if(dat.contains("mp4") && dat.contains("imgur")){
-            dat = dat.replace("mp4", "gifv");
-        }
-
-        if (dat.endsWith("v")) {
-            dat = dat.substring(0, dat.length() - 1);
-        } else if (dat.contains("gfycat")) {
-            dat = dat.substring(3, dat.length());
-        }
-        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, v.findViewById(R.id.placeholder),null, false).execute(dat);
-
-
-
-
-        rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                     Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
                     i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
 
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
                 }
             }
@@ -126,13 +105,15 @@ public class Gif extends Fragment {
     }
 
 
+    public String sub;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = DataShare.sharedSubreddit.get(bundle.getInt("page", 0));
+        sub = bundle.getString("sub");
+        s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
 

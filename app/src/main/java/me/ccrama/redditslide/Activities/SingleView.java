@@ -102,7 +102,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (startIndex != -1) {
@@ -117,7 +117,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
-        (SubmissionAdapter.sContext).runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();

@@ -30,9 +30,10 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.Activities.YouTubeView;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.ImageLoaderUtils;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -243,8 +244,8 @@ public class ImageFull extends Fragment {
                     @Override
                     public void onClick(View view) {
                         if (SettingValues.video) {
-                            Intent intent = new Intent(contextActivity, FullscreenVideo.class);
-                            intent.putExtra(FullscreenVideo.EXTRA_HTML, submission.getUrl());
+                            Intent intent = new Intent(contextActivity, YouTubeView.class);
+                            intent.putExtra("url", submission.getUrl());
                             contextActivity.startActivity(intent);
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -307,7 +308,7 @@ public class ImageFull extends Fragment {
                 } else {
                     Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                     i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                     (getActivity()).startActivity(i2);
                 }
             }
@@ -361,12 +362,15 @@ public class ImageFull extends Fragment {
                 });
     }
 
+    public String sub;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = DataShare.sharedSubreddit.get(i);
+        sub = bundle.getString("sub");
+        s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
 

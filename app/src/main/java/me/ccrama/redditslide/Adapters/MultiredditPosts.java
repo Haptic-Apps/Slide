@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
@@ -132,8 +133,8 @@ public class MultiredditPosts implements PostLoader {
             try {
                 if (reset || paginator == null) {
                     paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                    paginator.setSorting(Reddit.defaultSorting);
-                    paginator.setTimePeriod(Reddit.timePeriod);
+                    paginator.setSorting(Reddit.getSorting(multiReddit.getDisplayName()));
+                    paginator.setTimePeriod(Reddit.getTime(multiReddit.getDisplayName()));
                     if(skipOne)
                         paginator.next();
                 }
@@ -147,7 +148,7 @@ public class MultiredditPosts implements PostLoader {
                         newSubmissions.add(s);
 
                 }
-
+                OfflineSubreddit.getSubreddit("multi" + subredditPaginators[0].getFullName()).overwriteSubmissions(newSubmissions).writeToMemory();
 
                 return newSubmissions;
             } catch (Exception e) {

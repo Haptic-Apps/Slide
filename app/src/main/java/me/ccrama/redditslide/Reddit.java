@@ -3,6 +3,7 @@ package me.ccrama.redditslide;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -11,10 +12,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.leakcanary.LeakCanary;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -27,14 +31,18 @@ import org.apache.commons.lang3.text.WordUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.ref.WeakReference;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
@@ -79,6 +87,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static ArrayList<Integer> lastposition;
     public static int currentPosition;
     public static int themeBack;
+    public static SharedPreferences cachedData;
     private final List<Listener> listeners = new ArrayList<>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
@@ -95,10 +104,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
         }
+
         Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(launchIntent);
         System.exit(0);
+    }
+
+    public static void forceRestart(Context c, boolean forceLoadScreen) {
+        appRestart.edit().putString("startScreen", "").apply();
+        forceRestart(c);
+
     }
 
     public static void defaultShareText(String url, Context c) {
@@ -341,6 +357,111 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
+    public static void setDefaultErrorHandler( Context base) {
+        //START code adapted from https://github.com/QuantumBadger/RedReader/
+        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+        final WeakReference<Context> cont= new WeakReference<Context>(base);
+
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            public void uncaughtException(Thread thread, Throwable t) {
+                if (cont.get() != null) {
+                    final Context c = cont.get();
+                    Writer writer = new StringWriter();
+                    PrintWriter printWriter = new PrintWriter(writer);
+                    t.printStackTrace(printWriter);
+                    String stacktrace = writer.toString().replace(";", ",");
+                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException")) {
+                        //is offline
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                        .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
+                                            }
+                                        }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        forceRestart(c);
+                                    }
+                                }).show();
+                            }
+                        });
+                    } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
+                        //Un-authenticated
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                        .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
+                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
+                                            }
+                                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        authentication.updateToken((c));
+                                    }
+                                }).show();
+                            }
+                        });
+
+                    } else if (stacktrace.contains("404 Not Found")) {
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                        .setMessage("Reddit could not find the requested content.")
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (!(c instanceof MainActivity)) {
+                                                    ((Activity) c).finish();
+                                                }
+                                            }
+
+                                        }).show();
+                            }
+                        });
+                    } else {
+                        appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
+
+                        if (t instanceof UnknownHostException) {
+                            Intent i = new Intent(c, Internet.class);
+                            c.startActivity(i);
+                        } else {
+                            try {
+
+                                SharedPreferences prefs = c.getSharedPreferences(
+                                        "STACKTRACE", Context.MODE_PRIVATE);
+                                prefs.edit().putString("stacktrace", stacktrace).apply();
+
+                            } catch (Throwable ignored) {
+                            }
+                        }
+
+                        androidHandler.uncaughtException(thread, t);
+                    }
+                }
+            }
+        });
+        //END adaptation
+
+    }
+
     @Override
     public void onActivityStopped(Activity activity) {
     }
@@ -364,6 +485,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
 
         doMainStuff();
     }
@@ -371,7 +493,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
         appRestart = getSharedPreferences("appRestart", 0);
+        AlbumUtils.albumRequests = getSharedPreferences("albums", 0);
 
+        cachedData = getSharedPreferences("cache", 0);
 
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
@@ -387,35 +511,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
 
-        //START code adapted from https://github.com/QuantumBadger/RedReader/
-        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
-
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            public void uncaughtException(Thread thread, Throwable t) {
-
-                if (t instanceof UnknownHostException) {
-                    Intent i = new Intent(Reddit.this, Internet.class);
-                    startActivity(i);
-                } else {
-                    try {
-                        Writer writer = new StringWriter();
-                        PrintWriter printWriter = new PrintWriter(writer);
-                        t.printStackTrace(printWriter);
-                        String stacktrace = writer.toString().replace(";", ",");
-
-                        SharedPreferences prefs = getSharedPreferences(
-                                "STACKTRACE", Context.MODE_PRIVATE);
-                        prefs.edit().putString("stacktrace", stacktrace).apply();
-
-                    } catch (Throwable ignored) {
-                    }
-                }
-
-                androidHandler.uncaughtException(thread, t);
-            }
-        });
-
-        //END adaptation
         new SetupIAB().execute();
 
 
@@ -473,20 +568,50 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
-     /*  if (appRestart.contains("back")) {
-            appRestart.edit().remove("back").apply(); //hopefully will stop Slide from opening in the background
-        //Removed these because it caused Slide to lose it's sub order*/
-        SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
-        SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
-        Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
-        Authentication.name = appRestart.getString("name", "");
-        active = true;
 
-        // }
+        if (!appRestart.contains("startScreen")) {
+            SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
+            SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
+            Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
+            Authentication.name = appRestart.getString("name", "");
+            active = true;
+
+        } else {
+            appRestart.edit().remove("startScreen").apply();
+        }
 
         SettingValues.tabletUI = isPackageInstalled(this);
 
 
+    }
+
+    public static void setSorting(String s, Sorting sort) {
+        sorting.put(s, sort);
+    }
+
+    public static HashMap<String, Sorting> sorting = new HashMap<>();
+
+    public static Sorting getSorting(String subreddit) {
+        if (sorting.containsKey(subreddit)) {
+            return sorting.get(subreddit);
+        } else {
+            return defaultSorting;
+        }
+    }
+
+
+    public static void setTime(String s, TimePeriod sort) {
+        times.put(s, sort);
+    }
+
+    public static HashMap<String, TimePeriod> times = new HashMap<>();
+
+    public static TimePeriod getTime(String subreddit) {
+        if (times.containsKey(subreddit)) {
+            return times.get(subreddit);
+        } else {
+            return Reddit.timePeriod;
+        }
     }
 
     public interface Listener {

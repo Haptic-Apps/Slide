@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,18 +8,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RadioGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import me.ccrama.redditslide.Fragments.Agreement;
-import me.ccrama.redditslide.Fragments.TutorialFragment;
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
+import uz.shift.colorpicker.LineColorPicker;
+import uz.shift.colorpicker.OnColorChangedListener;
 
 
 /**
@@ -29,7 +38,7 @@ public class Tutorial extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 9;
+    private static final int NUM_PAGES = 2;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -40,6 +49,11 @@ public class Tutorial extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
+        getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
+
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+
         setContentView(R.layout.activity_tutorial);
 
         // Instantiate a ViewPager and a PagerAdapter.
@@ -49,118 +63,18 @@ public class Tutorial extends FragmentActivity {
      */
         PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-        findViewById(R.id.agreement).setVisibility(View.GONE);
 
-        findViewById(R.id.agree).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Reddit.colors.edit().putBoolean("Tutorial", true).apply();
-                finish();
-            }
-        });
-        findViewById(R.id.skip).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPager.setCurrentItem(9);
-            }
-        });
+        if(getIntent().hasExtra("page")){
+            mPager.setCurrentItem(1);
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Palette.getDarkerColor(Color.parseColor("#FF5252")));
         }
-        final RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radiogroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radioButton:
-                        mPager.setCurrentItem(0);
-                        break;
 
-                    case R.id.radioButton2:
-                        mPager.setCurrentItem(1);
-                        break;
-
-                    case R.id.radioButton3:
-                        mPager.setCurrentItem(2);
-                        break;
-
-                    case R.id.radioButton4:
-                        mPager.setCurrentItem(3);
-                        break;
-
-                    case R.id.radioButton5:
-                        mPager.setCurrentItem(4);
-                        break;
-
-                    case R.id.radioButton6:
-                        mPager.setCurrentItem(5);
-                        break;
-
-                    case R.id.radioButton7:
-                        mPager.setCurrentItem(6);
-                        break;
-
-                    case R.id.radioButton8:
-                        mPager.setCurrentItem(7);
-                        break;
-                }
-            }
-        });
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position < 10) {
-                    findViewById(R.id.agreement).setVisibility(View.GONE);
-                    findViewById(R.id.menu).setVisibility(View.VISIBLE);
-                }
-                switch (position) {
-                    case 0:
-                        radioGroup.check(R.id.radioButton);
-                        break;
-                    case 1:
-                        radioGroup.check(R.id.radioButton2);
-                        break;
-                    case 2:
-                        radioGroup.check(R.id.radioButton3);
-                        break;
-                    case 3:
-                        radioGroup.check(R.id.radioButton4);
-                        break;
-                    case 4:
-                        radioGroup.check(R.id.radioButton5);
-                        break;
-                    case 5:
-                        radioGroup.check(R.id.radioButton6);
-                        break;
-                    case 6:
-                        radioGroup.check(R.id.radioButton7);
-                        break;
-                    case 7:
-                        radioGroup.check(R.id.radioButton8);
-                        break;
-
-
-                    case 8:
-                        findViewById(R.id.agreement).setVisibility(View.VISIBLE);
-                        findViewById(R.id.menu).setVisibility(View.GONE);
-
-
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
 
@@ -175,6 +89,530 @@ public class Tutorial extends FragmentActivity {
         }
     }
 
+    public class Welcome extends Fragment {
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View v = inflater.inflate(R.layout.fragment_welcome, container, false);
+            v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPager.setCurrentItem(1);
+                }
+            });
+
+            return v;
+        }
+
+    }
+
+    public class Personalize extends Fragment {
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View v = inflater.inflate(R.layout.fragment_basicinfo, container, false);
+            final View header = v.findViewById(R.id.header);
+
+            ((ImageView)v.findViewById(R.id.tint_accent)).setColorFilter(Tutorial.this.getResources().getColor(new ColorPreferences(Tutorial.this).getFontStyle().getColor()));
+            ((ImageView) v.findViewById(R.id.tint_primary)).setColorFilter(Palette.getDefaultColor());
+            header.setBackgroundColor(Palette.getDefaultColor());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
+            }
+            v.findViewById(R.id.primary).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setBackgroundColor(Palette.getDefaultColor());
+
+
+                    LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+                    final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+
+                    colorPicker.setColors(ColorPreferences.getBaseColors(Tutorial.this));
+                    int currentColor = Palette.getDefaultColor();
+                    for (int i : colorPicker.getColors()) {
+                        for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
+                            if (i2 == currentColor) {
+                                colorPicker.setSelectedColor(i);
+                                colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
+                                colorPicker2.setSelectedColor(i2);
+                                break;
+                            }
+                        }
+                    }
+
+
+                    colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int c) {
+
+                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
+                            colorPicker2.setSelectedColor(c);
+
+
+                        }
+                    });
+
+                    colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int i) {
+                            title.setBackgroundColor(colorPicker2.getColor());
+                            header.setBackgroundColor(colorPicker2.getColor());
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Window window = getWindow();
+                                window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
+                            }
+
+                        }
+                    });
+
+
+                    dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
+                            Intent i = new Intent(Tutorial.this, Tutorial.class);
+                            i.putExtra("page", 1);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                        }
+                    });
+
+                    builder.setView(dialoglayout);
+                    builder.show();
+                }
+            });
+            v.findViewById(R.id.secondary).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setBackgroundColor(Palette.getDefaultColor());
+
+                    final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+
+                    int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
+                    int i = 0;
+                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                        if (type.getThemeType() == 0) {
+                            arrs[i] = ContextCompat.getColor(Tutorial.this, type.getColor());
+
+                            i++;
+                        }
+                    }
+
+                    colorPicker.setColors(arrs);
+                    colorPicker.setSelectedColor(new ColorPreferences(Tutorial.this).getColor(""));
+
+
+                    dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int color = colorPicker.getColor();
+                            ColorPreferences.Theme t = null;
+                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                if (ContextCompat.getColor(Tutorial.this, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                                    t = type;
+                                    break;
+                                }
+                            }
+
+
+                            new ColorPreferences(Tutorial.this).setFontStyle(t);
+
+                            Intent i = new Intent(Tutorial.this, Tutorial.class);
+                            i.putExtra("page", 1);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                            finish();
+                            overridePendingTransition(0, 0);
+
+
+                        }
+                    });
+
+
+                    builder.setView(dialoglayout);
+                    builder.show();
+                }
+            });
+            v.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setBackgroundColor(Palette.getDefaultColor());
+
+                    dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
+                                    Reddit.themeBack = theme.getThemeType();
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+
+                    builder.setView(dialoglayout);
+                    builder.show();
+                }
+            });
+            v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Reddit.colors.edit().putString("Tutorial", "S").commit();
+                    Reddit.forceRestart(Tutorial.this);
+                }
+            });
+            return v;
+        }
+
+    }
+    public class Login extends Fragment {
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View v = inflater.inflate(R.layout.fragment_basicinfo, container, false);
+            final View header = v.findViewById(R.id.header);
+
+            ((ImageView)v.findViewById(R.id.tint_accent)).setColorFilter(Tutorial.this.getResources().getColor(new ColorPreferences(Tutorial.this).getFontStyle().getColor()));
+            ((ImageView) v.findViewById(R.id.tint_primary)).setColorFilter(Palette.getDefaultColor());
+            header.setBackgroundColor(Palette.getDefaultColor());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getWindow();
+                window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
+            }
+            v.findViewById(R.id.primary).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setBackgroundColor(Palette.getDefaultColor());
+
+
+                    LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+                    final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+
+                    colorPicker.setColors(ColorPreferences.getBaseColors(Tutorial.this));
+                    int currentColor = Palette.getDefaultColor();
+                    for (int i : colorPicker.getColors()) {
+                        for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
+                            if (i2 == currentColor) {
+                                colorPicker.setSelectedColor(i);
+                                colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
+                                colorPicker2.setSelectedColor(i2);
+                                break;
+                            }
+                        }
+                    }
+
+
+                    colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int c) {
+
+                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
+                            colorPicker2.setSelectedColor(c);
+
+
+                        }
+                    });
+
+                    colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int i) {
+                            title.setBackgroundColor(colorPicker2.getColor());
+                            header.setBackgroundColor(colorPicker2.getColor());
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Window window = getWindow();
+                                window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
+                            }
+
+                        }
+                    });
+
+
+                    dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
+                            Intent i = new Intent(Tutorial.this, Tutorial.class);
+                            i.putExtra("page", 1);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                            finish();
+                            overridePendingTransition(0, 0);
+
+                        }
+                    });
+
+                    builder.setView(dialoglayout);
+                    builder.show();
+                }
+            });
+            v.findViewById(R.id.secondary).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setBackgroundColor(Palette.getDefaultColor());
+
+                    final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+
+                    int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
+                    int i = 0;
+                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                        if (type.getThemeType() == 0) {
+                            arrs[i] = ContextCompat.getColor(Tutorial.this, type.getColor());
+
+                            i++;
+                        }
+                    }
+
+                    colorPicker.setColors(arrs);
+                    colorPicker.setSelectedColor(new ColorPreferences(Tutorial.this).getColor(""));
+
+
+                    dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int color = colorPicker.getColor();
+                            ColorPreferences.Theme t = null;
+                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                if (ContextCompat.getColor(Tutorial.this, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                                    t = type;
+                                    break;
+                                }
+                            }
+
+
+                            new ColorPreferences(Tutorial.this).setFontStyle(t);
+
+                            Intent i = new Intent(Tutorial.this, Tutorial.class);
+                            i.putExtra("page", 1);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                            finish();
+                            overridePendingTransition(0, 0);
+
+
+                        }
+                    });
+
+
+                    builder.setView(dialoglayout);
+                    builder.show();
+                }
+            });
+            v.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setBackgroundColor(Palette.getDefaultColor());
+
+                    dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
+                                    Reddit.themeBack = theme.getThemeType();
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+
+
+                    builder.setView(dialoglayout);
+                    builder.show();
+                }
+            });
+            v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Reddit.colors.edit().putString("Tutorial", "S").commit();
+                    Reddit.forceRestart(Tutorial.this);
+                }
+            });
+            return v;
+        }
+
+    }
+
     /**
      * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
      * sequence.
@@ -186,11 +624,12 @@ public class Tutorial extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position < 8) {
-                return TutorialFragment.newInstance(position);
-            } else {
-                return new Agreement();
+            if (position == 0) {
+                return new Welcome();
+            } else  {
+                return new Personalize();
             }
+
         }
 
         @Override

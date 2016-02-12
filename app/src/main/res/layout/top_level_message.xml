@@ -52,7 +52,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/padd"
+                android:id="@+id/background"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,68 +64,55 @@
 
 
                 <LinearLayout
-                    android:id="@+id/background"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
 
-                    >
-
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
 
+                        android:text="4 hours ago"
 
-                        <TextView
-                            android:id="@+id/time"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
-                            android:paddingTop="5dp"
-
-                            android:text="4 hours ago"
-
-                            android:textColor="?attr/font"
-
-                            android:textSize="?attr/font_commentinfo" />
-
-                        <TextView
-                            android:id="@+id/user"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="5dp"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-
-                            android:text="ccrama"
-
-                            android:textColor="?attr/font"
-
-                            android:textSize="?attr/font_commentinfo" />
-
-                    </LinearLayout>
-
-
-                                    <me.ccrama.redditslide.SpoilerRobotoTextView
-                        android:id="@+id/content"
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content"
                         android:textColor="?attr/font"
 
-                        android:textSize="?attr/font_commentbody" />
+                        android:textSize="?attr/font_commentinfo" />
 
+                    <TextView
+                        android:id="@+id/user"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+
+                        android:text="ccrama"
+
+                        android:textColor="?attr/font"
+
+                        android:textSize="?attr/font_commentinfo" />
 
                 </LinearLayout>
 
 
+
+
             </LinearLayout>
 
+            <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:textColor="?attr/font"
+
+                android:textSize="?attr/font_commentbody" />
 
         </LinearLayout>
 

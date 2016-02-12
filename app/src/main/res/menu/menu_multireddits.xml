@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+
+    <item android:id="@+id/action_edit"
+        android:icon="@drawable/editmenu"
+        android:title="@string/editor_title"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_shadowbox"
+        android:icon="@drawable/shadowbox"
+        android:title="@string/general_enable_shadowbox"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/create"
+        android:icon="@drawable/add"
+        android:title="@string/title_create_multi"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_sort"
+        android:icon="@drawable/sort"
+        android:title="@string/sorting_change_sorting"
+        app:showAsAction="ifRoom"/>
+
+
+
+</menu>

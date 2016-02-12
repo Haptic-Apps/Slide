@@ -12,9 +12,8 @@
         android:name=".Reddit"
         android:allowBackup="true"
         android:fullBackupContent="true"
-
         android:icon="@mipmap/ic_launcher"
-
+        android:hardwareAccelerated="true"
         android:label="@string/app_name"
         android:theme="@style/yellow_dark">
 
@@ -39,6 +38,11 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.ForceTouchLink"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".Activities.YouTubeView"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:windowSoftInputMode="adjustResize" />

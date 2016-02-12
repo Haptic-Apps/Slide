@@ -3,13 +3,17 @@
 
     <style name="AppTheme" parent="swipestyle">
 
-        <item name="android:windowBackground">@color/transparent</item>
 
         <item name="android:spinnerItemStyle">
             @style/spinnerItemStyle
         </item>
     </style>
 
+    <style name="Ripple"/>
+
+    <style name="Ripple.List">
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
     <!-- From SwipeBackLayout !-->
 
         <style name="SwipeBackLayout">
@@ -21,6 +25,7 @@
 
     <!-- !-->
     <style name="swipeable" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
 
         <item name="android:windowIsTranslucent">true</item>
 
@@ -61,7 +66,20 @@
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
+    <style name="pink_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_pink_A200</item>
 
+    </style>
+
+    <style name="pink_amoled" parent="Theme.AMOLED">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
+
+    <style name="pink_light" parent="Theme.LIGHT">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
     <style name="amber_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_amber_A700</item>
 

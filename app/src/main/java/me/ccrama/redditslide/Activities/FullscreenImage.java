@@ -29,6 +29,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
@@ -192,9 +193,28 @@ public class FullscreenImage extends FullScreenActivity {
 
 
         }
-
+        if(!Reddit.appRestart.contains("tutorialImg")){
+            Tooltip.make(this,
+                    new Tooltip.Builder(104)
+                            .text("Drag from the very edge to exit")
+                            .maxWidth(500)
+                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            ).show();
+        }
     }
-
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(!Reddit.appRestart.contains("tutorialImg")){
+            Reddit.appRestart.edit().putBoolean("tutorialImg", true).apply();
+        }
+    }
     private void showShareDialog(final String url) {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
         LayoutInflater inflater = getLayoutInflater();

@@ -67,7 +67,6 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LogUtil;
@@ -166,7 +165,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         replie = new ArrayList<>();
 
 
-        notifyItemRangeChanged(1, users.size() + 1);
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
+            notifyDataSetChanged();
+        } else {
+            notifyItemRangeChanged(1, users.size() + 1);
+        }
         isSame = false;
 
 
@@ -174,12 +177,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int i = 1;
             for (CommentObject n : users) {
 
-                if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                    smoothScroller.setTargetPosition(i);
-                    (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
-                    break;
-                }
+                if (n instanceof CommentItem)
+
+                    if (n.comment.getComment().getFullName().contains(currentSelectedItem)) {
+
+                        Log.v(LogUtil.getTag(), "SCROLLING TO " + i);
+
+                        listView.smoothScrollToPosition(i);
+                        break;
+                    }
                 i++;
             }
         }
@@ -212,9 +218,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             for (CommentObject n : users) {
 
                 if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(listView.getContext(), (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                    smoothScroller.setTargetPosition(i);
-                    (listView.getLayoutManager()).startSmoothScroll(smoothScroller);
+                    listView.smoothScrollToPosition(i);
+
                     break;
                 }
                 i++;
@@ -1154,7 +1159,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int i = 0;
         for (CommentNode ignored : user.walkTree()) {
             i++;
+            if(ignored.hasMoreComments()){
+                i++;
+            }
         }
+
         return i - 1;
     }
 
@@ -1222,6 +1231,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 i += unhideNumber(ignored, 0);
             }
         }
+        if(n.hasMoreComments()){
+            String fullname  = n.getComment().getFullName() + "more";
+
+            if (hidden.contains(fullname)) {
+                i++;
+                hidden.remove(fullname);
+
+            }
+        }
         return i;
     }
 
@@ -1238,11 +1256,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hidden.add(fullname);
 
                 }
-                if(n.getMoreChildren() != null){
+                if(ignored.hasMoreComments()){
                     fullname  = fullname + "more";
-                    if (hiddenPersons.contains(fullname)) {
-                        hiddenPersons.remove(fullname);
-                    }
+
                     if (!hidden.contains(fullname)) {
                         i++;
                         hidden.add(fullname);
@@ -1250,6 +1266,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
                 i += hideNumber(ignored, 0);
+            }
+            if(n.hasMoreComments()){
+                String fullname  = n.getComment().getFullName() + "more";
+
+                if (!hidden.contains(fullname)) {
+                    i++;
+                    hidden.add(fullname);
+
+                }
             }
         }
         return i;

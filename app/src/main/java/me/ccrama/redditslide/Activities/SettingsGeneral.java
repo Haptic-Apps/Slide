@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsGeneral extends BaseActivity {
+public class SettingsGeneral extends BaseActivityAnim {
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);

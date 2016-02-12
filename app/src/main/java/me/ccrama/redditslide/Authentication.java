@@ -46,6 +46,7 @@ public class Authentication {
 
     public Authentication(Context context) {
         this.a = (Reddit) context;
+        Reddit.setDefaultErrorHandler(context);
 
         if (NetworkUtil.isConnected(context)) {
 
@@ -55,16 +56,21 @@ public class Authentication {
             didOnline = true;
 
             new VerifyCredentials(context).execute();
-        } else {
-            for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
-                if (s.contains(authentication.getString("lasttoken", ""))) {
-                    name = (s.split(":")[0]);
-                    break;
-                }
-            }
-            isLoggedIn = true;
-            SubredditStorage.getSubredditsForHome(a);
 
+
+        } else {
+            isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
+            name = Reddit.appRestart.getString("name", "");
+            if((name.isEmpty() || !isLoggedIn) &&!authentication.getString("lasttoken", "").isEmpty() ){
+                for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+                    if (s.contains(authentication.getString("lasttoken", ""))) {
+                        name = (s.split(":")[0]);
+                        break;
+                    }
+                }
+                isLoggedIn = true;
+            }
+            SubredditStorage.getSubredditsForHome(a);
         }
 
 
@@ -95,7 +101,7 @@ public class Authentication {
                             final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                             Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
-                            OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+                                OAuthHelper oAuthHelper = reddit.getOAuthHelper();
 
                             oAuthHelper.setRefreshToken(refresh);
                             OAuthData finalData = oAuthHelper.refreshToken(credentials);
@@ -191,6 +197,8 @@ public class Authentication {
         }
 
     }
+
+
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {
         Context mContext;

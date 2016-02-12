@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 
 import java.io.File;
@@ -56,6 +57,7 @@ public class ImageLoaderUtils {
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .cacheInMemory(false)
+                .displayer(new FadeInBitmapDisplayer(250))
 
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)

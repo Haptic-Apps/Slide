@@ -13,10 +13,13 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
-import me.ccrama.redditslide.DataShare;
+import it.sephiroth.android.library.tooltip.Tooltip;
+
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -31,6 +34,11 @@ public class CommentsScreenPopup extends BaseActivityAnim {
     public static final String EXTRA_PAGE = "page";
     OverviewPagerAdapter comments;
     private List<Submission> posts;
+    String subreddit;
+    String multireddit;
+    public OfflineSubreddit o;
+    boolean tip;
+
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -41,12 +49,13 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
         setContentView(R.layout.activity_slide_popup);
 
+        subreddit = getIntent().getExtras().getString(CommentsScreen.EXTRA_SUBREDDIT);
 
         int firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         if (firstPage == -1) {
             //IS SNIGLE POST
         } else {
-            posts = DataShare.sharedSubreddit;
+            posts = OfflineSubreddit.getSubreddit(subreddit).submissions;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -57,6 +66,7 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         pager.setCurrentItem(firstPage);
+
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -68,6 +78,11 @@ public class CommentsScreenPopup extends BaseActivityAnim {
                 //todo load more
                 themeSystemBars(posts.get(position).getSubredditName());
                 HasSeen.addSeen(posts.get(position).getFullName());
+
+                if (tip) {
+                    Tooltip.removeAll(CommentsScreenPopup.this);
+                    Reddit.appRestart.edit().putString("tutorial_6", "t").apply();
+                }
             }
 
             @Override
@@ -75,6 +90,21 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
             }
         });
+        if(!Reddit.appRestart.contains("tutorial_comm")){
+            tip = true;
+            Tooltip.make(CommentsScreenPopup.this,
+                    new Tooltip.Builder(106)
+                            .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
+                            .text("Swipe left and right to go between submissions. You can disable this in General Settings")
+                            .maxWidth(600)
+                            .activateDelay(800)
+                            .showDelay(300)
+                            .withArrow(true)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            ).show();
+        }
 
     }
 
@@ -94,9 +124,10 @@ public class CommentsScreenPopup extends BaseActivityAnim {
             String name = posts.get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
             Log.v(LogUtil.getTag(), name.substring(3, name.length()));
-            args.putString("subreddit", posts.get(i).getSubredditName());
             args.putBoolean("archived", posts.get(i).isArchived());
             args.putInt("page", i);
+            args.putString("subreddit", multireddit==null?subreddit:"multi"+multireddit);
+
             f.setArguments(args);
 
             return f;

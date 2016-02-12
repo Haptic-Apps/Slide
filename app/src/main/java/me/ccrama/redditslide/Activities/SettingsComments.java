@@ -7,7 +7,7 @@ import android.widget.CompoundButton;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
-public class SettingsComments extends BaseActivity {
+public class SettingsComments extends BaseActivityAnim {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

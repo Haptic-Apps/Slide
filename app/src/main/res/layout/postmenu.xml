@@ -307,6 +307,43 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="?android:selectableItemBackground"
+                        android:gravity="center_vertical"
+
+                        android:orientation="horizontal"
+                     >
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:src="@drawable/commentchange"
+                            android:tint="?attr/tint" />
+
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:src="@drawable/downvote"
+                            android:tint="?attr/tint" />
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:src="@drawable/upvoted"
+                            android:tint="?attr/tint" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

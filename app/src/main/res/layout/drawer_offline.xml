@@ -11,7 +11,7 @@
         android:id="@+id/back"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="8dp"
 
         android:background="@color/md_light_blue_500">
 
@@ -25,15 +25,54 @@
     </RelativeLayout>
 
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:textColor="?attr/font"
-        android:padding="24dp"
-        android:textSize="14sp"
-        android:text="@string/offline_drawer_info"
-        android:layout_height="wrap_content" />
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+
+        android:paddingLeft="0dp">
 
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+
+            android:text="Slide is in Offline Mode"
+            android:layout_marginLeft="16dp"
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/online"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+
+        android:paddingLeft="0dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="26dp"
+            android:src="@drawable/internet"
+            android:tint="?attr/tint" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+
+            android:text="Try to enter online mode"
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/settings"
@@ -45,12 +84,10 @@
         android:paddingLeft="0dp">
 
         <ImageView
-            android:layout_width="48dp"
+            android:layout_width="26dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:padding="10dp"
-
+            android:layout_marginRight="26dp"
             android:src="@drawable/settings"
             android:tint="?attr/tint" />
 
@@ -65,30 +102,18 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:alpha=".25"
-
-        />
-
     <EditText
         android:id="@+id/sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="?attr/tint"
-
         android:hint="@string/drawer_search"
         android:imeOptions="actionSearch"
-
         android:singleLine="true"
         android:textColor="?attr/font"
-
-
-        android:textColorHint="?attr/font" />
+        android:textColorHint="?attr/font"
+        android:digits="0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM_"/>
 </LinearLayout>

@@ -10,6 +10,7 @@ import java.util.Properties;
  * Created by Deadl on 26/11/2015.
  */
 public class SecretConstants {
+    private static String apiKey;
 
     private static String base64EncodedPublicKey;
 
@@ -28,5 +29,21 @@ public class SecretConstants {
 
         }
         return base64EncodedPublicKey;
+    }
+    public static String getApiKey(Context context) {
+        if (apiKey == null) {
+            InputStream input = null;
+            try {
+                input = context.getAssets().open("secretconstants.properties");
+                Properties properties = new Properties();
+                properties.load(input);
+                apiKey = properties.getProperty("apiKey");
+            } catch (IOException e) {
+                // file not found
+                apiKey = "";
+            }
+
+        }
+        return apiKey;
     }
 }

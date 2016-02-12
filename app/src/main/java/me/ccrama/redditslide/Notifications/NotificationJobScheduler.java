@@ -1,14 +1,12 @@
 package me.ccrama.redditslide.Notifications;
 
 import android.app.AlarmManager;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.os.Build;
 
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 10/13/2015.
@@ -18,7 +16,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class NotificationJobScheduler {
     private final PendingIntent pendingIntent;
 
-    public NotificationJobScheduler(Application context) {
+    public NotificationJobScheduler(Context context) {
         Intent alarmIntent = new Intent(context, CheckForMail.class);
         pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
         start(context);
@@ -29,8 +27,13 @@ public class NotificationJobScheduler {
 
         AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         int interval = 1000 * 60 * Reddit.notificationTime;
-        Log.v(LogUtil.getTag(), "NEW NOTIFICATIONS AT " + interval);
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+        long currentTime = System.currentTimeMillis();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            manager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, currentTime + interval, pendingIntent);
+        } else {
+            manager.set(AlarmManager.RTC_WAKEUP, currentTime + interval, pendingIntent);
+
+        }
 
     }
 

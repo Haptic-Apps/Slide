@@ -76,7 +76,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.25dp"
-        android:layout_below="@id/content"
         android:alpha="0.2"
         android:background="?attr/tint" />
 
