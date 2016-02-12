@@ -66,6 +66,7 @@ public class OfflineSubreddit {
 
             }
         }
+        subredditBackups.put(subreddit, this);
 
     }
 
@@ -108,6 +109,8 @@ public class OfflineSubreddit {
             return subredditBackups.get(subreddit);
         } else {
             OfflineSubreddit o = new OfflineSubreddit();
+            o.subreddit = subreddit.toLowerCase();
+
             String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(), "").split("<SEPARATOR>");
             if (split.length > 1) {
                 o.time = Long.valueOf(split[0]);
@@ -123,7 +126,7 @@ public class OfflineSubreddit {
                         e.printStackTrace();
                     }
                 }
-                subredditBackups.put(subreddit, o);
+                subredditBackups.put(subreddit.toLowerCase(), o);
 
             } else {
                 o.submissions = new ArrayList<>();

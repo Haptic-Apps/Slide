@@ -112,7 +112,7 @@ public class SubredditPosts implements PostLoader {
                 final int finalStart = start;
 
                 if(!usedOffline)
-                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(posts).writeToMemory();
+                OfflineSubreddit.getSubreddit(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory();
 
                 // update online
                 displayer.updateSuccess(posts, finalStart);

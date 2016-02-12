@@ -85,9 +85,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            Log.v(LogUtil.getTag(), "LOADING " + (multireddit == null ? baseSubreddit : "multi" + multireddit));
             o =OfflineSubreddit.getSubreddit(multireddit == null?baseSubreddit:"multi" +multireddit);
-                    subredditPosts.getPosts().addAll(o.submissions);
+            subredditPosts.getPosts().addAll(o.submissions);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
