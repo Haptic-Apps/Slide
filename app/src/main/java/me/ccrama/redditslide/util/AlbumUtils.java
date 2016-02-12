@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Website;
@@ -43,12 +44,11 @@ public class AlbumUtils {
         if (next.length() < 5) {
             return getHash(s.replace(next, ""));
         } else {
+            if (next.startsWith("/")) next = next.substring(1);
             return next;
         }
 
     }
-
-    boolean slider;
 
     private static String cutEnds(String s) {
         if (s.endsWith("/")) {
@@ -69,7 +69,6 @@ public class AlbumUtils {
         public Activity baseActivity;
         public RecyclerView recyclerView;
 
-        public boolean mIsAlbum;
         public JsonObject mJsonResult;
 
         public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, boolean finishIfNone, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView) {
@@ -94,9 +93,7 @@ public class AlbumUtils {
                 if (finishIfNone)
                     baseActivity.finish();
             } else {
-
                 hash = getHash(rawDat);
-
             }
         }
 
@@ -125,10 +122,11 @@ public class AlbumUtils {
 
                 if (albumRequests.contains("gallery/" + hash)) {
                     mJsonResult = new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject();
-                    mIsAlbum = false;
                 } else {
+                    String apiCallUrl = "https://api.imgur.com/3/gallery/" + hash + ".json";
+                    Log.v(LogUtil.getTag(), apiCallUrl);
                     Ion.with(baseActivity)
-                            .load("https://api.imgur.com/3/gallery/" + hash + ".json")
+                            .load(apiCallUrl)
                             .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
@@ -137,17 +135,17 @@ public class AlbumUtils {
 
                                     albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
                                     mJsonResult = result;
-                                    mIsAlbum = false;
                                 }
                             });
                 }
             } else {
                 if (albumRequests.contains("album/" + hash)) {
                     mJsonResult = new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject();
-                    mIsAlbum = true;
                 } else {
+                    String apiCallUrl = "https://api.imgur.com/3/album/" + hash + ".json";
+                    Log.v(LogUtil.getTag(), apiCallUrl);
                     Ion.with(baseActivity)
-                            .load("https://api.imgur.com/3/album" + hash + ".json")
+                            .load(apiCallUrl)
                             .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
@@ -156,8 +154,6 @@ public class AlbumUtils {
 
                                     albumRequests.edit().putString("album/" + hash, result.toString()).apply();
                                     mJsonResult = result;
-                                    mIsAlbum = true;
-
                                 }
                             });
                 }
@@ -174,7 +170,7 @@ public class AlbumUtils {
                 Log.v(LogUtil.getTag(), resultData.toString());
 
                 //Is single image
-                if (!mIsAlbum || (resultData.has("is_album") && !resultData.get("is_album").getAsBoolean())) {
+                if (gallery || (resultData.has("is_album") && !resultData.get("is_album").getAsBoolean())) {
                     if (openExternalNotAlbum) {
                         if (resultData.get("animated").getAsBoolean()) {
                             Intent i = new Intent(baseActivity, GifView.class);
@@ -228,7 +224,6 @@ public class AlbumUtils {
 
         public Activity baseActivity;
 
-        public boolean mIsAlbum;
         public JsonObject mJsonResult;
 
         public GetAlbumJsonFromUrl(@NotNull String url, @NotNull Activity baseActivity) {
@@ -254,7 +249,7 @@ public class AlbumUtils {
         }
 
 
-        public void doWithData(ArrayList<JsonElement> data) {
+        protected void doWithData(ArrayList<JsonElement> data) {
 
         }
 
@@ -267,11 +262,12 @@ public class AlbumUtils {
                 if (albumRequests.contains("gallery/" + hash) && new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject().has("data")) {
                     Log.v(LogUtil.getTag(), albumRequests.getString("gallery/" + hash, ""));
 
-                    mIsAlbum = false;
                     mJsonResult = new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject();
                 } else {
+                    String apiCallUrl = "https://api.imgur.com/3/gallery/" + hash + ".json";
+                    Log.v(LogUtil.getTag(), apiCallUrl);
                     Ion.with(baseActivity)
-                            .load("https://api.imgur.com/3/gallery/" + hash + ".json")
+                            .load(apiCallUrl)
                             .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
@@ -279,7 +275,6 @@ public class AlbumUtils {
                                 public void onCompleted(Exception e, JsonObject result) {
                                     albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
 
-                                    mIsAlbum = false;
                                     mJsonResult = result;
                                 }
 
@@ -288,11 +283,12 @@ public class AlbumUtils {
             } else {
 
                 if (albumRequests.contains("album/" + hash)) {
-                    mIsAlbum = true;
                     mJsonResult = new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject();
                 } else {
+                    String apiCallUrl = "https://api.imgur.com/3/album/" + hash + ".json";
+                    Log.v(LogUtil.getTag(), apiCallUrl);
                     Ion.with(baseActivity)
-                            .load("https://api.imgur.com/3/album" + hash + ".json")
+                            .load(apiCallUrl)
                             .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
@@ -300,7 +296,6 @@ public class AlbumUtils {
                                              public void onCompleted(Exception e, JsonObject result) {
                                                  albumRequests.edit().putString("album/" + hash, result.toString()).apply();
 
-                                                 mIsAlbum = true;
                                                  mJsonResult = result;
                                              }
                                          }
@@ -318,8 +313,8 @@ public class AlbumUtils {
 
                 final JsonObject resultData = mJsonResult.getAsJsonObject("data");
 
-
-                if(mIsAlbum || resultData.get("is_album").getAsBoolean()) {
+                //Is album
+                if(!gallery || resultData.get("is_album").getAsBoolean()) {
                     if (resultData.has("images")) {
                         JsonArray obj = resultData.get("images").getAsJsonArray();
                         if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
@@ -327,7 +322,14 @@ public class AlbumUtils {
                             for (JsonElement o : obj) {
                                 jsons.add(o);
                             }
-
+                            ActionBar supportActionBar = ((AlbumPager)baseActivity).getSupportActionBar();
+                            if(supportActionBar != null){
+                                if (resultData.has("title") || !resultData.get("title").isJsonNull()) {
+                                    supportActionBar.setTitle(resultData.get("title").getAsString());
+                                } else {
+                                    supportActionBar.setTitle(baseActivity.getString(R.string.album_title_count, jsons.size()));
+                                }
+                            }
                             doWithData(jsons);
                         }
                     }
@@ -338,15 +340,21 @@ public class AlbumUtils {
 
                 }
             } else {
-                //Feedback for user todo
-                Log.w(LogUtil.getTag(), "Api call failed, result is: " + mJsonResult == null ? "null" : mJsonResult.toString());
+                doWithData(null);
+                Log.w(LogUtil.getTag(), "Api call failed, result is: " + (mJsonResult == null ? "null" : mJsonResult.toString()));
                 albumRequests.edit().remove("gallery/" + hash).apply();
                 albumRequests.edit().remove("album/" + hash).apply();
             }
         }
     }
 
-
+    /**
+     * This method gets an album or gallery and stores it in the sharedPrefs. It also
+     * preloades the images in the image loader.
+     *
+     * @param c Context
+     * @param url Imgur url to cache
+     */
     public static void saveAlbumToCache(final Activity c, String url) {
 
         boolean gallery = false;
@@ -372,17 +380,19 @@ public class AlbumUtils {
             if (albumRequests.contains("gallery/" + hash)) {
                 preloadImages(c, new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject());
             } else {
+                String apiCallUrl = "https://api.imgur.com/3/gallery/" + hash + ".json";
+                Log.v(LogUtil.getTag(), apiCallUrl);
                 Ion.with(c)
-                        .load("https://api.imgur.com/3/gallery/" + hash + ".json")
+                        .load(apiCallUrl)
                         .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                         .asJsonObject()
-
                         .setCallback(new FutureCallback<JsonObject>() {
                             @Override
                             public void onCompleted(Exception e, JsonObject result) {
-                                albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
-
-                                preloadImages(c, result);
+                                if (result != null && result.get("success").getAsBoolean() && result.has("data")) {
+                                    albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
+                                    preloadImages(c, result);
+                                } else Log.w(LogUtil.getTag(), "Cannot cache gallery");
                             }
 
                         });
@@ -391,16 +401,19 @@ public class AlbumUtils {
             if (albumRequests.contains("album/" + hash)) {
                 preloadImages(c, new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject());
             } else {
+                String apiCallUrl = "https://api.imgur.com/3/album/" + hash + ".json";
+                Log.v(LogUtil.getTag(), apiCallUrl);
                 Ion.with(c)
-                        .load("https://api.imgur.com/3/album" + hash + ".json")
+                        .load(apiCallUrl)
                         .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
                         .asJsonObject()
                         .setCallback(new FutureCallback<JsonObject>() {
                                          @Override
                                          public void onCompleted(Exception e, JsonObject result) {
-                                             albumRequests.edit().putString("album/" + hash, result.toString()).apply();
-
-                                             preloadImages(c, result);
+                                             if (result != null && result.get("success").getAsBoolean() && result.has("data")) {
+                                                 albumRequests.edit().putString("album/" + hash, result.toString()).apply();
+                                                 preloadImages(c, result);
+                                             } else Log.w(LogUtil.getTag(), "Cannot cache album");
                                          }
 
                                      }
@@ -412,7 +425,7 @@ public class AlbumUtils {
 
     }
 
-    public static void preloadImages(Context c, JsonObject result) {
+    private static void preloadImages(Context c, JsonObject result) {
         JsonArray obj = result.getAsJsonObject("data").get("images").getAsJsonArray();
         if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 

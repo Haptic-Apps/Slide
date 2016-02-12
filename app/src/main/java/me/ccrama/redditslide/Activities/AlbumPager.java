@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.google.gson.JsonElement;
@@ -126,20 +128,47 @@ public class AlbumPager extends BaseActivityAnim {
         }
 
         @Override
-        public void doWithData(ArrayList<JsonElement> jsonElements) {
+        protected void doWithData(ArrayList<JsonElement> jsonElements) {
+            if (jsonElements == null){
+                new AlertDialogWrapper.Builder(baseActivity)
+                        .setTitle(R.string.album_err_not_found)
+                        .setMessage(R.string.album_err_msg_not_found)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                baseActivity.finish();
+                            }
+                        }).create().show();
+                return;
+            }
             AlbumPager.this.gallery = LoadIntoPager.this.gallery;
             images = new ArrayList<>(jsonElements);
 
             ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
 
-            //fixme getSupportActionBar().setSubtitle(1 + "/" + images.size());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setSubtitle(1 + "/" + images.size());
+                    }
+                }
+            });
 
             AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
             p.setAdapter(adapter);
             p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    //fixme getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
+                public void onPageScrolled(final int position, float positionOffset, int positionOffsetPixels) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (getSupportActionBar() != null) {
+                                getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
+                            }
+                        }
+                    });
                 }
 
                 @Override
