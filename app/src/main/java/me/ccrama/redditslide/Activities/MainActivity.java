@@ -1007,6 +1007,7 @@ public class MainActivity extends BaseActivity {
                 super.onDrawerClosed(view);
                 invalidateOptionsMenu();
                 syncState();
+
             }
 
             @Override

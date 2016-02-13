@@ -111,7 +111,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {
-        appRestart.edit().putString("startScreen", "").apply();
+        appRestart.edit().putString("startScreen", "").commit();
         forceRestart(c);
 
     }
