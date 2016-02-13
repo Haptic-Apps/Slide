@@ -110,8 +110,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> hidden;
     ArrayList<String> hiddenPersons;
     ArrayList<String> replie;
-    private final Typeface commentTypeFace;
-    private final ColorPreferences colorPreferences;
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
@@ -136,12 +134,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         shifted = 0;
 
         isSame = false;
-
-        commentTypeFace = RobotoTypefaceManager.obtainTypeface(
-                this.mContext,
-                new FontPreferences(this.mContext).getFontTypeComment().getTypeface());
-
-        colorPreferences = new ColorPreferences(this.mContext);
     }
 
     @Override
