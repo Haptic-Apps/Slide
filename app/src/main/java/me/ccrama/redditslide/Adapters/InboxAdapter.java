@@ -19,6 +19,7 @@ import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Authentication;
@@ -26,7 +27,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 
 public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -87,27 +88,24 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
-
-        if (!(holder2 instanceof ContributionAdapter.EmptyViewHolder)) {
-
-            final MessageViewHolder holder = (MessageViewHolder) holder2;
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int i) {
+        if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder)) {
+            final MessageViewHolder messageViewHolder = (MessageViewHolder) viewHolder;
 
             final Message comment = dataSet.get(i);
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
+            messageViewHolder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
+            messageViewHolder.user.setText(comment.getAuthor());
+            messageViewHolder.title.setText(comment.getSubject());
 
-            holder.user.setText(comment.getAuthor());
+            setViews(comment.getDataNode().get("body_html").asText(), "", messageViewHolder);
 
-            new MakeTextviewClickable().ParseTextWithLinksTextViewComment(comment.getDataNode().get("body_html").asText(), holder.content, (Activity) mContext, "");
-
-            holder.title.setText(comment.getSubject());
             if (comment.isRead()) {
-                holder.title.setTextColor(holder.content.getCurrentTextColor());
+                messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
             } else {
-                holder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
+                messageViewHolder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
             }
 
-            holder.content.setOnClickListener(new View.OnClickListener() {
+            messageViewHolder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (comment.isRead()) {
@@ -124,12 +122,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         comment.read = true;
                         new AsyncSetRead().execute(comment);
 
-                        holder.title.setTextColor(holder.content.getCurrentTextColor());
+                        messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
 
                     }
                 }
             });
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            messageViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (comment.isRead()) {
@@ -146,14 +144,42 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     } else {
                         comment.read = true;
                         new AsyncSetRead().execute(comment);
-                        holder.title.setTextColor(holder.content.getCurrentTextColor());
+                        messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
 
                     }
                 }
             });
         }
 
+    }
 
+    private void setViews(String rawHTML, String subredditName, MessageViewHolder holder) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            holder.content.setVisibility(View.VISIBLE);
+            holder.content.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            holder.content.setText("");
+            holder.content.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                holder.commentOverflow.setViews(blocks, subredditName);
+            } else {
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            holder.commentOverflow.removeAllViews();
+        }
     }
 
     @Override
@@ -169,7 +195,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         protected Void doInBackground(Message... params) {
-            new InboxManager(Authentication.reddit).setRead(params[0], true);
+            new InboxManager(Authentication.reddit).setRead(true, params[0]);
             return null;
         }
     }

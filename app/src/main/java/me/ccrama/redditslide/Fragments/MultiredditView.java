@@ -196,6 +196,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private List<Submission> clearSeenPosts(boolean forever) {
         if (posts.posts != null) {
             List<Submission> originalDataSetPosts = posts.posts;
+            OfflineSubreddit.getSubreddit("multi"  + posts.getMultiReddit().getDisplayName().toLowerCase()).clearSeenPosts(false);
 
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
@@ -223,7 +224,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             return originalDataSetPosts;
         }
 
-         OfflineSubreddit.getSubreddit("multi"  + posts.getMultiReddit().getDisplayName()).clearSeenPosts(false);
         return null;
     }
     @Override

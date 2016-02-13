@@ -4,8 +4,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import org.w3c.dom.Comment;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Views.CommentOverflow;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -15,13 +18,14 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     public final SpoilerRobotoTextView content;
     public final TextView time;
     public final TextView user;
+    public final CommentOverflow commentOverflow;
 
     public MessageViewHolder(View v) {
         super(v);
         title = (TextView) v.findViewById(R.id.title);
         content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
         time = (TextView) v.findViewById(R.id.time);
-
+        commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
         user = (TextView) v.findViewById(R.id.user);
     }
 

@@ -79,7 +79,6 @@
                             android:gravity="center_vertical"
                             android:text="@string/example_sub"
 
-                            android:textColor="?attr/font"
                             android:textSize="?attr/font_cardinfo"
 
                             />
@@ -88,7 +87,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submission_properties_seperator"
-                            android:textColor="?attr/font"
 
                             android:textSize="?attr/font_cardinfo" />
 
@@ -100,7 +98,6 @@
                             android:gravity="center_vertical"
 
                             android:text="@string/example_time"
-                            android:textColor="?attr/font"
 
                             android:textSize="?attr/font_cardinfo" />
 
@@ -108,7 +105,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submission_properties_seperator"
-                            android:textColor="?attr/font"
 
                             android:textSize="?attr/font_cardinfo" />
 
@@ -127,7 +123,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/submission_properties_seperator"
-                            android:textColor="?attr/font"
                             android:textSize="?attr/font_cardinfo" />
 
                         <TextView
@@ -138,7 +133,6 @@
 
                             android:gravity="center_vertical"
                             android:text="@string/example_comments"
-                            android:textColor="?attr/font"
 
                             android:textSize="?attr/font_cardinfo" />
 
@@ -230,16 +224,26 @@
 
 
                 <me.ccrama.redditslide.SpoilerRobotoTextView
-                    android:id="@+id/body"
+                    android:id="@+id/firstTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
+                    android:orientation="vertical"
 
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:textColor="?attr/font"
 
                     android:textSize="?attr/font_commentbody" />
+
+                <me.ccrama.redditslide.Views.CommentOverflow
+                    android:id="@+id/commentOverflow"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="gone"></me.ccrama.redditslide.Views.CommentOverflow>
             </LinearLayout>
 
             <RelativeLayout

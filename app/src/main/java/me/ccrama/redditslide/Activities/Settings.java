@@ -25,7 +25,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class Settings extends BaseActivityAnim {
+public class Settings extends BaseActivity {
     private final static int RESTART_SETTINGS_RESULT = 2;
 
 

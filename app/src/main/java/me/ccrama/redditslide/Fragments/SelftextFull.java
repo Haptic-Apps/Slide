@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import net.dean.jraw.models.Submission;
+
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
@@ -18,8 +21,8 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 
 /**
@@ -48,7 +51,8 @@ public class SelftextFull extends Fragment {
                 + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));
         SpoilerRobotoTextView bod = ((SpoilerRobotoTextView) rootView.findViewById(R.id.imagearea));
         if (!s.getSelftext().isEmpty()) {
-            new MakeTextviewClickable().ParseTextWithLinksTextView(s.getDataNode().get("selftext_html").asText(), bod, getActivity(), s.getSubredditName());
+            List<String> text = SubmissionParser.getBlocks(s.getDataNode().get("selftext_html").asText());
+            bod.setText(Html.fromHtml(text.get(0)), TextView.BufferType.SPANNABLE); // TODO deadleg add overflow
         }
         rootView.findViewById(R.id.imagearea).setOnClickListener(new View.OnClickListener() {
             @Override

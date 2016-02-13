@@ -1,0 +1,585 @@
+<!-- SC_OFF --><div class="md"><div><code>18-Nov-2011</code>: Updated to include the <a href="http://www.reddit.com/r/changelog/comments/mg1j6/reddit_change_new_markdown_interpreter/">latest markdown changes.</a></div>
+
+    <h4>Contents</h4>
+
+    <blockquote>
+        <ol>
+            <li>Basic text formatting (<em>Italics</em>, <strong>Bold</strong>, <del>Strikethrough</del>, Super<sup>script,</sup> <code>inline code</code>, Quoting)</li>
+            <li>Linking</li>
+            <li>Line Breaks &amp; Paragraphs</li>
+            <li>Lists</li>
+            <li>Tables</li>
+            <li>Block Code</li>
+            <li>Headlines and Horizontals</li>
+        </ol>
+    </blockquote>
+
+    <h4>1. Basic Text Formatting</h4>
+
+    <blockquote>
+        <div><strong>Italics</strong> are created using either a single asterisk (*) or single underscore (_).</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This is *italic text*, this is also _italic text_.</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This is <em>italic text</em>, this is also <em>italic text</em>.</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>Bold text</strong> is created with double asterisks (**) or double underscores (__).</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This is **bold text**, this is also __bold text__.</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This is <strong>bold text</strong>, this is also <strong>bold text</strong>.</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>Strikethrough text</strong> is created using a double tilde (<code>~~</code>).</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This is <code>~~</code>strikethrough text<code>~~</code>.</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This is <del>strikethrough</del> text.</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>Superscript text</strong> is created using the carot (<code>^</code>). </div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This sentence contains super<code>^</code>script.</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This sentence contains super<sup>script.</sup>    </div>
+        </blockquote>
+
+        <div>Note that you cannot leave space before the carot, and there is no <em>closing tag</em>.     </div>
+
+        <blockquote>
+            <div>Superscript can also be stacked<sup>like<sup>this.</sup></sup></div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>inline code</strong> (monospaced text) is created using the backtick (<a href="http://en.wikipedia.org/wiki/Grave_accent">grave accents</a>) (`).</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This sentence contains inline code: <code>`</code>javascript:alert(&quot;hello world&quot;);<code>`</code></div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This sentence contains inline code: <code>javascript:alert(&quot;hello world&quot;);</code></div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>Quoting</strong> is achieved by starting a line with an Angle Bracket (&gt;)</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>&gt;Here&#39;s a quote.</div>
+
+            <div>&gt;Another paragraph in the same quote.<br/>
+                &gt;&gt;A nested quote.    </div>
+
+            <div>&gt;Back to a single quote.</div>
+
+            <div>And finally some unquoted text.</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <blockquote>
+                <div>Here&#39;s a quote.</div>
+
+                <div>Another paragraph in the same quote.</div>
+
+                <blockquote>
+                    <div>A nested quote.    </div>
+                </blockquote>
+
+                <div>Back to a single quote.</div>
+            </blockquote>
+
+            <div>And finally some unquoted text.</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div>To <strong>remove formatting</strong> you will need to use a Backslash (\)</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This sentence escapes \*italic text\* and \*\*bold text\*\*.</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This sentence escapes *italic text* and **bold text**. </div>
+        </blockquote>
+    </blockquote>
+
+    <h4>2. Linking</h4>
+
+    <blockquote>
+        <div><strong>Creating a link</strong></div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>[Reddit](<code>http://reddit.com</code>)</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div><a href="http://reddit.com">Reddit</a>   </div>
+        </blockquote>
+
+        <div>You cannot begin a link with &quot;www&quot;, it must begin with one of the following URL schemes:</div>
+
+        <blockquote>
+            <ul>
+                <li>http://</li>
+                <li>https://</li>
+                <li>ftp://</li>
+                <li>mailto:</li>
+                <li>steam://</li>
+                <li>irc://</li>
+                <li>news://</li>
+                <li>mumble://</li>
+                <li>ssh:// </li>
+            </ul>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div>You can also provide <strong>title text</strong> for links:</div>
+
+        <blockquote>
+            <div>[Reddit](<code>http://reddit.com</code> &quot;what&#39;s new online!&quot;).</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div><a href="http://reddit.com" title="what&#39;s new online!">Reddit</a> ← (<em>hover</em>!)    </div>
+        </blockquote>
+
+        <div>Title text can be used to hide <strong>spoilers</strong>:</div>
+
+        <blockquote>
+            <div><code>[spoiler](/s&quot;The spoiler text goes here&quot;)</code></div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div><a href="/s%22The%20spoiler%20text%20goes%20here%22">spoiler</a> ← (<em>hover</em>!)</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div>Reddit now recognises when you want to <strong>link to a subreddit</strong>.</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>This is a shameless plug for /r/BritishTV!</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This is a shameless plug for <a href="/r/BritishTV">/r/BritishTV</a>!</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div>If a URL contains brackets you will need to escape these.</div>
+
+        <div>Example without escaping:</div>
+
+        <blockquote>
+            <div><code>[Cube](http://en.wikipedia.org/wiki/Cube_(film))</code></div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div><a href="http://en.wikipedia.org/wiki/Cube_(film">Cube</a>) ← (<em>note the surplus bracket</em>!)    </div>
+        </blockquote>
+
+        <div>Example with escaping:</div>
+
+        <blockquote>
+            <div><code>[Cube](http://en.wikipedia.org/wiki/Cube_(film\))</code></div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div><a href="http://en.wikipedia.org/wiki/Cube_(film)">Cube</a> ← (<em>no surplus bracket</em>!)    </div>
+        </blockquote>
+    </blockquote>
+
+    <h4>3. Line Breaks &amp; Paragraphs</h4>
+
+    <blockquote>
+        <div><strong>Line breaks</strong> in comments are achieved by adding four spaces (<em>shown using</em> ░) to the end of the line. Simply hitting return (<em>shown using</em> ↵) will not work.</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>First line↵<br/>
+                Second line</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>First line Second line</div>
+        </blockquote>
+
+        <div>but:</div>
+
+        <blockquote>
+            <div>First line░░░░↵<br/>
+                Second line</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>First line<br/>
+                Second line</div>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>Paragraphs</strong> are formed when you hit return (<em>shown using</em> ↵) twice.</div>
+
+        <blockquote>
+            <div>First Paragraph↵<br/>
+                ↵<br/>
+                Second Paragraph</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>First Paragraph</div>
+
+            <div>Second Paragraph</div>
+        </blockquote>
+    </blockquote>
+
+    <h4>4. Lists</h4>
+
+    <blockquote>
+        <div>To create <strong>Unordered Lists</strong> each item should begin with either an asterisk (*), plus sign (+) or minus sign (-).</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>* Item 1<br/>
+                + Item 2<br/>
+                - Item 3     </div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ul>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div><strong>Ordered Lists</strong> are created with a number and period. It doesn&#39;t matter which number you start with, as markdown will always start with 1.</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>3. Item 1<br/>
+                2. Item 2<br/>
+                1. Item 3</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <ol>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+            </ol>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div>The markup for <strong>Nested Lists</strong> has changed slightly:</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>1. This is Item 1<br/>
+                2.<br/>
+                ░░░░1. This is Item 2.1<br/>
+                ░░░░2. This is Item 2.2<br/>
+                3. This is Item 3<br/>
+                4. This is Item 4</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <ol>
+                <li>This is Item 1</li>
+                <li>
+
+                    <ol>
+                        <li>This is Item 2.1</li>
+                        <li>This is Item 2.2</li>
+                    </ol></li>
+                <li>This is Item 3</li>
+                <li>This is Item 4</li>
+            </ol>
+        </blockquote>
+    </blockquote>
+
+    <blockquote>
+        <div>Lists should be clear of any text in the line immediately above and below, the same as making a new paragraph:</div>
+
+        <blockquote>
+            <div>This is the <strong>wrong way to make a list</strong><br/>
+                1. lorem<br/>
+                2. ispum<br/>
+                reddit doesn&#39;t realize it should listify...    </div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div>This is the <strong>wrong way to make a list</strong>
+                1. lorem
+                2. ispum
+                reddit doesn&#39;t realize it should listify...    </div>
+        </blockquote>
+
+        <div>Place lists in their own paragraph: </div>
+
+        <blockquote>
+            <div>This is the <strong>correct way to make a list</strong>    </div>
+
+            <ol>
+                <li>lorem<br/></li>
+                <li>ispum<br/></li>
+            </ol>
+
+            <div>reddit realizes it should listify!  </div>
+        </blockquote>
+
+        <div><strong>Paragraphs in Lists</strong> and <strong>Nested lists using a combination of ordered and unordered lists</strong>, are no longer supported.</div>
+    </blockquote>
+
+    <h4>5. Tables</h4>
+
+    <blockquote>
+        <div><strong>Tables</strong> are created using pipes (|):</div>
+
+        <div>Example</div>
+
+        <blockquote>
+            <div><a href="ftp://grrr.net"></a>Left align | Center align | Right align<br/>
+                <a href="ftp://grrr.net"></a>:--|:--:|--:<br/>
+                This | This | This<br/>
+                column | column | column<br/>
+                will | will | will<br/>
+                be | be |  be<br/>
+                left |  center | right<br/>
+                aligned | aligned   | aligned     </div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <table><thead>
+            <tr>
+                <th align="left">Left align</th>
+                <th align="center">Center align</th>
+                <th align="right">Right align</th>
+            </tr>
+            </thead><tbody>
+            <tr>
+                <td align="left">This</td>
+                <td align="center">This</td>
+                <td align="right">This</td>
+            </tr>
+            <tr>
+                <td align="left">column</td>
+                <td align="center">column</td>
+                <td align="right">column</td>
+            </tr>
+            <tr>
+                <td align="left">will</td>
+                <td align="center">will</td>
+                <td align="right">will</td>
+            </tr>
+            <tr>
+                <td align="left">be</td>
+                <td align="center">be</td>
+                <td align="right">be</td>
+            </tr>
+            <tr>
+                <td align="left">left</td>
+                <td align="center">center</td>
+                <td align="right">right</td>
+            </tr>
+            <tr>
+                <td align="left">aligned</td>
+                <td align="center">aligned</td>
+                <td align="right">aligned</td>
+            </tr>
+            </tbody></table>
+        </blockquote>
+
+        <div>Note that by default the first row is always <strong>bolded</strong>.</div>
+
+        <div><strong>Column Alignment</strong> is determined by the second row.</div>
+
+        <blockquote>
+            <div>Use &quot;<strong>:--:</strong>&quot; for centre aligned text, &quot;<strong>--:</strong>&quot; for right, and &quot;<strong>:--</strong>&quot; for left.</div>
+        </blockquote>
+
+        <div>You can also leave the top row empty, as long as you have the correct amount of pipes:</div>
+
+        <blockquote>
+            <div><a href="ftp://grr.net"></a>||<br/>
+                <a href="ftp://grrr.net"></a>:--|:--:|--:<br/>
+                the|top|row<br/>
+                is|now|empty    </div>
+        </blockquote>
+
+        <div>becomes</div>
+
+        <blockquote>
+            <table><thead>
+            <tr>
+                <th align="left"></th>
+                <th align="center"></th>
+            </tr>
+            </thead><tbody>
+            <tr>
+                <td align="left">the</td>
+                <td align="center">top</td>
+            </tr>
+            <tr>
+                <td align="left">is</td>
+                <td align="center">now</td>
+            </tr>
+            </tbody></table>
+        </blockquote>
+    </blockquote>
+
+    <h4>6. Block code</h4>
+
+    <blockquote>
+        <div>Displaying <strong>block code</strong>, without formatting and in monospaced font, is as simple as starting the line with four spaces (<em>shown using</em> ░).</div>
+
+        <div>Example:</div>
+
+        <blockquote>
+            <div>░░░░line of code<br/>
+                ░░░░░░░░line of code<br/>
+                ░░░░░░░░░░░░line of code<br/>
+                ░░░░░░░░line of code<br/>
+                ░░░░line of code  </div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <div><code>    line of code</code><br/>
+                <code>        line of code</code><br/>
+                <code>            line of code</code><br/>
+                <code>        line of code</code><br/>
+                <code>    line of code</code>    </div>
+        </blockquote>
+    </blockquote>
+
+    <h4>7. Headlines &amp; Horizonal Rules</h4>
+
+    <blockquote>
+        <div><strong>Headline text</strong> can be created by using a number of hashes (#) corresponding to the tag you want. Headline tags will format all text until it encounters a Line Break or new Paragraph.</div>
+
+        <blockquote>
+            <div># Headline 1<br/>
+                ## Headline 2<br/>
+                ### Headline 3</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <h1>Headline 1</h1>
+
+            <h2>Headline 2</h2>
+
+            <h3>Headline 3</h3>
+        </blockquote>
+
+        <div><code>NOTE</code>: Markdown supports up to six headline tags, but only the first three have default formatting.</div>
+    </blockquote>
+
+    <blockquote>
+        <div>To create a <strong>Horizontal Rule</strong>, simply add three asterisks (*) to an empty line.</div>
+
+        <blockquote>
+            <div>***</div>
+        </blockquote>
+
+        <div>becomes:</div>
+
+        <blockquote>
+            <hr/>
+        </blockquote>
+    </blockquote>
+</div><!-- SC_ON -->

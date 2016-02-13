@@ -37,9 +37,8 @@
             android:layout_height="wrap_content"
 
             android:layout_toLeftOf="@+id/thumbimage2"
-            android:paddingBottom="4dp"
             android:paddingLeft="16dp"
-            android:paddingRight="8dp"
+            android:paddingRight="16dp"
             android:paddingTop="16dp"
             android:tag="tint"
             android:text="@string/example_title"
@@ -48,17 +47,17 @@
             android:textSize="?attr/font_cardtitle" />
 
 
-        <com.wefika.flowlayout.FlowLayout
-            android:id="@+id/bod"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
+            android:id="@+id/bod2"
 
             android:layout_toLeftOf="@+id/thumbimage2"
             android:layout_alignParentStart="true"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="2dp">
 
             <TextView
                 android:id="@+id/subreddit"
@@ -92,14 +91,21 @@
 
                 android:textSize="?attr/font_cardinfo" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:tag="tint"
-                android:text="@string/submission_properties_seperator"
 
-                android:textSize="?attr/font_cardinfo" />
 
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/bod2"
+            android:id="@+id/bod"
+
+            android:layout_toLeftOf="@+id/thumbimage2"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
@@ -133,8 +139,8 @@
 
                 android:textSize="?attr/font_cardinfo" />
 
+        </LinearLayout>
 
-        </com.wefika.flowlayout.FlowLayout>
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
             android:id="@+id/headerimage"
             android:layout_width="match_parent"

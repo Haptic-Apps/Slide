@@ -21,7 +21,7 @@ public class Hidden {
             @Override
             protected Void doInBackground(Void[] params) {
                 try {
-                    new AccountManager(Authentication.reddit).hide((Submission)s, true);
+                    new AccountManager(Authentication.reddit).hide(true, (Submission)s);
                 } catch (ApiException e) {
                     e.printStackTrace();
                 }
@@ -36,7 +36,7 @@ public class Hidden {
             @Override
             protected Void doInBackground(Void[] params) {
                 try {
-                    new AccountManager(Authentication.reddit).hide((Submission)s, false);
+                    new AccountManager(Authentication.reddit).hide(false, (Submission)s);
                 } catch (ApiException e) {
                     e.printStackTrace();
                 }

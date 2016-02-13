@@ -63,18 +63,17 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
  * Created by ccrama on 9/19/2015.
  */
 public class PopulateSubmissionViewHolder {
-
 
     public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
         final TypedValue tv = new TypedValue();
@@ -252,7 +251,7 @@ public class PopulateSubmissionViewHolder {
         else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
             distingush = "[A]";
 
-        holder.title.setText(Html.fromHtml(submission.getTitle()));
+        holder.title.setTextHtml(submission.getTitle()); // title is a spoiler roboto textview so it will format the html
 
         holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
 
@@ -748,14 +747,12 @@ public class PopulateSubmissionViewHolder {
             upvotebutton.setVisibility(View.GONE);
         } else if (Authentication.isLoggedIn && !submission.voted() && !offline && Authentication.didOnline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
-
                 submission.setVote(true);
                 submission.setVoted(true);
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-
             } else if (submission.getVote() == VoteDirection.DOWNVOTE) {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
@@ -772,7 +769,6 @@ public class PopulateSubmissionViewHolder {
 
                 submission.setVote(false);
                 submission.setVoted(false);
-
             }
         }
 
@@ -882,9 +878,8 @@ public class PopulateSubmissionViewHolder {
         }
 
         if (fullscreen) {
-            SpoilerRobotoTextView bod = ((SpoilerRobotoTextView) holder.itemView.findViewById(R.id.body));
             if (!submission.getSelftext().isEmpty()) {
-                new MakeTextviewClickable().ParseTextWithLinksTextView(submission.getDataNode().get("selftext_html").asText(), bod, mContext, submission.getSubredditName());
+                setViews(submission.getDataNode().get("selftext_html").asText(),submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
@@ -1006,6 +1001,28 @@ public class PopulateSubmissionViewHolder {
         }
 
 
+    }
+
+    private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        if (!blocks.get(0).startsWith("<table>") && !blocks.get(0).startsWith("<pre>")) {
+            holder.firstTextView.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                holder.commentOverflow.setViews(blocks, subredditName);
+            } else {
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        }
     }
 
 }

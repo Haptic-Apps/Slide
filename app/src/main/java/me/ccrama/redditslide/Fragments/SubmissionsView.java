@@ -294,6 +294,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     private List<Submission> clearSeenPosts(boolean forever) {
         if (adapter.dataSet.posts != null) {
+            OfflineSubreddit.getSubreddit(id.toLowerCase()).clearSeenPosts(false);
+
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
 
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
@@ -322,7 +324,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             return originalDataSetPosts;
         }
 
-        OfflineSubreddit.getSubreddit(id).clearSeenPosts(false);
         return null;
     }
 
