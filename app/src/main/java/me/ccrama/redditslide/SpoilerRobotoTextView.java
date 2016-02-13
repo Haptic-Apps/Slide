@@ -16,6 +16,7 @@ import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
@@ -105,6 +106,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         SpannableStringBuilder builder = (SpannableStringBuilder)Html.fromHtml(text.toString().trim());
         setCodeFont(builder);
         setSpoilerStyle(builder);
+        if (text.toString().contains("[[d[")) {
+            setStrikethrough(builder);
+        }
 
         if (!subreddit.isEmpty()) {
             setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
@@ -113,6 +117,23 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         builder = removeNewlines(builder);
 
         super.setText(builder, BufferType.SPANNABLE);
+    }
+
+    private void setStrikethrough(SpannableStringBuilder builder) {
+        final int offset = "[[d[".length(); // == "]d]]".length()
+
+        int start = -1;
+        int end;
+        for (int i = 0; i < builder.length() - 4; i++) {
+            if (builder.charAt(i) == '[' && builder.charAt(i + 1) == '[' && builder.charAt(i + 2) == 'd' && builder.charAt(i + 3) == '[') {
+                start = i + offset;
+            } else if (builder.charAt(i) == ']' && builder.charAt(i + 1) == 'd'&& builder.charAt(i + 2) == ']' && builder.charAt(i + 3) == ']') {
+                end = i;
+                builder.setSpan(new StrikethroughSpan(), start, end - 1, 0);
+                builder.delete(end, end + offset);
+                builder.delete(start - offset, start);
+            }
+        }
     }
 
     @Override

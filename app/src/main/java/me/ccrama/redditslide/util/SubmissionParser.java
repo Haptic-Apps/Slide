@@ -40,7 +40,9 @@ public class SubmissionParser {
     public static List<String> getBlocks(String html) {
         html = StringEscapeUtils.unescapeHtml4(html)
                 .replace("<p>", "<div>")
-                .replace("</p>", "</div>");
+                .replace("</p>", "</div>")
+                .replace("<del>", "[[d[")
+                .replace("</del>", "]d]]");
 
         if (html.contains("\n")) {
             html = html.substring(0, html.lastIndexOf("\n"));
