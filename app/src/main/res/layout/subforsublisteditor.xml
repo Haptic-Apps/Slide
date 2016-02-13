@@ -28,16 +28,14 @@
 
         <TextView
             android:id="@+id/name"
+            android:layout_toRightOf="@+id/color"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_toRightOf="@+id/color"
-
             android:gravity="center_vertical"
-            android:text="Android"
+            android:text="@string/example_sub"
             android:textColor="?attr/font"
             android:textSize="16sp"
             android:textStyle="bold" />
-
 
         <ImageView
             android:id="@+id/remove"
@@ -45,7 +43,7 @@
             android:layout_height="48dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/edit"
-            android:background="?android:selectableItemBackground"
+            style="@style/Ripple.List"
 
             android:padding="12dp"
             android:src="@drawable/delete"
@@ -58,7 +56,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
 
-            android:background="?android:selectableItemBackground"
+            style="@style/Ripple.List"
             android:padding="12dp"
             android:src="@drawable/edit"
 

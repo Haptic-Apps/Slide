@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/md_light_blue_500"
             android:padding="24dp"
-            android:text="/r/Android"
+            android:text="@string/example_sub"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -28,9 +28,10 @@
             android:layout_height="56dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="?android:selectableItemBackground"
+            style="@style/Ripple.List"
             android:padding="16dp"
-            android:src="@drawable/close" />
+            android:src="@drawable/close"
+            android:tint="@color/white" />
     </RelativeLayout>
 
     <ScrollView
@@ -108,10 +109,11 @@
                         android:textColor="?attr/font"
 
                         android:textSize="?attr/font_cardinfo" />
+
+
                 </LinearLayout>
 
-
-                                <me.ccrama.redditslide.SpoilerRobotoTextView
+                <me.ccrama.redditslide.SpoilerRobotoTextView
                     android:id="@+id/body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
