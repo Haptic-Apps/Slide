@@ -23,13 +23,16 @@ public class SubmissionParser {
     private static final String TABLE_END_TAG = "</table>";
 
     /**
-     * Parses html and returns a list corresponding to blocks of text
-     * for be formatted.
+     * Parses html and returns a list corresponding to blocks of text to be
+     * formatted.
      *
      * Each block is one of:
      *  - Vanilla text
      *  - Code block
      *  - Table
+     *
+     * Note that this method will unescape html entities, so this is best called
+     * with the raw html received from reddit.
      *
      * @param html html to be formatted. Can be raw from the api
      * @return list of text blocks
