@@ -65,7 +65,7 @@ dependencies {
     compile('com.afollestad.material-dialogs:core:0.8.5.3@aar') {
         transitive = true
     }
-    compile 'com.github.ccrama:JRAW:b09ade4'
+    compile 'com.github.ccrama:JRAW:267d271e07'
     compile 'com.android.support:design:23.1.1'
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'

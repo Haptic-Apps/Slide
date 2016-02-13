@@ -1,13 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
     android:layout_height="wrap_content"
-
     android:clipChildren="false"
-
-
     android:orientation="vertical"
-
     android:scrollbars="none">
 
 
@@ -30,10 +25,9 @@
         <LinearLayout
             android:id="@+id/dots"
             android:layout_width="wrap_content"
-            android:background="?attr/activity_background"
             android:layout_height="wrap_content"
+            android:background="?attr/activity_background"
             android:orientation="horizontal">
-
 
 
         </LinearLayout>
@@ -52,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:orientation="vertical"
             android:background="?attr/card_background"
+            android:orientation="vertical"
 
             android:paddingTop="8dp">
 
@@ -64,11 +58,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="8dp"
-
                 android:layout_gravity="right"
+
                 android:layout_marginBottom="-16dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal" />
 
@@ -88,12 +82,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="8dp"
+                    android:fontFamily="sans-serif-condensed"
 
+                    android:gravity="center_vertical"
                     android:paddingRight="5dp"
                     android:text="ccrama"
-                    android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commenttitle"
                     android:textStyle="bold"
@@ -105,11 +99,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif-condensed"
                     android:gravity="center_vertical"
                     android:paddingLeft="3dp"
                     android:paddingRight="3dp"
                     android:text="+49"
-                    android:fontFamily="sans-serif-condensed"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_commentinfo"
 
@@ -183,6 +177,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:src="@drawable/pinned" />
+
                 <include
                     android:id="@+id/sticky"
                     layout="@layout/stickied"
@@ -195,31 +190,30 @@
 
                     android:layout_toRightOf="@+id/op"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                   />
+                    android:paddingRight="5dp" />
             </com.wefika.flowlayout.FlowLayout>
 
 
-                            <me.ccrama.redditslide.SpoilerRobotoTextView
+            <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/flow"
-                android:paddingBottom="8dp"
 
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:lineSpacingMultiplier="1.1"
+
+                android:paddingBottom="8dp"
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_commentbody" />
 
             <View
                 android:layout_width="match_parent"
-                android:alpha="0.2"
+                android:layout_height="0.25dp"
                 android:layout_below="@id/content"
-                android:background="?attr/tint"
-                android:layout_height="0.25dp"/>
+                android:alpha="0.2"
+                android:background="?attr/tint" />
         </RelativeLayout>
 
 
@@ -231,6 +225,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
+
     <LinearLayout
         android:id="@+id/commentArea"
         android:layout_width="match_parent"

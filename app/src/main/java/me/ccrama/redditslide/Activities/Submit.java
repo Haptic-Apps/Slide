@@ -23,6 +23,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.managers.CaptchaHelper;
 import net.dean.jraw.models.Captcha;
 
 import org.json.JSONException;
@@ -180,9 +181,9 @@ public class Submit extends BaseActivity {
                 if (self.getVisibility() == View.VISIBLE) {
 
                     try {
-                        if (Authentication.reddit.needsCaptcha()) {
+                        if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
                             //display capacha
-                            final Captcha c = Authentication.reddit.getNewCaptcha();
+                            final Captcha c = new CaptchaHelper(Authentication.reddit).getNew();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

@@ -169,7 +169,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         protected Void doInBackground(Message... params) {
-            new InboxManager(Authentication.reddit).setRead(params[0], true);
+            new InboxManager(Authentication.reddit).setRead(true, params[0]);
             return null;
         }
     }
