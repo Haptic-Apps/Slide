@@ -1,11 +1,14 @@
 package me.ccrama.redditslide.util;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.ccrama.redditslide.PostLoader;
 
 /**
  * Utility methods to transform html received from Reddit into a more parsable
@@ -33,13 +36,8 @@ public class SubmissionParser {
      */
     public static List<String> getBlocks(String html) {
         html = StringEscapeUtils.unescapeHtml4(html)
-                .replace("<li><p>", "<p>• ")
-                .replace("</li>", "<br>")
-                .replaceAll("<li.*?>", "• ")
                 .replace("<p>", "<div>")
-                .replace("</p>", "</div>")
-                .replace("</del>", "</strike>")
-                .replace("<del>", "<strike>");
+                .replace("</p>", "</div>");
 
         if (html.contains("\n")) {
             html = html.substring(0, html.lastIndexOf("\n"));
@@ -50,12 +48,81 @@ public class SubmissionParser {
         }
 
         html = parseSpoilerTags(html);
+        if (html.contains("<ol") || html.contains("<ul")) {
+            html = parseLists(html);
+        }
+
         List<String> codeBlockSeperated = parseCodeTags(html);
         if (html.contains("<table")) {
             return parseTableTags(codeBlockSeperated);
         } else {
             return codeBlockSeperated;
         }
+    }
+
+    private static String parseLists(String html) {
+        int firstIndex;
+        boolean isNumbered;
+        int firstOl = html.indexOf("<ol");
+        int firstUl = html.indexOf("<ul");
+
+        if (firstOl > firstUl) {
+            firstIndex = firstUl;
+            isNumbered = false;
+        } else {
+            firstIndex = firstOl;
+            isNumbered = true;
+        }
+        List<Integer> listNumbers = new ArrayList<>();
+        int indent = -1;
+
+        int i = firstIndex;
+        while (i < html.length() - 4 && i != -1) {
+            if (html.substring(i, i + 3).equals("<ol") || html.substring(i, i + 3).equals("<ul")) {
+                if (html.substring(i, i + 3).equals("<ol")) {
+                    isNumbered = true;
+                    indent++;
+                    listNumbers.add(indent, 1);
+                } else {
+                    isNumbered = false;
+                }
+                i = html.indexOf("<li", i);
+            } else if (html.substring(i, i + 3).equals("<li")) {
+                int tagEnd = html.indexOf(">", i);
+                int itemClose = html.indexOf("</li", tagEnd);
+                int ulClose = html.indexOf("<ul", tagEnd);
+                int olClose = html.indexOf("<ol", tagEnd);
+                int closeTag;
+                if ((ulClose == -1 || (ulClose != -1 && itemClose < ulClose)) && (olClose == -1 || (olClose != -1 && itemClose < olClose))) {
+                    closeTag = itemClose;
+                } else if ((ulClose == -1 || (ulClose != -1 && olClose < ulClose)) && (itemClose == -1 || (itemClose != -1 && olClose < itemClose))) {
+                    closeTag = olClose;
+                } else {
+                    closeTag = ulClose;
+                }
+
+                String text = html.substring(tagEnd + 1, closeTag);
+                String indentSpacing = "";
+                for (int j = 0; j < indent; j++) {
+                    indentSpacing += "&nbsp;&nbsp;&nbsp;&nbsp;";
+                }
+                if (isNumbered) {
+                    html = html.substring(0, tagEnd + 1) + indentSpacing + listNumbers.get(indent) + ". " + text + "<br/>" + html.substring(closeTag);
+                    listNumbers.set(indent, listNumbers.get(indent) + 1);
+                    i = closeTag + 3;
+                } else {
+                    html = html.substring(0, tagEnd + 1) + indentSpacing + "• " + text + "<br/>" + html.substring(closeTag);
+                    i = closeTag + 2;
+                }
+            } else {
+                i = html.indexOf("<", i + 1);
+                if (i != -1 && html.substring(i, i + 4).equals("</ol")) {
+                    indent--;
+                }
+            }
+        }
+
+        return html;
     }
 
     /**
