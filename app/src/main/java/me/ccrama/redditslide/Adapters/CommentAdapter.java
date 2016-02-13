@@ -12,8 +12,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -22,7 +22,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.Spannable;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -30,16 +29,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
-import com.koushikdutta.async.BufferedDataEmitter;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -53,7 +47,6 @@ import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,7 +57,6 @@ import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -75,10 +67,8 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
-import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -671,7 +661,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         menu.setVisibility(View.VISIBLE);
         replyArea.setVisibility(View.GONE);
-        //holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color))); TODO deadleg
+        holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
     public void doUnHighlighted(CommentViewHolder holder) {
@@ -683,7 +673,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Resources.Theme theme = mContext.getTheme();
         theme.resolveAttribute(R.attr.card_background, typedValue, true);
         int color = typedValue.data;
-        //holder.itemView.findViewById(R.id.background).setBackgroundColor(color); // TODO deadleg set background
+        holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
     }
 
     public void doUnHighlighted(CommentViewHolder holder, Comment comment) {
@@ -696,7 +686,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Resources.Theme theme = mContext.getTheme();
         theme.resolveAttribute(R.attr.card_background, typedValue, true);
         int color = typedValue.data;
-        // holder.itemView.findViewById(R.id.background).setBackgroundColor(color); // TODO deadleg set background
+        holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
     }
 
     public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
