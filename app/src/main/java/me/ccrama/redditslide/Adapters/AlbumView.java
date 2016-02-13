@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,11 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         holder.body.setVisibility(View.VISIBLE);
         holder.text.setVisibility(View.VISIBLE);
 
-        if (!user.getAsJsonObject().get("title").isJsonNull()) {
-            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+        JsonObject resultData = user.getAsJsonObject();
+        if (resultData.has("title") && resultData.get("title") != null && !resultData.get("title").isJsonNull()) {
+            List<String> text = SubmissionParser.getBlocks(resultData.getAsJsonObject("image").get("title").getAsString());
             holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
+
             if (holder.text.getText().toString().isEmpty()) {
                 holder.text.setVisibility(View.GONE);
             }
@@ -68,7 +71,8 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         }
 
 
-        if (!user.getAsJsonObject().get("description").isJsonNull()) {
+
+        if (resultData.has("description") && resultData.get("description") != null && !resultData.get("description").isJsonNull()) {
             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("description").getAsString());
             holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
 
