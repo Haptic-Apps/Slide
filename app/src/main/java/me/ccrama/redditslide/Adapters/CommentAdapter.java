@@ -231,7 +231,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
-            doUnHighlighted(currentlySelected);
+            doUnHighlighted(currentlySelected, baseNode);
         }
         currentlySelected = holder;
         holder.dots.setVisibility(View.GONE);
@@ -240,6 +240,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
+
+
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+        params.setMargins(0, 0, 0, 0);
+        holder.itemView.setLayoutParams(params);
 
         View reply = baseView.findViewById(R.id.reply);
         View send = baseView.findViewById(R.id.send);
@@ -664,7 +669,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
-    public void doUnHighlighted(CommentViewHolder holder) {
+    public void doUnHighlighted(CommentViewHolder holder, CommentNode baseNode) {
 
         holder.dots.setVisibility(View.VISIBLE);
 
@@ -673,14 +678,35 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Resources.Theme theme = mContext.getTheme();
         theme.resolveAttribute(R.attr.card_background, typedValue, true);
         int color = typedValue.data;
+        int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+        int width = 0;
+
+        //Padding on the left, starting with the third comment
+        for (int i = 2; i < baseNode.getDepth(); i++) {
+            width += dwidth;
+        }
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+        params.setMargins(width, 0, 0, 0);
+        holder.itemView.setLayoutParams(params);
+
         holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
     }
 
-    public void doUnHighlighted(CommentViewHolder holder, Comment comment) {
+    public void doUnHighlighted(CommentViewHolder holder, Comment comment, CommentNode baseNode) {
         currentlySelected = null;
         currentSelectedItem = "";
         holder.menuArea.removeAllViews();
         holder.dots.setVisibility(View.VISIBLE);
+        int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+        int width = 0;
+
+        //Padding on the left, starting with the third comment
+        for (int i = 2; i < baseNode.getDepth(); i++) {
+            width += dwidth;
+        }
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+        params.setMargins(width, 0, 0, 0);
+        holder.itemView.setLayoutParams(params);
 
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = mContext.getTheme();
@@ -691,7 +717,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
         if (currentSelectedItem.contains(comment.getFullName())) {
-            doUnHighlighted(holder, comment);
+            doUnHighlighted(holder, comment, baseNode);
         } else {
             doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
         }
@@ -699,7 +725,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode) {
         if (currentSelectedItem.contains(comment.getFullName())) {
-            doUnHighlighted(holder, comment);
+            doUnHighlighted(holder, comment, baseNode);
         } else {
             doOnClick(holder, baseNode, comment);
         }
@@ -728,7 +754,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
                 doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
             } else {
-                doUnHighlighted(holder);
+                doUnHighlighted(holder, baseNode);
             }
 
             if (pos == getItemCount() - 1) {

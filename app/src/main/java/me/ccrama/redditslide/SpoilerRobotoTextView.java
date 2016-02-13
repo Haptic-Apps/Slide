@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -20,7 +19,6 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
-import android.view.ContextThemeWrapper;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
@@ -239,9 +237,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             return;
         }
 
-        final Activity activity = (Activity)getContext();
+        final Context activity = getContext();
 
-        if (!(activity).isFinishing()) {
+        if ((activity instanceof Activity && !((Activity)activity).isFinishing()) || !(activity instanceof Activity)) {
             new BottomSheet.Builder(activity, R.style.BottomSheet_Dialog)
                     .title(url)
                     .grid()
