@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -51,7 +52,7 @@ import me.ccrama.redditslide.util.GifUtils;
  * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
  * bars which Album.java doesn't.
  */
-public class AlbumPager extends FullScreenActivity {
+public class AlbumPager extends BaseActivityAnim {
     boolean gallery = false;
 
     @Override
@@ -79,22 +80,28 @@ public class AlbumPager extends FullScreenActivity {
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(!Reddit.appRestart.contains("tutorialAlbum1")){
-            Tooltip.make(this,
-                    new Tooltip.Builder(104)
-                            .text("Drag from the very edge to exit")
-                            .maxWidth(500)
-                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT )
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            ).show();
-        }
-        new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
 
+        new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
+        if(!Reddit.appRestart.contains("tutorialAlbum1")){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(AlbumPager.this,
+                            new Tooltip.Builder(106)
+                                    .text("Drag from the very edge to exit")
+                                    .maxWidth(500)
+                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
+                }
+            }, 250);
+        }
     }
 
     @Override

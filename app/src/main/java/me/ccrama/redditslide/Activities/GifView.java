@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -70,18 +71,24 @@ public class GifView extends FullScreenActivity {
 
         new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),findViewById(R.id.gifsave), true).execute(dat);
         if(!Reddit.appRestart.contains("tutorialGIF")){
-            Tooltip.make(this,
-                    new Tooltip.Builder(104)
-                            .text("Drag from the very edge to exit")
-                            .maxWidth(500)
-                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            ).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(GifView.this,
+                            new Tooltip.Builder(106)
+                                    .text("Drag from the very edge to exit")
+                                    .maxWidth(500)
+                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
+                }
+            }, 250);
         }
     }
 

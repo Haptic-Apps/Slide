@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -60,18 +61,24 @@ public class YouTubeView extends BaseYoutubePlayer implements
         // Initializing video player with developer key
         youTubeView.initialize(SecretConstants.getApiKey(this), this);
         if(!Reddit.appRestart.contains("tutorialYT")){
-            Tooltip.make(this,
-                    new Tooltip.Builder(104)
-                            .text("Drag from the very edge to exit")
-                            .maxWidth(500)
-                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            ).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(YouTubeView.this,
+                            new Tooltip.Builder(106)
+                                    .text("Drag from the very edge to exit")
+                                    .maxWidth(500)
+                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
+                }
+            }, 250);
         }
     }
     @Override
@@ -97,7 +104,9 @@ public class YouTubeView extends BaseYoutubePlayer implements
 
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
+            player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
             player.loadVideo(video);
+            player.play();
 
         }
     }

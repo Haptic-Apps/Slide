@@ -194,18 +194,24 @@ public class FullscreenImage extends FullScreenActivity {
 
         }
         if(!Reddit.appRestart.contains("tutorialImg")){
-            Tooltip.make(this,
-                    new Tooltip.Builder(104)
-                            .text("Drag from the very edge to exit")
-                            .maxWidth(500)
-                            .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            ).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(FullscreenImage.this,
+                            new Tooltip.Builder(106)
+                                    .text("Drag from the very edge to exit")
+                                    .maxWidth(500)
+                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
+                }
+            }, 250);
         }
     }
     @Override

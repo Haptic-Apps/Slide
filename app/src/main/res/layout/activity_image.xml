@@ -4,7 +4,6 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="#a0000000"
     android:orientation="vertical">
 

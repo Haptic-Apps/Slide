@@ -164,7 +164,9 @@ public class CommentPage extends Fragment {
         int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-        View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
+        final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
+
+
 
 
         if (!loadMore) {

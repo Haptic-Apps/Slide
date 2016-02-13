@@ -18,7 +18,6 @@ import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.leakcanary.LeakCanary;
 
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
@@ -485,7 +484,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
-        LeakCanary.install(this);
+      //  LeakCanary.install(this);
 
         doMainStuff();
     }

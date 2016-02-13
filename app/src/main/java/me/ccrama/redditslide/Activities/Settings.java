@@ -107,13 +107,17 @@ public class Settings extends BaseActivity {
                 startActivity(i);
             }
         });
-        findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
-                Settings.this.startActivity(inte);
-            }
-        });
+        if(Authentication.isLoggedIn) {
+            findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
+                    Settings.this.startActivity(inte);
+                }
+            });
+        } else {
+            findViewById(R.id.reorder).setVisibility(View.GONE);
+        }
         findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

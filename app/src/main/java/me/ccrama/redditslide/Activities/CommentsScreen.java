@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -55,9 +56,13 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if(o != null){
-            o.writeToMemory();
+        if(!Reddit.appRestart.contains("tutorialComments")){
+            Reddit.appRestart.edit().putBoolean("tutorialComments", true).apply();
+        } else if(Reddit.appRestart.contains("tutorial_comm")){
+            Reddit.appRestart.edit().putBoolean("tutorial_comm", true).apply();
+
         }
+
     }
     boolean tip;
     @Override
@@ -85,7 +90,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            o =OfflineSubreddit.getSubreddit(multireddit == null?baseSubreddit:"multi" +multireddit);
+            o =OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit);
             subredditPosts.getPosts().addAll(o.submissions);
            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
@@ -122,9 +127,13 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
-        if(!Reddit.appRestart.contains("tutorial_comm")){
+        if(Reddit.appRestart.contains("tutorialComments") && !Reddit.appRestart.contains("tutorial_comm")){
             tip = true;
-            Tooltip.make(CommentsScreen.this,
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(CommentsScreen.this,
                     new Tooltip.Builder(106)
                             .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
                             .text("Swipe left and right to go between submissions. You can disable this in General Settings")
@@ -136,6 +145,31 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                             .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
                             .build()
             ).show();
+                }
+            }, 250);
+        }
+
+        if(!Reddit.appRestart.contains("tutorialComments")){
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(CommentsScreen.this,
+                            new Tooltip.Builder(106)
+                                    .text("Drag from the very edge to exit")
+                                    .maxWidth(500)
+                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
+
+                }
+            }, 250);
+
         }
     }
 
