@@ -66,7 +66,7 @@ public class SubmissionParser {
         int firstOl = html.indexOf("<ol");
         int firstUl = html.indexOf("<ul");
 
-        if (firstOl > firstUl) {
+        if ((firstOl != -1 && firstOl > firstUl) || firstOl == -1) {
             firstIndex = firstUl;
             isNumbered = false;
         } else {
