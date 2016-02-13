@@ -37,7 +37,6 @@ public class TextViewLinkHandler extends LinkMovementMethod {
                 // long click
                 clickHandled = true;
                 handler.removeCallbacksAndMessages(null);
-
                 TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
             }
         };

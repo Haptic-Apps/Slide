@@ -237,9 +237,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             return;
         }
 
-        final Context activity = getContext();
+        final Activity activity = (Activity) ((android.support.v7.view.ContextThemeWrapper)getContext()).getBaseContext(); ;
 
-        if ((activity instanceof Activity && !((Activity)activity).isFinishing()) || !(activity instanceof Activity)) {
+        if (!activity.isFinishing()) {
             new BottomSheet.Builder(activity, R.style.BottomSheet_Dialog)
                     .title(url)
                     .grid()
@@ -266,11 +266,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         }
                     }).show();
 
-            //Force Touch code
-            /*
-            Intent i = new Intent(activity, ForceTouchLink.class);
-            i.putExtra("url", url);
-            activity.startActivity(i);*/
         }
     }
 
