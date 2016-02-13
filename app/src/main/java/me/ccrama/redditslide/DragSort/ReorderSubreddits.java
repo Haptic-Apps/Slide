@@ -60,6 +60,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
 
     }
+    int done = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +98,14 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         for (Subreddit s : subColors) {
                                             if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
                                                 Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), ReorderSubreddits.this));
+                                            done++;
                                             }
                                             d.setProgress(i);
 
                                             i++;
                                             if (i == d.getMaxProgress()) {
                                                 d.dismiss();
+
                                             }
 
                                         }
@@ -116,6 +119,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         //  adapter.setHasStableIds(true);
 
                                         recyclerView.setAdapter(adapter);
+                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                                .setTitle(R.string.color_sync_complete)
+                                                .setMessage(done + getString(R.string.color_sync_colored))
+                                                .setPositiveButton(getString(R.string.btn_ok), null)
+                                                .show();
                                     }
                                 }.execute();
                                 d.show();

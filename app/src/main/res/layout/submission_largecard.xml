@@ -42,7 +42,6 @@
             android:layout_below="@+id/headerimage"
 
             android:layout_toLeftOf="@+id/thumbimage2"
-            android:paddingBottom="4dp"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:paddingTop="16dp"
@@ -53,17 +52,17 @@
             android:textSize="?attr/font_cardtitle" />
 
 
-        <com.wefika.flowlayout.FlowLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:id="@+id/bod"
+            android:id="@+id/bod2"
 
             android:layout_toLeftOf="@+id/thumbimage2"
             android:layout_alignParentStart="true"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
-            android:paddingBottom="8dp">
+            android:paddingBottom="2dp">
 
             <TextView
                 android:id="@+id/subreddit"
@@ -100,7 +99,18 @@
 
 
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/bod2"
+            android:id="@+id/bod"
 
+            android:layout_toLeftOf="@+id/thumbimage2"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="8dp"
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
@@ -134,8 +144,7 @@
 
                 android:textSize="?attr/font_cardinfo" />
 
-        </com.wefika.flowlayout.FlowLayout>
-
+        </LinearLayout>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/thumbimage2"
