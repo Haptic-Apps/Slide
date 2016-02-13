@@ -41,6 +41,7 @@ public class AlbumUtils {
 
     /**
      * Gets the imgur id/hash from a link
+     *
      * @param s Link to get the hash from
      * @return Imgur hash
      */
@@ -57,6 +58,7 @@ public class AlbumUtils {
 
     /**
      * Cuts off slashes at the end of a given string
+     *
      * @param s String to cut
      * @return String without "/" at the end
      */
@@ -70,13 +72,14 @@ public class AlbumUtils {
 
     /**
      * Loads an imgur gallery and displays in a recyclerview.
-     * @param url Imgur link to open
-     * @param baseActivity Activity for opening intents
-     * @param finishIfNone If true:
-     *                     1. Close baseActivity on error;
-     *                     2. Open different content types in their activity
+     *
+     * @param url              Imgur link to open
+     * @param baseActivity     Activity for opening intents
+     * @param finishIfNone     If true:
+     *                         1. Close baseActivity on error;
+     *                         2. Open different content types in their activity
      * @param supportActionBar Action bar for settings its title
-     * @param recyclerView RecyclerView for displaying the images
+     * @param recyclerView     RecyclerView for displaying the images
      */
     public static void loadGalleryAndDisplay(@NotNull String url, @NotNull Activity baseActivity, boolean finishIfNone, @Nullable ActionBar supportActionBar, @NotNull RecyclerView recyclerView) {
         boolean gallery = false;
@@ -160,7 +163,8 @@ public class AlbumUtils {
 
     /**
      * Get gallery json elements from a link
-     * @param url Imgur gallery / album link
+     *
+     * @param url          Imgur gallery / album link
      * @param baseActivity Activity for doing network calls
      * @return Imgur gallery JsonElements
      */
@@ -240,8 +244,8 @@ public class AlbumUtils {
      * Get the JsonObject from an imgur link (gallery/album link). Returns a JsonObject from chache
      * if it's already cached
      *
-     * @param hash Imgur id hash
-     * @param gallery Wheter the hash is a gallery or album
+     * @param hash         Imgur id hash
+     * @param gallery      Wheter the hash is a gallery or album
      * @param baseActivity Activity for doing network calls
      * @return imgur gallery/album JsonObject
      */
@@ -348,53 +352,11 @@ public class AlbumUtils {
             hash = getHash(rawDat);
 
         }
-        if (gallery) {
-            if (albumRequests.contains("gallery/" + hash)) {
-                preloadImages(c, new JsonParser().parse(albumRequests.getString("gallery/" + hash, "")).getAsJsonObject());
-            } else {
-                String apiCallUrl = "https://api.imgur.com/3/gallery/" + hash + ".json";
-                Log.v(LogUtil.getTag(), apiCallUrl);
-                Ion.with(c)
-                        .load(apiCallUrl)
-                        .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                            @Override
-                            public void onCompleted(Exception e, JsonObject result) {
-                                if (result != null && result.get("success").getAsBoolean() && result.has("data")) {
-                                    albumRequests.edit().putString("gallery/" + hash, result.toString()).apply();
-                                    preloadImages(c, result);
-                                } else Log.w(LogUtil.getTag(), "Cannot cache gallery");
-                            }
+        JsonObject result = getJsonObjectFromGallery(hash, gallery, c);
 
-                        });
-            }
-        } else {
-            if (albumRequests.contains("album/" + hash)) {
-                preloadImages(c, new JsonParser().parse(albumRequests.getString("album/" + hash, "")).getAsJsonObject());
-            } else {
-                String apiCallUrl = "https://api.imgur.com/3/album/" + hash + ".json";
-                Log.v(LogUtil.getTag(), apiCallUrl);
-                Ion.with(c)
-                        .load(apiCallUrl)
-                        .addHeader("Authorization", OpenImgurLink.IMGUR_CLIENT_ID)
-                        .asJsonObject()
-                        .setCallback(new FutureCallback<JsonObject>() {
-                                         @Override
-                                         public void onCompleted(Exception e, JsonObject result) {
-                                             if (result != null && result.get("success").getAsBoolean() && result.has("data")) {
-                                                 albumRequests.edit().putString("album/" + hash, result.toString()).apply();
-                                                 preloadImages(c, result);
-                                             } else Log.w(LogUtil.getTag(), "Cannot cache album");
-                                         }
-
-                                     }
-
-                        );
-            }
-        }
-
-
+        if (result != null && result.get("success").getAsBoolean() && result.has("data")) {
+            preloadImages(c, result);
+        } else Log.w(LogUtil.getTag(), "Cannot cache gallery");
     }
 
     private static void preloadImages(Context c, JsonObject result) {
