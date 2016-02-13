@@ -26,14 +26,14 @@ public class OfflineSubreddit {
 
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
         submissions = new ArrayList<>(data);
-        subredditBackups.put(subreddit, this);
+        subredditBackups.put(subreddit.toLowerCase(), this);
 
         return this;
     }
 
     public void addSubmissions(List<Submission> data) {
         submissions.addAll(data);
-        subredditBackups.put(subreddit, this);
+        subredditBackups.put(subreddit.toLowerCase(), this);
 
     }
 
@@ -66,7 +66,7 @@ public class OfflineSubreddit {
 
             }
         }
-        subredditBackups.put(subreddit, this);
+        subredditBackups.put(subreddit.toLowerCase(), this);
 
     }
 
@@ -151,7 +151,7 @@ public class OfflineSubreddit {
             }
 
         }
-        subredditBackups.put(subreddit, this);
+        writeToMemory();
     }
     public OfflineSubreddit overwriteSubmissions(ArrayList<JsonNode> newSubmissions) {
         StringBuilder s = new StringBuilder();
@@ -163,7 +163,7 @@ public class OfflineSubreddit {
         String finals = s.toString();
         finals = finals.substring(0, finals.length() - 11);
         Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
-        subredditBackups.put(subreddit, this);
+        subredditBackups.put(subreddit.toLowerCase(), this);
 
         return this;
     }
