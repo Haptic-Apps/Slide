@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -49,12 +49,13 @@ public class SelftextFull extends Fragment {
                 PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
                 + getString(R.string.submission_properties_seperator)
                 + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));
-        SpoilerRobotoTextView bod = ((SpoilerRobotoTextView) rootView.findViewById(R.id.imagearea));
+
         if (!s.getSelftext().isEmpty()) {
-            List<String> text = SubmissionParser.getBlocks(s.getDataNode().get("selftext_html").asText());
-            bod.setText(Html.fromHtml(text.get(0)), TextView.BufferType.SPANNABLE); // TODO deadleg add overflow
+
+            setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), rootView);
+
         }
-        rootView.findViewById(R.id.imagearea).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -82,6 +83,29 @@ public class SelftextFull extends Fragment {
         i = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
         s =OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
+    }
+    private void setViews(String rawHTML, String subredditName, View base) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        if (!blocks.get(0).startsWith("<table>") && !blocks.get(0).startsWith("<pre>")) {
+            ((SpoilerRobotoTextView) base.findViewById(R.id.firstTextView)).setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        }
+
+        CommentOverflow overflow = (CommentOverflow) base.findViewById(R.id.commentOverflow);
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                overflow.setViews(blocks, subredditName);
+            } else {
+                overflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        }
     }
 
 }

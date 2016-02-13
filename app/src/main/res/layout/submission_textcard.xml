@@ -17,51 +17,71 @@
         android:orientation="vertical">
 
 
+        <LinearLayout
+            android:id="@+id/base"
+            android:layout_width="match_parent"
 
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
 
-            <LinearLayout
-                android:id="@+id/base"
-                android:layout_width="match_parent"
+            android:background="@drawable/slightshadow"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp">
 
+            <me.ccrama.redditslide.Views.TitleTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:text="@string/example_domain"
+                android:textColor="#ffffff"
+                android:textSize="?attr/font_cardtitle" />
 
-                android:background="@drawable/slightshadow"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingTop="16dp"
-                android:paddingLeft="16dp">
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".56"
 
-                <me.ccrama.redditslide.Views.TitleTextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/example_domain"
-                    android:textColor="#ffffff"
-                    android:textSize="?attr/font_cardtitle"/>
-
-                <TextView
-                    android:id="@+id/desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".56"
-
-                    android:text="@string/example_url"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                android:text="@string/example_url"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
 
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <me.ccrama.redditslide.SpoilerRobotoTextView
-            android:id="@+id/imagearea"
-            android:padding="16dp"
-            android:textColor="#fff"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/text"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <me.ccrama.redditslide.SpoilerRobotoTextView
+                    android:id="@+id/firstTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColor="?attr/font"
+
+                    android:textSize="?attr/font_commentbody" />
+
+                <me.ccrama.redditslide.Views.CommentOverflow
+                    android:id="@+id/commentOverflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:visibility="gone" />
+            </LinearLayout>
         </ScrollView>
     </LinearLayout>
 
