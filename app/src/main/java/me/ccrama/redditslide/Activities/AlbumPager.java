@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -33,7 +32,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
@@ -46,9 +44,7 @@ import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.LogUtil;
-
 
 
 /**
@@ -58,8 +54,9 @@ import me.ccrama.redditslide.util.LogUtil;
  * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
  * bars which Album.java doesn't.
  */
+
 public class AlbumPager extends BaseActivityAnim {
-    boolean gallery = false;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,11 +84,12 @@ public class AlbumPager extends BaseActivityAnim {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
+        doWithData(AlbumUtils.getJsonElementsFromGallery(getIntent().getExtras().getString("url", ""), this));
         if(!Reddit.appRestart.contains("tutorialSwipeAlbum")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
 
                     Tooltip.make(AlbumPager.this,
                             new Tooltip.Builder(106)
@@ -121,68 +119,55 @@ public class AlbumPager extends BaseActivityAnim {
         }
     }
 
-    public class LoadIntoPager extends AlbumUtils.GetAlbumJsonFromUrl {
 
-        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
-            super(url, baseActivity);
-        }
 
-        @Override
-        protected void doWithData(ArrayList<JsonElement> jsonElements) {
-            if (jsonElements == null){
-                new AlertDialogWrapper.Builder(baseActivity)
-                        .setTitle(R.string.album_err_not_found)
-                        .setMessage(R.string.album_err_msg_not_found)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                baseActivity.finish();
-                            }
-                        }).create().show();
-                return;
-            }
-            AlbumPager.this.gallery = LoadIntoPager.this.gallery;
-            images = new ArrayList<>(jsonElements);
-
-            ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (getSupportActionBar() != null) {
-                        getSupportActionBar().setSubtitle(1 + "/" + images.size());
-                    }
-                }
-            });
-
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
-            p.setAdapter(adapter);
-            p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(final int position, float positionOffset, int positionOffsetPixels) {
-                    runOnUiThread(new Runnable() {
+    private void doWithData(ArrayList<JsonElement> jsonElements) {
+        if (jsonElements == null) {
+            new AlertDialogWrapper.Builder(this)
+                    .setTitle(R.string.album_err_not_found)
+                    .setMessage(R.string.album_err_msg_not_found)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         @Override
-                        public void run() {
-                            if (getSupportActionBar() != null) {
-                                getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
-                            }
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
                         }
-                    });
-                }
+                    }).create().show();
+            return;
 
-                @Override
-                public void onPageSelected(int position) {
-
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            adapter.notifyDataSetChanged();
         }
+        images = new ArrayList<>(jsonElements);
+
+        ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(1 + "/" + images.size());
+        }
+
+
+        AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+        p.setAdapter(adapter);
+        p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(final int position, float positionOffset, int positionOffsetPixels) {
+
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        adapter.notifyDataSetChanged();
     }
 
 
