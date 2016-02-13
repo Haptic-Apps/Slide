@@ -58,7 +58,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         super.onDestroy();
         if(!Reddit.appRestart.contains("tutorialComments")){
             Reddit.appRestart.edit().putBoolean("tutorialComments", true).apply();
-        } else if(Reddit.appRestart.contains("tutorial_comm")){
+        } else if(!Reddit.appRestart.contains("tutorial_comm")){
             Reddit.appRestart.edit().putBoolean("tutorial_comm", true).apply();
 
         }
