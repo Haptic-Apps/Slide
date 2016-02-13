@@ -38,9 +38,9 @@
     <RelativeLayout
         android:id="@+id/background"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@id/dot"
-        android:background="?attr/card_background"
-        android:layout_height="wrap_content">
+        android:background="?attr/card_background">
 
         <com.wefika.flowlayout.FlowLayout
             android:id="@+id/flow"
