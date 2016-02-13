@@ -50,17 +50,17 @@
             android:textSize="?attr/font_cardtitle" />
 
 
-        <LinearLayout
+        <com.wefika.flowlayout.FlowLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:id="@+id/bod2"
+            android:id="@+id/bod"
 
             android:layout_toLeftOf="@+id/thumbimage2"
             android:layout_alignParentStart="true"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
-            android:paddingBottom="2dp">
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/subreddit"
@@ -97,18 +97,7 @@
 
 
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_below="@+id/bod2"
-            android:id="@+id/bod"
 
-            android:layout_toLeftOf="@+id/thumbimage2"
-            android:layout_alignParentStart="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="8dp"
-            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
@@ -142,7 +131,7 @@
 
                 android:textSize="?attr/font_cardinfo" />
 
-        </LinearLayout>
+        </com.wefika.flowlayout.FlowLayout>
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/thumbimage2"
@@ -298,8 +287,8 @@
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
             android:layout_marginTop="2dp"
-            android:layout_below="@+id/actionbar"
             android:background="?attr/tint"
+            android:layout_alignParentBottom="true"
 
             android:alpha="0.6"/>
     </RelativeLayout>
