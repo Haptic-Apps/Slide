@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v7.view.ContextThemeWrapper;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -236,8 +237,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (url == null) {
             return;
         }
-
-        final Activity activity = (Activity) ((android.support.v7.view.ContextThemeWrapper)getContext()).getBaseContext(); ;
+        final Activity activity;
+        if(getContext() instanceof ContextThemeWrapper) {
+           activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
+        } else {
+            activity = (Activity)getContext();
+        }
 
         if (!activity.isFinishing()) {
             new BottomSheet.Builder(activity, R.style.BottomSheet_Dialog)
