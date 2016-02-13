@@ -98,9 +98,11 @@ public class SubmissionParser {
                 int ulClose = html.indexOf("<ul", tagEnd);
                 int olClose = html.indexOf("<ol", tagEnd);
                 int closeTag;
-                if ((ulClose == -1 || (ulClose != -1 && itemClose < ulClose)) && (olClose == -1 || (olClose != -1 && itemClose < olClose))) {
+
+                // Find what is closest: </li>, <ul>, or <ol>
+                if (((ulClose == -1 && itemClose != -1) || (itemClose != -1 && ulClose != -1 && itemClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (itemClose != -1 && olClose != -1 && itemClose < olClose))) {
                     closeTag = itemClose;
-                } else if ((ulClose == -1 || (ulClose != -1 && olClose < ulClose)) && (itemClose == -1 || (itemClose != -1 && olClose < itemClose))) {
+                } else if (((ulClose == -1 && olClose != -1) || (olClose != -1 && ulClose != -1 && olClose < ulClose)) && ((olClose == -1 && itemClose != -1) || (olClose != -1 && itemClose != -1 && olClose < itemClose))) {
                     closeTag = olClose;
                 } else {
                     closeTag = ulClose;

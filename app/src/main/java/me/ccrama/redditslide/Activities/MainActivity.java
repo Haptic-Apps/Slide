@@ -73,6 +73,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.util.JrawUtils;
 
 import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,6 +98,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -710,37 +712,32 @@ public class MainActivity extends BaseActivity {
         return table;
     }
 
-    private void setViews(String rawHTML, SpoilerRobotoTextView firstTextView, LinearLayout overflow, String subreddit) {
+    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
-        boolean firstTextViewPopulated = false;
-        for (String block : blocks) {
-            if (block.startsWith("<table>")) {
-                HorizontalScrollView scrollView = new HorizontalScrollView(this);
-                TableLayout table = formatTable(block, this, subreddit);
-                scrollView.addView(table);
-                scrollView.setPadding(0, 0, 8, 0);
-                overflow.addView(scrollView);
-                overflow.setVisibility(View.VISIBLE);
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName);
             } else {
-                if (firstTextViewPopulated) {
-                    SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(this);
-                    //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
-                    newTextView.setLinkTextColor(new ColorPreferences(this).getColor(subreddit));
-                    newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(this,
-                            new FontPreferences(this).getFontTypeComment().getTypeface()));
-                    newTextView.setText(block);
-                    newTextView.setPadding(0, 0, 8, 0);
-                    overflow.addView(newTextView);
-                    overflow.setVisibility(View.VISIBLE);
-                } else {
-                    firstTextView.setLinkTextColor(new ColorPreferences(this).getColor(subreddit));
-                    firstTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(this,
-                            new FontPreferences(this).getFontTypeComment().getTypeface()));
-                    firstTextView.setText(block);
-                    firstTextViewPopulated = true;
-                }
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
+        } else {
+            commentOverflow.removeAllViews();
         }
     }
 
@@ -751,8 +748,8 @@ public class MainActivity extends BaseActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            LinearLayout overflow = (LinearLayout) findViewById(R.id.sidebarOverflow);
-            setViews(text, body, overflow, subreddit.getDisplayName());
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+            setViews(text, subreddit.getDisplayName(), body, overflow);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
