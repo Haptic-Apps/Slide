@@ -2,11 +2,11 @@
     <!-- Generic text used anywhere -->
     <string name="general_confirm_exit">Confirm exit</string>
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
-    <string name="general_switch_acc">Switch Account</string>
+    <string name="general_switch_acc">Switch account</string>
     <string name="general_enable_shadowbox">Shadowbox mode</string>
-    <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is MultiColumn mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
+    <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is Multi-column mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Sidebar</string>
-    <string name="general_sub_sync">Syncing Subscriptions</string>
+    <string name="general_sub_sync">Syncing subscriptions</string>
     <string name="general_login">Login</string>
 
     <!-- Used when viewing a thread -->
@@ -15,7 +15,7 @@
     <string name="submission_info_archived">This is an archived post. You won\'t be able to vote or comment.</string>
     <string name="submission_post_saved">Post saved</string>
     <string name="submission_info_hidden">Post hidden forever.</string>
-    <string name="submission_stickied">pinned</string>
+    <string name="submission_stickied">Pinned</string>
     <string name="submission_link_internal">Open internally</string>
     <string name="submission_link_extern">Open externally</string>
     <string name="submission_link_copy">Copy URL</string>
@@ -29,7 +29,7 @@
     <string name="submission_save">Save post</string>
     <string name="submission_share">Share post</string>
     <string name="submission_load_full">Load full thread</string>
-    <string name="submission_np_link">This is an np link. Please don\'t vote or comment.</string>
+    <string name="submission_np_link">This is a no participation link. Please don\'t vote or comment.</string>
     <string name="submission_tap_gif">Tap to load GIF</string>
     <string name="submission_not_found">Uh oh, post not found!</string>
     <string name="submission_not_found_msg">Sorry, this post could not be found</string>
@@ -56,14 +56,14 @@
 
 
     <!-- Font settings -->
-    <string name="font_size">Font Size</string>
+    <string name="font_size">Font size</string>
     <string name="font_large">Large</string>
     <string name="font_medium">Medium</string>
     <string name="font_small">Small</string>
 
 
     <!-- For editing the submission card layout -->
-    <string name="card_actionbar">Action Bar visible</string>
+    <string name="card_actionbar">Action bar visible</string>
     <string name="card_picture">Big picture</string>
     <string name="card_picture_cropped">Crop big picture</string>
     <string name="card_hide_post_button">\"Hide post\" button in actionbar</string>
@@ -75,7 +75,7 @@
 
 
     <!-- Settings for Multi-column view -->
-    <string name="multi_column_title">Multi-Column</string>
+    <string name="multi_column_title">Multi-column</string>
     <string name="multi_column_landscape">Landscape</string>
     <string name="multi_column_portrait">Dual columns in portrait mode</string>
 
@@ -84,26 +84,26 @@
     <string name="drawer_profile">Profile</string>
     <string name="drawer_support">Go Pro</string>
     <string name="drawer_goto_profile">Go to profile</string>
-    <string name="drawer_reorder_subs">Reorder your subs</string>
+    <string name="drawer_reorder_subs">Reorder your subreddits</string>
     <string name="drawer_add_account">Add an account</string>
     <string name="drawer_hello">Hello,</string>
     <string name="drawer_change_account">Switch accounts</string>
     <string name="drawer_search">Go to subreddit</string>
     <string name="drawer_moderation">Moderation</string>
     <string name="drawer_sync_subs">Sync your subreddits</string>
-    <string name="drawer_account_switch">Switch or Delete</string>
+    <string name="drawer_account_switch">Switch or delete</string>
     <string name="drawer_account_switch_msg">Would you like to switch to this account or remove this account?</string>
 
 
     <!-- Sidebar items (That's the one on the right) -->
-    <string name="sidebar_pinned">pinned</string>
+    <string name="sidebar_pinned">Pinned</string>
     <string name="sidebar_wiki">Wiki</string>
 
 
     <!-- Crash reporting screen -->
     <string name="crash_title">Slide has crashed.</string>
     <string name="crash_report">Report bug on GitHub</string>
-    <string name="crash_restart">Restart App</string>
+    <string name="crash_restart">Restart app</string>
     <string name="crash_msg_hint">Describe how one could reproduce the crash</string>
     <string name="crash_title_hint">Describe the crash in one sentence</string>
     <string name="crash_btn">Report</string>
@@ -111,19 +111,19 @@
 
     <!-- User profile -->
     <string name="profile_yours">Your profile</string>
-    <string name="profile_karma_link">link karma</string>
-    <string name="profile_karma_comment">comment karma</string>
+    <string name="profile_karma_link">Link karma</string>
+    <string name="profile_karma_comment">Comment karma</string>
     <string name="profile_message">Private message</string>
-    <string name="profile_saved">saved</string>
-    <string name="profile_upvoted">upvoted</string>
+    <string name="profile_saved">Saved</string>
+    <string name="profile_upvoted">Upvoted</string>
     <string name="profile_err_title">User not found</string>
     <string name="profile_err_msg">Reddit user could not be retrieved.</string>
-    <string name="profile_overview">overview</string>
-    <string name="profile_comments">comments</string>
-    <string name="profile_submitted">submitted</string>
-    <string name="profile_gilded">gilded</string>
-    <string name="profile_downvoted">downvoted</string>
-    <string name="profile_hidden">hidden</string>
+    <string name="profile_overview">Overview</string>
+    <string name="profile_comments">Comments</string>
+    <string name="profile_submitted">Submitted</string>
+    <string name="profile_gilded">Gilded</string>
+    <string name="profile_downvoted">Downvoted</string>
+    <string name="profile_hidden">Hidden</string>
     <string name="profile_friend">Friend</string>
     <string name="profile_add_friend">Add friend</string>
     <string name="profile_remove_friend">Remove friend</string>
@@ -138,7 +138,7 @@
     <string name="comment_delete_err">Uh oh, something went wrong.</string>
     <string name="comment_delete_err_msg">Would you like to try again?</string>
     <string name="comment_deleted">[deleted]</string>
-    <string name="comment_unsave">Un-save</string>
+    <string name="comment_unsave">Unsave</string>
     <string name="comment_load_more">Load %1$d more</string>
     <string name="comment_loading_more">Loading more comments…</string>
 
@@ -154,9 +154,9 @@
     <string name="tutorial_swipe_next">You can swipe to the next submission in full view</string>
     <string name="tutorial_open_full">Open content from full view</string>
     <string name="tutorial_open_list">Open content from list view</string>
-    <string name="tutorial_free_title">Ad-Free and Open Sourced</string>
+    <string name="tutorial_free_title">Ad-free and open source</string>
     <string name="tutorial_free_msg">Slide for Reddit is free from all in-app advertisements and its source code is publicly available on GitHub. This project runs off of your donations, and any contribution is greatly appreciated!</string>
-    <string name="tutorial_dev_title">In Development</string>
+    <string name="tutorial_dev_title">In development</string>
     <string name="tutorial_dev_msg">Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free report the issue on GitHub if you run into a problem! Thank you!</string>
 
 
@@ -171,12 +171,12 @@
     <string name="sorting_old">Old</string>
     <string name="sorting_controversial">Controversial</string>
     <string name="sorting_rising">Rising</string>
-    <string name="sorting_hour">past hour</string>
-    <string name="sorting_day">past 24 hours</string>
-    <string name="sorting_week">past week</string>
-    <string name="sorting_month">past month</string>
-    <string name="sorting_year">past year</string>
-    <string name="sorting_all">all time</string>
+    <string name="sorting_hour">Past hour</string>
+    <string name="sorting_day">Past 24 hours</string>
+    <string name="sorting_week">Past week</string>
+    <string name="sorting_month">Past month</string>
+    <string name="sorting_year">Past year</string>
+    <string name="sorting_all">All time</string>
 
 
     <!-- Editor (save/submit a post) actions -->
@@ -186,7 +186,7 @@
     <string name="editor_action_link">INSERT</string>
     <string name="editor_title">Title</string>
     <string name="editor_err_msg">Please try again in a few seconds.</string>
-    <string name="editor_uploading_image">Uploading image to imgur</string>
+    <string name="editor_uploading_image">Uploading image to Imgur</string>
     <string name="editor_self">Self text</string>
     <string name="editor_select_img">Select picture</string>
     <string name="editor_hint_optional_body">Text (optional)</string>
@@ -209,7 +209,7 @@
     <string name="err_no_connection">Reddit could not be reached. Would you like to try again?</string>
     <string name="err_retry_later">Try again in a minute!</string>
     <string name="err_login">You have to log in to do that! Log in now?</string>
-    <string name="err_permission">Permission was Denied</string>
+    <string name="err_permission">Permission was denied</string>
     <string name="err_permission_msg">It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(. \nWould you like to allow Slide to access external storage?</string>
     <string name="err_authentication">Authentication failed</string>
 
@@ -229,22 +229,22 @@
 
 
     <!-- Multireddit errors -->
-    <string name="multireddit_err_title">No Multireddits (yet)!</string>
-    <string name="multireddit_err_msg">Would you like to create a new Multireddit?</string>
+    <string name="multireddit_err_title">No multireddits (yet)!</string>
+    <string name="multireddit_err_msg">Would you like to create a new multireddit?</string>
     <string name="multireddit_title_empty">Title can\'t be empty</string>
     <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
-    <string name="multireddit_no_subs">No subs are added</string>
-    <string name="multireddit_no_subs_msg">Please add some subs by clicking on the + button!</string>
+    <string name="multireddit_no_subs">No subreddits are added</string>
+    <string name="multireddit_no_subs_msg">Please add some subredditss by clicking on the + button!</string>
     <string name="multireddit_selector">Select subreddits to add</string>
-    <string name="multireddit_create_hint">Multi Name</string>
+    <string name="multireddit_create_hint">Multireddit name</string>
     <string name="multireddit_invalid_name">Invalid multireddit name</string>
-    <string name="multireddit_invalid_name_msg">Multireddit names letters, numbers and underscores.</string>
+    <string name="multireddit_invalid_name_msg">Multireddit names may only contain letters, numbers and underscores.</string>
 
 
     <!-- Album errors/information -->
     <string name="album_loading">Loading album</string>
     <string name="album_err_not_found">Album not found</string>
-    <string name="album_err_msg_not_found">An error occurred when loading this album. Please re-open the album and retry. If this problem persists, please report it on GitHub or on Google+</string>
+    <string name="album_err_msg_not_found">An error occurred when loading this album. Please re-open the album and retry. If this problem persists, please report it on GitHub</string>
     <string name="album_title_count">Gallery (%1$d images)</string>
 
 
@@ -291,7 +291,7 @@
     <string name="misc_none">None</string>
     <string name="misc_retry">Would you like to try again?</string>
     <string name="misc_score_hidden">score hidden</string>
-    <string name="misc_you">you</string>
+    <string name="misc_you">You</string>
     <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Subscribed</string>
     <string name="misc_continue">Continue</string>
@@ -304,7 +304,7 @@
 
 
     <!-- Goto User -->
-    <string name="user_enter">Enter Username</string>
+    <string name="user_enter">Enter username</string>
     <string name="user_btn_goto">Go to user</string>
     <string name="user_invalid">Invalid username</string>
     <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscores and dashes.</string>
@@ -338,9 +338,9 @@
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
-    <string name="backup_restoring">Restoring your Settings</string>
-    <string name="backup_backing_up">Backing up your Settings</string>
-    <string name="backup_restore_settings">Setting Restore Successful!</string>
+    <string name="backup_restoring">Restoring your settings</string>
+    <string name="backup_backing_up">Backing up your settings</string>
+    <string name="backup_restore_settings">Restoring settings successful!</string>
     <string name="backup_restarting">App will now restart.</string>
     <string name="backup_info">Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server.</string>
     <string name="backup_btn">Backup</string>
@@ -353,26 +353,26 @@
 
 
     <!-- Moderation tools -->
-    <string name="mod_mail">Mod Mail</string>
-    <string name="mai_mod_unread">Mod Mail Unread</string>
-    <string name="mod_actions">Mod Actions</string>
+    <string name="mod_mail">Mod mail</string>
+    <string name="mai_mod_unread">Mod mail unread</string>
+    <string name="mod_actions">Mod actions</string>
     <string name="mod_reports">Reports</string>
     <string name="mod_approve">Do you really want to approve this post?</string>
     <string name="mod_approved">Post approved.</string>
     <string name="mod_mark_nsfw">Do you really want to mark this as NSFW?</string>
     <string name="mod_remove_nsfw">Do you really want to remove the NSFW tag?</string>
-    <string name="mod_flair_post">Flair Post</string>
+    <string name="mod_flair_post">Flair post</string>
     <string name="mod_remove">Do you really want to remove this post? This action cannot be undone.</string>
-    <string name="mod_remove_hint">Removal Reason</string>
+    <string name="mod_remove_hint">Removal reason</string>
     <string name="mod_remove_hint_msg">Why are you removing this post?</string>
     <string name="mod_flair">Flair</string>
     <string name="mod_flair_desc">Add a flair to this post (optional)</string>
     <string name="mod_flair_hint">Flair text</string>
     <string name="mod_post_removed">Post removed.</string>
-    <string name="mod_show_user">Show User and Mod Reports</string>
+    <string name="mod_show_user">Show user and mod reports</string>
     <string name="mod_btn_approve">Approve</string>
     <string name="mod_btn_spam">Spam</string>
-    <string name="mod_ban">Ban User</string>
+    <string name="mod_ban">Ban user</string>
     <string name="mod_no_reports">No reports</string>
 
 
@@ -394,7 +394,7 @@
     <string name="search_hint">Search term</string>
     <string name="search_title">Search</string>
     <string name="search_msg">What are you searching for?</string>
-    <string name="search_all">Search All</string>
+    <string name="search_all">Search all</string>
     <string name="search_subreddit">Search %1$s</string>
 
 
@@ -404,11 +404,11 @@
 
 
     <!-- Settings -->
-    <string name="settings_reddit_prefs">Reddit Preferences</string>
+    <string name="settings_reddit_prefs">Reddit preferences</string>
     <string name="settings_accent_title">Edit accent color</string>
-    <string name="settings_card_mode">Card Mode</string>
+    <string name="settings_card_mode">Card mode</string>
     <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
-    <string name="settings_layout_default">Post Layout</string>
+    <string name="settings_layout_default">Post layout</string>
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_browser">Internal web browser</string>
     <string name="settings_link_gif">Internal GIF view</string>
@@ -420,26 +420,26 @@
     <string name="settings_main_color_title">Edit main color</string>
     <string name="settings_notification">Check for new messages every %1$s</string>
     <string name="settings_notification_short">Check every %1$s</string>
-    <string name="settings_single_mode">Subreddit Tabs\nSwipe between subreddits</string>
+    <string name="settings_single_mode">Subreddit tabs\nSwipe between subreddits</string>
     <string name="enter_animation">Enter animation\nShow reveal animations</string>
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
-    <string name="settings_confirm_exit">Confirm Exit Dialog</string>
+    <string name="settings_confirm_exit">Confirm exit dialog</string>
     <string name="settings_fastscroll">Navigate between parent comments</string>
-    <string name="settings_floating_action_button">Floating Action Button</string>
+    <string name="settings_floating_action_button">Floating action button</string>
     <string name="settings_floating_action_button_visible">Show floating action button</string>
     <string name="share_link">Share link</string>
     <string name="posts_hidden_forever">Posts hidden forever</string>
     <string name="share_image">Share image</string>
     <string name="settings_libs">Open-source libraries</string>
-    <string name="settings_bugs">Report Bugs</string>
+    <string name="settings_bugs">Report bugs</string>
     <string name="settings_changelog">View changelog</string>
     <string name="settings_floating_action_button_type">Floating action button dismisses viewed posts</string>
     <string name="settings_google">Connecting to Google</string>
     <string name="settings_google_msg">Slide is connecting to Google. Try again in a few seconds!</string>
     <string name="settings_fabclear_msg">Tapping the clear button will remove the posts from the current view, but will not hide the posts forever. \nLong pressing the button will hide the posts forever!</string>
-    <string name="settings_fabclear">FAB Clear Actions</string>
+    <string name="settings_fabclear">FAB clear actions</string>
     <string name="settings_notifdisabled">Notifications disabled.</string>
     <string name="settings_comments_click_username_for_profile">Click users names to view their profiles.</string>
     <string name="settings_cache">Cache posts for offline viewing</string>
@@ -470,44 +470,44 @@
 
 
     <!-- Settings titles displayed in settings activity-->
-    <string name="settings_title_alternative_layout">Alternate Layout</string>
-    <string name="settings_title_backup">Backup &amp; Restore</string>
-    <string name="settings_title_default_theme">Main Theme</string>
+    <string name="settings_title_alternative_layout">Alternate layout</string>
+    <string name="settings_title_backup">Backup &amp; restore</string>
+    <string name="settings_title_default_theme">Main theme</string>
     <string name="settings_title_general">General</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_pro">Go Pro</string>
-    <string name="settings_title_sub_theme">Subreddit Themes</string>
-    <string name="settings_title_sorting">Default Sorting</string>
+    <string name="settings_title_sub_theme">Subreddit themes</string>
+    <string name="settings_title_sorting">Default sorting</string>
     <string name="settings_title_support">Donate</string>
     <string name="settings_title_appearance">Appearance</string>
     <string name="settings_title_about">About</string>
-    <string name="settings_title_multi_column">Multi-Column</string>
-    <string name="settings_title_fab">Floating Action Button</string>
+    <string name="settings_title_multi_column">Multi-column</string>
+    <string name="settings_title_fab">Floating action button</string>
     <string name="settings_title_caching">Cache settings</string>
     <string name="settings_title_cache">Cache</string>
-    <string name="settings_title_auto">Auto Theme</string>
+    <string name="settings_title_auto">Auto theme</string>
     <string name="settings_title_comments">Comments</string>
     <string name="settings_title_filter">Filters</string>
     <string name="settings_title_font">Font</string>
     <string name="settings_title_other">Other</string>
 
     <string name="settings_section_support">Support</string>
-    <string name="settings_section_general">General Settings</string>
+    <string name="settings_section_general">General</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->
-    <string name="title_subreddit_settings">Subreddit Themes &amp; Layouts</string>
-    <string name="title_edit_theme">Edit Theme</string>
+    <string name="title_subreddit_settings">Subreddit themes &amp; layouts</string>
+    <string name="title_edit_theme">Edit theme</string>
     <string name="title_submit_post">Submit post</string>
     <string name="title_settings">Settings</string>
-    <string name="title_report_crash">Report a Crash</string>
+    <string name="title_report_crash">Report a crash</string>
     <string name="title_share">Share using</string>
     <string name="title_login">Log into Reddit</string>
-    <string name="title_reorder_subs">Reorder Subs</string>
+    <string name="title_reorder_subs">Reorder subreddits</string>
     <string name="title_multireddits">Multireddits</string>
     <string name="title_inbox">Inbox</string>
     <string name="title_theme_settings">Theme</string>
-    <string name="title_create_multi">Create a Multi</string>
+    <string name="title_create_multi">Create a multireddit</string>
     <string name="title_mod">Moderator</string>
 
 
@@ -539,14 +539,14 @@
 
     <!-- Website -->
     <string name="website_back">Go back</string>
-    <string name="website_external">Open in External Browser</string>
+    <string name="website_external">Open in external browser</string>
 
 
     <!-- Reorder subreddit activity -->
     <string name="reorder_subreddits_title">Select a subreddit to add</string>
     <string name="reorder_add_subreddit">Add a subreddit</string>
     <string name="reorder_subreddit_name">Subreddit name</string>
-    <string name="reorder_remove_title">Remove this sub?</string>
+    <string name="reorder_remove_title">Remove this subreddit?</string>
     <string name="reorder_remove_msg">You will not be unsubscribed, but will not see this subreddit in your sidebar!</string>
 
 
