@@ -312,7 +312,7 @@
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-
+                        android:visibility="gone"
                         android:orientation="horizontal"
                      >
 

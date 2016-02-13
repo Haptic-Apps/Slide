@@ -118,7 +118,7 @@ public class Login extends BaseActivityAnim {
                     editor.putStringSet("tokens", tokens);
                     editor.putString("lasttoken", refreshToken);
                     Reddit.appRestart.edit().remove("back").commit();
-                    editor.apply();
+                    editor.commit();
                 } else {
                     Log.e(LogUtil.getTag(), "Passed in OAuthData was null");
                 }
@@ -143,7 +143,7 @@ public class Login extends BaseActivityAnim {
                         .setCancelable(false)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Reddit.forceRestart(Login.this);
+                                Reddit.forceRestart(Login.this, true);
                             }
                         });
                 builder.show();
@@ -156,7 +156,7 @@ public class Login extends BaseActivityAnim {
                         .onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@Nullable MaterialDialog dialog, @Nullable DialogAction which) {
-                                Reddit.forceRestart(Login.this);
+                                Reddit.forceRestart(Login.this, true);
                             }
                         });
                 builder.show();
