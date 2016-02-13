@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
@@ -232,14 +231,14 @@ public class AlbumPager extends BaseActivityAnim {
             loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
 
             TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
-            TextView desc = (TextView) rootView.findViewById(R.id.desc);
+            SpoilerRobotoTextView desc = (SpoilerRobotoTextView) rootView.findViewById(R.id.desc);
 
             title.setVisibility(View.VISIBLE);
             desc.setVisibility(View.VISIBLE);
             if (user.getAsJsonObject().has("image")) {
                 if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    desc.setText(Html.fromHtml(text.get(0))); // TODO deadleg what the html looks like. Does it need spoilers/tables?
+                    desc.setTextHtml(text.get(0));
                     if (desc.getText().toString().isEmpty()) {
                         desc.setVisibility(View.GONE);
                     }
@@ -375,7 +374,7 @@ public class AlbumPager extends BaseActivityAnim {
             if (user.getAsJsonObject().has("image")) {
                 if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
+                    title.setTextHtml(text.get(0));
                     if (desc.getText().toString().isEmpty()) {
                         desc.setVisibility(View.GONE);
                     }

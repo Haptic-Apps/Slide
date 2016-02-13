@@ -554,6 +554,7 @@
     <string name="time_just_now">just now</string>
     <string name="color_sync_complete">Sync complete</string>
     <string name="color_sync_colored">" subreddits were colored"</string>
+    <string name="comment_load_more_number_unknown">Load more comments</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

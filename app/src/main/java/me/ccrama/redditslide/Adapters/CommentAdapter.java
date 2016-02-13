@@ -381,7 +381,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     ((Activity) mContext).runOnUiThread(new Runnable() {
                                                         @Override
                                                         public void run() {
-                                                            //holder.content.setText("[deleted]"); // TODO deadleg
+                                                            holder.firstTextView.setTextHtml("[deleted]");
                                                             holder.author.setText("[deleted]");
                                                         }
                                                     });
@@ -920,7 +920,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (deleted.contains(comment.getFullName())) {
-                //holder.content.setText(R.string.comment_deleted); TODO deadleg
+                holder.firstTextView.setText(R.string.comment_deleted);
                 holder.author.setText(R.string.comment_deleted);
             }
         } else if(firstHolder instanceof SubmissionViewHolder){
@@ -1078,7 +1078,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             nextPos = getRealPosition(nextPos);
 
             final MoreChildItem baseNode = (MoreChildItem) users.get(nextPos);
-            holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
+            if(baseNode.children.getCount() > 0) {
+                holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
+            } else {
+                holder.content.setText(R.string.comment_load_more_number_unknown);
+            }
 
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
@@ -1087,10 +1091,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             final View progress = holder.loading;
+            progress.setVisibility(View.GONE);
             holder.content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (progress.getVisibility() == View.INVISIBLE) {
+
+                    if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);
                         new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1) , holder.getAdapterPosition() , holder).execute(baseNode);
