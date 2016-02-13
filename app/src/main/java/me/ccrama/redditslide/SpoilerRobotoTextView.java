@@ -345,6 +345,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 sequence.delete(end, end + 4);
                 sequence.delete(start, start + 4);
                 BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Color.BLACK);
+
                 ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLACK);
 
                 URLSpan urlSpan = sequence.getSpans(start, start, URLSpan.class)[0];
@@ -353,6 +354,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 // spoiler text has a space at the front
                 sequence.setSpan(backgroundColorSpan, start + 1, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(foregroundColorSpan, start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
 
                 storedSpoilerSpans.add(foregroundColorSpan);
                 storedSpoilerSpans.add(backgroundColorSpan);

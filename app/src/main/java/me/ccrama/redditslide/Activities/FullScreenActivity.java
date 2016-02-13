@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -18,7 +19,11 @@ public class FullScreenActivity extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        findViewById(android.R.id.content).setPadding(0, dpToPx(20), 0, 0);
 
         setRecentBar(null, Palette.getDefaultColor());
+    }
+    public  int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }
