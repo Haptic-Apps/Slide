@@ -55,7 +55,7 @@ public class CommentOverflow extends LinearLayout {
      * @param subreddit
      */
     public void setViews(List<String> blocks, String subreddit) {
-        removeAllViewsInLayout();
+        removeAllViews();
 
         Context context = getContext();
 

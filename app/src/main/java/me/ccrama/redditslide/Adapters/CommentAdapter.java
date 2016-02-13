@@ -1133,6 +1133,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
+        } else {
+            holder.commentOverflow.removeAllViews();
         }
     }
 
