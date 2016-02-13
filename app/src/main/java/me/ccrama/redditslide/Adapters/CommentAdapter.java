@@ -1122,9 +1122,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
         int startIndex = 0;
-        if (!blocks.get(0).startsWith("<table>") && !blocks.get(0).startsWith("<pre>")) {
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            holder.firstTextView.setVisibility(View.VISIBLE);
             holder.firstTextView.setTextHtml(blocks.get(0), subredditName);
             startIndex = 1;
+        } else {
+            holder.firstTextView.setText("");
+            holder.firstTextView.setVisibility(View.GONE);
         }
 
         if (blocks.size() > 1) {

@@ -32,7 +32,7 @@
         android:layout_width="3dp"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_alignBottom="@+id/firstTextView"
+        android:layout_alignBottom="@+id/commentOverflow"
         android:background="#fff" />
 
 
@@ -195,8 +195,7 @@
         android:textSize="?attr/font_commentbody"
         android:layout_below="@id/flow"
         android:layout_toEndOf="@id/dot"
-        android:text="comment"
-        />
+        android:text="comment" />
 
     <me.ccrama.redditslide.Views.CommentOverflow
         android:id="@+id/commentOverflow"
@@ -207,7 +206,7 @@
         android:paddingRight="8dp"
         android:layout_toEndOf="@id/dot"
         android:layout_below="@id/firstTextView"
-        android:visibility="gone"></me.ccrama.redditslide.Views.CommentOverflow>
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/menuarea"
