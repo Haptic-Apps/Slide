@@ -2,8 +2,9 @@ package me.ccrama.redditslide.handler;
 
 import android.os.Handler;
 import android.text.Layout;
+import android.text.Selection;
 import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
+import android.text.method.BaseMovementMethod;
 import android.text.style.URLSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import me.ccrama.redditslide.ClickableText;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 
-public class TextViewLinkHandler extends LinkMovementMethod {
+public class TextViewLinkHandler extends BaseMovementMethod {
     private final ClickableText clickableText;
     String subreddit;
     SpoilerRobotoTextView comm;
@@ -21,7 +22,10 @@ public class TextViewLinkHandler extends LinkMovementMethod {
     Handler handler;
     Runnable longClicked;
     URLSpan[] link;
-
+    @Override
+    public boolean canSelectArbitrarily() {
+        return false;
+    }
     public TextViewLinkHandler(ClickableText clickableText, String subreddit, Spannable sequence) {
         this.clickableText = clickableText;
         this.subreddit = subreddit;
@@ -45,7 +49,7 @@ public class TextViewLinkHandler extends LinkMovementMethod {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
             position = event.getY(); //used to see if the user scrolled or not
         if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
-            if(Math.abs((position - event.getY())) > 10){
+            if (Math.abs((position - event.getY())) > 15) {
                 handler.removeCallbacksAndMessages(null);
             }
             return super.onTouchEvent(widget, buffer, event);
@@ -56,43 +60,48 @@ public class TextViewLinkHandler extends LinkMovementMethod {
 
         int x = (int) event.getX();
         int y = (int) event.getY();
-
         x -= widget.getTotalPaddingLeft();
         y -= widget.getTotalPaddingTop();
-
         x += widget.getScrollX();
         y += widget.getScrollY();
 
         Layout layout = widget.getLayout();
         int line = layout.getLineForVertical(y);
-        final int off = layout.getOffsetForHorizontal(line, x);
+        int off = layout.getOffsetForHorizontal(line, x);
 
         link = buffer.getSpans(off, off, URLSpan.class);
+        if (link.length > 0) {
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                clickHandled = false;
-                if (link.length != 0) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    clickHandled = false;
                     handler.postDelayed(longClicked,
                             android.view.ViewConfiguration.getLongPressTimeout());
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                handler.removeCallbacksAndMessages(null);
 
-                if (!clickHandled ) {
-                    // regular click
-                    if (link.length != 0) {
-                        int i = 0;
-                        if (sequence != null) {
-                            i = sequence.getSpanEnd(link[0]);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    handler.removeCallbacksAndMessages(null);
+
+                    if (!clickHandled) {
+                        // regular click
+                        if (link.length != 0) {
+                            int i = 0;
+                            if (sequence != null) {
+                                i = sequence.getSpanEnd(link[0]);
+                            }
+                            if (!link[0].getURL().isEmpty()) {
+                                clickableText.onLinkClick(link[0].getURL(), i, subreddit);
+                            }
                         }
-                        clickableText.onLinkClick(link[0].getURL(), i, subreddit);
                     }
-                }
-                break;
+                    break;
+            }
+            return true;
+
+        }else {
+            Selection.removeSelection(buffer);
         }
-        return true;
+        return false;
     }
 
 }

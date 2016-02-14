@@ -1,14 +1,11 @@
 package me.ccrama.redditslide.util;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import me.ccrama.redditslide.PostLoader;
 
 /**
  * Utility methods to transform html received from Reddit into a more parsable
@@ -41,6 +38,10 @@ public class SubmissionParser {
         html = StringEscapeUtils.unescapeHtml4(html)
                 .replace("<p>", "<div>")
                 .replace("</p>", "</div>")
+                .replace("<li>\\s*<div>", "<li>")
+                .replace("</div>\\s*</li>", "</li>")
+                .replace("<li><div>", "<li>")
+                .replace("</div></li>", "</li>")
                 .replace("<del>", "[[d[")
                 .replace("</del>", "]d]]");
 
@@ -128,6 +129,7 @@ public class SubmissionParser {
                 }
             }
         }
+
 
         return html;
     }

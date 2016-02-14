@@ -725,6 +725,8 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
+        Log.v(LogUtil.getTag(), "RAW IS " + rawHTML);
+
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
         int startIndex = 0;
@@ -1693,7 +1695,7 @@ public class MainActivity extends BaseActivity {
             try {
                 count = Authentication.me.getInboxCount();
             } catch (Exception e) {
-                Log.w(LogUtil.getTag(), "Cannot fetch inbot count");
+                Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
                 count = -1;
             }
             return null;

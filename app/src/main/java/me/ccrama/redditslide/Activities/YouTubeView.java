@@ -39,7 +39,7 @@ public class YouTubeView extends BaseYoutubePlayer implements
         Log.v(LogUtil.getTag(), video);
         if (video.isEmpty())
             finish();
-        if(video.contains("youtu.be")){
+        if(video.substring(0, 15).contains("youtu.be")){
             if (video.endsWith("/"))
                 video = video.substring(0, video.length() - 1);
             if (video.contains("?")) {
