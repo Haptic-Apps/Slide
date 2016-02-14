@@ -1466,7 +1466,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         protected String doInBackground(String... comment) {
-            if (Authentication.reddit.me() != null) {
+            if (Authentication.me != null) {
                 try {
                     return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
                 } catch (ApiException e) {
