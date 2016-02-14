@@ -359,7 +359,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static void setDefaultErrorHandler( Context base) {
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
-        final WeakReference<Context> cont= new WeakReference<Context>(base);
+        final WeakReference<Context> cont= new WeakReference<>(base);
 
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {

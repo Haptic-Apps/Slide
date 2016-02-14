@@ -42,6 +42,9 @@ public class YouTubeView extends BaseYoutubePlayer implements
         if(video.contains("youtu.be")){
             if (video.endsWith("/"))
                 video = video.substring(0, video.length() - 1);
+            if (video.contains("?")) {
+                video = video.substring(0, video.indexOf("?"));
+            }
             video = video.substring(video.lastIndexOf("/") + 1, video.length());
 
         } else {
@@ -51,6 +54,7 @@ public class YouTubeView extends BaseYoutubePlayer implements
             if (video.contains("&")) {
                 video = video.substring(0, video.indexOf("&"));
             }
+
             video = video.substring(video.lastIndexOf("v=") + 2, video.length());
         }
         Log.v(LogUtil.getTag(), video);

@@ -326,7 +326,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     newTextView.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
                     newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(mContext,
                             new FontPreferences(mContext).getFontTypeComment().getTypeface()));
-                    newTextView.setText(block);
+                    newTextView.setTextHtml(block);
                     newTextView.setPadding(0, 0, 8, 0);
                     holder.overflow.addView(newTextView);
                     holder.overflow.setVisibility(View.VISIBLE);
@@ -334,7 +334,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     holder.content.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
                     holder.content.setTypeface(RobotoTypefaceManager.obtainTypeface(mContext,
                             new FontPreferences(mContext).getFontTypeComment().getTypeface()));
-                    holder.content.setText(block);
+                    holder.content.setTextHtml(block);
                     firstTextViewPopulated = true;
                 }
             }
@@ -393,7 +393,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 SpoilerRobotoTextView textView = new SpoilerRobotoTextView(context);
                 //textView.setMovementMethod(new TextViewLinkHandler(context, subreddit, null));
                 textView.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
-                textView.setText(text.subSequence(columnStart, columnEnd));
+                textView.setTextHtml(text.subSequence(columnStart, columnEnd));
                 textView.setPadding(3, 0 ,0 , 0);
 
                 row.addView(textView);

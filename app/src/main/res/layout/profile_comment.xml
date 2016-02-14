@@ -114,6 +114,15 @@
                 android:text="Alright, fair enough, I see your point. The reason I was open sourcing it was to help other people developing apps with theirs, along with showing demonstrations of libraries I used throughout the project for people wondering about them. I wasn't really going for the whole issue finder aspect of being open sourced, which is why I would wait till the next beta release to do so and allow people to look in and give me feedback before the full release. I'll definitively consider releasing it earlier now, though. Thank you for the response!"
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_commentbody" />
+            <me.ccrama.redditslide.Views.CommentOverflow
+                android:id="@+id/commentOverflow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/firstTextView"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:visibility="invisible" />
         </LinearLayout>
 
 

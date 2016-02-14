@@ -163,6 +163,13 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         Reddit.setDefaultErrorHandler(this); //set defualt reddit api issue handler
 
     }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Reddit.setDefaultErrorHandler(null); //remove defualt reddit api issue handler (mem leaks)
+
+    }
     /**
      * Sets up the activity's support toolbar and colorizes the status bar.
      *
