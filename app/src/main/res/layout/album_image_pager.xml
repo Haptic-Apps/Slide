@@ -44,15 +44,21 @@
 
         android:progress="0"
         />
-    <me.ccrama.redditslide.SpoilerRobotoTextView
-        android:id="@+id/imageCaption"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:padding="16dp"
 
-        android:layout_alignParentBottom="true"
-        android:textColor="#fff"
-        android:textSize="12sp"/>
+        android:layout_height="72dp" >
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:id="@+id/imageCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+    </ScrollView>
+
 
 
 </RelativeLayout>
