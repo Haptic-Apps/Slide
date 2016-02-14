@@ -9,6 +9,9 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -36,27 +39,7 @@ public class YouTubeView extends BaseYoutubePlayer implements
         setContentView(R.layout.activity_youtube);
 
         video = getIntent().getExtras().getString("url", "");
-        Log.v(LogUtil.getTag(), video);
-        if (video.isEmpty())
-            finish();
-        if(video.startsWith("youtu.be")|| video.startsWith("https://youtu.be")|| video.startsWith("http://youtu.be")){
-            if (video.endsWith("/"))
-                video = video.substring(0, video.length() - 1);
-            if (video.contains("?")) {
-                video = video.substring(0, video.indexOf("?"));
-            }
-            video = video.substring(video.lastIndexOf("/") + 1, video.length());
-
-        } else {
-
-            if (video.endsWith("/"))
-                video = video.substring(0, video.length() - 1);
-            if (video.contains("&")) {
-                video = video.substring(0, video.indexOf("&"));
-            }
-
-            video = video.substring(video.lastIndexOf("v=") + 2, video.length());
-        }
+        video = extractYTId(video);
         Log.v(LogUtil.getTag(), video);
 
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
@@ -127,7 +110,18 @@ public class YouTubeView extends BaseYoutubePlayer implements
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
     }
 
-
+    //from http://stackoverflow.com/questions/24048308/how-to-get-the-video-id-from-a-youtube-url-with-regex-in-java
+    public static String extractYTId(String ytUrl) {
+        String vId = null;
+        Pattern pattern = Pattern.compile(
+                "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+                Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(ytUrl);
+        if (matcher.matches()){
+            vId = matcher.group(1);
+        }
+        return vId;
+    }
 
 
 
