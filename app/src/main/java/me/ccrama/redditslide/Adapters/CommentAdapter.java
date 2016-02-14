@@ -597,6 +597,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         upvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doUnHighlighted(holder, baseNode.getComment(), baseNode);
                 if (up.contains(n.getFullName())) {
                     new Vote(v, mContext).execute(n);
                     up.remove(n.getFullName());
@@ -630,6 +631,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         downvote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doUnHighlighted(holder, baseNode.getComment(), baseNode);
+
                 if (down.contains(n.getFullName())) {
                     new Vote(v, mContext).execute(n);
                     down.remove(n.getFullName());
