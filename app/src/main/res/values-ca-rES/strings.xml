@@ -25,7 +25,6 @@
   <string name="submission_save">Desa el post</string>
   <string name="submission_share">Compartir post</string>
   <string name="submission_load_full">Carregar tema sencer</string>
-  <string name="submission_np_link">Aquest és un enllaç np. Si us plau, no voteu ni comenteu.</string>
   <string name="submission_tap_gif">Prem per carregar GIF</string>
   <string name="submission_not_found">Post no trobat!</string>
   <string name="submission_not_found_msg">Ho sentim, no hem trobat aquest post</string>
@@ -141,7 +140,6 @@
   <string name="err_retry_later">Reintenta-ho en un minut!</string>
   <string name="gif_err_title">GIF no trobat</string>
   <string name="multireddit_title_empty">El títol no pot quedar buit</string>
-  <string name="multireddit_no_subs">No hi ha cap sub afegit</string>
   <string name="album_loading">Carregant Àlbum</string>
   <string name="album_err_not_found">Àlbum no trobat</string>
   <string name="type_link">Enllaç</string>
@@ -209,6 +207,7 @@
   <string name="settings_title_pro">Passar-se a Pro</string>
   <string name="settings_title_support">Dóna</string>
   <string name="settings_title_multi_column">Configuració de la multi-columna</string>
+  <string name="settings_title_comments">comentaris</string>
   <string name="title_inbox">Bústia d\'entrada</string>
   <string name="title_theme_settings">Tema</string>
   <string name="donate_btn">Dóna</string>

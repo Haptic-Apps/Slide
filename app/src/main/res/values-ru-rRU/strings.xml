@@ -159,14 +159,10 @@
   <string name="multireddit_err_msg">Хотите создать новый Multireddit?</string>
   <string name="multireddit_title_empty">Заголовок не может быть пустым</string>
   <string name="multireddit_title_empty_msg">Пожалуйста, введите название для вашего мультиреддита</string>
-  <string name="multireddit_no_subs">Сабреддитов не добавлено</string>
-  <string name="multireddit_no_subs_msg">Пожалуйста, добавьте сабреддиты, нажав на кнопку +!</string>
   <string name="multireddit_selector">Выберите сабреддиты для добавления</string>
-  <string name="multireddit_create_hint">Мульти-имя</string>
   <string name="multireddit_invalid_name">Неверное название мультиреддита</string>
   <string name="album_loading">Загрузка альбома</string>
   <string name="album_err_not_found">Альбом не найден</string>
-  <string name="album_err_msg_not_found">Произошла ошибка при загрузке этого альбома. Пожалуйста, повторно откройте альбом и повторите попытку. Если проблема не устраняется, пожалуйста, сообщите на /r/slideforreddit</string>
   <string name="album_title_count">Галерея (Фото%1$d)</string>
   <string name="type_nsfw_img">NSFW изображение</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -332,7 +328,7 @@
   <string name="settings_title_auto">Подобрать тему</string>
   <string name="settings_title_comments">Коментарии</string>
   <string name="settings_title_other">Другое</string>
-  <string name="settings_section_general">Основные настройки</string>
+  <string name="settings_section_general">Основное</string>
   <string name="title_subreddit_settings">Темы и макеты сабреддиттов</string>
   <string name="title_edit_theme">Редактировать тему</string>
   <string name="title_submit_post">Отправить пост</string>
@@ -343,7 +339,6 @@
   <string name="title_multireddits">Мультиреддиты</string>
   <string name="title_inbox">Входящие</string>
   <string name="title_theme_settings">Тема</string>
-  <string name="title_create_multi">Создать Мультиреддит</string>
   <string name="title_mod">Модератор</string>
   <string name="donate_amount_title">Эта сумма&#8230;</string>
   <string name="donate_info_student">Я студен-разработчик, я буду очень рад вашим пожертвованиям! Они помогает мне делать Slide (бесплатным) реальностью :)</string>

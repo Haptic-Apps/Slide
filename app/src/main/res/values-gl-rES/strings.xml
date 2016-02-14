@@ -64,6 +64,7 @@
   <string name="settings_title_general">Xeral</string>
   <string name="settings_title_support">Doar</string>
   <string name="settings_title_multi_column">Axustes da Multi-Columna</string>
+  <string name="settings_section_general">Xeral</string>
   <string name="title_settings">Axustes</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Bandexa de entrada</string>

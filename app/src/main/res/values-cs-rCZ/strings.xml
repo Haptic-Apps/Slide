@@ -298,7 +298,7 @@
   <string name="settings_title_cache">Mezipaměť</string>
   <string name="settings_title_comments">Komentáře</string>
   <string name="settings_title_other">Jiné</string>
-  <string name="settings_section_general">Obecná nastavení</string>
+  <string name="settings_section_general">Obecný</string>
   <string name="title_subreddit_settings">Subreddit témata &amp; rozložení</string>
   <string name="title_edit_theme">Upravit motiv</string>
   <string name="title_submit_post">Odeslat příspěvek</string>

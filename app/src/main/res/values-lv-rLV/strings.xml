@@ -77,6 +77,7 @@
   <string name="settings_title_appearance">Izskats</string>
   <string name="settings_title_about">Par aplikāciju</string>
   <string name="settings_title_cache">Kešatmiņa</string>
+  <string name="settings_title_comments">komentāri</string>
   <string name="title_edit_theme">Rediģēt motīvu</string>
   <string name="title_settings">Iestatījumi</string>
   <string name="title_report_crash">Ziņo par uzkāršanos</string>

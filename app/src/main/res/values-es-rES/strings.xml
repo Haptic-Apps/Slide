@@ -27,7 +27,6 @@
   <string name="submission_save">Guardar post</string>
   <string name="submission_share">Compartir post</string>
   <string name="submission_load_full">Cargar el hilo completo</string>
-  <string name="submission_np_link">Este es un enlace np. Por favor, no votes ni comentes.</string>
   <string name="submission_tap_gif">Pulsa para cargar el GIF</string>
   <string name="submission_not_found">¡Oh oh, post no encontrado!</string>
   <string name="submission_not_found_msg">Lo siento, no he encontrado el post</string>
@@ -162,14 +161,10 @@
   <string name="multireddit_err_msg">¿Quieres crear un nuevo Multireddit?</string>
   <string name="multireddit_title_empty">El título no puede estar en blanco</string>
   <string name="multireddit_title_empty_msg">Por favor, ponle un título a tu multireddit</string>
-  <string name="multireddit_no_subs">No se han añadido subs</string>
-  <string name="multireddit_no_subs_msg">Añade algunos subs pulsando en el botón +</string>
   <string name="multireddit_selector">Seleccionar subreddits a añadir</string>
-  <string name="multireddit_create_hint">Multi nombre</string>
   <string name="multireddit_invalid_name">Nombre no válido de multireddit</string>
   <string name="album_loading">Cargando álbum</string>
   <string name="album_err_not_found">Álbum no encontrado</string>
-  <string name="album_err_msg_not_found">Ha ocurrido un error al cargar este álbum. Por favor vuelve a abrir el álbum e inténtalo de nuevo. Si el problema persiste, por favor repórtalo en /r/slideforreddit</string>
   <string name="album_title_count">Galería (%1$d Imágenes)</string>
   <string name="type_nsfw_img">Imagen NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
@@ -297,7 +292,6 @@
   <string name="settings_main_color_title">Editar color principal</string>
   <string name="settings_notification">Comprobar nuevos mensajes cada %1$s</string>
   <string name="settings_notification_short">Comprobar cada %1$s</string>
-  <string name="settings_single_mode">Subreddit Tabs\nDesliza entre subreddits</string>
   <string name="settings_swap_actions">Intercambiar el toque y la pulsación larga en los comentarios</string>
   <string name="settings_disable_nsfw_photo">Ocultar todas las fotos NSFW</string>
   <string name="settings_disable_nsfw">Ocultar todos los posts NSFW</string>
@@ -343,7 +337,7 @@
   <string name="settings_title_auto">Tema Automático</string>
   <string name="settings_title_comments">Comentarios</string>
   <string name="settings_title_other">Otros</string>
-  <string name="settings_section_general">Ajustes generales</string>
+  <string name="settings_section_general">General</string>
   <string name="title_subreddit_settings">Ajustes del Subreddit</string>
   <string name="title_edit_theme">Editar Tema</string>
   <string name="title_submit_post">Enviar post</string>
@@ -354,7 +348,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Recibidos</string>
   <string name="title_theme_settings">Ajustes del Tema</string>
-  <string name="title_create_multi">Crear un Multi</string>
   <string name="title_mod">Moderador</string>
   <string name="donate_amount_title">Esta cantidad&#8230;</string>
   <string name="donate_info_student">¡Como estudiante desarrollador que soy, tu generosa donación me llena de orgullo y satisfacción! Con ella me ayudas a convertir Slide en una (gratuita) realidad :)</string>

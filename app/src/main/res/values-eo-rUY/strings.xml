@@ -141,6 +141,7 @@
   <string name="settings_title_about">Pri</string>
   <string name="settings_title_cache">Kaŝmemoro</string>
   <string name="settings_title_comments">Komentoj</string>
+  <string name="settings_section_general">Ĝenerala</string>
   <string name="title_edit_theme">Redakti etoson</string>
   <string name="title_submit_post">Afiŝi</string>
   <string name="title_settings">Agordoj</string>

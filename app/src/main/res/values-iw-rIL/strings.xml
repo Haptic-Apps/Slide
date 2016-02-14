@@ -23,7 +23,6 @@
   <string name="submission_save">שמור פוסט</string>
   <string name="submission_share">שתף פוסט</string>
   <string name="submission_load_full">טען שרשור מלא</string>
-  <string name="submission_np_link">זהו קישור np (לא להצביע). אנא אל תצביע או תגיב.</string>
   <string name="submission_tap_gif">לחץ כדי לטעון את הGIF</string>
   <plurals name="submission_points">
     <item quantity="one">נקודה %d</item>
@@ -119,4 +118,5 @@
   <string name="err_general">אירעה שגיאה</string>
   <string name="mail_hint_body">טקסט</string>
   <string name="settings_title_multi_column">הגדרות עמודות מרובות</string>
+  <string name="settings_title_comments">תגובות</string>
 </resources>

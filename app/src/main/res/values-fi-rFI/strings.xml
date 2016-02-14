@@ -25,7 +25,6 @@
   <string name="submission_save">Tallenna posti</string>
   <string name="submission_share">Jaa posti</string>
   <string name="submission_load_full">Lataa koko lanka</string>
-  <string name="submission_np_link">Tämä on np-linkki. Älä äänestä tai kommentoi.</string>
   <string name="submission_tap_gif">Lataa GIF</string>
   <string name="submission_not_found">Ohhoh, viesti kateissa!</string>
   <string name="submission_not_found_msg">Pahoittelut, Viestiä ei löytynyt</string>
@@ -49,6 +48,7 @@
   <string name="card_actionbar">Action Bar näkyvissä</string>
   <string name="card_picture">Iso kuva</string>
   <string name="card_hide_post_button">\"Piilota viesti\" painike toimintovalikossa</string>
+  <string name="card_section_images">Kuvat</string>
   <string name="multi_column_title">Usean sarakkeen asetukset</string>
   <string name="multi_column_landscape">Vaakakuva</string>
   <string name="drawer_profile">Profiili</string>
@@ -60,6 +60,7 @@
   <string name="drawer_search">Etsi subreddittiä</string>
   <string name="drawer_moderation">Moderointi</string>
   <string name="drawer_sync_subs">Synkronoi aliredditit</string>
+  <string name="drawer_account_switch">Vaihda tai poista</string>
   <string name="sidebar_pinned">pinnattu</string>
   <string name="sidebar_wiki">Wiki</string>
   <string name="crash_title">Slide kaatui.</string>
@@ -81,6 +82,7 @@
   <string name="profile_submitted">lähetetyt</string>
   <string name="profile_gilded">kullattu</string>
   <string name="profile_hidden">piilotettu</string>
+  <string name="profile_friend">Kaveri</string>
   <string name="profile_add_friend">Lisää ystävä</string>
   <string name="profile_remove_friend">Poista ystävä</string>
   <string name="comment_gild">Kultaa kommentti</string>
@@ -91,6 +93,7 @@
   <string name="comment_delete_err">Ohhoh, jokin meni pieleen.</string>
   <string name="comment_delete_err_msg">Haluaisitko yrittää uudelleen?</string>
   <string name="comment_deleted">[poistettu]</string>
+  <string name="comment_load_more">Lataa %1$d lisää</string>
   <string name="tutorial_skip">Ohita</string>
   <string name="tutorial_agree">Selvä</string>
   <string name="tutorial_swipe">Pyyhkäise alireddittien välillä!</string>
@@ -102,9 +105,22 @@
   <string name="sorting_change_sorting">Lajittelutila</string>
   <string name="sorting_best">Parhaat</string>
   <string name="sorting_top">Parhaat</string>
+  <string name="sorting_hot">Kuumat</string>
+  <string name="sorting_ama">Q&amp;A (AMA)</string>
+  <string name="sorting_new">Uudet</string>
+  <string name="sorting_controversial">Kiistanalaiset</string>
+  <string name="sorting_rising">Nousevat</string>
   <string name="editor_url">URL</string>
+  <string name="editor_text">Teksti</string>
+  <string name="editor_title_link">Lisää linkki</string>
+  <string name="editor_action_link">LISÄÄ</string>
+  <string name="editor_title">Otsikko</string>
   <string name="editor_err_msg">Yritä uudelleen muutaman sekunnin kuluttua.</string>
+  <string name="editor_self">Teksti</string>
   <string name="editor_select_img">Valitse kuva</string>
+  <string name="editor_hint_optional_body">Teksti (valinnainen)</string>
+  <string name="mail_hint_body">Teksti</string>
   <string name="settings_title_pro">Hanki Pro</string>
   <string name="settings_title_multi_column">Usean sarakkeen asetukset</string>
+  <string name="settings_title_comments">kommentit</string>
 </resources>

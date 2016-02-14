@@ -25,7 +25,6 @@
   <string name="submission_save">Lagre post</string>
   <string name="submission_share">Dele post</string>
   <string name="submission_load_full">Last inn hele tråden</string>
-  <string name="submission_np_link">Dette er en np-lenke. Ikke stem eller kommenter.</string>
   <string name="submission_tap_gif">Trykk for å laste inn GIF</string>
   <string name="submission_not_found">Uff da, fant ikke posten.</string>
   <string name="submission_not_found_msg">Fant ikke posten</string>
@@ -147,12 +146,9 @@
   <string name="multireddit_err_title">Ingen multireddits</string>
   <string name="multireddit_title_empty">Tittel-feltet kan ikke stå tomt</string>
   <string name="multireddit_title_empty_msg">Angi en tittel på multiredditen din</string>
-  <string name="multireddit_no_subs">Ingen subreddits er lagt til</string>
-  <string name="multireddit_no_subs_msg">Trykk på + for å legge til subreddits.</string>
   <string name="multireddit_selector">Velg subreddits å legge til</string>
   <string name="album_loading">Laster inn album</string>
   <string name="album_err_not_found">Fant ikke albumet</string>
-  <string name="album_err_msg_not_found">Klarte ikke laste inn albumet. Prøv på nytt. Hvis problemet vedvarer kan du rapportere til /r/slideforreddit</string>
   <string name="type_nsfw_img">NSFW-bilde</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
   <string name="type_reddit">Reddit-lenke</string>
@@ -285,6 +281,8 @@
   <string name="settings_title_appearance">Utseende</string>
   <string name="settings_title_about">Om</string>
   <string name="settings_title_multi_column">Flerkolonneinnstillinger</string>
+  <string name="settings_title_comments">kommentarer</string>
+  <string name="settings_section_general">Generelt</string>
   <string name="title_subreddit_settings">Subredditinnstillinger</string>
   <string name="title_edit_theme">Rediger tema</string>
   <string name="title_submit_post">Send inn post</string>
@@ -295,7 +293,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Innboks</string>
   <string name="title_theme_settings">Temainnstillinger</string>
-  <string name="title_create_multi">Opprett en multireddit</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Dette beløpet&#8230;</string>
   <string name="donate_info_student">Jeg er en studentutvikler, og er veldig takknemlig for deres sjenerøse donasjoner! De har bidratt til å gjøre Slide til en (gratis) virkelighet :)</string>

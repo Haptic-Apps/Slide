@@ -27,7 +27,6 @@
   <string name="submission_save">Enregistrer la publication</string>
   <string name="submission_share">Partager la publication</string>
   <string name="submission_load_full">Charger entièrement le fil</string>
-  <string name="submission_np_link">Ceci est un lien non participatif. Veuillez ne pas voter ou commenter.</string>
   <string name="submission_tap_gif">Appuyez pour charger le GIF</string>
   <string name="submission_not_found">Publication non trouvée !</string>
   <string name="submission_not_found_msg">Désolé, ce message est introuvable</string>
@@ -164,14 +163,10 @@ Merci beaucoup !</string>
   <string name="multireddit_err_msg">Voulez-vous créer un nouveau Multireddit?</string>
   <string name="multireddit_title_empty">Le titre ne peut pas être vide</string>
   <string name="multireddit_title_empty_msg">Veuillez entrer un nom pour votre Multireddit</string>
-  <string name="multireddit_no_subs">Aucun subreddit ajouté</string>
-  <string name="multireddit_no_subs_msg">Veuillez ajouter des subreddits en appuyant sur le bouton +!</string>
   <string name="multireddit_selector">Sélectionnez des subreddits à ajouter</string>
-  <string name="multireddit_create_hint">Nom de multi</string>
   <string name="multireddit_invalid_name">Nom de multireddit invalide</string>
   <string name="album_loading">Chargement de l\'album</string>
   <string name="album_err_not_found">Album non trouvé</string>
-  <string name="album_err_msg_not_found">Une erreur s\'est produite en chargeant cet album. Veuillez essayer de réouvrir l\'album. Si ce problème persiste, veuillez le signaler sur /r/slideforreddit</string>
   <string name="album_title_count">Galerie (%1$d images)</string>
   <string name="type_nsfw_img">Image NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
@@ -333,6 +328,8 @@ Merci beaucoup !</string>
   <string name="settings_title_multi_column">Paramètres multi-colonnes</string>
   <string name="settings_title_fab">Bouton d\'action flottant</string>
   <string name="settings_title_auto">Thème automatique</string>
+  <string name="settings_title_comments">commentaires</string>
+  <string name="settings_section_general">Général</string>
   <string name="title_subreddit_settings">Paramètres de subreddit</string>
   <string name="title_edit_theme">Modifier le thème</string>
   <string name="title_submit_post">Publier</string>
@@ -343,7 +340,6 @@ Merci beaucoup !</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Boîte de réception</string>
   <string name="title_theme_settings">Paramètres de thème</string>
-  <string name="title_create_multi">Créer un Multi</string>
   <string name="title_mod">Modérateur</string>
   <string name="donate_amount_title">Ce montant&#8230;</string>
   <string name="donate_info_student">Je développe en marge de mes études, et suis très reconnaissant de vos dons généreux ! Ils ont aidé à faire de Slide une réalité (gratuite) :)</string>

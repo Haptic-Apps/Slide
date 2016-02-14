@@ -27,7 +27,6 @@
   <string name="submission_save">Spara inlägg</string>
   <string name="submission_share">Dela inlägg</string>
   <string name="submission_load_full">Ladda hela tråden</string>
-  <string name="submission_np_link">Detta är en np länk. Vänligen rösta och kommentera inte.</string>
   <string name="submission_tap_gif">Tryck för att ladda GIF</string>
   <string name="submission_not_found">Inlägget kunde inte hittas!</string>
   <string name="submission_not_found_msg">Detta inlägg kunde inte hittas</string>
@@ -164,14 +163,10 @@
   <string name="multireddit_err_msg">Vill du skapa en ny multireddit?</string>
   <string name="multireddit_title_empty">Titeln får inte vara tomt</string>
   <string name="multireddit_title_empty_msg">Ange en titel för din multireddit</string>
-  <string name="multireddit_no_subs">Inga subreddits är tillagda</string>
-  <string name="multireddit_no_subs_msg">Lägg till några subreddits genom att klicka på + knappen!</string>
   <string name="multireddit_selector">Välj subreddits att lägga till</string>
-  <string name="multireddit_create_hint">Multi namn</string>
   <string name="multireddit_invalid_name">Ogiltigt multireddit namn</string>
   <string name="album_loading">Laddar album</string>
   <string name="album_err_not_found">Albumet hittades inte</string>
-  <string name="album_err_msg_not_found">Ett fel uppstod vid inläsning av detta album. Vänligen öppna album på nytt och försök igen. Om problemet kvarstår, vänligen rapportera till /r/slideforreddit</string>
   <string name="album_title_count">Galleri (%1$d bilder)</string>
   <string name="type_nsfw_img">NSFW bild</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -299,7 +294,6 @@
   <string name="settings_main_color_title">Redigera huvudsaklig färg</string>
   <string name="settings_notification">Sök efter nya meddelanden varje %1$s</string>
   <string name="settings_notification_short">Kontrollera varje %1$s</string>
-  <string name="settings_single_mode">Subreddit-tabbar\nSwipa mellan subreddits</string>
   <string name="settings_swap_actions">Byt funktion på tryck och långt tryck i kommentarer</string>
   <string name="settings_disable_nsfw_photo">Dölj alla NSFW bilder</string>
   <string name="settings_disable_nsfw">Dölj alla NSFW inlägg</string>
@@ -347,7 +341,7 @@
   <string name="settings_title_auto">Auto-tema</string>
   <string name="settings_title_comments">Kommentarer</string>
   <string name="settings_title_other">Övrigt</string>
-  <string name="settings_section_general">Allmänna inställningar</string>
+  <string name="settings_section_general">Allmänt</string>
   <string name="title_subreddit_settings">Subreddit inställningar</string>
   <string name="title_edit_theme">Redigera tema</string>
   <string name="title_submit_post">Skicka inlägg</string>
@@ -358,7 +352,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Inkorgen</string>
   <string name="title_theme_settings">Temainställningar</string>
-  <string name="title_create_multi">Skapa en Multi</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Detta belopp&#8230;</string>
   <string name="donate_info_student">Jag är en student utvecklare, och är mycket tacksam för era generösa donationer! De har hjälpt till att förverkliga (gratis) Slide :)</string>

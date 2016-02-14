@@ -27,7 +27,6 @@
   <string name="submission_save">Post opslaan</string>
   <string name="submission_share">Post delen</string>
   <string name="submission_load_full">Volledige thread laden</string>
-  <string name="submission_np_link">Dit is een ´np´-link. Asjeblieft niet stemmen of reageren.</string>
   <string name="submission_tap_gif">Tik om GIF te laden</string>
   <string name="submission_not_found">Oh oh, post niet gevonden!</string>
   <string name="submission_not_found_msg">Sorry, deze post kon niet gevonden worden</string>
@@ -163,14 +162,10 @@
   <string name="multireddit_err_msg">Wilt U een nieuwe Multireddit maken?</string>
   <string name="multireddit_title_empty">Titel mag niet leeg zijn</string>
   <string name="multireddit_title_empty_msg">Voer een titel in voor je multireddit</string>
-  <string name="multireddit_no_subs">Geen subs zijn toegevoegd</string>
-  <string name="multireddit_no_subs_msg">Voeg sommige subs door te tikken op de + knop!</string>
   <string name="multireddit_selector">Selecteer subreddits om toe te voegen</string>
-  <string name="multireddit_create_hint">Multi naam</string>
   <string name="multireddit_invalid_name">Ongeldige multireddit naam</string>
   <string name="album_loading">Album laden</string>
   <string name="album_err_not_found">Album niet gevonden</string>
-  <string name="album_err_msg_not_found">Er is een fout opgetreden bij het laden van dit album. Probeer het album opnieuw te openen. Als dit probleem zich blijft voordoen, graag melden in /r/slideforreddit</string>
   <string name="album_title_count">Galerij (%1$d afbeeldingen)</string>
   <string name="type_nsfw_img">NSFW-afbeelding</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
@@ -297,7 +292,6 @@
   <string name="settings_main_color_title">Hoofdkleur aanpassen</string>
   <string name="settings_notification">Elke %1$s op nieuwe berichten controleren</string>
   <string name="settings_notification_short">Check elke %1$s</string>
-  <string name="settings_single_mode">Subreddit Tabs\nSwipe tussen subreddits</string>
   <string name="settings_swap_actions">Tikken en lang tikken omdraaien in reacties</string>
   <string name="settings_disable_nsfw_photo">Alle NSFW-foto\'s verbergen</string>
   <string name="settings_disable_nsfw">Alle NSFW posts verbergen</string>
@@ -343,7 +337,7 @@
   <string name="settings_title_auto">Auto-Theme</string>
   <string name="settings_title_comments">Reacties</string>
   <string name="settings_title_other">Overige</string>
-  <string name="settings_section_general">Algemene instellingen</string>
+  <string name="settings_section_general">Algemeen</string>
   <string name="title_subreddit_settings">Subreddit Thema´s &amp; Layouts</string>
   <string name="title_edit_theme">Thema aanpassen</string>
   <string name="title_submit_post">Post insturen</string>
@@ -354,7 +348,6 @@
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Postvak In</string>
   <string name="title_theme_settings">Thema</string>
-  <string name="title_create_multi">Een multi creëren</string>
   <string name="title_mod">Moderator</string>
   <string name="donate_amount_title">Dit bedrag&#8230;</string>
   <string name="donate_info_student">Ik ben een student-ontwikkelaar, en ben zeer dankbaar voor je gulle donaties! Ze hebben geholpen Slide (gratis) waar te maken :)</string>

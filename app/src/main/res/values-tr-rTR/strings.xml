@@ -24,7 +24,6 @@
   <string name="submission_save">Mesajı kaydet</string>
   <string name="submission_share">Mesajı paylaş</string>
   <string name="submission_load_full">Tüm mesajları yükle</string>
-  <string name="submission_np_link">Bu bir np bağlantısıdır. Lütfen yorum yapmayın veya oylamayın.</string>
   <string name="submission_tap_gif">GIF\'i yüklemek için bas</string>
   <string name="submission_not_found_msg">Üzgünüz, bu yazı bulunamadı</string>
   <plurals name="submission_points">
@@ -144,12 +143,9 @@
   <string name="multireddit_err_title">Multireddit yok (şimdilik)!</string>
   <string name="multireddit_title_empty">Başlık boş olamaz</string>
   <string name="multireddit_title_empty_msg">Lütfen multireddit\'iniz için bir başlık girin</string>
-  <string name="multireddit_no_subs">Hiçbir sub eklenmedi</string>
-  <string name="multireddit_no_subs_msg">Lütfen + butonuna basarak birkaç sub ekleyin!</string>
   <string name="multireddit_selector">Eklemek için subreddit seçin</string>
   <string name="album_loading">Albüm yükleniyor</string>
   <string name="album_err_not_found">Albüm bulunamadı</string>
-  <string name="album_err_msg_not_found">Bu albümü yüklerken bir hata oluştu. Lütfen albümü yeniden açmayı deneyin. Eğer sorun devam ederse, lütfen /r/slideforreddit\'e bildirin</string>
   <string name="type_nsfw_img">NSFW görüntü</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
   <string name="type_reddit">Reddit bağlantısı</string>
@@ -270,6 +266,8 @@
   <string name="settings_title_appearance">Görünüm</string>
   <string name="settings_title_about">Hakkında</string>
   <string name="settings_title_multi_column">Çoklu-sütun Ayarları</string>
+  <string name="settings_title_comments">yorumlar</string>
+  <string name="settings_section_general">Genel</string>
   <string name="title_subreddit_settings">Subreddit Ayarları</string>
   <string name="title_edit_theme">Temayı Düzenle</string>
   <string name="title_submit_post">Gönder</string>
@@ -280,7 +278,6 @@
   <string name="title_multireddits">Multireddit\'ler</string>
   <string name="title_inbox">Gelen Kutusu</string>
   <string name="title_theme_settings">Tema ayarları</string>
-  <string name="title_create_multi">Bir Çoklu Oluştur</string>
   <string name="title_mod">Moderatör</string>
   <string name="donate_amount_title">Bu miktar&#8230;</string>
   <string name="donate_info_student">Ben bir öğrenci ve geliştiriciyim, cömert bağışlarınız için çok teşekkür ederim! Bağışlarınız bana Slide\'ı (ücretsiz) bir gerçek yapmamda yardımcı oldu :)</string>

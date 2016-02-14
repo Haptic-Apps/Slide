@@ -52,4 +52,5 @@
   <string name="settings_bugs">Hibajelentés</string>
   <string name="settings_title_notifications">Értesítések</string>
   <string name="settings_title_multi_column">Több oszlop</string>
+  <string name="settings_title_comments">hozzászólások</string>
 </resources>
