@@ -27,7 +27,7 @@ import me.ccrama.redditslide.R;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
+public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";

@@ -124,12 +124,10 @@ public class Wiki extends BaseActivityAnim {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
         public Fragment getItem(int i) {
-
             Fragment f = new WikiPage();
             Bundle args = new Bundle();
 
@@ -139,8 +137,6 @@ public class Wiki extends BaseActivityAnim {
             f.setArguments(args);
 
             return f;
-
-
         }
 
 

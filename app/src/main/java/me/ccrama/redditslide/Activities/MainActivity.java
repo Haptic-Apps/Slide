@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -47,6 +48,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,13 +94,14 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 
 public class MainActivity extends BaseActivity {
@@ -313,37 +317,50 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (!Reddit.colors.contains("Tutorial")) {
             first = true;
+            Reddit.appRestart.edit().putBoolean("firststart460", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, TUTORIAL_RESULT);
-        } else if (!Reddit.colors.contains("451update")) { //todo better code here
+        } else if (!Reddit.colors.contains("460update") && !Reddit.colors.contains("firststart460")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.5.1")
-                    .content("I’m happy to announce Slide v4.5.1!\n" +
-                            "\t•Revamped Shadowbox mode with title and selftext posts, loading bars, and better layout\n" +
-                            "\t•New image, gif, and album UI\n" +
-                            "\t•Removed pinning, replaced with the ability to reorder all your subs and add non-subscribed subreddits\n" +
-                            "\t•Separate theme option to only color cards outside of the subreddit\n" +
-                            "\t•Amoled black color option for subreddits\n" +
-                            "\t•Search from single subreddit view\n" +
-                            "\t•Fixed readability issues with some subreddit colors and dark/light fonts\n" +
-                            "\t•Ability to tint the navigation bar added\n" +
-                            "\t•Ability to set the comment font size separate from the post title size added\n" +
-                            "\t•Ability to make the drawer subreddit list alphabetical or sortable\n" +
-                            "\t•Fixed some filter bugs\n" +
-                            "\t•Fixed crash in offline mode\n"
-                            + "Make sure to report all bugs to the G+ group!")
+                    .title("Slide v4.6")
+                    .content("I’m happy to announce Slide v4.6!\n" +
+                            "\t•Reduction in RAM use and APK size\n" +
+                            "\t•New embedded YouTube viewer\n" +
+                            "\t•Auto-color subreddits based on the color api\n" +
+                            "\t•Greatly reduced lag in scrolling lists (submissions and comments)\n" +
+                            "\t•New offline model with caching of comments, albums, gifs, and images\n" +
+                            "\t•New horizontal album viewer\n" +
+                            "\t•Inline table support in all text views\n" +
+                            "\t•Nested list and ordered list support in all text views\n" +
+                            "\t•Tons of speed improvements in submission and comment lists\n" +
+                            "\t•FAB and shadowbox in multireddits\n" +
+                            "\t•Greatly improved the reorder subs screen\n" +
+                            "\t•Added \"collections\" in the main view (like multireddits)\n" +
+                            "\t•New pink accent color\n" +
+                            "\t•TONS of code cleanup and method optimization (view on Github)\n" +
+                            "\t•Fixed NSFW previews not working\n" +
+                            "\t•Added vote buttons to long press menu in case you have the actionbar hidden\n" +
+                            "\t•Added nested \"Load more comments\" ability (before it only showed the last top-level load more comments child, and you couldn't load more to top level comments)\n" +
+                            "\t•Added ability to collapse the \"Load more comments\" child\n" +
+                            "\t•Forced the size of the image view so when images load, it won't force the whole page down\n" +
+                            "\t•Added fade in effect to images to make it prettier\n" +
+                            "\t•New tutorial with \"hints\" tooltips\n" +
+                            "\t•Fixed weird card cutoff\n" +
+                            "\t•Added default error handler for incomplete API calls (will fix 90% of Slide crashes)\n" +
+                            "\t•Tons more!\n"
+                            + "Make sure to report all bugs to Github!")
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("451update", true).apply();
+                            Reddit.colors.edit().putBoolean("460update", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("451update", true).apply();
+                            Reddit.colors.edit().putBoolean("460update", true).apply();
 
                         }
                     })
@@ -636,6 +653,102 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    private TableLayout formatTable(String text, Activity context, String subreddit) {
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+
+        TableLayout table = new TableLayout(context);
+        TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+
+        table.setLayoutParams(params);
+
+        final String tableStart = "<table>";
+        final String tableEnd = "</table>";
+        final String tableHeadStart = "<thead>";
+        final String tableHeadEnd = "</thead>";
+        final String tableRowStart = "<tr>";
+        final String tableRowEnd = "</tr>";
+        final String tableColumnStart = "<td>";
+        final String tableColumnEnd = "</td>";
+        final String tableHeaderStart = "<th>";
+        final String tableHeaderEnd = "</th>";
+
+        int i = 0;
+        int columnStart = 0;
+        int columnEnd;
+        TableRow row = null;
+        while (i < text.length()) {
+            if (text.charAt(i) != '<') { // quick check otherwise it falls through to else
+                i += 1;
+            } else if (text.subSequence(i, i + tableStart.length()).toString().equals(tableStart)) {
+                i += tableStart.length();
+            } else if (text.subSequence(i, i + tableHeadStart.length()).toString().equals(tableHeadStart)) {
+                i += tableHeadStart.length();
+            } else if (text.subSequence(i, i + tableRowStart.length()).toString().equals(tableRowStart)) {
+                row = new TableRow(context);
+                row.setLayoutParams(rowParams);
+                i += tableRowStart.length();
+            } else if (text.subSequence(i, i + tableRowEnd.length()).toString().equals(tableRowEnd)) {
+                table.addView(row);
+                i += tableRowEnd.length();
+            } else if (text.subSequence(i, i + tableEnd.length()).toString().equals(tableEnd)) {
+                i += tableEnd.length();
+            } else if (text.subSequence(i, i + tableHeadEnd.length()).toString().equals(tableHeadEnd)) {
+                i += tableHeadEnd.length();
+            } else if (text.subSequence(i, i + tableColumnStart.length()).toString().equals(tableColumnStart)
+                    || text.subSequence(i, i + tableHeaderStart.length()).toString().equals(tableHeaderStart)) {
+                i += tableColumnStart.length();
+                columnStart = i;
+            } else if (text.subSequence(i, i + tableColumnEnd.length()).toString().equals(tableColumnEnd)
+                    || text.subSequence(i, i + tableHeaderEnd.length()).toString().equals(tableHeaderEnd)) {
+                columnEnd = i;
+
+                SpoilerRobotoTextView textView = new SpoilerRobotoTextView(context);
+                //textView.setMovementMethod(new TextViewLinkHandler(context, subreddit, null));
+                textView.setLinkTextColor(new ColorPreferences(this).getColor(subreddit));
+                textView.setText(text.subSequence(columnStart, columnEnd));
+                textView.setPadding(3, 0 ,0 , 0);
+
+                row.addView(textView);
+
+                columnStart = 0;
+                i += tableColumnEnd.length();
+            } else {
+                i += 1;
+            }
+        }
+
+        return table;
+    }
+
+    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
+    }
+
     public void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
@@ -643,7 +756,8 @@ public class MainActivity extends BaseActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, MainActivity.this, subreddit.getDisplayName());
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+            setViews(text, subreddit.getDisplayName(), body, overflow);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }

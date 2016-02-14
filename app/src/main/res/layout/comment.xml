@@ -1,56 +1,171 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipChildren="false"
-    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="?attr/card_background"
     android:scrollbars="none">
-
 
     <LinearLayout
         android:id="@+id/next"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginBottom="2dp"
+        android:background="?attr/activity_background"
         android:elevation="2dp"
         android:orientation="horizontal" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:orientation="horizontal">
+        android:orientation="horizontal">-->
+
+    <View
+        android:id="@+id/dots"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:background="?attr/activity_background" />
+
+    <TextView
+        android:id="@+id/dot"
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/background"
+        android:layout_alignParentTop="true"
+        android:background="#fff" />
 
 
-        <LinearLayout
-            android:id="@+id/dots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/activity_background"
-            android:orientation="horizontal">
+    <RelativeLayout
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/dot"
+        android:background="?attr/card_background">
 
-
-        </LinearLayout>
-
-
-        <View
-            android:id="@+id/dot"
-            android:layout_width="3dp"
-            android:layout_height="match_parent"
-
-            android:background="#fff" />
-
-
-        <RelativeLayout
-            android:id="@+id/background"
+        <com.wefika.flowlayout.FlowLayout
+            android:id="@+id/flow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
 
-            android:background="?attr/card_background"
-            android:orientation="vertical"
-
+            android:orientation="horizontal"
+            android:paddingRight="10dp"
             android:paddingTop="8dp">
 
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="sans-serif-condensed"
+
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:text="ccrama"
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_commenttitle"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="+49"
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_commentinfo"
+
+                />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="4 hours ago"
+                android:textColor="?attr/font"
+
+                android:textSize="?attr/font_commentinfo" />
+
+            <include
+                android:id="@+id/gild"
+                layout="@layout/gilded"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
+
+            <include
+                android:id="@+id/flairbubble"
+                layout="@layout/flair"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+
+                android:layout_toRightOf="@+id/pinned"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/pinned" />
+
+            <include
+                android:id="@+id/you"
+                layout="@layout/you"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+
+                android:layout_toRightOf="@+id/pinned"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/pinned" />
+
+            <include
+                android:id="@+id/op"
+                layout="@layout/op"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+
+                android:layout_toRightOf="@+id/pinned"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/pinned" />
+
+            <include
+                android:id="@+id/sticky"
+                layout="@layout/stickied"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+
+                android:layout_toRightOf="@+id/op"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
 
             <include
                 android:id="@+id/children"
@@ -65,171 +180,51 @@
                 android:layout_marginRight="8dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal" />
+        </com.wefika.flowlayout.FlowLayout>
 
+        <!--<View
+            android:layout_width="match_parent"
+            android:alpha="0.2"
+            android:layout_below="@id/firsttextview"
+            android:background="?attr/tint"
+            android:layout_height="0.25dp"/>-->
 
-            <com.wefika.flowlayout.FlowLayout
-                android:id="@+id/flow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:id="@+id/firstTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/flow"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="comment"
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_commentbody" />
 
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:fontFamily="sans-serif-condensed"
-
-                    android:gravity="center_vertical"
-                    android:paddingRight="5dp"
-                    android:text="ccrama"
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_commenttitle"
-                    android:textStyle="bold"
-
-                    />
-
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="sans-serif-condensed"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
-                    android:text="+49"
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_commentinfo"
-
-                    />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="3dp"
-                    android:paddingRight="3dp"
-                    android:text="4 hours ago"
-                    android:textColor="?attr/font"
-
-                    android:textSize="?attr/font_commentinfo" />
-
-                <include
-                    android:id="@+id/gild"
-                    layout="@layout/gilded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_horizontal"
-                    android:orientation="horizontal"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp" />
-
-                <include
-                    android:id="@+id/flairbubble"
-                    layout="@layout/flair"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="5dp"
-
-                    android:layout_toRightOf="@+id/pinned"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/pinned" />
-
-                <include
-                    android:id="@+id/you"
-                    layout="@layout/you"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-
-                    android:layout_toRightOf="@+id/pinned"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/pinned" />
-
-                <include
-                    android:id="@+id/op"
-                    layout="@layout/op"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
-
-                    android:layout_toRightOf="@+id/pinned"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:src="@drawable/pinned" />
-
-                <include
-                    android:id="@+id/sticky"
-                    layout="@layout/stickied"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
-
-                    android:layout_toRightOf="@+id/op"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp" />
-            </com.wefika.flowlayout.FlowLayout>
-
-
-            <me.ccrama.redditslide.SpoilerRobotoTextView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/flow"
-
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:lineSpacingMultiplier="1.1"
-
-                android:paddingBottom="8dp"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commentbody" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:layout_below="@id/content"
-                android:alpha="0.2"
-                android:background="?attr/tint" />
-        </RelativeLayout>
-
-
-    </LinearLayout>
-
+        <me.ccrama.redditslide.Views.CommentOverflow
+            android:id="@+id/commentOverflow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/firstTextView"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/menuarea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/background"
         android:orientation="vertical" />
 
     <LinearLayout
         android:id="@+id/commentArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/dot"
         android:orientation="vertical" />
 
-</LinearLayout>
+</RelativeLayout>
+

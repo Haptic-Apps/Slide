@@ -8,46 +8,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 public class WikiPage extends Fragment {
-
-
     private String title;
     private String subreddit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.justtext, container, false);
 
         final SpoilerRobotoTextView body = (SpoilerRobotoTextView) v.findViewById(R.id.body);
+        final CommentOverflow commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
         final GeneralSwipeRefreshLayout ref = (GeneralSwipeRefreshLayout) v.findViewById(R.id.ref);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
+
         ref.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
-
         ref.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
-
         ref.setRefreshing(true);
 
         new AsyncTask<Void, Void, Void>() {
             String text;
             @Override
             protected Void doInBackground(Void... params) {
-                 text = ((Wiki)getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
+                text = ((Wiki)getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
 
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, getActivity(), subreddit);
+                setViews(text, subreddit, body, commentOverflow);
 
                 ref.setRefreshing(false);
                 ref.setEnabled(false);
@@ -55,8 +55,36 @@ public class WikiPage extends Fragment {
             }
         }.execute();
 
-
         return v;
+    }
+
+    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
     }
 
     @Override

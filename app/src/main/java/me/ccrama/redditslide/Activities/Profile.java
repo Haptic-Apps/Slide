@@ -11,14 +11,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -62,11 +60,10 @@ public class Profile extends BaseActivityAnim {
 
         name = getIntent().getExtras().getString(EXTRA_PROFILE, "");
         applyColorTheme();
-        setContentView(R.layout.activity_multireddits);
+        setContentView(R.layout.activity_profile);
         setupUserAppBar(R.id.toolbar, name, true, name);
 
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
-        ((ImageView) findViewById(R.id.create)).setImageDrawable(ContextCompat.getDrawable(Profile.this, R.drawable.infonew));
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -112,7 +109,7 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
-        findViewById(R.id.create).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = getLayoutInflater();

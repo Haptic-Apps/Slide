@@ -33,6 +33,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -58,10 +59,11 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Views.MakeTextviewClickable;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.SubmissionParser;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -419,6 +421,34 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         restartTheme();
     }
 
+    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subreddit);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subreddit);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
+    }
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
@@ -426,7 +456,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit.getDisplayName());
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+            setViews(text, subreddit.getDisplayName(), body, overflow);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
@@ -778,7 +809,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     final View dialoglayout = inflater.inflate(R.layout.justtext, null);
                     AlertDialog.Builder builder = new AlertDialog.Builder(SubredditView.this);
                     final SpoilerRobotoTextView body = (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.body);
-                    new MakeTextviewClickable().ParseTextWithLinksTextView(text, body, SubredditView.this, subreddit);
+                    final CommentOverflow overflow = (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow);
+                    setViews(text, subreddit, body, overflow);
 
                     builder.setView(dialoglayout).show();
 

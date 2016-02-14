@@ -26,5 +26,7 @@ Thumbs.db
 cd
 *.log
 
+# trace files
+/captures
 
 /app/src/main/assets/secretconstants.properties

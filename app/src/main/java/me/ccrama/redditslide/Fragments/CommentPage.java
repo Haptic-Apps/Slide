@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -58,9 +59,12 @@ public class CommentPage extends Fragment {
     private boolean single;
     private CommentAdapter adapter;
     private String fullname;
-    private String id;
     private String baseSubreddit;
     private String context;
+    private int subredditStyle;
+    private ContextWrapper contextThemeWrapper;
+    private PreCachingLayoutManagerComments mLayoutManager;
+    public String subreddit;
 
     private void reloadSubs() {
         mSwipeRefreshLayout.setRefreshing(true);
@@ -159,13 +163,8 @@ public class CommentPage extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
-        int style = new ColorPreferences(getActivity()).getThemeSubreddit(id);
-        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), style);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
-
 
 
 
@@ -190,8 +189,6 @@ public class CommentPage extends Fragment {
 
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
-        final PreCachingLayoutManagerComments mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
         rv.setLayoutManager(mLayoutManager);
 
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
@@ -263,12 +260,12 @@ public class CommentPage extends Fragment {
         if (getActivity() instanceof BaseActivityAnim) {
             ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
             ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(id);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(subreddit);
         }
-        toolbar.setBackgroundColor(Palette.getColor(id));
+        toolbar.setBackgroundColor(Palette.getColor(subreddit));
 
 
-      /* STARTING IT  v.findViewById(R.id.fab).setOnTouchListener(new View.OnTouchListener() {
+      /* STARTING IT  v.findViewById(R.subreddit.fab).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
 
@@ -282,7 +279,7 @@ public class CommentPage extends Fragment {
 
                     case MotionEvent.ACTION_UP:
 
-                        View body = v.findViewById(R.id.body);
+                        View body = v.findViewById(R.subreddit.body);
                         int cx = (view.getLeft() + view.getRight()) / 2;
                         int cy = (view.getTop() + view.getBottom()) / 2;
 
@@ -318,7 +315,7 @@ public class CommentPage extends Fragment {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
 
         mSwipeRefreshLayout.setRefreshing(true);
 
@@ -357,18 +354,18 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.archived).setVisibility(View.GONE);
         } else if (archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
-            v.findViewById(R.id.archived).setBackgroundColor(Palette.getColor(id));
+            v.findViewById(R.id.archived).setBackgroundColor(Palette.getColor(subreddit));
 
         } else {
             v.findViewById(R.id.archived).setVisibility(View.GONE);
-            v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(id));
+            v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(subreddit));
         }
 
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        comments.loadMore(adapter, id);
+                        comments.loadMore(adapter, subreddit);
 
                         //TODO catch errors
                     }
@@ -405,20 +402,21 @@ public class CommentPage extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        id = bundle.getString("subreddit", "");
+        subreddit = bundle.getString("subreddit", "");
         fullname = bundle.getString("id", "");
         page = bundle.getInt("page", 0);
         single = bundle.getBoolean("single", false);
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
-        subreddit = bundle.getString("subreddit", "");
         baseSubreddit = bundle.getString("baseSubreddit", "");
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
+        subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
+        contextThemeWrapper = new ContextThemeWrapper(getActivity(), subredditStyle);
+        mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
     }
 
-    public String subreddit;
 
     @Override
     public void onPause() {

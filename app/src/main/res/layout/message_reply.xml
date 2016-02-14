@@ -1,14 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:clipChildren="false"
-
-
     android:orientation="vertical"
-
     android:scrollbars="none">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,16 +13,10 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="16dp"
-
-
         android:background="#424242"
-
         android:clipChildren="false"
         android:orientation="vertical"
-
-
         android:scrollbars="none"
-
         app:cardBackgroundColor="?attr/card_background">
 
         <LinearLayout
@@ -53,17 +42,11 @@
 
             <LinearLayout
                 android:id="@+id/background"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
                 android:orientation="horizontal"
                 android:paddingBottom="0dp"
                 android:scrollbars="none">
-
-
-
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -72,18 +55,14 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-
                         <TextView
                             android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingBottom="5dp"
                             android:paddingTop="5dp"
-
                             android:text="4 hours ago"
-
                             android:textColor="?attr/font"
-
                             android:textSize="?attr/font_commentinfo" />
 
                         <TextView
@@ -93,30 +72,29 @@
                             android:paddingBottom="5dp"
                             android:paddingLeft="10dp"
                             android:paddingTop="5dp"
-
                             android:text="ccrama"
-
                             android:textColor="?attr/font"
-
                             android:textSize="?attr/font_commentinfo" />
                     </LinearLayout>
-
-
-
-
-
 
             </LinearLayout>
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:text="Alright, fair enough, I see your point. The reason I was open sourcing it was to help other people developing apps with theirs, along with showing demonstrations of libraries I used throughout the project for people wondering about them. I wasn't really going for the whole issue finder aspect of being open sourced, which is why I would wait till the next beta release to do so and allow people to look in and give me feedback before the full release. I'll definitively consider releasing it earlier now, though. Thank you for the response!"
                 android:textColor="?attr/font"
-
                 android:textSize="?attr/font_commentbody" />
+
+            <me.ccrama.redditslide.Views.CommentOverflow
+                android:id="@+id/commentOverflow"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
