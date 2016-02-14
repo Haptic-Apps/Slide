@@ -306,7 +306,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         // add 2 to end of link since there is a white space between the link text and the spoiler
         ForegroundColorSpan[] foregroundColors = text.getSpans(endOfLink + 2, endOfLink + 2, ForegroundColorSpan.class);
 
-        if (foregroundColors.length > 0) {
+        if (foregroundColors.length > 1) {
             text.removeSpan(foregroundColors[0]);
             text.removeSpan(foregroundColors[1]);
             setText(text);
@@ -358,8 +358,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 sequence.setSpan(underneathColorSpan, start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(foregroundColorSpan, start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
-                storedSpoilerSpans.add(foregroundColorSpan);
                 storedSpoilerSpans.add(underneathColorSpan);
+                storedSpoilerSpans.add(foregroundColorSpan);
                 storedSpoilerSpans.add(backgroundColorSpan);
                 // Shift 1 to account for remove of beginning "<"
 
