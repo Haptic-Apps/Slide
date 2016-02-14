@@ -46,42 +46,43 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/base"
+    <ScrollView
         android:layout_width="match_parent"
-
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imagearea"
-        android:layout_gravity="center_vertical"
+        android:layout_height="80dp"
         android:background="#55000000"
 
-        android:orientation="vertical">
+        android:layout_alignBottom="@+id/imagearea">
 
-        <me.ccrama.redditslide.Views.TitleTextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/base"
+            android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:paddingLeft="16dp"
-            android:paddingTop="10dp"
-            android:scrollbars="vertical"
-            android:textColor="#ffffff"
-            android:textSize="?attr/font_cardtitle" />
 
-        <me.ccrama.redditslide.SpoilerRobotoTextView
-            android:id="@+id/desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha=".56"
-            android:maxLines="2"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:scrollbars="vertical"
-            android:textColor="#ffffff"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:orientation="vertical">
 
+            <me.ccrama.redditslide.Views.TitleTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:paddingLeft="16dp"
+                android:paddingTop="10dp"
+                android:textColor="#ffffff"
+                android:textSize="?attr/font_cardtitle" />
+
+            <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".56"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
 
