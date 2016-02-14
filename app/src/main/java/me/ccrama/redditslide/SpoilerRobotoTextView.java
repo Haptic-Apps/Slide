@@ -79,12 +79,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             end--;
         }
 
-        return (SpannableStringBuilder) s.subSequence(start, end);
+        return (SpannableStringBuilder)s.subSequence(start, end);
     }
 
     /**
      * Set the text from html. Handles formatting spoilers, links etc.
-     * <p/>
+     *
      * The text must be valid html.
      *
      * @param text html text
@@ -95,22 +95,23 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     /**
      * Set the text from html. Handles formatting spoilers, links etc.
-     * <p/>
+     *
      * The text must be valid html.
      *
-     * @param text      html text
+     * @param text html text
      * @param subreddit the subreddit to theme
      */
     public void setTextHtml(CharSequence text, String subreddit) {
-        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text.toString().trim());
+        SpannableStringBuilder builder = (SpannableStringBuilder)Html.fromHtml(text.toString().trim());
         setCodeFont(builder);
         setSpoilerStyle(builder);
         if (text.toString().contains("[[d[")) {
             setStrikethrough(builder);
         }
 
-        setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
-
+        if (!subreddit.isEmpty()) {
+            setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
+        }
 
         builder = removeNewlines(builder);
 
@@ -125,7 +126,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         for (int i = 0; i < builder.length() - 4; i++) {
             if (builder.charAt(i) == '[' && builder.charAt(i + 1) == '[' && builder.charAt(i + 2) == 'd' && builder.charAt(i + 3) == '[') {
                 start = i + offset;
-            } else if (builder.charAt(i) == ']' && builder.charAt(i + 1) == 'd' && builder.charAt(i + 2) == ']' && builder.charAt(i + 3) == ']') {
+            } else if (builder.charAt(i) == ']' && builder.charAt(i + 1) == 'd'&& builder.charAt(i + 2) == ']' && builder.charAt(i + 3) == ']') {
                 end = i;
                 builder.setSpan(new StrikethroughSpan(), start, end - 1, 0);
                 builder.delete(end, end + offset);
@@ -144,9 +145,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         Context context = getContext();
         Activity activity = null;
         if (context instanceof Activity) {
-            activity = (Activity) context;
+            activity = (Activity)context;
         } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
-            activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+            activity = (Activity)((android.support.v7.view.ContextThemeWrapper)context).getBaseContext();
         } else {
             throw new RuntimeException("Could not find activity from context:" + context);
         }
@@ -181,7 +182,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 break;
             case ALBUM:
                 if (SettingValues.album) {
-                    if (SettingValues.albumSwipe) {
+                    if(SettingValues.albumSwipe){
                         Intent i = new Intent(activity, AlbumPager.class);
                         i.putExtra(Album.EXTRA_URL, url);
                         activity.startActivity(i);
@@ -237,10 +238,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             return;
         }
         final Activity activity;
-        if (getContext() instanceof ContextThemeWrapper) {
-            activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
+        if(getContext() instanceof ContextThemeWrapper) {
+           activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
         } else {
-            activity = (Activity) getContext();
+            activity = (Activity)getContext();
         }
 
         if (!activity.isFinishing()) {
@@ -283,7 +284,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             }
             getContext().startActivity(myIntent);
-            ((Activity) getContext()).overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+            ((Activity)getContext()).overridePendingTransition(R.anim.slideright, R.anim.fade_out);
         } else {
             Reddit.defaultShare(url, getContext());
         }
@@ -301,7 +302,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     public void setOrRemoveSpoilerSpans(int endOfLink) {
-        Spannable text = (Spannable) getText();
+        Spannable text = (Spannable)getText();
         // add 2 to end of link since there is a white space between the link text and the spoiler
         ForegroundColorSpan[] foregroundColors = text.getSpans(endOfLink + 2, endOfLink + 2, ForegroundColorSpan.class);
 
