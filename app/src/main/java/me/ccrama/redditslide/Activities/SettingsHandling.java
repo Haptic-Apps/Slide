@@ -88,6 +88,7 @@ public class SettingsHandling extends BaseActivityAnim implements
                 break;
             case R.id.album:
                 SettingValues.album = isChecked;
+                (((SwitchCompat) findViewById(R.id.albumpager))).setEnabled(isChecked);
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM, isChecked).apply();
                 break;
             case R.id.video:

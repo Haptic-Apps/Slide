@@ -31,9 +31,9 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
-import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Imgur;
+import me.ccrama.redditslide.Activities.YouTubeView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -219,8 +219,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 break;
             case VIDEO:
                 if (SettingValues.video) {
-                    Intent intent = new Intent(activity, FullscreenVideo.class);
-                    intent.putExtra(FullscreenVideo.EXTRA_HTML, url);
+                    Intent intent = new Intent(activity, YouTubeView.class);
+                    intent.putExtra("url", url);
                     activity.startActivity(intent);
                 } else {
                     Reddit.defaultShare(url, activity);
