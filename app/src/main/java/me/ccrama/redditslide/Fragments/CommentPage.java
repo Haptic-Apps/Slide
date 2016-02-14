@@ -335,7 +335,7 @@ public class CommentPage extends Fragment {
         } else if (context.isEmpty()) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
-            if (o.submissions.size() > 0)
+            if (o != null && o.submissions.size() > 0)
                 adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
             rv.setAdapter(adapter);
         } else {

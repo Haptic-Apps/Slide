@@ -48,7 +48,7 @@ public class OfflineSubreddit {
                 }
                 String finals = s.toString();
                 finals = finals.substring(0, finals.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
 
             } else {
                 StringBuilder s = new StringBuilder();
@@ -59,7 +59,7 @@ public class OfflineSubreddit {
                 }
                 String finals = s.toString();
                 finals = finals.substring(0, finals.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).commit();
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
 
 
                 dataNodes = null;

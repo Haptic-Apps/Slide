@@ -293,9 +293,9 @@ public class GifUtils {
                 s = s.trim();
 
                 final String finalS = s;
-                Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
+                Log.v("Slide", "https://gfycat.com/cajax/checkUrl/" + s);
 
-                Ion.with(c).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                Ion.with(c).load("https://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, final JsonObject result) {
                         if (result != null && result.has("urlKnown") && result.get("urlKnown").getAsBoolean()) {
@@ -442,6 +442,8 @@ public class GifUtils {
 
 
                         } else {
+
+                            Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS);
 
                             Ion.with(c)
                                     .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS)

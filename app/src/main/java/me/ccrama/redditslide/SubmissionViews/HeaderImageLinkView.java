@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,19 +60,20 @@ public class HeaderImageLinkView extends RelativeLayout {
         backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
         doImageAndText(submission, full);
 
-        if (!done) {
-            done = true;
-           /* getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        if (!done && full) {
+            getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     if (!done) {
                         doImageAndText(submission, full);
                         done = true;
+                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
 
                 }
-            });*/
+            });
         } else {
+            done = true;
             doImageAndText(submission, full);
         }
 
@@ -80,30 +82,39 @@ public class HeaderImageLinkView extends RelativeLayout {
     public void doImageAndText(Submission submission, boolean full) {
         final ContentType.ImageType type = ContentType.getImageType(submission);
 
+        setVisibility(View.VISIBLE);
         String url = "";
         boolean forceThumb = false;
 
-        if (full && SettingValues.bigPicCropped) {
-            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
+        if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("width")) {
 
-        } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("width")) {
             int height = submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt();
             int width = submission.getDataNode().get("preview").get("images").get(0).get("source").get("width").asInt();
 
-            if (SettingValues.bigPicCropped) {
+            if (full) {
+                if (height < dpToPx(100) && type != ContentType.ImageType.SELF) {
+                    forceThumb = true;
+                } else if(SettingValues.cropImage){
+                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
+                } else{
+                    double h = getHeightFromAspectRatio(height, width);
+                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,(int)h ));
+                }
+            } else if (SettingValues.bigPicCropped) {
                 if (height < dpToPx(200)) {
                     forceThumb = true;
                 } else {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 }
-            } else if (height >= dpToPx(150)) {
-                Log.v(LogUtil.getTag(), "" + getHeightFromAspectRatio(height, width));
+            } else if (height >= dpToPx(150) ) {
                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
             } else {
                 forceThumb = true;
             }
+
         }
         if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
+
             setVisibility(View.GONE);
             if (!full || forceThumb) {
                 thumbImage2.setVisibility(View.VISIBLE);
@@ -111,11 +122,15 @@ public class HeaderImageLinkView extends RelativeLayout {
                 wrapArea.setVisibility(View.VISIBLE);
             }
             if (submission.isSelfPost()) thumbImage2.setVisibility(View.GONE);
-            else
+            else {
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
+
+            }
+
         } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+
             setVisibility(View.GONE);
-            if (!full || forceThumb) {
+            if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);
             } else {
                 wrapArea.setVisibility(View.VISIBLE);
@@ -123,9 +138,11 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
+
             url = submission.getUrl();
             if (!full && !SettingValues.bigPicEnabled || forceThumb) {
-                if (!full || forceThumb) {
+
+                if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {
                     wrapArea.setVisibility(View.VISIBLE);
@@ -134,9 +151,10 @@ public class HeaderImageLinkView extends RelativeLayout {
                 setVisibility(View.GONE);
 
             } else {
+
                 ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
                 setVisibility(View.VISIBLE);
-                if (!full || forceThumb) {
+                if (!full) {
                     thumbImage2.setVisibility(View.GONE);
                 } else {
                     wrapArea.setVisibility(View.GONE);
@@ -145,8 +163,9 @@ public class HeaderImageLinkView extends RelativeLayout {
         } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
 
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            if (!SettingValues.bigPicEnabled && !full) {
-                if (!full || forceThumb) {
+            if (!SettingValues.bigPicEnabled && !full || forceThumb) {
+
+                if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {
                     wrapArea.setVisibility(View.VISIBLE);
@@ -155,9 +174,10 @@ public class HeaderImageLinkView extends RelativeLayout {
                 setVisibility(View.GONE);
 
             } else {
+
                 ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
                 setVisibility(View.VISIBLE);
-                if (!full || forceThumb) {
+                if (!full) {
                     thumbImage2.setVisibility(View.GONE);
                 } else {
                     wrapArea.setVisibility(View.GONE);
@@ -165,7 +185,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
         } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
 
-            if (!full || forceThumb) {
+            if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);
             } else {
                 wrapArea.setVisibility(View.VISIBLE);
@@ -175,7 +195,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
 
         } else {
-            if (!full || forceThumb) {
+
+            if (!full) {
                 thumbImage2.setVisibility(View.GONE);
             } else {
                 wrapArea.setVisibility(View.GONE);
@@ -271,6 +292,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             case NONE_URL:
                 title.setText(R.string.type_link);
                 break;
+
         }
 
 
@@ -282,7 +304,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
 
-    private  String getDomainName(String url) throws URISyntaxException {
+    private String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
         return domain.startsWith("www.") ? domain.substring(4) : domain;
@@ -324,7 +346,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         this.backdrop = (ImageView) findViewById(R.id.leadimage);
     }
 
-    public  int dpToPx(int dp) {
+    public int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }
