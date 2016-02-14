@@ -192,6 +192,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         Intent i = new Intent(activity, AlbumPager.class);
                         i.putExtra(Album.EXTRA_URL, url);
                         activity.startActivity(i);
+
                         activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                     } else {
                         Intent i = new Intent(activity, Album.class);
@@ -292,7 +293,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             }
             getContext().startActivity(myIntent);
-            ((Activity) getContext()).overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+          
         } else {
             Reddit.defaultShare(url, getContext());
         }
