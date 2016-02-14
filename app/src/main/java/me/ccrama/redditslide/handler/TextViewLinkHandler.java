@@ -50,7 +50,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
         if (event.getAction() == MotionEvent.ACTION_DOWN)
             position = event.getY(); //used to see if the user scrolled or not
         if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
-            if (Math.abs((position - event.getY())) > 15) {
+            if (Math.abs((position - event.getY())) > 25) {
                 handler.removeCallbacksAndMessages(null);
             }
             return super.onTouchEvent(widget, buffer, event);
