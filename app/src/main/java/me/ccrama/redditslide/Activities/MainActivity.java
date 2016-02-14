@@ -320,7 +320,7 @@ public class MainActivity extends BaseActivity {
             Reddit.appRestart.edit().putBoolean("firststart460", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivityForResult(i, TUTORIAL_RESULT);
-        } else if (!Reddit.colors.contains("460update") && !Reddit.colors.contains("firststart460")) {
+        } else if (!Reddit.colors.contains("460update") && !Reddit.colors.contains("firststart460")) { 
             new MaterialDialog.Builder(this)
                     .title("Slide v4.6")
                     .content("I’m happy to announce Slide v4.6!\n" +
