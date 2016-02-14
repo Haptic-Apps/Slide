@@ -96,7 +96,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             messageViewHolder.user.setText(comment.getAuthor());
             messageViewHolder.title.setText(comment.getSubject());
 
-            setViews(comment.getDataNode().get("body_html").asText(), "", messageViewHolder);
 
             if (comment.isRead()) {
                 messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
@@ -126,7 +125,10 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
                 }
             });
-          
+
+            setViews(comment.getDataNode().get("body_html").asText(), "", messageViewHolder);
+
+
         }
 
     }
@@ -159,6 +161,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             holder.commentOverflow.removeAllViews();
         }
     }
+
 
     @Override
     public int getItemCount() {

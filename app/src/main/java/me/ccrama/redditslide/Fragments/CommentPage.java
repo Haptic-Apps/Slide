@@ -419,8 +419,8 @@ public class CommentPage extends Fragment {
 
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         comments.cancelLoad();
     }
 
