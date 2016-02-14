@@ -83,12 +83,13 @@ public class Search extends BaseActivityAnim {
 
                 }
                 reloadSubs();
+                getSupportActionBar().setSubtitle(Reddit.getSortingStringsSearch(getBaseContext())[Reddit.getSortingIdSearch(Search.this)]);
 
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStringsSearch(getBaseContext()), Reddit.getSortingIdSearch(), l2);
+        builder.setSingleChoiceItems(Reddit.getSortingStringsSearch(getBaseContext()), Reddit.getSortingIdSearch(this), l2);
         builder.show();
 
     }
@@ -125,7 +126,7 @@ public class Search extends BaseActivityAnim {
         builder.show();
 
     }
-    public TimePeriod time = TimePeriod.MONTH;
+    public TimePeriod time ;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -153,7 +154,10 @@ public class Search extends BaseActivityAnim {
 
         Log.v(LogUtil.getTag(), "Searching for " + where + " in " + subreddit);
 
+        time = TimePeriod.ALL;
 
+        getSupportActionBar().setTitle(where );
+        getSupportActionBar().setSubtitle(Reddit.getSortingStringsSearch(getBaseContext())[Reddit.getSortingIdSearch(this)]);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !SettingValues.tabletUI) {
             final PreCachingLayoutManager mLayoutManager;

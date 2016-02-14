@@ -40,6 +40,7 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.IabHelper;
@@ -214,7 +215,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                         5
                 ;
     }
-
+    public static Integer getSortingIdSearch(Search s) {
+        return
+                s.time == TimePeriod.HOUR ? 0 :
+                        s.time == TimePeriod.DAY ? 1 :
+                                s.time == TimePeriod.WEEK ? 2 :
+                                        s.time == TimePeriod.MONTH ? 3 :
+                                                s.time == TimePeriod.YEAR ? 4 :
+                                                        5
+                ;
+    }
     public static Integer getTypeSearch() {
         return
                 search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
