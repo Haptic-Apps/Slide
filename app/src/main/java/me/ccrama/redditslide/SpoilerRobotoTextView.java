@@ -308,6 +308,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
         if (foregroundColors.length > 0) {
             text.removeSpan(foregroundColors[0]);
+            text.removeSpan(foregroundColors[1]);
             setText(text);
         } else {
             for (int i = 0; i < storedSpoilerStarts.size(); i++) {
@@ -344,23 +345,28 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             if (end > start) {
                 sequence.delete(end, end + 4);
                 sequence.delete(start, start + 4);
-                BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Color.BLACK);
 
+                BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Color.BLACK);
                 ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLACK);
+                ForegroundColorSpan underneathColorSpan = new ForegroundColorSpan(Color.WHITE);
 
                 URLSpan urlSpan = sequence.getSpans(start, start, URLSpan.class)[0];
                 sequence.setSpan(urlSpan, sequence.getSpanStart(urlSpan), start - 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
                 // spoiler text has a space at the front
                 sequence.setSpan(backgroundColorSpan, start + 1, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                sequence.setSpan(underneathColorSpan, start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(foregroundColorSpan, start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
-
                 storedSpoilerSpans.add(foregroundColorSpan);
+                storedSpoilerSpans.add(underneathColorSpan);
                 storedSpoilerSpans.add(backgroundColorSpan);
                 // Shift 1 to account for remove of beginning "<"
+
                 storedSpoilerStarts.add(start - 1);
                 storedSpoilerStarts.add(start - 1);
+                storedSpoilerStarts.add(start - 1);
+                storedSpoilerEnds.add(end - 5);
                 storedSpoilerEnds.add(end - 5);
                 storedSpoilerEnds.add(end - 5);
 

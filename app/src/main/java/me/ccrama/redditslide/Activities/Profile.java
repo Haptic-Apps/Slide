@@ -60,7 +60,7 @@ public class Profile extends BaseActivityAnim {
 
         name = getIntent().getExtras().getString(EXTRA_PROFILE, "");
         applyColorTheme();
-        setContentView(R.layout.activity_multireddits);
+        setContentView(R.layout.activity_profile);
         setupUserAppBar(R.id.toolbar, name, true, name);
 
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));

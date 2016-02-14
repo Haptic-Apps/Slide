@@ -56,6 +56,7 @@ public class Tutorial extends FragmentActivity {
 
         setContentView(R.layout.activity_tutorial);
 
+
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.vp);
         /*
