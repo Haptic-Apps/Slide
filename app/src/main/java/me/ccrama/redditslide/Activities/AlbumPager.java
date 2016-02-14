@@ -246,8 +246,8 @@ public class AlbumPager extends BaseActivityAnim {
                     desc.setVisibility(View.GONE);
                 }
                 if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
+
+                    title.setTextHtml(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), "FORCE_LINK_HANDLING");
                     if (title.getText().toString().isEmpty()) {
                         title.setVisibility(View.GONE);
                     }
@@ -256,17 +256,17 @@ public class AlbumPager extends BaseActivityAnim {
                 }
             } else {
                 if (user.getAsJsonObject().has("title")) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
-                    desc.setText(Html.fromHtml(text.get(0)));
+                    desc.setTextHtml(user.getAsJsonObject().get("title").getAsString(), "FORCE_LINK_HANDLING");
+
                     if (desc.getText().toString().isEmpty()) {
                         desc.setVisibility(View.GONE);
                     }
+
                 } else {
                     desc.setVisibility(View.GONE);
                 }
                 if (user.getAsJsonObject().has("description")) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
+                    title.setTextHtml(user.getAsJsonObject().get("description").getAsString(), "FORCE_LINK_HANDLING");
                     if (title.getText().toString().isEmpty()) {
                         title.setVisibility(View.GONE);
                     }
