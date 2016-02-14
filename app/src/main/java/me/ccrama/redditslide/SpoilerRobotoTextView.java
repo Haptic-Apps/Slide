@@ -20,6 +20,7 @@ import android.text.style.StrikethroughSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.Toast;
 
@@ -243,6 +244,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             return;
         }
         final Activity activity;
+        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+
         if (getContext() instanceof ContextThemeWrapper) {
             activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
         } else {

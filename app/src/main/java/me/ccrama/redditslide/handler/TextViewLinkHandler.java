@@ -40,6 +40,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
                 clickHandled = true;
                 handler.removeCallbacksAndMessages(null);
                 TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
+
             }
         };
     }

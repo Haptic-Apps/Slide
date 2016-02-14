@@ -33,7 +33,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -100,6 +99,10 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 mSwipeRefreshLayout.setRefreshing(true);
