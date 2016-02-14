@@ -101,12 +101,12 @@ public class HeaderImageLinkView extends RelativeLayout {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,(int)h ));
                 }
             } else if (SettingValues.bigPicCropped) {
-                if (height < dpToPx(200)) {
+                if (height < dpToPx(100)) {
                     forceThumb = true;
                 } else {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 }
-            } else if (height >= dpToPx(150) ) {
+            } else if (height >= dpToPx(100) ) {
                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
             } else {
                 forceThumb = true;

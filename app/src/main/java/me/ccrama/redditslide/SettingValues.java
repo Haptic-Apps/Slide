@@ -139,8 +139,8 @@ public class SettingValues {
         swap = prefs.getBoolean(PREF_SWAP, false);
         web = prefs.getBoolean(PREFS_WEB, true);
         image = prefs.getBoolean(PREF_IMAGE, true);
-        cache = prefs.getBoolean(PREF_CACHE, true);
-        cacheDefault = prefs.getBoolean(PREF_CACHE_DEFAULT, false);
+        cache = true;
+        cacheDefault = false;
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         hideHeader = prefs.getBoolean(PREF_HIDE_HEADER, false);
