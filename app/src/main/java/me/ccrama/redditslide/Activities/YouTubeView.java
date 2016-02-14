@@ -39,6 +39,8 @@ public class YouTubeView extends BaseYoutubePlayer implements
         setContentView(R.layout.activity_youtube);
 
         video = getIntent().getExtras().getString("url", "");
+
+        Log.v(LogUtil.getTag(), video);
         video = extractYTId(video);
         Log.v(LogUtil.getTag(), video);
 
@@ -47,7 +49,7 @@ public class YouTubeView extends BaseYoutubePlayer implements
 
         // Initializing video player with developer key
         youTubeView.initialize(SecretConstants.getApiKey(this), this);
-        if(!Reddit.appRestart.contains("tutorialYT")){
+        if (!Reddit.appRestart.contains("tutorialYT")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -68,13 +70,15 @@ public class YouTubeView extends BaseYoutubePlayer implements
             }, 250);
         }
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialYT")){
+        if (!Reddit.appRestart.contains("tutorialYT")) {
             Reddit.appRestart.edit().putBoolean("tutorialYT", true).apply();
         }
     }
+
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider,
                                         YouTubeInitializationResult errorReason) {
@@ -84,6 +88,7 @@ public class YouTubeView extends BaseYoutubePlayer implements
     }
 
     String video;
+
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                         YouTubePlayer player, boolean wasRestored) {
@@ -110,20 +115,19 @@ public class YouTubeView extends BaseYoutubePlayer implements
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
     }
 
-    //from http://stackoverflow.com/questions/24048308/how-to-get-the-video-id-from-a-youtube-url-with-regex-in-java
+    //Adapted http://stackoverflow.com/questions/24048308/how-to-get-the-video-id-from-a-youtube-url-with-regex-in-java
     public static String extractYTId(String ytUrl) {
         String vId = null;
         Pattern pattern = Pattern.compile(
-                "^https?://.*(?:youtu.be/|v/|u/\\w/|embed/|watch?v=)([^#&?]*).*$",
+                "youtu(?:\\.be/|be\\.com/(?:watch\\?v=|v/|embed/|user/(?:[\\w#]+/)+))([^&#?\\n]+)",
                 Pattern.CASE_INSENSITIVE);
+
         Matcher matcher = pattern.matcher(ytUrl);
-        if (matcher.matches()){
-            vId = matcher.group(1);
-        }
+        matcher.find();
+        vId = matcher.group(1);
+
         return vId;
     }
-
-
 
 
 }
