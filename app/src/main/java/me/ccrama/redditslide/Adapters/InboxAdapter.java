@@ -4,7 +4,6 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 3/22/2015.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -105,28 +104,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 messageViewHolder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
             }
 
-            messageViewHolder.content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (comment.isRead()) {
-                        if (comment instanceof PrivateMessage) {
-                            DataShare.sharedMessage = (PrivateMessage) comment;
-                            Intent i = new Intent(mContext, Sendmessage.class);
-                            i.putExtra(Sendmessage.EXTRA_NAME, comment.getAuthor());
-                            i.putExtra(Sendmessage.EXTRA_REPLY, true);
-                            mContext.startActivity(i);
-                        } else {
-                            new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
-                        }
-                    } else {
-                        comment.read = true;
-                        new AsyncSetRead().execute(comment);
-
-                        messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
-
-                    }
-                }
-            });
             messageViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,15 +117,16 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         } else {
                             new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
                         }
-
                     } else {
                         comment.read = true;
                         new AsyncSetRead().execute(comment);
+
                         messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
 
                     }
                 }
             });
+          
         }
 
     }
