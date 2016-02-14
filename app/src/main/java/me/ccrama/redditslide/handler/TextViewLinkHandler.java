@@ -5,13 +5,11 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.ClickableText;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class TextViewLinkHandler extends LinkMovementMethod {
     private final ClickableText clickableText;
@@ -49,12 +47,10 @@ public class TextViewLinkHandler extends LinkMovementMethod {
         if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
             if(Math.abs((position - event.getY())) > 10){
                 handler.removeCallbacksAndMessages(null);
-                Log.v(LogUtil.getTag(), "POSITION NOT CLICK IS " + event.getY());
             }
             return super.onTouchEvent(widget, buffer, event);
         }
 
-        Log.v(LogUtil.getTag(), "POSITION IS " + position);
 
         comm = (SpoilerRobotoTextView) widget;
 

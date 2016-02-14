@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-
+            android:minHeight="28dp"
             android:orientation="horizontal"
             android:paddingRight="10dp"
             android:paddingTop="8dp">
@@ -171,15 +171,15 @@
                 android:id="@+id/children"
                 layout="@layout/commentnumber"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
+                android:layout_height="12dp"
 
-                android:layout_marginBottom="-16dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="8dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" />
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+
+                android:layout_toRightOf="@+id/sticky"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
         </com.wefika.flowlayout.FlowLayout>
 
         <!--<View
