@@ -155,6 +155,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="36dp"
 
+
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/chameleon"

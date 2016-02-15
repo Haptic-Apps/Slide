@@ -67,7 +67,14 @@
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_commenttitle"
                 android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/font"
 
+                android:text="@string/submission_properties_seperator_comments"
+                android:textSize="?attr/font_commenttitle"
+                />
             <TextView
                 android:id="@+id/score"
                 android:layout_width="wrap_content"
@@ -82,7 +89,14 @@
                 android:textSize="?attr/font_commentinfo"
 
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/font"
 
+                android:text="@string/submission_properties_seperator_comments"
+                android:textSize="?attr/font_commenttitle"
+                />
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"

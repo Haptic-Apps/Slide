@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -67,6 +69,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LogUtil;
@@ -839,6 +842,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return true;
                 }
             });
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    mContext,
+                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
+            holder.firstTextView.setTypeface(typeface);
             setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -917,6 +924,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
+
+
 
             holder.dot.setVisibility(View.VISIBLE);
 
