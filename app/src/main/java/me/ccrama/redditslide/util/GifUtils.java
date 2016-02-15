@@ -479,7 +479,7 @@ public class GifUtils {
                                                                 });
 
                                                         } else {
-                                                            final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
+                                                            final URL url = new URL(result.get("mp4Url").getAsString()); //wont exist on server yet, just load the full version
                                                             URLConnection ucon = url.openConnection();
                                                             ucon.setReadTimeout(5000);
                                                             ucon.setConnectTimeout(10000);
