@@ -247,7 +247,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     return true;
                 }
             });
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, null);
 
             final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
             if (hideButton != null && isHiddenPost) {

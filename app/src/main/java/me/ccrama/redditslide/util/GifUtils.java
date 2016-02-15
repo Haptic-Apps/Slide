@@ -90,6 +90,8 @@ public class GifUtils {
             } else if (s.contains("gfycat")) {
                 s = s.substring(3, s.length());
             }
+            s = s.replace("http://", "");
+            s = s.replace("https://", "");
             if (s.contains("gfycat")) {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
@@ -290,6 +292,7 @@ public class GifUtils {
                 }
                 s = s.trim();
 
+
                 final String finalS = s;
                 Log.v("Slide", "https://gfycat.com/cajax/checkUrl/" + s);
 
@@ -441,11 +444,11 @@ public class GifUtils {
 
                         } else {
 
-                            Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS + "?&fetchSeconds=0&fetchMinutes=0&fetchHours=0&noResize=true&fetchLength=15");
+                            Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS + "?&fetchSeconds=0&fetchMinutes=0&fetchHours=0&noResize=true&fetchLength=100");
                             if (progressBar != null)
                                 progressBar.setIndeterminate(true);
                             Ion.with(c)
-                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS + "?&fetchSeconds=0&fetchMinutes=0&fetchHours=0&noResize=true&fetchLength=15")
+                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS + "?&fetchSeconds=0&fetchMinutes=0&fetchHours=0&noResize=true&fetchLength=100")
                                     .asJsonObject()
                                     .setCallback(new FutureCallback<JsonObject>() {
                                         @Override

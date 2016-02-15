@@ -35,6 +35,7 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -109,7 +110,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final Submission submission = dataSet.posts.get(i);
 
             CreateCardView.resetColorCard(holder.itemView);
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage")||(subreddit.equals("all"))|| subreddit.contains(".") || subreddit.contains("+")));
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -138,12 +139,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final boolean saved = submission.isSaved();
 
 
-
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
 
-                    if(context instanceof MainActivity && ((MainActivity)context).t != null){
+                    if (context instanceof MainActivity && ((MainActivity) context).t != null) {
                         Tooltip.removeAll(context);
                         Reddit.appRestart.edit().putString("tutorial_4", "A").apply();
                     }
@@ -239,28 +239,39 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                         builder.setView(dialoglayout);
                         final Dialog d = builder.show();
-                        dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                final int pos = dataSet.posts.indexOf(submission);
-                                final Submission old = dataSet.posts.get(pos);
-                                dataSet.posts.remove(submission);
-                                notifyItemRemoved(pos);
-                                d.dismiss();
-                                Hidden.setHidden(old);
+                        if (!SettingValues.hideButton) {
+                            dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    final int pos = dataSet.posts.indexOf(submission);
+                                    final Submission old = dataSet.posts.get(pos);
+                                    dataSet.posts.remove(submission);
 
-                                Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        dataSet.posts.add(pos, old);
-                                        notifyItemInserted(pos);
-                                        Hidden.undoHidden(old);
+                                    notifyItemRemoved(pos);
+                                    d.dismiss();
+                                    Hidden.setHidden(old);
 
-                                    }
-                                }).show();
+                                    OfflineSubreddit.getSubreddit(dataSet.subreddit).hide(pos);
 
-                            }
-                        });
+
+                                    Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            OfflineSubreddit.getSubreddit(dataSet.subreddit).unhideLast();
+
+                                            dataSet.posts.add(pos, old);
+                                            notifyItemInserted(pos);
+                                            Hidden.undoHidden(old);
+
+                                        }
+                                    }).show();
+                                }
+                            });
+                        } else {
+                            dialoglayout.findViewById(R.id.hide).setVisibility(View.GONE);
+                        }
+
+
                     }
                     return true;
                 }
@@ -268,8 +279,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             });
 
 
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow);
-
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase());
 
 
         }
@@ -330,7 +340,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return null;
         }
     }
-
 
 
     static void fixSliding(int position) {

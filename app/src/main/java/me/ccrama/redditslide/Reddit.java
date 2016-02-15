@@ -464,6 +464,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
                         androidHandler.uncaughtException(thread, t);
                     }
+                } else {
+                    androidHandler.uncaughtException(thread, t);
                 }
             }
         });

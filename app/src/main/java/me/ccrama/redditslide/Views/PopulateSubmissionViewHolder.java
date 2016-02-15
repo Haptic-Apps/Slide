@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -68,6 +70,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -244,7 +247,7 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
-    public <T> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline) {
+    public <T> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -717,12 +720,22 @@ public class PopulateSubmissionViewHolder {
                                 d.dismiss();
                                 Hidden.setHidden((Contribution) t);
 
+                                if(baseSub != null){
+                                    Log.v(LogUtil.getTag(), "HIDING POST");
+                                    OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                }
+
+
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        if(baseSub != null){
+                                            OfflineSubreddit.getSubreddit(baseSub).unhideLast();
+                                        }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos);
                                         Hidden.undoHidden((Contribution) t);
+
                                     }
                                 }).show();
                             }
@@ -786,13 +799,21 @@ public class PopulateSubmissionViewHolder {
                         recyclerview.getAdapter().notifyItemRemoved(pos);
                         if (!offline)
                             Hidden.setHidden((Contribution) t);
+                        if(baseSub != null){
+                            Log.v(LogUtil.getTag(), "HIDING POST2");
 
+                            OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                        }
                         Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                if(baseSub != null){
+                                    OfflineSubreddit.getSubreddit(baseSub).unhideLast();
+                                }
                                 posts.add(pos, t);
                                 recyclerview.getAdapter().notifyItemInserted(pos);
                                 Hidden.undoHidden((Contribution) t);
+
                             }
                         }).show();
                     }

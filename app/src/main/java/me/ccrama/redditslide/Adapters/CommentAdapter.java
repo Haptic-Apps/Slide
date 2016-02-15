@@ -966,7 +966,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.author.setText(R.string.comment_deleted);
             }
         } else if(firstHolder instanceof SubmissionViewHolder){
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived())
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);

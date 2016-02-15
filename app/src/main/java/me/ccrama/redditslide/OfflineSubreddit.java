@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,6 +13,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 11/19/2015.
@@ -104,6 +108,7 @@ public class OfflineSubreddit {
     }
 
     public static OfflineSubreddit getSubreddit(String subreddit) {
+        subreddit = subreddit.toLowerCase();
 
         if(subredditBackups.containsKey(subreddit)){
             return subredditBackups.get(subreddit);
@@ -152,6 +157,26 @@ public class OfflineSubreddit {
 
         }
         writeToMemory();
+    }
+    int savedIndex;
+    Submission savedSubmission;
+
+    public void hide(int index){
+        if(submissions != null) {
+            Log.v(LogUtil.getTag(), submissions.get(index).getTitle());
+
+            savedSubmission = submissions.get(index);
+            submissions.remove(savedSubmission);
+            savedIndex = index;
+
+            writeToMemory();
+        }
+    }
+    public void unhideLast(){
+        if(submissions != null) {
+            submissions.add(savedIndex, savedSubmission);
+            writeToMemory();
+        }
     }
     public OfflineSubreddit overwriteSubmissions(ArrayList<JsonNode> newSubmissions) {
         StringBuilder s = new StringBuilder();
