@@ -329,8 +329,20 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
+                } else if(result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")){
+                    JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+                    if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+
+                        for (JsonElement o : obj) {
+                            jsons.add(o);
+                        }
+
+
+                        doWithData(jsons);
+
+                    }
                 } else if(result.get("data").getAsJsonObject().has("image")) {
-                        if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
+                        if ( result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
                             Intent i = new Intent(baseActivity, GifView.class);
                             i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                             baseActivity.startActivity(i);
@@ -377,7 +389,13 @@ public class AlbumUtils {
             if (gallery) {
                 if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json" ) && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
                         Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
-                                doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+                    baseActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+
+                        }
+                    });
 
                 } else {
                     Ion.with(baseActivity)
@@ -396,7 +414,12 @@ public class AlbumUtils {
                 }
             } else {
                 if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
-                    doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
+                    baseActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
+                        }
+                    });
                 } else {
                     Ion.with(baseActivity)
                             .load("http://api.imgur.com/2/album" + hash + ".json")

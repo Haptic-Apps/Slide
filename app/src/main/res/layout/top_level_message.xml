@@ -1,9 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:id="@+id/top"
+    app:cardBackgroundColor="?attr/card_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
 
+
+    android:layout_marginTop="16dp"
+
+    android:background="#424242"
     android:clipChildren="false"
 
 
@@ -11,120 +18,98 @@
 
     android:scrollbars="none">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/top"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-
-
-        android:background="#424242"
-
-        android:clipChildren="false"
+        android:background="?android:selectableItemBackground"
         android:orientation="vertical"
 
 
-        android:scrollbars="none"
+        android:padding="16dp">
 
-        app:cardBackgroundColor="?attr/card_background">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:selectableItemBackground"
-            android:orientation="vertical"
+            android:layout_marginBottom="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="[DEV] For the past few weeks I have been working on developing my first app that is completely open source, I would like to share my progress with you today. Meet Munch For Reddit!"
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/background"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
 
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:paddingBottom="0dp"
+            android:scrollbars="none">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="[DEV] For the past few weeks I have been working on developing my first app that is completely open source, I would like to share my progress with you today. Meet Munch For Reddit!"
-                android:textColor="?attr/font"
-                android:textSize="14sp"
-                android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/background"
-
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
 
-                android:orientation="horizontal"
-                android:paddingBottom="0dp"
-                android:scrollbars="none">
-
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
 
+                    android:text="4 hours ago"
 
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="5dp"
+                    android:textColor="?attr/font"
 
-                        android:text="4 hours ago"
+                    android:textSize="?attr/font_commentinfo" />
 
-                        android:textColor="?attr/font"
+                <TextView
+                    android:id="@+id/user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
 
-                        android:textSize="?attr/font_commentinfo" />
+                    android:text="ccrama"
 
-                    <TextView
-                        android:id="@+id/user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
+                    android:textColor="?attr/font"
 
-                        android:text="ccrama"
-
-                        android:textColor="?attr/font"
-
-                        android:textSize="?attr/font_commentinfo" />
-
-                </LinearLayout>
-
-
-
+                    android:textSize="?attr/font_commentinfo" />
 
             </LinearLayout>
 
-            <me.ccrama.redditslide.SpoilerRobotoTextView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-
-                android:layout_height="wrap_content"
-                android:textColor="?attr/font"
-
-                android:textSize="?attr/font_commentbody" />
-
-            <me.ccrama.redditslide.Views.CommentOverflow
-                android:id="@+id/commentOverflow"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:visibility="invisible" />
 
         </LinearLayout>
 
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
 
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+            android:layout_height="wrap_content"
+            android:textColor="?attr/font"
+
+            android:textSize="?attr/font_commentbody" />
+
+        <me.ccrama.redditslide.Views.CommentOverflow
+            android:id="@+id/commentOverflow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

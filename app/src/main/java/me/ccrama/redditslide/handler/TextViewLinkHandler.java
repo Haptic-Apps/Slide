@@ -22,10 +22,12 @@ public class TextViewLinkHandler extends BaseMovementMethod {
     Handler handler;
     Runnable longClicked;
     URLSpan[] link;
+
     @Override
     public boolean canSelectArbitrarily() {
         return false;
     }
+
     public TextViewLinkHandler(ClickableText clickableText, String subreddit, Spannable sequence) {
         this.clickableText = clickableText;
         this.subreddit = subreddit;
@@ -40,7 +42,8 @@ public class TextViewLinkHandler extends BaseMovementMethod {
                 clickHandled = true;
                 comm.setLongClickable(true);
                 handler.removeCallbacksAndMessages(null);
-                TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
+                if (link[0] != null && link.length >= 0)
+                    TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
 
             }
         };
@@ -97,13 +100,15 @@ public class TextViewLinkHandler extends BaseMovementMethod {
                             if (!link[0].getURL().isEmpty()) {
                                 clickableText.onLinkClick(link[0].getURL(), i, subreddit);
                             }
+                        } else {
+                            return false;
                         }
                     }
                     break;
             }
             return true;
 
-        }else {
+        } else {
             Selection.removeSelection(buffer);
         }
         return false;
