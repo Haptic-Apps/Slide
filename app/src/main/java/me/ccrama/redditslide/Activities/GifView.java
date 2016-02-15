@@ -70,7 +70,7 @@ public class GifView extends FullScreenActivity {
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
         new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),findViewById(R.id.gifsave), true).execute(dat);
-        if(!Reddit.appRestart.contains("tutorialGIF")){
+        if(!Reddit.appRestart.contains("tutorialSwipeGif")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -78,6 +78,9 @@ public class GifView extends FullScreenActivity {
                     Tooltip.make(GifView.this,
                             new Tooltip.Builder(106)
                                     .text("Drag from the very edge to exit")
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false), 3000)
                                     .maxWidth(500)
                                     .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
                                     .activateDelay(800)
@@ -95,8 +98,8 @@ public class GifView extends FullScreenActivity {
     @Override
       public void onDestroy(){
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialGIF")){
-            Reddit.appRestart.edit().putBoolean("tutorialGIF", true).apply();
+        if(!Reddit.appRestart.contains("tutorialSwipeGif")){
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeGif", true).apply();
         }
     }
 

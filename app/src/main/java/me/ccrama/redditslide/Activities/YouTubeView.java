@@ -49,7 +49,7 @@ public class YouTubeView extends BaseYoutubePlayer implements
 
         // Initializing video player with developer key
         youTubeView.initialize(SecretConstants.getApiKey(this), this);
-        if (!Reddit.appRestart.contains("tutorialYT")) {
+        if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -58,6 +58,9 @@ public class YouTubeView extends BaseYoutubePlayer implements
                             new Tooltip.Builder(106)
                                     .text("Drag from the very edge to exit")
                                     .maxWidth(500)
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false), 3000)
                                     .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
                                     .activateDelay(800)
                                     .showDelay(300)
@@ -74,8 +77,8 @@ public class YouTubeView extends BaseYoutubePlayer implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!Reddit.appRestart.contains("tutorialYT")) {
-            Reddit.appRestart.edit().putBoolean("tutorialYT", true).apply();
+        if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeGif", true).apply();
         }
     }
 

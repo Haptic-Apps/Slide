@@ -193,7 +193,7 @@ public class FullscreenImage extends FullScreenActivity {
 
 
         }
-        if(!Reddit.appRestart.contains("tutorialImg")){
+        if(!Reddit.appRestart.contains("tutorialSwipeImage")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -201,6 +201,9 @@ public class FullscreenImage extends FullScreenActivity {
                     Tooltip.make(FullscreenImage.this,
                             new Tooltip.Builder(106)
                                     .text("Drag from the very edge to exit")
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false), 3000)
                                     .maxWidth(500)
                                     .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
                                     .activateDelay(800)
@@ -217,8 +220,8 @@ public class FullscreenImage extends FullScreenActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialImg")){
-            Reddit.appRestart.edit().putBoolean("tutorialImg", true).apply();
+        if(!Reddit.appRestart.contains("tutorialSwipeImage")){
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeImage", true).apply();
         }
     }
     private void showShareDialog(final String url) {

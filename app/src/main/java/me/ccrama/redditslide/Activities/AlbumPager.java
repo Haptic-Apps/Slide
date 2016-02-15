@@ -84,7 +84,7 @@ public class AlbumPager extends BaseActivityAnim {
 
 
         new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
-        if(!Reddit.appRestart.contains("tutorialAlbum1")){
+        if(!Reddit.appRestart.contains("tutorialSwipeAlbum")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -93,6 +93,9 @@ public class AlbumPager extends BaseActivityAnim {
                             new Tooltip.Builder(106)
                                     .text("Drag from the very edge to exit")
                                     .maxWidth(500)
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false), 3000)
                                     .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
                                     .activateDelay(800)
                                     .showDelay(300)
@@ -109,8 +112,8 @@ public class AlbumPager extends BaseActivityAnim {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialAlbum1")){
-            Reddit.appRestart.edit().putBoolean("tutorialAlbum1", true).apply();
+        if(!Reddit.appRestart.contains("tutorialSwipeAlbum")){
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeAlbum", true).apply();
         }
     }
 

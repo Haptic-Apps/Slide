@@ -56,8 +56,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialComments")){
-            Reddit.appRestart.edit().putBoolean("tutorialComments", true).apply();
+        if(!Reddit.appRestart.contains("tutorialSwipeComment")){
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeComment", true).apply();
         } else if(!Reddit.appRestart.contains("tutorial_comm")){
             Reddit.appRestart.edit().putBoolean("tutorial_comm", true).apply();
 
@@ -127,7 +127,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
-        if(Reddit.appRestart.contains("tutorialComments") && !Reddit.appRestart.contains("tutorial_comm")){
+        if(Reddit.appRestart.contains("tutorialSwipeComment") && !Reddit.appRestart.contains("tutorial_comm")){
             tip = true;
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -147,15 +147,16 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             ).show();
                 }
             }, 250);
-        }
-
-        if(!Reddit.appRestart.contains("tutorialComments")){
+        } else if(!Reddit.appRestart.contains("tutorialSwipeComment")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
                     Tooltip.make(CommentsScreen.this,
                             new Tooltip.Builder(106)
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false), 3000)
                                     .text("Drag from the very edge to exit")
                                     .maxWidth(500)
                                     .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
