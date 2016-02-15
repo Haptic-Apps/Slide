@@ -761,11 +761,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final CommentNode baseNode = users.get(nextPos).comment;
             final Comment comment = baseNode.getComment();
 
-            if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
-                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
-            } else {
-                doUnHighlighted(holder, baseNode);
-            }
+
 
             if (pos == getItemCount() - 1) {
                 holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single));
@@ -960,7 +956,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.dot.setVisibility(View.GONE);
             }
-
+            if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
+                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
+            } else {
+                doUnHighlighted(holder, baseNode);
+            }
             if (deleted.contains(comment.getFullName())) {
                 holder.firstTextView.setText(R.string.comment_deleted);
                 holder.author.setText(R.string.comment_deleted);

@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="?attr/font"
-
+                android:gravity="center_vertical"
                 android:text="@string/submission_properties_seperator_comments"
                 android:textSize="?attr/font_commenttitle"
                 />
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="?attr/font"
-
+                android:gravity="center_vertical"
                 android:text="@string/submission_properties_seperator_comments"
                 android:textSize="?attr/font_commenttitle"
                 />

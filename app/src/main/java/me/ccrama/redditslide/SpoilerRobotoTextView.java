@@ -315,11 +315,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         ForegroundColorSpan[] foregroundColors = text.getSpans(endOfLink + 2, endOfLink + 2, ForegroundColorSpan.class);
 
         if (foregroundColors.length > 1) {
-            text.removeSpan(foregroundColors[0]);
             text.removeSpan(foregroundColors[1]);
             setText(text);
         } else {
-            for (int i = 0; i < storedSpoilerStarts.size(); i++) {
+            for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                 if (storedSpoilerStarts.get(i) < endOfLink + 2 && storedSpoilerEnds.get(i) > endOfLink + 2) {
                     text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 }
