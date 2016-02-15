@@ -38,6 +38,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
             public void run() {
                 // long click
                 clickHandled = true;
+                comm.setLongClickable(true);
                 handler.removeCallbacksAndMessages(null);
                 TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
 
@@ -64,6 +65,8 @@ public class TextViewLinkHandler extends BaseMovementMethod {
 
         link = buffer.getSpans(off, off, URLSpan.class);
         if (link.length > 0) {
+            comm.setLongClickable(false);
+
             if (event.getAction() == MotionEvent.ACTION_DOWN)
                 position = event.getY(); //used to see if the user scrolled or not
             if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
@@ -81,6 +84,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
 
                     break;
                 case MotionEvent.ACTION_UP:
+                    comm.setLongClickable(true);
                     handler.removeCallbacksAndMessages(null);
 
                     if (!clickHandled) {

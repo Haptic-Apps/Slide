@@ -76,61 +76,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
 
-        findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle("Color syncing")
-                        .setMessage("This will try to retrieve the subreddit's 'key color' set by the moderators. It will not overwrite already colored subreddits.")
-                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final MaterialDialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
-                                        .content(R.string.misc_please_wait)
-                                        .progress(false, 100)
-                                        .cancelable(false).show();
 
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        ArrayList<Subreddit> subColors = SubredditStorage.syncSubredditsGetObject();
-                                        d.setMaxProgress(subColors.size());
-                                        int i = 0;
-                                        for (Subreddit s : subColors) {
-                                            if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
-                                                Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), ReorderSubreddits.this));
-                                            done++;
-                                            }
-                                            d.setProgress(i);
-
-                                            i++;
-                                            if (i == d.getMaxProgress()) {
-                                                d.dismiss();
-
-                                            }
-
-                                        }
-                                        return null;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-
-                                        adapter = new CustomAdapter(subs);
-                                        //  adapter.setHasStableIds(true);
-
-                                        recyclerView.setAdapter(adapter);
-                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                                                .setTitle(R.string.color_sync_complete)
-                                                .setMessage(done + getString(R.string.color_sync_colored))
-                                                .setPositiveButton(getString(R.string.btn_ok), null)
-                                                .show();
-                                    }
-                                }.execute();
-                                d.show();
-                            }
-                        }).setNegativeButton("Cancel", null).show();
-            }
-        });
         findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ListView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -42,6 +46,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         }
     }
 
+    int done;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +65,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                for(String s : changedSubs){
+                                for (String s : changedSubs) {
                                     Palette.removeColor(s);
                                     // Remove layout settings
                                     SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + s).apply();
@@ -102,6 +107,59 @@ public class SettingsSubreddit extends BaseActivityAnim {
                         .positiveText(R.string.btn_add)
                         .negativeText(R.string.btn_cancel)
                         .show();
+            }
+        });
+        findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle("Color syncing")
+                        .setMessage("This will try to retrieve the subreddit's 'key color' set by the moderators. It will not overwrite already colored subreddits.")
+                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final MaterialDialog d = new MaterialDialog.Builder(SettingsSubreddit.this).title(R.string.general_sub_sync)
+                                        .content(R.string.misc_please_wait)
+                                        .progress(false, 100)
+                                        .cancelable(false).show();
+
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        ArrayList<Subreddit> subColors = SubredditStorage.syncSubredditsGetObject();
+                                        d.setMaxProgress(subColors.size());
+                                        int i = 0;
+                                        for (Subreddit s : subColors) {
+                                            if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
+                                                Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), SettingsSubreddit.this));
+                                                done++;
+                                            }
+                                            d.setProgress(i);
+
+                                            i++;
+                                            if (i == d.getMaxProgress()) {
+                                                d.dismiss();
+
+                                            }
+
+                                        }
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+
+                                        reloadSubList();
+
+                                        new AlertDialogWrapper.Builder(SettingsSubreddit.this)
+                                                .setTitle(R.string.color_sync_complete)
+                                                .setMessage(done + getString(R.string.color_sync_colored))
+                                                .setPositiveButton(getString(R.string.btn_ok), null)
+                                                .show();
+                                    }
+                                }.execute();
+                                d.show();
+                            }
+                        }).setNegativeButton("Cancel", null).show();
             }
         });
     }

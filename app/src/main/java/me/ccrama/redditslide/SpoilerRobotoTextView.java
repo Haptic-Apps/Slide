@@ -115,7 +115,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
             setFocusable(false);
             setClickable(false);
-            setLongClickable(false);
         }
 
         builder = removeNewlines(builder);

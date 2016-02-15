@@ -20,6 +20,7 @@
             android:paddingRight="16dp"
             android:theme="@style/Theme.AppCompat"
             app:layout_scrollFlags="scroll|enterAlways">
+
             <ImageView
                 android:id="@+id/reset"
                 android:layout_width="48dp"
@@ -33,6 +34,22 @@
                 android:scaleType="fitCenter"
 
                 android:src="@drawable/delete"
+
+                />
+            <ImageView
+                android:id="@+id/color"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="?android:selectableItemBackground"
+                android:paddingBottom="8dp"
+
+                android:paddingTop="8dp"
+                android:scaleType="fitCenter"
+
+                android:src="@drawable/color"
+
+                android:tint="@color/white"
 
                 />
 
