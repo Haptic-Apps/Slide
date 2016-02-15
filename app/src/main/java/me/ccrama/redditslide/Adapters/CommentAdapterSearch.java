@@ -16,12 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.HorizontalScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
@@ -39,7 +36,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -101,6 +97,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
 
         }
+        holder.itemView.findViewById(R.id.sticky).setVisibility(View.GONE);
 
         if (comment.isScoreHidden()) {
             String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
@@ -207,46 +204,35 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
      * Set the text for the corresponding views
      *
      * @param rawHTML
-     * @param subreddit
+     * @param subredditName
      * @param holder
      */
-    public void setViews(String rawHTML, String subreddit, CommentViewHolder holder) {
+    private void setViews(String rawHTML, String subredditName, CommentViewHolder holder) {
         if (rawHTML.isEmpty()) {
             return;
         }
 
-        holder.commentOverflow.removeAllViewsInLayout();
-
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
-        boolean firstTextViewPopulated = false;
-        for (String block : blocks) {
-            if (block.startsWith("<table>")) {
-                HorizontalScrollView scrollView = new HorizontalScrollView(mContext);
-                TableLayout table = formatTable(block, (Activity)mContext, subreddit);
-                scrollView.addView(table);
-                scrollView.setPadding(0, 0, 8, 0);
-                holder.commentOverflow.addView(scrollView);
-                holder.commentOverflow.setVisibility(View.VISIBLE);
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            holder.firstTextView.setVisibility(View.VISIBLE);
+            holder.firstTextView.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            holder.firstTextView.setText("");
+            holder.firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                holder.commentOverflow.setViews(blocks, subredditName);
             } else {
-                if (firstTextViewPopulated) {
-                    SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(mContext);
-                    //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
-                    newTextView.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
-                    newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(mContext,
-                            new FontPreferences(mContext).getFontTypeComment().getTypeface()));
-                    newTextView.setText(block);
-                    newTextView.setPadding(0, 0, 8, 0);
-                    holder.commentOverflow.addView(newTextView);
-                    holder.commentOverflow.setVisibility(View.VISIBLE);
-                } else {
-                    holder.firstTextView.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
-                    holder.firstTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(mContext,
-                            new FontPreferences(mContext).getFontTypeComment().getTypeface()));
-                    holder.firstTextView.setText(block);
-                    firstTextViewPopulated = true;
-                }
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
+        } else {
+            holder.commentOverflow.removeAllViews();
         }
     }
 

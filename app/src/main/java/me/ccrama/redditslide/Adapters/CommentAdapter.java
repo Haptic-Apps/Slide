@@ -21,6 +21,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -69,6 +70,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
@@ -183,8 +185,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (n.comment.getComment().getFullName().contains(currentSelectedItem)) {
 
                         Log.v(LogUtil.getTag(), "SCROLLING TO " + i);
-
-                        listView.smoothScrollToPosition(i);
+                        CommentPage.TopSnappedSmoothScroller scroller = new CommentPage.TopSnappedSmoothScroller(mContext, (PreCachingLayoutManagerComments) listView.getLayoutManager());
+                        scroller.setTargetPosition(i);
+                        (listView.getLayoutManager()).startSmoothScroll(scroller);
                         break;
                     }
                 i++;
@@ -219,8 +222,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             for (CommentObject n : users) {
 
                 if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    listView.smoothScrollToPosition(i);
-
+                    CommentPage.TopSnappedSmoothScroller scroller = new CommentPage.TopSnappedSmoothScroller(mContext, (PreCachingLayoutManagerComments) listView.getLayoutManager());
+                    scroller.setTargetPosition(i);
+                    (listView.getLayoutManager()).startSmoothScroll(scroller);
                     break;
                 }
                 i++;
