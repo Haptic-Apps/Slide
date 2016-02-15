@@ -943,15 +943,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (baseNode.getDepth() - 1 > 0) {
                 int i22 = baseNode.getDepth() - 2;
                 if (i22 % 5 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
                 } else if (i22 % 4 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_green_500));
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
                 } else if (i22 % 3 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_yellow_500));
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
                 } else if (i22 % 2 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
                 } else {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_red_500));
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
                 }
             } else {
                 holder.dot.setVisibility(View.GONE);

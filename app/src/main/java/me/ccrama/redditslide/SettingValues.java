@@ -50,6 +50,7 @@ public class SettingValues {
     public static final String PREF_IMAGE = "image";
     public static final String PREF_BLUR = "blur";
     public static final String PREF_ALBUM_SWIPE = "albumswipe";
+    public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
 
     public static boolean actionBarVisible;
     public static CreateCardView.CardEnum defaultCardView;
@@ -85,6 +86,7 @@ public class SettingValues {
     public static boolean saveButton;
     public static boolean colorEverywhere;
     public static boolean gif;
+    public static boolean colorCommentDepth;
     public static boolean web;
     public static boolean exit;
     public static boolean cropImage;
@@ -134,6 +136,7 @@ public class SettingValues {
         imageViewerSolidBackground = prefs.getBoolean(PREF_IMAGE_SOLID_BACKGROUND, false);
         alphabetical_home = prefs.getBoolean(PREF_ALPHABETICAL_DRAWER, true);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
+        colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
 
         click_user_name_to_profile = prefs.getBoolean(PREF_USERNAME_CLICK, true);
         swap = prefs.getBoolean(PREF_SWAP, false);

@@ -36,6 +36,18 @@ public class SettingsComments extends BaseActivityAnim {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.color);
+            single.setChecked(SettingValues.colorCommentDepth);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.colorCommentDepth = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_COMMENT_DEPTH, isChecked).apply();
+
+                }
+            });
+        }
         SwitchCompat check = (SwitchCompat) findViewById(R.id.swapGesture);
         check.setChecked(SettingValues.swap);
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
