@@ -293,7 +293,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             }
             getContext().startActivity(myIntent);
-          
+
         } else {
             Reddit.defaultShare(url, getContext());
         }

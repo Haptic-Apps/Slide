@@ -47,14 +47,6 @@ public class TextViewLinkHandler extends BaseMovementMethod {
 
     @Override
     public boolean onTouchEvent(TextView widget, final Spannable buffer, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN)
-            position = event.getY(); //used to see if the user scrolled or not
-        if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
-            if (Math.abs((position - event.getY())) > 25) {
-                handler.removeCallbacksAndMessages(null);
-            }
-            return super.onTouchEvent(widget, buffer, event);
-        }
 
 
         comm = (SpoilerRobotoTextView) widget;
@@ -72,6 +64,14 @@ public class TextViewLinkHandler extends BaseMovementMethod {
 
         link = buffer.getSpans(off, off, URLSpan.class);
         if (link.length > 0) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN)
+                position = event.getY(); //used to see if the user scrolled or not
+            if (!(event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_DOWN)) {
+                if (Math.abs((position - event.getY())) > 25) {
+                    handler.removeCallbacksAndMessages(null);
+                }
+                return super.onTouchEvent(widget, buffer, event);
+            }
 
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
