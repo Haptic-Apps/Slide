@@ -567,6 +567,7 @@
     <string name="settings_synccit_active">Synccit is now active for this device</string>
     <string name="settings_synccit_failed">Could not Authenticate</string>
     <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
+    <string name="settings_synccit">Synccit Integration</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

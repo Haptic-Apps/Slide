@@ -31,7 +31,7 @@ public class SettingsSynccit extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_synccit);
-        setupAppBar(R.id.toolbar, "Synccit Integration", true, true);
+        setupAppBar(R.id.toolbar, R.string.settings_synccit, true, true);
 
 
         name = (EditText) findViewById(R.id.name);
@@ -46,7 +46,7 @@ public class SettingsSynccit extends BaseActivityAnim {
         findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SettingValues.synccitAuth.isEmpty()) {
+                if (!SettingValues.synccitAuth.isEmpty()) {
 
                     new AlertDialogWrapper.Builder(SettingsSynccit.this)
                             .setTitle(R.string.settings_synccit_delete)
