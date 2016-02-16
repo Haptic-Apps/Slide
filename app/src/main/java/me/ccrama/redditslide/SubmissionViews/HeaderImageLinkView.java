@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 2/7/2016.
@@ -47,8 +45,6 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
         double ratio = (double) imageHeight / (double) imageWidth;
-
-        Log.v(LogUtil.getTag(), "Ratio is " + ratio);
         double width = getWidth();
         return (width * ratio);
 

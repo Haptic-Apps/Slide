@@ -63,6 +63,7 @@ public class FullscreenImage extends FullScreenActivity {
 
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
+        i.setDoubleTapZoomScale(3f);
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
