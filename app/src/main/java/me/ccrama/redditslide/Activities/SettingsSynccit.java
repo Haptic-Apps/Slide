@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
@@ -41,9 +43,15 @@ public class SettingsSynccit extends BaseActivityAnim {
         findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Dialog d =  new MaterialDialog.Builder(SettingsSynccit.this)
+                        .title("Authenticating with Synccit")
+                        .progress(true, 100)
+                        .cancelable(false)
+                        .show();
                 try {
                     SettingValues.synccitName = name.getText().toString();
                     SettingValues.synccitAuth = auth.getText().toString();
+
 
                     new MySynccitUpdateTask().execute("16noez");
                     new Handler().postDelayed(new Runnable() {
@@ -54,6 +62,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                             if (SynccitRead.visitedIds.contains("16noez")) {
                                 //success
 
+                                d.dismiss();
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
 
                                 e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
@@ -74,9 +83,10 @@ public class SettingsSynccit extends BaseActivityAnim {
                                     }
                                 }).show();
                             } else {
+                                d.dismiss();
 
                                 new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                                        .setTitle("Could not connect to Synccit servers")
+                                        .setTitle("Could not Authenticate")
                                         .setMessage("Make sure your username and authentication key are correct!")
                                         .setPositiveButton("Ok!", null).show();
                             }
@@ -84,6 +94,8 @@ public class SettingsSynccit extends BaseActivityAnim {
                     }, 3000);
 
                 } catch (Exception e) {
+                    d.dismiss();
+
                     new AlertDialogWrapper.Builder(SettingsSynccit.this)
                             .setTitle("Could not connect to Synccit servers")
                             .setMessage("Make sure your username and authentication key are correct!")
