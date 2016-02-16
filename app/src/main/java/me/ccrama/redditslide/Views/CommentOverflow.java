@@ -1,20 +1,23 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
@@ -25,6 +28,17 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 public class CommentOverflow extends LinearLayout {
     private ColorPreferences colorPreferences;
     private Typeface typeface;
+    private int textColor;
+    private static final MarginLayoutParams COLUMN_PARAMS;
+    private static final MarginLayoutParams MARGIN_PARAMS;
+
+    static {
+        COLUMN_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        COLUMN_PARAMS.setMargins(0, 0, 6, 0);
+
+        MARGIN_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        MARGIN_PARAMS.setMargins(0, 16, 0, 16);
+    }
 
     public CommentOverflow(Context context) {
         super(context);
@@ -46,6 +60,11 @@ public class CommentOverflow extends LinearLayout {
         typeface = RobotoTypefaceManager.obtainTypeface(
                 context,
                 new FontPreferences(context).getFontTypeComment().getTypeface());
+
+        TypedValue typedValue= new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.font, typedValue, true);
+        textColor = typedValue.data;
     }
 
     /**
@@ -63,29 +82,31 @@ public class CommentOverflow extends LinearLayout {
             setVisibility(View.VISIBLE);
         }
 
+
         for (String block : blocks) {
             if (block.startsWith("<table>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 TableLayout table = formatTable(block, subreddit);
+                scrollView.setLayoutParams(MARGIN_PARAMS);
                 scrollView.addView(table);
-                scrollView.setPadding(0, 0, 8, 0);
                 addView(scrollView);
             } else if (block.startsWith("<pre>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
+                newTextView.setTextColor(textColor);
                 newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
                 newTextView.setTypeface(typeface);
                 newTextView.setTextHtml(block, subreddit);
-                newTextView.setPadding(0, 0, 8, 0);
+                scrollView.setLayoutParams(MARGIN_PARAMS);
                 scrollView.addView(newTextView);
-                scrollView.setPadding(0, 0, 8, 0);
                 addView(scrollView);
             } else {
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
                 newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
+                newTextView.setTextColor(textColor);
                 newTextView.setTypeface(typeface);
                 newTextView.setTextHtml(block, subreddit);
-                newTextView.setPadding(0, 0, 8, 0);
+                newTextView.setLayoutParams(MARGIN_PARAMS);
                 addView(newTextView);
             }
         }
@@ -97,7 +118,6 @@ public class CommentOverflow extends LinearLayout {
         Context context = getContext();
         TableLayout table = new TableLayout(context);
         TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-
         table.setLayoutParams(params);
 
         final String tableStart = "<table>";
@@ -142,9 +162,10 @@ public class CommentOverflow extends LinearLayout {
                 columnEnd = i;
 
                 SpoilerRobotoTextView textView = new SpoilerRobotoTextView(context);
+                textView.setTextColor(textColor);
                 textView.setLinkTextColor(colorPreferences.getColor(subreddit));
                 textView.setTextHtml(text.subSequence(columnStart, columnEnd), subreddit);
-                textView.setPadding(3, 0 ,0 , 0);
+                textView.setLayoutParams(COLUMN_PARAMS);
 
                 row.addView(textView);
 
