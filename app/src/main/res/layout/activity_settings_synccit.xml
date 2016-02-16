@@ -35,10 +35,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="8dp"
-                android:paddingTop="16dp"
                 android:background="?attr/card_background"
                 android:elevation="4dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="16dp">
 
 
                 <EditText
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="Username"
+                    android:hint="@string/settings_synccit_username"
                     android:textSize="18sp" />
 
 
@@ -58,17 +58,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:hint="Auth Code"
+                    android:hint="@string/settings_synccit_auth"
                     android:textSize="18sp" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:layout_width="wrap_content"
-                    android:text="SAVE"
-                    android:id="@+id/save"
-                    android:layout_margin="16dp"
-                    android:layout_gravity="right"
-                    android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/remove"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@string/settings_synccit_remove" />
+
+                    <Button
+                        android:id="@+id/save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="16dp"
+                        android:text="@string/btn_save" />
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>
