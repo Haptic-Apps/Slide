@@ -788,7 +788,7 @@ public class PopulateSubmissionViewHolder {
         final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
 
         if (hideButton != null) {
-            if (SettingValues.hideButton) {
+            if (!SettingValues.hideButton && Authentication.isLoggedIn) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

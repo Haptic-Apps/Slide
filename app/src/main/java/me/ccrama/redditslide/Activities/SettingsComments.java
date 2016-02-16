@@ -59,6 +59,19 @@ public class SettingsComments extends BaseActivityAnim {
             }
         });
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.navcomments);
+
+            single.setChecked(SettingValues.commentNav);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.commentNav = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_NAV, isChecked).apply();
+
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.cropimage);
 
             single.setChecked(SettingValues.cropImage);

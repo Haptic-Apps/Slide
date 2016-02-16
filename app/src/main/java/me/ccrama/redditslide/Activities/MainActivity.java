@@ -1590,7 +1590,13 @@ public class MainActivity extends BaseActivity {
 
         }
     }
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (adapter.getCurrentFragment() != null && SettingValues.postNav) {
+            return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+        }
+        return false;
+    }
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private Fragment mCurrentFragment;
 

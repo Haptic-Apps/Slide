@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.ViewGroup;
 
 import net.dean.jraw.models.Submission;
 
@@ -31,12 +33,12 @@ import me.ccrama.redditslide.util.LogUtil;
  * This activity is responsible for the view when clicking on a post, showing
  * the post and its comments underneath with the slide left/right for the next
  * post.
- *
+ * <p/>
  * When the end of the currently loaded posts is being reached, more posts are
  * loaded asynchronously in {@link OverviewPagerAdapter}.
- *
+ * <p/>
  * Comments are displayed in the {@link CommentPage} fragment.
- *
+ * <p/>
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
@@ -54,17 +56,27 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     String multireddit;
 
     @Override
-    public void onDestroy(){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (comments.getCurrentFragment() != null && SettingValues.commentNav) {
+            return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode);
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialSwipeComment")){
+        if (!Reddit.appRestart.contains("tutorialSwipeComment")) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipeComment", true).apply();
-        } else if(!Reddit.appRestart.contains("tutorial_comm")){
+        } else if (!Reddit.appRestart.contains("tutorial_comm")) {
             Reddit.appRestart.edit().putBoolean("tutorial_comm", true).apply();
 
         }
 
     }
+
     boolean tip;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -80,7 +92,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
-            ((MultiredditPosts)subredditPosts).skipOne = true;
+            ((MultiredditPosts) subredditPosts).skipOne = true;
 
         } else {
             baseSubreddit = subreddit.toLowerCase();
@@ -90,9 +102,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            o =OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit);
+            o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit);
             subredditPosts.getPosts().addAll(o.submissions);
-           // subredditPosts.loadMore(this.getApplicationContext(), this, true);
+            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
             finish();
@@ -127,27 +139,27 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
-        if(Reddit.appRestart.contains("tutorialSwipeComment") && !Reddit.appRestart.contains("tutorial_comm")){
+        if (Reddit.appRestart.contains("tutorialSwipeComment") && !Reddit.appRestart.contains("tutorial_comm")) {
             tip = true;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
                     Tooltip.make(CommentsScreen.this,
-                    new Tooltip.Builder(106)
-                            .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
-                            .text("Swipe left and right to go between submissions. You can disable this in General Settings")
-                            .maxWidth(600)
-                            .activateDelay(800)
-                            .showDelay(300)
-                            .withArrow(true)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            ).show();
+                            new Tooltip.Builder(106)
+                                    .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
+                                    .text("Swipe left and right to go between submissions. You can disable this in General Settings")
+                                    .maxWidth(600)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
                 }
             }, 250);
-        } else if(!Reddit.appRestart.contains("tutorialSwipeComment")){
+        } else if (!Reddit.appRestart.contains("tutorialSwipeComment")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -210,15 +222,30 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     }
 
     @Override
-    public void updateOfflineError() {}
+    public void updateOfflineError() {
+    }
 
     @Override
-    public void updateError() {}
+    public void updateError() {
+    }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+        private Fragment mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
         }
 
         @Override
@@ -236,7 +263,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
-            args.putString("baseSubreddit", multireddit == null?baseSubreddit:"multi"+multireddit);
+            args.putString("baseSubreddit", multireddit == null ? baseSubreddit : "multi" + multireddit);
 
             f.setArguments(args);
 

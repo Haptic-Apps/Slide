@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,6 +54,13 @@ public class MultiredditOverview extends BaseActivityAnim {
         //   else menu.findItem(R.id.action_info).setVisible(false);
 
         return true;
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (adapter.getCurrentFragment() != null && SettingValues.postNav) {
+            return ((MultiredditView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+        }
+        return false;
     }
 
     @Override

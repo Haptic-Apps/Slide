@@ -556,6 +556,8 @@
     <string name="color_sync_colored">" subreddits were colored"</string>
     <string name="comment_load_more_number_unknown">Load more comments</string>
     <string name="settings_comment_color">Colorful comment depth indicators</string>
+    <string name="settings_volume_nav_posts">Navigate posts using volume buttons</string>
+    <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

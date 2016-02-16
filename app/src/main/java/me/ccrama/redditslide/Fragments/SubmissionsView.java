@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,10 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +61,108 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public String id;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    public boolean onKeyDown(int keyCode) {
+        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            goDown();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            goUp();
+            return true;
+        }
+        return false;
+    }
+
+    private void goUp() {
+        if (adapter.dataSet.posts != null) {
+
+            int position = 0;
+            int currentOrientation = getResources().getConfiguration().orientation;
+            RecyclerView.SmoothScroller smoothScroller = null;
+            if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                position = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
+
+            } else if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                int[] firstVisibleItems = null;
+                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    position = firstVisibleItems[0];
+                    (rv.getLayoutManager()).smoothScrollToPosition(rv, new RecyclerView.State(), position - 1);
+                    return;
+                }
+            } else {
+                position = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
+
+            }
+
+            if (smoothScroller != null) {
+                smoothScroller.setTargetPosition(position - 1);
+                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+            }
+
+        }
+    }
+
+    private void goDown() {
+        if (adapter.dataSet.posts != null) {
+
+            int position = 0;
+            int currentOrientation = getResources().getConfiguration().orientation;
+            RecyclerView.SmoothScroller smoothScroller = null;
+            if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                position = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
+
+            } else if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                int[] firstVisibleItems = null;
+                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    position = firstVisibleItems[0];
+                    (rv.getLayoutManager()).smoothScrollToPosition(rv, new RecyclerView.State(), position + 1);
+                    return;
+                }
+            } else {
+                position = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
+
+            }
+
+            if (smoothScroller != null) {
+                smoothScroller.setTargetPosition(position + 1);
+                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+            }
+
+        }
+    }
+
+    public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
+        final RecyclerView.LayoutManager lm;
+
+        public TopSnappedSmoothScroller(Context context, RecyclerView.LayoutManager lm) {
+            super(context);
+            this.lm = lm;
+
+        }
+
+        @Override
+        public PointF computeScrollVectorForPosition(int targetPosition) {
+            if (lm instanceof LinearLayoutManager) {
+                return ((LinearLayoutManager) lm).computeScrollVectorForPosition(targetPosition);
+
+            } else if (lm instanceof PreCachingLayoutManager) {
+                return ((PreCachingLayoutManager) lm).computeScrollVectorForPosition(targetPosition);
+
+            }
+            return null;
+        }
+
+        @Override
+        protected int getVerticalSnapPreference() {
+            return SNAP_TO_START;
+        }
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
 
@@ -70,7 +175,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             final RecyclerView.LayoutManager mLayoutManager;
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-            } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
                 mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
@@ -113,7 +218,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -274,11 +379,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         doAdapter();
         return v;
     }
+
     public boolean main;
 
     public void doAdapter() {
         posts = new SubredditPosts(id);
-        adapter = new SubmissionAdapter(getActivity(),  posts, rv, posts.subreddit);
+        adapter = new SubmissionAdapter(getActivity(), posts, rv, posts.subreddit);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
 
@@ -355,7 +461,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -372,7 +478,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-           loadImages(submissions);
+            loadImages(submissions);
         }
     }
 

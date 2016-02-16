@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,17 @@ public class CommentPage extends Fragment {
     private ContextWrapper contextThemeWrapper;
     private PreCachingLayoutManagerComments mLayoutManager;
     public String subreddit;
+
+    public boolean onKeyDown(int keyCode) {
+        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            goDown();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            goUp();
+            return true;
+        }
+        return false;
+    }
 
     private void reloadSubs() {
         mSwipeRefreshLayout.setRefreshing(true);
@@ -167,7 +179,6 @@ public class CommentPage extends Fragment {
         final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
 
-
         if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
         } else {
@@ -210,40 +221,13 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter.users != null) {
-                        int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-
-                        for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
-
-                            if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-                                if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                    RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                                    smoothScroller.setTargetPosition(i + 1);
-                                    (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                                    break;
-                                }
-                        }
-                    }
+                    goDown();
                 }
             });
             v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter.users != null) {
-
-                        int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-
-                        for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                            if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-
-                                if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                    RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                                    smoothScroller.setTargetPosition(i + 1);
-                                    (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                                    break;
-                                }
-                        }
-                    }
+                    goUp();
                 }
             });
         }
@@ -320,8 +304,8 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setRefreshing(true);
 
         if (!single) {
-            if (getActivity() instanceof  CommentsScreen?((CommentsScreen) getActivity()).o != null:((CommentsScreenPopup) getActivity()).o != null) {
-                o = (getActivity() instanceof  CommentsScreen)?((CommentsScreen) getActivity()).o:((CommentsScreenPopup) getActivity()).o;
+            if (getActivity() instanceof CommentsScreen ? ((CommentsScreen) getActivity()).o != null : ((CommentsScreenPopup) getActivity()).o != null) {
+                o = (getActivity() instanceof CommentsScreen) ? ((CommentsScreen) getActivity()).o : ((CommentsScreenPopup) getActivity()).o;
             } else {
                 o = OfflineSubreddit.getSubreddit(baseSubreddit);
             }
@@ -376,6 +360,41 @@ public class CommentPage extends Fragment {
         return v;
     }
 
+    private void goUp() {
+        if (adapter.users != null) {
+
+            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+            for (int i = pastVisiblesItems - 2; i >= 0; i--) {
+                if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+
+                    if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                        smoothScroller.setTargetPosition(i + 1);
+                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        break;
+                    }
+            }
+        }
+    }
+
+    private void goDown() {
+        if (adapter.users != null) {
+            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+            for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
+
+                if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                    if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+                        smoothScroller.setTargetPosition(i + 1);
+                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        break;
+                    }
+            }
+        }
+    }
+
     public void doData(Boolean b) {
         if (adapter == null || single) {
             adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
@@ -385,7 +404,6 @@ public class CommentPage extends Fragment {
             adapter.currentSelectedItem = context;
 
             adapter.reset(getContext(), comments, rv, comments.submission);
-
 
 
         } else if (!b) {

@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.ViewGroup;
 import android.view.Window;
 
 import net.dean.jraw.models.Submission;
@@ -20,6 +22,7 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -38,7 +41,13 @@ public class CommentsScreenPopup extends BaseActivityAnim {
     String multireddit;
     public OfflineSubreddit o;
     boolean tip;
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (comments.getCurrentFragment() != null && SettingValues.commentNav) {
+            return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode);
+        }
+        return false;
+    }
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -110,9 +119,22 @@ public class CommentsScreenPopup extends BaseActivityAnim {
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
+        private Fragment mCurrentFragment;
+
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
+        }
 
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((Fragment) object);
+            }
+            super.setPrimaryItem(container, position, object);
         }
 
         @Override

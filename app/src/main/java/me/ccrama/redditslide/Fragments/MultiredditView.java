@@ -7,9 +7,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -46,6 +49,42 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private int pastVisiblesItems;
     RecyclerView rv;
     public FloatingActionButton fab;
+
+    public boolean onKeyDown(int keyCode) {
+        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            goDown();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            goUp();
+            return true;
+        }
+        return false;
+    }
+
+    private void goUp() {
+        if (posts.posts != null) {
+
+            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+            RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+            smoothScroller.setTargetPosition(pastVisiblesItems + 1);
+            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+
+        }
+    }
+
+    private void goDown() {
+        if (posts.posts != null) {
+
+            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+
+            RecyclerView.SmoothScroller smoothScroller = new CommentPage.TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
+            smoothScroller.setTargetPosition(pastVisiblesItems - 1);
+            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

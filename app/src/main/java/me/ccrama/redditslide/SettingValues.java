@@ -50,6 +50,8 @@ public class SettingValues {
     public static final String PREF_IMAGE = "image";
     public static final String PREF_BLUR = "blur";
     public static final String PREF_ALBUM_SWIPE = "albumswipe";
+    public static final String PREF_COMMENT_NAV = "commentNav";
+    public static final String PREF_POST_NAV = "postNav";
     public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
 
     public static boolean actionBarVisible;
@@ -88,6 +90,8 @@ public class SettingValues {
     public static boolean gif;
     public static boolean colorCommentDepth;
     public static boolean web;
+    public static boolean commentNav;
+    public static boolean postNav;
     public static boolean exit;
     public static boolean cropImage;
     public static String titleFilters;
@@ -125,6 +129,9 @@ public class SettingValues {
         single = prefs.getBoolean(PREF_SINGLE, false);
         animation = prefs.getBoolean(PREF_ANIMATION, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
+
+        commentNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
+        postNav = prefs.getBoolean(PREF_POST_NAV, false);
 
         fab = prefs.getBoolean(PREF_FAB, false);
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_POST);
