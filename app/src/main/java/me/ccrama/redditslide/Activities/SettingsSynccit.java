@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 
@@ -10,7 +11,9 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
+import me.ccrama.redditslide.Synccit.SynccitRead;
 
 
 /**
@@ -40,30 +43,50 @@ public class SettingsSynccit extends BaseActivityAnim {
             public void onClick(View v) {
                 try {
                     new MySynccitUpdateTask().execute("16noez");
-                    //passed
-                    SettingValues.synccitName = name.getText().toString();
-                    SettingValues.synccitAuth = auth.getText().toString();
-
-                    SharedPreferences.Editor e = SettingValues.prefs.edit();
-
-                    e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
-                    e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
-                    e.apply();
-                    new AlertDialogWrapper.Builder(SettingsSynccit.this)
-                            .setTitle("Connected successfully!")
-                            .setMessage("Synccit is now active for this device")
-                            .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    new Handler().postDelayed(new Runnable() {
                         @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
+                        public void run() {
+                            SettingValues.synccitName = name.getText().toString();
+                            SettingValues.synccitAuth = auth.getText().toString();
+                            new MySynccitReadTask(SettingsSynccit.this).execute("16noez");
+                            if (SynccitRead.visitedIds.contains("16noez")) {
+                                //success
+                                SettingValues.synccitName = name.getText().toString();
+                                SettingValues.synccitAuth = auth.getText().toString();
+
+                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+
+                                e.putString(SettingValues.SYNCCIT_NAME, SettingValues.synccitName);
+                                e.putString(SettingValues.SYNCCIT_AUTH, SettingValues.synccitAuth);
+                                e.apply();
+                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                                        .setTitle("Connected successfully!")
+                                        .setMessage("Synccit is now active for this device")
+                                        .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                            }
+                                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        finish();
+                                    }
+                                }).show();
+                            } else {
+                                SettingValues.synccitName = "";
+                                SettingValues.synccitAuth = "";
+                                new AlertDialogWrapper.Builder(SettingsSynccit.this)
+                                        .setTitle("Could not connect to Synccit servers")
+                                        .setMessage("Make sure your username and authentication key are correct!")
+                                        .setPositiveButton("Ok!", null).show();
+                            }
                         }
-                    }).show();
+                    }, 3000);
+
                 } catch (Exception e) {
+                    SettingValues.synccitName = "";
+                    SettingValues.synccitAuth = "";
                     new AlertDialogWrapper.Builder(SettingsSynccit.this)
                             .setTitle("Could not connect to Synccit servers")
                             .setMessage("Make sure your username and authentication key are correct!")
