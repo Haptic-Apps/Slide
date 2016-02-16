@@ -48,6 +48,8 @@ public class SettingValues {
     public static final String PREF_HIDEBUTTON = "Hidebutton";
     public static final String PREF_SAVE_BUTTON = "saveButton";
     public static final String PREF_IMAGE = "image";
+    public static final String SYNCCIT_AUTH = "SYNCCIT_AUTH";
+    public static final String SYNCCIT_NAME = "SYNCCIT_NAME";
     public static final String PREF_BLUR = "blur";
     public static final String PREF_ALBUM_SWIPE = "albumswipe";
     public static final String PREF_COMMENT_NAV = "commentNav";
@@ -94,6 +96,10 @@ public class SettingValues {
     public static boolean postNav;
     public static boolean exit;
     public static boolean cropImage;
+
+    public static String synccitName;
+    public static String synccitAuth;
+
     public static String titleFilters;
     public static String textFilters;
     public static String domainFilters;
@@ -154,6 +160,9 @@ public class SettingValues {
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         hideHeader = prefs.getBoolean(PREF_HIDE_HEADER, false);
+        synccitName = prefs.getString(SYNCCIT_NAME, "");
+        synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
+
         titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
         textFilters = prefs.getString(PREF_TEXT_FILTERS, "");
         domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");

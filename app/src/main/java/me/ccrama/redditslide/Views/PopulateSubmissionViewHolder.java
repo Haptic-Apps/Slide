@@ -1006,7 +1006,7 @@ public class PopulateSubmissionViewHolder {
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
-        if (HasSeen.getSeen(submission.getFullName()) && !full) {
+        if (HasSeen.getSeen(submission.getFullName()) && !full || submission.isClicked()) {
             holder.itemView.setAlpha(0.5f);
         } else {
             holder.itemView.setAlpha(1.0f);

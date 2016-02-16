@@ -1,16 +1,21 @@
 package me.ccrama.redditslide;
 
+import me.ccrama.redditslide.Synccit.SynccitRead;
+
 /**
  * Created by ccrama on 7/19/2015.
  */
 public class HasSeen {
 
     public static boolean getSeen(String fullname) {
-        return Reddit.seen.contains(fullname);
+
+        return Reddit.seen.contains(fullname) || SynccitRead.visitedIds.contains(fullname);
     }
 
     public static void addSeen(String fullname) {
         Reddit.seen.edit().putBoolean(fullname, false).apply();
+        SynccitRead.newVisited.add(fullname);
+        SynccitRead.visitedIds.add(fullname);
     }
 
 

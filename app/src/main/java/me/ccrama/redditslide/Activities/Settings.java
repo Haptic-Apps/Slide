@@ -107,6 +107,14 @@ public class Settings extends BaseActivity {
                 startActivity(i);
             }
         });
+        findViewById(R.id.synccit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(Settings.this, SettingsSynccit.class);
+                startActivity(i);
+            }
+        });
         if(Authentication.isLoggedIn) {
             findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -48,8 +47,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,6 +90,9 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.Synccit.MySynccitReadTask;
+import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
+import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
@@ -393,6 +393,10 @@ public class MainActivity extends BaseActivity {
             changed = false;
         }
 
+
+        if(!SettingValues.synccitName.isEmpty()){
+            new MySynccitReadTask(MainActivity.this).execute();
+        }
         if (getIntent().getBooleanExtra("EXIT", false)) finish();
 
         if (SettingValues.autoTime) {
@@ -509,6 +513,14 @@ public class MainActivity extends BaseActivity {
     public void onPause() {
         super.onPause();
         changed = false;
+
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(!SettingValues.synccitName.isEmpty()){
+            new MySynccitUpdateTask().execute(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+        }
     }
 
     @Override
