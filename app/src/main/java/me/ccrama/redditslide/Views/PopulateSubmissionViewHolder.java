@@ -708,7 +708,7 @@ public class PopulateSubmissionViewHolder {
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.show();
-                    if (!SettingValues.hideButton && Authentication.isLoggedIn) {
+                    if (SettingValues.hideButton && Authentication.isLoggedIn) {
                         dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -788,7 +788,7 @@ public class PopulateSubmissionViewHolder {
         final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
 
         if (hideButton != null) {
-            if (!SettingValues.hideButton && Authentication.isLoggedIn) {
+            if (SettingValues.hideButton && Authentication.isLoggedIn) {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
