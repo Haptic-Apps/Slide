@@ -1,4 +1,49 @@
 
+4.6.0 / 2016-02-14
+==================
+
+  * Large performance improvements
+    * Flattened views in both the main and comments views for scrolling performance
+    * Rewrote offline mode
+  * Added a new tutorial on startup using tooltips to guide the user
+  * Added collections in the reorder subreddits screen
+  * Added scrolling code blocks
+  * Added strike-through
+  * Added ordered and unordered lists
+  * Added tables
+  * Added a YouTube video view (via the YouTube Player API) to replace embedded content YouTube videos
+  * Added shadowbox mode to multireddits
+  * Added floating action button for multireddits
+  * Added an option to colour subreddits automatically based on their preferences
+  * Added a new sidebar header for offline mode (instead of non logged in header)
+  * Added a setting option for the Horizontal Album view
+  * Added Mark as read action to notification
+  * Added option for solid image viewer background
+  * Moved 'reorder subreddits' from the drawer to settings
+  * Delayed showing progress bar on image viewer for 500 ms to stop it from flashing on quickly loading images.
+  * Simplified the reorder subreddits settings, with some new actions on long press
+  * Tweaked strings in settings (capitalisation, typos)
+  * Removed double menus from multireddits
+  * Fixed padding on cards and list
+  * Fixed strange animations on the Settings activity
+  * Fixed card mode text wrapping fixes
+  * Fixed list mode missing divider
+  * Fixed some comment pages not opening
+  * Fixed main activity and comments memory leak
+  * Fixed some single item album issues
+  * Fixed settings activity transitions
+  * Fixed Custom Tabs flashing transition
+  * Fixed view creation for edit cards
+  * Fixed some one image gallery issues
+  * Fixed alarms firing at the same time and causing massive Reddit traffic over Marshmallow devices
+  * Fixed update message always popping up
+  * Fixed shadows on cards being cut off
+  * Fixed shadowbox crash while trying to access the OfflineSubreddit
+  * Fixed crash on homescreen when not logged in
+  * Fixed multiple code blocks not rendering
+  * Fixed blank sub issue in ReorderSubreddits
+  * Fixed some issues with NSFW previews
+
 4.5.1 / 2016-01-14
 ==================
 
@@ -853,7 +898,7 @@ alpha / 2015-10-03
   * Fix mail sync issue
   * Fixed extra padding on submissions
   * Fixed single view force close on sub change
-  * Fixed bug where the toolbar would overlap the content in the overview 
+  * Fixed bug where the toolbar would overlap the content in the overview
   * Updated translations from [crowdin](https://crowdin.com/project/slide-for-reddit)
 
 4.3.1 / 2015-11-07
