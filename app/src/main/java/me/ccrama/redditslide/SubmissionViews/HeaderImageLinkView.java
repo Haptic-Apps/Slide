@@ -60,13 +60,15 @@ public class HeaderImageLinkView extends RelativeLayout {
         backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
         doImageAndText(submission, full);
 
-        if (!done && full) {
+        if (!done) {
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     if (!done) {
                         doImageAndText(submission, full);
                         done = true;
+                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    } else {
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
 
@@ -100,13 +102,13 @@ public class HeaderImageLinkView extends RelativeLayout {
                     double h = getHeightFromAspectRatio(height, width);
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,(int)h ));
                 }
-            } else if (SettingValues.bigPicCropped) {
-                if (height < dpToPx(100)) {
+            } else if (SettingValues.cropImage) {
+                if (height < dpToPx(50)) {
                     forceThumb = true;
                 } else {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 }
-            } else if (height >= dpToPx(100) ) {
+            } else if (height >= dpToPx(50) ) {
                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
             } else {
                 forceThumb = true;

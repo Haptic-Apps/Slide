@@ -113,9 +113,6 @@ public class SubredditSearchPosts extends GeneralPosts {
                     adapter.notifyDataSetChanged();
                 }
 
-            } else if (submissions != null) {
-                // end of submissions
-                nomore = true;
             } else if (!nomore) {
                 // error
                 adapter.setError(true);
@@ -146,6 +143,9 @@ public class SubredditSearchPosts extends GeneralPosts {
 
 
                         }
+                    if(newSubmissions.size() == 0){
+                        nomore = true;
+                    }
 
                 } else  if(!nomore){
                     for (Submission s : paginator.next()) {
