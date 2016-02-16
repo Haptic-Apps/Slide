@@ -1,5 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -20,6 +22,7 @@ import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
@@ -57,10 +60,22 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (comments.getCurrentFragment() != null && SettingValues.commentNav) {
-            return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode);
+        if (comments.getCurrentFragment() != null && SettingValues.postNav && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE); // Get audioManager
+            switch (keyCode) {
+                case (KeyEvent.KEYCODE_VOLUME_UP):
+                {
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
+                    return ((SubmissionsView) comments.getCurrentFragment()).onKeyDown(keyCode);
+                }
+                case (KeyEvent.KEYCODE_VOLUME_DOWN):
+                {
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
+                    return ((SubmissionsView) comments.getCurrentFragment()).onKeyDown(keyCode);
+                }
+            }
         }
-        return false;
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override

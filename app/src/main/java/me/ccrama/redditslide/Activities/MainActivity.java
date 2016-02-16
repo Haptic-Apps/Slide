@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -1592,10 +1593,22 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (adapter.getCurrentFragment() != null && SettingValues.postNav) {
-            return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+        if (adapter.getCurrentFragment() != null && SettingValues.postNav && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE); // Get audioManager
+            switch (keyCode) {
+                case (KeyEvent.KEYCODE_VOLUME_UP):
+                {
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
+                    return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+                }
+                case (KeyEvent.KEYCODE_VOLUME_DOWN):
+                {
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
+                    return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+                }
+            }
         }
-        return false;
+        return super.onKeyUp(keyCode, event);
     }
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private Fragment mCurrentFragment;

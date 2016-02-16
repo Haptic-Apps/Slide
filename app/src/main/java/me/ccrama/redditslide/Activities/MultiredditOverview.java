@@ -1,8 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.List;
 
 import me.ccrama.redditslide.Fragments.MultiredditView;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -57,10 +60,22 @@ public class MultiredditOverview extends BaseActivityAnim {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (adapter.getCurrentFragment() != null && SettingValues.postNav) {
-            return ((MultiredditView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+        if (adapter.getCurrentFragment() != null && SettingValues.postNav && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE); // Get audioManager
+            switch (keyCode) {
+                case (KeyEvent.KEYCODE_VOLUME_UP):
+                {
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
+                    return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+                }
+                case (KeyEvent.KEYCODE_VOLUME_DOWN):
+                {
+                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
+                    return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
+                }
+            }
         }
-        return false;
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override
