@@ -9,14 +9,14 @@ public class HasSeen {
 
     public static boolean getSeen(String fullname) {
         if(fullname.contains("t3_")){
-            fullname = fullname.substring(fullname.indexOf("t3_" + 3), fullname.length());
+            fullname = fullname.substring(3, fullname.length());
         }
         return Reddit.seen.contains(fullname) || SynccitRead.visitedIds.contains(fullname);
     }
 
     public static void addSeen(String fullname) {
         if(fullname.contains("t3_")){
-            fullname = fullname.substring(fullname.indexOf("t3_" + 3), fullname.length());
+            fullname = fullname.substring(3, fullname.length());
         }
         Reddit.seen.edit().putBoolean(fullname, false).apply();
         SynccitRead.newVisited.add(fullname);

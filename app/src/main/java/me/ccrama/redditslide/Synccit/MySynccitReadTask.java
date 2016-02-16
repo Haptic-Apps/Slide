@@ -21,7 +21,7 @@ public class MySynccitReadTask extends SynccitReadTask {
 
     @Override
     protected void onVisited(HashSet<String> visitedThreadIds) {
-        SynccitRead.setVisited(visitedThreadIds);
+        SynccitRead.visitedIds.addAll(visitedThreadIds);
 
 
     }
