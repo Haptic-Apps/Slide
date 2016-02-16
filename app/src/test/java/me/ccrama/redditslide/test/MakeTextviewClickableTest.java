@@ -19,14 +19,14 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-@RunWith(RobolectricGradleTestRunner.class)
+//@RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
 public class MakeTextviewClickableTest {
 
    // MakeTextviewClickable makeTextviewClickable = new MakeTextviewClickable();
 
-   // @Test
-   // public void multipleCodeBlocks_shouldContainOriginalCodeText() throws IOException {
+    @Test
+    public void multipleCodeBlocks_shouldContainOriginalCodeText() throws IOException {
    //     // Use SubredditView since it works without issue
    //     Activity activity = Robolectric.buildActivity(Album.class).withIntent(new Intent().putExtra(Album.EXTRA_URL, "/test")).create().get();
    //     SubmissionTextViewGroup viewGroup = new SubmissionTextViewGroup(activity.getApplicationContext());
@@ -41,5 +41,5 @@ public class MakeTextviewClickableTest {
    //     assertThat(viewGroup.getChildCount(), equalTo(5));
    //     assertThat(firstCodeBlock, containsString("for byte in buffer[..read].iter()"));
    //     assertThat(secondCodeBlock, containsString("for &byte in buffer[..read].iter()"));
-   //}
+   }
 }

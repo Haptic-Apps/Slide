@@ -1,7 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.Context;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,14 +16,11 @@ import net.dean.jraw.models.Submission;
 import java.util.List;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
-
 import me.ccrama.redditslide.Fragments.CommentPage;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -44,25 +39,20 @@ public class CommentsScreenPopup extends BaseActivityAnim {
     String multireddit;
     public OfflineSubreddit o;
     boolean tip;
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (comments.getCurrentFragment() != null && SettingValues.postNav && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE); // Get audioManager
-            switch (keyCode) {
-                case (KeyEvent.KEYCODE_VOLUME_UP):
-                {
-                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0);
-                    return ((SubmissionsView) comments.getCurrentFragment()).onKeyDown(keyCode);
-                }
-                case (KeyEvent.KEYCODE_VOLUME_DOWN):
-                {
-                    audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0);
-                    return ((SubmissionsView) comments.getCurrentFragment()).onKeyDown(keyCode);
-                }
-            }
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode);
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode);
+            default:
+                return super.dispatchKeyEvent(event);
         }
-        return super.onKeyUp(keyCode, event);
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
