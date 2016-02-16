@@ -708,7 +708,7 @@ public class PopulateSubmissionViewHolder {
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.show();
-                    if (!SettingValues.hideButton) {
+                    if (!SettingValues.hideButton && Authentication.isLoggedIn) {
                         dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
