@@ -42,17 +42,17 @@ public class SettingsSynccit extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 try {
+                    SettingValues.synccitName = name.getText().toString();
+                    SettingValues.synccitAuth = auth.getText().toString();
+
                     new MySynccitUpdateTask().execute("16noez");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            SettingValues.synccitName = name.getText().toString();
-                            SettingValues.synccitAuth = auth.getText().toString();
+
                             new MySynccitReadTask(SettingsSynccit.this).execute("16noez");
                             if (SynccitRead.visitedIds.contains("16noez")) {
                                 //success
-                                SettingValues.synccitName = name.getText().toString();
-                                SettingValues.synccitAuth = auth.getText().toString();
 
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
 
@@ -74,8 +74,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                                     }
                                 }).show();
                             } else {
-                                SettingValues.synccitName = "";
-                                SettingValues.synccitAuth = "";
+
                                 new AlertDialogWrapper.Builder(SettingsSynccit.this)
                                         .setTitle("Could not connect to Synccit servers")
                                         .setMessage("Make sure your username and authentication key are correct!")
@@ -85,8 +84,6 @@ public class SettingsSynccit extends BaseActivityAnim {
                     }, 3000);
 
                 } catch (Exception e) {
-                    SettingValues.synccitName = "";
-                    SettingValues.synccitAuth = "";
                     new AlertDialogWrapper.Builder(SettingsSynccit.this)
                             .setTitle("Could not connect to Synccit servers")
                             .setMessage("Make sure your username and authentication key are correct!")
