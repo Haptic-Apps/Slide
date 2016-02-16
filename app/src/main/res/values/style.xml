@@ -295,7 +295,7 @@
         <item name="card_background">#000000</item>
         <item name="list_background">#000000</item>
 
-        <item name="font">#B3FFFFFF</item>
+        <item name="font">#FFFFFFFF</item>
         <item name="tint">#B3FFFFFF</item>
 
         <item name="android:windowBackground">@null</item>

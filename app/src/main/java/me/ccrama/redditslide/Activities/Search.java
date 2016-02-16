@@ -53,6 +53,8 @@ public class Search extends BaseActivityAnim {
     public void reloadSubs(){
         posts.refreshLayout.setRefreshing(true);
         posts.reset();
+
+
     }
     public void openPopup() {
 
@@ -150,7 +152,7 @@ public class Search extends BaseActivityAnim {
         setContentView(R.layout.activity_saved);
         where = getIntent().getExtras().getString(EXTRA_TERM, "");
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
-        setupUserAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
+        setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
         Log.v(LogUtil.getTag(), "Searching for " + where + " in " + subreddit);
 

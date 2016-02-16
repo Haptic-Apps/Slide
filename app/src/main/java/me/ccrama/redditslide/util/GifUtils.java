@@ -90,8 +90,7 @@ public class GifUtils {
             } else if (s.contains("gfycat")) {
                 s = s.substring(3, s.length());
             }
-            s = s.replace("http://", "");
-            s = s.replace("https://", "");
+
             if (s.contains("gfycat")) {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
