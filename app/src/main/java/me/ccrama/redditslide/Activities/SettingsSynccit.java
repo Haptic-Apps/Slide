@@ -50,7 +50,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                         @Override
                         public void run() {
 
-                            new MySynccitReadTask(SettingsSynccit.this).execute("16noez");
+                            new MySynccitReadTask().execute("16noez");
                             if (SynccitRead.visitedIds.contains("16noez")) {
                                 //success
 

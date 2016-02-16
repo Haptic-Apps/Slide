@@ -90,7 +90,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.TimeUtils;
@@ -394,9 +393,6 @@ public class MainActivity extends BaseActivity {
         }
 
 
-        if(!SettingValues.synccitName.isEmpty()){
-            new MySynccitReadTask(MainActivity.this).execute();
-        }
         if (getIntent().getBooleanExtra("EXIT", false)) finish();
 
         if (SettingValues.autoTime) {

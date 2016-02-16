@@ -18,6 +18,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -94,13 +95,22 @@ public class SubredditPosts implements PostLoader {
                 }
 
 
+
                List<Submission> filteredSubmissions = new ArrayList<>();
                 for (Submission s : submissions) {
                     if (!PostMatch.doesMatch(s)) {
                         filteredSubmissions.add(s);
                     }
                 }
-
+                String[] ids = new String[filteredSubmissions.size()];
+                int i = 0;
+                for(Submission s : filteredSubmissions){
+                    ids[i] = s.getId();
+                    i++;
+                }
+                if(!SettingValues.synccitName.isEmpty() && !offline){
+                    new MySynccitReadTask().execute(ids);
+                }
                 if (reset || offline || posts == null) {
                     posts = submissions;
                     start = -1;

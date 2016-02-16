@@ -15,7 +15,9 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 
 /**
  * This class is reponsible for loading multireddit specific submissions
@@ -94,7 +96,15 @@ public class MultiredditPosts implements PostLoader {
                         }
 
                 }
-
+                String[] ids = new String[filteredSubmissions.size()];
+                int i = 0;
+                for(Submission s : filteredSubmissions){
+                    ids[i] = s.getId();
+                    i++;
+                }
+                if(!SettingValues.synccitName.isEmpty()){
+                    new MySynccitReadTask().execute(ids);
+                }
                 if (reset || posts == null) {
                     posts = filteredSubmissions;
                     start = -1;
