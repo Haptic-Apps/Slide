@@ -41,6 +41,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
                 // long click
                 clickHandled = true;
                 comm.setLongClickable(true);
+
                 handler.removeCallbacksAndMessages(null);
                 if (link != null  && link.length > 0 && link[0] != null)
                     TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
@@ -65,6 +66,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
         Layout layout = widget.getLayout();
         int line = layout.getLineForVertical(y);
         int off = layout.getOffsetForHorizontal(line, x);
+        comm.setLongClickable(false);
 
         link = buffer.getSpans(off, off, URLSpan.class);
         if (link.length > 0) {
@@ -110,8 +112,8 @@ public class TextViewLinkHandler extends BaseMovementMethod {
 
         } else {
             Selection.removeSelection(buffer);
+            return false;
         }
-        return false;
     }
 
 }

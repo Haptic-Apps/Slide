@@ -126,7 +126,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
 
-            setViews(comment.getDataNode().get("body_html").asText(), "", messageViewHolder);
+            setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK", messageViewHolder);
 
 
         }
