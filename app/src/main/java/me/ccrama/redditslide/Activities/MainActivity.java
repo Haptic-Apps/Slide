@@ -1130,8 +1130,13 @@ public class MainActivity extends BaseActivity {
                         Intent inte = new Intent(MainActivity.this, SubredditView.class);
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
-                    } else
-                        pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
+                    } else {
+                        if(usedArray.contains(e.getText().toString())){
+                            pager.setCurrentItem(usedArray.indexOf(e.getText().toString()));
+                        } else {
+                            pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
+                        }
+                    }
 
                     View view = MainActivity.this.getCurrentFocus();
                     if (view != null) {

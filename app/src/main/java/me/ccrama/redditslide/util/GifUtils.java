@@ -289,11 +289,6 @@ public class GifUtils {
                         });
 
             } else {
-                if (s.endsWith("v")) {
-                    s = s.substring(0, s.length() - 1);
-                }
-                s = s.trim();
-
 
                 final String finalS = s;
                 Log.v("Slide", "https://gfycat.com/cajax/checkUrl/" + s);
