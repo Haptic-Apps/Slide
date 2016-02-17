@@ -90,6 +90,9 @@ public class GifUtils {
             } else if (s.contains("gfycat")) {
                 s = s.substring(3, s.length());
             }
+            if(s.contains(".gif") && !s.contains(".gifv") && s.contains("imgur.com")){
+                s = s.replace(".gif", ".gifv");
+            }
 
             if (s.contains("gfycat")) {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
@@ -452,6 +455,9 @@ public class GifUtils {
                                     .setCallback(new FutureCallback<JsonObject>() {
                                         @Override
                                         public void onCompleted(Exception e, final JsonObject result) {
+                                            if(result.has("error")){
+
+                                            }
                                             if (progressBar != null)
                                                 progressBar.setIndeterminate(false);
                                             new AsyncTask<Void, Void, Void>() {
