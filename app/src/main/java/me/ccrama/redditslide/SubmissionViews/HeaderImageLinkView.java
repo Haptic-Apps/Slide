@@ -99,7 +99,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             int width = submission.getDataNode().get("preview").get("images").get(0).get("source").get("width").asInt();
 
             if (full) {
-                if (height < dpToPx(100) && type != ContentType.ImageType.SELF) {
+                if (height < dpToPx(50) && type != ContentType.ImageType.SELF) {
                     forceThumb = true;
                 } else if (SettingValues.cropImage) {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
@@ -107,7 +107,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     double h = getHeightFromAspectRatio(height, width);
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
                 }
-            } else if (SettingValues.cropImage) {
+            } else if (SettingValues.bigPicCropped) {
                 if (height < dpToPx(50)) {
                     forceThumb = true;
                 } else {
@@ -133,7 +133,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
             }
-
         } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
 
             setVisibility(View.GONE);
@@ -219,7 +218,8 @@ public class HeaderImageLinkView extends RelativeLayout {
             } else {
                 title = (TextView) findViewById(R.id.textimage);
                 info = (TextView) findViewById(R.id.subtextimage);
-                if (forceThumb) {
+                if (forceThumb
+                        || (submission.isNsfw() && !SettingValues.NSFWPreviews || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
                     setBottomSheet(thumbImage2, submission.getUrl());
                 } else {
                     setBottomSheet(this, submission.getUrl());
@@ -228,7 +228,8 @@ public class HeaderImageLinkView extends RelativeLayout {
         } else {
             title = (TextView) findViewById(R.id.textimage);
             info = (TextView) findViewById(R.id.subtextimage);
-            if (forceThumb) {
+            if (forceThumb
+                    || (submission.isNsfw() && !SettingValues.NSFWPreviews || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
                 setBottomSheet(thumbImage2, submission.getUrl());
             } else {
                 setBottomSheet(this, submission.getUrl());

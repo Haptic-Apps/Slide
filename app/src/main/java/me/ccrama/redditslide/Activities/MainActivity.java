@@ -1656,9 +1656,8 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if(Authentication.me != null)
             try {
-                count = Authentication.me.getInboxCount();
+                count = Authentication.reddit.me().getInboxCount(); //Force reload of the LoggedInAccount object
             } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
                 count = -1;
