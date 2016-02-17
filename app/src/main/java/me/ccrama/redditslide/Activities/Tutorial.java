@@ -356,6 +356,7 @@ public class Tutorial extends FragmentActivity {
                 @Override
                 public void onClick(View v) {
                     Reddit.colors.edit().putString("Tutorial", "S").commit();
+                    Reddit.appRestart.edit().putString("startScreen", "a").apply();
                     Reddit.forceRestart(Tutorial.this);
                 }
             });
