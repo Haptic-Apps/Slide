@@ -19,7 +19,7 @@ import me.ccrama.redditslide.Synccit.SynccitRead;
 
 
 /**
- * Created by l3d00m on 11/13/2015.
+ * Created by ccrama on 2/16/2015.
  */
 public class SettingsSynccit extends BaseActivityAnim {
 
@@ -77,11 +77,9 @@ public class SettingsSynccit extends BaseActivityAnim {
                         .progress(true, 100)
                         .cancelable(false)
                         .show();
+                SettingValues.synccitName = name.getText().toString();
+                SettingValues.synccitAuth = auth.getText().toString();
                 try {
-                    SettingValues.synccitName = name.getText().toString();
-                    SettingValues.synccitAuth = auth.getText().toString();
-
-
                     new MySynccitUpdateTask().execute("16noez");
                     new Handler().postDelayed(new Runnable() {
                         @Override
