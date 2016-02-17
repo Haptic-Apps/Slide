@@ -199,7 +199,13 @@ public class PopulateSubmissionViewHolder {
         if (SettingValues.image) {
             DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
-            myIntent.putExtra(FullscreenImage.EXTRA_URL, submission.getUrl());
+            String url;
+            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+            } else {
+                url = submission.getUrl();
+            }
+            myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
             contextActivity.startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -720,7 +726,7 @@ public class PopulateSubmissionViewHolder {
                                 d.dismiss();
                                 Hidden.setHidden((Contribution) t);
 
-                                if(baseSub != null){
+                                if (baseSub != null) {
                                     Log.v(LogUtil.getTag(), "HIDING POST");
                                     OfflineSubreddit.getSubreddit(baseSub).hide(pos);
                                 }
@@ -729,7 +735,7 @@ public class PopulateSubmissionViewHolder {
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if(baseSub != null){
+                                        if (baseSub != null) {
                                             OfflineSubreddit.getSubreddit(baseSub).unhideLast();
                                         }
                                         posts.add(pos, t);
@@ -799,7 +805,7 @@ public class PopulateSubmissionViewHolder {
                         recyclerview.getAdapter().notifyItemRemoved(pos);
                         if (!offline)
                             Hidden.setHidden((Contribution) t);
-                        if(baseSub != null){
+                        if (baseSub != null) {
                             Log.v(LogUtil.getTag(), "HIDING POST2");
 
                             OfflineSubreddit.getSubreddit(baseSub).hide(pos);
@@ -807,7 +813,7 @@ public class PopulateSubmissionViewHolder {
                         Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if(baseSub != null){
+                                if (baseSub != null) {
                                     OfflineSubreddit.getSubreddit(baseSub).unhideLast();
                                 }
                                 posts.add(pos, t);
@@ -879,11 +885,11 @@ public class PopulateSubmissionViewHolder {
 
         addClickFunctions(holder.leadImage, type, mContext, submission, holder.itemView);
 
-       addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);
+        addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);
 
 
         if (full) {
-           addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
 
         }
         View pinned = holder.itemView.findViewById(R.id.pinned);
@@ -900,7 +906,7 @@ public class PopulateSubmissionViewHolder {
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
-                setViews(submission.getDataNode().get("selftext_html").asText(),submission.getSubredditName(), holder);
+                setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);

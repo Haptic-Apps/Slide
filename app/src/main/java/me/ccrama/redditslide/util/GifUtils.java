@@ -443,11 +443,11 @@ public class GifUtils {
 
                         } else {
 
-                            Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS + "?&fetchSeconds=0&fetchMinutes=0&fetchHours=0&noResize=true&fetchLength=100");
+                            Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS );
                             if (progressBar != null)
                                 progressBar.setIndeterminate(true);
                             Ion.with(c)
-                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS + "?&fetchSeconds=0&fetchMinutes=0&fetchHours=0&noResize=true&fetchLength=100")
+                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS )
                                     .asJsonObject()
                                     .setCallback(new FutureCallback<JsonObject>() {
                                         @Override
