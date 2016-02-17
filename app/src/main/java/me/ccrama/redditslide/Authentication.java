@@ -212,7 +212,7 @@ public class Authentication {
         public void onPostExecute(Void voids) {
 
             didOnline = true;
-            Log.v(LogUtil.getTag(), "LOADING SUBS");
+            LogUtil.v("LOADING SUBS");
 
             SubredditStorage.getSubredditsForHome(a);
 
@@ -223,7 +223,7 @@ public class Authentication {
         protected Void doInBackground(String... subs) {
             try {
                 String token = authentication.getString("lasttoken", "");
-                Log.v(LogUtil.getTag(), "TOKEN IS " + token);
+                if (BuildConfig.DEBUG) LogUtil.v("TOKEN IS " + token);
                 if (!token.isEmpty()) {
 
                     final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
@@ -244,7 +244,7 @@ public class Authentication {
                         }
                         final String name = me.getFullName();
                         Authentication.name = name;
-                        Log.v(LogUtil.getTag(), "AUTHENTICATED");
+                        LogUtil.v("AUTHENTICATED");
 
                         if (reddit.isAuthenticated()) {
                             final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
