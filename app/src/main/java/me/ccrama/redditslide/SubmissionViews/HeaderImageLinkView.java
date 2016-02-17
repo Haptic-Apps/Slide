@@ -1,7 +1,13 @@
 package me.ccrama.redditslide.SubmissionViews;
 
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,6 +15,9 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.models.Submission;
 
@@ -92,11 +101,11 @@ public class HeaderImageLinkView extends RelativeLayout {
             if (full) {
                 if (height < dpToPx(100) && type != ContentType.ImageType.SELF) {
                     forceThumb = true;
-                } else if(SettingValues.cropImage){
+                } else if (SettingValues.cropImage) {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
-                } else{
+                } else {
                     double h = getHeightFromAspectRatio(height, width);
-                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,(int)h ));
+                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
                 }
             } else if (SettingValues.cropImage) {
                 if (height < dpToPx(50)) {
@@ -104,7 +113,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 } else {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 }
-            } else if (height >= dpToPx(50) ) {
+            } else if (height >= dpToPx(50)) {
                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
             } else {
                 forceThumb = true;
@@ -206,13 +215,24 @@ public class HeaderImageLinkView extends RelativeLayout {
             if (wrapArea.getVisibility() == View.VISIBLE) {
                 title = secondTitle;
                 info = secondSubTitle;
+                setBottomSheet(wrapArea, submission.getUrl());
             } else {
                 title = (TextView) findViewById(R.id.textimage);
                 info = (TextView) findViewById(R.id.subtextimage);
+                if (forceThumb) {
+                    setBottomSheet(thumbImage2, submission.getUrl());
+                } else {
+                    setBottomSheet(this, submission.getUrl());
+                }
             }
         } else {
             title = (TextView) findViewById(R.id.textimage);
             info = (TextView) findViewById(R.id.subtextimage);
+            if (forceThumb) {
+                setBottomSheet(thumbImage2, submission.getUrl());
+            } else {
+                setBottomSheet(this, submission.getUrl());
+            }
         }
 
 
@@ -323,6 +343,50 @@ public class HeaderImageLinkView extends RelativeLayout {
         setSecondTitle((TextView) v.findViewById(R.id.contenttitle));
         setSecondSubtitle((TextView) v.findViewById(R.id.contenturl));
 
+    }
+
+    Activity activity = null;
+
+    public void setBottomSheet(View v, final String url) {
+        v.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (getContext() instanceof Activity) {
+                    activity = (Activity) getContext();
+                } else if (getContext() instanceof android.support.v7.view.ContextThemeWrapper) {
+                    activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
+                }
+                if (activity != null) {
+                    new BottomSheet.Builder(activity, R.style.BottomSheet_Dialog)
+                            .title(url)
+                            .grid()
+                            .sheet(R.menu.link_menu)
+                            .listener(new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case R.id.open_link:
+                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                            getContext().startActivity(browserIntent);
+                                            break;
+                                        case R.id.share_link:
+                                            Reddit.defaultShareText(url, activity);
+                                            break;
+                                        case R.id.copy_link:
+                                            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("Link", url);
+                                            clipboard.setPrimaryClip(clip);
+
+                                            Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
+                                            break;
+                                    }
+                                }
+                            }).show();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void setSecondTitle(TextView v) {
