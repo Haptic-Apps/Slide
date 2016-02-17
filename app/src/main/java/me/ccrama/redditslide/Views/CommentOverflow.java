@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Views;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -29,12 +30,13 @@ public class CommentOverflow extends LinearLayout {
     private ColorPreferences colorPreferences;
     private Typeface typeface;
     private int textColor;
+    private int fontSize;
     private static final MarginLayoutParams COLUMN_PARAMS;
     private static final MarginLayoutParams MARGIN_PARAMS;
 
     static {
-        COLUMN_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        COLUMN_PARAMS.setMargins(0, 0, 6, 0);
+        COLUMN_PARAMS = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        COLUMN_PARAMS.setMargins(0, 0, 32, 0);
 
         MARGIN_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         MARGIN_PARAMS.setMargins(0, 16, 0, 16);
@@ -61,10 +63,15 @@ public class CommentOverflow extends LinearLayout {
                 context,
                 new FontPreferences(context).getFontTypeComment().getTypeface());
 
-        TypedValue typedValue= new TypedValue();
+        TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.font, typedValue, true);
         textColor = typedValue.data;
+
+        TypedValue fontSizeTypedValue = new TypedValue();
+        theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
+        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[] {R.attr.font_commentbody});
+        fontSize = a.getDimensionPixelSize(0, -1);
     }
 
     /**
@@ -93,19 +100,15 @@ public class CommentOverflow extends LinearLayout {
             } else if (block.startsWith("<pre>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
-                newTextView.setTextColor(textColor);
-                newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
-                newTextView.setTypeface(typeface);
                 newTextView.setTextHtml(block, subreddit);
+                setStyle(newTextView, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
                 scrollView.addView(newTextView);
                 addView(scrollView);
             } else {
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
-                newTextView.setLinkTextColor(colorPreferences.getColor(subreddit));
-                newTextView.setTextColor(textColor);
-                newTextView.setTypeface(typeface);
                 newTextView.setTextHtml(block, subreddit);
+                setStyle(newTextView, subreddit);
                 newTextView.setLayoutParams(MARGIN_PARAMS);
                 addView(newTextView);
             }
@@ -162,9 +165,8 @@ public class CommentOverflow extends LinearLayout {
                 columnEnd = i;
 
                 SpoilerRobotoTextView textView = new SpoilerRobotoTextView(context);
-                textView.setTextColor(textColor);
-                textView.setLinkTextColor(colorPreferences.getColor(subreddit));
                 textView.setTextHtml(text.subSequence(columnStart, columnEnd), subreddit);
+                setStyle(textView, subreddit);
                 textView.setLayoutParams(COLUMN_PARAMS);
 
                 row.addView(textView);
@@ -177,5 +179,12 @@ public class CommentOverflow extends LinearLayout {
         }
 
         return table;
+    }
+
+    private void setStyle(SpoilerRobotoTextView textView, String subreddit) {
+        textView.setTextColor(textColor);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
+        textView.setTypeface(typeface);
+        textView.setLinkTextColor(colorPreferences.getColor(subreddit));
     }
 }
