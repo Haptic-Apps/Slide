@@ -1073,7 +1073,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else
-                                new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                new BottomSheet.Builder((Activity) mContext)
                                         .title(R.string.submission_share_title)
                                         .grid()
                                         .sheet(R.menu.share_menu)

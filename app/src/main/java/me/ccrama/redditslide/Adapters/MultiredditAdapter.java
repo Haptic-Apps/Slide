@@ -171,7 +171,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
-                                new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                new BottomSheet.Builder(mContext)
                                         .title(R.string.submission_share_title)
                                         .grid()
                                         .sheet(R.menu.share_menu)

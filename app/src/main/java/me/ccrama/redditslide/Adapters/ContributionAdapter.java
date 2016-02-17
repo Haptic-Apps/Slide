@@ -191,7 +191,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             if (submission.isSelfPost())
                                 Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
                             else {
-                                new BottomSheet.Builder(mContext, R.style.BottomSheet_Dialog)
+                                new BottomSheet.Builder(mContext)
                                         .title(R.string.submission_share_title)
                                         .grid()
                                         .sheet(R.menu.share_menu)

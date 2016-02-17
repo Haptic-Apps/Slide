@@ -254,7 +254,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
 
         if (!activity.isFinishing()) {
-            new BottomSheet.Builder(activity, R.style.BottomSheet_Dialog)
+            new BottomSheet.Builder(activity)
                     .title(url)
                     .grid()
                     .sheet(R.menu.link_menu)

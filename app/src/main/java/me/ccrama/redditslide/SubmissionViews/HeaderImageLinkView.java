@@ -358,7 +358,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
                 }
                 if (activity != null) {
-                    new BottomSheet.Builder(activity, R.style.BottomSheet_Dialog)
+                    new BottomSheet.Builder(activity)
                             .title(url)
                             .grid()
                             .sheet(R.menu.link_menu)

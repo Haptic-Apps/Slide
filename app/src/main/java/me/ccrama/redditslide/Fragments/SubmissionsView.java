@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -48,7 +47,6 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
@@ -345,7 +343,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
 
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                        Log.v(LogUtil.getTag(), "LOADING MORE" + totalItemCount);
                         posts.loading = true;
                         posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
 
