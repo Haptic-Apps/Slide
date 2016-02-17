@@ -98,17 +98,20 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     private ImageLoader defaultImageLoader;
     private boolean closed = false;
     private Runnable mBackgroundTransition;
-    private boolean isRestarting;
+    public static boolean isRestarting;
 
     public static void forceRestart(Context context) {
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
         }
 
-        Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("me.ccrama.redditslide");
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(launchIntent);
-        System.exit(0);
+        isRestarting = true;
+
+        Intent i = context.getPackageManager()
+                .getLaunchIntentForPackage(context.getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {

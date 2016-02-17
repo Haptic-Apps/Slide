@@ -296,7 +296,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    boolean tutorial;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -331,7 +330,6 @@ public class MainActivity extends BaseActivity {
             first = true;
             Reddit.appRestart.edit().putBoolean("firststart460", true).apply();
             Intent i = new Intent(this, Tutorial.class);
-            tutorial = true;
             startActivity(i);
         } else if (!Reddit.colors.contains("460update") && !Reddit.colors.contains("firststart460")) {
             new MaterialDialog.Builder(this)
@@ -454,7 +452,7 @@ public class MainActivity extends BaseActivity {
         if (singleMode) pager.setSwipingEnabled(false);
 
 
-        if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null) {
+        if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null && !Reddit.isRestarting) {
             if (!first)
                 doDrawer();
 
@@ -463,6 +461,7 @@ public class MainActivity extends BaseActivity {
         } else if (!first) {
             ((Reddit) getApplication()).doMainStuff();
 
+            Reddit.isRestarting = false;
             Intent i = new Intent(this, Loader.class);
             startActivity(i);
 
@@ -1513,15 +1512,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(tutorial){
-            restartTheme();
-        } else {
-            if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null) {
+        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null) {
 
-                new AsyncNotificationBadge().execute();
-            }
-            Reddit.setDefaultErrorHandler(this);
+            new AsyncNotificationBadge().execute();
         }
+        Reddit.setDefaultErrorHandler(this);
     }
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
