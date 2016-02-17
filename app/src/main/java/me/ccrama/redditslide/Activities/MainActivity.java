@@ -272,22 +272,28 @@ public class MainActivity extends BaseActivity {
 
                 } else {
 
-                    new AlertDialogWrapper.Builder(this).setTitle(R.string.err_permission)
-                            .setMessage(R.string.err_permission_msg)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.err_permission)
+                                    .setMessage(R.string.err_permission_msg)
+                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ActivityCompat.requestPermissions(MainActivity.this,
+                                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                    1);
+
+                                        }
+                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ActivityCompat.requestPermissions(MainActivity.this,
-                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                            1);
-
+                                    dialog.dismiss();
                                 }
-                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                            }).show();
                         }
-                    }).show();
+                    });
+
                 }
             }
 
@@ -324,9 +330,9 @@ public class MainActivity extends BaseActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-        }
+        } 
         boolean first = false;
-        if (!Reddit.colors.contains("Tutorial")) {
+        if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
             Reddit.appRestart.edit().putBoolean("firststart460", true).apply();
             Intent i = new Intent(this, Tutorial.class);
