@@ -29,6 +29,7 @@ import java.util.Set;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -143,6 +144,9 @@ public class Login extends BaseActivityAnim {
                         .setCancelable(false)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+                                SubredditStorage.alphabeticalSubreddits = null;
+                                SubredditStorage.subredditsForHome = null;
+                                SubredditStorage.saveState();
                                 Reddit.forceRestart(Login.this, true);
                             }
                         });

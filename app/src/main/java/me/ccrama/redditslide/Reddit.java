@@ -427,7 +427,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             }
                         });
 
-                    } else if (stacktrace.contains("404 Not Found")) {
+                    } else if (stacktrace.contains("404 Not Found") || stacktrace.contains("400 Bad Request")) {
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {
                             @Override
