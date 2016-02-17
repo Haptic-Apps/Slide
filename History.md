@@ -1,4 +1,39 @@
 
+4.6.1 / 2016-02-17
+==================
+
+  * Added a dot seperator for title items in comment view
+  * Added a menu on long press of thumbnails or big pictures, to share/copy the link address
+  * Added option to make comment depth indicators monochrome instead of colourful
+  * Added Synccit support - shared history accross devices
+  * Added the ability to scroll using the volume keys
+  * Fixed a bug with removing accounts
+  * Fixed comment count bubble size
+  * Fixed comments not loading if you click on the main link before they're loaded fully
+  * Fixed links not working in private messages
+  * Fixed shortcut creation
+  * Fixed spoilers not working
+  * Fixed submissions not showing images when the view is first created and when not cropping image height
+  * Fixed the 'gif not found' issue
+  * Hide post only for signed in users (hiding requires the user to be logged in)
+  * Improved html parsing for album item titles and descriptions
+  * Improved YouTube hash extraction using regex
+  * Made album captions scrollable
+  * Made back button work on single sub view
+  * Made comment menu close after voting
+  * Made link click handling work without a subreddit name
+  * Made search screen use sub colors
+  * Made submission card views hardware accelerated
+  * Made the BottomSheet dialog match the parent theme
+  * Made the useragent use the current Slide build version
+  * Major logic fixes in HeaderImageLinkView (fixes default album text being shown for some links, fixes big image showing but thumbnail area having text), Direct Reddit link crash fix, Various other bug fixes
+  * More post image logic changes
+  * Reduced the amount of .me() calls on the Reddit API
+  * Removed always show cached data option and cache settings
+  * Removed overdraw on post views
+  * Search default time period set to all time, Subtitle telling user the time period
+  * Testing out deeper zoom in image view
+
 4.6.0 / 2016-02-14
 ==================
 
