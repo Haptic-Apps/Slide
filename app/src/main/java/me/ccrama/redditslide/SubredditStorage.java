@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -30,11 +32,12 @@ public class SubredditStorage {
     public static ArrayList<String> alphabeticalSubreddits;
     public static Shortcut shortcut;
 
-    public static void saveState(){
+    public static void saveState(boolean login){
+
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
-        editor.putString("subs", Reddit.arrayToString(subredditsForHome));
-        editor.putString("subsalph", Reddit.arrayToString(alphabeticalSubreddits));
+        editor.putString("subs", login ? "" : Reddit.arrayToString(subredditsForHome));
+        editor.putString("subsalph", login?"":Reddit.arrayToString(alphabeticalSubreddits));
 
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
 
@@ -54,6 +57,7 @@ public class SubredditStorage {
     }
 
     public static void getSubredditsForHome(Reddit a) {
+        Log.v(LogUtil.getTag(), "NAME IS " +  Authentication.name);
         String s = subscriptions.getString(Authentication.name, "");
         final boolean online = NetworkUtil.isConnected(a);
         if (s.isEmpty()) {
@@ -90,7 +94,7 @@ public class SubredditStorage {
 
             }
         }
-        saveState();
+        saveState(false);
     }
 
 
@@ -119,7 +123,7 @@ public class SubredditStorage {
         subscriptions.edit().putString(Authentication.name, finalS).commit();
         subredditsForHome = new ArrayList<>(subs);
         alphabeticalSubreddits = sort(new ArrayList<>(subs));
-        saveState();
+        saveState(false);
     }
 
     private static ArrayList<String> doModOf() {

@@ -113,6 +113,7 @@ public class Login extends BaseActivityAnim {
                     SharedPreferences.Editor editor = Authentication.authentication.edit();
                     Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                     accounts.add(Authentication.reddit.me().getFullName());
+                    Authentication.name = Authentication.reddit.me().getFullName();
                     editor.putStringSet("accounts", accounts);
                     Set<String> tokens = Authentication.authentication.getStringSet("tokens", new HashSet<String>());
                     tokens.add(refreshToken);
@@ -144,9 +145,8 @@ public class Login extends BaseActivityAnim {
                         .setCancelable(false)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                SubredditStorage.alphabeticalSubreddits = null;
-                                SubredditStorage.subredditsForHome = null;
-                                SubredditStorage.saveState();
+
+                                SubredditStorage.saveState(true);
                                 Reddit.forceRestart(Login.this, true);
                             }
                         });

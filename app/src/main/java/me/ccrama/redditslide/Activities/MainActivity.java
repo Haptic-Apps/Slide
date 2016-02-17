@@ -473,7 +473,7 @@ public class MainActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (SubredditStorage.subredditsForHome != null) {
+                                if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null) {
 
                                     mToolbar.postDelayed(new Runnable() {
                                         @Override
@@ -488,7 +488,7 @@ public class MainActivity extends BaseActivity {
                                                 loader = null;
                                             }
                                         }
-                                    }, 2000);
+                                    }, 4000);
                                 } else {
                                     mToolbar.postDelayed(this, 2000);
                                 }
