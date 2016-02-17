@@ -100,7 +100,7 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return SubredditStorage.modOf.size() + 1;
+            return SubredditStorage.modOf == null ? 1:SubredditStorage.modOf.size() + 1;
         }
 
 

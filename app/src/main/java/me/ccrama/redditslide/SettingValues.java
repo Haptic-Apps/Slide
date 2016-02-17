@@ -137,7 +137,7 @@ public class SettingValues {
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
 
         commentNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
-        postNav = prefs.getBoolean(PREF_POST_NAV, false);
+        postNav = false;
 
         fab = prefs.getBoolean(PREF_FAB, false);
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_POST);

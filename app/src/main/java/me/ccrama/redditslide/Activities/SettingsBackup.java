@@ -150,6 +150,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                     } else {
                         progress.setProgress(progress.getCurrentProgress() + 1);
                         if (progress.getCurrentProgress() == progress.getMaxProgress()) {
+
                             new AlertDialogWrapper.Builder(SettingsBackup.this)
                                     .setTitle(R.string.backup_success)
                                     .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
@@ -180,6 +181,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                     }
 
                     if (progress.getCurrentProgress() == progress.getMaxProgress()) {
+
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
                                 .setTitle(R.string.backup_success)
                                 .setPositiveButton(R.string.btn_close, new DialogInterface.OnClickListener() {
@@ -263,6 +265,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 @Override
                 public void onClick(View v) {
                     if(mGoogleApiClient.isConnected()) {
+
                         progress = new MaterialDialog.Builder(SettingsBackup.this)
                                 .title(R.string.backup_restoring)
                                 .content(R.string.misc_please_wait)
@@ -399,17 +402,20 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             super.onPostExecute(result);
             if (progress.getCurrentProgress() == progress.getMaxProgress()) {
                 progress.dismiss();
+
+
+
                 new AlertDialogWrapper.Builder(SettingsBackup.this)
                         .setTitle(R.string.backup_restore_settings)
                         .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        Reddit.forceRestart(SettingsBackup.this, true);
+                        System.exit(0);
                     }
                 }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Reddit.forceRestart(SettingsBackup.this, true);
+                        System.exit(0);
 
                     }
                 }).show();

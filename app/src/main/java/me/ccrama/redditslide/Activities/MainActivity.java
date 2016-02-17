@@ -198,27 +198,7 @@ public class MainActivity extends BaseActivity {
                 );
                 t.show();
             }
-        } else if(!Reddit.appRestart.contains("tutorial_4")){
-            if(pager != null) {
-
-                t = Tooltip.make(this,
-                        new Tooltip.Builder(104)
-                                .anchor(pager, Tooltip.Gravity.CENTER)
-                                .text("Long press on a post for more options")
-                                .maxWidth(500)
-                                .activateDelay(800)
-                                .showDelay(300)
-                                .closePolicy(new Tooltip.ClosePolicy()
-                                        .insidePolicy(true, false)
-                                        .outsidePolicy(true, false), 3000)
-                                .withArrow(true)
-                                .withOverlay(true)
-                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .build()
-                );
-                t.show();
-            }
-        }
+        } 
     }
 
     @Override
@@ -330,7 +310,7 @@ public class MainActivity extends BaseActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
-        } 
+        }
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
