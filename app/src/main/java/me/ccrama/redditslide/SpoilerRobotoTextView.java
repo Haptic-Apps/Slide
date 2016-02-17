@@ -132,9 +132,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 start = i + offset;
             } else if (builder.charAt(i) == ']' && builder.charAt(i + 1) == 'd' && builder.charAt(i + 2) == ']' && builder.charAt(i + 3) == ']') {
                 end = i;
-                builder.setSpan(new StrikethroughSpan(), start, end - 1, 0);
+                builder.setSpan(new StrikethroughSpan(), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 builder.delete(end, end + offset);
                 builder.delete(start - offset, start);
+                i -= offset * 2;
             }
         }
     }
