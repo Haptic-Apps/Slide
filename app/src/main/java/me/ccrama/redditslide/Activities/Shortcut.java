@@ -55,16 +55,12 @@ public class Shortcut extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // The meat of our shortcut
-
 
         if (SubredditStorage.alphabeticalSubreddits == null) {
             SubredditStorage.shortcut = this;
         } else {
             doShortcut();
         }
-
-        // The result we are passing back from this activity
 
     }
 
@@ -110,12 +106,13 @@ public class Shortcut extends Activity {
                                     c.drawBitmap(bm1, 0, 0, paint);
                                 }
 
-
+                                final float scale = getResources().getDisplayMetrics().density;
+                                int p = (int) (50 * scale + 0.5f);
                                 shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + name);
                                 Intent intent = new Intent();
                                 intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
                                 intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + name);
-                                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bm2);
+                                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bm2.createScaledBitmap(bm2, p, p, false));
                                 setResult(RESULT_OK, intent);
 
                                 finish();
