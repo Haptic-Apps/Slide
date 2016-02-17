@@ -4,7 +4,7 @@
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
     <string name="general_switch_acc">Switch account</string>
     <string name="general_enable_shadowbox">Shadowbox mode</string>
-    <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro Unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is Multi-column mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
+    <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is multi-column mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Sidebar</string>
     <string name="general_sub_sync">Syncing subscriptions</string>
     <string name="general_login">Login</string>
@@ -47,7 +47,7 @@
     <!-- Theme settings -->
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_black">AMOLED Black</string>
+    <string name="theme_black">AMOLED black</string>
     <string name="theme_default_color">Base color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
@@ -412,7 +412,7 @@
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_browser">Internal web browser</string>
     <string name="settings_link_gif">Internal GIF view</string>
-    <string name="settings_link_handling">Link Handling</string>
+    <string name="settings_link_handling">Link handling</string>
     <string name="settings_link_image">Internal image view</string>
     <string name="settings_link_video">Internal video view</string>
     <string name="settings_mail_check">Check for new messages</string>
@@ -456,7 +456,7 @@
     <string name="settings_filter_title">Title filters</string>
     <string name="settings_filter_hint">Enter strings to match separated by commas</string>
     <string name="settings_prefs_reddit">View all reddit.com preferences</string>
-    <string name="settings_nsfw_info">If you are not seeing NSFW content or previews, make sure to select \'I am 18 years old\' and \'Show NSFW Thumbnails\' at the reddit.com preferences screen below.</string>
+    <string name="settings_nsfw_info">If you are not seeing NSFW content or previews, make sure to select \'I am 18 years old\' and \'Show NSFW thumbnails\' at the reddit.com preferences screen below.</string>
     <string name="settings_font_post">Post title font</string>
     <string name="settings_font_comment">Comment font</string>
     <string name="settings_comment_crop">Crop lead image in comment view</string>
@@ -559,15 +559,15 @@
     <string name="settings_volume_nav_posts">Navigate posts using volume buttons</string>
     <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
     <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
-    <string name="settings_synccit_auth">Auth Code</string>
+    <string name="settings_synccit_auth">Auth code</string>
     <string name="settings_synccit_username">Username</string>
     <string name="settings_synccit_delete">Really delete Synccit account?</string>
     <string name="settings_synccit_authenticate">Authenticating with Synccit</string>
     <string name="settings_synccit_connected">Connected successfully!</string>
     <string name="settings_synccit_active">Synccit is now active for this device</string>
-    <string name="settings_synccit_failed">Could not Authenticate</string>
+    <string name="settings_synccit_failed">Could not authenticate</string>
     <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
-    <string name="settings_synccit">Synccit Integration</string>
+    <string name="settings_synccit">Synccit integration</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
