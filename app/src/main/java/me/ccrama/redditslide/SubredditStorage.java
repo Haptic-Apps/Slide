@@ -15,6 +15,7 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
@@ -27,7 +28,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
 public class SubredditStorage {
     public static SharedPreferences subscriptions;
     public static ArrayList<String> modOf;
-    public static ArrayList<MultiReddit> multireddits;
+    private static ArrayList<MultiReddit> multireddits;
     public static ArrayList<String> subredditsForHome;
     public static ArrayList<String> alphabeticalSubreddits;
     public static Shortcut shortcut;
@@ -47,8 +48,19 @@ public class SubredditStorage {
 
     }
 
+    /**
+     *
+     * @return list of multireddits if they are available, null if could not fetch multireddits
+     */
+    public static List<MultiReddit> getMultireddits() {
+        if (multireddits == null) {
+            loadMultireddits();
+        }
+        return multireddits;
+    }
+
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
-        for (MultiReddit multiReddit : SubredditStorage.multireddits) {
+        for (MultiReddit multiReddit : multireddits) {
             if (multiReddit.getDisplayName().equals(displayName)) {
                 return multiReddit;
             }
@@ -85,9 +97,7 @@ public class SubredditStorage {
                         if (Authentication.mod) {
                             doModOf();
                         }
-                        if (Authentication.isLoggedIn && Authentication.didOnline) {
-                            getMultireddits();
-                        }
+                        loadMultireddits();
                         return null;
                     }
                 }.execute();
@@ -215,17 +225,15 @@ public class SubredditStorage {
         return toReturn;
     }
 
-    private static void getMultireddits() {
-
-        try {
-            multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
-
-        } catch (ApiException e) {
-            multireddits = new ArrayList<>();
-            e.printStackTrace();
+    private static void loadMultireddits() {
+        if (Authentication.isLoggedIn && Authentication.didOnline) {
+            try {
+                    multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+            } catch (ApiException e) {
+                multireddits = null;
+                e.printStackTrace();
+            }
         }
-
-
     }
 
     private static ArrayList<String> sortNoValue(ArrayList<String> subs) {
