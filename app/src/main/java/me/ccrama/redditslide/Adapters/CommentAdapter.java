@@ -173,7 +173,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (users != null) {
                 notifyItemRangeChanged(1, users.size() + 1);
             } else {
-                users =new ArrayList<>();
+                users = new ArrayList<>();
                 notifyDataSetChanged();
             }
         }
@@ -454,6 +454,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm);
+                    currentlyEditing = replyLine;
+                    editingPosition = holder.getAdapterPosition();
 
                 }
             });
@@ -683,7 +685,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
-    public void doUnHighlighted(CommentViewHolder holder, CommentNode baseNode) {
+    EditText currentlyEditing;
+
+    public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
+
 
         holder.dots.setVisibility(View.VISIBLE);
 
@@ -704,29 +709,45 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.setLayoutParams(params);
 
         holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
+
     }
 
-    public void doUnHighlighted(CommentViewHolder holder, Comment comment, CommentNode baseNode) {
-        currentlySelected = null;
-        currentSelectedItem = "";
-        holder.menuArea.removeAllViews();
-        holder.dots.setVisibility(View.VISIBLE);
-        int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
-        int width = 0;
+    public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode) {
+        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() >= editingPosition) {
+            new AlertDialogWrapper.Builder(mContext)
+                    .setTitle("Discard comment?")
+                    .setMessage("Do you really want to discard your comment?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            currentlyEditing = null;
+                            editingPosition = -1;
+                            doUnHighlighted(holder, comment, baseNode);
+                        }
+                    }).setNegativeButton("No", null)
+                    .show();
+        } else {
+            currentlySelected = null;
+            currentSelectedItem = "";
+            holder.menuArea.removeAllViews();
+            holder.dots.setVisibility(View.VISIBLE);
+            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+            int width = 0;
 
-        //Padding on the left, starting with the third comment
-        for (int i = 2; i < baseNode.getDepth(); i++) {
-            width += dwidth;
+            //Padding on the left, starting with the third comment
+            for (int i = 2; i < baseNode.getDepth(); i++) {
+                width += dwidth;
+            }
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            params.setMargins(width, 0, 0, 0);
+            holder.itemView.setLayoutParams(params);
+
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.card_background, typedValue, true);
+            int color = typedValue.data;
+            holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
         }
-        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
-        params.setMargins(width, 0, 0, 0);
-        holder.itemView.setLayoutParams(params);
-
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = mContext.getTheme();
-        theme.resolveAttribute(R.attr.card_background, typedValue, true);
-        int color = typedValue.data;
-        holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
     }
 
     public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
@@ -981,6 +1002,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 replyArea.setVisibility(View.VISIBLE);
                                 DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
 
+                                currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
+                                editingPosition = firstHolder.getAdapterPosition();
+
                                 firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -1183,28 +1207,47 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doOnClick(CommentViewHolder holder, CommentNode baseNode, Comment comment) {
-        if (isClicking) {
-            isClicking = false;
-            holder.menuArea.removeAllViews();
-            isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
+    int editingPosition;
+
+    public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode, final Comment comment) {
+        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() >= editingPosition) {
+            new AlertDialogWrapper.Builder(mContext)
+                    .setTitle("Discard comment?")
+                    .setMessage("Do you really want to discard your comment?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            currentlyEditing = null;
+                            editingPosition = -1;
+                            doOnClick(holder, baseNode, comment);
+
+                        }
+                    }).setNegativeButton("No", null)
+                    .show();
+
         } else {
-            if (hiddenPersons.contains(comment.getFullName())) {
-                unhideAll(baseNode, holder.getAdapterPosition() + 1);
-                hiddenPersons.remove(comment.getFullName());
-                holder.children.setVisibility(View.GONE);
-                //todo maybe holder.content.setVisibility(View.VISIBLE);
+            if (isClicking) {
+                isClicking = false;
+                holder.menuArea.removeAllViews();
+                isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
             } else {
-                int childNumber = getChildNumber(baseNode);
-                if (childNumber > 0) {
-                    hideAll(baseNode, holder.getAdapterPosition() + 1);
-                    hiddenPersons.add(comment.getFullName());
-                    holder.children.setVisibility(View.VISIBLE);
-                    ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
-                    //todo maybe holder.content.setVisibility(View.GONE);
+                if (hiddenPersons.contains(comment.getFullName())) {
+                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
+                    hiddenPersons.remove(comment.getFullName());
+                    holder.children.setVisibility(View.GONE);
+                    //todo maybe holder.content.setVisibility(View.VISIBLE);
+                } else {
+                    int childNumber = getChildNumber(baseNode);
+                    if (childNumber > 0) {
+                        hideAll(baseNode, holder.getAdapterPosition() + 1);
+                        hiddenPersons.add(comment.getFullName());
+                        holder.children.setVisibility(View.VISIBLE);
+                        ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
+                        //todo maybe holder.content.setVisibility(View.GONE);
+                    }
                 }
+                clickpos = holder.getAdapterPosition() + 1;
             }
-            clickpos = holder.getAdapterPosition() + 1;
         }
     }
 
@@ -1246,10 +1289,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void hideAll(CommentNode n, int i) {
+
         int counter = hideNumber(n, 0);
         listView.setItemAnimator(new FadeInDownAnimator());
 
         notifyItemRangeRemoved(i, counter);
+
     }
 
     public int unhideNumber(CommentNode n, int i) {
