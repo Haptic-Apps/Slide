@@ -383,7 +383,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                     PrintWriter printWriter = new PrintWriter(writer);
                     t.printStackTrace(printWriter);
                     String stacktrace = writer.toString().replace(";", ",");
-                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException")) {
+                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException") || stacktrace.contains("ConnectException")) {
                         //is offline
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {

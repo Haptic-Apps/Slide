@@ -326,7 +326,11 @@ public class HeaderImageLinkView extends RelativeLayout {
     private String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
-        return domain.startsWith("www.") ? domain.substring(4) : domain;
+        if(domain != null && !domain.isEmpty()) {
+            return domain.startsWith("www.") ? domain.substring(4) : domain;
+        } else {
+            return "";
+        }
     }
 
     private ImageView thumbImage2;

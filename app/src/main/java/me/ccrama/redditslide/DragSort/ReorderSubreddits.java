@@ -41,7 +41,6 @@ import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
-import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -302,7 +301,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
 
             String origPos = items.get(position);
             holder.text.setText(origPos);
@@ -323,8 +322,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        subs.remove(items.get(position));
-                                                        adapter.notifyItemRemoved(position);
+                                                        subs.remove(items.get(holder.getAdapterPosition()));
+                                                        adapter.notifyItemRemoved(holder.getAdapterPosition());
                                                     }
                                                 }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                                             @Override
@@ -333,8 +332,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             }
                                         }).show();
                                     } else {
-                                        subs.add(0, items.get(position));
-                                        notifyItemMoved(position, 0);
+                                        subs.add(0, items.get(holder.getAdapterPosition()));
+                                        notifyItemMoved(holder.getAdapterPosition(), 0);
                                     }
                                 }
                             }).show();
