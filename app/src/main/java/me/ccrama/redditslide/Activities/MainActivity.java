@@ -1536,6 +1536,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        /* removed for now
         int keyCode = event.getKeyCode();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
@@ -1544,7 +1545,8 @@ public class MainActivity extends BaseActivity {
                 return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
             default:
                 return super.dispatchKeyEvent(event);
-        }
+        }*/
+        return super.dispatchKeyEvent(event);
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

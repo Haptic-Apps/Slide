@@ -29,7 +29,6 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.List;
 
 import me.ccrama.redditslide.Fragments.MultiredditView;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -58,6 +57,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     }
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        /* removed for now
         int keyCode = event.getKeyCode();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
@@ -66,7 +66,8 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
             default:
                 return super.dispatchKeyEvent(event);
-        }
+        }*/
+        return super.dispatchKeyEvent(event);
     }
 
     @Override
