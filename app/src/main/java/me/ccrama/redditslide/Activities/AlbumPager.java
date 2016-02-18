@@ -173,7 +173,7 @@ public class AlbumPager extends BaseActivityAnim {
                 url = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
             }
 
-            if (url.contains("gif")) {
+            if (url.contains("gif") || (images.get(i).getAsJsonObject().has("ext") && images.get(i).getAsJsonObject().get("ext").getAsString().contains("gif"))) {
                 //do gif stuff
                 Fragment f = new Gif();
                 Bundle args = new Bundle();
@@ -285,7 +285,8 @@ public class AlbumPager extends BaseActivityAnim {
 
             String dat;
             if (gallery) {
-                dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".png");
+
+                dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
 
             } else {
                 dat = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());

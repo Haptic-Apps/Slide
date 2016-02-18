@@ -27,7 +27,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -46,6 +45,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -139,29 +139,30 @@ public class MainActivity extends BaseActivity {
     private boolean mShowInfoButton;
 
     public Tooltip.TooltipView t;
+
     public void doTutorial() {
         Tooltip.removeAll(this);
         if (!Reddit.appRestart.contains("tutorial_1") && mTabLayout != null) {
 
-                t = Tooltip.make(this,
-                        new Tooltip.Builder(101)
-                                .anchor(mTabLayout, Tooltip.Gravity.BOTTOM)
-                                .text("Swipe horizontally between your subreddits")
-                                .maxWidth(750)
-                                .withArrow(true)
-                                .activateDelay(800)
-                                .closePolicy(new Tooltip.ClosePolicy()
-                                        .insidePolicy(true, false)
-                                        .outsidePolicy(true, false), 3000)
-                                .showDelay(300)
-                                .withOverlay(true)
-                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .build()
-                );
-                t.show();
+            t = Tooltip.make(this,
+                    new Tooltip.Builder(101)
+                            .anchor(mTabLayout, Tooltip.Gravity.BOTTOM)
+                            .text("Swipe horizontally between your subreddits")
+                            .maxWidth(750)
+                            .withArrow(true)
+                            .activateDelay(800)
+                            .closePolicy(new Tooltip.ClosePolicy()
+                                    .insidePolicy(true, false)
+                                    .outsidePolicy(true, false), 3000)
+                            .showDelay(300)
+                            .withOverlay(true)
+                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                            .build()
+            );
+            t.show();
 
-        } else  if (!Reddit.appRestart.contains("tutorial_2")) {
-            if(headerMain != null) {
+        } else if (!Reddit.appRestart.contains("tutorial_2")) {
+            if (headerMain != null) {
                 t = Tooltip.make(this,
                         new Tooltip.Builder(102)
                                 .anchor(headerMain, Tooltip.Gravity.RIGHT)
@@ -179,8 +180,8 @@ public class MainActivity extends BaseActivity {
                 );
                 t.show();
             }
-        }else  if (!Reddit.appRestart.contains("tutorial_3")) {
-            if(e != null) {
+        } else if (!Reddit.appRestart.contains("tutorial_3")) {
+            if (e != null) {
                 t = Tooltip.make(this,
                         new Tooltip.Builder(103)
                                 .anchor(e, Tooltip.Gravity.BOTTOM)
@@ -198,7 +199,7 @@ public class MainActivity extends BaseActivity {
                 );
                 t.show();
             }
-        } 
+        }
     }
 
     @Override
@@ -498,10 +499,11 @@ public class MainActivity extends BaseActivity {
         changed = false;
 
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(!SettingValues.synccitName.isEmpty()){
+        if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
         }
     }
@@ -743,9 +745,17 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-        ((TextView) findViewById(R.id.sub_title)).setText(Html.fromHtml(subreddit.getPublicDescription()));
-        findViewById(R.id.sub_title).setVisibility(subreddit.getPublicDescription().equals("") ? View.GONE : View.VISIBLE);
-
+        if (!subreddit.getPublicDescription().isEmpty()) {
+            findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
+            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow)findViewById(R.id.sub_title_overflow));
+        } else {
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+        }
+        if(subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()){
+            ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
+        } else {
+            findViewById(R.id.subimage).setVisibility(View.GONE);
+        }
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
@@ -1032,7 +1042,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
 
-                if(t != null && t.getTooltipId() == 102) {
+                if (t != null && t.getTooltipId() == 102) {
                     t.remove();
                     Reddit.appRestart.edit().putBoolean("tutorial_2", true).apply();
                     doTutorial();
@@ -1041,7 +1051,8 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                if(Reddit.appRestart.contains("tutorial_4")) {;
+                if (Reddit.appRestart.contains("tutorial_4")) {
+                    ;
                     doTutorial();
                 }
             }
@@ -1076,7 +1087,6 @@ public class MainActivity extends BaseActivity {
         };
 
 
-
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
 
@@ -1100,7 +1110,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
-                if(t != null) {
+                if (t != null) {
                     t.remove();
                     Reddit.appRestart.edit().putBoolean("tutorial_3", true).apply();
                     doTutorial();
@@ -1118,7 +1128,7 @@ public class MainActivity extends BaseActivity {
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
                     } else {
-                        if(usedArray.contains(e.getText().toString())){
+                        if (usedArray.contains(e.getText().toString())) {
                             pager.setCurrentItem(usedArray.indexOf(e.getText().toString()));
                         } else {
                             pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
@@ -1523,6 +1533,7 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
@@ -1550,7 +1561,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onPageSelected(int position) {
 
-                    if(t != null && t.getTooltipId() == 101) {
+                    if (t != null && t.getTooltipId() == 101) {
                         t.remove();
                         Reddit.appRestart.edit().putBoolean("tutorial_1", true).apply();
                         doTutorial();

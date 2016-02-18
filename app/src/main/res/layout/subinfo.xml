@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/card_background">
@@ -23,7 +22,7 @@
 
 
             android:indeterminate="true"
-            android:padding="0dp"/>
+            android:padding="0dp" />
 
         <LinearLayout
             android:id="@+id/header_sub"
@@ -35,35 +34,56 @@
 
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/sub_infotitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="/r/Android"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
 
-            <TextView
-                android:id="@+id/subscribers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
+                <TextView
+                    android:id="@+id/sub_infotitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                android:paddingLeft="16dp"
-                android:text="A sub for 2 years"
-                android:textSize="14sp"/>
+                    android:paddingLeft="16dp"
+                    android:layout_toLeftOf="@+id/subimage"
+                    android:text="/r/Android"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-            <TextView
+                <TextView
+                    android:id="@+id/subscribers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:layout_toLeftOf="@+id/subimage"
+
+                    android:layout_below="@+id/sub_infotitle"
+                    android:text="A sub for 2 years"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/subimage"
+                    android:layout_height="50dp" />
+            </RelativeLayout>
+
+            <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/sub_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
-
                 android:padding="16dp"
+
                 android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
-                android:textSize="14sp"/>
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <me.ccrama.redditslide.Views.CommentOverflow
+                android:id="@+id/sub_title_overflow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp" />
 
         </LinearLayout>
 
@@ -83,7 +103,7 @@
                     android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:text="@string/title_theme_settings"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
 
                 <Button
                     android:id="@+id/wiki"
@@ -92,7 +112,7 @@
                     android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:text="@string/sidebar_wiki"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
 
                 <Button
                     android:id="@+id/submit"
@@ -101,7 +121,7 @@
                     android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:text="@string/btn_submit"
-                    android:textAllCaps="true"/>
+                    android:textAllCaps="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,7 +151,7 @@
                     android:text="@string/sidebar_pinned"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
 
                 <CheckBox
                     android:id="@+id/subscribed"
@@ -149,7 +169,7 @@
                     android:text="@string/misc_subscribed"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
 
                 <View
                     android:layout_width="match_parent"
@@ -157,28 +177,29 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:alpha=".8"
-                    android:background="?attr/tint"/>
+                    android:background="?attr/tint" />
             </LinearLayout>
 
 
         </LinearLayout>
-            <me.ccrama.redditslide.SpoilerRobotoTextView
-                android:id="@+id/sidebar_text"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:textColor="?attr/font"
-                android:textSize="16sp"/>
 
-            <me.ccrama.redditslide.Views.CommentOverflow
-                android:id="@+id/commentOverflow"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:visibility="gone"/>
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/sidebar_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:textColor="?attr/font"
+            android:textSize="16sp" />
+
+        <me.ccrama.redditslide.Views.CommentOverflow
+            android:id="@+id/commentOverflow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

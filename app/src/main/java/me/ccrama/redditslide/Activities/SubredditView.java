@@ -19,7 +19,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -33,6 +32,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -505,8 +505,17 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 }
             });
         }
-        ((TextView) findViewById(R.id.sub_title)).setText(Html.fromHtml(subreddit.getPublicDescription()));
-        findViewById(R.id.sub_title).setVisibility(subreddit.getPublicDescription().equals("") ? View.GONE : View.VISIBLE);
+        if (!subreddit.getPublicDescription().isEmpty()) {
+            findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
+            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow)findViewById(R.id.sub_title_overflow));
+        } else {
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+        }
+        if(subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()){
+            ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
+        } else {
+            findViewById(R.id.subimage).setVisibility(View.GONE);
+        }
 
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);

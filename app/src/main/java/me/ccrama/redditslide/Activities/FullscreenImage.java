@@ -46,6 +46,7 @@ public class FullscreenImage extends FullScreenActivity {
 
 
     public static final String EXTRA_URL = "url";
+    public static final String EXTRA_SHARE_URL = "urlShare" ;
     String toReturn;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,7 @@ public class FullscreenImage extends FullScreenActivity {
 
         {
             final ImageView iv = (ImageView) findViewById(R.id.share);
-            final String finalUrl = url;
+            final String finalUrl = getIntent().getExtras().getString(EXTRA_SHARE_URL, url);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

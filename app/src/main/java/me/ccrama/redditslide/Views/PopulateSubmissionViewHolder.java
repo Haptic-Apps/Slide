@@ -206,6 +206,8 @@ public class PopulateSubmissionViewHolder {
                 url = submission.getUrl();
             }
             myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
+            myIntent.putExtra(FullscreenImage.EXTRA_SHARE_URL, submission.getUrl());
+
             contextActivity.startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);

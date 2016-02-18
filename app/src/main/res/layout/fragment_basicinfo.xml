@@ -57,7 +57,7 @@
                     android:gravity="center_vertical"
                     android:text="Primary color"
                     android:textSize="18sp"
-                    android:padding="8dp"
+                    android:paddingLeft="8dp"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
@@ -83,7 +83,7 @@
                     android:gravity="center_vertical"
                     android:text="Accent color"
                     android:textSize="18sp"
-                    android:padding="8dp"
+                    android:paddingLeft="8dp"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
@@ -108,7 +108,7 @@
                     android:gravity="center_vertical"
                     android:text="Base theme"
                     android:textSize="18sp"
-                    android:padding="8dp"
+                    android:paddingLeft="8dp"
                     android:layout_height="match_parent" />
 
             </LinearLayout>
