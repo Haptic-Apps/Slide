@@ -75,7 +75,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         switch (item.getItemId()) {
             case R.id.action_edit: {
                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.multireddits.get(pager.getCurrentItem()).getDisplayName());
+                i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
                 startActivity(i);
             }
                 return true;
@@ -137,7 +137,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
 
 
-        setDataSet(SubredditStorage.multireddits);
+        setDataSet(SubredditStorage.getMultireddits());
     }
 
     public void openPopup() {

@@ -174,10 +174,10 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
         refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
 
-        refreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.multireddits.get(id).getDisplayName(), getActivity()));
+        refreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.getMultireddits().get(id).getDisplayName(), getActivity()));
 
         refreshLayout.setRefreshing(true);
-        posts = new MultiredditPosts(SubredditStorage.multireddits.get(id).getDisplayName());
+        posts = new MultiredditPosts(SubredditStorage.getMultireddits().get(id).getDisplayName());
         adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout);
         rv.setAdapter(adapter);
         if(SettingValues.animation)

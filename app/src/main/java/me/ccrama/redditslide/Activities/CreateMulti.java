@@ -85,7 +85,7 @@ public class CreateMulti extends BaseActivityAnim {
             String multi = getIntent().getExtras().getString(EXTRA_MULTI);
             old = multi;
             title.setText(multi.replace("%20", " "));
-            for (MultiReddit multiReddit : SubredditStorage.multireddits) {
+            for (MultiReddit multiReddit : SubredditStorage.getMultireddits()) {
                 if (multiReddit.getDisplayName().equals(multi)) {
                     for (MultiSubreddit sub : multiReddit.getSubreddits()) {
                         subs.add(sub.getDisplayName().toLowerCase());
