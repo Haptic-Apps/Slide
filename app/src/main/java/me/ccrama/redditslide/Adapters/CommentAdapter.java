@@ -713,7 +713,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode) {
-        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() >= editingPosition) {
+        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() <= editingPosition) {
             new AlertDialogWrapper.Builder(mContext)
                     .setTitle("Discard comment?")
                     .setMessage("Do you really want to discard your comment?")
@@ -750,11 +750,27 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doLongClick(CommentViewHolder holder, Comment comment, CommentNode baseNode, int finalPos, int finalPos1) {
-        if (currentSelectedItem.contains(comment.getFullName())) {
-            doUnHighlighted(holder, comment, baseNode);
+    public void doLongClick(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, final int finalPos, final int finalPos1) {
+        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() ) {
+            new AlertDialogWrapper.Builder(mContext)
+                    .setTitle("Discard comment?")
+                    .setMessage("Do you really want to discard your comment?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            currentlyEditing = null;
+                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+
+                        }
+                    }).setNegativeButton("No", null)
+                    .show();
+
         } else {
-            doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
+            if (currentSelectedItem.contains(comment.getFullName())) {
+                doUnHighlighted(holder, comment, baseNode);
+            } else {
+                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
+            }
         }
     }
 
@@ -1210,7 +1226,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     int editingPosition;
 
     public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode, final Comment comment) {
-        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() >= editingPosition) {
+        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() <= editingPosition) {
             new AlertDialogWrapper.Builder(mContext)
                     .setTitle("Discard comment?")
                     .setMessage("Do you really want to discard your comment?")
