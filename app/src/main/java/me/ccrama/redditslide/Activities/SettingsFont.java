@@ -82,6 +82,7 @@ public class SettingsFont extends BaseActivityAnim {
             case Regular:
                 ((RobotoRadioButton) findViewById(R.id.creg)).setChecked(true);
                 break;
+
             case Slab:
                 ((RobotoRadioButton) findViewById(R.id.cslab)).setChecked(true);
 
@@ -123,8 +124,11 @@ public class SettingsFont extends BaseActivityAnim {
             case Regular:
                 ((RobotoRadioButton) findViewById(R.id.sreg)).setChecked(true);
                 break;
+
             case Light:
                 ((RobotoRadioButton) findViewById(R.id.sregl)).setChecked(true);
+                break;
+
             case Slab:
                 ((RobotoRadioButton) findViewById(R.id.sslabl)).setChecked(true);
 
@@ -148,7 +152,7 @@ public class SettingsFont extends BaseActivityAnim {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
-                    new FontPreferences(SettingsFont.this).setTitlFont(FontPreferences.FontTypeTitle.CondensedReg);
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.CondensedReg);
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sslab)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -156,14 +160,14 @@ public class SettingsFont extends BaseActivityAnim {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
 
-                    new FontPreferences(SettingsFont.this).setTitlFont(FontPreferences.FontTypeTitle.SlabReg);
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.SlabReg);
             }
         });
         ((RobotoRadioButton) findViewById(R.id.scondl)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
-                    new FontPreferences(SettingsFont.this).setTitlFont(FontPreferences.FontTypeTitle.Condensed);
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Condensed);
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sslabl)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -171,7 +175,7 @@ public class SettingsFont extends BaseActivityAnim {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
 
-                    new FontPreferences(SettingsFont.this).setTitlFont(FontPreferences.FontTypeTitle.Slab);
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Slab);
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sreg)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -179,7 +183,7 @@ public class SettingsFont extends BaseActivityAnim {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
 
-                    new FontPreferences(SettingsFont.this).setTitlFont(FontPreferences.FontTypeTitle.Regular);
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Regular);
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sregl)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -187,7 +191,7 @@ public class SettingsFont extends BaseActivityAnim {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
 
-                    new FontPreferences(SettingsFont.this).setTitlFont(FontPreferences.FontTypeTitle.Light);
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Light);
             }
         });
 

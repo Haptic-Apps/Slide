@@ -59,7 +59,7 @@ public class FontPreferences {
     public void setCommentFont(FontTypeComment style) {
         edit().putString(FONT_COMMENT, style.name()).commit();
     }
-    public void setTitlFont(FontTypeTitle style) {
+    public void setTitleFont(FontTypeTitle style) {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
     public enum FontStyle {
