@@ -17,6 +17,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -56,6 +57,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int LOADING_SPINNER = 5;
     private final int SUBMISSION = 1;
     private final int NO_MORE = 3;
+    private final int SPACER = 6;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.subreddit = subreddit.toLowerCase();
@@ -79,6 +81,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
+        if (position == 0 && dataSet.posts.size() != 0) {
+            return SPACER;
+        } else if (dataSet.posts.size() != 0) {
+            position -= 1;
+        }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.offline && !dataSet.nomore) {
             return LOADING_SPINNER;
         } else if (position == dataSet.posts.size() && (dataSet.offline || dataSet.nomore)) {
@@ -89,7 +96,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if (i == LOADING_SPINNER) {
+        if (i == SPACER) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            return new SpacerViewHolder(v);
+
+        } else if (i == LOADING_SPINNER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else if (i == NO_MORE) {
@@ -102,8 +113,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder2, int pos) {
 
+        int i = pos != 0?pos - 1:pos;
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
@@ -121,12 +133,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         if (SettingValues.tabletUI && holder2.itemView.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreenPopup.class);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                            i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition());
+                            i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() -1);
                             (holder2.itemView.getContext()).startActivity(i2);
 
                         } else {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition());
+                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() -1);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             (holder2.itemView.getContext()).startActivity(i2);
                         }
@@ -294,6 +306,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             handler.post(r);
         }
+        if(holder2 instanceof SpacerViewHolder){
+            holder2.itemView.setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));
+        }
     }
 
     public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
@@ -301,13 +316,17 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
         }
     }
-
+    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
     @Override
     public int getItemCount() {
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + 1; // Always account for footer
+            return dataSet.posts.size() + 2; // Always account for footer
         }
     }
 

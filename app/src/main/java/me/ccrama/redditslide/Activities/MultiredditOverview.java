@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -314,6 +315,10 @@ public class MultiredditOverview extends BaseActivityAnim {
 
                 @Override
                 public void onPageSelected(int position) {
+                    findViewById(R.id.header).animate()
+                            .translationY(0)
+                            .setInterpolator(new LinearInterpolator())
+                            .setDuration(180);
                     findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(position).getDisplayName()));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();

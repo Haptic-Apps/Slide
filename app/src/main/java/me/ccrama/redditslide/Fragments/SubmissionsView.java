@@ -31,6 +31,7 @@ import net.dean.jraw.models.Submission;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
@@ -47,6 +48,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
@@ -231,7 +233,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 2);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
@@ -313,11 +315,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
 
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(((MainActivity)getActivity()).mToolbar, getActivity().findViewById(R.id.header)){
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
-
+                super.onScrolled(recyclerView, dx, dy);
                 if (!posts.loading && !posts.nomore && !posts.offline) {
 
                     visibleItemCount = rv.getLayoutManager().getChildCount();
@@ -371,6 +372,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             }
         });
+
         Reddit.isLoading = false;
 
         doAdapter();
@@ -467,7 +469,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
 
                     if (startIndex != -1) {
-                        adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
+                        adapter.notifyItemRangeInserted(startIndex , posts.posts.size() );
                     } else {
                         adapter.notifyDataSetChanged();
                     }

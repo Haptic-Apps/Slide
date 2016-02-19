@@ -16,6 +16,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -42,6 +43,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public final Activity mContext;
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
+    private final int SPACER = 6;
 
     public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout) {
         this.mContext = mContext;
@@ -62,6 +64,11 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
+        if (position == 0 && dataSet.posts.size() != 0) {
+            return SPACER;
+        } else if (dataSet.posts.size() != 0) {
+            position -= 1;
+        }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0) {
             return 5;
         }
@@ -71,6 +78,11 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        if (i == SPACER) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            return new SpacerViewHolder(v);
+
+        } else
         if (i == 5) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new ContributionAdapter.EmptyViewHolder(v);
@@ -79,10 +91,15 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new SubmissionViewHolder(v);
         }
     }
-
+    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int i) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder2,  int pos) {
 
+       final int i = pos != 0?pos - 1:pos;
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
@@ -229,7 +246,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
         }
-
+        if(holder2 instanceof SpacerViewHolder){
+            holder2.itemView.setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (mContext).findViewById(R.id.header).getHeight()));
+        }
     }
 
     @Override
@@ -237,7 +256,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + 1;
+            return dataSet.posts.size() + 2;
         }
     }
 

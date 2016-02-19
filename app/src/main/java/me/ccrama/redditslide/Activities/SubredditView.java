@@ -272,6 +272,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         rv.setLayoutManager(mLayoutManager);
          mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
+
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

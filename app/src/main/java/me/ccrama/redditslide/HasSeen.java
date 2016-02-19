@@ -19,6 +19,7 @@ public class HasSeen {
             fullname = fullname.substring(3, fullname.length());
         }
         Reddit.seen.edit().putBoolean(fullname, false).apply();
+
         SynccitRead.newVisited.add(fullname);
         SynccitRead.visitedIds.add(fullname);
     }

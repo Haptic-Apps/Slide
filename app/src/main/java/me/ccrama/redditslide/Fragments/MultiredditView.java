@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
@@ -172,7 +174,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 2);
 
         refreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.getMultireddits().get(id).getDisplayName(), getActivity()));
 
@@ -195,9 +197,10 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
         );
 
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar)(getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)){
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();

@@ -37,7 +37,7 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     @Nullable
-    protected Toolbar mToolbar;
+    public Toolbar mToolbar;
     protected SwipeBackActivityHelper mHelper;
     protected boolean overrideRedditSwipeAnywhere = false;
     protected boolean enableSwipeBackLayout = true;

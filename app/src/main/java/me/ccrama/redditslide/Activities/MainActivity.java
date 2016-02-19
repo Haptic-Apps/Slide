@@ -39,6 +39,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -667,7 +668,6 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        Log.v(LogUtil.getTag(), "RAW IS " + rawHTML);
 
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
@@ -1563,6 +1563,10 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onPageSelected(int position) {
 
+                    findViewById(R.id.header).animate()
+                            .translationY(0)
+                            .setInterpolator(new LinearInterpolator())
+                            .setDuration(180);
                     if (t != null && t.getTooltipId() == 101) {
                         t.remove();
                         Reddit.appRestart.edit().putBoolean("tutorial_1", true).apply();

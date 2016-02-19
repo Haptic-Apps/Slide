@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
 
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:paddingEnd="16dp"
-                app:layout_scrollFlags="scroll|enterAlways"
                 android:theme="@style/ActionBarCompat"
                 android:title="@string/app_name"/>
 
@@ -38,10 +37,9 @@
         <me.ccrama.redditslide.Views.ToggleSwipeViewPager
             android:id="@+id/content_view"
             android:layout_width="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_height="match_parent"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/drawerlistview"

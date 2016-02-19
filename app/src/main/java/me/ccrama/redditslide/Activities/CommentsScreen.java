@@ -202,6 +202,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         themeSystemBars(subreddit);
         setRecentBar(subreddit);
         HasSeen.addSeen(post.getFullName());
+
     }
 
 
