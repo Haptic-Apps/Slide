@@ -2,13 +2,12 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
 
-    <android.support.design.widget.CoordinatorLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -29,11 +28,7 @@
                 android:background="#00000000"
                 android:clipToPadding="false"
                 android:minHeight="56dp"
-                android:paddingRight="16dp"
-                app:layout_scrollFlags="scroll|enterAlways"
-
-
-                >
+                android:paddingRight="16dp">
 
                 <ImageView
                     android:id="@+id/notifs"
@@ -65,8 +60,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            />
 
-    </android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
 </FrameLayout>
 

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import me.ccrama.redditslide.Adapters.InboxMessages;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class InboxPage extends Fragment {
 
@@ -42,7 +44,7 @@ public class InboxPage extends Fragment {
         SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         TypedValue typed_value = new TypedValue();
         getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 2);
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
@@ -62,16 +64,16 @@ public class InboxPage extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, id);
+                        posts.loadMore(adapter, id, true);
 
                         //TODO catch errors
                     }
                 }
         );
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)){
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
+                super.onScrolled(recyclerView, dx, dy);
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
@@ -87,7 +89,7 @@ public class InboxPage extends Fragment {
                 if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(adapter, id);
+                        posts.loadMore(adapter, id, false);
 
                     }
                 }

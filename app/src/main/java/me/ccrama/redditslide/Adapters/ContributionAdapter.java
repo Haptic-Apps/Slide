@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
+    private final int SPACER = 6;
     private static final int COMMENT = 1;
     public final Activity mContext;
     private final RecyclerView listView;
@@ -74,6 +76,11 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int NO_MORE = 3;
     @Override
     public int getItemViewType(int position) {
+        if (position == 0 && dataSet.posts.size() != 0) {
+            return SPACER;
+        } else if (dataSet.posts.size() != 0) {
+            position -= 1;
+        }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.nomore) {
             return LOADING_SPINNER;
         } else if (position == dataSet.posts.size() &&  dataSet.nomore) {
@@ -88,7 +95,11 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        if (i == COMMENT) {
+        if (i == SPACER) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            return new SpacerViewHolder(v);
+
+        } else if (i == COMMENT) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.profile_comment, viewGroup, false);
             return new ProfileCommentViewHolder(v);
         } else if (i == LOADING_SPINNER) {
@@ -111,7 +122,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int i) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int pos) {
+        int i = pos != 0?pos - 1:pos;
 
         if (firstHolder instanceof SubmissionViewHolder) {
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHolder;
@@ -303,9 +315,15 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         }
-
+        if(firstHolder instanceof SpacerViewHolder){
+            firstHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), (mContext).findViewById(R.id.header).getHeight()));
+        }
     }
-
+    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
     private void setViews(String rawHTML, ProfileCommentViewHolder holder, String subreddit) {
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
@@ -413,7 +431,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + 1;
+            return dataSet.posts.size() + 2;
         }
     }
 

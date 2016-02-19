@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
+import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -51,7 +52,9 @@ public class Profile extends BaseActivityAnim {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
     }
+
     boolean friend;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -86,6 +89,26 @@ public class Profile extends BaseActivityAnim {
 
 
         new getProfile().execute(name);
+
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.header).animate()
+                        .translationY(0)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(180);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
@@ -130,8 +153,8 @@ public class Profile extends BaseActivityAnim {
                         }
                     });
 
-                   friend = account.isFriend();
-                    if(friend){
+                    friend = account.isFriend();
+                    if (friend) {
                         ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
                     } else {
                         ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
@@ -143,10 +166,10 @@ public class Profile extends BaseActivityAnim {
                             new AsyncTask<Void, Void, Void>() {
                                 @Override
                                 protected Void doInBackground(Void... params) {
-                                    if(friend){
+                                    if (friend) {
                                         try {
                                             new AccountManager(Authentication.reddit).deleteFriend(name);
-                                        } catch(Exception ignored){
+                                        } catch (Exception ignored) {
                                             //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works.
                                         }
                                         friend = false;
@@ -159,8 +182,9 @@ public class Profile extends BaseActivityAnim {
                                     }
                                     return null;
                                 }
+
                                 @Override
-                            public void onPostExecute(Void voids){
+                                public void onPostExecute(Void voids) {
                                     if (friend) {
                                         ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
                                     } else {

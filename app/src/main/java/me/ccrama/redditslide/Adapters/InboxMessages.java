@@ -40,12 +40,12 @@ public class InboxMessages {
     public void bindAdapter(InboxAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout = layout;
-        loadMore(a, where);
+        loadMore(a, where, true);
     }
 
-    public void loadMore(InboxAdapter adapter, String where) {
+    public void loadMore(InboxAdapter adapter, String where, boolean refresh) {
 
-            new LoadData(true).execute(where);
+            new LoadData(refresh).execute(where);
 
 
 

@@ -4,6 +4,7 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 3/22/2015.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Message;
@@ -32,6 +34,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     private static final int TOP_LEVEL = 1;
+    private final int SPACER = 6;
     public final Context mContext;
     private final RecyclerView listView;
     public ArrayList<Message> dataSet;
@@ -58,7 +61,11 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-
+        if (position == 0 && dataSet.size() != 0) {
+            return SPACER;
+        } else if (dataSet.size() != 0) {
+            position -= 1;
+        }
         if (position == dataSet.size()  &&dataSet.size() != 0) {
             return 5;
         }
@@ -71,7 +78,11 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        if (i == SPACER) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            return new SpacerViewHolder(v);
 
+        } else
         if (i == TOP_LEVEL) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
             return new MessageViewHolder(v);
@@ -87,8 +98,10 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, final int i) {
-        if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder)) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int pos) {
+        int i = pos != 0?pos - 1:pos;
+
+        if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder) && !(viewHolder instanceof SpacerViewHolder)) {
             final MessageViewHolder messageViewHolder = (MessageViewHolder) viewHolder;
 
             final Message comment = dataSet.get(i);
@@ -130,9 +143,15 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
         }
-
+        if(viewHolder instanceof SpacerViewHolder){
+            viewHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity)(mContext)).findViewById(R.id.header).getHeight()));
+        }
     }
-
+    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
     private void setViews(String rawHTML, String subredditName, MessageViewHolder holder) {
         if (rawHTML.isEmpty()) {
             return;
@@ -168,7 +187,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (dataSet == null || dataSet.size() == 0) {
             return 0;
         } else {
-            return dataSet.size() + 1;
+            return dataSet.size() + 2;
         }
     }
 
