@@ -33,6 +33,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
@@ -172,40 +174,52 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {
-                                    final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
-                                    subs2.remove("frontpage");
-                                    subs2.remove("all");
-
-                                    final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
-
-                                    MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
-                                    builder.title(R.string.reorder_subreddits_title)
-                                            .items(subsAsChar)
-                                            .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
-                                                @Override
-                                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                                    ArrayList<String> selectedSubs = new ArrayList<>();
-                                                    for (int i : which) {
-                                                        selectedSubs.add(subsAsChar[i].toString());
+                                    if (SubredditStorage.getMultireddits().size() > 0) {
+                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                                .setTitle("Would you like to create a new Collection or import a Multireddit?")
+                                                .setPositiveButton("New", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        doCollection();
                                                     }
-
-                                                    StringBuilder b = new StringBuilder();
-
-                                                    for (String s : selectedSubs) {
-                                                        b.append(s);
-                                                        b.append("+");
-                                                    }
-                                                    String finalS = b.toString().substring(0, b.length() - 1);
-                                                    Log.v(LogUtil.getTag(), finalS);
-                                                    subs.add(finalS);
-                                                    adapter.notifyDataSetChanged();
-                                                    recyclerView.smoothScrollToPosition(subs.size());
-                                                    return true;
+                                                }).setNegativeButton("Import multi", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                final String[] multis = new String[SubredditStorage.getMultireddits().size()];
+                                                int i = 0;
+                                                for (MultiReddit m : SubredditStorage.getMultireddits()) {
+                                                    multis[i] = m.getDisplayName();
+                                                    i++;
                                                 }
-                                            })
-                                            .positiveText(R.string.btn_add)
-                                            .negativeText(R.string.btn_cancel)
-                                            .show();
+                                                MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
+                                                builder.title(R.string.reorder_subreddits_title)
+                                                        .items(multis)
+                                                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                                                            @Override
+                                                            public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+
+                                                                String name = multis[which];
+                                                                MultiReddit r = SubredditStorage.getMultiredditByDisplayName(name);
+                                                                StringBuilder b = new StringBuilder();
+
+                                                                for(MultiSubreddit s : r.getSubreddits()){
+                                                                    b.append(s.getDisplayName());
+                                                                    b.append("+");
+                                                                }
+                                                                String finalS = b.toString().substring(0, b.length() - 1);
+                                                                Log.v(LogUtil.getTag(), finalS);
+                                                                subs.add(finalS);
+                                                                adapter.notifyDataSetChanged();
+                                                                recyclerView.smoothScrollToPosition(subs.size());
+                                                                return false;
+                                                            }
+                                                        }).show();
+                                            }
+                                        }).show();
+                                    } else {
+                                        doCollection();
+                                    }
+
                                 } else {
                                     new MaterialDialog.Builder(ReorderSubreddits.this)
                                             .title(R.string.reorder_add_subreddit)
@@ -250,6 +264,43 @@ public class ReorderSubreddits extends BaseActivityAnim {
             subs = new ArrayList<>();
 
         }
+    }
+
+    public void doCollection() {
+        final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
+        subs2.remove("frontpage");
+        subs2.remove("all");
+
+        final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
+
+        MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
+        builder.title(R.string.reorder_subreddits_title)
+                .items(subsAsChar)
+                .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                        ArrayList<String> selectedSubs = new ArrayList<>();
+                        for (int i : which) {
+                            selectedSubs.add(subsAsChar[i].toString());
+                        }
+
+                        StringBuilder b = new StringBuilder();
+
+                        for (String s : selectedSubs) {
+                            b.append(s);
+                            b.append("+");
+                        }
+                        String finalS = b.toString().substring(0, b.length() - 1);
+                        Log.v(LogUtil.getTag(), finalS);
+                        subs.add(finalS);
+                        adapter.notifyDataSetChanged();
+                        recyclerView.smoothScrollToPosition(subs.size());
+                        return true;
+                    }
+                })
+                .positiveText(R.string.btn_add)
+                .negativeText(R.string.btn_cancel)
+                .show();
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
