@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity {
     static final int RESET_THEME_RESULT = 1;
     static final int SETTINGS_RESULT = 2;
     public static Loader loader;
+    public static boolean datasetChanged;
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
@@ -135,7 +136,7 @@ public class MainActivity extends BaseActivity {
     String term;
     View headerMain;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
-    private TabLayout mTabLayout;
+    public TabLayout mTabLayout;
     private ListView drawerSubList;
     private boolean mShowInfoButton;
 
@@ -721,9 +722,9 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onPostExecute(Void voids) {
                             if (isChecked) {
-                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase());
+                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
                             } else {
-                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase());
+                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
 
                             }
                             Snackbar.make(header, isChecked ?
@@ -1513,6 +1514,14 @@ public class MainActivity extends BaseActivity {
             new AsyncNotificationBadge().execute();
         }
         Reddit.setDefaultErrorHandler(this);
+        if(datasetChanged){
+            usedArray = SubredditStorage.subredditsForHome;
+            adapter.notifyDataSetChanged();
+            datasetChanged = false;
+            if (mTabLayout != null) {
+                mTabLayout.setupWithViewPager(pager);
+            }
+        }
     }
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {

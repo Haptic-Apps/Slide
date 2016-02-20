@@ -144,7 +144,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         }
         if(viewHolder instanceof SpacerViewHolder){
-            viewHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity)(mContext)).findViewById(R.id.header).getHeight()));
+            viewHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity) (mContext)).findViewById(R.id.header).getHeight()));
         }
     }
     public class SpacerViewHolder extends RecyclerView.ViewHolder {

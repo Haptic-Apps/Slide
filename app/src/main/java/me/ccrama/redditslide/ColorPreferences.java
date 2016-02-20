@@ -269,8 +269,8 @@ public class ColorPreferences {
                 ContextCompat.getColor(context, R.color.md_orange_500),
                 ContextCompat.getColor(context, R.color.md_deep_orange_500),
                 ContextCompat.getColor(context, R.color.md_brown_500),
-                ContextCompat.getColor(context, R.color.md_grey_500),
                 ContextCompat.getColor(context, R.color.md_blue_grey_500),
+                ContextCompat.getColor(context, R.color.md_grey_500)
         };
     }
 

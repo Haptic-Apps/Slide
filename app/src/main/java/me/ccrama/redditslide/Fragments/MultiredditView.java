@@ -103,7 +103,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         }
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemViewCacheSize(2);
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);

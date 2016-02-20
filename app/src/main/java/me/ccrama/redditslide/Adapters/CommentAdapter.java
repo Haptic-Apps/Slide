@@ -28,6 +28,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -318,6 +319,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         builder.setView(dialoglayout);
                         final Dialog d = builder.create();
+                        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
                         d.show();
                         dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -462,6 +465,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    currentlyEditing = null;
+                    editingPosition = -1;
                     replyArea.setVisibility(View.GONE);
                     menu.setVisibility(View.VISIBLE);
                     dataSet.refreshLayout.setRefreshing(true);

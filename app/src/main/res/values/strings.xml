@@ -568,6 +568,8 @@
     <string name="settings_synccit_failed">Could not authenticate</string>
     <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
     <string name="settings_synccit">Synccit integration</string>
+    <string name="reorder_sync_complete">Sync complete</string>
+    <string name="reorder_subs_added">" subreddits added"</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

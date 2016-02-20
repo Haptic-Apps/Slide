@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/card_background"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="?attr/card_background"
-        app:cardCornerRadius="2dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/sidebar"
@@ -32,52 +25,54 @@
                 android:gravity="center_vertical"
 
                 android:orientation="horizontal"
-                android:paddingRight="16dp">
+              >
 
 
                 <EditText
                     android:id="@+id/entry"
-                    android:inputType="textMultiLine|textAutoCorrect"
-
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
 
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
+
+                    android:inputType="textMultiLine|textAutoCorrect"
                     android:textColor="?attr/font"
 
                     android:textSize="16sp" />
 
             </LinearLayout>
-            </ScrollView>
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/cancel"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-
                     android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
                     android:padding="16dp"
                     android:text="@string/btn_cancel"
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
-            <TextView
-                android:id="@+id/submit"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:gravity="right"
 
-                android:text="@string/btn_submit"
-                android:textAllCaps="true"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/submit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:padding="16dp"
+
+                    android:text="@string/btn_submit"
+                    android:textAllCaps="true"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 </LinearLayout>

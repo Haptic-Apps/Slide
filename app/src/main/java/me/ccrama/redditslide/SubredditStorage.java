@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.util.LogUtil;
@@ -69,7 +70,7 @@ public class SubredditStorage {
     }
 
     public static void getSubredditsForHome(Reddit a) {
-        Log.v(LogUtil.getTag(), "NAME IS " +  Authentication.name);
+        Log.v(LogUtil.getTag(), "NAME IS " + Authentication.name);
         String s = subscriptions.getString(Authentication.name, "");
         final boolean online = NetworkUtil.isConnected(a);
         if (s.isEmpty()) {
@@ -108,19 +109,40 @@ public class SubredditStorage {
     }
 
 
-    public static void addSubscription(String name){
+    public static void addSubscription(String name,  MainActivity context){
         subredditsForHome.add(name);
         alphabeticalSubreddits.add(name);
         alphabeticalSubreddits = sort(alphabeticalSubreddits);
-        saveSubredditsForHome(subredditsForHome);
+        saveState(false);
+        if(context != null) {
+            context.usedArray = new ArrayList<>(subredditsForHome);
+            context.adapter.notifyDataSetChanged();
+            if (context.mTabLayout != null) {
+                context.mTabLayout.setupWithViewPager(context.pager);
+            }
+
+        } else {
+            MainActivity.datasetChanged=true;
+        }
     }
-    public static void removeSubscription(String name){
+    public static void removeSubscription(String name, MainActivity context){
         if(subredditsForHome.contains(name)) {
             subredditsForHome.remove(name);
             alphabeticalSubreddits.remove(name);
             alphabeticalSubreddits = sort(alphabeticalSubreddits);
-            saveSubredditsForHome(subredditsForHome);
+            saveState(false);
+            if(context != null) {
+                context.usedArray = new ArrayList<>(subredditsForHome);
+                context.adapter.notifyDataSetChanged();
+                if (context.mTabLayout != null) {
+                    context.mTabLayout.setupWithViewPager(context.pager);
+                }
+            } else {
+                MainActivity.datasetChanged=true;
+            }
+
         }
+
     }
     public static void saveSubredditsForHome(ArrayList<String> subs) {
         StringBuilder b = new StringBuilder();

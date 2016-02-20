@@ -59,6 +59,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
 
     }
+
     int done = 0;
 
     @Override
@@ -91,26 +92,39 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
 
+                done = 0;
+
 
                 final Dialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
                         .content(R.string.misc_please_wait)
                         .progress(true, 100)
                         .cancelable(false).show();
-                new AsyncTask<Void, Void, Void>() {
+                new AsyncTask<Void, Void, ArrayList<String>>() {
                     @Override
-                    protected Void doInBackground(Void... params) {
-                        subs = new ArrayList<>(SubredditStorage.syncSubreddits(false, true));
+                    protected ArrayList<String> doInBackground(Void... params) {
+                        ArrayList<String> newSubs = new ArrayList<>(SubredditStorage.syncSubreddits(false, true));
 
-                        return null;
+                        return newSubs;
                     }
 
                     @Override
-                    protected void onPostExecute(Void aVoid) {
+                    protected void onPostExecute(ArrayList<String> newSubs) {
 
                         d.dismiss();
-                        adapter = new CustomAdapter(subs);
-                        //  adapter.setHasStableIds(true);
+                        for (String s : newSubs) {
+                            if (!subs.contains(s)) {
+                                done++;
+                                subs.add(s);
 
+                            }
+
+                        }
+                        adapter.notifyDataSetChanged();
+                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                .setTitle(R.string.reorder_sync_complete)
+                                .setMessage(done + getString(R.string.reorder_subs_added))
+                                .setPositiveButton(R.string.btn_ok, null)
+                                .show();
                         recyclerView.setAdapter(adapter);
                     }
                 }.execute();

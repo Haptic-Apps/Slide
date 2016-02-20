@@ -484,9 +484,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         @Override
                         public void onPostExecute(Void voids) {
                             if (isChecked) {
-                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase());
+                                SubredditStorage.addSubscription(subreddit.getDisplayName().toLowerCase(), null);
                             } else {
-                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase());
+                                SubredditStorage.removeSubscription(subreddit.getDisplayName().toLowerCase(), null);
 
                             }
                             Snackbar.make(rv, isChecked ? getString(R.string.misc_subscribed) :
