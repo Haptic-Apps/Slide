@@ -50,60 +50,28 @@
                 android:textSize="?attr/font_cardtitle" />
 
 
-            <LinearLayout
-                android:id="@+id/bod2"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-
                 android:layout_below="@+id/title"
+                android:layout_gravity="start"
                 android:layout_toLeftOf="@+id/thumbimage2"
+                android:gravity="center_vertical"
                 android:paddingBottom="2dp"
                 android:paddingLeft="16dp"
-                android:paddingRight="8dp">
-
-                <TextView
-                    android:id="@+id/subreddit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:tag="tint"
-                    android:text="@string/example_sub"
-
-                    android:textSize="?attr/font_cardinfo"
-
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="tint"
-                    android:text="@string/submission_properties_seperator"
-
-                    android:textSize="?attr/font_cardinfo" />
-
-                <TextView
-                    android:id="@+id/information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-                    android:tag="tint"
-
-                    android:text="@string/example_time"
-
-                    android:textSize="?attr/font_cardinfo" />
-
-
-            </LinearLayout>
-
+                android:paddingRight="8dp"
+                android:tag="tint"
+                android:text="@string/example_time"
+                android:textSize="?attr/font_cardinfo" />
             <LinearLayout
                 android:id="@+id/bod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/bod2"
+                android:layout_below="@+id/information"
                 android:layout_toLeftOf="@+id/thumbimage2"
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp"

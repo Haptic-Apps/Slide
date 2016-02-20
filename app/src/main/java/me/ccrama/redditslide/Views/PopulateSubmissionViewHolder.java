@@ -264,9 +264,8 @@ public class PopulateSubmissionViewHolder {
 
         holder.title.setTextHtml(submission.getTitle()); // title is a spoiler roboto textview so it will format the html
 
-        holder.info.setText(submission.getAuthor() + distingush + " " + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
-
-        holder.subreddit.setText(submission.getSubredditName());
+        String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
+        holder.info.setText(submission.getAuthor() + distingush + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + submission.getSubredditName() + separator + submission.getDomain());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.itemView.findViewById(R.id.mod).setVisibility(View.VISIBLE);

@@ -71,7 +71,6 @@ public class CreateCardView {
     public static void resetColorCard(View v) {
         v.setTag(v.getId(), "none");
 
-        ((TextView) v.findViewById(R.id.subreddit)).setTextColor(((TextView) v.findViewById(R.id.information)).getCurrentTextColor());
         TypedValue background = new TypedValue();
         v.getContext().getTheme().resolveAttribute(R.attr.card_background, background, true);
         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(background.data);

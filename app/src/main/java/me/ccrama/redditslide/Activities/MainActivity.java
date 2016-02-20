@@ -656,6 +656,8 @@ public class MainActivity extends BaseActivity {
                 pager.setCurrentItem(toGoto);
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
+                pager.setCurrentItem(toGoto);
+
             }
 
         } else if (SubredditStorage.subredditsForHome != null) {

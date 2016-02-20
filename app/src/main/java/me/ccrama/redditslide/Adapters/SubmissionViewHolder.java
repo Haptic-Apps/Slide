@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Views.CommentOverflow;
  */
 public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final SpoilerRobotoTextView title;
-    public final TextView subreddit;
     public final TextView contentTitle;
     public final TextView contentURL;
     public final TextView score;
@@ -30,7 +29,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         super(v);
         title = (SpoilerRobotoTextView) v.findViewById(R.id.title);
         info = (TextView) v.findViewById(R.id.information);
-        subreddit = (TextView) v.findViewById(R.id.subreddit);
         leadImage = (HeaderImageLinkView) v.findViewById(R.id.headerimage);
         contentTitle = (TextView) v.findViewById(R.id.contenttitle);
         contentURL = (TextView) v.findViewById(R.id.contenturl);

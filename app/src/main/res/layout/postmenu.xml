@@ -170,7 +170,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/gild"
+                            android:src="@drawable/openexternal"
                             android:tint="?attr/tint" />
 
                         <TextView
