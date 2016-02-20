@@ -32,6 +32,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -131,10 +132,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         isSame = false;
     }
 
+    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        if (i == SPACER) {
+            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
+            return new SpacerViewHolder(v);
 
-        if (i == HEADER) {
+        } else if (i == HEADER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
             return new SubmissionViewHolder(v);
         } else if (i == 2) {
@@ -172,7 +182,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             notifyDataSetChanged();
         } else {
             if (users != null) {
-                notifyItemRangeChanged(1, users.size() + 1);
+                notifyItemRangeChanged(2, users.size() + 1);
             } else {
                 users = new ArrayList<>();
                 notifyDataSetChanged();
@@ -200,6 +210,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
     }
+
+    private final int SPACER = 6;
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, int oldSize) {
 
@@ -756,7 +768,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doLongClick(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, final int finalPos, final int finalPos1) {
-        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() ) {
+        if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty()) {
             new AlertDialogWrapper.Builder(mContext)
                     .setTitle("Discard comment?")
                     .setMessage("Do you really want to discard your comment?")
@@ -788,7 +800,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
+        int pos =old != 0?old - 1:old;
+
         if (firstHolder instanceof CommentViewHolder) {
             final CommentViewHolder holder = (CommentViewHolder) firstHolder;
             int nextPos = pos - 1;
@@ -1160,7 +1174,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     builder.show();
                 }
             });
-        } else {
+        } else  if(firstHolder instanceof MoreCommentViewHolder){
             final MoreCommentViewHolder holder = (MoreCommentViewHolder) firstHolder;
             int nextPos = pos - 1;
 
@@ -1188,7 +1202,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);
-                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 1), holder.getAdapterPosition(), holder).execute(baseNode);
+                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition()-2 ), holder.getAdapterPosition() , holder).execute(baseNode);
                     }
                 }
             });
@@ -1196,6 +1210,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
             params.setMargins(width, 0, 0, 0);
             holder.itemView.setLayoutParams(params);
+        }
+        if(firstHolder instanceof SpacerViewHolder){
+            firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
         }
     }
 
@@ -1286,6 +1303,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
+        if (position == 0 || (users != null && users.size()> 0 && position == (users.size() - hidden.size()) + 2)) {
+            return SPACER;
+        } else {
+            position -= 1;
+        }
         if (position == 0)
             return HEADER;
         return (users.get(getRealPosition(position - 1)) instanceof CommentItem ? 2 : 3);
@@ -1295,9 +1317,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public int getItemCount() {
         if (users == null) {
-            return 1;
+            return 2;
         } else {
-            return 1 + (users.size() - hidden.size());
+            return 3 + (users.size() - hidden.size());
         }
     }
 
@@ -1458,7 +1480,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onPostExecute(Integer data) {
             listView.setItemAnimator(new ScaleInLeftAnimator());
 
-            notifyItemRangeInserted(holderPos, data);
+            notifyItemRangeInserted(holderPos , data);
 
             currentPos = holderPos;
             toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();

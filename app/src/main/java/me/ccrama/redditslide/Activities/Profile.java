@@ -42,6 +42,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class Profile extends BaseActivityAnim {
 
     public static final String EXTRA_PROFILE = "profile";
+    public static final String EXTRA_SAVED = "saved";
     private String name;
     private Account account;
     private ViewPager pager;
@@ -88,6 +89,7 @@ public class Profile extends BaseActivityAnim {
                 getString(R.string.profile_gilded)});
 
 
+
         new getProfile().execute(name);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -109,6 +111,8 @@ public class Profile extends BaseActivityAnim {
 
             }
         });
+        if(getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
+            pager.setCurrentItem(6);
 
     }
 

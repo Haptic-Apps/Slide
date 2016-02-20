@@ -13,14 +13,15 @@
         android:title="@string/general_enable_shadowbox"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/search"
-        android:icon="@drawable/search"
-        android:title="@string/search_title"
-        app:showAsAction="ifRoom"/>
+
 
     <item android:id="@+id/action_sort"
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="@string/search_title"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/night"
         android:title="@string/btn_theme_toggle"

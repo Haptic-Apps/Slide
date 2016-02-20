@@ -134,14 +134,14 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/sync"
+            android:id="@+id/saved"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
 
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:text="@string/drawer_sync_subs"
+            android:text="@string/profile_saved"
             android:textSize="14sp" />
 
     </LinearLayout>

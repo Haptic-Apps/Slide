@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 
 import net.dean.jraw.models.Submission;
 
@@ -34,6 +33,7 @@ public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
     private PostLoader subredditPosts;
     private String subreddit;
     int firstPage;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -42,7 +42,7 @@ public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
         applyColorTheme();
         setContentView(R.layout.activity_slide);
 
-        firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
+        firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, 0);
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         if (multireddit != null) {
@@ -50,20 +50,21 @@ public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
         } else {
             subredditPosts = new SubredditPosts(subreddit);
         }
-        subreddit = multireddit == null?subreddit:("multi" + multireddit);
-        if (firstPage == RecyclerView.NO_POSITION) {
-            //IS SINGLE POST
-        } else {
-            subredditPosts.getPosts().addAll(OfflineSubreddit.getSubreddit(subreddit).submissions);
-            subredditPosts.loadMore(this.getApplicationContext(), this, true);
-        }
+        subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
+
+        subredditPosts.getPosts().addAll(OfflineSubreddit.getSubreddit(subreddit).submissions);
+        subredditPosts.loadMore(this.getApplicationContext(), this, true);
+
 
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
+        pager.setCurrentItem(firstPage);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
     }
+
     OverviewPagerAdapter submissionsPager;
+
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
         runOnUiThread(new Runnable() {
@@ -92,10 +93,13 @@ public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
     }
 
     @Override
-    public void updateOfflineError() {}
+    public void updateOfflineError() {
+    }
 
     @Override
-    public void updateError() {}
+    public void updateError() {
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
@@ -186,7 +190,7 @@ public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
                 }
                 break;
                 case SELF: {
-                    if(subredditPosts.getPosts().get(i).getSelftext().isEmpty()){
+                    if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
@@ -258,7 +262,7 @@ public class Shadowbox extends BaseActivityAnim implements SubmissionDisplay {
                 }
                 break;
                 case NONE: {
-                    if(subredditPosts.getPosts().get(i).getSelftext().isEmpty()){
+                    if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);

@@ -52,7 +52,7 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
-    private RecyclerView rv;
+    public RecyclerView rv;
     private FloatingActionButton fab;
     private int visibleItemCount;
     private int pastVisiblesItems;

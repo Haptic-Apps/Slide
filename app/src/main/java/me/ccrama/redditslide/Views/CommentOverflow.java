@@ -93,12 +93,14 @@ public class CommentOverflow extends LinearLayout {
         for (String block : blocks) {
             if (block.startsWith("<table>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
+                scrollView.setScrollbarFadingEnabled(false);
                 TableLayout table = formatTable(block, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
                 scrollView.addView(table);
                 addView(scrollView);
             } else if (block.startsWith("<pre>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
+                scrollView.setScrollbarFadingEnabled(false);
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
                 newTextView.setTextHtml(block, subreddit);
                 setStyle(newTextView, subreddit);

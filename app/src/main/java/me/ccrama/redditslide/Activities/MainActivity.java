@@ -25,6 +25,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
@@ -95,6 +97,7 @@ import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CommentOverflow;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AlbumUtils;
@@ -883,7 +886,15 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.sync).setVisibility(View.GONE);
+            header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                    inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
+                    inte.putExtra(Profile.EXTRA_SAVED, true);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
             header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1391,7 +1402,7 @@ public class MainActivity extends BaseActivity {
                     List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra(Shadowbox.EXTRA_PAGE, 0);
+                        i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                         i.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i);
                     }
@@ -1671,6 +1682,23 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public int getCurrentPage(){
+        int position = 0;
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = ((LinearLayoutManager) ((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition();
+        } else if (((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+            int[] firstVisibleItems = null;
+            firstVisibleItems = ((StaggeredGridLayoutManager) ((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                position = firstVisibleItems[0];
+            }
+        } else {
+            position = ((PreCachingLayoutManager) ((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        }
+        Log.v(LogUtil.getTag(), "POS IS " + position);
+        return position;
+    }
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
         int count;
 

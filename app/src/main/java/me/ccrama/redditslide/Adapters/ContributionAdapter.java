@@ -332,6 +332,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         for (String block : blocks) {
             if (block.startsWith("<table>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(mContext);
+                scrollView.setScrollbarFadingEnabled(false);
                 TableLayout table = formatTable(block, mContext, subreddit);
                 scrollView.addView(table);
                 scrollView.setPadding(0, 0, 8, 0);
