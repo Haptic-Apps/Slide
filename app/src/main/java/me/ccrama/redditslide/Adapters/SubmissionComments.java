@@ -60,6 +60,9 @@ public class SubmissionComments {
                     comments.add(new MoreChildItem(n, n.getMoreChildren()));
                 }
             }
+            if (baseComment.hasMoreComments()) {
+                comments.add(new MoreChildItem(baseComment, baseComment.getMoreChildren()));
+            }
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
@@ -179,15 +182,15 @@ public class SubmissionComments {
 
                         }
                     }
-
-
+                    
                     comments.add(obj);
 
                     if (n.hasMoreComments()) {
-
                         waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
                     }
-
+                }
+                if (baseComment.hasMoreComments()) {
+                    comments.add(new MoreChildItem(baseComment, baseComment.getMoreChildren()));
                 }
 
 
