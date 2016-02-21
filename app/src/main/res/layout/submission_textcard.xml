@@ -66,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="8dp"
-
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:textColor="#ffffff"
