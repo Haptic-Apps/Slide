@@ -64,7 +64,7 @@ public class FullscreenImage extends FullScreenActivity {
 
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
-        i.setMinimumTileDpi(500);
+        i.setMinimumDpi(10);
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
@@ -81,6 +81,8 @@ public class FullscreenImage extends FullScreenActivity {
         if (url != null && ContentType.isImgurLink(url)) {
             url = url + ".png";
         }
+        LogUtil.v(url);
+
         ImageView fakeImage = new ImageView(FullscreenImage.this);
         fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
