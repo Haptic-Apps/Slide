@@ -69,7 +69,7 @@
 
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:textColor="?attr/font"
+                    android:textColor="#ffffff"
 
                     android:textSize="?attr/font_commentbody" />
 

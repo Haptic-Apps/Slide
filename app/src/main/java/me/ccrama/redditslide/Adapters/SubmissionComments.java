@@ -182,7 +182,7 @@ public class SubmissionComments {
 
                         }
                     }
-                    
+
                     comments.add(obj);
 
                     if (n.hasMoreComments()) {
