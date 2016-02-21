@@ -32,6 +32,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LogUtil;
@@ -450,6 +452,13 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 commentOverflow.setViews(blocks, subreddit);
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
+            }
+            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            for (int i = 0; i < commentOverflow.getChildCount(); i++) {
+                View maybeScrollable = commentOverflow.getChildAt(i);
+                if (maybeScrollable instanceof HorizontalScrollView) {
+                    sidebar.addScrollable(maybeScrollable);
+                }
             }
         } else {
             commentOverflow.removeAllViews();
