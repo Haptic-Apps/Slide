@@ -59,6 +59,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int NO_MORE = 3;
     private final int SPACER = 6;
 
+    int extra = 0;
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
@@ -66,7 +67,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.context = context;
         this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
-
+        if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+            extra = Reddit.dpWidth - 1;
+        } else if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+            extra = 1;
+        }
     }
 
     @Override
@@ -81,10 +86,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && dataSet.posts.size() != 0) {
+        if (position <= extra && dataSet.posts.size() != 0) {
             return SPACER;
         } else if (dataSet.posts.size() != 0) {
-            position -= 1;
+            position -= (1 + extra);
         }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.offline && !dataSet.nomore) {
             return LOADING_SPINNER;
@@ -115,7 +120,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, int pos) {
 
-        int i = pos != 0?pos - 1:pos;
+        int i = pos != 0?pos - 1 - extra:pos;
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
@@ -133,12 +138,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         if (SettingValues.tabletUI && holder2.itemView.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreenPopup.class);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                            i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() -1);
+                            i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - (1 + extra));
                             (holder2.itemView.getContext()).startActivity(i2);
 
                         } else {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() -1);
+                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - (1 + extra));
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             (holder2.itemView.getContext()).startActivity(i2);
                         }
@@ -326,7 +331,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + 2; // Always account for footer
+            return dataSet.posts.size() + 2 + extra; // Always account for footer
         }
     }
 

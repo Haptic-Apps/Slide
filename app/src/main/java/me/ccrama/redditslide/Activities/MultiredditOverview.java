@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -138,7 +139,17 @@ public class MultiredditOverview extends BaseActivityAnim {
 
 
 
-        setDataSet(SubredditStorage.getMultireddits());
+        new AsyncTask<Void, Void, List<MultiReddit>>() {
+            @Override
+            protected List<MultiReddit> doInBackground(Void... params) {
+                return SubredditStorage.getMultireddits();
+            }
+
+            @Override
+            protected void onPostExecute(List<MultiReddit> multiReddits) {
+                setDataSet(multiReddits);
+            }
+        }.execute();
     }
 
     public void openPopup() {
