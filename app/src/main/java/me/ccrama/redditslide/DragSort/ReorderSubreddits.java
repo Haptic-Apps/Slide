@@ -235,9 +235,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                                 @Override
                                                 public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                    Log.v(LogUtil.getTag(), input);
                                                     new AsyncGetSubreddit().execute(input);
-
                                                 }
                                             })
                                             .negativeText(R.string.btn_cancel)
@@ -307,7 +305,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null) {
+            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")) {
                 subs.add(input);
                 adapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(subs.size());

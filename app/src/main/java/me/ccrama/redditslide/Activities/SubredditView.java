@@ -534,7 +534,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     }
 
     private void doSubSidebar(final String subreddit) {
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.equals("friends") && !subreddit.equals("mod") && !subreddit.contains("+")) {
+        if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") && !subreddit.contains("+")) {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
