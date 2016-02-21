@@ -15,13 +15,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-
         android:gravity="center"
         android:text="PEASANTRY"
         android:textAllCaps="true"
         android:textColor="#fff"
-        android:textSize="10sp"
-        android:textStyle="bold">
+        android:textSize="9sp">
 
     </TextView>
 

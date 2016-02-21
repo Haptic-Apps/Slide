@@ -45,7 +45,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final RecyclerView listView;
     private final int SPACER = 6;
 
-    int extra;
+    public int extra;
     public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout) {
         this.mContext = mContext;
         this.refreshLayout = refreshLayout;

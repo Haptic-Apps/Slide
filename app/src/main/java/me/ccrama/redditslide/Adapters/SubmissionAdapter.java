@@ -59,7 +59,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int NO_MORE = 3;
     private final int SPACER = 6;
 
-    int extra = 0;
+    public int extra = 0;
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;

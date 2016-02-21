@@ -418,7 +418,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                                 rv.setItemAnimator(new FadeInAnimator());
 
-                            adapter.notifyItemRemoved(i);
+                            adapter.notifyItemRemoved(i + 1 + adapter.extra);
                         }
                     }
                 } catch (IndexOutOfBoundsException e) {
