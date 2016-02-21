@@ -48,6 +48,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -98,6 +99,7 @@ import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
+import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AlbumUtils;
@@ -674,7 +676,6 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
         int startIndex = 0;
@@ -693,6 +694,13 @@ public class MainActivity extends BaseActivity {
                 commentOverflow.setViews(blocks, subredditName);
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            for (int i = 0; i < commentOverflow.getChildCount(); i++) {
+                View maybeScrollable = commentOverflow.getChildAt(i);
+                if (maybeScrollable instanceof HorizontalScrollView) {
+                    sidebar.addScrollable(maybeScrollable);
+                }
             }
         } else {
             commentOverflow.removeAllViews();
