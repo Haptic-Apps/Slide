@@ -35,6 +35,7 @@ public class SettingValues {
     public static final String PREF_HIDE_HEADER = "hideHeader";
     public static final String PREF_TITLE_FILTERS = "titleFilters";
     public static final String PREF_TEXT_FILTERS = "textFilters";
+    public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
@@ -96,6 +97,7 @@ public class SettingValues {
     public static boolean postNav;
     public static boolean exit;
     public static boolean cropImage;
+    public static boolean collapseComments;
 
     public static String synccitName;
     public static String synccitAuth;
@@ -150,6 +152,7 @@ public class SettingValues {
         alphabetical_home = prefs.getBoolean(PREF_ALPHABETICAL_DRAWER, true);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
+        collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
 
         click_user_name_to_profile = prefs.getBoolean(PREF_USERNAME_CLICK, true);
         swap = prefs.getBoolean(PREF_SWAP, false);

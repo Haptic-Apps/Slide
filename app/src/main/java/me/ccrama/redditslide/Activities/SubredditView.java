@@ -84,10 +84,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     public SwipeRefreshLayout mSwipeRefreshLayout;
     private void restartTheme() {
         Intent intent = this.getIntent();
+        finish();
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
-        finish();
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -140,7 +139,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") &&!subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
                     builder.negativeText(getString(R.string.search_subreddit, subreddit))
                             .onNegative(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -313,7 +312,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         });
         TypedValue typed_value = new TypedValue();
         getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 2);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
@@ -535,7 +534,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     }
 
     private void doSubSidebar(final String subreddit) {
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.equals("friends")) {
+        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.equals("friends") && !subreddit.equals("mod") && !subreddit.contains("+")) {
             if (drawerLayout != null)
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
 
@@ -572,7 +571,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.toLowerCase().equals("friends")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.toLowerCase().equals("friends")|| subreddit.equalsIgnoreCase("mod") || subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 

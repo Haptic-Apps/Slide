@@ -67,47 +67,28 @@
                         android:textSize="?attr/font_cardtitle" />
 
 
-                    <com.wefika.flowlayout.FlowLayout
+                    <TextView
+                        android:id="@+id/information"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:alpha=".72">
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/title"
+                        android:layout_gravity="start"
+                        android:layout_toLeftOf="@+id/thumbimage2"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="2dp"
+                        android:tag="tint"
+                        android:text="@string/example_time"
+                        android:textSize="?attr/font_cardinfo" />
 
-                        <TextView
-                            android:id="@+id/subreddit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="@string/example_sub"
+                    <LinearLayout
+                        android:id="@+id/bod"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-                            android:textSize="?attr/font_cardinfo"
-
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/submission_properties_seperator"
-
-                            android:textSize="?attr/font_cardinfo" />
-
-                        <TextView
-                            android:id="@+id/information"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:gravity="center_vertical"
-
-                            android:text="@string/example_time"
-
-                            android:textSize="?attr/font_cardinfo" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/submission_properties_seperator"
-
-                            android:textSize="?attr/font_cardinfo" />
-
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/information"
+                        android:layout_toLeftOf="@+id/thumbimage2">
                         <TextView
                             android:id="@+id/score"
                             android:layout_width="wrap_content"
@@ -137,7 +118,7 @@
                             android:textSize="?attr/font_cardinfo" />
 
 
-                    </com.wefika.flowlayout.FlowLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
