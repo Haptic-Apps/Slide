@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +95,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -108,7 +107,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == R.integer.FAB_POST) {
-              fab.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
             } else {
                 fab.setImageResource(R.drawable.hide);
                 fab.setOnClickListener(new View.OnClickListener() {
@@ -171,17 +170,21 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-        TypedValue typed_value = new TypedValue();
-        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        refreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 3);
 
         refreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.getMultireddits().get(id).getDisplayName(), getActivity()));
 
-        refreshLayout.setRefreshing(true);
+        refreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
+
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
         posts = new MultiredditPosts(SubredditStorage.getMultireddits().get(id).getDisplayName());
         adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout);
         rv.setAdapter(adapter);
-        if(SettingValues.animation)
+        if (SettingValues.animation)
             rv.setItemAnimator(new SubtleSlideInUp(getContext()));
         posts.loadMore(getActivity(), this, true, adapter);
 
@@ -196,7 +199,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
         );
 
-        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar)(getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)){
+        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -234,10 +237,11 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         });
         return v;
     }
+
     private List<Submission> clearSeenPosts(boolean forever) {
         if (posts.posts != null) {
             List<Submission> originalDataSetPosts = posts.posts;
-            OfflineSubreddit.getSubreddit("multi"  + posts.getMultiReddit().getDisplayName().toLowerCase()).clearSeenPosts(false);
+            OfflineSubreddit.getSubreddit("multi" + posts.getMultiReddit().getDisplayName().toLowerCase()).clearSeenPosts(false);
 
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
@@ -267,6 +271,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         return null;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -119,7 +120,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         forceRestart(c);
 
     }
-
+    public static int pxToDp(int dp, Context c) {
+        DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
+        int px = Math.round(dp * (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
+        return px;
+    }
     public static void defaultShareText(String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");

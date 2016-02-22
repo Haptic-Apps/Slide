@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
@@ -29,18 +29,22 @@ public class WikiPage extends Fragment {
         final SpoilerRobotoTextView body = (SpoilerRobotoTextView) v.findViewById(R.id.body);
         final CommentOverflow commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
         final GeneralSwipeRefreshLayout ref = (GeneralSwipeRefreshLayout) v.findViewById(R.id.ref);
-        TypedValue typed_value = new TypedValue();
-        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
 
-        ref.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
         ref.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
-        ref.setRefreshing(true);
+        ref.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
 
+        ref.post(new Runnable() {
+            @Override
+            public void run() {
+                ref.setRefreshing(true);
+            }
+        });
         new AsyncTask<Void, Void, Void>() {
             String text;
+
             @Override
             protected Void doInBackground(Void... params) {
-                text = ((Wiki)getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
+                text = ((Wiki) getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
 
                 return null;
             }

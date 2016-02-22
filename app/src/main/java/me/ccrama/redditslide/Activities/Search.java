@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +39,7 @@ public class Search extends BaseActivityAnim {
     private String where;
     private String subreddit;
     private SubredditSearchPosts posts;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -50,12 +50,14 @@ public class Search extends BaseActivityAnim {
 
         return true;
     }
-    public void reloadSubs(){
+
+    public void reloadSubs() {
         posts.refreshLayout.setRefreshing(true);
         posts.reset();
 
 
     }
+
     public void openPopup() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
@@ -65,7 +67,7 @@ public class Search extends BaseActivityAnim {
                 switch (i) {
 
                     case 0:
-                       time = TimePeriod.HOUR;
+                        time = TimePeriod.HOUR;
                         break;
                     case 1:
                         time = TimePeriod.DAY;
@@ -95,6 +97,7 @@ public class Search extends BaseActivityAnim {
         builder.show();
 
     }
+
     public void openPopup2() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
@@ -128,7 +131,9 @@ public class Search extends BaseActivityAnim {
         builder.show();
 
     }
-    public TimePeriod time ;
+
+    public TimePeriod time;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -137,12 +142,13 @@ public class Search extends BaseActivityAnim {
                 openPopup();
                 return true;
             case R.id.sort:
-              openPopup2();
+                openPopup2();
                 return true;
 
         }
         return false;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
@@ -158,7 +164,7 @@ public class Search extends BaseActivityAnim {
 
         time = TimePeriod.ALL;
 
-        getSupportActionBar().setTitle(where );
+        getSupportActionBar().setTitle(where);
         getSupportActionBar().setSubtitle(Reddit.getSortingStringsSearch(getBaseContext())[Reddit.getSortingIdSearch(this)]);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE || !SettingValues.tabletUI) {
@@ -195,14 +201,19 @@ public class Search extends BaseActivityAnim {
                 }
             }
         });
-        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
-        TypedValue typed_value = new TypedValue();
-        getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
-        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, Search.this), Reddit.pxToDp(92, Search.this));
+
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         posts = new SubredditSearchPosts(subreddit, where.toLowerCase(), this);
         adapter = new ContributionAdapter(this, posts, rv);
         rv.setAdapter(adapter);

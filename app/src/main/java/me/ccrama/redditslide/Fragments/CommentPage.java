@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -296,14 +295,17 @@ public class CommentPage extends Fragment {
 
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-        TypedValue typed_value = new TypedValue();
-        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 2);
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
 
-        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
 
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
         if (!single) {
             if (getActivity() instanceof CommentsScreen ? ((CommentsScreen) getActivity()).o != null : ((CommentsScreenPopup) getActivity()).o != null) {
                 o = (getActivity() instanceof CommentsScreen) ? ((CommentsScreen) getActivity()).o : ((CommentsScreenPopup) getActivity()).o;

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.TypedValue;
 
 import net.dean.jraw.models.Submission;
 
@@ -41,7 +40,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-        } else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait){
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -75,13 +74,16 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
                 }
             }
         });
-        TypedValue typed_value = new TypedValue();
-        getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId));
-
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
-        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, SingleView.this), Reddit.pxToDp(92, SingleView.this));
+
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
         posts = new SubredditPosts(subreddit);
         adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);

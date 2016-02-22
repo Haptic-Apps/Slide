@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +48,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
@@ -232,14 +232,18 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             rv.setItemAnimator(new SubtleSlideInUp(getContext()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-        TypedValue typed_value = new TypedValue();
-        getActivity().getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 3);
+        LogUtil.v("SIZE IS " + Reddit.pxToDp(54, getContext()));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
+        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
 
-        mSwipeRefreshLayout.setRefreshing(true);
 
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
@@ -316,7 +320,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
 
-        rv.addOnScrollListener(new ToolbarScrollHideHandler(((MainActivity)getActivity()).mToolbar, getActivity().findViewById(R.id.header)){
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(((MainActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -470,7 +474,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
 
                     if (startIndex != -1) {
-                        adapter.notifyItemRangeInserted(startIndex + 1 , posts.posts.size() );
+                        adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                     } else {
                         adapter.notifyDataSetChanged();
                     }

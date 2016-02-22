@@ -21,7 +21,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -310,14 +309,17 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 }
             }
         });
-        TypedValue typed_value = new TypedValue();
-        getTheme().resolveAttribute(android.support.v7.appcompat.R.attr.actionBarSize, typed_value, true);
-        mSwipeRefreshLayout.setProgressViewOffset(false, 0, getResources().getDimensionPixelSize(typed_value.resourceId) * 2);
+            mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
-        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
+        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, SubredditView.this), Reddit.pxToDp(92, SubredditView.this));
 
-        mSwipeRefreshLayout.setRefreshing(true);
-        posts = new SubredditPosts(subreddit);
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+         posts = new SubredditPosts(subreddit);
         adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);
 
