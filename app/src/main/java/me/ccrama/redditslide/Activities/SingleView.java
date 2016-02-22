@@ -17,7 +17,9 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
 
@@ -49,29 +51,41 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
         rv.setLayoutManager(mLayoutManager);
         final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.setOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                visibleItemCount = rv.getLayoutManager().getChildCount();
-                totalItemCount = rv.getLayoutManager().getItemCount();
+                super.onScrolled(recyclerView, dx, dy);
+                if (!posts.loading && !posts.nomore && !posts.offline) {
 
-                int[] firstVisibleItems = null;
-                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                    pastVisiblesItems = firstVisibleItems[0];
-                    if (SettingValues.scrollSeen) {
-                        if (pastVisiblesItems > 0) {
-                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                    visibleItemCount = rv.getLayoutManager().getChildCount();
+                    totalItemCount = rv.getLayoutManager().getItemCount();
+                    if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                        pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                        if (SettingValues.scrollSeen) {
+                            if (pastVisiblesItems > 0) {
+                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                            }
+                        }
+                    } else {
+                        int[] firstVisibleItems = null;
+                        firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                            pastVisiblesItems = firstVisibleItems[0];
+                            if (SettingValues.scrollSeen) {
+                                if (pastVisiblesItems > 0) {
+                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                                }
+                            }
                         }
                     }
-                }
 
-                if (!posts.loading) {
                     if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                         posts.loading = true;
-                        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, false, subreddit);
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, false, posts.subreddit);
+
                     }
                 }
+
             }
         });
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
@@ -108,7 +122,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
             @Override
             public void run() {
                 if (startIndex != -1) {
-                    adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
+                    adapter.notifyItemRangeInserted(startIndex + 1 , posts.posts.size());
                 } else {
                     adapter.notifyDataSetChanged();
                 }

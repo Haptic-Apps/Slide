@@ -281,12 +281,17 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
 
     @Override
-    public void updateSuccess(List<Submission> submissions, int startIndex) {
+    public void updateSuccess(List<Submission> submissions, final int startIndex) {
         adapter.mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 refreshLayout.setRefreshing(false);
-                adapter.notifyDataSetChanged();
+
+                if (startIndex != -1) {
+                    adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
     }

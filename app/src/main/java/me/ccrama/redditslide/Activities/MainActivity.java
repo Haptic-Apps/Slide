@@ -1022,7 +1022,35 @@ public class MainActivity extends BaseActivity {
                                         dialog2.dismiss();
                                         accountList.removeView(t);
                                         if (accName.equalsIgnoreCase(Authentication.name)) {
-                                            Reddit.forceRestart(MainActivity.this, true);
+
+                                            boolean d = false;
+                                            for(String s : keys){
+
+                                                if(!s.equalsIgnoreCase(accName)){
+                                                    d = true;
+                                                    LogUtil.v("Switching to " + s);
+                                                    if (!accounts.get(s).isEmpty()) {
+                                                        Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).commit();
+                                                    } else {
+                                                        ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                                        Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).commit();
+                                                    }
+                                                    Authentication.name = s;
+
+                                                    SubredditStorage.saveState(true);
+
+                                                    Reddit.forceRestart(MainActivity.this, true);
+                                                }
+
+                                            }
+                                            if(!d){
+                                                SubredditStorage.saveState(true, true);
+                                                Reddit.forceRestart(MainActivity.this, true);
+                                            }
+
+                                        } else{
+                                            accounts.remove(accName);
+                                            keys.remove(accName);
                                         }
                                     }
                                 })
