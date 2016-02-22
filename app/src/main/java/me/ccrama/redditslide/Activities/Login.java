@@ -148,6 +148,8 @@ public class Login extends BaseActivityAnim {
 
                                 SubredditStorage.saveState(true);
                                 Reddit.forceRestart(Login.this, true);
+                                finish();
+
                             }
                         });
                 builder.show();
@@ -161,6 +163,8 @@ public class Login extends BaseActivityAnim {
                             @Override
                             public void onClick(@Nullable MaterialDialog dialog, @Nullable DialogAction which) {
                                 Reddit.forceRestart(Login.this, true);
+                                finish();
+
                             }
                         });
                 builder.show();

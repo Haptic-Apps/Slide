@@ -1,6 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -22,6 +24,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
@@ -50,6 +53,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -761,11 +765,11 @@ public class MainActivity extends BaseActivity {
         }
         if (!subreddit.getPublicDescription().isEmpty()) {
             findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
-            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow)findViewById(R.id.sub_title_overflow));
+            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow) findViewById(R.id.sub_title_overflow));
         } else {
             findViewById(R.id.sub_title).setVisibility(View.GONE);
         }
-        if(subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()){
+        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()) {
             ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
@@ -861,6 +865,67 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    private void expand(LinearLayout v) {
+        //set Visible
+        v.setVisibility(View.VISIBLE);
+
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        v.measure(widthSpec, heightSpec);
+
+        ValueAnimator mAnimator = slideAnimator(0, v.getMeasuredHeight(), v);
+        mAnimator.start();
+    }
+
+    private ValueAnimator slideAnimator(int start, int end, final View v) {
+
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                int value = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
+    }
+
+    private void collapse(final LinearLayout v) {
+        int finalHeight = v.getHeight();
+
+        ValueAnimator mAnimator = slideAnimator(finalHeight, 0, v);
+
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+
+                v.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+    }
+
     public void doDrawer() {
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
@@ -903,22 +968,98 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
+            //update notification badge
+
+            final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
+            profStuff.setVisibility(View.GONE);
+            findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    chooseAccounts(true);
+                public void onClick(View v) {
+                    if (profStuff.getVisibility() == View.GONE) {
+                        expand(profStuff);
+                    } else {
+                        collapse(profStuff);
+                    }
+
                 }
             });
-            //update notification badge
+            final HashMap<String, String> accounts = new HashMap<>();
+
+            for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+                if (s.contains(":")) {
+                    accounts.put(s.split(":")[0], s.split(":")[1]);
+                } else {
+
+                    accounts.put(s, "");
+                }
+            }
+            final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+
+            final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
+            for (final String accName : keys) {
+                LogUtil.v(accName);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
+
+                ((TextView)t.findViewById(R.id.name)).setText(accName);
+                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new AlertDialogWrapper.Builder(MainActivity.this)
+                                .setTitle(R.string.profile_remove)
+                                .setMessage(R.string.profile_remove_account)
+                                .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog2, int which2) {
+                                        Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                        Set<String> done = new HashSet<>();
+                                        for (String s : accounts2) {
+                                            if (!s.contains(accName)) {
+                                                done.add(s);
+                                            }
+                                        }
+                                        Authentication.authentication.edit().putStringSet("accounts", done).commit();
+                                        dialog2.dismiss();
+                                        accountList.removeView(t);
+                                        if (accName.equalsIgnoreCase(Authentication.name)) {
+                                            Reddit.forceRestart(MainActivity.this, true);
+                                        }
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_cancel, null).show();
+
+
+                    }
+                });
+                t.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LogUtil.v("Switching to " + accName);
+                        if (!accounts.get(accName).isEmpty()) {
+                            Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).commit();
+                        } else {
+                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                            Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).commit();
+                        }
+                        Authentication.name = accName;
+
+                        SubredditStorage.saveState(true);
+
+                        Reddit.forceRestart(MainActivity.this, true);
+                    }
+                });
+                accountList.addView(t);
+            }
+
 
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    View body = header.findViewById(R.id.expand_profile);
+                    LinearLayout body = (LinearLayout) header.findViewById(R.id.expand_profile);
                     if (body.getVisibility() == View.GONE) {
-                        body.setVisibility(View.VISIBLE);
+                        expand(body);
                     } else {
-                        body.setVisibility(View.GONE);
+                        collapse(body);
                     }
                 }
             });
@@ -1209,45 +1350,34 @@ public class MainActivity extends BaseActivity {
             Reddit.forceRestart(this, true);
         } else {
             new AlertDialogWrapper.Builder(MainActivity.this)
-                    .setTitle(R.string.general_switch_acc)
+                    .setTitle(R.string.profile_manage_accounts)
                     .setCancelable(cancelable)
                     .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialog, final int which) {
                             new AlertDialogWrapper.Builder(MainActivity.this)
-                                    .setTitle(R.string.drawer_account_switch)
-                                    .setMessage(R.string.drawer_account_switch_msg)
-                                    .setPositiveButton(R.string.btn_switch, new DialogInterface.OnClickListener() {
+                                    .setTitle(R.string.profile_remove)
+                                    .setMessage(R.string.profile_remove_account)
+                                    .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which2) {
-                                            if (!accounts.get(keys.get(which)).isEmpty()) {
-                                                Authentication.authentication.edit().putString("lasttoken", accounts.get(keys.get(which))).commit();
-                                            } else {
-                                                ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                                Authentication.authentication.edit().putString("lasttoken", tokens.get(which)).commit();
+                                        public void onClick(DialogInterface dialog2, int which2) {
+                                            Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                            Set<String> done = new HashSet<>();
+                                            for (String s : accounts2) {
+                                                if (!s.contains(keys.get(which))) {
+                                                    done.add(s);
+                                                }
                                             }
+                                            Authentication.authentication.edit().putStringSet("accounts", done).commit();
+                                            dialog.dismiss();
+                                            dialog2.dismiss();
 
-                                            Reddit.forceRestart(MainActivity.this, true);
+
+                                            chooseAccounts(false);
+
                                         }
-                                    }).setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog2, int which2) {
-                                    Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                                    Set<String> done = new HashSet<>();
-                                    for (String s : accounts2) {
-                                        if (!s.contains(keys.get(which))) {
-                                            done.add(s);
-                                        }
-                                    }
-                                    Authentication.authentication.edit().putStringSet("accounts", done).commit();
-                                    dialog.dismiss();
-                                    dialog2.dismiss();
-
-
-                                    chooseAccounts(false);
-
-                                }
-                            }).show();
+                                    })
+                                    .setPositiveButton(R.string.btn_cancel, null).show();
 
 
                         }
@@ -1535,7 +1665,7 @@ public class MainActivity extends BaseActivity {
             new AsyncNotificationBadge().execute();
         }
         Reddit.setDefaultErrorHandler(this);
-        if(datasetChanged){
+        if (datasetChanged) {
             usedArray = SubredditStorage.subredditsForHome;
             adapter.notifyDataSetChanged();
             datasetChanged = false;
@@ -1688,23 +1818,24 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public int getCurrentPage(){
+    public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position = ((LinearLayoutManager) ((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition();
-        } else if (((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition();
+        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             int[] firstVisibleItems = null;
-            firstVisibleItems = ((StaggeredGridLayoutManager) ((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+            firstVisibleItems = ((StaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
             if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                 position = firstVisibleItems[0];
             }
         } else {
-            position = ((PreCachingLayoutManager) ((SubmissionsView)adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
         }
         Log.v(LogUtil.getTag(), "POS IS " + position);
         return position;
     }
+
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
         int count;
 

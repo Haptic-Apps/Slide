@@ -48,7 +48,20 @@ public class SubredditStorage {
         editor.commit();
 
     }
+    public static void saveState(boolean login, boolean name){
 
+        SharedPreferences.Editor editor = Reddit.appRestart.edit();
+        editor.putBoolean("back", true);
+        editor.putString("subs", login ? "" : Reddit.arrayToString(subredditsForHome));
+        editor.putString("subsalph", login?"":Reddit.arrayToString(alphabeticalSubreddits));
+
+        editor.putBoolean("loggedin", Authentication.isLoggedIn);
+
+        editor.putString("name","");
+
+        editor.commit();
+
+    }
     /**
      *
      * @return list of multireddits if they are available, null if could not fetch multireddits

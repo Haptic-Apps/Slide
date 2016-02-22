@@ -571,6 +571,9 @@
     <string name="reorder_sync_complete">Sync complete</string>
     <string name="reorder_subs_added">" subreddits added"</string>
     <string name="settings_comment_collapsefully">Collapse comment fully (also disables animations)</string>
+    <string name="profile_manage_accounts">Manage accounts</string>
+    <string name="profile_remove_account">Would you really like to remove this account?</string>
+    <string name="profile_remove">Delete account</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
