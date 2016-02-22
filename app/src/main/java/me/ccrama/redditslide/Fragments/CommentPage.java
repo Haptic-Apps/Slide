@@ -236,7 +236,7 @@ public class CommentPage extends Fragment {
             @Override
             public boolean onLongClick(View v) {
                 //Scroll to top
-                rv.getLayoutManager().scrollToPosition(0);
+                rv.getLayoutManager().scrollToPosition(1);
                 return true;
             }
         });
@@ -373,7 +373,7 @@ public class CommentPage extends Fragment {
 
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                         RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i + 1);
+                        smoothScroller.setTargetPosition(i + 2);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
                         break;
                     }
@@ -390,7 +390,7 @@ public class CommentPage extends Fragment {
                 if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                         RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i + 1);
+                        smoothScroller.setTargetPosition(i + 2);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
                         break;
                     }

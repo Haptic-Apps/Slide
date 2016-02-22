@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/root"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -9,8 +10,7 @@
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        />
+        android:layout_height="fill_parent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:id="@+id/placeholder"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#dc000000"/>
+            android:background="#dc000000" />
 
         <ProgressBar
             android:id="@+id/gifprogress"
@@ -43,8 +43,7 @@
             android:indeterminate="false"
             android:max="100"
 
-            android:progress="0"
-            />
+            android:progress="0" />
     </RelativeLayout>
 
     <LinearLayout
@@ -58,30 +57,42 @@
         android:weightSum="6">
 
         <ImageView
-            android:id="@+id/gifsave"
+            android:id="@+id/external"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_gravity="right"
-
-            style="@style/Ripple.List"
+            android:background="?android:selectableItemBackground"
             android:padding="15dp"
+            android:src="@drawable/openexternal"
 
-            android:src="@drawable/save"/>
+            android:tint="@color/white" />
 
         <ImageView
-            android:id="@+id/exitComment"
+            android:id="@+id/share"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_gravity="right"
+            android:background="?android:selectableItemBackground"
+            android:padding="15dp"
+            android:src="@drawable/share"
 
+            android:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/gifsave"
             style="@style/Ripple.List"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+
+            android:layout_gravity="right"
             android:padding="15dp"
 
-            android:src="@drawable/close"/>
+            android:src="@drawable/save" />
+
+
     </LinearLayout>
+
     <View
+        android:id="@+id/tutorial"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:id="@+id/tutorial"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true" />
 </RelativeLayout>

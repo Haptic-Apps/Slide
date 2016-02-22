@@ -19,6 +19,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
@@ -96,6 +97,7 @@ public class CommentOverflow extends LinearLayout {
                 scrollView.setScrollbarFadingEnabled(false);
                 TableLayout table = formatTable(block, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
+                table.setPaddingRelative(0, 0, 0, Reddit.pxToDp(10, context));
                 scrollView.addView(table);
                 addView(scrollView);
             } else if (block.startsWith("<pre>")) {
@@ -105,6 +107,7 @@ public class CommentOverflow extends LinearLayout {
                 newTextView.setTextHtml(block, subreddit);
                 setStyle(newTextView, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
+                newTextView.setPaddingRelative(0, 0, 0, Reddit.pxToDp(10, context));
                 scrollView.addView(newTextView);
                 addView(scrollView);
             } else {

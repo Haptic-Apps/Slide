@@ -14,16 +14,12 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
@@ -34,16 +30,13 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -292,7 +285,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
-            setViews(comment.getDataNode().get("body_html").asText(), holder, comment.getSubredditName());
+            setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
@@ -324,108 +317,35 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
         }
     }
-    private void setViews(String rawHTML, ProfileCommentViewHolder holder, String subreddit) {
+    private void setViews(String rawHTML, String subredditName, ProfileCommentViewHolder holder) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
         List<String> blocks = SubmissionParser.getBlocks(rawHTML);
 
-        boolean firstTextViewPopulated = false;
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            holder.content.setVisibility(View.VISIBLE);
+            holder.content.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            holder.content.setText("");
+            holder.content.setVisibility(View.GONE);
+        }
 
-        for (String block : blocks) {
-            if (block.startsWith("<table>")) {
-                HorizontalScrollView scrollView = new HorizontalScrollView(mContext);
-                scrollView.setScrollbarFadingEnabled(false);
-                TableLayout table = formatTable(block, mContext, subreddit);
-                scrollView.addView(table);
-                scrollView.setPadding(0, 0, 8, 0);
-                holder.overflow.addView(scrollView);
-                holder.overflow.setVisibility(View.VISIBLE);
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                holder.overflow.setViews(blocks, subredditName);
             } else {
-                if (firstTextViewPopulated) {
-                    SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(mContext);
-                    //textView.setMovementMethod(new MakeTextviewClickable.TextViewLinkHandler(c, subreddit, null));
-                    newTextView.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
-                    newTextView.setTypeface(RobotoTypefaceManager.obtainTypeface(mContext,
-                            new FontPreferences(mContext).getFontTypeComment().getTypeface()));
-                    newTextView.setTextHtml(block, subreddit);
-                    newTextView.setPadding(0, 0, 8, 0);
-                    holder.overflow.addView(newTextView);
-                    holder.overflow.setVisibility(View.VISIBLE);
-                } else {
-                    holder.content.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
-                    holder.content.setTypeface(RobotoTypefaceManager.obtainTypeface(mContext,
-                            new FontPreferences(mContext).getFontTypeComment().getTypeface()));
-                    holder.content.setTextHtml(block, subreddit);
-                    firstTextViewPopulated = true;
-                }
+                holder.overflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
+        } else {
+            holder.overflow.removeAllViews();
         }
     }
 
-    private TableLayout formatTable(String text, Activity context, String subreddit) {
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-
-        TableLayout table = new TableLayout(context);
-        TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-
-        table.setLayoutParams(params);
-
-        final String tableStart = "<table>";
-        final String tableEnd = "</table>";
-        final String tableHeadStart = "<thead>";
-        final String tableHeadEnd = "</thead>";
-        final String tableRowStart = "<tr>";
-        final String tableRowEnd = "</tr>";
-        final String tableColumnStart = "<td>";
-        final String tableColumnEnd = "</td>";
-        final String tableHeaderStart = "<th>";
-        final String tableHeaderEnd = "</th>";
-
-        int i = 0;
-        int columnStart = 0;
-        int columnEnd;
-        TableRow row = null;
-        while (i < text.length()) {
-            if (text.charAt(i) != '<') { // quick check otherwise it falls through to else
-                i += 1;
-            } else if (text.subSequence(i, i + tableStart.length()).toString().equals(tableStart)) {
-                i += tableStart.length();
-            } else if (text.subSequence(i, i + tableHeadStart.length()).toString().equals(tableHeadStart)) {
-                i += tableHeadStart.length();
-            } else if (text.subSequence(i, i + tableRowStart.length()).toString().equals(tableRowStart)) {
-                row = new TableRow(context);
-                row.setLayoutParams(rowParams);
-                i += tableRowStart.length();
-            } else if (text.subSequence(i, i + tableRowEnd.length()).toString().equals(tableRowEnd)) {
-                table.addView(row);
-                i += tableRowEnd.length();
-            } else if (text.subSequence(i, i + tableEnd.length()).toString().equals(tableEnd)) {
-                i += tableEnd.length();
-            } else if (text.subSequence(i, i + tableHeadEnd.length()).toString().equals(tableHeadEnd)) {
-                i += tableHeadEnd.length();
-            } else if (text.subSequence(i, i + tableColumnStart.length()).toString().equals(tableColumnStart)
-                    || text.subSequence(i, i + tableHeaderStart.length()).toString().equals(tableHeaderStart)) {
-                i += tableColumnStart.length();
-                columnStart = i;
-            } else if (text.subSequence(i, i + tableColumnEnd.length()).toString().equals(tableColumnEnd)
-                    || text.subSequence(i, i + tableHeaderEnd.length()).toString().equals(tableHeaderEnd)) {
-                columnEnd = i;
-
-                SpoilerRobotoTextView textView = new SpoilerRobotoTextView(context);
-                //textView.setMovementMethod(new TextViewLinkHandler(context, subreddit, null));
-                textView.setLinkTextColor(new ColorPreferences(mContext).getColor(subreddit));
-                textView.setTextHtml(text.subSequence(columnStart, columnEnd), subreddit);
-                textView.setPadding(3, 0 ,0 , 0);
-
-                row.addView(textView);
-
-                columnStart = 0;
-                i += tableColumnEnd.length();
-            } else {
-                i += 1;
-            }
-        }
-
-        return table;
-    }
 
     @Override
     public int getItemCount() {

@@ -132,9 +132,17 @@ public class FullscreenImage extends FullScreenActivity {
         });
 
 
+
         {
             final ImageView iv = (ImageView) findViewById(R.id.share);
             final String finalUrl = getIntent().getExtras().getString(EXTRA_SHARE_URL, url);
+            findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Reddit.defaultShare(finalUrl, FullscreenImage.this);
+
+                }
+            });
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

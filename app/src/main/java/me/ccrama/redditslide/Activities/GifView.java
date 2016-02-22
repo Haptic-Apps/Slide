@@ -26,16 +26,18 @@ public class GifView extends FullScreenActivity {
 
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(v != null && v.getDuration() > 0){
+        if (v != null && v.getDuration() > 0) {
             v.start();
         }
     }
+
     /**
      * Called when the activity is first created.
      */
     public MediaVideoView v;
+
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
@@ -47,30 +49,34 @@ public class GifView extends FullScreenActivity {
             findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
         }
 
-     v= (MediaVideoView) findViewById(R.id.gif);
+        v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
 
 
+        final String dat = getIntent().getExtras().getString(EXTRA_URL);
 
 
-        String dat = getIntent().getExtras().getString(EXTRA_URL);
-
-        findViewById(R.id.exitComment).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GifView.this.finish();
+                Reddit.defaultShare(dat, GifView.this);
+
             }
         });
+        findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reddit.defaultShareText(dat, GifView.this);
 
-
-
+            }
+        });
 
         prefs = getSharedPreferences("DATA", 0);
 
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
-        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),findViewById(R.id.gifsave), true).execute(dat);
-        if(!Reddit.appRestart.contains("tutorialSwipeGif")){
+        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true).execute(dat);
+        if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -96,9 +102,9 @@ public class GifView extends FullScreenActivity {
     }
 
     @Override
-      public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialSwipeGif")){
+        if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipeGif", true).apply();
         }
     }
