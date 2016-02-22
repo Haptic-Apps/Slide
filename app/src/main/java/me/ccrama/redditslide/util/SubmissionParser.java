@@ -115,7 +115,12 @@ public class SubmissionParser {
                     indentSpacing += "&nbsp;&nbsp;&nbsp;&nbsp;";
                 }
                 if (isNumbered) {
-                    html = html.substring(0, tagEnd + 1) + indentSpacing + listNumbers.get(indent) + ". " + text + "<br/>" + html.substring(closeTag);
+                    LogUtil.v(text + " AND POS IS " + indent);
+                    html = html.substring(0, tagEnd + 1)
+                            + indentSpacing +
+                            listNumbers.get(indent)+ ". " +
+                            text + "<br/>" +
+                            html.substring(closeTag);
                     listNumbers.set(indent, listNumbers.get(indent) + 1);
                     i = closeTag + 3;
                 } else {
@@ -126,6 +131,9 @@ public class SubmissionParser {
                 i = html.indexOf("<", i + 1);
                 if (i != -1 && html.substring(i, i + 4).equals("</ol")) {
                     indent--;
+                    if(indent == -1){
+                        isNumbered = false;
+                    }
                 }
             }
         }

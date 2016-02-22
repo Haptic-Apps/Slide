@@ -1013,7 +1013,7 @@ public class PopulateSubmissionViewHolder {
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
-        if (HasSeen.getSeen(submission.getFullName()) && !full || ( submission.getDataNode().has("visited") && submission.getDataNode().get("visited").asBoolean())) {
+        if (HasSeen.getSeen(submission.getFullName()) && !full || ( submission.getDataNode().has("visited") && submission.getDataNode().get("visited").asBoolean()) && !full) {
             holder.itemView.setAlpha(0.65f);
         } else {
             holder.itemView.setAlpha(1.0f);

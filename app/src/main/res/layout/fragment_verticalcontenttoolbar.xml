@@ -120,9 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/slightshadow"
-
-
+            android:background="#55000000"
             android:weightSum="2">
 
             <ImageView

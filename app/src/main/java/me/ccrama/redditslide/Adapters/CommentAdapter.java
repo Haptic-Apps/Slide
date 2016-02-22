@@ -4,6 +4,8 @@ package me.ccrama.redditslide.Adapters;
  * Created by ccrama on 3/22/2015.
  */
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
@@ -20,6 +22,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -252,7 +255,126 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void setError(boolean b) {
         listView.setAdapter(new ErrorAdapter());
     }
+    private ValueAnimator slideAnimator(int start, int end, final View v) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
 
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                int value = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
+    }
+    private void collapse(final View v) {
+        int finalHeight = v.getHeight();
+
+        ValueAnimator mAnimator = slideAnimator(finalHeight, 0, v);
+
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                //Height=0, but it set visibility to GONE
+                ((LinearLayout) v).removeAllViews();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+    }
+    private void doShowMenu(final View l) {
+        l.setVisibility(View.VISIBLE);
+
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l.measure(widthSpec, heightSpec);
+
+
+        final View l2 = l.findViewById(R.id.menu);
+        final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l2.measure(widthSpec2, heightSpec2);
+        ValueAnimator mAnimator = slideAnimator(l.getMeasuredHeight(),l2.getMeasuredHeight(), l);
+
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                l2.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+    }
+    private void expand(final View l) {
+
+        l.setVisibility(View.VISIBLE);
+
+
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l.measure(widthSpec, heightSpec);
+
+        View l2 = l.findViewById(R.id.replyArea);
+        final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l2.measure(widthSpec2, heightSpec2);
+
+
+        ValueAnimator mAnimator = slideAnimator(0, l.getMeasuredHeight()- l2.getMeasuredHeight() , l);
+
+        mAnimator.start();
+    }
+    private void expand(final View l, boolean b) {
+
+        l.setVisibility(View.VISIBLE);
+
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l.measure(widthSpec, heightSpec);
+
+        View l2 = l.findViewById(R.id.replyArea);
+        final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l2.measure(widthSpec2, heightSpec2);
+
+
+        ValueAnimator mAnimator = slideAnimator((l.getMeasuredHeight() - l2.getMeasuredHeight()), l.getMeasuredHeight() - (l.getMeasuredHeight() - l2.getMeasuredHeight()) , l);
+
+        mAnimator.start();
+    }
     public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, baseNode);
@@ -264,7 +386,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
-
+        baseView.setVisibility(View.GONE);
+        expand(baseView);
 
         RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
         params.setMargins(0, 0, 0, 0);
@@ -466,6 +589,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    expand(baseView, true);
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm);
@@ -479,8 +603,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     currentlyEditing = null;
                     editingPosition = -1;
-                    replyArea.setVisibility(View.GONE);
-                    menu.setVisibility(View.VISIBLE);
+
+                    doShowMenu(baseView);
+
                     dataSet.refreshLayout.setRefreshing(true);
                     new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
 
@@ -496,8 +621,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             discard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    menu.setVisibility(View.VISIBLE);
-                    replyArea.setVisibility(View.GONE);
+                    doShowMenu(baseView);
                 }
             });
 
@@ -708,8 +832,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         holder.dots.setVisibility(View.VISIBLE);
+        collapse(holder.menuArea);
 
-        holder.menuArea.removeAllViews();
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = mContext.getTheme();
         theme.resolveAttribute(R.attr.card_background, typedValue, true);
@@ -746,7 +870,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             currentlySelected = null;
             currentSelectedItem = "";
-            holder.menuArea.removeAllViews();
+            collapse(holder.menuArea);
             holder.dots.setVisibility(View.VISIBLE);
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;

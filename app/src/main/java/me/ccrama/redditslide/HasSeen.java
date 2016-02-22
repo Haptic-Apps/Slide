@@ -20,7 +20,7 @@ public class HasSeen {
 
     public static void addSeen(String fullname) {
         final String finalFullname = fullname;
-        if(Authentication.isLoggedIn && Authentication.me.hasGold())
+        if(Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold())
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {

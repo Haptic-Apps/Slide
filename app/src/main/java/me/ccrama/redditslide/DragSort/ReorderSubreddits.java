@@ -395,6 +395,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             }
                                         }).show();
                                     } else {
+                                        String s = items.get(holder.getAdapterPosition());
+                                        subs.remove(s);
                                         subs.add(0, items.get(holder.getAdapterPosition()));
                                         notifyItemMoved(holder.getAdapterPosition(), 0);
                                     }
