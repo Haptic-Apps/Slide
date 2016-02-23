@@ -23,17 +23,34 @@ android {
 
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        minSdkVersion 17
         targetSdkVersion 23
         versionCode 116
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
 
+    productFlavors {
+        dev {
+            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
+            // to pre-dex each module and produce an APK that can be used
+            // without time consuming dex merging processes.
+            minSdkVersion 21
+        }
+        prod {
+            // The actual minSdkVersion for the application.
+            minSdkVersion 17
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", "Slide"
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "Slide (debug)"
         }
 
     }
