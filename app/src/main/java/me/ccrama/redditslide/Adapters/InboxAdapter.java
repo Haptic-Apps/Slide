@@ -184,7 +184,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (dataSet == null || dataSet.posts.size() == 0) {
+        if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
             return dataSet.posts.size() + 2;
