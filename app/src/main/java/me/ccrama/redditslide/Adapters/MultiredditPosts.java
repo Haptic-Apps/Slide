@@ -33,7 +33,7 @@ public class MultiredditPosts implements PostLoader {
     private MultiReddit multiReddit;
     public boolean nomore = false;
     public MultiredditAdapter adapter;
-
+    private LoadData loadData;
     public boolean skipOne;
     /**
      *
@@ -52,13 +52,22 @@ public class MultiredditPosts implements PostLoader {
     public void loadMore(Context context, SubmissionDisplay displayer, boolean reset) {
         new LoadData(context, displayer, reset).execute(multiReddit);
     }
+
     public void loadMore(Context context, SubmissionDisplay displayer, boolean reset, MultiredditAdapter adapter) {
         this.adapter = adapter;
-        new LoadData(context, displayer, reset).execute(multiReddit);
+        loadData = new LoadData(context, displayer, reset);
+        loadData.execute(multiReddit);
     }
+
     @Override
     public List<Submission> getPosts() {
         return posts;
+    }
+
+    public void cancelLoad() {
+        if (loadData != null) {
+            loadData.cancel(true);
+        }
     }
 
     @Override

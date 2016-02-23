@@ -280,6 +280,12 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        posts.cancelLoad();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
 
         super.onConfigurationChanged(newConfig);
