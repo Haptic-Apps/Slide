@@ -76,9 +76,6 @@ public class InboxMessages extends GeneralPosts {
                         @Override
                         public void run() {
                             refreshLayout.setRefreshing(false);
-
-                            adapter.dataSet = posts;
-
                             loading = false;
                             adapter.notifyDataSetChanged();
 
@@ -90,10 +87,7 @@ public class InboxMessages extends GeneralPosts {
                         @Override
                         public void run() {
                             refreshLayout.setRefreshing(false);
-
-                            adapter.dataSet = posts;
                             loading = false;
-
                             adapter.notifyDataSetChanged();
 
                         }
