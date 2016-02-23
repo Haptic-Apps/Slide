@@ -32,8 +32,6 @@ public class ContributionPosts extends GeneralPosts {
         this.where = where;
     }
 
-    public boolean nomore;
-
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
         this.adapter = a;
         this.refreshLayout = layout;
@@ -93,7 +91,7 @@ public class ContributionPosts extends GeneralPosts {
                 }
 
                 if (finalStart != -1) {
-                    adapter.notifyItemRangeInserted(finalStart, posts.size());
+                    adapter.notifyItemRangeInserted(finalStart + 1, posts.size());
                 } else {
                     adapter.notifyDataSetChanged();
                 }
@@ -101,6 +99,8 @@ public class ContributionPosts extends GeneralPosts {
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
+                adapter.notifyDataSetChanged();
+
             } else if (!nomore) {
                 // error
                 adapter.setError(true);

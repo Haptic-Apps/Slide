@@ -118,7 +118,7 @@ public class MultiredditPosts implements PostLoader {
 
                 if(adapter != null) {
                     if (finalStart != -1) {
-                        adapter.notifyItemRangeInserted(finalStart, posts.size());
+                        adapter.notifyItemRangeInserted(finalStart + 1, posts.size());
                     } else {
                         adapter.notifyDataSetChanged();
                     }

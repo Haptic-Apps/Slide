@@ -20,7 +20,7 @@ import me.ccrama.redditslide.Authentication;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class InboxMessages {
+public class InboxMessages extends GeneralPosts {
     public ArrayList<Message> posts;
     public boolean loading;
     private Paginator<Message> paginator;
@@ -64,10 +64,10 @@ public class InboxMessages {
 
         @Override
         public void onPostExecute(ArrayList<Message> subs) {
-            if (subs == null) {
+            if (subs == null && !nomore) {
                 adapter.setError(true);
                 refreshLayout.setRefreshing(false);
-            } else {
+            } else if(!nomore) {
 
                 if (reset) {
                     posts = subs;
@@ -124,6 +124,8 @@ public class InboxMessages {
                     }
                     return done;
 
+                } else {
+                    nomore = true;
                 }
                 return null;
             } catch (Exception e) {

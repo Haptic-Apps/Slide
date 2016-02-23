@@ -62,7 +62,6 @@ public class SubredditSearchPosts extends GeneralPosts {
 
 
     }
-    boolean nomore = false;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
         final boolean reset;
@@ -108,7 +107,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                 }
 
                 if (finalStart != -1) {
-                    adapter.notifyItemRangeInserted(finalStart, posts.size());
+                    adapter.notifyItemRangeInserted(finalStart + 1, posts.size());
                 } else {
                     adapter.notifyDataSetChanged();
                 }
@@ -134,6 +133,7 @@ public class SubredditSearchPosts extends GeneralPosts {
 
                 if(!paginator.hasNext()){
                     nomore = true;
+                    return new ArrayList<>();
                 }
                 if (reset) {
                     nomore = false;
@@ -153,6 +153,8 @@ public class SubredditSearchPosts extends GeneralPosts {
                             newSubmissions.add(s);
 
                     }
+                } else {
+                    adapter.notifyDataSetChanged();
                 }
                 return newSubmissions;
             } catch (Exception e) {

@@ -81,12 +81,14 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     private SubmissionAdapter adapter;
     private SubredditPosts posts;
     public SwipeRefreshLayout mSwipeRefreshLayout;
+
     private void restartTheme() {
         Intent intent = this.getIntent();
         finish();
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -138,7 +140,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") &&!subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
                     builder.negativeText(getString(R.string.search_subreddit, subreddit))
                             .onNegative(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -186,6 +188,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     }
 
     public String term;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -271,10 +274,10 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
 
         rv.setLayoutManager(mLayoutManager);
-         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
 
-        rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)){
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -309,7 +312,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 }
             }
         });
-            mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
+        mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, SubredditView.this), Reddit.pxToDp(92, SubredditView.this));
 
@@ -319,7 +322,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 mSwipeRefreshLayout.setRefreshing(true);
             }
         });
-         posts = new SubredditPosts(subreddit);
+        posts = new SubredditPosts(subreddit);
         adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);
 
@@ -332,11 +335,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     public void onRefresh() {
                         posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, true, subreddit);
 
-                        //TODO catch errors
                     }
                 }
         );
-
 
 
     }
@@ -349,71 +350,71 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.setSorting(subreddit,  Sorting.HOT);
+                        Reddit.setSorting(subreddit, Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.setSorting(subreddit,   Sorting.NEW);
+                        Reddit.setSorting(subreddit, Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.setSorting(subreddit,   Sorting.RISING);
+                        Reddit.setSorting(subreddit, Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setSorting(subreddit, Sorting.TOP);
                         Reddit.setTime(subreddit, TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setSorting(subreddit, Sorting.TOP);
                         Reddit.setTime(subreddit, TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setSorting(subreddit, Sorting.TOP);
                         Reddit.setTime(subreddit, TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 6:
-                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setSorting(subreddit, Sorting.TOP);
                         Reddit.setTime(subreddit, TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 7:
-                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setSorting(subreddit, Sorting.TOP);
                         Reddit.setTime(subreddit, TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 8:
-                        Reddit.setSorting(subreddit,   Sorting.TOP);
+                        Reddit.setSorting(subreddit, Sorting.TOP);
                         Reddit.setTime(subreddit, TimePeriod.ALL);
                         reloadSubs();
                         break;
                     case 9:
-                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 10:
-                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 11:
-                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.WEEK);
                         reloadSubs();
                     case 12:
-                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.MONTH);
                         reloadSubs();
                     case 13:
-                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.YEAR);
                         reloadSubs();
                     case 14:
-                        Reddit.setSorting(subreddit,   Sorting.CONTROVERSIAL);
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.ALL);
                         reloadSubs();
                 }
@@ -465,6 +466,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             commentOverflow.removeAllViews();
         }
     }
+
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
@@ -520,11 +522,11 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         }
         if (!subreddit.getPublicDescription().isEmpty()) {
             findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
-            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow)findViewById(R.id.sub_title_overflow));
+            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow) findViewById(R.id.sub_title_overflow));
         } else {
             findViewById(R.id.sub_title).setVisibility(View.GONE);
         }
-        if(subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()){
+        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()) {
             ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
@@ -573,7 +575,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.toLowerCase().equals("friends")|| subreddit.equalsIgnoreCase("mod") || subreddit.contains("+")) {
+            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.toLowerCase().equals("friends") || subreddit.equalsIgnoreCase("mod") || subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
@@ -788,7 +790,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             @Override
             public void run() {
                 if (startIndex != -1) {
-                    adapter.notifyItemRangeInserted(startIndex, posts.posts.size());
+                    adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                 } else {
                     adapter.notifyDataSetChanged();
                 }
@@ -801,7 +803,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
-       runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();

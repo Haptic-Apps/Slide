@@ -76,7 +76,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.nomore) {
             return LOADING_SPINNER;
-        } else if (position == dataSet.posts.size() &&  dataSet.nomore) {
+        } else if (position == dataSet.posts.size() &&   dataSet.nomore) {
             return NO_MORE;
         }
         if (dataSet.posts.get(position) instanceof Comment)

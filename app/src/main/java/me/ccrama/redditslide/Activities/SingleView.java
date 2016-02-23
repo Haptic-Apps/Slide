@@ -28,28 +28,30 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+    public String subreddit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final String subreddit = getIntent().getExtras().getString("type", "");
+        subreddit = getIntent().getExtras().getString("type", "");
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-        final StaggeredGridLayoutManager mLayoutManager;
-
+        final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
         } else {
-            mLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new PreCachingLayoutManager(this);
 
         }
         rv.setLayoutManager(mLayoutManager);
-        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
         rv.setOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
@@ -92,6 +94,14 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
 
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, SingleView.this), Reddit.pxToDp(92, SingleView.this));
 
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refresh();
+                    }
+                }
+        );
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -99,37 +109,34 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
             }
         });
         posts = new SubredditPosts(subreddit);
-        adapter = new SubmissionAdapter(this, posts, rv, subreddit);
+        adapter = new SubmissionAdapter(this, posts, rv, posts.subreddit);
         rv.setAdapter(adapter);
+        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
 
-        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, true);
-
-        //TODO catch errors
-        mSwipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, true, subreddit);
-                        //TODO catch errors
-                    }
-                }
-        );
     }
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (startIndex != -1) {
-                    adapter.notifyItemRangeInserted(startIndex + 1 , posts.posts.size());
-                } else {
-                    adapter.notifyDataSetChanged();
-                }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mSwipeRefreshLayout != null) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
 
-            }
-        });
+                    if (startIndex != -1) {
+                        adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
     }
+    private void refresh() {
+        posts.forced = true;
+        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, subreddit);
+    }
+
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
