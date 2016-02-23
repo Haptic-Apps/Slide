@@ -19,7 +19,6 @@ import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Sendmessage;
@@ -37,13 +36,13 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final int SPACER = 6;
     public final Context mContext;
     private final RecyclerView listView;
-    public ArrayList<Message> dataSet;
+    public InboxMessages dataSet;
 
     public InboxAdapter(Context mContext, InboxMessages dataSet, RecyclerView listView) {
 
         this.mContext = mContext;
         this.listView = listView;
-        this.dataSet = dataSet.posts;
+        this.dataSet = dataSet;
 
         boolean isSame = false;
 
@@ -61,16 +60,17 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && dataSet.size() != 0) {
+        if (position == 0 && dataSet.posts.size() != 0 || position == dataSet.posts.size() && dataSet.nomore) {
+
             return SPACER;
-        } else if (dataSet.size() != 0) {
+        } else if (dataSet.posts.size() != 0) {
             position -= 1;
         }
-        if (position == dataSet.size()  &&dataSet.size() != 0) {
+        if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0) {
             return 5;
         }
 
-        if (!dataSet.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
+        if (!dataSet.posts.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
             return TOP_LEVEL;
 
         return 2;
@@ -104,7 +104,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder) && !(viewHolder instanceof SpacerViewHolder)) {
             final MessageViewHolder messageViewHolder = (MessageViewHolder) viewHolder;
 
-            final Message comment = dataSet.get(i);
+            final Message comment = dataSet.posts.get(i);
             messageViewHolder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
             messageViewHolder.user.setText(comment.getAuthor());
             messageViewHolder.title.setText(comment.getSubject());
@@ -184,10 +184,10 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (dataSet == null || dataSet.size() == 0) {
+        if (dataSet == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.size() + 2;
+            return dataSet.posts.size() + 2;
         }
     }
 
