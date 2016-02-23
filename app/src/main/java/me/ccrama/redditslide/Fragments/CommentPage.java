@@ -173,6 +173,8 @@ public class CommentPage extends Fragment {
 
     }
 
+    RecyclerView.OnScrollListener toolbarScroll;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
@@ -201,20 +203,21 @@ public class CommentPage extends Fragment {
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
-        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) v.findViewById(R.id.toolbar), v.findViewById(R.id.header)));
+        toolbarScroll = new ToolbarScrollHideHandler((Toolbar) v.findViewById(R.id.toolbar), v.findViewById(R.id.header));
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (comments.comments != null) {
-                    DataShare.sharedComments = comments.comments;
-                    DataShare.subAuthor = comments.submission.getAuthor();
-                    Intent i = new Intent(getActivity(), CommentSearch.class);
-                    startActivityForResult(i, 1);
-                }
+                                                           @Override
+                                                           public void onClick(View v) {
+                                                               if (comments.comments != null) {
+                                                                   DataShare.sharedComments = comments.comments;
+                                                                   DataShare.subAuthor = comments.submission.getAuthor();
+                                                                   Intent i = new Intent(getActivity(), CommentSearch.class);
+                                                                   startActivityForResult(i, 1);
+                                                               }
 
-            }
-        });
+                                                           }
+                                                       });
+        rv.addOnScrollListener(toolbarScroll);
         if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
@@ -303,7 +306,9 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
+                if( adapter.users == null ) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
             }
         });
         if (!single) {
@@ -368,13 +373,24 @@ public class CommentPage extends Fragment {
 
             int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
-            for (int i = pastVisiblesItems - 2; i >= 0; i--) {
+            for (int i = pastVisiblesItems - 3; i >= 0; i--) {
                 if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
 
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                         RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
                         smoothScroller.setTargetPosition(i + 2);
                         (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+
+                        rv.removeOnScrollListener(toolbarScroll);
+                        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                            @Override
+                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                    rv.setOnScrollListener(toolbarScroll);
+                                }
+                            }
+                        });
+
                         break;
                     }
             }
