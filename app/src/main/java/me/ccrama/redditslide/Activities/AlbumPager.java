@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.google.gson.JsonElement;
@@ -31,7 +32,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
@@ -44,7 +44,7 @@ import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -54,8 +54,9 @@ import me.ccrama.redditslide.util.SubmissionParser;
  * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
  * bars which Album.java doesn't.
  */
+
 public class AlbumPager extends BaseActivityAnim {
-    boolean gallery = false;
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -83,11 +84,12 @@ public class AlbumPager extends BaseActivityAnim {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
+        doWithData(AlbumUtils.getJsonElementsFromGallery(getIntent().getExtras().getString("url", ""), this));
         if(!Reddit.appRestart.contains("tutorialSwipeAlbum")){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
 
                     Tooltip.make(AlbumPager.this,
                             new Tooltip.Builder(106)
@@ -117,41 +119,55 @@ public class AlbumPager extends BaseActivityAnim {
         }
     }
 
-    public class LoadIntoPager extends AlbumUtils.GetAlbumJsonFromUrl {
 
-        public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
-            super(url, baseActivity);
+
+    private void doWithData(ArrayList<JsonElement> jsonElements) {
+        if (jsonElements == null) {
+            new AlertDialogWrapper.Builder(this)
+                    .setTitle(R.string.album_err_not_found)
+                    .setMessage(R.string.album_err_msg_not_found)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).create().show();
+            return;
+
+        }
+        images = new ArrayList<>(jsonElements);
+
+        ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(1 + "/" + images.size());
         }
 
-        @Override
-        public void doWithData(ArrayList<JsonElement> jsonElements) {
-            AlbumPager.this.gallery = LoadIntoPager.this.gallery;
-            images = new ArrayList<>(jsonElements);
 
-            ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+        AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+        p.setAdapter(adapter);
+        p.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(final int position, float positionOffset, int positionOffsetPixels) {
 
-            getSupportActionBar().setSubtitle(1 + "/" + images.size());
-
-            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
-            p.setAdapter(adapter);
-            p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (getSupportActionBar() != null) {
                     getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
                 }
+            }
 
-                @Override
-                public void onPageSelected(int position) {
+            @Override
+            public void onPageSelected(int position) {
 
-                }
+            }
 
-                @Override
-                public void onPageScrollStateChanged(int state) {
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-                }
-            });
-            adapter.notifyDataSetChanged();
-        }
+            }
+        });
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -166,14 +182,9 @@ public class AlbumPager extends BaseActivityAnim {
         @Override
         public Fragment getItem(int i) {
 
-            String url;
-            if (gallery) {
-                url = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".png");
-            } else {
-                url = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
-            }
+            boolean isGif = images.get(i).getAsJsonObject().get("animated").getAsBoolean();
 
-            if (url.contains("gif") || (images.get(i).getAsJsonObject().has("ext") && images.get(i).getAsJsonObject().get("ext").getAsString().contains("gif"))) {
+            if (isGif) {
                 //do gif stuff
                 Fragment f = new Gif();
                 Bundle args = new Bundle();
@@ -238,61 +249,35 @@ public class AlbumPager extends BaseActivityAnim {
 
             title.setVisibility(View.VISIBLE);
             desc.setVisibility(View.VISIBLE);
-            if (user.getAsJsonObject().has("image")) {
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    desc.setTextHtml(text.get(0));
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-                } else {
-                    desc.setVisibility(View.GONE);
-                }
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
 
-                    title.setTextHtml(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), "FORCE_LINK_HANDLING");
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
+            if (!user.getAsJsonObject().get("title").isJsonNull()) {
+                title.setTextHtml(user.getAsJsonObject().get("title").getAsString(), "FORCE_LINK_HANDLING");
+                if (title.getText().toString().isEmpty()) {
                     title.setVisibility(View.GONE);
                 }
             } else {
-                if (user.getAsJsonObject().has("title")) {
-                    desc.setTextHtml(user.getAsJsonObject().get("title").getAsString(), "FORCE_LINK_HANDLING");
+                title.setVisibility(View.GONE);
+            }
 
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
 
-                } else {
+            if (!user.getAsJsonObject().get("description").isJsonNull()) {
+                desc.setTextHtml(user.getAsJsonObject().get("description").getAsString(), "FORCE_LINK_HANDLING");
+
+                if (desc.getText().toString().isEmpty()) {
                     desc.setVisibility(View.GONE);
                 }
-                if (user.getAsJsonObject().has("description")) {
-                    title.setTextHtml(user.getAsJsonObject().get("description").getAsString(), "FORCE_LINK_HANDLING");
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
-                    title.setVisibility(View.GONE);
-                }
+            } else {
+                desc.setVisibility(View.GONE);
             }
+
             gif = rootView.findViewById(R.id.gif);
 
             gif.setVisibility(View.VISIBLE);
             final MediaVideoView v = (MediaVideoView) gif;
             v.clearFocus();
 
-            String dat;
-            if (gallery) {
 
-                dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
-
-            } else {
-                dat = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
-
-            }
-
+            String dat = images.get(i).getAsJsonObject().get("link").getAsString();
 
             new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, null, false).execute(dat);
 
@@ -323,15 +308,7 @@ public class AlbumPager extends BaseActivityAnim {
             final ViewGroup rootView = (ViewGroup) inflater.inflate(
                     R.layout.submission_imagecard_album, container, false);
 
-            String url;
-
-            if (gallery) {
-                url = ("https://imgur.com/" + user.getAsJsonObject().get("hash").getAsString() + ".png");
-
-            } else {
-                url = (user.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
-
-            }
+            String url = user.getAsJsonObject().get("link").getAsString();
 
             final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
             TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
@@ -352,7 +329,7 @@ public class AlbumPager extends BaseActivityAnim {
 
                         @Override
                         public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            Log.v("Slide", "LOADING FAILED");
+                            Log.v(LogUtil.getTag(), "LOADING FAILED");
 
                         }
 
@@ -364,7 +341,7 @@ public class AlbumPager extends BaseActivityAnim {
 
                         @Override
                         public void onLoadingCancelled(String imageUri, View view) {
-                            Log.v("Slide", "LOADING CANCELLED");
+                            Log.v(LogUtil.getTag(), "LOADING CANCELLED");
 
                         }
                     }, new ImageLoadingProgressListener() {
@@ -375,49 +352,27 @@ public class AlbumPager extends BaseActivityAnim {
                     });
             title.setVisibility(View.VISIBLE);
             desc.setVisibility(View.VISIBLE);
-            if (user.getAsJsonObject().has("image")) {
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    title.setTextHtml(text.get(0));
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-                } else {
-                    desc.setVisibility(View.GONE);
 
-                }
-
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
+            if (!user.getAsJsonObject().get("title").isJsonNull()) {
+                title.setTextHtml(user.getAsJsonObject().get("title").getAsString(), "FORCE_LINK_HANDLING");
+                if (title.getText().toString().isEmpty()) {
                     title.setVisibility(View.GONE);
-
                 }
             } else {
-                if (user.getAsJsonObject().has("title")) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-                } else {
+                title.setVisibility(View.GONE);
+            }
+
+
+            if (!user.getAsJsonObject().get("description").isJsonNull()) {
+                desc.setTextHtml(user.getAsJsonObject().get("description").getAsString(), "FORCE_LINK_HANDLING");
+
+                if (desc.getText().toString().isEmpty()) {
                     desc.setVisibility(View.GONE);
                 }
-
-                if (user.getAsJsonObject().has("description")) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
-                    title.setVisibility(View.GONE);
-                }
+            } else {
+                desc.setVisibility(View.GONE);
             }
+
             return rootView;
         }
 

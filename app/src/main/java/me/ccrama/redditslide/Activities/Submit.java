@@ -43,6 +43,7 @@ import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.DoEditorActions;
+import me.ccrama.redditslide.Views.OpenImgurLink;
 
 
 /**
@@ -459,7 +460,7 @@ public class Submit extends BaseActivity {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
+                conn.setRequestProperty("Authorization", OpenImgurLink.IMGUR_CLIENT_ID);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");

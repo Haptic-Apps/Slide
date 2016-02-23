@@ -98,7 +98,7 @@ public class GifUtils {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
 
-                Log.v("Slide", "http://gfycat.com/cajax/get" + s);
+                Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/get" + s);
                 Ion.with(c)
                         .load("http://gfycat.com/cajax/get" + s)
                         .asJsonObject()
@@ -159,7 +159,7 @@ public class GifUtils {
                                                 int readBytes = 0;
                                                 while ((len = inStream.read(buff)) != -1) {
                                                     outStream.write(buff, 0, len);
-                                                    Log.v("Slide", f.length() + " OVER " + length);
+                                                    Log.v(LogUtil.getTag(), f.length() + " OVER " + length);
                                                     final int percent = Math.round(100.0f * f.length() / length);
                                                     if (progressBar != null) {
                                                         c.runOnUiThread(new Runnable() {
@@ -291,7 +291,8 @@ public class GifUtils {
             } else {
 
                 final String finalS = s;
-                Log.v("Slide", "https://gfycat.com/cajax/checkUrl/" + s);
+
+                Log.v(LogUtil.getTag(), "https://gfycat.com/cajax/checkUrl/" + s);
 
                 Ion.with(c).load("https://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                     @Override
@@ -631,7 +632,7 @@ public class GifUtils {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
 
-                Log.v("Slide", "http://gfycat.com/cajax/get" + s);
+                Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/get" + s);
                 Ion.with(c)
                         .load("http://gfycat.com/cajax/get" + s)
                         .asJsonObject()
@@ -708,7 +709,7 @@ public class GifUtils {
                 s = s.trim();
 
                 final String finalS = s;
-                Log.v("Slide", "http://gfycat.com/cajax/checkUrl/" + s);
+                Log.v(LogUtil.getTag(), "http://gfycat.com/cajax/checkUrl/" + s);
 
                 Ion.with(c).load("http://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                     @Override

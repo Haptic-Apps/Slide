@@ -286,7 +286,7 @@ public class DoEditorActions {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
+                conn.setRequestProperty("Authorization", OpenImgurLink.IMGUR_CLIENT_ID);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");

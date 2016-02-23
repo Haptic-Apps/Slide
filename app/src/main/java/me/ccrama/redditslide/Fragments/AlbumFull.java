@@ -60,7 +60,7 @@ public class AlbumFull extends Fragment {
 
         list.setVisibility(View.VISIBLE);
 
-            new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list).execute(s.getUrl());
+            AlbumUtils.loadGalleryAndDisplay(s.getUrl(), getActivity(), false, null, (RecyclerView) list);
 
 
 
