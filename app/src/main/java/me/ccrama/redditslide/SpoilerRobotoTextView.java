@@ -139,7 +139,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 builder.setSpan(new StrikethroughSpan(), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 builder.delete(end, end + offset);
                 builder.delete(start - offset, start);
-                i -= offset * 2;
+                i -= offset + (end - start); // length of text
             }
         }
     }
