@@ -306,7 +306,7 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if( adapter.users == null ) {
+                if(adapter == null ||  adapter.users == null ) {
                     mSwipeRefreshLayout.setRefreshing(true);
                 }
             }

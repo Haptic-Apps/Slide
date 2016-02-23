@@ -104,7 +104,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * @param subreddit the subreddit to theme
      */
     public void setTextHtml(CharSequence text, String subreddit) {
+
         SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text.toString().trim());
+
         setCodeFont(builder);
         setSpoilerStyle(builder);
         if (text.toString().contains("[[d[")) {
@@ -429,4 +431,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
         return sequence;
     }
+
+
 }
