@@ -175,10 +175,14 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             final RecyclerView.LayoutManager mLayoutManager;
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
             } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
                 mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
+                adapter.spanned = false;
 
             }
 
@@ -189,6 +193,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         } else {
             int i = 0;
+            final RecyclerView.LayoutManager mLayoutManager;
 
             if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                 int[] firstVisibleItems = null;
@@ -199,8 +204,18 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             } else {
                 i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
             }
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+
+            } else {
+                mLayoutManager = new PreCachingLayoutManager(getContext());
+                adapter.spanned = false;
+
+            }
             rv.setLayoutManager(mLayoutManager);
             mLayoutManager.scrollToPosition(i);
         }
@@ -422,7 +437,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                                 rv.setItemAnimator(new FadeInAnimator());
 
-                            adapter.notifyItemRemoved(i + 1 + adapter.extra);
+                            adapter.notifyItemRemoved(i + 1);
                         }
                     }
                 } catch (IndexOutOfBoundsException e) {
@@ -482,7 +497,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-          //  loadImages(submissions);
+            //  loadImages(submissions);
         }
     }
 

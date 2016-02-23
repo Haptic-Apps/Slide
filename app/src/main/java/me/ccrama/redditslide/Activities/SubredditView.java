@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
@@ -267,13 +268,13 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
         } else {
             mLayoutManager = new PreCachingLayoutManager(this);
 
         }
-
-
         rv.setLayoutManager(mLayoutManager);
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
 
 
@@ -341,7 +342,63 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
 
     }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
 
+        super.onConfigurationChanged(newConfig);
+        int currentOrientation = getResources().getConfiguration().orientation;
+
+
+        if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            int i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+            final RecyclerView.LayoutManager mLayoutManager;
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+
+            } else {
+                mLayoutManager = new PreCachingLayoutManager(this);
+                adapter.spanned = false;
+
+            }
+
+            rv.setLayoutManager(mLayoutManager);
+
+            mLayoutManager.scrollToPosition(i);
+
+
+        } else {
+            int i = 0;
+            final RecyclerView.LayoutManager mLayoutManager;
+
+            if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                int[] firstVisibleItems = null;
+                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    i = firstVisibleItems[0];
+                }
+            } else {
+                i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+            }
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                adapter.spanned = true;
+
+            } else {
+                mLayoutManager = new PreCachingLayoutManager(this);
+                adapter.spanned = false;
+
+            }
+            rv.setLayoutManager(mLayoutManager);
+            mLayoutManager.scrollToPosition(i);
+        }
+    }
     public void openPopup() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {

@@ -34,6 +34,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.MultiRedditUpdateRequest;
 import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
@@ -96,12 +97,7 @@ public class CreateMulti extends BaseActivityAnim {
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
 
-        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        findViewById(R.id.delete).setVisibility(View.GONE); //todo make this work
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

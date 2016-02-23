@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,18 +45,14 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final MultiredditPosts dataSet;
     private final RecyclerView listView;
     private final int SPACER = 6;
+    public boolean spanned;
 
-    public int extra;
     public MultiredditAdapter(Activity mContext, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout) {
         this.mContext = mContext;
         this.refreshLayout = refreshLayout;
         this.listView = listView;
         this.dataSet = dataSet;
-        if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-            extra = Reddit.dpWidth - 1;
-        } else if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-            extra = 1;
-        }
+        spanned = listView.getLayoutManager() instanceof StaggeredGridLayoutManager;
     }
 
     @Override
@@ -70,16 +67,17 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if (position <= extra && dataSet.posts.size() != 0) {
+        if (position <= 0 && dataSet.posts.size() != 0) {
             return SPACER;
         } else if (dataSet.posts.size() != 0) {
-            position -= (1 + extra);
+            position -= 1;
         }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0) {
             return 5;
         }
         return 1;
     }
+
     SwipeRefreshLayout refreshLayout;
 
     @Override
@@ -88,8 +86,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
 
-        } else
-        if (i == 5) {
+        } else if (i == 5) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
             return new ContributionAdapter.EmptyViewHolder(v);
         } else {
@@ -97,15 +94,17 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return new SubmissionViewHolder(v);
         }
     }
+
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
     }
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder2,  int pos) {
 
-        int i = pos != 0?pos - 1 - extra:pos;
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder2, int pos) {
+
+        int i = pos != 0 ? pos - 1 : pos;
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
             final Submission submission = dataSet.posts.get(i);
@@ -119,14 +118,12 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     if (SettingValues.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
-                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - (1 + extra));
+                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                         i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
-
-                        (mContext).startActivity(i2);
-
+                        mContext.startActivityForResult(i2, 2);
                     } else {
                         Intent i2 = new Intent(mContext, CommentsScreen.class);
-                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - (1 + extra));
+                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                         i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
                         mContext.startActivityForResult(i2, 2);
                     }
@@ -135,7 +132,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
 
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, "multi" +dataSet.getMultiReddit().getDisplayName());
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, "multi" + dataSet.getMultiReddit().getDisplayName());
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -252,8 +249,13 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
         }
-        if(holder2 instanceof SpacerViewHolder){
+        if (holder2 instanceof SpacerViewHolder) {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (mContext).findViewById(R.id.header).getHeight()));
+            if (spanned) {
+                StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                layoutParams.setFullSpan(true);
+                holder2.itemView.setLayoutParams(layoutParams);
+            }
         }
     }
 
@@ -262,7 +264,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + 2 + extra;
+            return dataSet.posts.size() + 2;
         }
     }
 

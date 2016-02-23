@@ -115,23 +115,16 @@ public class MultiredditPosts implements PostLoader {
                 final int finalStart = start;
                 // update online
 
+                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName()).overwriteSubmissions(posts).writeToMemory();
 
-                if(adapter != null) {
-                    if (finalStart != -1) {
-                        adapter.notifyItemRangeInserted(finalStart + 1, posts.size());
-                    } else {
-                        adapter.notifyDataSetChanged();
-                    }
-                    adapter.refreshLayout.setRefreshing(false);
-
-                }
+               displayer.updateSuccess(posts, finalStart);
 
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
             } else if (!nomore && adapter != null) {
                 // error
-                adapter.setError(true);
+                displayer.updateError();
                 adapter.refreshLayout.setRefreshing(false);
             }
         }
