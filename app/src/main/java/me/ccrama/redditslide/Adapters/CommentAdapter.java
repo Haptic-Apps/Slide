@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -255,6 +256,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void setError(boolean b) {
         listView.setAdapter(new ErrorAdapter());
     }
+
     private ValueAnimator slideAnimator(int start, int end, final View v) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
         animator.setInterpolator(new FastOutSlowInInterpolator());
@@ -271,6 +273,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         return animator;
     }
+
     private void collapse(final View v) {
         int finalHeight = v.getHeight();
 
@@ -300,6 +303,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         mAnimator.start();
     }
+
     private void doShowMenu(final View l) {
         l.setVisibility(View.VISIBLE);
 
@@ -312,7 +316,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
-        ValueAnimator mAnimator = slideAnimator(l.getMeasuredHeight(),l2.getMeasuredHeight(), l);
+        ValueAnimator mAnimator = slideAnimator(l.getMeasuredHeight(), l2.getMeasuredHeight(), l);
 
         mAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -338,6 +342,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         mAnimator.start();
     }
+
     private void expand(final View l) {
 
         l.setVisibility(View.VISIBLE);
@@ -353,10 +358,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         l2.measure(widthSpec2, heightSpec2);
 
 
-        ValueAnimator mAnimator = slideAnimator(0, l.getMeasuredHeight()- l2.getMeasuredHeight() , l);
+        ValueAnimator mAnimator = slideAnimator(0, l.getMeasuredHeight() - l2.getMeasuredHeight(), l);
 
         mAnimator.start();
     }
+
     private void expand(final View l, boolean b) {
 
         l.setVisibility(View.VISIBLE);
@@ -365,16 +371,41 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l.measure(widthSpec, heightSpec);
 
-        View l2 = l.findViewById(R.id.replyArea);
+        final View l2 = l.findViewById(R.id.replyArea);
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
 
 
-        ValueAnimator mAnimator = slideAnimator((l.getMeasuredHeight() - l2.getMeasuredHeight()), l.getMeasuredHeight() - (l.getMeasuredHeight() - l2.getMeasuredHeight()) , l);
+        ValueAnimator mAnimator = slideAnimator((l.getMeasuredHeight() - l2.getMeasuredHeight()), l.getMeasuredHeight() - (l.getMeasuredHeight() - l2.getMeasuredHeight()), l);
 
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) l.getLayoutParams();
+                params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+                params.addRule(RelativeLayout.BELOW, R.id.background);
+                l.setLayoutParams(params);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         mAnimator.start();
     }
+
     public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, baseNode);
@@ -1424,7 +1455,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (holder.firstTextView.getVisibility() == View.VISIBLE && SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.GONE);
                         holder.commentOverflow.setVisibility(View.GONE);
-                    } else if(SettingValues.collapseComments){
+                    } else if (SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.VISIBLE);
                         holder.commentOverflow.setVisibility(View.VISIBLE);
                     }
