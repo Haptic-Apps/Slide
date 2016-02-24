@@ -266,7 +266,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                            if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
 
