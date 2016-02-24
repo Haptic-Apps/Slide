@@ -32,13 +32,13 @@ public class TimeUtils {
             return res.getString(R.string.time_just_now);
         } else if (diff < 60 * MINUTE_MILLIS) {
             Integer value = longToInt(diff / MINUTE_MILLIS);
-            return res.getQuantityString(R.plurals.time_minutes_ago, value, value);
+            return  value + "m";
         } else if (diff < 24 * HOUR_MILLIS) {
             Integer value = longToInt(diff / HOUR_MILLIS);
-            return res.getQuantityString(R.plurals.time_hours_ago, value, value);
+            return value + "h";
         } else {
             Integer value = longToInt(diff / DAY_MILLIS);
-            return res.getQuantityString(R.plurals.time_days_ago, value, value);
+            return value + "d";
         }
 
     }

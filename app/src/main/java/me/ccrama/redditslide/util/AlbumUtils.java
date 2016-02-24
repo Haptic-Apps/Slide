@@ -156,72 +156,77 @@ public class AlbumUtils {
             }
         }
 
-        public void doAlbum(JsonObject result) {
-            Dialog dialog = new AlertDialogWrapper.Builder(baseActivity)
-                    .setTitle(R.string.album_err_not_found)
-                    .setMessage(R.string.album_err_msg_not_found)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            baseActivity.finish();
-                        }
-                    }).create();
+        public void doAlbum(final JsonObject result) {
+            baseActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Dialog dialog = new AlertDialogWrapper.Builder(baseActivity)
+                            .setTitle(R.string.album_err_not_found)
+                            .setMessage(R.string.album_err_msg_not_found)
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    baseActivity.finish();
+                                }
+                            }).create();
 
 
-            if (result != null) {
-                Log.v(LogUtil.getTag(), result.toString());
+                    if (result != null) {
+                        Log.v(LogUtil.getTag(), result.toString());
 
-                final ArrayList<JsonElement> jsons = new ArrayList<>();
+                        final ArrayList<JsonElement> jsons = new ArrayList<>();
 
-                if (result.has("album")) {
-                    if (supportActionBar != null)
-                        if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
-                            supportActionBar.setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
+                        if (result.has("album")) {
+                            if (supportActionBar != null)
+                                if (result.get("album").getAsJsonObject().has("title") && !result.get("album").isJsonNull() && !result.get("album").getAsJsonObject().get("title").isJsonNull()) {
+                                    supportActionBar.setTitle(result.get("album").getAsJsonObject().get("title").getAsString());
+                                } else {
+                                    supportActionBar.setTitle("Album");
+                                }
+                            JsonObject obj = result.getAsJsonObject("album");
+                            if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+
+                                final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+
+                                for (JsonElement o : jsonAuthorsArray) {
+                                    jsons.add(o);
+                                }
+
+
+                                if (recyclerView != null) {
+                                    final PreCachingLayoutManager mLayoutManager;
+                                    mLayoutManager = new PreCachingLayoutManager(baseActivity);
+                                    recyclerView.setLayoutManager(mLayoutManager);
+                                    recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false));
+                                }
+
+                            } else {
+
+                                if (finishIfNone) {
+                                    new AlertDialogWrapper.Builder(baseActivity)
+                                            .setTitle(R.string.album_err_not_found)
+                                            .setMessage(R.string.album_err_msg_not_found)
+                                            .setCancelable(false)
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    baseActivity.finish();
+                                                }
+                                            }).create().show();
+                                }
+                            }
                         } else {
-                            supportActionBar.setTitle("Album");
+                            if (finishIfNone)
+                                dialog.show();
                         }
-                    JsonObject obj = result.getAsJsonObject("album");
-                    if (obj != null && !obj.isJsonNull() && obj.has("images")) {
-
-                        final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
-
-                        for (JsonElement o : jsonAuthorsArray) {
-                            jsons.add(o);
-                        }
-
-
-                        if (recyclerView != null) {
-                            final PreCachingLayoutManager mLayoutManager;
-                            mLayoutManager = new PreCachingLayoutManager(baseActivity);
-                            recyclerView.setLayoutManager(mLayoutManager);
-                            recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false));
-                        }
-
                     } else {
+                        if (finishIfNone)
 
-                        if (finishIfNone) {
-                            new AlertDialogWrapper.Builder(baseActivity)
-                                    .setTitle(R.string.album_err_not_found)
-                                    .setMessage(R.string.album_err_msg_not_found)
-                                    .setCancelable(false)
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            baseActivity.finish();
-                                        }
-                                    }).create().show();
-                        }
+                            dialog.show();
                     }
-                } else {
-                    if (finishIfNone)
-                        dialog.show();
                 }
-            } else {
-                if (finishIfNone)
-
-                    dialog.show();
-            }
+            });
         }
 
         @Override
@@ -315,9 +320,7 @@ public class AlbumUtils {
                 final ArrayList<JsonElement> jsons = new ArrayList<>();
 
 
-
-
-                if(result.has("album_images")) {
+                if (result.has("album_images")) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
@@ -329,7 +332,7 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
-                } else if(result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")){
+                } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
@@ -341,16 +344,16 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
-                } else if(result.get("data").getAsJsonObject().has("image")) {
-                        if ( result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
-                            Intent i = new Intent(baseActivity, GifView.class);
-                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
-                            baseActivity.startActivity(i);
-                        } else {
-                            Intent i = new Intent(baseActivity, FullscreenImage.class);
-                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
-                            baseActivity.startActivity(i);
-                        }
+                } else if (result.get("data").getAsJsonObject().has("image")) {
+                    if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
+                        Intent i = new Intent(baseActivity, GifView.class);
+                        i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                        baseActivity.startActivity(i);
+                    } else {
+                        Intent i = new Intent(baseActivity, FullscreenImage.class);
+                        i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                        baseActivity.startActivity(i);
+                    }
                     baseActivity.finish();
                 }
             }
@@ -387,8 +390,8 @@ public class AlbumUtils {
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
 
             if (gallery) {
-                if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json" ) && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
-                        Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
+                if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json") && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
+                    Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
                     baseActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

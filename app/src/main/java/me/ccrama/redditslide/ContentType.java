@@ -182,7 +182,7 @@ public class ContentType {
 
         if (isRedditLink(url)) {
             return ImageType.REDDIT;
-        } else if (url.contains("youtube.com") || url.contains("youtu.be")) {
+        } else if (url.substring(0, 20).contains("youtube.com") || url.substring(0, 15).contains("youtu.be")) {
             return ImageType.VIDEO;
         }
         if(isImgurLink(url)){

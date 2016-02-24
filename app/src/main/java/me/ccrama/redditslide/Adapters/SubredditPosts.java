@@ -8,6 +8,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.SubredditPaginator;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -112,10 +113,11 @@ public class SubredditPosts implements PostLoader {
                     new MySynccitReadTask().execute(ids);
                 }
                 if (reset || offline || posts == null) {
-                    posts = submissions;
+                    posts = new ArrayList<>(new LinkedHashSet(submissions));
                     start = -1;
                 } else {
                     posts.addAll(submissions);
+                    posts = new ArrayList<>(new LinkedHashSet(posts));
                     offline = false;
                 }
 
