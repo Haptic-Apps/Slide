@@ -7,31 +7,19 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="8dp"
 
-    android:layout_marginRight="8dp"
-
-    android:layout_marginTop="4dp"
     android:gravity="center"
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
 
-    cardview:cardCornerRadius="2dp">
+    cardview:cardCornerRadius="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground"
-        android:orientation="vertical"
-
-        android:paddingBottom="8dp">
-
-        <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
-            android:id="@+id/headerimage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        android:orientation="vertical">
 
 
         <RelativeLayout
@@ -40,100 +28,114 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage">
 
-            <me.ccrama.redditslide.Views.TitleTextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_toLeftOf="@+id/thumbimage2"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:tag="tint"
-                android:text="@string/example_title"
-
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_cardtitle" />
-
-
-            <TextView
-                android:id="@+id/information"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/title"
-                android:layout_gravity="start"
-                android:layout_toLeftOf="@+id/thumbimage2"
-                android:gravity="center_vertical"
-                android:paddingBottom="2dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp"
-                android:tag="tint"
-                android:text="@string/example_time"
-                android:textSize="?attr/font_cardinfo" />
-
-
-            <LinearLayout
-                android:id="@+id/bod"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/information"
-                android:layout_toLeftOf="@+id/thumbimage2"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp">
-
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-
-                    android:tag="tint"
-                    android:text="@string/example_points"
-
-                    android:textSize="?attr/font_cardinfo" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:tag="tint"
-                    android:text="@string/submission_properties_seperator"
-
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_cardinfo" />
-
-                <TextView
-                    android:id="@+id/comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-
-                    android:tag="tint"
-                    android:text="@string/example_comments"
-
-                    android:textSize="?attr/font_cardinfo" />
-
-            </LinearLayout>
-
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/thumbimage2"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="36dp"
-                android:layout_marginRight="8dp"
-
-
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/chameleon"
                 app:riv_corner_radius="2dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/thumbimage2">
+
+                <me.ccrama.redditslide.Views.TitleTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:tag="tint"
+                    android:text="@string/example_title"
+
+                    android:textColor="?attr/font"
+                    android:textSize="?attr/font_cardtitle" />
+
+
+                <TextView
+                    android:id="@+id/information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="8dp"
+                    android:tag="tint"
+                    android:text="@string/example_time"
+                    android:textSize="?attr/font_cardinfo" />
+
+
+                <LinearLayout
+                    android:id="@+id/bod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_below="@+id/information"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="8dp">
+
+                    <TextView
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center_vertical"
+
+                        android:tag="tint"
+                        android:text="@string/example_points"
+
+                        android:textSize="?attr/font_cardinfo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tag="tint"
+                        android:text="@string/submission_properties_seperator"
+
+                        android:textColor="?attr/font"
+                        android:textSize="?attr/font_cardinfo" />
+
+                    <TextView
+                        android:id="@+id/comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:gravity="center_vertical"
+
+                        android:tag="tint"
+                        android:text="@string/example_comments"
+
+                        android:textSize="?attr/font_cardinfo" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/menu"
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:src="@drawable/more"
+                android:tag="tint"
+
+                android:tint="?attr/tint" />
+
         </RelativeLayout>
 
         <RelativeLayout
@@ -144,7 +146,8 @@
             android:layout_marginBottom="-8dp"
             android:orientation="horizontal"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+            android:paddingRight="8dp"
+            android:visibility="gone">
 
 
             <include
@@ -240,7 +243,7 @@
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/menu"
+                android:layout_alignParentRight="true"
                 android:padding="8dp"
                 android:src="@drawable/downvote"
 
@@ -259,18 +262,6 @@
                 android:tag="tint"
                 android:tint="?attr/tint" />
 
-
-            <ImageView
-                android:id="@+id/menu"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:padding="8dp"
-                android:src="@drawable/more"
-                android:tag="tint"
-
-                android:tint="?attr/tint" />
 
         </RelativeLayout>
 

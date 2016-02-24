@@ -723,7 +723,7 @@ public class PopulateSubmissionViewHolder {
                                 final T t = posts.get(pos);
                                 posts.remove(submission);
 
-                                recyclerview.getAdapter().notifyItemRemoved(pos);
+                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 d.dismiss();
                                 Hidden.setHidden((Contribution) t);
 
@@ -740,7 +740,7 @@ public class PopulateSubmissionViewHolder {
                                             OfflineSubreddit.getSubreddit(baseSub).unhideLast();
                                         }
                                         posts.add(pos, t);
-                                        recyclerview.getAdapter().notifyItemInserted(pos);
+                                        recyclerview.getAdapter().notifyItemInserted(pos + 1);
                                         Hidden.undoHidden((Contribution) t);
 
                                     }
@@ -800,29 +800,32 @@ public class PopulateSubmissionViewHolder {
                     @Override
                     public void onClick(View v) {
                         final int pos = posts.indexOf(submission);
-                        final T t = posts.get(pos);
-                        posts.remove(submission);
+                        if (pos != -1) {
 
-                        recyclerview.getAdapter().notifyItemRemoved(pos);
-                        if (!offline)
-                            Hidden.setHidden((Contribution) t);
-                        if (baseSub != null) {
-                            Log.v(LogUtil.getTag(), "HIDING POST2");
+                            final T t = posts.get(pos);
+                            posts.remove(submission);
 
-                            OfflineSubreddit.getSubreddit(baseSub).hide(pos);
-                        }
-                        Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (baseSub != null) {
-                                    OfflineSubreddit.getSubreddit(baseSub).unhideLast();
-                                }
-                                posts.add(pos, t);
-                                recyclerview.getAdapter().notifyItemInserted(pos);
-                                Hidden.undoHidden((Contribution) t);
+                            recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                            if (!offline)
+                                Hidden.setHidden((Contribution) t);
+                            if (baseSub != null) {
+                                Log.v(LogUtil.getTag(), "HIDING POST2");
 
+                                OfflineSubreddit.getSubreddit(baseSub).hide(pos);
                             }
-                        }).show();
+                            Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (baseSub != null) {
+                                        OfflineSubreddit.getSubreddit(baseSub).unhideLast();
+                                    }
+                                    posts.add(pos, t);
+                                    recyclerview.getAdapter().notifyItemInserted(pos + 1);
+                                    Hidden.undoHidden((Contribution) t);
+
+                                }
+                            }).show();
+                        }
                     }
                 });
             } else {
@@ -1013,7 +1016,7 @@ public class PopulateSubmissionViewHolder {
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
-        if (HasSeen.getSeen(submission.getFullName()) && !full || ( submission.getDataNode().has("visited") && submission.getDataNode().get("visited").asBoolean()) && !full) {
+        if (HasSeen.getSeen(submission.getFullName()) && !full || (submission.getDataNode().has("visited") && submission.getDataNode().get("visited").asBoolean()) && !full) {
             holder.itemView.setAlpha(0.65f);
         } else {
             holder.itemView.setAlpha(1.0f);

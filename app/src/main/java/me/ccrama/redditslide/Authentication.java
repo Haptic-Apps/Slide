@@ -52,7 +52,7 @@ public class Authentication {
 
             hasDone = true;
             isLoggedIn = false;
-            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME) );
+            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
             didOnline = true;
 
             new VerifyCredentials(context).execute();
@@ -61,7 +61,7 @@ public class Authentication {
         } else {
             isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             name = Reddit.appRestart.getString("name", "");
-            if((name.isEmpty() || !isLoggedIn) &&!authentication.getString("lasttoken", "").isEmpty() ){
+            if ((name.isEmpty() || !isLoggedIn) && !authentication.getString("lasttoken", "").isEmpty()) {
                 for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
                     if (s.contains(authentication.getString("lasttoken", ""))) {
                         name = (s.split(":")[0]);
@@ -101,7 +101,7 @@ public class Authentication {
                             final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                             Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
-                                OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+                            OAuthHelper oAuthHelper = reddit.getOAuthHelper();
 
                             oAuthHelper.setRefreshToken(refresh);
                             OAuthData finalData = oAuthHelper.refreshToken(credentials);
@@ -121,6 +121,7 @@ public class Authentication {
                             Log.v(LogUtil.getTag(), "AUTHENTICATED");
                         } catch (Exception e) {
                             try {
+
                                 ((Activity) context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -141,7 +142,7 @@ public class Authentication {
                                     }
                                 });
                             } catch (Exception ignored) {
-
+                                ignored.printStackTrace();
                             }
                             e.printStackTrace();
                         }
@@ -197,7 +198,6 @@ public class Authentication {
         }
 
     }
-
 
 
     public class VerifyCredentials extends AsyncTask<String, Void, Void> {

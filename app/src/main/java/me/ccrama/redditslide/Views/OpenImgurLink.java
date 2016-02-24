@@ -10,6 +10,7 @@ import com.koushikdutta.ion.Ion;
 
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -23,38 +24,46 @@ public class OpenImgurLink {
 
         String hash = url.substring(url.lastIndexOf("/"), url.length());
 
-        if(NetworkUtil.isConnected(c))
-        Ion.with(c).load("https://api.imgur.com/2/image/" + hash + ".json")
-                .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-            @Override
-            public void onCompleted(Exception e, JsonObject obj) {
-                if (obj.has("error")) {
-                    ((Activity) c).finish();
-                } else {
-                    String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
-                    String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
-
-                    if (type.contains("gif")) {
-                        Intent i = new Intent(c, GifView.class);
-                        i.putExtra(GifView.EXTRA_URL, urls);
-                        c.startActivity(i);
-                        ((Activity)c).overridePendingTransition(0, 0);
-
+        if(NetworkUtil.isConnected(c)) {
+            final String finalUrl = url;
+            Ion.with(c).load("https://api.imgur.com/2/image/" + hash + ".json")
+                    .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject obj) {
+                    if (obj.has("error")) {
                         ((Activity) c).finish();
-
-
                     } else {
-                        Intent i = new Intent(c, FullscreenImage.class);
-                        i.putExtra(FullscreenImage.EXTRA_URL, urls);
-                        c.startActivity(i);
-                        ((Activity)c).overridePendingTransition(0, 0);
+                        try {
+                            String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
+                            String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
 
-                        ((Activity) c).finish();
+                            if (type.contains("gif")) {
+                                Intent i = new Intent(c, GifView.class);
+                                i.putExtra(GifView.EXTRA_URL, urls);
+                                c.startActivity(i);
+                                ((Activity) c).overridePendingTransition(0, 0);
 
+                                ((Activity) c).finish();
+
+
+                            } else {
+                                Intent i = new Intent(c, FullscreenImage.class);
+                                i.putExtra(FullscreenImage.EXTRA_URL, urls);
+                                c.startActivity(i);
+                                ((Activity) c).overridePendingTransition(0, 0);
+
+                                ((Activity) c).finish();
+
+                            }
+                        } catch (Exception e2){
+                            Intent i = new Intent(c, Website.class);
+                            i.putExtra(Website.EXTRA_URL, finalUrl);
+                            c.startActivity(i);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
 
     }

@@ -119,15 +119,21 @@ public class YouTubeView extends BaseYoutubePlayer implements
     }
 
     //Adapted http://stackoverflow.com/questions/24048308/how-to-get-the-video-id-from-a-youtube-url-with-regex-in-java
-    public static String extractYTId(String ytUrl) {
+    public String extractYTId(String ytUrl) {
         String vId = null;
         Pattern pattern = Pattern.compile(
                 "youtu(?:\\.be/|be\\.com/(?:watch\\?v=|v/|embed/|user/(?:[\\w#]+/)+))([^&#?\\n]+)",
                 Pattern.CASE_INSENSITIVE);
 
         Matcher matcher = pattern.matcher(ytUrl);
-        matcher.find();
-        vId = matcher.group(1);
+        if (matcher.find()) {
+            vId = matcher.group(1);
+        } else {
+            Intent i = new Intent(YouTubeView.this, Website.class);
+            i.putExtra(Website.EXTRA_URL, ytUrl);
+            startActivity(i);
+            finish();
+        }
 
         return vId;
     }
