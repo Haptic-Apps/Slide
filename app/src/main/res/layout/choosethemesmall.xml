@@ -137,6 +137,36 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/blue"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#37474F"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:src="@drawable/theme"
+                            android:tint="#ffffff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/theme_dark_blue"
+
+                            android:textColor="#ffffff"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

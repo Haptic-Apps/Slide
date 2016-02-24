@@ -47,15 +47,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="yellow_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-
-    </style>
-
-    <style name="white_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-
-    </style>
+   
 
     <style name="white_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_blue_grey_200</item>
@@ -66,11 +58,7 @@
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
-    <style name="pink_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_pink_A200</item>
-
-    </style>
-
+   
     <style name="pink_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_pink_A200</item>
 
@@ -78,6 +66,20 @@
 
     <style name="pink_light" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
+
+    <style name="pink_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
+    <style name="yellow_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+
+    </style>
+
+    <style name="white_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
 
     </style>
     <style name="amber_dark" parent="Theme.DARK">
@@ -120,6 +122,59 @@
 
     </style>
 
+
+    <style name="pink_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
+    <style name="yellow_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+
+    </style>
+
+    <style name="white_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+
+    </style>
+    <style name="amber_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_amber_A700</item>
+
+    </style>
+
+    <style name="blue_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_blue_A700</item>
+
+    </style>
+
+    <style name="lightblue_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+
+    </style>
+
+    <style name="deeporange_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+
+    </style>
+
+    <style name="cyan_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+
+    </style>
+
+    <style name="green_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_green_A700</item>
+
+    </style>
+
+    <style name="indigo_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+
+    </style>
+
+    <style name="lime_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_lime_A700</item>
+
+    </style>
 
     <style name="yellow_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_yellow_A700</item>
@@ -291,7 +346,18 @@
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
     </style>
+    <style name="Theme.DARK_BLUE" parent="swipestyle">
+        <item name="activity_background">#2F3D44</item>
+        <item name="card_background">#37474F</item>
+        <item name="list_background">#263238</item>
+        <item name="bottomSheetStyle">@style/BottomSheet.Dialog.Dark</item>
 
+        <item name="font">#FFFFFFFF</item> <!-- 100% white -->
+        <item name="tint">#B3FFFFFF</item> <!-- 70% white -->
+
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+    </style>
     <style name="Theme.AMOLED" parent="swipestyle">
         <item name="activity_background">#000000</item>
         <item name="card_background">#000000</item>

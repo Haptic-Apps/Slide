@@ -260,7 +260,29 @@ public class SettingsTheme extends BaseActivityAnim {
                         }
                     }
                 });
+                dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                                new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
 
+                                Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(i);
+                                overridePendingTransition(0, 0);
+
+                                finish();
+                                overridePendingTransition(0, 0);
+
+                                break;
+                            }
+                        }
+                    }
+                });
 
                 builder.setView(dialoglayout);
                 builder.show();
