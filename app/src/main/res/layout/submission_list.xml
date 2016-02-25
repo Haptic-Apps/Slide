@@ -9,6 +9,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:layerType="hardware"
+    android:layout_marginBottom="2dp"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
 

@@ -369,7 +369,7 @@ public class CommentPage extends Fragment {
     }
 
     private void goUp() {
-        if (adapter.users != null) {
+        if (adapter.users != null && adapter.users.size() > 0) {
 
             int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
@@ -398,7 +398,7 @@ public class CommentPage extends Fragment {
     }
 
     private void goDown() {
-        if (adapter.users != null) {
+        if (adapter.users != null && adapter.users.size() > 0) {
             int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
 
             for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {

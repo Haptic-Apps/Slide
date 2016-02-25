@@ -953,6 +953,70 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             doOnClick(holder, baseNode, comment);
         }
     }
+    public void showChildrenObject(final View v) {
+        v.setVisibility(View.VISIBLE);
+        ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
+        animator.setDuration(250);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                v.setAlpha(value);
+                v.setScaleX(value);
+                v.setScaleY(value);
+
+            }
+        });
+
+        animator.start();
+    }
+    public void hideChildrenObject(final View v) {
+        ValueAnimator animator = ValueAnimator.ofFloat(1f, 0);
+        animator.setDuration(250);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = ((Float) (animation.getAnimatedValue())).floatValue();
+                v.setAlpha(value);
+                v.setScaleX(value);
+                v.setScaleY(value);
+
+            }
+        });
+
+        animator.addListener(new Animator.AnimatorListener() {
+
+            @Override
+            public void onAnimationStart(Animator arg0) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator arg0) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator arg0) {
+
+                v.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator arg0) {
+
+            }
+        });
+
+        animator.start();
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
@@ -1095,10 +1159,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
                 }
-                //todo maybe   holder.content.setVisibility(View.GONE);
             } else {
                 holder.children.setVisibility(View.GONE);
-                //todo maybe  holder.content.setVisibility(View.VISIBLE);
                 holder.firstTextView.setVisibility(View.VISIBLE);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
@@ -1433,7 +1495,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hiddenPersons.contains(comment.getFullName())) {
                     unhideAll(baseNode, holder.getAdapterPosition() + 1);
                     hiddenPersons.remove(comment.getFullName());
-                    holder.children.setVisibility(View.GONE);
+                    hideChildrenObject(holder.children);
                     holder.firstTextView.setVisibility(View.VISIBLE);
                     holder.commentOverflow.setVisibility(View.VISIBLE);
 
@@ -1444,7 +1506,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
 
                         hiddenPersons.add(comment.getFullName());
-                        holder.children.setVisibility(View.VISIBLE);
+                        showChildrenObject(holder.children);
                         ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
                         //todo maybe holder.content.setVisibility(View.GONE);
 
