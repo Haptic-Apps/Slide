@@ -66,6 +66,9 @@
                         android:textColor="?attr/font"
                         android:textSize="?attr/font_cardtitle" />
 
+                    <com.wefika.flowlayout.FlowLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/information"
@@ -80,45 +83,51 @@
                         android:tag="tint"
                         android:text="@string/example_time"
                         android:textSize="?attr/font_cardinfo" />
-
-                    <LinearLayout
-                        android:id="@+id/bod"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/information"
-                        android:layout_toLeftOf="@+id/thumbimage2">
-                        <TextView
-                            android:id="@+id/score"
+                        <include
+                            android:id="@+id/nsfw"
+                            layout="@layout/nsfw"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
 
-                            android:gravity="center_vertical"
-                            android:text="@string/example_points"
+                            />
 
-                            android:textSize="?attr/font_cardinfo" />
-
-                        <TextView
+                        <include
+                            android:id="@+id/pinned"
+                            layout="@layout/stickied"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/submission_properties_seperator"
-                            android:textSize="?attr/font_cardinfo" />
 
-                        <TextView
-                            android:id="@+id/comments"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_toRightOf="@+id/nsfw"
+
+                            android:src="@drawable/pinned" />
+
+                        <include
+                            android:id="@+id/gild"
+                            layout="@layout/gilded"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-
-                            android:gravity="center_vertical"
-                            android:text="@string/example_comments"
-
-                            android:textSize="?attr/font_cardinfo" />
+                            android:layout_height="16dp"
 
 
-                    </LinearLayout>
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_toRightOf="@id/flairbubble"
+                            android:orientation="horizontal" />
+
+                        <include
+                            android:id="@+id/flairbubble"
+                            layout="@layout/flair"
+                            android:layout_width="wrap_content"
+                            android:layout_height="16dp"
+
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_toRightOf="@+id/pinned"
+
+                            android:src="@drawable/pinned" /></com.wefika.flowlayout.FlowLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -229,59 +238,60 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp"
                 android:paddingLeft="8dp"
-
-                android:paddingRight="16dp"
-                android:paddingTop="8dp">
-
-                <include
-                    android:id="@+id/nsfw"
-                    layout="@layout/nsfw"
+                android:layout_marginBottom="4dp"
+                android:paddingRight="16dp">
+                <LinearLayout
+                    android:id="@+id/bod"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="8dp">
 
-                    />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/upvoted"
+                        android:tag="tint" />
 
-                <include
-                    android:id="@+id/pinned"
-                    layout="@layout/stickied"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:tag="tint"
+                        android:text="400"
+                        android:textSize="?attr/font_cardinfo" />
 
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@+id/nsfw"
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/commentchange"
+                        android:tag="tint" />
 
-                    android:src="@drawable/pinned" />
+                    <TextView
+                        android:id="@+id/comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
 
-                <include
-                    android:id="@+id/gild"
-                    layout="@layout/gilded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
+                        android:tag="tint"
+                        android:text="420"
+
+                        android:textSize="?attr/font_cardinfo" />
+
+                </LinearLayout>
 
 
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/flairbubble"
-                    android:orientation="horizontal" />
-
-                <include
-                    android:id="@+id/flairbubble"
-                    layout="@layout/flair"
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@+id/pinned"
-
-                    android:src="@drawable/pinned" />
 
                 <ImageView
                     android:id="@+id/more"

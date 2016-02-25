@@ -218,7 +218,7 @@ public class Tutorial extends FragmentActivity {
 
                     final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
-                    int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
+                    int[] arrs = new int[ColorPreferences.Theme.values().length / 4];
                     int i = 0;
                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                         if (type.getThemeType() == 0) {
@@ -346,7 +346,29 @@ public class Tutorial extends FragmentActivity {
                             }
                         }
                     });
+                    dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
 
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+                                    break;
+                                }
+                            }
+                        }
+                    });
 
                     builder.setView(dialoglayout);
                     builder.show();
@@ -469,7 +491,7 @@ public class Tutorial extends FragmentActivity {
 
                     final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
-                    int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
+                    int[] arrs = new int[ColorPreferences.Theme.values().length / 4];
                     int i = 0;
                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                         if (type.getThemeType() == 0) {

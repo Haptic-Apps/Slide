@@ -943,7 +943,7 @@ public class PopulateSubmissionViewHolder {
                                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
 
                                 submission.setVoted(true);
-                                holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
+                                holder.score.setText("" + (submission.getScore() - 1));
 
                                 new Vote(false, points, mContext).execute(submission);
                             } else if (submission.voted() && submission.getIsUpvoted()) {
@@ -954,7 +954,7 @@ public class PopulateSubmissionViewHolder {
 
                                 submission.setVoted(true);
                                 submission.setVote(false);
-                                holder.score.setText(getSubmissionScoreString(submission.getScore() - 1, res, submission));
+                                holder.score.setText("" + (submission.getScore() - 1));
 
 
                             } else if (submission.voted() && !submission.getIsUpvoted()) {
@@ -962,7 +962,7 @@ public class PopulateSubmissionViewHolder {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
-                                holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
+                                holder.score.setText("" + (submission.getScore() ));
 
                                 submission.setVoted(false);
                                 submission.setVote(false);
@@ -979,7 +979,7 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 submission.setVote(true);
                                 submission.setVoted(true);
-                                holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
+                                holder.score.setText("" + (submission.getScore() + 1));
 
                                 new Vote(true, points, mContext).execute(submission);
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
@@ -992,14 +992,14 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
-                                holder.score.setText(getSubmissionScoreString(submission.getScore() + 1, res, submission));
+                                holder.score.setText("" + (submission.getScore() + 1));
 
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 submission.setVote(false);
 
-                                holder.score.setText(getSubmissionScoreString(submission.getScore(), res, submission));
+                                holder.score.setText("" + (submission.getScore() ));
 
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 

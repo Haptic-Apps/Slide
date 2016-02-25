@@ -755,7 +755,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         }
 
                         {
-                            int[] arrs = new int[ColorPreferences.Theme.values().length / 3];
+                            int[] arrs = new int[ColorPreferences.Theme.values().length / 4];
                             int i = 0;
                             for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                                 if (type.getThemeType() == 0) {
