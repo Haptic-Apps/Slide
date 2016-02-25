@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SwipeLayout.SwipeBackLayout;
 import me.ccrama.redditslide.SwipeLayout.Utils;
@@ -42,6 +43,8 @@ public class BaseYoutubePlayer extends YouTubeBaseActivity implements SwipeBackA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.slide_up_fade_in, 0);
+
         if (enableSwipeBackLayout) {
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();

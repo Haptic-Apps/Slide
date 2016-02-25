@@ -54,7 +54,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
  * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
  * bars which Album.java doesn't.
  */
-public class AlbumPager extends BaseActivityAnim {
+public class AlbumPager extends FullScreenActivity {
     boolean gallery = false;
 
     @Override
