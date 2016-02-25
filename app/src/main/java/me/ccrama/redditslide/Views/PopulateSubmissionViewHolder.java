@@ -12,6 +12,7 @@ import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
@@ -945,12 +946,14 @@ public class PopulateSubmissionViewHolder {
                                 submission.setVoted(true);
                                 holder.score.setText("" + (submission.getScore() - 1));
 
+                                AnimateHelper.setFlashAnimation( holder.itemView, ContextCompat.getColor(mContext, R.color.md_blue_500), CreateCardView.getColorCard(submission.getSubredditName().toLowerCase(), baseSub, (baseSub.equals("frontpage") || (baseSub.equals("all")) || baseSub.contains(".") || baseSub.contains("+")), mContext));
                                 new Vote(false, points, mContext).execute(submission);
                             } else if (submission.voted() && submission.getIsUpvoted()) {
                                 new Vote(false, points, mContext).execute(submission);
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                AnimateHelper.setFlashAnimation(holder.itemView, ContextCompat.getColor(mContext, R.color.md_blue_500), CreateCardView.getColorCard(submission.getSubredditName().toLowerCase(), baseSub, (baseSub.equals("frontpage") || (baseSub.equals("all")) || baseSub.contains(".") || baseSub.contains("+")), mContext));
 
                                 submission.setVoted(true);
                                 submission.setVote(false);
@@ -980,6 +983,7 @@ public class PopulateSubmissionViewHolder {
                                 submission.setVote(true);
                                 submission.setVoted(true);
                                 holder.score.setText("" + (submission.getScore() + 1));
+                                AnimateHelper.setFlashAnimation( holder.itemView, ContextCompat.getColor(mContext, R.color.md_orange_500), CreateCardView.getColorCard(submission.getSubredditName().toLowerCase(), baseSub, (baseSub.equals("frontpage") || (baseSub.equals("all")) || baseSub.contains(".") || baseSub.contains("+")), mContext));
 
                                 new Vote(true, points, mContext).execute(submission);
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
@@ -988,6 +992,7 @@ public class PopulateSubmissionViewHolder {
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 submission.setVote(true);
                                 submission.setVoted(true);
+                                AnimateHelper.setFlashAnimation( holder.itemView, ContextCompat.getColor(mContext, R.color.md_orange_500), CreateCardView.getColorCard(submission.getSubredditName().toLowerCase(), baseSub, (baseSub.equals("frontpage") || (baseSub.equals("all")) || baseSub.contains(".") || baseSub.contains("+")),mContext));
 
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);

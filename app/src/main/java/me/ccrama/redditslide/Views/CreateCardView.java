@@ -76,22 +76,24 @@ public class CreateCardView {
         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(background.data);
 
 
-        for(View v2 : getViewsByTag((ViewGroup) v, "tint")){
-            if(v2 instanceof TextView) {
-                ((TextView)v2).setTextColor(getCurrentFontColor(v.getContext()));
-            } else if(v2 instanceof ImageView){
+        for (View v2 : getViewsByTag((ViewGroup) v, "tint")) {
+            if (v2 instanceof TextView) {
+                ((TextView) v2).setTextColor(getCurrentFontColor(v.getContext()));
+            } else if (v2 instanceof ImageView) {
                 ((ImageView) v2).setColorFilter(getCurrentTintColor(v.getContext()));
 
             }
         }
 
     }
+
     public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
         final TypedValue tv = new TypedValue();
         final boolean found = context.getTheme().resolveAttribute(attribResId, tv, true);
         return found ? tv.data : defaultValue;
     }
-    private static ArrayList<View> getViewsByTag(ViewGroup root, String tag){
+
+    private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
         ArrayList<View> views = new ArrayList<>();
         final int childCount = root.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -108,32 +110,51 @@ public class CreateCardView {
         }
         return views;
     }
-    public static int getCurrentTintColor(Context v){
-        return getStyleAttribColorValue(v, R.attr.tint,Color.WHITE);
+
+    public static int getCurrentTintColor(Context v) {
+        return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
 
     }
-    public static int getWhiteTintColor(){
+
+    public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
     }
-    public static int getCurrentFontColor(Context v){
-        return getStyleAttribColorValue(v, R.attr.font,Color.WHITE);
+
+    public static int getCurrentFontColor(Context v) {
+        return getStyleAttribColorValue(v, R.attr.font, Color.WHITE);
     }
-    public static int getWhiteFontColor(){
+
+    public static int getWhiteFontColor() {
         return Palette.ThemeEnum.DARK.getFontColor();
 
     }
+
+    public static int getColorCard(String sec, String subToMatch, boolean secondary, Context c) {
+        if ((SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals("nomatching") && (SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()))) {
+            if (!secondary && !SettingValues.colorEverywhere || secondary) {
+                return Palette.getColor(sec);
+
+
+            }
+        }
+        TypedValue background = new TypedValue();
+        c.getTheme().resolveAttribute(R.attr.card_background, background, true);
+        return background.data;
+
+    }
+
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
 
         resetColorCard(v);
-        if ((SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) ||( subToMatch.equals("nomatching") && (SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor())) ){
-            if(!secondary && !SettingValues.colorEverywhere || secondary) {
+        if ((SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals("nomatching") && (SettingValues.colorBack && Palette.getColor(sec) != Palette.getDefaultColor()))) {
+            if (!secondary && !SettingValues.colorEverywhere || secondary) {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
 
-                for(View v2 : getViewsByTag((ViewGroup) v, "tint")){
-                    if(v2 instanceof TextView){
-                        ((TextView)v2).setTextColor(getWhiteFontColor());
-                    } else if(v2 instanceof ImageView ){
+                for (View v2 : getViewsByTag((ViewGroup) v, "tint")) {
+                    if (v2 instanceof TextView) {
+                        ((TextView) v2).setTextColor(getWhiteFontColor());
+                    } else if (v2 instanceof ImageView) {
                         ((ImageView) v2).setColorFilter(getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                     }
@@ -240,24 +261,24 @@ public class CreateCardView {
 
     private static void doHideObjects(View v, Boolean secondary) {
 
-            if (!SettingValues.actionBarVisible) {
-                v.findViewById(R.id.actionbar).setVisibility(View.GONE);
+        if (!SettingValues.actionBarVisible) {
+            v.findViewById(R.id.actionbar).setVisibility(View.GONE);
 
-            }
+        }
 
-            if (SettingValues.bigPicCropped) {
-                ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
-                ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if (SettingValues.bigPicCropped) {
+            ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
+            ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            }
-            if (!SettingValues.bigPicEnabled) {
-                v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
-                v.findViewById(R.id.headerimage).setVisibility(View.GONE);
+        }
+        if (!SettingValues.bigPicEnabled) {
+            v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.headerimage).setVisibility(View.GONE);
 
-            } else if (SettingValues.bigPicEnabled) {
-                v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
+        } else if (SettingValues.bigPicEnabled) {
+            v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
 
-            }
+        }
 
     }
 
