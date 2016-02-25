@@ -20,6 +20,17 @@
 
     cardview:cardCornerRadius="2dp">
 
+    <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/vote"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </io.codetail.widget.RevealFrameLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,12 +84,11 @@
 
 
                 <com.wefika.flowlayout.FlowLayout
-                    android:layout_width="match_parent"
-                    android:layout_below="@+id/title"
                     android:id="@+id/flow"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="8dp"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:paddingLeft="16dp">
 
                     <TextView
                         android:id="@+id/information"
@@ -164,9 +174,9 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
-            android:orientation="horizontal"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
+            android:orientation="horizontal"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
 

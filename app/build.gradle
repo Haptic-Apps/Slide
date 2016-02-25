@@ -94,5 +94,8 @@ dependencies {
     compile files('src/main/assets/YouTubeAndroidPlayerApi.jar')
     compile files('src/main/assets/synccit.jar')
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
+    compile ('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
+        transitive = true;
+    }
 }
 

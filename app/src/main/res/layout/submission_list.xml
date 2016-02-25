@@ -13,7 +13,16 @@
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
     cardview:cardCornerRadius="0dp">
+    <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/vote"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </io.codetail.widget.RevealFrameLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

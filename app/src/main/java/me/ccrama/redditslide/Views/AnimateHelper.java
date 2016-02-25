@@ -1,40 +1,75 @@
 package me.ccrama.redditslide.Views;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
-import android.support.v7.widget.CardView;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
+import me.ccrama.redditslide.R;
 
 /**
  * Created by carlo_000 on 2/24/2016.
  */
 public class AnimateHelper {
 
-   public static void setFlashAnimation(final View v, int colorTo, int colorFrom){
-       if(v instanceof CardView) {
-           ((CardView)v).setCardBackgroundColor(colorTo);
-       } else {
-           v.setBackgroundColor(colorTo);
-       }
 
-       ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorTo, colorFrom);
-       colorAnimation.setDuration(500); // milliseconds
-       colorAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-       colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    public static void setFlashAnimation(final View vBig, View from, int color) {
+        // get the center for the clipping circle
+        final View v = vBig.findViewById(R.id.vote);
+        v.setBackgroundColor(color);
+        v.setVisibility(View.VISIBLE);
+        v.setAlpha(1f);
 
-           @Override
-           public void onAnimationUpdate(ValueAnimator animator) {
-               if(v instanceof CardView) {
-                   ((CardView)v).setCardBackgroundColor((int) animator.getAnimatedValue());
-               } else {
-                   v.setBackgroundColor((int) animator.getAnimatedValue());
-               }
-           }
+        int cx = (from.getLeft() + from.getRight()) / 2;
+        int cy = vBig.getHeight() - (from.getHeight() / 2);//from.getRight() - ( from.getWidth()/ 2);
 
-       });
-       colorAnimation.start();
+// get the final radius for the clipping circle
+        int dx = Math.max(cx, vBig.getWidth() - cx);
+        int dy = Math.max(cy, vBig.getHeight() - cy);
+        float finalRadius = (float) Math.hypot(dx, dy);
+        SupportAnimator animator =
+                ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+        animator.setDuration(250);
+        animator.start();
 
-   }
+        v.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
+
+                animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+                animator2.setDuration(450);
+                animator2.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        v.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                animator2.start();
+
+            }
+        }, 450);
+
+    }
+
 
 }
