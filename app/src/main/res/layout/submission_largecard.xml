@@ -20,22 +20,19 @@
 
     cardview:cardCornerRadius="2dp">
 
-    <io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:id="@+id/vote"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </io.codetail.widget.RevealFrameLayout>
-
-    <RelativeLayout
+    <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:selectableItemBackground"
-        android:orientation="vertical">
+       >
+
+
+        <LinearLayout
+            android:id="@+id/vote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/innerrelative"
+            android:layout_alignBottom="@+id/menu"
+            android:orientation="horizontal" />
 
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
             android:id="@+id/headerimage"
@@ -47,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage"
-            android:layout_marginTop="8dp">
+            android:paddingTop="8dp">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/thumbimage2"
@@ -153,154 +150,147 @@
 
                 </com.wefika.flowlayout.FlowLayout>
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/flow"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp">
-
-
-                </LinearLayout>
-
             </RelativeLayout>
 
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/actionbar"
-            android:layout_width="match_parent"
+
+        <ImageView
+            android:layout_width="15dp"
             android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:id="@+id/scoreimg"
+
+            android:layout_marginRight="4dp"
+            android:src="@drawable/upvoted"
+            android:tag="tint" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_toRightOf="@+id/scoreimg"
+            android:layout_height="36dp"
+
+            android:layout_below="@+id/innerrelative"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:tag="tint"
+
+            android:text="400"
+            android:textSize="?attr/font_cardinfo" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_toRightOf="@+id/score"
+            android:id="@+id/pointsimg"
+
+            android:layout_height="36dp"
+            android:layout_below="@+id/innerrelative"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+
+            android:src="@drawable/commentchange"
+            android:tag="tint" />
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_below="@+id/innerrelative"
+
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/pointsimg"
+            android:gravity="center_vertical"
+
+            android:tag="tint"
+            android:text="420"
+
+            android:textSize="?attr/font_cardinfo" />
 
 
-            <LinearLayout
-                android:id="@+id/bod"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/information"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:paddingLeft="8dp">
+        <ImageView
+            android:id="@+id/save"
+            style="@style/Ripple.List"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/innerrelative"
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/upvoted"
-                    android:tag="tint" />
+            android:layout_toLeftOf="@+id/hide"
+            android:padding="8dp"
+            android:src="@drawable/saved"
+            android:tag="tint"
+            android:tint="?attr/tint" />
 
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:tag="tint"
-                    android:text="400"
-                    android:textSize="?attr/font_cardinfo" />
+        <ImageView
+            android:id="@+id/mod"
+            style="@style/Ripple.List"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/innerrelative"
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/commentchange"
-                    android:tag="tint" />
+            android:layout_toLeftOf="@+id/upvote"
+            android:padding="8dp"
+            android:src="@drawable/mod"
+            android:tag="tint"
+            android:tint="?attr/tint" />
 
-                <TextView
-                    android:id="@+id/comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
+        <ImageView
+            android:id="@+id/hide"
+            style="@style/Ripple.List"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
 
-                    android:tag="tint"
-                    android:text="420"
+            android:layout_below="@+id/innerrelative"
+            android:layout_toLeftOf="@+id/mod"
+            android:padding="8dp"
+            android:src="@drawable/hide"
+            android:tag="tint"
+            android:tint="?attr/tint" />
 
-                    android:textSize="?attr/font_cardinfo" />
+        <ImageView
+            android:id="@+id/upvote"
+            style="@style/Ripple.List"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/innerrelative"
+            android:layout_toLeftOf="@+id/downvote"
+            android:padding="8dp"
 
-            </LinearLayout>
+            android:src="@drawable/upvoted"
+            android:tag="tint"
+            android:tint="?attr/tint" />
 
-            <ImageView
-                android:id="@+id/save"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/hide"
-                android:padding="8dp"
-                android:src="@drawable/saved"
-                android:tag="tint"
-                android:tint="?attr/tint" />
+        <ImageView
+            android:id="@+id/downvote"
+            style="@style/Ripple.List"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/innerrelative"
 
-            <ImageView
-                android:id="@+id/mod"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/upvote"
-                android:padding="8dp"
-                android:src="@drawable/mod"
-                android:tag="tint"
-                android:tint="?attr/tint" />
-
-            <ImageView
-                android:id="@+id/hide"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/mod"
-                android:padding="8dp"
-                android:src="@drawable/hide"
-                android:tag="tint"
-                android:tint="?attr/tint" />
-
-            <ImageView
-                android:id="@+id/upvote"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/downvote"
-                android:padding="8dp"
-                android:src="@drawable/upvoted"
-                android:tag="tint"
-                android:tint="?attr/tint" />
-
-            <ImageView
-                android:id="@+id/downvote"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:padding="8dp"
-                android:src="@drawable/downvote"
-                android:tag="tint"
-                android:tint="?attr/tint" />
+            android:layout_toLeftOf="@+id/menu"
+            android:padding="8dp"
+            android:src="@drawable/downvote"
+            android:tag="tint"
+            android:tint="?attr/tint" />
 
 
-            <ImageView
-                android:id="@+id/menu"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/upvote"
-                android:padding="8dp"
-                android:src="@drawable/more"
-                android:tag="tint"
-                android:tint="?attr/tint" />
+        <ImageView
+            android:id="@+id/menu"
+            style="@style/Ripple.List"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/innerrelative"
+            android:padding="8dp"
+            android:src="@drawable/more"
+            android:tag="tint"
+            android:tint="?attr/tint" />
 
-        </LinearLayout>
 
-    </RelativeLayout>
-
+    </me.ccrama.redditslide.Views.RevealRelativeLayout>
 
 </android.support.v7.widget.CardView>

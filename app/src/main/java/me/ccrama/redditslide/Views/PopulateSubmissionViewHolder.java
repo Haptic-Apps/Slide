@@ -766,7 +766,7 @@ public class PopulateSubmissionViewHolder {
         if (submission.isArchived()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
-        } else if (Authentication.isLoggedIn && !submission.voted() && !offline && Authentication.didOnline) {
+        } else if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
             if (submission.getVote() == VoteDirection.UPVOTE) {
                 submission.setVote(true);
                 submission.setVoted(true);

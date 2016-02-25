@@ -25,8 +25,7 @@
 
     <!-- !-->
     <style name="swipeable" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@color/transparent</item>
-
+        <item name="android:windowBackground">@null</item>
         <item name="android:windowIsTranslucent">true</item>
 
     </style>

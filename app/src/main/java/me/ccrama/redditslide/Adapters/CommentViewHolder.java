@@ -18,7 +18,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final View dots;
     public final TextView time;
     public final View gild;
-    public final LinearLayout commentArea;
     public final View children;
     public final TextView childrenNumber;
     public final TextView flairText;
@@ -45,7 +44,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         menuArea = (LinearLayout) v.findViewById(R.id.menuarea);
         time = (TextView) v.findViewById(R.id.time);
         children = v.findViewById(R.id.children);
-        commentArea = (LinearLayout) v.findViewById(R.id.commentArea);
         childrenNumber = (TextView) children.findViewById(R.id.flairtext);
         gild = v.findViewById(R.id.gild);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);

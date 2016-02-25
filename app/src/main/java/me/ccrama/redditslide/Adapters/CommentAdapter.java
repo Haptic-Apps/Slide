@@ -992,9 +992,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     down.add(comment.getFullName());
                 }
             }
-            final CommentObject prev = users.get(nextPos);
-
-
             String scoreText;
             if (comment.isScoreHidden())
                 scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
