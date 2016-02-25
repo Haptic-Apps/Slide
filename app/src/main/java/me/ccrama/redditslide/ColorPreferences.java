@@ -379,15 +379,15 @@ public class ColorPreferences {
         amoled_white(R.style.white_amoled, "amoled_white", R.color.md_blue_grey_200, 2),
         blue_white(R.style.white_blue, "blue_white", R.color.md_blue_grey_200, 3),
 
-        dark_deeporange(R.style.deeporange_dark, "dark_deeporange", R.color.md_deep_orange_A700, 0),
-        light_deeporange(R.style.deeporange_LIGHT, "light_deeporange", R.color.md_deep_orange_A700, 1),
-        amoled_deeporange(R.style.deeporange_AMOLED, "amoled_deeporange", R.color.md_deep_orange_A700, 2),
-        blue_deeporange(R.style.deeporange_blue, "blue_deeporange", R.color.md_deep_orange_A700, 3),
-
         dark_pink(R.style.pink_dark, "dark_pink", R.color.md_pink_A200, 0),
         light_pink(R.style.pink_light, "light_pink", R.color.md_pink_A200, 1),
         amoled_pink(R.style.pink_amoled, "amoled_pink", R.color.md_pink_A200, 2),
         blue_pink(R.style.pink_blue, "blue_pink", R.color.md_pink_A200, 3),
+
+        dark_deeporange(R.style.deeporange_dark, "dark_deeporange", R.color.md_deep_orange_A700, 0),
+        light_deeporange(R.style.deeporange_LIGHT, "light_deeporange", R.color.md_deep_orange_A700, 1),
+        amoled_deeporange(R.style.deeporange_AMOLED, "amoled_deeporange", R.color.md_deep_orange_A700, 2),
+        blue_deeporange(R.style.deeporange_blue, "blue_deeporange", R.color.md_deep_orange_A700, 3),
 
         dark_amber(R.style.amber_dark, "dark_amber", R.color.md_amber_A700, 0),
         light_amber(R.style.amber_LIGHT, "light_amber", R.color.md_amber_A700, 1),
@@ -408,6 +408,11 @@ public class ColorPreferences {
         light_green(R.style.green_LIGHT, "light_green", R.color.md_green_A700, 1),
         amoled_green(R.style.green_AMOLED, "amoled_green", R.color.md_green_A700, 2),
         blue_green(R.style.green_blue, "blue_green", R.color.md_green_A700, 3),
+
+        dark_teal(R.style.teal_dark, "dark_teal", R.color.md_teal_A200, 0),
+        light_teal(R.style.teal_light, "light_teal", R.color.md_teal_A200, 1),
+        amoled_teal(R.style.teal_amoled, "amoled_teal", R.color.md_teal_A200, 2),
+        blue_teal(R.style.teal_blue, "blue_teal", R.color.md_teal_A200, 3),
 
         dark_cyan(R.style.cyan_dark, "dark_cyan", R.color.md_cyan_A700, 0),
         light_cyan(R.style.cyan_LIGHT, "light_cyan", R.color.md_cyan_A700, 1),

@@ -256,6 +256,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
+
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";

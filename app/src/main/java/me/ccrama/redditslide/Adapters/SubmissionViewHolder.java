@@ -17,6 +17,8 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final TextView contentTitle;
     public final TextView contentURL;
     public final TextView score;
+    public boolean animated;
+    public boolean offset;
     public final TextView comments;
     public final TextView info;
     public final TextView gildText;
@@ -38,5 +40,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         gildLayout = v.findViewById(R.id.gild);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
         commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
+
     }
 }
