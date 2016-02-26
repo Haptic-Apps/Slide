@@ -19,7 +19,6 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -40,7 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
@@ -67,7 +65,6 @@ import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -277,6 +274,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         return animator;
     }
+
     private void collapse(final View v, boolean full) {
         int finalHeight = v.getHeight();
 
@@ -306,6 +304,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         mAnimator.start();
     }
+
     private void collapse(final View v) {
         int finalHeight = v.getHeight();
 
@@ -383,7 +382,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l.measure(widthSpec, heightSpec);
 
-        View l2 = l.findViewById(R.id.replyArea)== null?l.findViewById(R.id.innerSend):l.findViewById(R.id.replyArea);
+        View l2 = l.findViewById(R.id.replyArea) == null ? l.findViewById(R.id.innerSend) : l.findViewById(R.id.replyArea);
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
@@ -402,7 +401,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l.measure(widthSpec, heightSpec);
 
-        View l2 = l.findViewById(R.id.replyArea)== null?l.findViewById(R.id.innerSend):l.findViewById(R.id.replyArea);
+        View l2 = l.findViewById(R.id.replyArea) == null ? l.findViewById(R.id.innerSend) : l.findViewById(R.id.replyArea);
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
@@ -436,6 +435,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         mAnimator.start();
     }
+
     private void expand(final View l, boolean b, boolean full) {
 
         l.setVisibility(View.VISIBLE);
@@ -512,7 +512,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         else scoreText = n.getScore().toString();
 
-        holder.score.setText(scoreText);
+        holder.score.setText(scoreText + (n.isControversial()?"†":""));
 
         if (up.contains(n.getFullName())) {
             holder.score.setTextColor(holder.textColorUp);
@@ -1023,6 +1023,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             doOnClick(holder, baseNode, comment);
         }
     }
+
     public void showChildrenObject(final View v) {
         v.setVisibility(View.VISIBLE);
         ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
@@ -1043,12 +1044,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         animator.start();
     }
+
     public void hideChildrenObject(final View v) {
         ValueAnimator animator = ValueAnimator.ofFloat(1f, 0);
         animator.setDuration(250);
         animator.setInterpolator(new FastOutSlowInInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
 
 
             @Override
@@ -1212,7 +1213,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
             }
 
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + (comment.hasBeenEdited() ? " (*" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
