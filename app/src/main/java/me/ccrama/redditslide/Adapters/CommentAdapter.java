@@ -472,6 +472,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, baseNode);
         }
+        // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
+        // and expand to show all children comments
         if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE) {
             unhideAll(baseNode, holder.getAdapterPosition() + 1);
             hiddenPersons.remove(n.getFullName());
