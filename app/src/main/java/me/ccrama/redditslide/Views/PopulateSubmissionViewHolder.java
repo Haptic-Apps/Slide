@@ -58,7 +58,6 @@ import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.YouTubeView;
-import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
@@ -276,15 +275,36 @@ public class PopulateSubmissionViewHolder {
                             }
                             break;
                             case 3:
-                                if (submission.saved) {
-                                    //       ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save);
-                                    submission.saved = false;
-                                } else {
-                                    //       ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
-                                    submission.saved = true;
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
+                                            if (ActionStates.isSaved(submission)) {
+                                                new AccountManager(Authentication.reddit).unsave(submission);
+                                                ActionStates.setSaved(submission, false);
+                                            } else {
+                                                new AccountManager(Authentication.reddit).save(submission);
+                                                ActionStates.setSaved(submission, true);
+                                            }
+                                        } catch (ApiException e) {
+                                            e.printStackTrace();
+                                        }
 
-                                }
-                                new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        if (ActionStates.isSaved(submission)) {
+                                            ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                            Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                                        } else {
+                                            Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+                                            ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") )) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                        }
+
+                                    }
+                                }.execute();
                                 break;
                             case 5: {
                                 final int pos = posts.indexOf(submission);
@@ -804,6 +824,11 @@ public class PopulateSubmissionViewHolder {
                 hideButton.setVisibility(View.GONE);
             }
             if (SettingValues.saveButton && Authentication.isLoggedIn) {
+                if (ActionStates.isSaved(submission)) {
+                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                } else {
+                    ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                }
                 holder.save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -812,13 +837,12 @@ public class PopulateSubmissionViewHolder {
                             @Override
                             protected Void doInBackground(Void... params) {
                                 try {
-                                    if (submission.isSaved()) {
+                                    if (ActionStates.isSaved(submission)) {
                                         new AccountManager(Authentication.reddit).unsave(submission);
-                                        submission.saved = false;
+                                        ActionStates.setSaved(submission, false);
                                     } else {
                                         new AccountManager(Authentication.reddit).save(submission);
-                                        submission.saved = true;
-
+                                        ActionStates.setSaved(submission, true);
                                     }
                                 } catch (ApiException e) {
                                     e.printStackTrace();
@@ -829,11 +853,12 @@ public class PopulateSubmissionViewHolder {
 
                             @Override
                             protected void onPostExecute(Void aVoid) {
-                                if (submission.saved) {
-                                    Snackbar.make(recyclerview, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                                if (ActionStates.isSaved(submission)) {
+                                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                    Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
                                 } else {
-                                    Snackbar.make(recyclerview, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-
+                                    Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+                                    ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                                 }
 
                             }
@@ -905,10 +930,11 @@ public class PopulateSubmissionViewHolder {
                             if (ActionStates.getVoteDirection(submission) != VoteDirection.DOWNVOTE) { //has not been downvoted
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+
                                 holder.score.setText("" + (submission.getScore() - 1));
                                 AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton, ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 new Vote(false, points, mContext).execute(submission);
-                                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
                             } else {
                                 new Vote(points, mContext).execute(submission);
@@ -925,7 +951,7 @@ public class PopulateSubmissionViewHolder {
                     upvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if ( ActionStates.getVoteDirection(submission) != VoteDirection.UPVOTE) { //has not been upvoted
+                            if (ActionStates.getVoteDirection(submission) != VoteDirection.UPVOTE) { //has not been upvoted
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 holder.score.setText("" + (submission.getScore() + 1));
                                 AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton, ContextCompat.getColor(mContext, R.color.md_orange_500));

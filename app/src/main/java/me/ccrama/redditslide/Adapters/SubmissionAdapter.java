@@ -23,6 +23,7 @@ import net.dean.jraw.models.Submission;
 import java.util.ArrayList;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
+import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -232,16 +233,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         protected Void doInBackground(Submission... submissions) {
             try {
-                if (submissions[0].isSaved()) {
+                if (ActionStates.isSaved(submissions[0])) {
                     new AccountManager(Authentication.reddit).unsave(submissions[0]);
                     Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-
                     submissions[0].saved = false;
                     v = null;
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
                     Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
-
                     submissions[0].saved = true;
                     v = null;
                 }

@@ -65,6 +65,7 @@ import java.util.TreeMap;
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
+import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
@@ -758,18 +759,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mContext.startActivity(i);
                     }
                 });
-                final boolean[] saved = {n.isSaved()};
-                if (saved[0]) {
+                if (ActionStates.isSaved(n)) {
                     ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
                 }
                 dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (saved[0]) {
+                        if (ActionStates.isSaved(n)) {
                             new AsyncTask<Void, Void, Void>() {
                                 @Override
                                 protected Void doInBackground(Void... params) {
                                     try {
+                                        ActionStates.setSaved(n, false);
                                         new AccountManager(Authentication.reddit).unsave(n);
                                     } catch (ApiException e) {
                                         e.printStackTrace();
@@ -780,7 +781,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                 @Override
                                 protected void onPostExecute(Void aVoid) {
-                                    saved[0] = false;
                                     ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.btn_save);
                                 }
                             }.execute();
@@ -791,6 +791,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 protected Void doInBackground(Void... params) {
                                     try {
+                                        ActionStates.setSaved(n, true);
                                         new AccountManager(Authentication.reddit).save(n);
                                     } catch (ApiException e) {
                                         e.printStackTrace();
@@ -803,7 +804,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 protected void onPostExecute(Void aVoid) {
                                     ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
 
-                                    saved[0] = true;
                                 }
                             }.execute();
 
@@ -1652,37 +1652,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 count++;
         }
         return count;
-    }
-
-    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
-
-        View v;
-
-        public AsyncSave(View v) {
-            this.v = v;
-        }
-
-        @Override
-        protected Void doInBackground(Submission... submissions) {
-            try {
-                if (submissions[0].saved) {
-                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-
-                    submissions[0].saved = false;
-                    v = null;
-                } else {
-                    new AccountManager(Authentication.reddit).save(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
-
-                    submissions[0].saved = true;
-                    v = null;
-                }
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
     }
 
     public class AsyncLoadMore extends AsyncTask<MoreChildItem, Void, Integer> {

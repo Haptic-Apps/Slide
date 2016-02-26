@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import net.dean.jraw.models.Comment;
+import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
@@ -13,9 +15,10 @@ public class ActionStates {
     public static ArrayList<String> downVotedFullnames = new ArrayList<>();
 
     public static ArrayList<String> unvotedFullnames = new ArrayList<>();
-    public ArrayList<String> savedFullnames;
+    public static ArrayList<String> savedFullnames = new ArrayList<>();
+    public static ArrayList<String> unSavedFullnames = new ArrayList<>();
 
-    public static VoteDirection getVoteDirection(Submission s) {
+    public static VoteDirection getVoteDirection(PublicContribution s) {
         if (upVotedFullnames.contains(s.getFullName())) {
             return VoteDirection.UPVOTE;
         } else if (downVotedFullnames.contains(s.getFullName())) {
@@ -27,12 +30,12 @@ public class ActionStates {
         }
     }
 
-    public static void setVoteDirection(Submission s, VoteDirection direction){
+    public static void setVoteDirection(PublicContribution s, VoteDirection direction) {
         String fullname = s.getFullName();
         upVotedFullnames.remove(fullname);
         downVotedFullnames.remove(fullname);
         unvotedFullnames.remove(fullname);
-        switch(direction){
+        switch (direction) {
 
             case UPVOTE:
                 upVotedFullnames.add(fullname);
@@ -45,4 +48,45 @@ public class ActionStates {
                 break;
         }
     }
+
+    public static boolean isSaved(Submission s) {
+        if (savedFullnames.contains(s.getFullName())) {
+            return true;
+        } else if (unSavedFullnames.contains(s.getFullName())) {
+            return false;
+        } else {
+            return s.isSaved();
+        }
+    }
+
+    public static boolean isSaved(Comment s) {
+        if (savedFullnames.contains(s.getFullName())) {
+            return true;
+        } else if (unSavedFullnames.contains(s.getFullName())) {
+            return false;
+        } else {
+            return s.isSaved();
+        }
+    }
+
+    public static void setSaved(Submission s, boolean b) {
+        String fullname = s.getFullName();
+        savedFullnames.remove(fullname);
+        if (b) {
+            savedFullnames.add(fullname);
+        } else {
+            unSavedFullnames.add(fullname);
+        }
+    }
+
+    public static void setSaved(Comment s, boolean b) {
+        String fullname = s.getFullName();
+        savedFullnames.remove(fullname);
+        if (b) {
+            savedFullnames.add(fullname);
+        } else {
+            unSavedFullnames.add(fullname);
+        }
+    }
+
 }
