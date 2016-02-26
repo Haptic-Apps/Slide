@@ -480,466 +480,458 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, currentBaseNode);
         }
-        // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
-        // and expand to show all children comments
-        if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE) {
-            unhideAll(baseNode, holder.getAdapterPosition() + 1);
-            hiddenPersons.remove(n.getFullName());
-            hideChildrenObject(holder.children);
-            holder.firstTextView.setVisibility(View.VISIBLE);
-            holder.menuArea.setVisibility(View.GONE);
+        currentlySelected = holder;
+        currentBaseNode = baseNode;
+        holder.dots.setVisibility(View.GONE);
+        int color = Palette.getColor(n.getSubredditName());
+        currentSelectedItem = n.getFullName();
+
+        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+        final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
+        baseView.setVisibility(View.GONE);
+        expand(baseView);
+
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+        params.setMargins(0, 0, 0, 0);
+        holder.itemView.setLayoutParams(params);
+
+        View reply = baseView.findViewById(R.id.reply);
+        View send = baseView.findViewById(R.id.send);
+
+        final View menu = baseView.findViewById(R.id.menu);
+        final View replyArea = baseView.findViewById(R.id.replyArea);
+
+        final View more = baseView.findViewById(R.id.more);
+        final ImageView upvote = (ImageView) baseView.findViewById(R.id.upvote);
+        final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
+        View discard = baseView.findViewById(R.id.discard);
+        final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
+
+        String scoreText;
+        if (n.isScoreHidden())
+            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+        else scoreText = n.getScore().toString();
+
+        holder.score.setText(scoreText + (n.isControversial()?"†":""));
+
+        if (up.contains(n.getFullName())) {
+            holder.score.setTextColor(holder.textColorUp);
+            upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+        } else if (down.contains(n.getFullName())) {
+            holder.score.setTextColor(holder.textColorDown);
+            downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
         } else {
-            currentlySelected = holder;
-            currentBaseNode = baseNode;
-            holder.dots.setVisibility(View.GONE);
-            int color = Palette.getColor(n.getSubredditName());
-            currentSelectedItem = n.getFullName();
-
-            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
-            baseView.setVisibility(View.GONE);
-            expand(baseView);
-
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
-            params.setMargins(0, 0, 0, 0);
-            holder.itemView.setLayoutParams(params);
-
-            View reply = baseView.findViewById(R.id.reply);
-            View send = baseView.findViewById(R.id.send);
-
-            final View menu = baseView.findViewById(R.id.menu);
-            final View replyArea = baseView.findViewById(R.id.replyArea);
-
-            final View more = baseView.findViewById(R.id.more);
-            final ImageView upvote = (ImageView) baseView.findViewById(R.id.upvote);
-            final ImageView downvote = (ImageView) baseView.findViewById(R.id.downvote);
-            View discard = baseView.findViewById(R.id.discard);
-            final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
-
-            String scoreText;
-            if (n.isScoreHidden())
-                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
-            else scoreText = n.getScore().toString();
-
-            holder.score.setText(scoreText + (n.isControversial() ? "†" : ""));
-
-            if (up.contains(n.getFullName())) {
-                holder.score.setTextColor(holder.textColorUp);
-                upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
-            } else if (down.contains(n.getFullName())) {
-                holder.score.setTextColor(holder.textColorDown);
-                downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
-            } else {
-                holder.score.setTextColor(holder.textColorRegular);
-                downvote.clearColorFilter();
-                upvote.clearColorFilter();
-            }
-            {
-                final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
-                try {
-                    if (SubredditStorage.modOf.contains(submission.getSubredditName())) {
-                        //todo
-                        mod.setVisibility(View.GONE);
-
-                    } else {
-                        mod.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
-                }
-            }
-            {
-                final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
-                    edit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-
-                            final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
-                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-
-                            final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
-                            e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
-
-
-                            builder.setView(dialoglayout);
-                            final Dialog d = builder.create();
-                            d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-                            d.show();
-                            dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    d.dismiss();
-                                }
-                            });
-                            dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    new AsyncTask<Void, Void, Void>() {
-                                        @Override
-                                        protected Void doInBackground(Void... params) {
-                                            try {
-                                                new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
-                                                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
-
-
-                                                currentSelectedItem = baseNode.getComment().getFullName();
-                                                d.dismiss();
-                                            } catch (Exception e) {
-                                                ((Activity) mContext).runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        new AlertDialogWrapper.Builder(mContext)
-                                                                .setTitle(R.string.comment_delete_err)
-                                                                .setMessage(R.string.comment_delete_err_msg)
-                                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialog, int which) {
-                                                                        dialog.dismiss();
-                                                                        doInBackground();
-                                                                    }
-                                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                dialog.dismiss();
-                                                            }
-                                                        }).show();
-                                                    }
-                                                });
-                                            }
-                                            return null;
-                                        }
-                                    }.execute();
-                                }
-                            });
-
-
-                        }
-                    });
-                } else {
-                    edit.setVisibility(View.GONE);
-                }
-            }
-            {
-                final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
-                    delete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            new AlertDialogWrapper.Builder(mContext)
-                                    .setTitle(R.string.comment_delete)
-                                    .setMessage(R.string.comment_delete_msg)
-                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new AsyncTask<Void, Void, Void>() {
-
-                                                @Override
-                                                protected Void doInBackground(Void... params) {
-                                                    try {
-                                                        new ModerationManager(Authentication.reddit).delete(baseNode.getComment());
-                                                        deleted.add(baseNode.getComment().getFullName());
-
-                                                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                holder.firstTextView.setTextHtml("[deleted]");
-                                                                holder.author.setText("[deleted]");
-                                                            }
-                                                        });
-
-                                                    } catch (ApiException e) {
-                                                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                new AlertDialogWrapper.Builder(mContext)
-                                                                        .setTitle(R.string.comment_delete_err)
-                                                                        .setMessage(R.string.comment_delete_err_msg)
-                                                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                                dialog.dismiss();
-                                                                                doInBackground();
-                                                                            }
-                                                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialog, int which) {
-                                                                        dialog.dismiss();
-                                                                    }
-                                                                }).show();
-                                                            }
-                                                        });
-
-                                                        e.printStackTrace();
-                                                    }
-
-                                                    return null;
-                                                }
-                                            }.execute();
-
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    }).show();
-
-                            //todo delete
-                        }
-                    });
-                } else {
-                    delete.setVisibility(View.GONE);
-                }
-            }
-            if (Authentication.isLoggedIn && !submission.isArchived() && Authentication.didOnline) {
-                reply.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        expand(baseView, true);
-                        replyArea.setVisibility(View.VISIBLE);
-                        menu.setVisibility(View.GONE);
-                        DoEditorActions.doActions(replyLine, replyArea, fm);
-                        currentlyEditing = replyLine;
-                        editingPosition = holder.getAdapterPosition();
-
-                    }
-                });
-                send.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        currentlyEditing = null;
-                        editingPosition = -1;
-
-                        doShowMenu(baseView);
-
-                        dataSet.refreshLayout.setRefreshing(true);
-                        new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
-
-                        //Hide soft keyboard
-                        View view = ((Activity) mContext).getCurrentFocus();
-                        if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-
-                    }
-                });
-                discard.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        doShowMenu(baseView);
-                    }
-                });
-
-            } else {
-
-                if (reply.getVisibility() == View.VISIBLE)
-
-                    reply.setVisibility(View.GONE);
-                if (upvote.getVisibility() == View.VISIBLE)
-
-                    upvote.setVisibility(View.GONE);
-                if (downvote.getVisibility() == View.VISIBLE)
-
-                    downvote.setVisibility(View.GONE);
-
-            }
-
-            more.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.commentmenu, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                    title.setText(Html.fromHtml(n.getBody()));
-
-                    ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + n.getAuthor());
-                    dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra(Profile.EXTRA_PROFILE, n.getAuthor());
-                            mContext.startActivity(i);
-                        }
-                    });
-                    if (ActionStates.isSaved(n)) {
-                        ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
-                    }
-                    dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (ActionStates.isSaved(n)) {
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        try {
-                                            ActionStates.setSaved(n, false);
-                                            new AccountManager(Authentication.reddit).unsave(n);
-                                        } catch (ApiException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        return null;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-                                        ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.btn_save);
-                                    }
-                                }.execute();
-
-
-                            } else {
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        try {
-                                            ActionStates.setSaved(n, true);
-                                            new AccountManager(Authentication.reddit).save(n);
-                                        } catch (ApiException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        return null;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-                                        ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
-
-                                    }
-                                }.execute();
-
-                            }
-                        }
-                    });
-
-                    dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String urlString = "https://reddit.com" + submission.getPermalink() +
-                                    n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
-
-                            OpenRedditLink.customIntentChooser(urlString, mContext);
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String urlString = "https://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
-                            Reddit.defaultShareText(urlString, mContext);
-                        }
-                    });
-
-                    dialoglayout.findViewById(R.id.copy).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Reddit post", n.getDataNode().get("body").asText());
-                            clipboard.setPrimaryClip(clip);
-                        }
-                    });
-
-                    if (!Authentication.isLoggedIn || !Authentication.didOnline) {
-
-                        dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
-                        dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
-
-                    }
-                    title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
-
-                    builder.setView(dialoglayout);
-                    builder.show();
-                }
-            });
-            upvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    doUnHighlighted(holder, baseNode.getComment(), baseNode);
-                    if (up.contains(n.getFullName())) {
-                        new Vote(v, mContext).execute(n);
-                        up.remove(n.getFullName());
-                        holder.score.setTextColor(holder.textColorRegular);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + "");
-                        }
-                        upvote.clearColorFilter();
-
-                    } else if (down.contains(n.getFullName())) {
-                        new Vote(true, v, mContext).execute(n);
-                        up.add(n.getFullName());
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + 1 + "");
-                        }
-                        down.remove(n.getFullName());
-                        downvote.clearColorFilter(); // reset colour
-                        holder.score.setTextColor(holder.textColorUp);
-                        upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
-                    } else {
-                        new Vote(true, v, mContext).execute(n);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + 1 + "");
-                        }
-                        up.add(n.getFullName());
-                        holder.score.setTextColor(holder.textColorUp);
-                        upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
-                    }
-                }
-            });
-            downvote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    doUnHighlighted(holder, baseNode.getComment(), baseNode);
-
-                    if (down.contains(n.getFullName())) {
-                        new Vote(v, mContext).execute(n);
-                        down.remove(n.getFullName());
-                        holder.score.setTextColor(holder.textColorRegular);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + "");
-                        }
-                        downvote.clearColorFilter();
-
-                    } else if (up.contains(n.getFullName())) {
-                        new Vote(false, v, mContext).execute(n);
-                        down.add(n.getFullName());
-                        up.remove(n.getFullName());
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() - 1 + "");
-                        }
-                        upvote.clearColorFilter(); // reset colour
-                        holder.score.setTextColor(holder.textColorDown);
-                        downvote.setColorFilter(holder.textColorDown);
-
-                    } else {
-                        new Vote(false, v, mContext).execute(n);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() - 1 + "");
-                        }
-                        down.add(n.getFullName());
-                        holder.score.setTextColor(holder.textColorDown);
-                        downvote.setColorFilter(holder.textColorDown);
-                    }
-                }
-            });
-            menu.setBackgroundColor(color);
-            replyArea.setBackgroundColor(color);
-
-            menu.setVisibility(View.VISIBLE);
-            replyArea.setVisibility(View.GONE);
-            holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
+            holder.score.setTextColor(holder.textColorRegular);
+            downvote.clearColorFilter();
+            upvote.clearColorFilter();
         }
+        {
+            final ImageView mod = (ImageView) baseView.findViewById(R.id.mod);
+            try {
+                if (SubredditStorage.modOf.contains(submission.getSubredditName())) {
+                    //todo
+                    mod.setVisibility(View.GONE);
+
+                } else {
+                    mod.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
+            }
+        }
+        {
+            final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
+            if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+
+                        final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+                        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+
+                        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+                        e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
+
+
+                        builder.setView(dialoglayout);
+                        final Dialog d = builder.create();
+                        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+                        d.show();
+                        dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                d.dismiss();
+                            }
+                        });
+                        dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
+                                            new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
+                                            dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
+
+
+                                            currentSelectedItem = baseNode.getComment().getFullName();
+                                            d.dismiss();
+                                        } catch (Exception e) {
+                                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new AlertDialogWrapper.Builder(mContext)
+                                                            .setTitle(R.string.comment_delete_err)
+                                                            .setMessage(R.string.comment_delete_err_msg)
+                                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.dismiss();
+                                                                    doInBackground();
+                                                                }
+                                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    }).show();
+                                                }
+                                            });
+                                        }
+                                        return null;
+                                    }
+                                }.execute();
+                            }
+                        });
+
+
+                    }
+                });
+            } else {
+                edit.setVisibility(View.GONE);
+            }
+        }
+        {
+            final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
+            if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new AlertDialogWrapper.Builder(mContext)
+                                .setTitle(R.string.comment_delete)
+                                .setMessage(R.string.comment_delete_msg)
+                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        new AsyncTask<Void, Void, Void>() {
+
+                                            @Override
+                                            protected Void doInBackground(Void... params) {
+                                                try {
+                                                    new ModerationManager(Authentication.reddit).delete(baseNode.getComment());
+                                                    deleted.add(baseNode.getComment().getFullName());
+
+                                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            holder.firstTextView.setTextHtml("[deleted]");
+                                                            holder.author.setText("[deleted]");
+                                                        }
+                                                    });
+
+                                                } catch (ApiException e) {
+                                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            new AlertDialogWrapper.Builder(mContext)
+                                                                    .setTitle(R.string.comment_delete_err)
+                                                                    .setMessage(R.string.comment_delete_err_msg)
+                                                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                            dialog.dismiss();
+                                                                            doInBackground();
+                                                                        }
+                                                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.dismiss();
+                                                                }
+                                                            }).show();
+                                                        }
+                                                    });
+
+                                                    e.printStackTrace();
+                                                }
+
+                                                return null;
+                                            }
+                                        }.execute();
+
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+
+                        //todo delete
+                    }
+                });
+            } else {
+                delete.setVisibility(View.GONE);
+            }
+        }
+        if (Authentication.isLoggedIn && !submission.isArchived() && Authentication.didOnline) {
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    expand(baseView, true);
+                    replyArea.setVisibility(View.VISIBLE);
+                    menu.setVisibility(View.GONE);
+                    DoEditorActions.doActions(replyLine, replyArea, fm);
+                    currentlyEditing = replyLine;
+                    editingPosition = holder.getAdapterPosition();
+
+                }
+            });
+            send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentlyEditing = null;
+                    editingPosition = -1;
+
+                    doShowMenu(baseView);
+
+                    dataSet.refreshLayout.setRefreshing(true);
+                    new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
+
+                    //Hide soft keyboard
+                    View view = ((Activity) mContext).getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+
+                }
+            });
+            discard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    doShowMenu(baseView);
+                }
+            });
+
+        } else {
+
+            if (reply.getVisibility() == View.VISIBLE)
+
+                reply.setVisibility(View.GONE);
+            if (upvote.getVisibility() == View.VISIBLE)
+
+                upvote.setVisibility(View.GONE);
+            if (downvote.getVisibility() == View.VISIBLE)
+
+                downvote.setVisibility(View.GONE);
+
+        }
+
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.commentmenu, null);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                title.setText(Html.fromHtml(n.getBody()));
+
+                ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + n.getAuthor());
+                dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra(Profile.EXTRA_PROFILE, n.getAuthor());
+                        mContext.startActivity(i);
+                    }
+                });
+                if (ActionStates.isSaved(n)) {
+                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
+                }
+                dialoglayout.findViewById(R.id.save_body).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ActionStates.isSaved(n)) {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        ActionStates.setSaved(n, false);
+                                        new AccountManager(Authentication.reddit).unsave(n);
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.btn_save);
+                                }
+                            }.execute();
+
+
+                        } else {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        ActionStates.setSaved(n, true);
+                                        new AccountManager(Authentication.reddit).save(n);
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    ((TextView) dialoglayout.findViewById(R.id.save)).setText(R.string.comment_unsave);
+
+                                }
+                            }.execute();
+
+                        }
+                    }
+                });
+
+                dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String urlString = "https://reddit.com" + submission.getPermalink() +
+                                n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+
+                        OpenRedditLink.customIntentChooser(urlString, mContext);
+                    }
+                });
+                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String urlString = "https://reddit.com" + submission.getPermalink() + n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+                        Reddit.defaultShareText(urlString, mContext);
+                    }
+                });
+
+                dialoglayout.findViewById(R.id.copy).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Reddit post", n.getDataNode().get("body").asText());
+                        clipboard.setPrimaryClip(clip);
+                    }
+                });
+
+                if (!Authentication.isLoggedIn || !Authentication.didOnline) {
+
+                    dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
+                    dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
+
+                }
+                title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
+
+                builder.setView(dialoglayout);
+                builder.show();
+            }
+        });
+        upvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doUnHighlighted(holder, baseNode.getComment(), baseNode);
+                if (up.contains(n.getFullName())) {
+                    new Vote(v, mContext).execute(n);
+                    up.remove(n.getFullName());
+                    holder.score.setTextColor(holder.textColorRegular);
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + "");
+                    }
+                    upvote.clearColorFilter();
+
+                } else if (down.contains(n.getFullName())) {
+                    new Vote(true, v, mContext).execute(n);
+                    up.add(n.getFullName());
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + 1 + "");
+                    }
+                    down.remove(n.getFullName());
+                    downvote.clearColorFilter(); // reset colour
+                    holder.score.setTextColor(holder.textColorUp);
+                    upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                } else {
+                    new Vote(true, v, mContext).execute(n);
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + 1 + "");
+                    }
+                    up.add(n.getFullName());
+                    holder.score.setTextColor(holder.textColorUp);
+                    upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                }
+            }
+        });
+        downvote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doUnHighlighted(holder, baseNode.getComment(), baseNode);
+
+                if (down.contains(n.getFullName())) {
+                    new Vote(v, mContext).execute(n);
+                    down.remove(n.getFullName());
+                    holder.score.setTextColor(holder.textColorRegular);
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() + "");
+                    }
+                    downvote.clearColorFilter();
+
+                } else if (up.contains(n.getFullName())) {
+                    new Vote(false, v, mContext).execute(n);
+                    down.add(n.getFullName());
+                    up.remove(n.getFullName());
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() - 1 + "");
+                    }
+                    upvote.clearColorFilter(); // reset colour
+                    holder.score.setTextColor(holder.textColorDown);
+                    downvote.setColorFilter(holder.textColorDown);
+
+                } else {
+                    new Vote(false, v, mContext).execute(n);
+                    if (!n.isScoreHidden()) {
+                        holder.score.setText(n.getScore() - 1 + "");
+                    }
+                    down.add(n.getFullName());
+                    holder.score.setTextColor(holder.textColorDown);
+                    downvote.setColorFilter(holder.textColorDown);
+                }
+            }
+        });
+        menu.setBackgroundColor(color);
+        replyArea.setBackgroundColor(color);
+
+        menu.setVisibility(View.VISIBLE);
+        replyArea.setVisibility(View.GONE);
+        holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
     EditText currentlyEditing;
 
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
+
+
         holder.dots.setVisibility(View.VISIBLE);
         collapse(holder.menuArea);
 
@@ -959,6 +951,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.setLayoutParams(params);
 
         holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
+
     }
 
     public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode) {
@@ -1556,6 +1549,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void hideAll(CommentNode n, int i) {
+
         int counter = hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
@@ -1797,5 +1791,4 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return null;
         }
     }
-
 }
