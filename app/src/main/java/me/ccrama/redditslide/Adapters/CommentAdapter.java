@@ -40,7 +40,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
@@ -63,7 +62,6 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -473,6 +471,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, baseNode);
+        }
+        if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE) {
+            unhideAll(baseNode, holder.getAdapterPosition() + 1);
+            hiddenPersons.remove(n.getFullName());
+            hideChildrenObject(holder.children);
+            holder.firstTextView.setVisibility(View.VISIBLE);
+            holder.menuArea.setVisibility(View.GONE);
         }
         currentlySelected = holder;
         holder.dots.setVisibility(View.GONE);
@@ -924,8 +929,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     EditText currentlyEditing;
 
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
-
-
         holder.dots.setVisibility(View.VISIBLE);
         collapse(holder.menuArea);
 
