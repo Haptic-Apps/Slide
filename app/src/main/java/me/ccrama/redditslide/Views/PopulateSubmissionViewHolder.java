@@ -3,12 +3,15 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -244,6 +248,93 @@ public class PopulateSubmissionViewHolder {
         return Palette.ThemeEnum.DARK.getTint();
     }
 
+    public <T extends Contribution> void showBottomSheet(final Activity mContext, final Submission submission, final SubmissionViewHolder holder, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
+        new BottomSheet.Builder(mContext)
+                .title(Html.fromHtml(submission.getTitle()))
+                .sheet(1, mContext.getResources().getDrawable(R.drawable.profile), "/u/" + submission.getAuthor())
+                .sheet(2, mContext.getResources().getDrawable(R.drawable.sub), "/r/" + submission.getSubredditName())
+                .sheet(3, mContext.getResources().getDrawable(R.drawable.saved), mContext.getString(R.string.submission_save))
+                .sheet(5, mContext.getResources().getDrawable(R.drawable.hide), mContext.getString(R.string.submission_hide))
+                .sheet(7, mContext.getResources().getDrawable(R.drawable.openexternal), mContext.getString(R.string.submission_link_extern))
+                .sheet(4, mContext.getResources().getDrawable(R.drawable.share), mContext.getString(R.string.submission_share_permalink))
+
+                .listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 1: {
+                                Intent i = new Intent(mContext, Profile.class);
+                                i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
+                                mContext.startActivity(i);
+                            }
+                            break;
+                            case 2: {
+                                Intent i = new Intent(mContext, SubredditView.class);
+                                i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
+                                mContext.startActivity(i);
+                            }
+                            break;
+                            case 3:
+                                if (submission.saved) {
+                                    //       ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save);
+                                    submission.saved = false;
+                                } else {
+                                    //       ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
+                                    submission.saved = true;
+
+                                }
+                                new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
+                                break;
+                            case 5: {
+                                final int pos = posts.indexOf(submission);
+                                final T t = posts.get(pos);
+                                posts.remove(submission);
+
+                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                Hidden.setHidden((Contribution) t);
+
+                                if (baseSub != null) {
+                                    OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                }
+
+
+                                Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (baseSub != null) {
+                                            OfflineSubreddit.getSubreddit(baseSub).unhideLast();
+                                        }
+                                        posts.add(pos, t);
+                                        recyclerview.getAdapter().notifyItemInserted(pos + 1);
+                                        Hidden.undoHidden((Contribution) t);
+
+                                    }
+                                }).show();
+                            }
+                            break;
+                            case 7:
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
+                                mContext.startActivity(browserIntent);
+                                break;
+                            case 4:
+                                Reddit.defaultShareText(submission.getUrl(), mContext);
+                                break;
+                            case 8:
+                                Reddit.defaultShareText(submission.getPermalink(), mContext);
+                                break;
+                            case 6:
+                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
+                                clipboard.setPrimaryClip(clip);
+
+                                Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                }).show();
+    }
+
+
     public static String getSubmissionScoreString(int score, Resources res, Submission submission) {
         switch (submission.getSubredditName().toLowerCase()) {
             case "androidcirclejerk":
@@ -255,8 +346,8 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
-    public <T> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
-   //     holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
+    public <T extends Contribution> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
+        holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -269,17 +360,17 @@ public class PopulateSubmissionViewHolder {
         holder.info.setText(submission.getAuthor() + distingush + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + submission.getSubredditName() + separator + submission.getDomain());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
-            holder.itemView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+            holder.mod.setVisibility(View.VISIBLE);
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
             if (reports.size() + reports2.size() > 0) {
-                ((ImageView) holder.itemView.findViewById(R.id.mod)).setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) holder.mod).setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.SRC_ATOP);
             } else {
-                ((ImageView) holder.itemView.findViewById(R.id.mod)).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) holder.mod).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
             }
 
-            holder.itemView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+            holder.mod.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LayoutInflater inflater = (mContext).getLayoutInflater();
@@ -617,10 +708,10 @@ public class PopulateSubmissionViewHolder {
                 }
             });
         } else {
-            holder.itemView.findViewById(R.id.mod).setVisibility(View.GONE);
+            holder.mod.setVisibility(View.GONE);
         }
 
-        holder.itemView.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
+        holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (offline) {
@@ -628,130 +719,7 @@ public class PopulateSubmissionViewHolder {
                     Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
 
                 } else {
-                    LayoutInflater inflater = (mContext).getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                    title.setText(Html.fromHtml(submission.getTitle()));
-
-                    ((TextView) dialoglayout.findViewById(R.id.userpopup)).setText("/u/" + submission.getAuthor());
-                    ((TextView) dialoglayout.findViewById(R.id.subpopup)).setText("/r/" + submission.getSubredditName());
-                    dialoglayout.findViewById(R.id.sidebar).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(mContext, Profile.class);
-                            i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
-                            mContext.startActivity(i);
-                        }
-                    });
-
-                    dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(mContext, SubredditView.class);
-                            i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
-                            mContext.startActivity(i);
-                        }
-                    });
-
-
-                    dialoglayout.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (submission.saved) {
-                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_save);
-                                submission.saved = false;
-                            } else {
-                                ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
-                                submission.saved = true;
-
-                            }
-                            new SubmissionAdapter.AsyncSave(holder.itemView).execute(submission);
-
-                        }
-                    });
-                    if (submission.saved) {
-                        ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
-                    }
-                    dialoglayout.findViewById(R.id.gild).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String urlString = "https://reddit.com" + submission.getPermalink();
-                            OpenRedditLink.customIntentChooser(urlString, mContext);
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (submission.isSelfPost())
-                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
-                            else {
-                                new BottomSheet.Builder(mContext)
-                                        .title(R.string.submission_share_title)
-                                        .grid()
-                                        .sheet(R.menu.share_menu)
-                                        .listener(new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case R.id.reddit_url:
-                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
-                                                        break;
-                                                    case R.id.link_url:
-                                                        Reddit.defaultShareText(submission.getUrl(), mContext);
-                                                        break;
-                                                }
-                                            }
-                                        }).show();
-                            }
-                        }
-                    });
-                    dialoglayout.findViewById(R.id.copy).setVisibility(View.GONE);
-                    if (!Authentication.isLoggedIn || !Authentication.didOnline) {
-                        dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
-                        dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
-
-                    }
-                    title.setBackgroundColor(Palette.getColor(submission.getSubredditName()));
-
-                    builder.setView(dialoglayout);
-                    final Dialog d = builder.show();
-                    if (SettingValues.hideButton && Authentication.isLoggedIn) {
-                        dialoglayout.findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                final int pos = posts.indexOf(submission);
-                                final T t = posts.get(pos);
-                                posts.remove(submission);
-
-                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-                                d.dismiss();
-                                Hidden.setHidden((Contribution) t);
-
-                                if (baseSub != null) {
-                                    Log.v(LogUtil.getTag(), "HIDING POST");
-                                    OfflineSubreddit.getSubreddit(baseSub).hide(pos);
-                                }
-
-
-                                Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (baseSub != null) {
-                                            OfflineSubreddit.getSubreddit(baseSub).unhideLast();
-                                        }
-                                        posts.add(pos, t);
-                                        recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden((Contribution) t);
-
-                                    }
-                                }).show();
-                            }
-                        });
-                    } else {
-                        dialoglayout.findViewById(R.id.hide).setVisibility(View.GONE);
-                    }
-
+                    showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview);
                 }
             }
         });
@@ -761,8 +729,8 @@ public class PopulateSubmissionViewHolder {
 
         holder.score.setText("" + submission.getScore());
 
-        final ImageView downvotebutton = (ImageView) holder.itemView.findViewById(R.id.downvote);
-        final ImageView upvotebutton = (ImageView) holder.itemView.findViewById(R.id.upvote);
+        final ImageView downvotebutton = (ImageView) holder.downvote;
+        final ImageView upvotebutton = (ImageView) holder.upvote;
         if (submission.isArchived()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
@@ -793,7 +761,7 @@ public class PopulateSubmissionViewHolder {
             }
         }
 
-        final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
+        final ImageView hideButton = (ImageView) holder.hide;
 
         if (hideButton != null) {
             if (SettingValues.hideButton && Authentication.isLoggedIn) {
@@ -833,7 +801,7 @@ public class PopulateSubmissionViewHolder {
                 hideButton.setVisibility(View.GONE);
             }
             if (SettingValues.saveButton && Authentication.isLoggedIn) {
-                holder.itemView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                holder.save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -872,12 +840,12 @@ public class PopulateSubmissionViewHolder {
                     }
                 });
             } else {
-                holder.itemView.findViewById(R.id.save).setVisibility(View.GONE);
+                holder.save.setVisibility(View.GONE);
             }
         }
 
 
-        ImageView thumbImage2 = ((ImageView) holder.itemView.findViewById(R.id.thumbimage2));
+        ImageView thumbImage2 = ((ImageView) holder.thumbimage);
 
 
         holder.leadImage.setThumbnail(thumbImage2);
@@ -896,16 +864,12 @@ public class PopulateSubmissionViewHolder {
         if (full) {
             addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
         }
-        View pinned = holder.itemView.findViewById(R.id.pinned);
-
-
-        View flair = holder.itemView.findViewById(R.id.flairbubble);
 
         if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
-            flair.setVisibility(View.GONE);
+            holder.flair.setVisibility(View.GONE);
         } else {
-            flair.setVisibility(View.VISIBLE);
-            ((TextView) flair.findViewById(R.id.text)).setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
+            holder.flair.setVisibility(View.VISIBLE);
+            holder.flairText.setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
         }
 
         if (fullscreen) {
@@ -916,16 +880,16 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
             }
         }
-        View nsfw = holder.itemView.findViewById(R.id.nsfw);
         int pinnedVisibility = submission.isStickied() ? View.VISIBLE : View.GONE;
-        if (pinned.getVisibility() != pinnedVisibility) {
-            pinned.setVisibility(pinnedVisibility);
+        if (holder.pinned.getVisibility() != pinnedVisibility) {
+            holder.pinned.setVisibility(pinnedVisibility);
         }
 
         int nsfwVisibility = submission.isNsfw() ? View.VISIBLE : View.GONE;
-        if (nsfw.getVisibility() != nsfwVisibility) {
-            nsfw.setVisibility(nsfwVisibility);
+        if (holder.nsfw.getVisibility() != nsfwVisibility) {
+            holder.nsfw.setVisibility(nsfwVisibility);
         }
+
 
         try {
             final TextView points = holder.score;
@@ -1026,6 +990,8 @@ public class PopulateSubmissionViewHolder {
         } catch (Exception ignored) {
             ignored.printStackTrace();
         }
+
+
         if (HasSeen.getSeen(submission.getFullName()) && !full || (submission.getDataNode().has("visited") && submission.getDataNode().get("visited").asBoolean()) && !full) {
             holder.itemView.setAlpha(0.65f);
         } else {

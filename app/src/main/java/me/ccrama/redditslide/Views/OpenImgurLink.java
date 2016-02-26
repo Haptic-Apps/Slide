@@ -30,7 +30,7 @@ public class OpenImgurLink {
                     .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                 @Override
                 public void onCompleted(Exception e, JsonObject obj) {
-                    if (obj.has("error")) {
+                    if (obj != null && !obj.isJsonNull() && obj.has("error")) {
                         ((Activity) c).finish();
                     } else {
                         try {

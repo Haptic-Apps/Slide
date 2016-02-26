@@ -215,6 +215,7 @@ public class Authentication {
             LogUtil.v("LOADING SUBS");
 
             SubredditStorage.getSubredditsForHome(a);
+            SubredditStorage.getMultireddits();
 
 
         }

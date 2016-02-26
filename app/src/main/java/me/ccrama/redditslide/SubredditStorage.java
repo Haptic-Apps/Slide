@@ -68,7 +68,13 @@ public class SubredditStorage {
      */
     public static List<MultiReddit> getMultireddits() {
         if (multireddits == null) {
-            loadMultireddits();
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    loadMultireddits();
+                    return null;
+                }
+            }.execute();
         }
         return multireddits;
     }
