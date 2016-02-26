@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -220,24 +221,6 @@ public class CreateCardView {
 
     }
 
-    public static View setActionBarVisible(boolean b, ViewGroup parent, Boolean secondary, String sub) {
-        secondary = false; //removing secondary layouts for now
-
-        String subreddit = (secondary) ? "second" : "";
-        sub = sub.toLowerCase();
-        if (subreddit.isEmpty()) {
-
-
-            SettingValues.prefs.edit().putBoolean("actionBarVisibleNew", b).apply();
-            SettingValues.actionBarVisible = b;
-            return CreateView(parent);
-
-        } else {
-            SettingValues.prefs.edit().putBoolean(subreddit + "actionBarVisibleNew", b).apply();
-            return CreateView(parent, secondary, sub);
-
-        }
-    }
 
     public static View setMiddleCard(boolean b, ViewGroup parent, Boolean secondary, String sub) {
         secondary = false; //removing secondary layouts for now
@@ -258,18 +241,33 @@ public class CreateCardView {
 
         }
     }
+    public static View setSwitchThumb(boolean b, ViewGroup parent) {
 
+
+
+
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWITCH_THUMB, b).apply();
+            SettingValues.switchThumb = b;
+
+            return CreateView(parent);
+
+
+    }
     private static void doHideObjects(View v, Boolean secondary) {
-
-        if (!SettingValues.actionBarVisible) {
-            v.findViewById(R.id.actionbar).setVisibility(View.GONE);
-
-        }
 
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
             ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
+        }
+        if(SettingValues.switchThumb){
+            RelativeLayout.LayoutParams picParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2).getLayoutParams();
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.inside).getLayoutParams();
+            picParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+            picParams.setMargins(0, picParams.topMargin,picParams.leftMargin, picParams.bottomMargin);
+
+            layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.thumbimage2);
+            layoutParams.removeRule(RelativeLayout.RIGHT_OF);
         }
         if (!SettingValues.bigPicEnabled) {
             v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
@@ -332,15 +330,6 @@ public class CreateCardView {
 
         }
 
-    }
-
-
-    public static boolean isActionBar(Boolean secondary) {
-        secondary = false; //removing secondary layouts for now
-
-        String subreddit = (secondary) ? "second" : "";
-
-        return SettingValues.prefs.getBoolean(subreddit + "actionBarVisibleNew", SettingValues.actionBarVisible);
     }
 
     public enum CardEnum {

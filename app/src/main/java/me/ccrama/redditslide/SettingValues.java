@@ -39,6 +39,8 @@ public class SettingValues {
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
+    public static final String PREF_SWITCH_THUMB = "switchThumb";
+
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
     public static final String PREF_GIF = "gif";
@@ -57,7 +59,6 @@ public class SettingValues {
     public static final String PREF_POST_NAV = "postNav";
     public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
 
-    public static boolean actionBarVisible;
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting defaultSorting;
     public static TimePeriod timePeriod;
@@ -117,10 +118,10 @@ public class SettingValues {
     public static int daytime;
     public static boolean autoTime;
     public static boolean albumSwipe;
+    public static boolean switchThumb;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
-        actionBarVisible = settings.getBoolean("actionBarVisibleNew", true);
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         middleImage = settings.getBoolean("middleImage", false);
 
@@ -172,6 +173,7 @@ public class SettingValues {
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
 
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
+        switchThumb = prefs.getBoolean(PREF_SWITCH_THUMB, true);
 
         swipeAnywhere = prefs.getBoolean(PREF_SWIPE_ANYWHERE, false);
         album = prefs.getBoolean(PREF_ALBUM, true);

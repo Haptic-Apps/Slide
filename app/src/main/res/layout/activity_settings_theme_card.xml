@@ -5,14 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/activity_background"
     android:orientation="vertical">
-    <!--so card enable/disable
-    9:45:18 AM
-    3 choices, bigpic(reverts to infobar), infobar, thumbnail
-    9:45:29 AM
-    Display thumbs left or right if thumb is selected
-    9:45:37 AM
-    Actionbar collapsible or always visible
-    @-->
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -243,7 +236,7 @@
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="@string/card_section_actionbar"
+                    android:text="@string/settings_title_other"
                     android:textStyle="bold"
                     android:textSize="14sp"
                     android:textAllCaps="true"
@@ -282,7 +275,7 @@
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:text="@string/card_actionbar"
+                        android:text="@string/card_right_thumb"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
                 </LinearLayout>

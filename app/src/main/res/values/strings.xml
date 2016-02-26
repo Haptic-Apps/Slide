@@ -575,6 +575,7 @@
     <string name="profile_remove_account">Would you really like to remove this account?</string>
     <string name="profile_remove">Delete account</string>
     <string name="theme_dark_blue">Dark Blue</string>
+    <string name="card_right_thumb">Right-aligned thumbnail</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

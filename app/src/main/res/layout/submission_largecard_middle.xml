@@ -23,17 +23,16 @@
     <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:background="?android:selectableItemBackground">
 
 
         <LinearLayout
             android:id="@+id/vote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/innerrelative"
             android:layout_alignBottom="@+id/menu"
+            android:layout_alignTop="@+id/innerrelative"
             android:orientation="horizontal" />
-
 
 
         <RelativeLayout
@@ -46,7 +45,7 @@
                 android:id="@+id/thumbimage2"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:layout_centerVertical="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
@@ -56,6 +55,7 @@
                 app:riv_corner_radius="2dp" />
 
             <RelativeLayout
+                android:id="@+id/inside"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -153,16 +153,17 @@
 
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
             android:id="@+id/headerimage"
-            android:layout_below="@+id/innerrelative"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/innerrelative" />
+
         <ImageView
+            android:id="@+id/scoreimg"
             android:layout_width="15dp"
             android:layout_height="36dp"
             android:layout_below="@+id/headerimage"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
-            android:id="@+id/scoreimg"
 
             android:layout_marginRight="4dp"
             android:src="@drawable/upvoted"
@@ -171,11 +172,11 @@
         <TextView
             android:id="@+id/score"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@+id/scoreimg"
             android:layout_height="36dp"
-
             android:layout_below="@+id/headerimage"
+
             android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/scoreimg"
             android:gravity="center_vertical"
             android:tag="tint"
 
@@ -183,15 +184,15 @@
             android:textSize="?attr/font_cardinfo" />
 
         <ImageView
-            android:layout_width="15dp"
-            android:layout_toRightOf="@+id/score"
             android:id="@+id/pointsimg"
-
+            android:layout_width="15dp"
             android:layout_height="36dp"
+
             android:layout_below="@+id/headerimage"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="4dp"
+            android:layout_toRightOf="@+id/score"
 
             android:src="@drawable/commentchange"
             android:tag="tint" />

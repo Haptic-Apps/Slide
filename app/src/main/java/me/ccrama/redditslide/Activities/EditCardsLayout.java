@@ -74,8 +74,6 @@ public class EditCardsLayout extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 layout.removeAllViews();
                 layout.addView(CreateCardView.setBigPicCropped(isChecked, layout));
-
-
             }
         });
 
@@ -148,14 +146,12 @@ public class EditCardsLayout extends BaseActivity {
         //Actionbar//
         //Enable, collapse//
         final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.action);
-        actionbar.setChecked(CreateCardView.isActionBar(!subreddit.isEmpty()));
+        actionbar.setChecked(SettingValues.switchThumb);
         actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 layout.removeAllViews();
-                layout.addView(CreateCardView.setActionBarVisible(isChecked, layout, !subreddit.isEmpty(), subreddit));
-                hidebutton.setEnabled(isChecked);
-                savebutton.setEnabled(isChecked);
+                layout.addView(CreateCardView.setSwitchThumb(isChecked, layout));
             }
         });
 
@@ -166,14 +162,12 @@ public class EditCardsLayout extends BaseActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor edit = SettingValues.prefs.edit();
-                edit.remove(subreddit + "actionBarVisibleNew");
                 edit.remove(subreddit + "largeThumbnailsNew");
                 edit.remove(subreddit + "defaultCardViewNew");
                 edit.remove(subreddit + "infoBarTypeNew");
                 edit.apply();
                 layout.removeAllViews();
                 layout.addView(CreateCardView.CreateView(layout, !subreddit.isEmpty(), subreddit));
-                actionbar.setChecked(CreateCardView.isActionBar(!subreddit.isEmpty()));
 
             }
         });
