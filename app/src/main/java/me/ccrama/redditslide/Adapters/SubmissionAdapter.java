@@ -130,13 +130,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreenPopup.class);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                            (holder2.itemView.getContext()).startActivity(i2);
+                            context.startActivityForResult(i2, 940);
 
                         } else {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreen.class);
                             i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                            (holder2.itemView.getContext()).startActivity(i2);
+                            context.startActivityForResult(i2, 940);
                         }
                     } else {
                         Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();

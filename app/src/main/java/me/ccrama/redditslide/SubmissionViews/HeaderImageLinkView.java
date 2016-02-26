@@ -152,6 +152,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 } else {
                     wrapArea.setVisibility(View.VISIBLE);
                 }
+
                 ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                 setVisibility(View.GONE);
 
