@@ -256,6 +256,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
+                if(posts != null && !posts.offline)
                 mSwipeRefreshLayout.setRefreshing(true);
             }
         });
@@ -497,7 +498,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-             loadImages(submissions);
+            loadImages(submissions);
         }
     }
 
@@ -541,16 +542,14 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mSwipeRefreshLayout != null) {
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
-                }
-                adapter.notifyDataSetChanged();
-            }
-        });
+
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
+        }
+        adapter.notifyDataSetChanged();
+
+
     }
 
     @Override

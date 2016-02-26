@@ -56,8 +56,11 @@ import net.dean.jraw.models.VoteDirection;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
@@ -470,11 +473,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         mAnimator.start();
     }
 
+    CommentNode currentBaseNode;
+
     public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
-            doUnHighlighted(currentlySelected, baseNode);
+            doUnHighlighted(currentlySelected, currentBaseNode);
         }
         currentlySelected = holder;
+        currentBaseNode = baseNode;
         holder.dots.setVisibility(View.GONE);
         int color = Palette.getColor(n.getSubredditName());
         currentSelectedItem = n.getFullName();
@@ -1709,18 +1715,39 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (params.length > 0) {
                 try {
-                    params[0].comment.loadMoreComments(Authentication.reddit);
-                    for (CommentNode no : params[0].comment.walkTree()) {
-                        if (!keys.containsKey(no.getComment().getFullName())) {
-                            CommentObject obs = new CommentItem(no);
+                    CommentNode node = params[0].comment;
+                    node.loadMoreComments(Authentication.reddit);
+                    HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
 
-                            finalData.add(obs);
+                    for (CommentNode n : node.walkTree()) {
+                        if (!keys.containsKey(n.getComment().getFullName())) {
 
-                            if (no.hasMoreComments()) {
-                                finalData.add(new MoreChildItem(no, no.getMoreChildren()));
+                            CommentObject obj = new CommentItem(n);
+                            ArrayList<Integer> removed = new ArrayList<>();
+                            Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
+                            map.putAll(waiting);
+
+                            for (Integer i2 : map.keySet()) {
+                                if (i2 >= n.getDepth()) {
+                                    finalData.add(waiting.get(i2));
+                                    removed.add(i2);
+                                    waiting.remove(i2);
+                                    i++;
+
+                                }
                             }
+
+                            finalData.add(obj);
                             i++;
+
+                            if (n.hasMoreComments()) {
+                                waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
+                            }
                         }
+                    }
+                    if (node.hasMoreComments()) {
+                        finalData.add(new MoreChildItem(node, node.getMoreChildren()));
+                        i++;
                     }
                 } catch (Exception e) {
                     Log.w(LogUtil.getTag(), "Cannot load more comments " + e);
