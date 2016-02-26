@@ -63,8 +63,6 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setSubmission(final Submission submission, final boolean full) {
         backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
-        doImageAndText(submission, full);
-
         if (!done) {
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -87,6 +85,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
     public void doImageAndText(Submission submission, boolean full) {
+
         final ContentType.ImageType type = ContentType.getImageType(submission);
 
         setVisibility(View.VISIBLE);
