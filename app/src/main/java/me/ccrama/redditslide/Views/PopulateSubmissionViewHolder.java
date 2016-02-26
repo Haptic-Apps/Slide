@@ -256,7 +256,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
-        holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
+   //     holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -895,7 +895,6 @@ public class PopulateSubmissionViewHolder {
 
         if (full) {
             addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
-
         }
         View pinned = holder.itemView.findViewById(R.id.pinned);
 

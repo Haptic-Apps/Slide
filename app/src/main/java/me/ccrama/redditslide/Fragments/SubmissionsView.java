@@ -497,7 +497,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-            //  loadImages(submissions);
+             loadImages(submissions);
         }
     }
 

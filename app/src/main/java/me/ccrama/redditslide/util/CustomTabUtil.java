@@ -34,8 +34,8 @@ public class CustomTabUtil {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
                     .setToolbarColor(color)
                     .setShowTitle(true)
-                    .setStartAnimations(contextActivity, R.anim.slideright, 0)
-                    .setExitAnimations(contextActivity, 0, R.anim.fade_out)
+                    .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
+                    .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
 
                     .setActionButton(BitmapFactory.decodeResource(res, R.drawable.share),
                             contextActivity.getString(R.string.submission_link_share),
