@@ -480,6 +480,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, currentBaseNode);
         }
+        if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE) {
+            unhideAll(baseNode, holder.getAdapterPosition() + 1);
+            hiddenPersons.remove(n.getFullName());
+            hideChildrenObject(holder.children);
+            holder.firstTextView.setVisibility(View.VISIBLE);
+            holder.menuArea.setVisibility(View.GONE);
+        }
         currentlySelected = holder;
         currentBaseNode = baseNode;
         holder.dots.setVisibility(View.GONE);
@@ -930,8 +937,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     EditText currentlyEditing;
 
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
-
-
         holder.dots.setVisibility(View.VISIBLE);
         collapse(holder.menuArea);
 
