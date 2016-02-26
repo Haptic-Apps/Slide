@@ -29,7 +29,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -226,14 +225,8 @@ public class MainActivity extends BaseActivity {
         } else if(requestCode == 940){
             if(adapter != null && adapter.getCurrentFragment() != null){
 
-                SubmissionsView v = (SubmissionsView) adapter.getCurrentFragment();
+               ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
 
-                RecyclerView.ItemAnimator back = v.rv.getItemAnimator();
-
-                v.rv.setItemAnimator(null);
-                dontAnimate = true;
-                v.rv.getAdapter().notifyItemRangeChanged(0, v.rv.getAdapter().getItemCount());
-                v.rv.setItemAnimator(back);
 
             }
         } else if (requestCode == RESET_ADAPTER_RESULT) {

@@ -106,6 +106,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return new SubmissionViewHolder(v);
         }
     }
+    int clicked;
+
+    public void refreshView(){
+        notifyItemChanged(clicked);
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
@@ -131,12 +136,15 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                             context.startActivityForResult(i2, 940);
+                            clicked = holder2.getAdapterPosition();
 
                         } else {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreen.class);
                             i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                             context.startActivityForResult(i2, 940);
+                            clicked = holder2.getAdapterPosition();
+
                         }
                     } else {
                         Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
