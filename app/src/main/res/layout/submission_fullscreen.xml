@@ -13,7 +13,7 @@
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
 
-    cardview:cardCornerRadius="2dp">
+    cardview:cardCornerRadius="0dp">
 
     <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -383,10 +383,10 @@
             android:id="@+id/innerSend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/menu"
+            android:layout_below="@+id/more"
+            android:visibility="gone"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:visibility="gone">
+            android:padding="16dp">
 
             <EditText
                 android:id="@+id/replyLine"

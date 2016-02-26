@@ -273,7 +273,35 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         return animator;
     }
+    private void collapse(final View v, boolean full) {
+        int finalHeight = v.getHeight();
 
+        ValueAnimator mAnimator = slideAnimator(finalHeight, 0, v);
+
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                //Height=0, but it set visibility to GONE
+                v.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+    }
     private void collapse(final View v) {
         int finalHeight = v.getHeight();
 
@@ -347,12 +375,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         l.setVisibility(View.VISIBLE);
 
-
         final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l.measure(widthSpec, heightSpec);
 
-        View l2 = l.findViewById(R.id.replyArea);
+        View l2 = l.findViewById(R.id.replyArea)== null?l.findViewById(R.id.innerSend):l.findViewById(R.id.replyArea);
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
@@ -371,7 +398,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l.measure(widthSpec, heightSpec);
 
-        final View l2 = l.findViewById(R.id.replyArea);
+        View l2 = l.findViewById(R.id.replyArea)== null?l.findViewById(R.id.innerSend):l.findViewById(R.id.replyArea);
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
@@ -390,6 +417,43 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) l.getLayoutParams();
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
                 params.addRule(RelativeLayout.BELOW, R.id.background);
+                l.setLayoutParams(params);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+    }
+    private void expand(final View l, boolean b, boolean full) {
+
+        l.setVisibility(View.VISIBLE);
+
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        l.measure(widthSpec, heightSpec);
+
+        ValueAnimator mAnimator = slideAnimator(0, l.getMeasuredHeight(), l);
+
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) l.getLayoutParams();
+                params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+                params.addRule(RelativeLayout.BELOW, R.id.background);
+                params.addRule(RelativeLayout.BELOW, R.id.more);
                 l.setLayoutParams(params);
             }
 
@@ -1257,7 +1321,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onClick(View v) {
                             final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
                             if (replyArea.getVisibility() == View.GONE) {
-                                replyArea.setVisibility(View.VISIBLE);
+                                expand(replyArea, true, true);
                                 DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
 
                                 currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
@@ -1280,7 +1344,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     }
                                 });
                             } else {
-                                replyArea.setVisibility(View.GONE);
+                                collapse(replyArea, true);
                             }
                         }
                     });
