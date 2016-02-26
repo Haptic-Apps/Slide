@@ -173,7 +173,7 @@ public class SubredditStorage {
         finalS = finalS.substring(0, finalS.length() - 1);
         subscriptions.edit().putString(Authentication.name, finalS).commit();
         subredditsForHome = new ArrayList<>(subs);
-        alphabeticalSubreddits = sort(new ArrayList<>(subs));
+        alphabeticalSubreddits = new ArrayList<>(subs);
         saveState(false);
     }
 
