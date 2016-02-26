@@ -155,9 +155,6 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
-        hidebutton.setEnabled(actionbar.isChecked());
-        savebutton.setEnabled(actionbar.isChecked());
-
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
