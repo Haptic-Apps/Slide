@@ -68,7 +68,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
         holder.body.setVisibility(View.VISIBLE);
         holder.text.setVisibility(View.VISIBLE);
-        if(!user.isJsonNull() && user.getAsJsonObject().has("height") && holder.image.getLayoutParams() instanceof LinearLayout.LayoutParams){
+        if(!user.isJsonNull() && user.getAsJsonObject().has("height") && holder.image.getLayoutParams() instanceof LinearLayout.LayoutParams && holder.image.getHeight() != 0){
             holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getAsJsonObject().get("height").getAsInt(), user.getAsJsonObject().get("width").getAsInt(), holder.image)));
         }
         if (user.getAsJsonObject().has("image")) {

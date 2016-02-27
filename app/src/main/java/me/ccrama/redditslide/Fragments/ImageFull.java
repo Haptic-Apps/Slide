@@ -341,15 +341,15 @@ public class ImageFull extends Fragment {
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         image.setImage(ImageSource.bitmap(loadedImage));
                         (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-                        previous = image.scale;
-                        final float base = image.scale;
+
                         if (type == ContentType.ImageType.IMAGE || type == ContentType.ImageType.IMGUR) {
                             image.setMinimumDpi(30);
+                            previous = image.scale;
+                            final float base = image.scale;
                             image.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
                                 @Override
                                 public void onZoomLevelChanged(float zoom) {
-
-                                    if (zoom > previous && !hidden && zoom != base) {
+                                    if (zoom > previous && !hidden && zoom > base) {
                                         hidden = true;
                                         final View base = rootView.findViewById(R.id.base);
 
@@ -366,7 +366,7 @@ public class ImageFull extends Fragment {
                                         va.start();
 
                                         //hide
-                                    } else if (zoom < previous && hidden) {
+                                    } else if (zoom <= previous && hidden ) {
                                         hidden = false;
                                         final View base = rootView.findViewById(R.id.base);
 
