@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import net.dean.jraw.models.Submission;
 
@@ -19,9 +18,8 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CommentOverflow;
-import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.PopulateShadowboxInfo;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -40,15 +38,7 @@ public class SelftextFull extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_textcard, container, false);
 
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
-
-        title.setText(s.getTitle());
-        desc.setText(s.getSubredditName() + getString(R.string.submission_properties_seperator) + s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()) +
-                getString(R.string.submission_properties_seperator) +
-                PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
-                + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount()));
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
 
         if (!s.getSelftext().isEmpty()) {
 
@@ -74,6 +64,7 @@ public class SelftextFull extends Fragment {
         });
         return rootView;
     }
+
     public String sub;
 
     @Override
@@ -82,8 +73,9 @@ public class SelftextFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
-        s =OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
+        s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
     }
+
     private void setViews(String rawHTML, String subredditName, View base) {
         if (rawHTML.isEmpty()) {
             return;

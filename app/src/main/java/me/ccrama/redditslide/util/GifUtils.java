@@ -55,14 +55,16 @@ public class GifUtils {
         public View placeholder;
         public View gifSave;
         public boolean closeIfNull;
+        public boolean hideControls;
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable View gifSave, @NotNull boolean closeIfNull) {
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable View gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls) {
             this.c = c;
             this.video = video;
             this.progressBar = p;
             this.closeIfNull = closeIfNull;
             this.placeholder = placeholder;
             this.gifSave = gifSave;
+            this.hideControls = hideControls;
         }
 
         @Override
@@ -196,7 +198,7 @@ public class GifUtils {
                                                 public void run() {
                                                     video.setVideoPath(f.getAbsolutePath());
                                                     //videoView.set
-                                                    if (placeholder != null) {
+                                                    if (placeholder != null && !hideControls) {
 
                                                         MediaController mediaController = new
                                                                 MediaController(c);
@@ -367,7 +369,7 @@ public class GifUtils {
                                                 video.setVideoPath(f.getAbsolutePath());
                                                 //videoView.set
 
-                                                if (placeholder != null) {
+                                                if (placeholder != null && !hideControls) {
                                                     MediaController mediaController = new
                                                             MediaController(c);
                                                     mediaController.setAnchorView(placeholder);
@@ -529,7 +531,7 @@ public class GifUtils {
                                                                     video.setVideoPath(f.getAbsolutePath());
                                                                     //videoView.set
 
-                                                                    if (placeholder != null) {
+                                                                    if (placeholder != null && !hideControls) {
                                                                         MediaController mediaController = new
                                                                                 MediaController(c);
                                                                         mediaController.setAnchorView(placeholder);

@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,18 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
-import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.PopulateShadowboxInfo;
 import me.ccrama.redditslide.util.AlbumUtils;
 
 
@@ -33,24 +31,15 @@ public class AlbumFull extends Fragment {
     private View list;
     private int i = 0;
     private Submission s;
+    boolean hidden;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_albumcard, container, false);
 
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
-
-        title.setText(s.getTitle());
-        desc.setText(s.getSubredditName() + getString(R.string.submission_properties_seperator) + s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()) +
-                getString(R.string.submission_properties_seperator) +
-                PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
-                + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
-                + getString(R.string.submission_properties_seperator)
-                + Website.getDomainName(s.getUrl())) ;
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
 
         if (s.getUrl().contains("gallery")) {
             gallery = true;
@@ -60,9 +49,60 @@ public class AlbumFull extends Fragment {
 
         list.setVisibility(View.VISIBLE);
 
-            new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list).execute(s.getUrl());
+        new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list).execute(s.getUrl());
 
+        ((RecyclerView) list).setOnScrollListener(new RecyclerView.OnScrollListener() {
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                ValueAnimator va = null;
+
+                if (dy > 0 && !hidden) {
+                    hidden = true;
+
+                    if (va != null && va.isRunning())
+                        va.cancel();
+
+                    final View base = rootView.findViewById(R.id.base);
+                    va = ValueAnimator.ofFloat(1.0f, 0.2f);
+                    int mDuration = 250; //in millis
+                    va.setDuration(mDuration);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            Float value = (Float) animation.getAnimatedValue();
+                            base.setAlpha(value);
+                        }
+                    });
+
+                    va.start();
+
+                } else if (hidden && dy <= 0) {
+                    final View base = rootView.findViewById(R.id.base);
+
+                    if (va != null && va.isRunning())
+                        va.cancel();
+
+                    hidden = false;
+                    va = ValueAnimator.ofFloat(0.2f, 1.0f);
+                    int mDuration = 250; //in millis
+                    va.setDuration(mDuration);
+                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            Float value = (Float) animation.getAnimatedValue();
+                            base.setAlpha(value);
+                        }
+                    });
+
+                    va.start();
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +124,6 @@ public class AlbumFull extends Fragment {
     }
 
 
-
     private String cutEnds(String s) {
         if (s.endsWith("/")) {
             return s.substring(0, s.length() - 1);
@@ -99,7 +138,7 @@ public class AlbumFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
 
-        s =OfflineSubreddit.getSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
+        s = OfflineSubreddit.getSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
 
     }
 
