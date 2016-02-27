@@ -22,7 +22,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
@@ -60,11 +59,7 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final JsonElement user = users.get(position);
-
-
-        LogUtil.v(user.toString());
         final String url = list.get(position);
-
         ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
         holder.body.setVisibility(View.VISIBLE);
         holder.text.setVisibility(View.VISIBLE);

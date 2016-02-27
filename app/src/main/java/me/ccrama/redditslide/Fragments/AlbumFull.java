@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,9 @@ public class AlbumFull extends Fragment {
         list = rootView.findViewById(R.id.images);
 
         list.setVisibility(View.VISIBLE);
-
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        ((RecyclerView)list).setLayoutManager(layoutManager);
         new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list).execute(s.getUrl());
 
         ((RecyclerView) list).setOnScrollListener(new RecyclerView.OnScrollListener() {
