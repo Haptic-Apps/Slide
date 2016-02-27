@@ -590,11 +590,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         if (!appRestart.contains("startScreen")) {
             SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
-            SubredditStorage.alphabeticalSubreddits = stringToArray(appRestart.getString("subsalph", ""));
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
             Authentication.name = appRestart.getString("name", "");
             active = true;
-
         } else {
             appRestart.edit().remove("startScreen").apply();
         }

@@ -222,10 +222,10 @@ public class MainActivity extends BaseActivity {
             pager.setCurrentItem(current);
         } else if (requestCode == RESET_THEME_RESULT) {
             restartTheme();
-        } else if(requestCode == 940){
-            if(adapter != null && adapter.getCurrentFragment() != null){
+        } else if (requestCode == 940) {
+            if (adapter != null && adapter.getCurrentFragment() != null) {
 
-               ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
 
 
             }
@@ -386,8 +386,6 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
-            SubredditStorage.alphabeticalSubreddits =
-                    savedInstanceState.getStringArrayList(SUBS_ALPHA);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
             Authentication.didOnline = savedInstanceState.getBoolean(IS_ONLINE);
@@ -457,7 +455,7 @@ public class MainActivity extends BaseActivity {
         if (singleMode) pager.setSwipingEnabled(false);
 
 
-        if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null && !Reddit.isRestarting) {
+        if (SubredditStorage.subredditsForHome != null && !Reddit.isRestarting) {
             if (!first)
                 doDrawer();
 
@@ -479,7 +477,7 @@ public class MainActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null) {
+                                if (SubredditStorage.subredditsForHome != null) {
 
                                     mToolbar.postDelayed(new Runnable() {
                                         @Override
@@ -531,7 +529,6 @@ public class MainActivity extends BaseActivity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
-        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubreddits);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
 
@@ -1007,7 +1004,7 @@ public class MainActivity extends BaseActivity {
                 LogUtil.v(accName);
                 final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
 
-                ((TextView)t.findViewById(R.id.name)).setText(accName);
+                ((TextView) t.findViewById(R.id.name)).setText(accName);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1031,9 +1028,9 @@ public class MainActivity extends BaseActivity {
                                         if (accName.equalsIgnoreCase(Authentication.name)) {
 
                                             boolean d = false;
-                                            for(String s : keys){
+                                            for (String s : keys) {
 
-                                                if(!s.equalsIgnoreCase(accName)){
+                                                if (!s.equalsIgnoreCase(accName)) {
                                                     d = true;
                                                     LogUtil.v("Switching to " + s);
                                                     if (!accounts.get(s).isEmpty()) {
@@ -1050,12 +1047,12 @@ public class MainActivity extends BaseActivity {
                                                 }
 
                                             }
-                                            if(!d){
+                                            if (!d) {
                                                 SubredditStorage.saveState(true, true);
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
 
-                                        } else{
+                                        } else {
                                             accounts.remove(accName);
                                             keys.remove(accName);
                                         }
@@ -1293,10 +1290,9 @@ public class MainActivity extends BaseActivity {
 
     public void setDrawerSubList() {
         ArrayList<String> copy = new ArrayList<>();
-        if ((SettingValues.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null) || (!SettingValues.alphabetical_home && SubredditStorage.subredditsForHome != null))
-            for (String s : SettingValues.alphabetical_home ? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
-                copy.add(s);
-            }
+        for (String s : SubredditStorage.subredditsForHome) {
+            copy.add(s);
+        }
         e = ((EditText) headerMain.findViewById(R.id.sort));
         doTutorial();
 
@@ -1710,6 +1706,7 @@ public class MainActivity extends BaseActivity {
         }
 
     }
+
     public static boolean dontAnimate;
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {

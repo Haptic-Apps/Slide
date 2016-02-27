@@ -188,19 +188,6 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.alphabetical);
-
-            single.setChecked(SettingValues.alphabetical_home);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.alphabetical_home = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALPHABETICAL_DRAWER, isChecked).apply();
-
-                }
-            });
-        }
-        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.lowq);
 
             single.setChecked(!SettingValues.blurCheck);

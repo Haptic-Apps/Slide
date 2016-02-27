@@ -17,6 +17,8 @@ import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import java.util.ArrayList;
+
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubredditStorage;
@@ -56,7 +58,7 @@ public class Shortcut extends Activity {
         super.onCreate(savedInstanceState);
 
 
-        if (SubredditStorage.alphabeticalSubreddits == null) {
+        if (SubredditStorage.subredditsForHome == null) {
             SubredditStorage.shortcut = this;
         } else {
             doShortcut();
@@ -77,10 +79,11 @@ public class Shortcut extends Activity {
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Shortcut.this);
 
                         builder.setTitle(R.string.subreddit_chooser);
-                        builder.setAdapter(new SubredditListingAdapter(Shortcut.this, SubredditStorage.alphabeticalSubreddits), new DialogInterface.OnClickListener() {
+                        final ArrayList<String> sorted = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+                        builder.setAdapter(new SubredditListingAdapter(Shortcut.this, sorted), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                name = SubredditStorage.alphabeticalSubreddits.get(which);
+                                name = sorted.get(which);
                                 final Bitmap src;
                                 final Bitmap bm2;
                                 if (name.toLowerCase().equals("androidcirclejerk")) {

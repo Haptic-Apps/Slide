@@ -265,7 +265,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     public void doCollection() {
-        final ArrayList<String> subs2 = SubredditStorage.alphabeticalSubreddits;
+        final ArrayList<String> subs2 = SubredditStorage.sort(SubredditStorage.subredditsForHome);
         subs2.remove("frontpage");
         subs2.remove("all");
 

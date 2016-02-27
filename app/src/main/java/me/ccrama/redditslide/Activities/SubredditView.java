@@ -544,8 +544,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     //reset check adapter
                 }
             });
-            if (SubredditStorage.alphabeticalSubreddits != null)
-                c.setChecked(SubredditStorage.alphabeticalSubreddits.contains(subreddit.getDisplayName().toLowerCase()));
+            if (SubredditStorage.subredditsForHome != null)
+                c.setChecked(SubredditStorage.subredditsForHome.contains(subreddit.getDisplayName().toLowerCase()));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
