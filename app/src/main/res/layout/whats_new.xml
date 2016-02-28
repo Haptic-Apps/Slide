@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:theme="@style/FontStyle.MediumPost"
     android:orientation="vertical">
 
     <LinearLayout
@@ -124,7 +123,7 @@
                             android:text="@string/example_title"
 
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="18sp" />
 
 
                         <com.wefika.flowlayout.FlowLayout
@@ -142,7 +141,7 @@
                                 android:gravity="center_vertical"
                                 android:tag="tint"
                                 android:text="@string/example_time"
-                                android:textSize="?attr/font_cardinfo" />
+                                android:textSize="14sp" />
 
                             <include
                                 android:id="@+id/gild"
@@ -204,7 +203,7 @@
                     android:tag="tint"
 
                     android:text="400"
-                    android:textSize="?attr/font_cardinfo" />
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/pointsimg"
@@ -233,7 +232,7 @@
                     android:tag="tint"
                     android:text="460"
 
-                    android:textSize="?attr/font_cardinfo" />
+                    android:textSize="14sp" />
 
 
                 <ImageView
