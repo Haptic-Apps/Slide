@@ -24,7 +24,6 @@ public class SettingValues {
     public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
     public static final String PREF_IMAGE_SOLID_BACKGROUND = "imageViewerSolidBackground";
     public static final String PREF_COLOR_EVERYWHERE = "colorEverywhere";
-    public static final String PREF_ALPHABETICAL_DRAWER = "alphabetical_home";
     public static final String PREF_USERNAME_CLICK = "UsernameClick";
     public static final String PREF_SWAP = "Swap";
     public static final String PREFS_WEB = "web";
@@ -78,7 +77,6 @@ public class SettingValues {
     public static boolean cache;
     public static boolean expandedSettings;
     public static boolean hideHeader;
-    public static boolean alphabetical_home;
     public static boolean cacheDefault;
     public static boolean image;
     public static boolean video;
@@ -150,7 +148,6 @@ public class SettingValues {
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
         imageViewerSolidBackground = prefs.getBoolean(PREF_IMAGE_SOLID_BACKGROUND, false);
-        alphabetical_home = prefs.getBoolean(PREF_ALPHABETICAL_DRAWER, true);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);

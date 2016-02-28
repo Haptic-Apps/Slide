@@ -83,7 +83,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ArrayList<String> subs = SubredditStorage.alphabeticalSubreddits;
+                final ArrayList<String> subs = SubredditStorage.sort(SubredditStorage.subredditsForHome);
                 subs.remove("frontpage");
                 subs.remove("all");
 
@@ -167,7 +167,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
     public void reloadSubList() {
         Log.v(LogUtil.getTag(), "adapter init");
         changedSubs.clear();
-        ArrayList<String> allSubs = SubredditStorage.alphabeticalSubreddits;
+        ArrayList<String> allSubs = SubredditStorage.sort(SubredditStorage.subredditsForHome);
         allSubs.remove("all");
         allSubs.remove("frontpage");
 

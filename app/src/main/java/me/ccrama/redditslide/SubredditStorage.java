@@ -31,39 +31,31 @@ public class SubredditStorage {
     public static ArrayList<String> modOf;
     private static ArrayList<MultiReddit> multireddits;
     public static ArrayList<String> subredditsForHome;
-    public static ArrayList<String> alphabeticalSubreddits;
     public static Shortcut shortcut;
 
-    public static void saveState(boolean login){
+    public static void saveState(boolean login) {
 
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
         editor.putString("subs", login ? "" : Reddit.arrayToString(subredditsForHome));
-        editor.putString("subsalph", login?"":Reddit.arrayToString(alphabeticalSubreddits));
-
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
-
         editor.putString("name", Authentication.name);
-
         editor.commit();
 
     }
-    public static void saveState(boolean login, boolean name){
+
+    public static void saveState(boolean login, boolean name) {
 
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
         editor.putString("subs", login ? "" : Reddit.arrayToString(subredditsForHome));
-        editor.putString("subsalph", login?"":Reddit.arrayToString(alphabeticalSubreddits));
-
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
-
-        editor.putString("name","");
-
+        editor.putString("name", "");
         editor.commit();
 
     }
+
     /**
-     *
      * @return list of multireddits if they are available, null if could not fetch multireddits
      */
     public static List<MultiReddit> getMultireddits() {
@@ -97,8 +89,7 @@ public class SubredditStorage {
                 @Override
                 protected Void doInBackground(Void... params) {
                     ArrayList<String> subs = syncSubreddits(false, online);
-                    subredditsForHome =sort(new ArrayList<>(subs));
-                    alphabeticalSubreddits = sort(new ArrayList<>(subs));
+                    subredditsForHome = sort(new ArrayList<>(subs));
                     saveSubredditsForHome(subredditsForHome);
                     return null;
                 }
@@ -109,7 +100,6 @@ public class SubredditStorage {
             for (String s2 : s.split(",")) {
                 subredditsForHome.add(s2.toLowerCase());
             }
-            alphabeticalSubreddits = sort(new ArrayList<>(subredditsForHome));
             if (online) {
                 new AsyncTask<Void, Void, Void>() {
                     @Override
@@ -128,12 +118,10 @@ public class SubredditStorage {
     }
 
 
-    public static void addSubscription(String name,  MainActivity context){
+    public static void addSubscription(String name, MainActivity context) {
         subredditsForHome.add(name);
-        alphabeticalSubreddits.add(name);
-        alphabeticalSubreddits = sort(alphabeticalSubreddits);
         saveState(false);
-        if(context != null) {
+        if (context != null) {
             context.usedArray = new ArrayList<>(subredditsForHome);
             context.adapter.notifyDataSetChanged();
             if (context.mTabLayout != null) {
@@ -141,28 +129,28 @@ public class SubredditStorage {
             }
 
         } else {
-            MainActivity.datasetChanged=true;
+            MainActivity.datasetChanged = true;
         }
     }
-    public static void removeSubscription(String name, MainActivity context){
-        if(subredditsForHome.contains(name)) {
+
+    public static void removeSubscription(String name, MainActivity context) {
+        if (subredditsForHome.contains(name)) {
             subredditsForHome.remove(name);
-            alphabeticalSubreddits.remove(name);
-            alphabeticalSubreddits = sort(alphabeticalSubreddits);
             saveState(false);
-            if(context != null) {
+            if (context != null) {
                 context.usedArray = new ArrayList<>(subredditsForHome);
                 context.adapter.notifyDataSetChanged();
                 if (context.mTabLayout != null) {
                     context.mTabLayout.setupWithViewPager(context.pager);
                 }
             } else {
-                MainActivity.datasetChanged=true;
+                MainActivity.datasetChanged = true;
             }
 
         }
 
     }
+
     public static void saveSubredditsForHome(ArrayList<String> subs) {
         StringBuilder b = new StringBuilder();
         for (String s : subs) {
@@ -173,7 +161,6 @@ public class SubredditStorage {
         finalS = finalS.substring(0, finalS.length() - 1);
         subscriptions.edit().putString(Authentication.name, finalS).commit();
         subredditsForHome = new ArrayList<>(subs);
-        alphabeticalSubreddits = new ArrayList<>(subs);
         saveState(false);
     }
 
@@ -269,7 +256,7 @@ public class SubredditStorage {
     private static void loadMultireddits() {
         if (Authentication.isLoggedIn && Authentication.didOnline) {
             try {
-                    multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+                multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
             } catch (ApiException e) {
                 multireddits = null;
                 e.printStackTrace();

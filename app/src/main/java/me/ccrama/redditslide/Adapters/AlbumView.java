@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.gson.JsonElement;
 
@@ -48,16 +50,22 @@ public class AlbumView extends RecyclerView.Adapter<AlbumView.ViewHolder> {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.album_image, parent, false);
         return new ViewHolder(v);
     }
+    public double getHeightFromAspectRatio(int imageHeight, int imageWidth, View v) {
+        double ratio = (double) imageHeight / (double) imageWidth;
+        double width = v.getWidth();
+        return (width * ratio);
 
+    }
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final JsonElement user = users.get(position);
-
         final String url = list.get(position);
-
         ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
         holder.body.setVisibility(View.VISIBLE);
         holder.text.setVisibility(View.VISIBLE);
+        if(!user.isJsonNull() && user.getAsJsonObject().has("height") && holder.image.getLayoutParams() instanceof LinearLayout.LayoutParams && holder.image.getHeight() != 0){
+            holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getAsJsonObject().get("height").getAsInt(), user.getAsJsonObject().get("width").getAsInt(), holder.image)));
+        }
         if (user.getAsJsonObject().has("image")) {
             {
                 if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {

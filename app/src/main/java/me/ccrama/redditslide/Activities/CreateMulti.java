@@ -142,12 +142,13 @@ public class CreateMulti extends BaseActivityAnim {
      * Shows a dialog with all Subscribed subreddits and allows the user to select which ones to include in the Multireddit
      */
     public void showSelectDialog() {
-        final String[] all = new String[SubredditStorage.alphabeticalSubreddits.size() - 2];
+        ArrayList<String> sorted = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+        final String[] all = new String[sorted.size() - 2];
         final List<String> s2 = new ArrayList<>(subs);
         boolean[] checked = new boolean[all.length];
 
         int i = 0;
-        for (String s : SubredditStorage.alphabeticalSubreddits) {
+        for (String s : sorted) {
             if (!(s.equals("all") || s.equals("frontpage"))) {
                 all[i] = s;
                 if (s2.contains(s)) {

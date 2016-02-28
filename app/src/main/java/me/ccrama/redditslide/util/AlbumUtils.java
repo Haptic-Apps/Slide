@@ -236,19 +236,29 @@ public class AlbumUtils {
             if (gallery) {
 
                 if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json")) {
-                    doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+                    baseActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+                        }
+                    });
                 } else {
                     Ion.with(baseActivity)
                             .load("https://imgur.com/gallery/" + hash + ".json")
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
-                                public void onCompleted(Exception e, JsonObject result) {
+                                public void onCompleted(Exception e, final JsonObject result) {
 
                                     if (result != null && result.has("data")) {
                                         albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
 
-                                        doGallery(result);
+                                        baseActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                doGallery(result);
+                                            }
+                                        });
                                     }
                                 }
 
@@ -256,17 +266,26 @@ public class AlbumUtils {
                 }
             } else {
                 if (albumRequests.contains("http://api.imgur.com/2/album" + hash + ".json")) {
-                    doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
+                    baseActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            doAlbum(new JsonParser().parse(albumRequests.getString("http://api.imgur.com/2/album" + hash + ".json", "")).getAsJsonObject());
+                        }
+                    });
                 } else {
                     Ion.with(baseActivity)
                             .load("http://api.imgur.com/2/album" + hash + ".json")
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
-                                public void onCompleted(Exception e, JsonObject result) {
+                                public void onCompleted(Exception e, final JsonObject result) {
                                     albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
-
-                                    doAlbum(result);
+                                    baseActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            doAlbum(result);
+                                        }
+                                    });
                                 }
 
                             });

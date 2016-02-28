@@ -7,10 +7,10 @@
     android:background="?attr/activity_background">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:app="http://schemas.android.com/apk/res-auto"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -53,7 +53,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/shadowbox"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/single"
@@ -68,8 +68,9 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_single_mode"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/swipeaway"
                 android:layout_width="match_parent"
@@ -87,7 +88,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/ic_arrow_back_white_24dp"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/swipeback"
@@ -102,53 +103,19 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_general_swipeanywhere"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/alphabetical_layout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/fontsizedarker"
-                    android:tint="?attr/tint"/>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/alphabetical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_general_alphabetical"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/lowquality"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:visibility="gone"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+
+                android:paddingRight="16dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="56dp"
@@ -157,7 +124,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/image"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/lowq"
@@ -172,7 +139,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_general_blur_thumbs"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
 
             <LinearLayout
@@ -192,7 +159,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/notifs"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -208,8 +175,7 @@
                         android:text="@string/settings_title_notifications"
 
                         android:textColor="?attr/font"
-                        android:textSize="14sp"
-                       />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/notifications_current"
@@ -218,9 +184,10 @@
                         android:gravity="center_vertical"
                         android:text="Check every 15 minutes"
                         android:textColor="?attr/font"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/scroll"
                 android:layout_width="match_parent"
@@ -238,7 +205,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/ic_visibility_white_36dp"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/scrollseen"
@@ -253,7 +220,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_general_scroll_read"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
 
             <LinearLayout
@@ -273,7 +240,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/sidebar_saved"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/animation"
@@ -288,9 +255,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/enter_animation"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
-
 
 
             <LinearLayout
@@ -310,7 +276,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/close"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/exitcheck"
@@ -325,7 +291,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_confirm_exit"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
 
             <LinearLayout
@@ -345,7 +311,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/middle"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/hidetop"
@@ -360,18 +326,19 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_general_no_header"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/postnavparent"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-
                 android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+
+                android:paddingRight="16dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="56dp"
@@ -380,7 +347,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/volume"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/navposts"
@@ -395,7 +362,7 @@
                     android:hapticFeedbackEnabled="true"
                     android:text="@string/settings_volume_nav_posts"
                     android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"/>
+                    android:textColorHint="?attr/font" />
             </LinearLayout>
 
             <LinearLayout
@@ -416,7 +383,7 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/sort"
-                    android:tint="?attr/tint"/>
+                    android:tint="?attr/tint" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -431,7 +398,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_sorting"
                         android:textColor="?attr/font"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/sorting_current"
@@ -440,7 +407,7 @@
                         android:gravity="center_vertical"
                         android:text="Hot"
                         android:textColor="?attr/font"
-                        android:textSize="12sp"/>
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>

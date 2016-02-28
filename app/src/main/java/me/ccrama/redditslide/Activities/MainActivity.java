@@ -222,10 +222,10 @@ public class MainActivity extends BaseActivity {
             pager.setCurrentItem(current);
         } else if (requestCode == RESET_THEME_RESULT) {
             restartTheme();
-        } else if(requestCode == 940){
-            if(adapter != null && adapter.getCurrentFragment() != null){
+        } else if (requestCode == 940) {
+            if (adapter != null && adapter.getCurrentFragment() != null) {
 
-               ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
 
 
             }
@@ -333,50 +333,25 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
-            Reddit.appRestart.edit().putBoolean("firststart460", true).apply();
+            Reddit.appRestart.edit().putBoolean("firststart4602", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("460update") && !Reddit.colors.contains("firststart460")) {
+        } else if (!Reddit.colors.contains("4602update") && !Reddit.colors.contains("firststart4602")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.6")
-                    .content("I’m happy to announce Slide v4.6!\n" +
-                            "\t•Reduction in RAM use and APK size\n" +
-                            "\t•New embedded YouTube viewer\n" +
-                            "\t•Auto-color subreddits based on the color api\n" +
-                            "\t•Greatly reduced lag in scrolling lists (submissions and comments)\n" +
-                            "\t•New offline model with caching of comments, albums, gifs, and images\n" +
-                            "\t•New horizontal album viewer\n" +
-                            "\t•Inline table support in all text views\n" +
-                            "\t•Nested list and ordered list support in all text views\n" +
-                            "\t•Tons of speed improvements in submission and comment lists\n" +
-                            "\t•FAB and shadowbox in multireddits\n" +
-                            "\t•Greatly improved the reorder subs screen\n" +
-                            "\t•Added \"collections\" in the main view (like multireddits)\n" +
-                            "\t•New pink accent color\n" +
-                            "\t•TONS of code cleanup and method optimization (view on Github)\n" +
-                            "\t•Fixed NSFW previews not working\n" +
-                            "\t•Added vote buttons to long press menu in case you have the actionbar hidden\n" +
-                            "\t•Added nested \"Load more comments\" ability (before it only showed the last top-level load more comments child, and you couldn't load more to top level comments)\n" +
-                            "\t•Added ability to collapse the \"Load more comments\" child\n" +
-                            "\t•Forced the size of the image view so when images load, it won't force the whole page down\n" +
-                            "\t•Added fade in effect to images to make it prettier\n" +
-                            "\t•New tutorial with \"hints\" tooltips\n" +
-                            "\t•Fixed weird card cutoff\n" +
-                            "\t•Added default error handler for incomplete API calls (will fix 90% of Slide crashes)\n" +
-                            "\t•Tons more!\n"
-                            + "Make sure to report all bugs to Github!")
+                    .title("Slide v4.6.2")
+                    .customView(R.layout.whats_new, false)
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("460update", true).apply();
+                            Reddit.colors.edit().putBoolean("4602update", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("460update", true).apply();
+                            Reddit.colors.edit().putBoolean("4602update", true).apply();
 
                         }
                     })
@@ -386,8 +361,6 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null && !changed) {
 
             SubredditStorage.subredditsForHome = savedInstanceState.getStringArrayList(SUBS);
-            SubredditStorage.alphabeticalSubreddits =
-                    savedInstanceState.getStringArrayList(SUBS_ALPHA);
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
             Authentication.didOnline = savedInstanceState.getBoolean(IS_ONLINE);
@@ -457,7 +430,7 @@ public class MainActivity extends BaseActivity {
         if (singleMode) pager.setSwipingEnabled(false);
 
 
-        if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null && !Reddit.isRestarting) {
+        if (SubredditStorage.subredditsForHome != null && !Reddit.isRestarting) {
             if (!first)
                 doDrawer();
 
@@ -479,7 +452,7 @@ public class MainActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (SubredditStorage.subredditsForHome != null && SubredditStorage.alphabeticalSubreddits != null) {
+                                if (SubredditStorage.subredditsForHome != null) {
 
                                     mToolbar.postDelayed(new Runnable() {
                                         @Override
@@ -531,7 +504,6 @@ public class MainActivity extends BaseActivity {
         super.onSaveInstanceState(savedInstanceState);
 
         savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
-        savedInstanceState.putStringArrayList(SUBS_ALPHA, SubredditStorage.alphabeticalSubreddits);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
 
@@ -1007,7 +979,7 @@ public class MainActivity extends BaseActivity {
                 LogUtil.v(accName);
                 final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
 
-                ((TextView)t.findViewById(R.id.name)).setText(accName);
+                ((TextView) t.findViewById(R.id.name)).setText(accName);
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1031,9 +1003,9 @@ public class MainActivity extends BaseActivity {
                                         if (accName.equalsIgnoreCase(Authentication.name)) {
 
                                             boolean d = false;
-                                            for(String s : keys){
+                                            for (String s : keys) {
 
-                                                if(!s.equalsIgnoreCase(accName)){
+                                                if (!s.equalsIgnoreCase(accName)) {
                                                     d = true;
                                                     LogUtil.v("Switching to " + s);
                                                     if (!accounts.get(s).isEmpty()) {
@@ -1050,12 +1022,12 @@ public class MainActivity extends BaseActivity {
                                                 }
 
                                             }
-                                            if(!d){
+                                            if (!d) {
                                                 SubredditStorage.saveState(true, true);
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
 
-                                        } else{
+                                        } else {
                                             accounts.remove(accName);
                                             keys.remove(accName);
                                         }
@@ -1293,10 +1265,9 @@ public class MainActivity extends BaseActivity {
 
     public void setDrawerSubList() {
         ArrayList<String> copy = new ArrayList<>();
-        if ((SettingValues.alphabetical_home && SubredditStorage.alphabeticalSubreddits != null) || (!SettingValues.alphabetical_home && SubredditStorage.subredditsForHome != null))
-            for (String s : SettingValues.alphabetical_home ? SubredditStorage.alphabeticalSubreddits : SubredditStorage.subredditsForHome) {
-                copy.add(s);
-            }
+        for (String s : SubredditStorage.subredditsForHome) {
+            copy.add(s);
+        }
         e = ((EditText) headerMain.findViewById(R.id.sort));
         doTutorial();
 
@@ -1710,6 +1681,7 @@ public class MainActivity extends BaseActivity {
         }
 
     }
+
     public static boolean dontAnimate;
 
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
@@ -1859,17 +1831,16 @@ public class MainActivity extends BaseActivity {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
         if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition();
+            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
         } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             int[] firstVisibleItems = null;
             firstVisibleItems = ((StaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
             if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                position = firstVisibleItems[0];
+                position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() -1;
         }
-        Log.v(LogUtil.getTag(), "POS IS " + position);
         return position;
     }
 

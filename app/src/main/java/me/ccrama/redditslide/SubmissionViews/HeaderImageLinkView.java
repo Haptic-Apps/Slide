@@ -28,6 +28,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 2/7/2016.
@@ -63,29 +64,25 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setSubmission(final Submission submission, final boolean full) {
         backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
-        if (!done) {
+        if (getWidth() == 0) {
             getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
                     if (!done) {
                         doImageAndText(submission, full);
                         done = true;
-                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    } else {
-                        getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
-
+                    getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             });
         } else {
-            done = true;
             doImageAndText(submission, full);
         }
-
     }
 
     public void doImageAndText(Submission submission, boolean full) {
 
+        LogUtil.v("Loading " + submission.getTitle());
         final ContentType.ImageType type = ContentType.getImageType(submission);
 
         setVisibility(View.VISIBLE);
@@ -104,7 +101,11 @@ public class HeaderImageLinkView extends RelativeLayout {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 } else {
                     double h = getHeightFromAspectRatio(height, width);
-                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
+                    if(h != 0) {
+                        backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
+                    } else {
+                        backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
+                    }
                 }
             } else if (SettingValues.bigPicCropped) {
                 if (height < dpToPx(50)) {
@@ -113,7 +114,13 @@ public class HeaderImageLinkView extends RelativeLayout {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 }
             } else if (height >= dpToPx(50)) {
-                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
+                double h = getHeightFromAspectRatio(height, width);
+                if(h != 0) {
+                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
+                } else {
+                    backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
+
+                }
             } else {
                 forceThumb = true;
             }
@@ -326,7 +333,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     private String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
         String domain = uri.getHost();
-        if(domain != null && !domain.isEmpty()) {
+        if (domain != null && !domain.isEmpty()) {
             return domain.startsWith("www.") ? domain.substring(4) : domain;
         } else {
             return "";

@@ -75,7 +75,7 @@ public class GifView extends FullScreenActivity {
 
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
-        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true).execute(dat);
+        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
         if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
             new Handler().postDelayed(new Runnable() {
                 @Override

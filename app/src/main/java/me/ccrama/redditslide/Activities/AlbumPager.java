@@ -294,7 +294,7 @@ public class AlbumPager extends FullScreenActivity {
             }
 
 
-            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, null, false).execute(dat);
+            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, null, false, true).execute(dat);
 
             return rootView;
         }

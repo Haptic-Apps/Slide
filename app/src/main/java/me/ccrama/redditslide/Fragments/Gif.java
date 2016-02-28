@@ -8,19 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.MediaVideoView;
-import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.PopulateShadowboxInfo;
 import me.ccrama.redditslide.util.GifUtils;
 
 
@@ -51,26 +48,18 @@ public class Gif extends Fragment {
             }
         }
     }
+
     ViewGroup rootView;
     ProgressBar loader;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       rootView = (ViewGroup) inflater.inflate(
+        rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_gifcard, container, false);
         loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
 
-        TextView title = (TextView) rootView.findViewById(R.id.title);
-        TextView desc = (TextView) rootView.findViewById(R.id.desc);
-
-        title.setText(s.getTitle());
-        desc.setText(s.getSubredditName() + getString(R.string.submission_properties_seperator) + s.getAuthor() + " " + TimeUtils.getTimeAgo(s.getCreated().getTime(), getContext()) +
-                getString(R.string.submission_properties_seperator) +
-                PopulateSubmissionViewHolder.getSubmissionScoreString(s.getScore(), getActivity().getResources(), s)
-                + getString(R.string.submission_properties_seperator)
-                + getActivity().getResources().getQuantityString(R.plurals.submission_comment_count, s.getCommentCount(), s.getCommentCount())
-                        + getString(R.string.submission_properties_seperator)
-                        + Website.getDomainName(s.getUrl()));
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
 
         gif = rootView.findViewById(R.id.gif);
 
@@ -82,7 +71,7 @@ public class Gif extends Fragment {
 
         String dat = s.getUrl();
 
-        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder),null, false).execute(dat);
+        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, true).execute(dat);
 
         rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +105,6 @@ public class Gif extends Fragment {
         s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
 
     }
-
 
 
 }
