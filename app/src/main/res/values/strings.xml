@@ -48,7 +48,7 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_black">AMOLED black</string>
-    <string name="theme_default_color">Base color</string>
+    <string name="theme_default_color">Primary color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
     <string name="theme_base">Base theme</string>
@@ -93,6 +93,8 @@
     <string name="drawer_sync_subs">Sync your subreddits</string>
     <string name="drawer_account_switch">Switch or delete</string>
     <string name="drawer_account_switch_msg">Would you like to switch to this account or remove this account?</string>
+    <string name="drawer_offline">Slide is in offline mode</string>
+    <string name="drawer_offline_retry">Try to enter online mode</string>
 
 
     <!-- Sidebar items (That's the one on the right) -->
@@ -143,21 +145,10 @@
     <string name="comment_loading_more">Loading more comments…</string>
 
 
-    <!-- Tutorial view -->
-    <string name="tutorial_skip">Skip</string>
-    <string name="tutorial_agree">Got it</string>
-    <string name="tutorial_swipe">Swipe between subreddits!</string>
-    <string name="tutorial_tap_full_view">Tap a submission to open in full view</string>
-    <string name="tutorial_slide_comments">Slide up to see comments in full view</string>
-    <string name="tutorial_tap_name">Tap a name to view user</string>
-    <string name="tutorial_tap_hide">Hide comments with a single tap</string>
-    <string name="tutorial_swipe_next">You can swipe to the next submission in full view</string>
-    <string name="tutorial_open_full">Open content from full view</string>
-    <string name="tutorial_open_list">Open content from list view</string>
-    <string name="tutorial_free_title">Ad-free and open source</string>
-    <string name="tutorial_free_msg">Slide for Reddit is free from all in-app advertisements and its source code is publicly available on GitHub. This project runs off of your donations, and any contribution is greatly appreciated!</string>
-    <string name="tutorial_dev_title">In development</string>
-    <string name="tutorial_dev_msg">Slide for Reddit is currently still in development, and it may be lacking features or have small bugs! Please don’t write a bad review on the play store if you encounter an issue. Instead, feel free report the issue on GitHub if you run into a problem! Thank you!</string>
+    <!-- Welcome view (first time setup) -->
+    <string name="welcome_start">Get started</string>
+    <string name="welcome_personalize">Personalize</string>
+    <string name="welcome_finish">Start tutorial</string>
 
 
     <!-- Sorting options -->

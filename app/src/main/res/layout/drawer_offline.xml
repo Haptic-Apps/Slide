@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
 
-            android:text="Slide is in Offline Mode"
+            android:text="@string/drawer_offline"
             android:layout_marginLeft="16dp"
             android:textColor="?attr/font"
             android:textSize="14sp"
@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
 
-            android:text="Try to enter online mode"
+            android:text="@string/drawer_offline_retry"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />

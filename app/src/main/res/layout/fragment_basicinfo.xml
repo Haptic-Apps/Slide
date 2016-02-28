@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:padding="20dp"
-            android:text="Personalize"
+            android:text="@string/welcome_personalize"
             android:textColor="#fff"
             android:textSize="24sp" />
 
@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:text="Primary color"
+                    android:text="@string/theme_default_color"
                     android:textSize="18sp"
                     android:paddingLeft="8dp"
                     android:layout_height="match_parent" />
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:text="Accent color"
+                    android:text="@string/theme_accent_color"
                     android:textSize="18sp"
                     android:paddingLeft="8dp"
                     android:layout_height="match_parent" />
@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:text="Base theme"
+                    android:text="@string/theme_base"
                     android:textSize="18sp"
                     android:paddingLeft="8dp"
                     android:layout_height="match_parent" />
@@ -129,8 +129,9 @@
 
             android:layout_height="56dp"
             android:padding="16dp"
-            android:text="START TUTORIAL"
+            android:text="@string/welcome_finish"
             android:textSize="14sp"
+            android:textAllCaps="true"
 
             android:id="@+id/next"
             android:layout_alignParentBottom="true"
