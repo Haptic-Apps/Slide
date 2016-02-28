@@ -333,50 +333,25 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
-            Reddit.appRestart.edit().putBoolean("firststart460", true).apply();
+            Reddit.appRestart.edit().putBoolean("firststart4602", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("460update") && !Reddit.colors.contains("firststart460")) {
+        } else if (!Reddit.colors.contains("4602update") && !Reddit.colors.contains("firststart4602")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.6")
-                    .content("I’m happy to announce Slide v4.6!\n" +
-                            "\t•Reduction in RAM use and APK size\n" +
-                            "\t•New embedded YouTube viewer\n" +
-                            "\t•Auto-color subreddits based on the color api\n" +
-                            "\t•Greatly reduced lag in scrolling lists (submissions and comments)\n" +
-                            "\t•New offline model with caching of comments, albums, gifs, and images\n" +
-                            "\t•New horizontal album viewer\n" +
-                            "\t•Inline table support in all text views\n" +
-                            "\t•Nested list and ordered list support in all text views\n" +
-                            "\t•Tons of speed improvements in submission and comment lists\n" +
-                            "\t•FAB and shadowbox in multireddits\n" +
-                            "\t•Greatly improved the reorder subs screen\n" +
-                            "\t•Added \"collections\" in the main view (like multireddits)\n" +
-                            "\t•New pink accent color\n" +
-                            "\t•TONS of code cleanup and method optimization (view on Github)\n" +
-                            "\t•Fixed NSFW previews not working\n" +
-                            "\t•Added vote buttons to long press menu in case you have the actionbar hidden\n" +
-                            "\t•Added nested \"Load more comments\" ability (before it only showed the last top-level load more comments child, and you couldn't load more to top level comments)\n" +
-                            "\t•Added ability to collapse the \"Load more comments\" child\n" +
-                            "\t•Forced the size of the image view so when images load, it won't force the whole page down\n" +
-                            "\t•Added fade in effect to images to make it prettier\n" +
-                            "\t•New tutorial with \"hints\" tooltips\n" +
-                            "\t•Fixed weird card cutoff\n" +
-                            "\t•Added default error handler for incomplete API calls (will fix 90% of Slide crashes)\n" +
-                            "\t•Tons more!\n"
-                            + "Make sure to report all bugs to Github!")
+                    .title("Slide v4.6.2")
+                    .customView(R.layout.whats_new, false)
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("460update", true).apply();
+                            Reddit.colors.edit().putBoolean("4602update", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("460update", true).apply();
+                            Reddit.colors.edit().putBoolean("4602update", true).apply();
 
                         }
                     })

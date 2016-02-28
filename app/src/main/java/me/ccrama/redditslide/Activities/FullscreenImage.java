@@ -29,6 +29,8 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.io.File;
+
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
@@ -46,7 +48,7 @@ public class FullscreenImage extends FullScreenActivity {
 
 
     public static final String EXTRA_URL = "url";
-    public static final String EXTRA_SHARE_URL = "urlShare" ;
+    public static final String EXTRA_SHARE_URL = "urlShare";
     String toReturn;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -132,7 +134,6 @@ public class FullscreenImage extends FullScreenActivity {
         });
 
 
-
         {
             final ImageView iv = (ImageView) findViewById(R.id.share);
             final String finalUrl = getIntent().getExtras().getString(EXTRA_SHARE_URL, url);
@@ -162,6 +163,8 @@ public class FullscreenImage extends FullScreenActivity {
                                     .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                         @Override
                                         public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+
+
                                             final String localAbsoluteFilePath = saveImageGallery(loadedImage, finalUrl1);
 
                                             if (localAbsoluteFilePath != null) {
@@ -206,7 +209,7 @@ public class FullscreenImage extends FullScreenActivity {
 
 
         }
-        if(!Reddit.appRestart.contains("tutorialSwipeImage")){
+        if (!Reddit.appRestart.contains("tutorialSwipeImage")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -230,13 +233,15 @@ public class FullscreenImage extends FullScreenActivity {
             }, 250);
         }
     }
+
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialSwipeImage")){
+        if (!Reddit.appRestart.contains("tutorialSwipeImage")) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipeImage", true).apply();
         }
     }
+
     private void showShareDialog(final String url) {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -277,6 +282,8 @@ public class FullscreenImage extends FullScreenActivity {
     }
 
     private String saveImageGallery(final Bitmap _bitmap, String URL) {
+        if (!new File("/sdcard/Pictures").exists())
+            new File("/sdcard/Pictures").mkdirs();
 
         return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL, "");
 
