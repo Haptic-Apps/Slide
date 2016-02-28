@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,8 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -38,6 +37,8 @@ import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.ImageSource;
+import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -47,9 +48,10 @@ import me.ccrama.redditslide.util.LogUtil;
 public class FullscreenImage extends FullScreenActivity {
 
 
+    public float previous;
     public static final String EXTRA_URL = "url";
     public static final String EXTRA_SHARE_URL = "urlShare";
-    String toReturn;
+    public boolean hidden;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
@@ -111,6 +113,51 @@ public class FullscreenImage extends FullScreenActivity {
 
                         (findViewById(R.id.progress)).setVisibility(View.GONE);
                         handler.removeCallbacks(progressBarDelayRunner);
+
+                        previous = i.scale;
+                        final float base = i.scale;
+                        i.setOnZoomChangedListener(new me.ccrama.redditslide.Views.SubsamplingScaleImageView.OnZoomChangedListener() {
+                            @Override
+                            public void onZoomLevelChanged(float zoom) {
+                                if (zoom > previous && !hidden && zoom > base) {
+                                    hidden = true;
+                                    final View base = findViewById(R.id.gifheader);
+
+                                    ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.2f);
+                                    int mDuration = 250; //in millis
+                                    va.setDuration(mDuration);
+                                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                        public void onAnimationUpdate(ValueAnimator animation) {
+                                            Float value = (Float) animation.getAnimatedValue();
+                                            base.setAlpha(value);
+                                        }
+                                    });
+
+                                    va.start();
+
+                                    //hide
+                                } else if (zoom <= previous && hidden) {
+                                    hidden = false;
+                                    final View base = findViewById(R.id.gifheader);
+
+                                    ValueAnimator va = ValueAnimator.ofFloat(0.2f, 1.0f);
+                                    int mDuration = 250; //in millis
+                                    va.setDuration(mDuration);
+                                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                        public void onAnimationUpdate(ValueAnimator animation) {
+                                            Float value = (Float) animation.getAnimatedValue();
+                                            base.setAlpha(value);
+                                        }
+                                    });
+
+                                    va.start();
+
+                                    //unhide
+                                }
+                                previous = zoom;
+
+                            }
+                        });
                     }
 
                     @Override

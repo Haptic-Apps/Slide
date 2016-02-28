@@ -8,13 +8,11 @@
     android:orientation="vertical">
 
 
-    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+    <me.ccrama.redditslide.Views.SubsamplingScaleImageView
         android:id="@+id/submission_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-
-
         android:transitionName="profile" />
 
     <LinearLayout

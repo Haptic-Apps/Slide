@@ -1346,7 +1346,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     @Override
                                     public void onClick(View v) {
                                         dataSet.refreshLayout.setRefreshing(true);
-
+                                        currentlyEditing = null;
+                                        editingPosition = -1;
                                         new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
                                         replyArea.setVisibility(View.GONE);
 
@@ -1367,6 +1368,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(View v) {
                             firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
+                            currentlyEditing = null;
+                            editingPosition = -1;
                         }
                     });
                 }

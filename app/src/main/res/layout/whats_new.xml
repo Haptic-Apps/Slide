@@ -111,7 +111,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_toRightOf="@+id/thumbimage2">
 
-                        <me.ccrama.redditslide.Views.TitleTextView
+                        <com.devspark.robototextview.widget.RobotoTextView
                             android:id="@+id/title"
                             android:layout_width="match_parent"
 

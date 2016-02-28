@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,20 +63,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setSubmission(final Submission submission, final boolean full) {
         backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
-        if (getWidth() == 0) {
-            getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    if (!done) {
-                        doImageAndText(submission, full);
-                        done = true;
-                    }
-                    getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
-        } else {
-            doImageAndText(submission, full);
-        }
+        thumbImage2.setImageResource(android.R.color.transparent);
+        doImageAndText(submission, full);
     }
 
     public void doImageAndText(Submission submission, boolean full) {

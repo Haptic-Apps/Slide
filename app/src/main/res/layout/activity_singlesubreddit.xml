@@ -13,7 +13,7 @@
 
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -61,7 +61,7 @@
             </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
 
-        </RelativeLayout>
+        </FrameLayout>
     </FrameLayout>
 
     <include
