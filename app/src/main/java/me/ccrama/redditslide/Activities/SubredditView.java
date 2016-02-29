@@ -480,7 +480,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
+                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(subreddit), l2);
         builder.show();
     }
 

@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -166,7 +168,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
         recyclerView.addOnScrollListener(dragSortRecycler.getScrollListener());
         dragSortRecycler.setViewHandleId();
 
-        findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+       final FloatingActionButton fab =  (FloatingActionButton) findViewById(R.id.add);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this)
@@ -202,7 +205,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                 MultiReddit r = SubredditStorage.getMultiredditByDisplayName(name);
                                                                 StringBuilder b = new StringBuilder();
 
-                                                                for(MultiSubreddit s : r.getSubreddits()){
+                                                                for (MultiSubreddit s : r.getSubreddits()) {
                                                                     b.append(s.getDisplayName());
                                                                     b.append("+");
                                                                 }
@@ -262,6 +265,23 @@ public class ReorderSubreddits extends BaseActivityAnim {
             subs = new ArrayList<>();
 
         }
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+
+                        fab.show();
+
+
+                    } else {
+                        fab.hide();
+
+
+                }
+            }
+        });
     }
 
     public void doCollection() {

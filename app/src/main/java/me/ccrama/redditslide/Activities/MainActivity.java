@@ -839,7 +839,7 @@ public class MainActivity extends BaseActivity {
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
+        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id), l2);
         builder.show();
 
     }
