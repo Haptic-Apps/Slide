@@ -48,7 +48,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
-    RecyclerView rv;
+    public RecyclerView rv;
     public FloatingActionButton fab;
 
     public boolean onKeyDown(int keyCode) {

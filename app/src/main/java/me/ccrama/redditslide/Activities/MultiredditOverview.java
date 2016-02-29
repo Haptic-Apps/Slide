@@ -34,7 +34,6 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.List;
 
 import me.ccrama.redditslide.Fragments.MultiredditView;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -79,16 +78,16 @@ public class MultiredditOverview extends BaseActivityAnim {
     public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
-        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+        if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
+        } else if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
             int[] firstVisibleItems = null;
-            firstVisibleItems = ((StaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+            firstVisibleItems = ((StaggeredGridLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
             if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                 position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() -1;
+            position = ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() -1;
         }
         return position;
     }

@@ -275,7 +275,8 @@ public class SubredditStorage {
 
     }
 
-    public static ArrayList<String> sort(ArrayList<String> subs) {
+    public static ArrayList<String> sort(ArrayList<String> copy) {
+        ArrayList<String> subs = new ArrayList<>(copy);
         if (subs.contains("all")) {
             subs.remove("all");
         }

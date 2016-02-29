@@ -166,6 +166,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
 
+            android:tint="?attr/tint"
             android:layout_marginRight="4dp"
             android:src="@drawable/upvoted"
             android:tag="tint" />
@@ -189,6 +190,7 @@
             android:layout_width="15dp"
             android:layout_height="36dp"
 
+            android:tint="?attr/tint"
             android:layout_below="@+id/innerrelative"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
