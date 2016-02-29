@@ -46,11 +46,6 @@
 
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Activities.YouTubeView"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".Activities.Album"
             android:configChanges="keyboardHidden|orientation|screenSize"
 

@@ -27,7 +27,6 @@ import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.YouTubeView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -242,14 +241,7 @@ public class ImageFull extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (SettingValues.video) {
-                            Intent intent = new Intent(contextActivity, YouTubeView.class);
-                            intent.putExtra("url", submission.getUrl());
-                            contextActivity.startActivity(intent);
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-
+                        Reddit.defaultShare(submission.getUrl(), contextActivity);
                     }
                 });
 
