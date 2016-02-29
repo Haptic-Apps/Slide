@@ -396,9 +396,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         }).show();
                                     } else {
                                         String s = items.get(holder.getAdapterPosition());
-                                        subs.remove(s);
+                                        int index = subs.indexOf(s);
+                                        subs.remove(index);
                                         subs.add(0, s);
                                         notifyItemMoved(holder.getAdapterPosition(), 0);
+                                        recyclerView.smoothScrollToPosition(0);
+
                                     }
                                 }
                             }).show();
@@ -429,8 +432,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             }
                                         }).show();
                                     } else {
-                                        subs.add(0, items.get(position));
-                                        notifyItemMoved(position, 0);
+                                        String s = items.get(holder.getAdapterPosition());
+                                        int index = subs.indexOf(s);
+                                        subs.remove(index);
+                                        subs.add(0, s);
+                                        notifyItemMoved(holder.getAdapterPosition(), 0);
                                         recyclerView.smoothScrollToPosition(0);
 
                                     }
