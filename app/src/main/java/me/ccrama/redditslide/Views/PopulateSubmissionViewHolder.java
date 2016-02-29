@@ -57,7 +57,6 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Activities.YouTubeView;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
@@ -181,13 +180,7 @@ public class PopulateSubmissionViewHolder {
                         CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                         break;
                     case VIDEO:
-                        if (SettingValues.video) {
-                            Intent intent = new Intent(contextActivity, YouTubeView.class);
-                            intent.putExtra("url", submission.getUrl());
-                            contextActivity.startActivity(intent);
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        Reddit.defaultShare(submission.getUrl(), contextActivity);
                 }
             }
         });
