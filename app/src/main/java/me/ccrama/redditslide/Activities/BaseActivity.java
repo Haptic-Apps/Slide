@@ -54,6 +54,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         return super.onOptionsItemSelected(item);
     }
 
+   public boolean shouldInterceptAlways = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
                 if (overrideSwipeFromAnywhere) {
                     Log.v(LogUtil.getTag(), "WONT SWIPE FROM ANYWHERE");
                     mHelper.getSwipeBackLayout().mDragHelper.override = false;
+                    shouldInterceptAlways = true;
 
                 } else {
 
@@ -80,8 +83,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
                 }
             } else {
                 mHelper.getSwipeBackLayout().mDragHelper.override = false;
-
-
+                shouldInterceptAlways = true;
             }
         }
     }
@@ -110,7 +112,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     public void setSwipeBackEnable(boolean enable) {
         if (enableSwipeBackLayout) getSwipeBackLayout().setEnableGesture(enable);
     }
-
 
     @Override
     public void scrollToFinishActivity() {

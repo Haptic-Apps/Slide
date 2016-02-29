@@ -71,7 +71,7 @@ public class CommentOverflow extends LinearLayout {
 
         TypedValue fontSizeTypedValue = new TypedValue();
         theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
-        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[] {R.attr.font_commentbody});
+        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[]{R.attr.font_commentbody});
         fontSize = a.getDimensionPixelSize(0, -1);
     }
 
@@ -84,7 +84,7 @@ public class CommentOverflow extends LinearLayout {
     public void setViews(List<String> blocks, String subreddit) {
         removeAllViews();
 
-        Context context = getContext();
+        final Context context = getContext();
 
         if (!blocks.isEmpty()) {
             setVisibility(View.VISIBLE);
@@ -100,6 +100,7 @@ public class CommentOverflow extends LinearLayout {
                 table.setPaddingRelative(0, 0, 0, Reddit.pxToDp(10, context));
                 scrollView.addView(table);
                 addView(scrollView);
+
             } else if (block.startsWith("<pre>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 scrollView.setScrollbarFadingEnabled(false);
@@ -110,6 +111,7 @@ public class CommentOverflow extends LinearLayout {
                 newTextView.setPaddingRelative(0, 0, 0, Reddit.pxToDp(10, context));
                 scrollView.addView(newTextView);
                 addView(scrollView);
+
             } else {
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);
                 newTextView.setTextHtml(block, subreddit);

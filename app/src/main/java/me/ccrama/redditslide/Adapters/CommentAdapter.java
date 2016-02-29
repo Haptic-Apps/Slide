@@ -75,7 +75,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -454,10 +454,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) l.getLayoutParams();
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) l.getLayoutParams();
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-                params.addRule(RelativeLayout.BELOW, R.id.background);
-                params.addRule(RelativeLayout.BELOW, R.id.more);
                 l.setLayoutParams(params);
             }
 

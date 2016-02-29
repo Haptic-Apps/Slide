@@ -361,6 +361,10 @@ public class SwipeBackLayout extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        return doTouchEvent(event);
+    }
+
+    public boolean doTouchEvent(MotionEvent event) {
         if (!mEnable) {
             return false;
         }
@@ -552,7 +556,7 @@ public class SwipeBackLayout extends FrameLayout {
             if (mScrollPercent >= 1) {
                 if (!mActivity.isFinishing()) {
                     mActivity.finish();
-                    mActivity.overridePendingTransition(0, 0);        
+                    mActivity.overridePendingTransition(0, 0);
                 }
             }
         }

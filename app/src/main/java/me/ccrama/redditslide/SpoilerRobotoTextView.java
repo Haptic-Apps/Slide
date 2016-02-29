@@ -48,7 +48,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     private List<Integer> storedSpoilerEnds = new ArrayList<>();
 
     public SpoilerRobotoTextView(Context context) {
+
         super(context);
+
     }
 
     public SpoilerRobotoTextView(Context context, AttributeSet attrs) {

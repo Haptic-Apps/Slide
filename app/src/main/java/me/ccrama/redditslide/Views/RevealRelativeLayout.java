@@ -21,6 +21,10 @@ public class RevealRelativeLayout extends RelativeLayout implements RevealAnimat
     private RevealInfo mRevealInfo;
     private boolean mRunning;
     private float mRadius;
+    @Override
+    public boolean hasOverlappingRendering() {
+        return false;
+    }
 
     public RevealRelativeLayout(Context context) {
         this(context, null);

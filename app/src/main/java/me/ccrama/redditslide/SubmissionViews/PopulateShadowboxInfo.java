@@ -1,4 +1,4 @@
-package me.ccrama.redditslide.Views;
+package me.ccrama.redditslide.SubmissionViews;
 
 import android.app.Activity;
 import android.text.Html;

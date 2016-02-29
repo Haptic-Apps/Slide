@@ -36,7 +36,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.Views.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
 
 public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
