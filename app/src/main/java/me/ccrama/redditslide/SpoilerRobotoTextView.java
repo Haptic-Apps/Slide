@@ -6,27 +6,41 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.view.ContextThemeWrapper;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
 
+import net.nightwhistler.htmlspanner.HtmlSpanner;
+import net.nightwhistler.htmlspanner.TagNodeHandler;
+
+import org.apache.commons.lang3.StringUtils;
+import org.htmlcleaner.TagNode;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +61,45 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     private List<CharacterStyle> storedSpoilerSpans = new ArrayList<>();
     private List<Integer> storedSpoilerStarts = new ArrayList<>();
     private List<Integer> storedSpoilerEnds = new ArrayList<>();
+
+    //Handle offline emotes custom subs have.
+    private TagNodeHandler anchorEmoteHandler = new TagNodeHandler() {
+        @Override
+        public void handleTagNode(TagNode tagNode, SpannableStringBuilder spannableStringBuilder, int start, int end) {
+            File emoteDir = new File(Environment.getExternalStorageDirectory(),"RedditEmotes");
+            File emoteFile = new File(emoteDir,tagNode.getAttributeByName("href").replace("/","")+".png");
+            boolean startsWithSlash = tagNode.getAttributeByName("href").startsWith("/");
+            boolean hasOnlyOneSlash = StringUtils.countMatches(tagNode.getAttributeByName("href"),"/") == 1;
+
+            if(emoteDir.exists() && startsWithSlash && hasOnlyOneSlash && emoteFile.exists()) {
+                //We've got an emote match
+
+                //Make sure bitmap loaded works well with screen density.
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                DisplayMetrics metrics = new DisplayMetrics();
+                ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+                options.inDensity = 240;
+                options.inScreenDensity = metrics.densityDpi;
+                options.inScaled = true;
+
+                //Since emotes have no body or a body with caption, add extra character to attach image to.
+                spannableStringBuilder.insert(start,".");
+                Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(),options);
+                spannableStringBuilder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if(tagNode.hasAttribute("title")) {
+                    //Someone has a caption on this emote. Mark as spoiler for text toggling and make italics to differentiate.
+                    spannableStringBuilder.setSpan(new URLSpan("/sp"),start+1,start+1>end?end+1:end,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //start+1>end?end+1:end makes sure emotes at end of text work in some subs that parse weird.
+                    spannableStringBuilder.setSpan(new StyleSpan(Typeface.ITALIC),start+1,start+1>end?end+1:end,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+
+            } else {
+                //Not an emote. Handle as default LinkHandler would.
+                final String href = tagNode.getAttributeByName("href");
+                spannableStringBuilder.setSpan(new URLSpan(href), start, end,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+    };
 
     public SpoilerRobotoTextView(Context context) {
         super(context);
@@ -104,7 +157,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * @param subreddit the subreddit to theme
      */
     public void setTextHtml(CharSequence text, String subreddit) {
-        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text.toString().trim());
+        HtmlSpanner htmlParser = new HtmlSpanner();
+        htmlParser.registerHandler("a",anchorEmoteHandler);
+        //TODO:possibly support putting the custom sub CSS in string to better match sub styles since HtmlSpanner supports it.
+        SpannableStringBuilder builder = (SpannableStringBuilder) htmlParser.fromHtml(text.toString().trim());
         setCodeFont(builder);
         setSpoilerStyle(builder);
         if (text.toString().contains("[[d[")) {
