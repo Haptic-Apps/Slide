@@ -228,7 +228,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
                                                 @Override
                                                 public void onInput(MaterialDialog dialog, CharSequence raw) {
-                                                    input = raw.toString();
+                                                    input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
                                                 }
                                             })
                                             .positiveText(R.string.btn_add)
