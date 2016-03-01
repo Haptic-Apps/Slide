@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.view.ContextThemeWrapper;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -34,15 +35,13 @@ import android.widget.Toast;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
 
-import net.nightwhistler.htmlspanner.HtmlSpanner;
-import net.nightwhistler.htmlspanner.TagNodeHandler;
-
 import org.apache.commons.lang3.StringUtils;
-import org.htmlcleaner.TagNode;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -61,45 +60,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     private List<CharacterStyle> storedSpoilerSpans = new ArrayList<>();
     private List<Integer> storedSpoilerStarts = new ArrayList<>();
     private List<Integer> storedSpoilerEnds = new ArrayList<>();
-
-    //Handle offline emotes custom subs have.
-    private TagNodeHandler anchorEmoteHandler = new TagNodeHandler() {
-        @Override
-        public void handleTagNode(TagNode tagNode, SpannableStringBuilder spannableStringBuilder, int start, int end) {
-            File emoteDir = new File(Environment.getExternalStorageDirectory(),"RedditEmotes");
-            File emoteFile = new File(emoteDir,tagNode.getAttributeByName("href").replace("/","")+".png");
-            boolean startsWithSlash = tagNode.getAttributeByName("href").startsWith("/");
-            boolean hasOnlyOneSlash = StringUtils.countMatches(tagNode.getAttributeByName("href"),"/") == 1;
-
-            if(emoteDir.exists() && startsWithSlash && hasOnlyOneSlash && emoteFile.exists()) {
-                //We've got an emote match
-
-                //Make sure bitmap loaded works well with screen density.
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                DisplayMetrics metrics = new DisplayMetrics();
-                ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
-                options.inDensity = 240;
-                options.inScreenDensity = metrics.densityDpi;
-                options.inScaled = true;
-
-                //Since emotes have no body or a body with caption, add extra character to attach image to.
-                spannableStringBuilder.insert(start,".");
-                Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(),options);
-                spannableStringBuilder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                if(tagNode.hasAttribute("title")) {
-                    //Someone has a caption on this emote. Mark as spoiler for text toggling and make italics to differentiate.
-                    spannableStringBuilder.setSpan(new URLSpan("/sp"),start+1,start+1>end?end+1:end,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //start+1>end?end+1:end makes sure emotes at end of text work in some subs that parse weird.
-                    spannableStringBuilder.setSpan(new StyleSpan(Typeface.ITALIC),start+1,start+1>end?end+1:end,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-
-            } else {
-                //Not an emote. Handle as default LinkHandler would.
-                final String href = tagNode.getAttributeByName("href");
-                spannableStringBuilder.setSpan(new URLSpan(href), start, end,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-        }
-    };
 
     public SpoilerRobotoTextView(Context context) {
         super(context);
@@ -157,10 +117,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * @param subreddit the subreddit to theme
      */
     public void setTextHtml(CharSequence text, String subreddit) {
-        HtmlSpanner htmlParser = new HtmlSpanner();
-        htmlParser.registerHandler("a",anchorEmoteHandler);
-        //TODO:possibly support putting the custom sub CSS in string to better match sub styles since HtmlSpanner supports it.
-        SpannableStringBuilder builder = (SpannableStringBuilder) htmlParser.fromHtml(text.toString().trim());
+        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(saveEmotesFromDestruction(text.toString().trim()));
+        setEmoteSpans(builder);
         setCodeFont(builder);
         setSpoilerStyle(builder);
         if (text.toString().contains("[[d[")) {
@@ -180,6 +138,58 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         builder = removeNewlines(builder);
 
         super.setText(builder, BufferType.SPANNABLE);
+    }
+
+    private String saveEmotesFromDestruction(String html) {
+        //Emotes often have no spoiler caption, and therefore are converted to empty anchors. Html.fromHtml removes anchors with zero length node text. Find zero length anchors that start with "/" and add "." to them.
+        Pattern htmlEmotePattern = Pattern.compile("<a href=\"/.*\"></a>");
+        Matcher htmlEmoteMatcher = htmlEmotePattern.matcher(html);
+        while(htmlEmoteMatcher.find()) {
+            String newPiece = htmlEmoteMatcher.group();
+            //Ignore empty tags marked with sp.
+            if(!htmlEmoteMatcher.group().contains("href=\"/sp\"")) {
+                newPiece = newPiece.replace("></a",">.</a");
+                html = html.replace(htmlEmoteMatcher.group(),newPiece);
+            }
+        }
+        return html;
+    }
+
+    private void setEmoteSpans(SpannableStringBuilder builder) {
+        for(URLSpan span:builder.getSpans(0,builder.length(),URLSpan.class)) {
+            File emoteDir = new File(Environment.getExternalStorageDirectory(),"RedditEmotes");
+            File emoteFile = new File(emoteDir,span.getURL().replace("/", "").replaceAll("-.*","")+".png"); //BPM uses "-" to add dynamics for emotes in browser. Fall back to original here if exists.
+            boolean startsWithSlash = span.getURL().startsWith("/");
+            boolean hasOnlyOneSlash = StringUtils.countMatches(span.getURL(),"/") == 1;
+
+            if(emoteDir.exists() && startsWithSlash && hasOnlyOneSlash && emoteFile.exists()) {
+                //We've got an emote match
+                int start = builder.getSpanStart(span);
+                int end = builder.getSpanEnd(span);
+                CharSequence textCovers = builder.subSequence(start,end);
+
+                //Make sure bitmap loaded works well with screen density.
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                DisplayMetrics metrics = new DisplayMetrics();
+                ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+                options.inDensity = 240;
+                options.inScreenDensity = metrics.densityDpi;
+                options.inScaled = true;
+
+                //Since emotes are not directly attached to included text, add extra character to attach image to.
+                builder.removeSpan(span);
+                if(builder.subSequence(start,end).charAt(0) != '.') {
+                    builder.insert(start, ".");
+                }
+                Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(),options);
+                builder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                //Check if url span has length. If it does, it's a spoiler/caption
+                if(textCovers.length()>1) {
+                    builder.setSpan(new URLSpan("/sp"), start + 1, end + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setSpan(new StyleSpan(Typeface.ITALIC), start + 1, end+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            }
+        }
     }
 
     private void setStrikethrough(SpannableStringBuilder builder) {
