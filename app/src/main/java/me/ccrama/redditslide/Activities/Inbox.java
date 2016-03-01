@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -64,6 +65,13 @@ public class Inbox extends BaseActivityAnim {
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+        findViewById(R.id.compose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Inbox.this, Sendmessage.class);
+                startActivity(i);
             }
         });
     }
