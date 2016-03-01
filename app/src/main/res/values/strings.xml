@@ -153,6 +153,7 @@
 
     <!-- Sorting options -->
     <string name="sorting_choose">Choose a sorting type</string>
+    <string name="sorting_time_choose">Choose a time frame</string>
     <string name="sorting_change_sorting">Sort mode</string>
     <string name="sorting_best">Best</string>
     <string name="sorting_top">Top</string>
@@ -326,6 +327,7 @@
     <string name="btn_cache">Cache comments</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_switch">Switch</string>
+    <string name="btn_time">Time</string>
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>

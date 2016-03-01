@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -90,7 +91,7 @@ public class Search extends BaseActivityAnim {
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Search.this);
-        builder.setTitle(R.string.sorting_choose);
+        builder.setTitle(R.string.sorting_time_choose);
         builder.setSingleChoiceItems(Reddit.getSortingStringsSearch(getBaseContext()), Reddit.getSortingIdSearch(this), l2);
         builder.show();
 
@@ -165,6 +166,14 @@ public class Search extends BaseActivityAnim {
         time = TimePeriod.ALL;
 
         getSupportActionBar().setTitle(where);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        assert mToolbar != null; //it won't be, trust me
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); //Simulate a system's "Back" button functionality.
+            }
+        });
         getSupportActionBar().setSubtitle(Reddit.getSortingStringsSearch(getBaseContext())[Reddit.getSortingIdSearch(this)]);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
             final PreCachingLayoutManager mLayoutManager;
