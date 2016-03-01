@@ -51,6 +51,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     private ViewPager pager;
     private TabLayout tabs;
     private List<MultiReddit> usedArray;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -61,6 +62,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         return true;
     }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         /* removed for now
@@ -75,6 +77,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         }*/
         return super.dispatchKeyEvent(event);
     }
+
     public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
@@ -87,10 +90,11 @@ public class MultiredditOverview extends BaseActivityAnim {
                 position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() -1;
+            position = ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
         }
         return position;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -99,7 +103,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
                 startActivity(i);
             }
-                return true;
+            return true;
             case R.id.create:
                 Intent i2 = new Intent(MultiredditOverview.this, CreateMulti.class);
                 startActivity(i2);
@@ -140,6 +144,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return false;
         }
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -157,7 +162,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
 
 
-
         new AsyncTask<Void, Void, List<MultiReddit>>() {
             @Override
             protected List<MultiReddit> doInBackground(Void... params) {
@@ -169,8 +173,18 @@ public class MultiredditOverview extends BaseActivityAnim {
                 setDataSet(multiReddits);
             }
         }.execute();
-    }
+        tabs.setOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        super.onTabReselected(tab);
+                        ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
 
+                    }
+                });
+
+
+    }
 
 
     public void openPopup() {
@@ -257,6 +271,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         builder.show();
 
     }
+
     private void reloadSubs() {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -387,6 +402,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             super.setPrimaryItem(container, position, object);
         }
+
         @Override
         public int getCount() {
             if (usedArray == null) {

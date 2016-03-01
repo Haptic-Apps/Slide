@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -479,6 +480,25 @@ public class MainActivity extends BaseActivity {
             }
 
         }
+        if (mTabLayout != null) {
+            mTabLayout.setOnTabSelectedListener(
+                    new TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                        @Override
+                        public void onTabReselected(TabLayout.Tab tab) {
+                            super.onTabReselected(tab);
+                            ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+
+                        }
+                    });
+        } else {
+            mToolbar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+                }
+            });
+        }
+
         doTutorial();
         System.gc();
 
@@ -1470,6 +1490,10 @@ public class MainActivity extends BaseActivity {
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
+
+                builder.setView(dialoglayout);
+                final Dialog d = builder.show();
+
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1480,7 +1504,9 @@ public class MainActivity extends BaseActivity {
                                 Reddit.themeBack = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
 
+                                d.dismiss();
                                 recreate();
+
                                 break;
                             }
                         }
@@ -1496,6 +1522,7 @@ public class MainActivity extends BaseActivity {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
 
+                                d.dismiss();
                                 recreate();
 
                                 break;
@@ -1513,6 +1540,7 @@ public class MainActivity extends BaseActivity {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
 
+                                d.dismiss();
                                 recreate();
 
                                 break;
@@ -1529,7 +1557,7 @@ public class MainActivity extends BaseActivity {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
-
+                                d.dismiss();
                                 recreate();
 
                                 break;
@@ -1537,9 +1565,6 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                 });
-
-                builder.setView(dialoglayout);
-                builder.show();
             }
 
             return true;
