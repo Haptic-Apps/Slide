@@ -135,7 +135,9 @@ public class Search extends BaseActivityAnim {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
+            case R.id.home:
+                onBackPressed();
+                return true;
             case R.id.time:
                 openPopup();
                 return true;
