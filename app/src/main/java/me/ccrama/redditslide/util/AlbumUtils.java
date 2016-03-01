@@ -62,6 +62,7 @@ public class AlbumUtils {
 
 
     public static class LoadAlbumFromUrl extends AsyncTask<String, Void, Void> {
+        public int height;
 
         public boolean gallery;
         public String hash;
@@ -71,11 +72,12 @@ public class AlbumUtils {
         public Activity baseActivity;
         public RecyclerView recyclerView;
 
-        public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, @NotNull boolean finishIfNone, @NotNull boolean openExternalNotAlbum, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView) {
+        public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, @NotNull boolean finishIfNone, @NotNull boolean openExternalNotAlbum, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView, int height) {
 
             this.finishIfNone = finishIfNone;
             this.recyclerView = recyclerView;
             this.supportActionBar = bar;
+            this.height = height;
             this.openExternalNotAlbum = openExternalNotAlbum;
             this.baseActivity = baseActivity;
 
@@ -137,7 +139,7 @@ public class AlbumUtils {
                         final PreCachingLayoutManager mLayoutManager;
                         mLayoutManager = new PreCachingLayoutManager(baseActivity);
                         recyclerView.setLayoutManager(mLayoutManager);
-                        recyclerView.setAdapter(new AlbumView(baseActivity, jsons, true));
+                        recyclerView.setAdapter(new AlbumView(baseActivity, jsons, true, height));
                     }
 
 
@@ -198,7 +200,7 @@ public class AlbumUtils {
                                     final PreCachingLayoutManager mLayoutManager;
                                     mLayoutManager = new PreCachingLayoutManager(baseActivity);
                                     recyclerView.setLayoutManager(mLayoutManager);
-                                    recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false));
+                                    recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false, height));
                                 }
 
                             } else {
@@ -259,6 +261,12 @@ public class AlbumUtils {
                                                 doGallery(result);
                                             }
                                         });
+                                    } else {
+                                        Intent i = new Intent(baseActivity, Website.class);
+                                        i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
+                                        baseActivity.startActivity(i);
+                                        baseActivity.finish();
+
                                     }
                                 }
 
@@ -279,13 +287,20 @@ public class AlbumUtils {
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, final JsonObject result) {
-                                    albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
-                                    baseActivity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            doAlbum(result);
-                                        }
-                                    });
+                                    if (result != null && !result.isJsonNull()) {
+                                        albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+                                        baseActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                doAlbum(result);
+                                            }
+                                        });
+                                    } else {
+                                        Intent i = new Intent(baseActivity, Website.class);
+                                        i.putExtra(Website.EXTRA_URL, "http://imgur.com/" + hash);
+                                        baseActivity.startActivity(i);
+                                        baseActivity.finish();
+                                    }
                                 }
 
                             });
@@ -426,10 +441,16 @@ public class AlbumUtils {
 
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
-                                public void onCompleted(Exception e, JsonObject result) {
+                                public void onCompleted(Exception e, final JsonObject result) {
                                     albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
 
-                                    doGallery(result);
+                                    baseActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            doGallery(result);
+
+                                        }
+                                    });
                                 }
 
                             });
@@ -448,10 +469,15 @@ public class AlbumUtils {
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                              @Override
-                                             public void onCompleted(Exception e, JsonObject result) {
+                                             public void onCompleted(Exception e, final JsonObject result) {
                                                  albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+                                                 baseActivity.runOnUiThread(new Runnable() {
+                                                     @Override
+                                                     public void run() {
+                                                         doAlbum(result);
 
-                                                 doAlbum(result);
+                                                     }
+                                                 });
                                              }
 
                                          }

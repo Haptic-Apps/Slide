@@ -59,7 +59,16 @@
                     android:listSelector="@android:color/transparent"
                     android:orientation="vertical" />
             </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+            <include
+                layout="@layout/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
         </FrameLayout>
     </FrameLayout>

@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.TitleTextView;
@@ -107,6 +109,18 @@ public class AlbumPager extends FullScreenActivity {
                 }
             }, 250);
         }
+
+        findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingValues.albumSwipe = false;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, false).apply();
+                Intent i = new Intent(AlbumPager.this, Album.class);
+                i.putExtra("url", getIntent().getExtras().getString("url", ""));
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     @Override

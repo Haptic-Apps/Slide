@@ -120,11 +120,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         forceRestart(c);
 
     }
+
     public static int pxToDp(int dp, Context c) {
         DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
         int px = Math.round(dp * (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
         return px;
     }
+
     public static void defaultShareText(String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
@@ -192,26 +194,30 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return f;
     }
 
-    public static Integer getSortingId() {
-        return defaultSorting == Sorting.HOT ? 0
-                : defaultSorting == Sorting.NEW ? 1
-                : defaultSorting == Sorting.RISING ? 2
-                : defaultSorting == Sorting.TOP ?
-                (timePeriod == TimePeriod.HOUR ? 3
-                        : timePeriod == TimePeriod.DAY ? 4
-                        : timePeriod == TimePeriod.WEEK ? 5
-                        : timePeriod == TimePeriod.MONTH ? 6
-                        : timePeriod == TimePeriod.YEAR ? 7
+    public static Integer getSortingId(String subreddit) {
+        Sorting sort = sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
+        TimePeriod time = sorting.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
+
+        return sort == Sorting.HOT ? 0
+                : sort == Sorting.NEW ? 1
+                : sort == Sorting.RISING ? 2
+                : sort == Sorting.TOP ?
+                (time == TimePeriod.HOUR ? 3
+                        : time == TimePeriod.DAY ? 4
+                        : time == TimePeriod.WEEK ? 5
+                        : time == TimePeriod.MONTH ? 6
+                        : time == TimePeriod.YEAR ? 7
                         : 8)
-                : defaultSorting == Sorting.CONTROVERSIAL ?
-                (timePeriod == TimePeriod.HOUR ? 9
-                        : timePeriod == TimePeriod.DAY ? 10
-                        : timePeriod == TimePeriod.WEEK ? 11
-                        : timePeriod == TimePeriod.MONTH ? 12
-                        : timePeriod == TimePeriod.YEAR ? 13
+                : sort == Sorting.CONTROVERSIAL ?
+                (time == TimePeriod.HOUR ? 9
+                        : time == TimePeriod.DAY ? 10
+                        : time == TimePeriod.WEEK ? 11
+                        : time == TimePeriod.MONTH ? 12
+                        : time == TimePeriod.YEAR ? 13
                         : 14)
                 : 0;
     }
+
 
     public static Integer getSortingIdSearch() {
         return
@@ -223,6 +229,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                         5
                 ;
     }
+
     public static Integer getSortingIdSearch(Search s) {
         return
                 s.time == TimePeriod.HOUR ? 0 :
@@ -233,6 +240,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                         5
                 ;
     }
+
     public static Integer getTypeSearch() {
         return
                 search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
@@ -374,10 +382,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
-    public static void setDefaultErrorHandler( Context base) {
+    public static void setDefaultErrorHandler(Context base) {
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
-        final WeakReference<Context> cont= new WeakReference<>(base);
+        final WeakReference<Context> cont = new WeakReference<>(base);
 
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -504,7 +512,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onCreate() {
         super.onCreate();
-      //  LeakCanary.install(this);
+        //  LeakCanary.install(this);
 
         doMainStuff();
     }

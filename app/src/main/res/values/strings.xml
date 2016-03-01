@@ -569,6 +569,7 @@
     <string name="card_right_thumb">Right-aligned thumbnail</string>
     <string name="submission_share_permalink">Share post</string>
     <string name="submission_share_content_url">Share content URL</string>
+    <string name="change_theme">Change theme</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

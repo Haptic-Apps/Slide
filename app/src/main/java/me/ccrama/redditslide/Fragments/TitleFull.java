@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.PopulateShadowboxInfo;
+import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 
 
 /**

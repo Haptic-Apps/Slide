@@ -51,6 +51,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     private ViewPager pager;
     private TabLayout tabs;
     private List<MultiReddit> usedArray;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -61,6 +62,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         return true;
     }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         /* removed for now
@@ -75,6 +77,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         }*/
         return super.dispatchKeyEvent(event);
     }
+
     public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
@@ -87,19 +90,23 @@ public class MultiredditOverview extends BaseActivityAnim {
                 position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() -1;
+            position = ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
         }
         return position;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.home:
+                onBackPressed();
+                return true;
             case R.id.action_edit: {
                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                 i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
                 startActivity(i);
             }
-                return true;
+            return true;
             case R.id.create:
                 Intent i2 = new Intent(MultiredditOverview.this, CreateMulti.class);
                 startActivity(i2);
@@ -140,6 +147,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return false;
         }
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -157,7 +165,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
 
 
-
         new AsyncTask<Void, Void, List<MultiReddit>>() {
             @Override
             protected List<MultiReddit> doInBackground(Void... params) {
@@ -169,7 +176,19 @@ public class MultiredditOverview extends BaseActivityAnim {
                 setDataSet(multiReddits);
             }
         }.execute();
+        tabs.setOnTabSelectedListener(
+                new TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        super.onTabReselected(tab);
+                        ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+
+                    }
+                });
+
+
     }
+
 
     public void openPopup() {
 
@@ -179,83 +198,81 @@ public class MultiredditOverview extends BaseActivityAnim {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.defaultSorting = Sorting.HOT;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.defaultSorting = Sorting.NEW;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.defaultSorting = Sorting.RISING;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.HOUR;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.DAY;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.WEEK;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 6:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.MONTH;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 7:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.YEAR;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 8:
-                        Reddit.defaultSorting = Sorting.TOP;
-                        Reddit.timePeriod = TimePeriod.ALL;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.ALL);
                         reloadSubs();
                         break;
                     case 9:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.HOUR;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 10:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.DAY;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 11:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.WEEK;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.WEEK);
                         reloadSubs();
                     case 12:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.MONTH;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.MONTH);
                         reloadSubs();
                     case 13:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.YEAR;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.YEAR);
                         reloadSubs();
                     case 14:
-                        Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                        Reddit.timePeriod = TimePeriod.ALL;
+                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
+                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.ALL);
                         reloadSubs();
                 }
-                SettingValues.defaultSorting = Reddit.defaultSorting;
-                SettingValues.timePeriod = Reddit.timePeriod;
             }
         };
-
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MultiredditOverview.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
+        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi"), l2);
         builder.show();
+
     }
 
     private void reloadSubs() {
@@ -388,6 +405,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             super.setPrimaryItem(container, position, object);
         }
+
         @Override
         public int getCount() {
             if (usedArray == null) {

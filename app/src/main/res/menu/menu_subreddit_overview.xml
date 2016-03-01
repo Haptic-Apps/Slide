@@ -24,7 +24,7 @@
         android:title="@string/search_title"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/night"
-        android:title="@string/btn_theme_toggle"
+        android:title="@string/change_theme"
         app:showAsAction="never"/>
     <item android:id="@+id/save"
         android:title="@string/btn_cache"

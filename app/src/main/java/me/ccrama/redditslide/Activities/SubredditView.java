@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -48,12 +49,15 @@ import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.List;
 
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -62,6 +66,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
+import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LogUtil;
@@ -189,6 +194,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     }
 
     public String term;
+    FloatingActionButton fab;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -276,7 +282,75 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         rv.setLayoutManager(mLayoutManager);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.activity_main_swipe_refresh_layout);
+        findViewById(R.id.header).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rv.smoothScrollToPosition(0);
+            }
+        });
+        if (SettingValues.fab) {
+            fab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
 
+            if (SettingValues.fabType == R.integer.FAB_POST) {
+                fab.setImageResource(R.drawable.add);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent inte = new Intent(SubredditView.this, Submit.class);
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        startActivity(inte);
+                    }
+                });
+            } else {
+                fab.setImageResource(R.drawable.hide);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!Reddit.fabClear) {
+                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(R.string.settings_fabclear)
+                                    .setMessage(R.string.settings_fabclear_msg)
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.fabClear = true;
+                                            clearSeenPosts(false);
+
+                                        }
+                                    }).show();
+                        } else {
+                            clearSeenPosts(false);
+                        }
+                    }
+                });
+                fab.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (!Reddit.fabClear) {
+                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(R.string.settings_fabclear)
+                                    .setMessage(R.string.settings_fabclear_msg)
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.fabClear = true;
+                                            clearSeenPosts(true);
+
+                                        }
+                                    }).show();
+                        } else {
+                            clearSeenPosts(true);
+
+                        }
+
+                        Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG).show();
+                        return false;
+                    }
+                });
+            }
+        } else {
+            findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
+        }
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
@@ -311,6 +385,17 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     posts.loadMore(mSwipeRefreshLayout.getContext(), SubredditView.this, false, posts.subreddit);
 
                 }
+                if (fab != null) {
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+
+                        fab.show();
+
+
+                    } else {
+                        fab.hide();
+
+                    }
+                }
             }
         });
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
@@ -339,9 +424,50 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     }
                 }
         );
-
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               rv.smoothScrollToPosition(0);
+            }
+        });
 
     }
+
+    private List<Submission> clearSeenPosts(boolean forever) {
+        if (adapter.dataSet.posts != null) {
+            OfflineSubreddit.getSubreddit(subreddit.toLowerCase()).clearSeenPosts(false);
+
+            List<Submission> originalDataSetPosts = adapter.dataSet.posts;
+
+            for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
+                try {
+                    if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+                        if (forever) {
+                            Hidden.setHidden(adapter.dataSet.posts.get(i));
+                        }
+                        adapter.dataSet.posts.remove(i);
+                        if (adapter.dataSet.posts.size() == 0) {
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            if (SettingValues.animation)
+
+                                rv.setItemAnimator(new FadeInAnimator());
+
+                            adapter.notifyItemRemoved(i + 1);
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    //Let the loop reset itself
+                }
+            }
+            if (SettingValues.animation)
+                rv.setItemAnimator(new SubtleSlideInUp(SubredditView.this));
+            return originalDataSetPosts;
+        }
+
+        return null;
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
 
@@ -399,6 +525,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             mLayoutManager.scrollToPosition(i);
         }
     }
+
     public void openPopup() {
 
         final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
@@ -480,7 +607,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(), l2);
+                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(subreddit), l2);
         builder.show();
     }
 

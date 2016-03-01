@@ -17,6 +17,7 @@
 package me.ccrama.redditslide.SwipeLayout;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
@@ -27,12 +28,15 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
+import android.widget.HorizontalScrollView;
 
 import java.util.Arrays;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * By ikew0ng
- *
+ * <p/>
  * ViewDragHelper is a utility class for writing custom ViewGroups. It offers a
  * number of useful operations and state tracking for allowing a user to drag
  * and reposition views within their parent ViewGroup.
@@ -1047,6 +1051,8 @@ public class ViewDragHelper {
     public boolean shouldInterceptTouchEvent(MotionEvent ev) {
         final int action = MotionEventCompat.getActionMasked(ev);
         final int actionIndex = MotionEventCompat.getActionIndex(ev);
+        float x = ev.getX();
+        float y = ev.getY();
 
         if (action == MotionEvent.ACTION_DOWN) {
             // Reset things for a new event stream, just in case we didn't get
@@ -1057,12 +1063,11 @@ public class ViewDragHelper {
         if (mVelocityTracker == null) {
             mVelocityTracker = VelocityTracker.obtain();
         }
+
         mVelocityTracker.addMovement(ev);
 
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
-                final float x = ev.getX();
-                final float y = ev.getY();
                 final int pointerId = MotionEventCompat.getPointerId(ev, 0);
                 saveInitialMotion(x, y, pointerId);
 
@@ -1082,12 +1087,14 @@ public class ViewDragHelper {
 
             case MotionEventCompat.ACTION_POINTER_DOWN: {
                 final int pointerId = MotionEventCompat.getPointerId(ev, actionIndex);
-                final float x = MotionEventCompat.getX(ev, actionIndex);
-                final float y = MotionEventCompat.getY(ev, actionIndex);
+                x = MotionEventCompat.getX(ev, actionIndex);
+                y = MotionEventCompat.getY(ev, actionIndex);
 
                 saveInitialMotion(x, y, pointerId);
 
                 // A ViewDragHelper can only manipulate one view at a time.
+                final View toCapture = findTopChildUnder((int) x, (int) y);
+
                 if (mDragState == STATE_IDLE) {
                     final int edgesTouched = mInitialEdgeTouched[pointerId];
                     if ((edgesTouched & mTrackingEdges) != 0) {
@@ -1095,7 +1102,6 @@ public class ViewDragHelper {
                     }
                 } else if (mDragState == STATE_SETTLING) {
                     // Catch a settling view if possible.
-                    final View toCapture = findTopChildUnder((int) x, (int) y);
                     if (toCapture == mCapturedView) {
                         tryCaptureViewForDrag(toCapture, pointerId);
                     }
@@ -1109,8 +1115,8 @@ public class ViewDragHelper {
                 final int pointerCount = MotionEventCompat.getPointerCount(ev);
                 for (int i = 0; i < pointerCount; i++) {
                     final int pointerId = MotionEventCompat.getPointerId(ev, i);
-                    final float x = MotionEventCompat.getX(ev, i);
-                    final float y = MotionEventCompat.getY(ev, i);
+                    x = MotionEventCompat.getX(ev, i);
+                    y = MotionEventCompat.getY(ev, i);
                     final float dx = x - mInitialMotionX[pointerId];
                     final float dy = y - mInitialMotionY[pointerId];
 
@@ -1570,7 +1576,7 @@ public class ViewDragHelper {
     private int getEdgeTouched(int x, int y) {
 
         int result = 0;
-        if (!override){
+        if (!override) {
 
             if (x < mParentView.getLeft() + mEdgeSize)
                 result = EDGE_LEFT;
