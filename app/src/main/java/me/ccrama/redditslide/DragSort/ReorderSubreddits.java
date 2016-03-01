@@ -18,12 +18,14 @@ package me.ccrama.redditslide.DragSort;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +66,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     }
 
+    ArrayList<String> chosen = new ArrayList<>();
+    boolean isMultiple;
+
     int done = 0;
 
     @Override
@@ -79,7 +84,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
-
 
         findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +172,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         recyclerView.addOnScrollListener(dragSortRecycler.getScrollListener());
         dragSortRecycler.setViewHandleId();
 
-       final FloatingActionButton fab =  (FloatingActionButton) findViewById(R.id.add);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,13 +274,13 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+                if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
 
-                        fab.show();
+                    fab.show();
 
 
-                    } else {
-                        fab.hide();
+                } else {
+                    fab.hide();
 
 
                 }
@@ -383,48 +387,100 @@ public class ReorderSubreddits extends BaseActivityAnim {
             return new ViewHolder(v);
         }
 
+        public void doNewToolbar() {
+            mToolbar.setVisibility(View.GONE);
+            mToolbar = (Toolbar) findViewById(R.id.toolbar2);
+            mToolbar.setTitle(chosen.size() + " selected");
+            mToolbar.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
+                            .setMessage(R.string.reorder_remove_msg)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    for (String s : chosen) {
+                                        int index = subs.indexOf(s);
+                                        subs.remove(index);
+                                        adapter.notifyItemRemoved(index);
+                                    }
+                                    isMultiple = false;
+                                    chosen = new ArrayList<>();
+                                    doOldToolbar();
+
+                                }
+                            }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+                }
+            });
+            mToolbar.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for (String s : chosen) {
+                        int index = subs.indexOf(s);
+                        subs.remove(index);
+                        subs.add(0, s);
+                    }
+                    isMultiple = false;
+                    doOldToolbar();
+                    chosen = new ArrayList<>();
+                    notifyDataSetChanged();
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            });
+        }
+
+        public void doOldToolbar() {
+            mToolbar = (Toolbar) findViewById(R.id.toolbar);
+            mToolbar.setVisibility(View.VISIBLE);
+        }
+
+        public void updateToolbar() {
+            mToolbar.setTitle(chosen.size() + " selected");
+        }
+
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-            String origPos = items.get(position);
+            final String origPos = items.get(position);
             holder.text.setText(origPos);
 
+            if(chosen.contains(origPos)){
+                holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+            } else {
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+
+            }
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                            .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
+                    if (!isMultiple) {
+                        isMultiple = true;
+                        chosen = new ArrayList<>();
+                        chosen.add(origPos);
+                        doNewToolbar();
+                        holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 1) {
-                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
-                                                .setMessage(R.string.reorder_remove_msg)
-                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        subs.remove(items.get(holder.getAdapterPosition()));
-                                                        adapter.notifyItemRemoved(holder.getAdapterPosition());
-                                                    }
-                                                }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
+                    } else if (chosen.contains(origPos)) {
+                        holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+                        chosen.remove(origPos);
 
-                                            }
-                                        }).show();
-                                    } else {
-                                        String s = items.get(holder.getAdapterPosition());
-                                        int index = subs.indexOf(s);
-                                        subs.remove(index);
-                                        subs.add(0, s);
-                                        notifyItemMoved(holder.getAdapterPosition(), 0);
-                                        recyclerView.smoothScrollToPosition(0);
+                        if (chosen.size() == 0) {
+                            isMultiple = false;
+                            doOldToolbar();
+                        }
+                    } else {
+                        chosen.add(origPos);
+                        holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                        updateToolbar();
 
-                                    }
-                                }
-                            }).show();
+                    }
                     return true;
                 }
             });
@@ -432,39 +488,61 @@ public class ReorderSubreddits extends BaseActivityAnim {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                            .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (which == 1) {
-                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
-                                                .setMessage(R.string.reorder_remove_msg)
-                                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        subs.remove(items.get(position));
-                                                        adapter.notifyItemRemoved(position);
-                                                    }
-                                                }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
+                    if (!isMultiple) {
 
-                                            }
-                                        }).show();
-                                    } else {
-                                        String s = items.get(holder.getAdapterPosition());
-                                        int index = subs.indexOf(s);
-                                        subs.remove(index);
-                                        subs.add(0, s);
-                                        notifyItemMoved(holder.getAdapterPosition(), 0);
-                                        recyclerView.smoothScrollToPosition(0);
+                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (which == 1) {
+                                            new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
+                                                    .setMessage(R.string.reorder_remove_msg)
+                                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            subs.remove(items.get(position));
+                                                            adapter.notifyItemRemoved(position);
+                                                        }
+                                                    }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            }).show();
+                                        } else {
+                                            String s = items.get(holder.getAdapterPosition());
+                                            int index = subs.indexOf(s);
+                                            subs.remove(index);
+                                            subs.add(0, s);
+                                            notifyItemMoved(holder.getAdapterPosition(), 0);
+                                            recyclerView.smoothScrollToPosition(0);
+
+                                        }
+
 
                                     }
-                                }
-                            }).show();
+                                }).show();
+                    } else {
+                        if (chosen.contains(origPos)) {
+                            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+                            chosen.remove(origPos);
+                            updateToolbar();
+                            if (chosen.size() == 0) {
+                                isMultiple = false;
+                                doOldToolbar();
+                            }
+                        } else {
+                            chosen.add(origPos);
+                            holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                            updateToolbar();
+                        }
+
+
+                    }
+
+
                 }
             });
-
         }
 
         @Override

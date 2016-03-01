@@ -6,6 +6,58 @@
     android:background="?attr/activity_background"
 
     android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/tint"
+        android:clipToPadding="false"
+        android:minHeight="56dp"
+
+        android:paddingRight="16dp"
+        android:theme="@style/Theme.AppCompat"
+        app:layout_scrollFlags="scroll|enterAlways"
+
+
+        >
+
+
+        <ImageView
+            android:id="@+id/top"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="?android:selectableItemBackground"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/upvoted"
+
+            />
+
+
+
+
+        <ImageView
+            android:id="@+id/delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="?android:selectableItemBackground"
+            android:paddingBottom="8dp"
+
+            android:paddingTop="8dp"
+            android:scaleType="fitCenter"
+
+            android:src="@drawable/delete"
+
+            android:tint="@color/white"
+
+            />
+
+
+
+    </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -69,7 +121,7 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:fadeScrollbars="true"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/toolbar2"
 
         android:orientation="vertical">
 
