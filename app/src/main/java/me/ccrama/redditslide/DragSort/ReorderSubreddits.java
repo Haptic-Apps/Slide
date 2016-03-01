@@ -66,6 +66,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        if(isMultiple){
+            chosen = new ArrayList<>();
+            doOldToolbar();
+            adapter.notifyDataSetChanged();
+            isMultiple = false;
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
     ArrayList<String> chosen = new ArrayList<>();
     boolean isMultiple;
 
@@ -372,7 +385,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
     }
-
+    public void doOldToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setVisibility(View.VISIBLE);
+    }
     public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
 
@@ -434,10 +450,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             });
         }
 
-        public void doOldToolbar() {
-            mToolbar = (Toolbar) findViewById(R.id.toolbar);
-            mToolbar.setVisibility(View.VISIBLE);
-        }
+
 
         public void updateToolbar() {
             mToolbar.setTitle(chosen.size() + " selected");
