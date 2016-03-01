@@ -319,10 +319,12 @@
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/reply"
+                android:layout_below="@+id/innerrelative"
 
+                android:layout_toLeftOf="@+id/reply"
                 android:padding="8dp"
                 android:src="@drawable/saved"
+                android:tag="tint"
                 android:tint="?attr/tint" />
 
             <ImageView

@@ -62,6 +62,7 @@ public class AlbumUtils {
 
 
     public static class LoadAlbumFromUrl extends AsyncTask<String, Void, Void> {
+        public int height;
 
         public boolean gallery;
         public String hash;
@@ -71,11 +72,12 @@ public class AlbumUtils {
         public Activity baseActivity;
         public RecyclerView recyclerView;
 
-        public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, @NotNull boolean finishIfNone, @NotNull boolean openExternalNotAlbum, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView) {
+        public LoadAlbumFromUrl(@NotNull String url, @NotNull Activity baseActivity, @NotNull boolean finishIfNone, @NotNull boolean openExternalNotAlbum, @Nullable ActionBar bar, @NotNull RecyclerView recyclerView, int height) {
 
             this.finishIfNone = finishIfNone;
             this.recyclerView = recyclerView;
             this.supportActionBar = bar;
+            this.height = height;
             this.openExternalNotAlbum = openExternalNotAlbum;
             this.baseActivity = baseActivity;
 
@@ -137,7 +139,7 @@ public class AlbumUtils {
                         final PreCachingLayoutManager mLayoutManager;
                         mLayoutManager = new PreCachingLayoutManager(baseActivity);
                         recyclerView.setLayoutManager(mLayoutManager);
-                        recyclerView.setAdapter(new AlbumView(baseActivity, jsons, true));
+                        recyclerView.setAdapter(new AlbumView(baseActivity, jsons, true, height));
                     }
 
 
@@ -198,7 +200,7 @@ public class AlbumUtils {
                                     final PreCachingLayoutManager mLayoutManager;
                                     mLayoutManager = new PreCachingLayoutManager(baseActivity);
                                     recyclerView.setLayoutManager(mLayoutManager);
-                                    recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false));
+                                    recyclerView.setAdapter(new AlbumView(baseActivity, jsons, false, height));
                                 }
 
                             } else {

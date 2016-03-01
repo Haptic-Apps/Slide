@@ -364,7 +364,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T extends Contribution> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
-            holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
+        holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
         String distingush = "";
         if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
             distingush = "[M]";
@@ -821,53 +821,57 @@ public class PopulateSubmissionViewHolder {
             } else {
                 hideButton.setVisibility(View.GONE);
             }
-            if (SettingValues.saveButton && Authentication.isLoggedIn) {
-                if (ActionStates.isSaved(submission)) {
-                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                } else {
-                    ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                }
-                holder.save.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                try {
-                                    if (ActionStates.isSaved(submission)) {
-                                        new AccountManager(Authentication.reddit).unsave(submission);
-                                        ActionStates.setSaved(submission, false);
-                                    } else {
-                                        new AccountManager(Authentication.reddit).save(submission);
-                                        ActionStates.setSaved(submission, true);
-                                    }
-                                } catch (ApiException e) {
-                                    e.printStackTrace();
-                                }
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                if (ActionStates.isSaved(submission)) {
-                                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                                    Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
-                                } else {
-                                    Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-                                    ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                                }
-
-                            }
-                        }.execute();
-
-
-                    }
-                });
+        }
+        if (Authentication.isLoggedIn) {
+            if (ActionStates.isSaved(submission)) {
+                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
             } else {
-                holder.save.setVisibility(View.GONE);
+                ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
             }
+            LogUtil.v("Doing saved stuff");
+            holder.save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            try {
+                                if (ActionStates.isSaved(submission)) {
+                                    new AccountManager(Authentication.reddit).unsave(submission);
+                                    ActionStates.setSaved(submission, false);
+                                } else {
+                                    new AccountManager(Authentication.reddit).save(submission);
+                                    ActionStates.setSaved(submission, true);
+                                }
+                            } catch (ApiException e) {
+                                e.printStackTrace();
+                            }
+
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            if (ActionStates.isSaved(submission)) {
+                                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                            } else {
+                                Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+                                ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                            }
+
+                        }
+                    }.execute();
+
+
+                }
+            });
+        }
+
+        if (!SettingValues.saveButton && !full || !Authentication.isLoggedIn) {
+            holder.save.setVisibility(View.GONE);
+
         }
 
 
@@ -931,7 +935,7 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                                 holder.score.setText("" + (submission.getScore() - 1));
-                                    AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton, ContextCompat.getColor(mContext, R.color.md_blue_500));
+                                AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton, ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 new Vote(false, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
                             } else {
@@ -952,7 +956,7 @@ public class PopulateSubmissionViewHolder {
                             if (ActionStates.getVoteDirection(submission) != VoteDirection.UPVOTE) { //has not been upvoted
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 holder.score.setText("" + (submission.getScore() + 1));
-                                    AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton, ContextCompat.getColor(mContext, R.color.md_orange_500));
+                                AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton, ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                                 new Vote(true, points, mContext).execute(submission);

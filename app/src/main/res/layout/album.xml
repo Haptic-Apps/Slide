@@ -1,42 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     android:background="#aa000000"
     android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00000000"
-        android:clipToPadding="false"
-        android:theme="@style/Theme.AppCompat"
-        android:elevation="5dp"
-        android:minHeight="60dp"
-        android:paddingRight="16dp"
-
-        >
-
-        <ImageView
-            android:id="@+id/slider"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="right"
-            android:padding="15dp"
-
-            android:src="@drawable/shadowbox"
-
-
-            android:visibility="gone" />
-
-
-    </android.support.v7.widget.Toolbar>
 
 
     <android.support.v7.widget.RecyclerView
@@ -47,4 +18,26 @@
         android:divider="@null"
         android:dividerHeight="0dp" />
 
-</LinearLayout>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:clipToPadding="false"
+        android:elevation="5dp"
+        android:minHeight="60dp"
+        android:theme="@style/Theme.AppCompat"
+
+        >
+
+        <ImageView
+            android:id="@+id/slider"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+            android:padding="15dp"
+            android:src="@drawable/shadowbox" />
+
+
+    </android.support.v7.widget.Toolbar>
+</FrameLayout>

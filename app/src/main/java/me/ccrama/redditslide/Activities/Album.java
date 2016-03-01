@@ -1,11 +1,13 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -54,10 +56,21 @@ public class Album extends FullScreenActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        String url = getIntent().getExtras().getString(EXTRA_URL, "");
+        final String url = getIntent().getExtras().getString(EXTRA_URL, "");
 
-        new AlbumUtils.LoadAlbumFromUrl(url, this, true, true, getSupportActionBar(), (RecyclerView)findViewById(R.id.images)).execute(url);
+        new AlbumUtils.LoadAlbumFromUrl(url, this, true, true, getSupportActionBar(), (RecyclerView)findViewById(R.id.images), 0).execute(url);
 
+        findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingValues.albumSwipe = true;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
+                Intent i = new Intent(Album.this, AlbumPager.class);
+                i.putExtra("url",url);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
 

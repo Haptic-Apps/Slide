@@ -52,7 +52,6 @@ public class AlbumFull extends Fragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         ((RecyclerView)list).setLayoutManager(layoutManager);
-        new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list).execute(s.getUrl());
 
         ((RecyclerView) list).setOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -123,6 +122,9 @@ public class AlbumFull extends Fragment {
                 }
             }
         });
+
+        new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list, rootView.findViewById(R.id.base).getHeight()).execute(s.getUrl());
+
         return rootView;
     }
 

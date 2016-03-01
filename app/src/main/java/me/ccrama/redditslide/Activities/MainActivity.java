@@ -1463,29 +1463,86 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.night:
-                String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
-                int number;
-                if (base.contains("dark") || base.contains("amoled")) {
-                    number = 1;
-                } else {
-                    number = 0;
-                }
-                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
-                final String newName = name.replace("(", "");
-                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
-                        Reddit.themeBack = theme.getThemeType();
-                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                        changed = true;
+            case R.id.night: {
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
+                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                title.setBackgroundColor(Palette.getDefaultColor());
 
+                dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
+                                Reddit.themeBack = theme.getThemeType();
+                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
 
-                        recreate();
-
-                        break;
+                                recreate();
+                                break;
+                            }
+                        }
                     }
-                }
-                return true;
+                });
+                dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
+                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+
+                                recreate();
+
+                                break;
+                            }
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+
+                                recreate();
+
+                                break;
+                            }
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
+                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+
+                                recreate();
+
+                                break;
+                            }
+                        }
+                    }
+                });
+
+                builder.setView(dialoglayout);
+                builder.show();
+            }
+
+            return true;
             case R.id.action_refresh:
                 if (adapter != null && adapter.getCurrentFragment() != null)
                     ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
@@ -1839,7 +1896,7 @@ public class MainActivity extends BaseActivity {
                 position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() -1;
+            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
         }
         return position;
     }
