@@ -26,14 +26,16 @@
 
             android:background="@drawable/circle" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:text="Android"
-                android:textColor="?attr/font"
-                android:textSize="16sp" />
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/name"
+            android:paddingEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:text="Android"
+            android:maxLines="2"
+            android:textColor="?attr/font"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </LinearLayout>
