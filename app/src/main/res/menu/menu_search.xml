@@ -6,7 +6,7 @@
     <item
         android:id="@+id/time"
         android:icon="@drawable/time"
-        android:title="@string/btn_refresh"
+        android:title="@string/btn_time"
         app:showAsAction="ifRoom"/>
 
     <item
@@ -14,6 +14,5 @@
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom" />
-
 
 </menu>
