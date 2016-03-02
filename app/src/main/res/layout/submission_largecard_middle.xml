@@ -60,7 +60,7 @@
                 android:layout_height="36dp"
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
-                android:src="@drawable/more"
+                android:src="@drawable/down"
                 android:tag="tint"
                 android:tint="?attr/tint" />
             <RelativeLayout

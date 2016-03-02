@@ -1,8 +1,11 @@
 package me.ccrama.redditslide.Views;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -40,7 +44,7 @@ public class CreateCardView {
 
         }
 
-        doHideObjects(v, false);
+        doHideObjects(v);
         return v;
     }
 
@@ -65,7 +69,7 @@ public class CreateCardView {
                 break;
 
         }
-        doHideObjects(v, secondary);
+        doHideObjects(v);
         return v;
     }
 
@@ -75,7 +79,11 @@ public class CreateCardView {
         TypedValue background = new TypedValue();
         v.getContext().getTheme().resolveAttribute(R.attr.card_background, background, true);
         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(background.data);
-
+        if (!SettingValues.actionbarVisible) {
+            for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
+                v2.setVisibility(View.GONE);
+            }
+        }
 
         doColor(getViewsByTag((ViewGroup) v, "tint"));
         doColor(getViewsByTag((ViewGroup) v, "tintactionbar"));
@@ -93,7 +101,7 @@ public class CreateCardView {
         }
     }
 
-    public static void resetColor(ArrayList<View> v){
+    public static void resetColor(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
                 ((TextView) v2).setTextColor(getWhiteFontColor());
@@ -271,7 +279,90 @@ public class CreateCardView {
 
     }
 
-    private static void doHideObjects(final View v, Boolean secondary) {
+    private static ValueAnimator slideAnimator(int start, int end, final View v) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                int value = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
+    }
+
+    public static void animateIn(View l) {
+        l.setVisibility(View.VISIBLE);
+
+        ValueAnimator mAnimator = slideAnimator(0, Reddit.pxToDp(36, l.getContext()), l);
+
+        mAnimator.start();
+    }
+
+    public static void animateOut(final View l) {
+
+        ValueAnimator mAnimator = slideAnimator(Reddit.pxToDp(36, l.getContext()), 0, l);
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                l.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+    }
+
+    public static void toggleActionbar(View v){
+        if(!SettingValues.actionbarVisible) {
+            for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
+                if (v2.getId() != R.id.mod) {
+                    if (v2.getId() == R.id.save) {
+                        if (SettingValues.saveButton) {
+                            if (v2.getVisibility() == View.VISIBLE) {
+                                animateOut(v2);
+                            } else {
+                                animateIn(v2);
+                            }
+                        }
+                    } else if (v2.getId() == R.id.hide) {
+                        if (SettingValues.hideButton) {
+                            if (v2.getVisibility() == View.VISIBLE) {
+                                animateOut(v2);
+                            } else {
+                                animateIn(v2);
+                            }
+                        }
+                    } else {
+                        if (v2.getVisibility() == View.VISIBLE) {
+                            animateOut(v2);
+                        } else {
+                            animateIn(v2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    private static void doHideObjects(final View v) {
 
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
@@ -285,9 +376,7 @@ public class CreateCardView {
             v.findViewById(R.id.secondMenu).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v3) {
-                    for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
-                        v2.setVisibility(v2.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-                    }
+                   toggleActionbar(v);
                 }
             });
         } else {

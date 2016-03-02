@@ -71,6 +71,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
+import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -849,6 +850,7 @@ public class PopulateSubmissionViewHolder {
                             } catch (ApiException e) {
                                 e.printStackTrace();
                             }
+                            CreateCardView.toggleActionbar(holder.itemView);
 
                             return null;
                         }
@@ -873,7 +875,6 @@ public class PopulateSubmissionViewHolder {
 
         if (!SettingValues.saveButton && !full || !Authentication.isLoggedIn) {
             holder.save.setVisibility(View.GONE);
-
         }
 
 
@@ -948,6 +949,8 @@ public class PopulateSubmissionViewHolder {
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
 
                             }
+                            CreateCardView.toggleActionbar(holder.itemView);
+
                         }
                     });
                 }
@@ -955,6 +958,7 @@ public class PopulateSubmissionViewHolder {
                     upvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
                             if (ActionStates.getVoteDirection(submission) != VoteDirection.UPVOTE) { //has not been upvoted
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 holder.score.setText("" + (submission.getScore() + 1));
@@ -973,6 +977,8 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                             }
+
+                            CreateCardView.toggleActionbar(holder.itemView);
                         }
                     });
                 }
