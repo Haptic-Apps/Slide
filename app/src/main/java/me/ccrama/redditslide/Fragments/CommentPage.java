@@ -318,7 +318,7 @@ public class CommentPage extends Fragment {
                 o = OfflineSubreddit.getSubreddit(baseSubreddit);
             }
         }
-        if (o != null && o.submissions.size() > 0 && o.submissions.size() >= page && o.submissions.get(page).getComments() != null) {
+        if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
             Log.v(LogUtil.getTag(), "Loading from cached stuff");
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
             if (o.submissions.size() > 0)

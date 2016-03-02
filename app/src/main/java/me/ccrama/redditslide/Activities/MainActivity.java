@@ -1452,7 +1452,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout.isDrawerOpen(GravityCompat.END)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null &&drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawers();
         } else if (SettingValues.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);

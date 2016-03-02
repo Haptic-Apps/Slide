@@ -120,30 +120,6 @@ public class Authentication {
                             }
                             Log.v(LogUtil.getTag(), "AUTHENTICATED");
                         } catch (Exception e) {
-                            try {
-
-                                ((Activity) context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                                .setMessage(R.string.err_no_connection)
-                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        new UpdateToken(context).execute();
-                                                    }
-                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.forceRestart(context);
-                                            }
-                                        }).show();
-
-                                    }
-                                });
-                            } catch (Exception ignored) {
-                                ignored.printStackTrace();
-                            }
                             e.printStackTrace();
                         }
 
