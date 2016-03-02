@@ -235,15 +235,7 @@ public class SettingsGeneral extends BaseActivityAnim {
             findViewById(R.id.animation_length_sb).setVisibility(View.GONE);
             findViewById(R.id.enter_animation).setVisibility(View.GONE);
         }*/
-        final SwitchCompat animation = (SwitchCompat) findViewById(R.id.animation);
-        animation.setChecked(SettingValues.animation);
-        animation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.animation = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ANIMATION, isChecked).apply();
-            }
-        });
+
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 

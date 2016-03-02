@@ -224,42 +224,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/enter_animation"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
-                    android:src="@drawable/sidebar_saved"
-                    android:tint="?attr/tint" />
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/animation"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/enter_animation"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </LinearLayout>
-
-
-            <LinearLayout
                 android:id="@+id/exit"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

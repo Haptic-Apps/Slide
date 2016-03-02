@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingValues {
     public static final String PREF_SINGLE = "Single";
-    public static final String PREF_ANIMATION = "Animation";
     public static final String PREF_FAB = "Fab";
     public static final String PREF_FAB_TYPE = "FabType";
     public static final String PREF_DAY_TIME = "day";
@@ -74,7 +73,6 @@ public class SettingValues {
     public static Palette.ThemeEnum theme;
     public static SharedPreferences prefs;
     public static boolean single;
-    public static boolean animation;
     public static boolean swap;
     public static boolean album;
     public static boolean cache;
@@ -140,7 +138,6 @@ public class SettingValues {
         defaultCommentSorting = CommentSort.valueOf(settings.getString("defaultCommentSorting", "CONFIDENCE"));
 
         single = prefs.getBoolean(PREF_SINGLE, false);
-        animation = prefs.getBoolean(PREF_ANIMATION, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
 
         commentNav = prefs.getBoolean(PREF_COMMENT_NAV, false);

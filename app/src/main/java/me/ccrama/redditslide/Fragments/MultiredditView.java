@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -23,6 +24,7 @@ import net.dean.jraw.models.Submission;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
@@ -35,7 +37,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
-import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
@@ -184,8 +185,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         posts = new MultiredditPosts(SubredditStorage.getMultireddits().get(id).getDisplayName());
         adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout);
         rv.setAdapter(adapter);
-        if (SettingValues.animation)
-            rv.setItemAnimator(new SubtleSlideInUp(getContext()));
+        rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
         posts.loadMore(getActivity(), this, true, adapter);
 
         refreshLayout.setOnRefreshListener(
@@ -253,9 +253,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                         if (posts.posts.size() == 0) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            if (SettingValues.animation)
-
-                                rv.setItemAnimator(new FadeInAnimator());
+                            rv.setItemAnimator(new FadeInAnimator());
 
                             adapter.notifyItemRemoved(i + 1);
                         }
@@ -264,8 +262,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            if (SettingValues.animation)
-                rv.setItemAnimator(new SubtleSlideInUp(getContext()));
+            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }
 
@@ -351,7 +348,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 refreshLayout.setRefreshing(false);
 
                 if (startIndex != -1) {
-                    adapter.notifyItemRangeInserted(startIndex + 1 , posts.posts.size());
+                    adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                 } else {
                     adapter.notifyDataSetChanged();
                 }

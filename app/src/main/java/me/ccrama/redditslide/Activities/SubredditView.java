@@ -30,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -50,6 +51,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -66,7 +68,6 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
-import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LogUtil;
@@ -427,7 +428,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               rv.smoothScrollToPosition(0);
+                rv.smoothScrollToPosition(0);
             }
         });
 
@@ -449,9 +450,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         if (adapter.dataSet.posts.size() == 0) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            if (SettingValues.animation)
-
-                                rv.setItemAnimator(new FadeInAnimator());
+                            rv.setItemAnimator(new FadeInAnimator());
 
                             adapter.notifyItemRemoved(i + 1);
                         }
@@ -460,8 +459,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                     //Let the loop reset itself
                 }
             }
-            if (SettingValues.animation)
-                rv.setItemAnimator(new SubtleSlideInUp(SubredditView.this));
+            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }
 

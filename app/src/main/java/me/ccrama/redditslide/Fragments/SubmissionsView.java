@@ -19,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -30,6 +31,7 @@ import net.dean.jraw.models.Submission;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
@@ -45,7 +47,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
-import me.ccrama.redditslide.Views.SubtleSlideInUp;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LogUtil;
@@ -240,11 +241,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
 
         }
+
         rv.setLayoutManager(mLayoutManager);
-
-
-        if (SettingValues.animation)
-            rv.setItemAnimator(new SubtleSlideInUp(getContext()));
+        rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         LogUtil.v("SIZE IS " + Reddit.pxToDp(54, getContext()));
@@ -256,8 +255,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if(posts != null && !posts.offline)
-                mSwipeRefreshLayout.setRefreshing(true);
+                if (posts != null && !posts.offline)
+                    mSwipeRefreshLayout.setRefreshing(true);
             }
         });
 
@@ -434,10 +433,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         if (adapter.dataSet.posts.size() == 0) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            if (SettingValues.animation)
-
-                                rv.setItemAnimator(new FadeInAnimator());
-
+                            rv.setItemAnimator(new FadeInAnimator());
                             adapter.notifyItemRemoved(i + 1);
                         }
                     }
@@ -445,8 +441,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            if (SettingValues.animation)
-                rv.setItemAnimator(new SubtleSlideInUp(getContext()));
+            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }
 
