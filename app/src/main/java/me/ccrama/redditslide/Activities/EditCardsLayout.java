@@ -52,6 +52,7 @@ public class EditCardsLayout extends BaseActivity {
 
         final SwitchCompat bigpic = (SwitchCompat) findViewById(R.id.bigpicsqitch);
         final SwitchCompat cropped = (SwitchCompat) findViewById(R.id.bigpiccropped);
+        final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.show_actionbar);
         final SwitchCompat middle = (SwitchCompat) findViewById(R.id.middlechk);
 
         //Big pic enabled//
@@ -67,6 +68,20 @@ public class EditCardsLayout extends BaseActivity {
 
             }
         });
+
+        //Actionbar visible//
+
+        actionbar.setChecked(SettingValues.actionbarVisible);
+        actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setActionbarVisible(isChecked, layout));
+            }
+        });
+
+        middle.setEnabled(cardmode.isChecked() && bigpic.isChecked());
+        middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
         //Big pic cropped//
 
         cropped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -115,6 +130,7 @@ public class EditCardsLayout extends BaseActivity {
         });
 
 
+
         final SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
         layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton ? View.VISIBLE : View.GONE);
         layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
@@ -145,9 +161,9 @@ public class EditCardsLayout extends BaseActivity {
 
         //Actionbar//
         //Enable, collapse//
-        final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.action);
-        actionbar.setChecked(SettingValues.switchThumb);
-        actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final SwitchCompat switchThumb = (SwitchCompat) findViewById(R.id.action);
+        switchThumb.setChecked(SettingValues.switchThumb);
+        switchThumb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 layout.removeAllViews();

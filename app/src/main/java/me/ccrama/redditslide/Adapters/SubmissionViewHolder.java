@@ -26,6 +26,7 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final View hide;
     public final View upvote;
     public final View thumbimage;
+    public final View secondMenu;
     public final View downvote;
     public final HeaderImageLinkView leadImage;
     public final SpoilerRobotoTextView firstTextView;
@@ -49,6 +50,7 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         upvote = v.findViewById(R.id.upvote);
         leadImage = (HeaderImageLinkView) v.findViewById(R.id.headerimage);
         contentTitle = (TextView) v.findViewById(R.id.contenttitle);
+        secondMenu = v.findViewById(R.id.secondMenu);
         flair = v.findViewById(R.id.flairbubble);
         flairText = (TextView) flair.findViewById(R.id.text);
         thumbimage = v.findViewById(R.id.thumbimage2);

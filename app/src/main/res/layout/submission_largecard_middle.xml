@@ -53,12 +53,24 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/chameleon"
                 app:riv_corner_radius="2dp" />
-
+            <ImageView
+                android:id="@+id/secondMenu"
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:layout_centerVertical="true"
+                android:layout_height="36dp"
+                android:layout_alignParentRight="true"
+                android:padding="8dp"
+                android:src="@drawable/more"
+                android:tag="tint"
+                android:tint="?attr/tint" />
             <RelativeLayout
                 android:id="@+id/inside"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/secondMenu"
+                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/thumbimage2">
 
                 <me.ccrama.redditslide.Views.TitleTextView
@@ -154,8 +166,8 @@
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
             android:id="@+id/headerimage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/innerrelative" />
+            android:layout_below="@+id/innerrelative"
+            android:layout_height="wrap_content" />
 
         <ImageView
             android:id="@+id/scoreimg"
@@ -164,23 +176,20 @@
             android:layout_below="@+id/headerimage"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
-
             android:tint="?attr/tint"
             android:layout_marginRight="4dp"
             android:src="@drawable/upvoted"
-            android:tag="tint" />
+            android:tag="tintactionbar" />
 
         <TextView
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_below="@+id/headerimage"
-
             android:layout_gravity="center_vertical"
             android:layout_toRightOf="@+id/scoreimg"
             android:gravity="center_vertical"
-            android:tag="tint"
-
+            android:tag="tintactionbar"
             android:text="400"
             android:textSize="?attr/font_cardinfo" />
 
@@ -197,7 +206,7 @@
             android:layout_toRightOf="@+id/score"
 
             android:src="@drawable/commentchange"
-            android:tag="tint" />
+            android:tag="tintactionbar" />
 
         <TextView
             android:id="@+id/comments"
@@ -209,7 +218,7 @@
             android:layout_toRightOf="@+id/pointsimg"
             android:gravity="center_vertical"
 
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:text="420"
 
             android:textSize="?attr/font_cardinfo" />
@@ -225,7 +234,7 @@
             android:layout_toLeftOf="@+id/hide"
             android:padding="8dp"
             android:src="@drawable/saved"
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
         <ImageView
@@ -238,7 +247,7 @@
             android:layout_toLeftOf="@+id/upvote"
             android:padding="8dp"
             android:src="@drawable/mod"
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
         <ImageView
@@ -251,7 +260,7 @@
             android:layout_toLeftOf="@+id/mod"
             android:padding="8dp"
             android:src="@drawable/hide"
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
         <ImageView
@@ -264,7 +273,7 @@
             android:padding="8dp"
 
             android:src="@drawable/upvoted"
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
         <ImageView
@@ -277,7 +286,7 @@
             android:layout_toLeftOf="@+id/menu"
             android:padding="8dp"
             android:src="@drawable/downvote"
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
 
@@ -290,7 +299,7 @@
             android:layout_below="@+id/headerimage"
             android:padding="8dp"
             android:src="@drawable/more"
-            android:tag="tint"
+            android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
 

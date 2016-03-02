@@ -137,7 +137,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View arg0) {
 
                     if (Authentication.didOnline || submission.getComments() != null) {
-                        holder2.itemView.setAlpha(0.65f);
+                        ((SubmissionViewHolder) holder2).title.setAlpha(0.65f);
                         if (SettingValues.tabletUI && holder2.itemView.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreenPopup.class);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);

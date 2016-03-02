@@ -88,13 +88,13 @@ public class PopulateSubmissionViewHolder {
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final View holder) {
+    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HasSeen.addSeen(submission.getFullName());
                 if (contextActivity instanceof MainActivity)
-                    holder.setAlpha(0.5f);
+                    holder.title.setAlpha(0.65f);
                 switch (type) {
                     case NSFW_IMAGE:
                         openImage(contextActivity, submission);
@@ -133,7 +133,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case SELF:
                         if (holder != null) {
-                            holder.performClick();
+                            holder.itemView.performClick();
                         }
                         break;
                     case GFY:
@@ -171,7 +171,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case NONE:
                         if (holder != null) {
-                            holder.performClick();
+                            holder.itemView.performClick();
                         }
                         break;
                     case NONE_IMAGE:
@@ -885,13 +885,13 @@ public class PopulateSubmissionViewHolder {
 
         ContentType.ImageType type = ContentType.getImageType(submission);
 
-        addClickFunctions(holder.leadImage, type, mContext, submission, holder.itemView);
+        addClickFunctions(holder.leadImage, type, mContext, submission, holder);
 
-        addClickFunctions(thumbImage2, type, mContext, submission, holder.itemView);
+        addClickFunctions(thumbImage2, type, mContext, submission, holder);
 
 
         if (full) {
-            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder.itemView);
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder);
         }
 
         if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
@@ -986,9 +986,9 @@ public class PopulateSubmissionViewHolder {
 
 
         if (HasSeen.getSeen(submission) && !full) {
-            holder.itemView.setAlpha(0.65f);
+            holder.title.setAlpha(0.65f);
         } else {
-            holder.itemView.setAlpha(1.0f);
+            holder.title.setAlpha(1.0f);
         }
 
 

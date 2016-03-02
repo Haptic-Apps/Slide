@@ -77,15 +77,31 @@ public class CreateCardView {
         ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(background.data);
 
 
-        for (View v2 : getViewsByTag((ViewGroup) v, "tint")) {
+        doColor(getViewsByTag((ViewGroup) v, "tint"));
+        doColor(getViewsByTag((ViewGroup) v, "tintactionbar"));
+
+    }
+
+    public static void doColor(ArrayList<View> v) {
+        for (View v2 : v) {
             if (v2 instanceof TextView) {
-                ((TextView) v2).setTextColor(getCurrentFontColor(v.getContext()));
+                ((TextView) v2).setTextColor(getCurrentFontColor(v2.getContext()));
             } else if (v2 instanceof ImageView) {
-                ((ImageView) v2).setColorFilter(getCurrentTintColor(v.getContext()));
+                ((ImageView) v2).setColorFilter(getCurrentTintColor(v2.getContext()));
 
             }
         }
+    }
 
+    public static void resetColor(ArrayList<View> v){
+        for (View v2 : v) {
+            if (v2 instanceof TextView) {
+                ((TextView) v2).setTextColor(getWhiteFontColor());
+            } else if (v2 instanceof ImageView) {
+                ((ImageView) v2).setColorFilter(getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+
+            }
+        }
     }
 
     public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
@@ -151,19 +167,21 @@ public class CreateCardView {
             if (!secondary && !SettingValues.colorEverywhere || secondary) {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
+                resetColor(getViewsByTag((ViewGroup) v, "tint"));
+                resetColor(getViewsByTag((ViewGroup) v, "tintactionbar"));
 
-                for (View v2 : getViewsByTag((ViewGroup) v, "tint")) {
-                    if (v2 instanceof TextView) {
-                        ((TextView) v2).setTextColor(getWhiteFontColor());
-                    } else if (v2 instanceof ImageView) {
-                        ((ImageView) v2).setColorFilter(getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-
-                    }
-                }
             }
 
 
         }
+    }
+
+    public static View setActionbarVisible(boolean isChecked, ViewGroup parent) {
+
+        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_VISIBLE, isChecked).apply();
+        SettingValues.actionbarVisible = isChecked;
+        return CreateView(parent);
+
     }
 
     public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, Boolean secondary, String sub) {
@@ -241,30 +259,50 @@ public class CreateCardView {
 
         }
     }
+
     public static View setSwitchThumb(boolean b, ViewGroup parent) {
 
 
+        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWITCH_THUMB, b).apply();
+        SettingValues.switchThumb = b;
 
-
-            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWITCH_THUMB, b).apply();
-            SettingValues.switchThumb = b;
-
-            return CreateView(parent);
+        return CreateView(parent);
 
 
     }
-    private static void doHideObjects(View v, Boolean secondary) {
+
+    private static void doHideObjects(final View v, Boolean secondary) {
 
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
             ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         }
-        if(SettingValues.switchThumb){
+        if (!SettingValues.actionbarVisible) {
+            for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
+                v2.setVisibility(View.GONE);
+            }
+            v.findViewById(R.id.secondMenu).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v3) {
+                    for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
+                        v2.setVisibility(v2.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+                    }
+                }
+            });
+        } else {
+            v.findViewById(R.id.secondMenu).setVisibility(View.GONE);
+        }
+        if (SettingValues.switchThumb) {
             RelativeLayout.LayoutParams picParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2).getLayoutParams();
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.inside).getLayoutParams();
-            picParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-            picParams.setMargins(0, picParams.topMargin,picParams.leftMargin, picParams.bottomMargin);
+            if (!SettingValues.actionbarVisible) {
+                picParams.addRule(RelativeLayout.LEFT_OF, R.id.secondMenu);
+            } else {
+                picParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+
+            }
+            picParams.setMargins(0, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
 
             layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.thumbimage2);
             layoutParams.removeRule(RelativeLayout.RIGHT_OF);
@@ -275,8 +313,8 @@ public class CreateCardView {
 
         } else if (SettingValues.bigPicEnabled) {
             v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
-
         }
+
 
     }
 
@@ -331,6 +369,7 @@ public class CreateCardView {
         }
 
     }
+
 
     public enum CardEnum {
         LARGE("Big Card"),
