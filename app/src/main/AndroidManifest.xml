@@ -19,15 +19,11 @@
         <activity
             android:name=".Activities.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-
             android:label="@string/app_name">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity
@@ -164,12 +160,11 @@
 
         <activity
             android:name=".Activities.OpenContent"
-            android:label="SlideIntent">
+            android:label="View content">
             <intent-filter android:label="Slide">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="http"/>
                 <data android:scheme="https"/>
                 <data android:host="*reddit.com"/>
@@ -197,8 +192,15 @@
         <activity
             android:name=".Activities.Submit"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:theme="@style/swipeable" />
+            android:label="New Submission"
+            android:theme="@style/swipeable" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <data android:mimeType="image/*" />
+                <data android:mimeType="text/plain"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            </activity>
         <activity
             android:name=".Activities.Tutorial"
 

@@ -29,6 +29,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="72dp"
         android:layout_below="@+id/toolbar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -308,10 +309,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="?attr/tint"
-
-                        android:hint="@string/editor_url"
-
-                        android:maxLines="1"/>
+                        android:hint="@string/editor_url"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 

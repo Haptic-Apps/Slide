@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -75,6 +76,7 @@ public class Submit extends BaseActivity {
 
         Intent intent = getIntent();
 
+
         final String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
 
         self = findViewById(R.id.selftext);
@@ -125,7 +127,30 @@ public class Submit extends BaseActivity {
         });
 
         DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.innersend2), getSupportFragmentManager());
+        if (!intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
+            String data = intent.getStringExtra(Intent.EXTRA_TEXT);
+            ((EditText) findViewById(R.id.urltext)).setText(data);
+            self.setVisibility(View.GONE);
+            image.setVisibility(View.GONE);
+            link.setVisibility(View.VISIBLE);
+            ((RadioButton)findViewById(R.id.linkradio)).setChecked(true);
 
+        } else {
+            Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (imageUri != null) {
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                    new UploadImgur().execute(bitmap);
+                    self.setVisibility(View.GONE);
+                    image.setVisibility(View.VISIBLE);
+                    link.setVisibility(View.GONE);
+                    ((RadioButton)findViewById(R.id.imageradio)).setChecked(true);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
