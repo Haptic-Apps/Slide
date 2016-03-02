@@ -96,7 +96,6 @@ public class EditCardsLayout extends BaseActivity {
         middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
 
 
-
         cropped.setEnabled(bigpic.isChecked());
         cropped.setChecked(SettingValues.bigPicCropped);
 
@@ -130,30 +129,29 @@ public class EditCardsLayout extends BaseActivity {
         });
 
 
-
         final SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
-        layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton ? View.VISIBLE : View.GONE);
-        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
 
         hidebutton.setChecked(SettingValues.hideButton);
         hidebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingValues.hideButton = isChecked;
-                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton ? View.VISIBLE : View.GONE);
+                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton  && SettingValues.actionbarVisible? View.VISIBLE : View.GONE);
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDEBUTTON, isChecked).apply();
 
             }
         });
         final SwitchCompat savebutton = (SwitchCompat) findViewById(R.id.savebutton);
-        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
+        layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
 
         savebutton.setChecked(SettingValues.saveButton);
         savebutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingValues.saveButton = isChecked;
-                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton ? View.VISIBLE : View.GONE);
+                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton  && SettingValues.actionbarVisible? View.VISIBLE : View.GONE);
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SAVE_BUTTON, isChecked).apply();
 
             }
