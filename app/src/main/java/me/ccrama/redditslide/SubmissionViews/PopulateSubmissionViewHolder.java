@@ -267,7 +267,7 @@ public class PopulateSubmissionViewHolder {
                             case 2: {
                                 Intent i = new Intent(mContext, SubredditView.class);
                                 i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
-                                mContext.startActivity(i);
+                                mContext.startActivityForResult(i, 14);
                             }
                             break;
                             case 3:
@@ -828,7 +828,6 @@ public class PopulateSubmissionViewHolder {
             } else {
                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
             }
-            LogUtil.v("Doing saved stuff");
             holder.save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -986,7 +985,7 @@ public class PopulateSubmissionViewHolder {
         }
 
 
-        if (HasSeen.getSeen(submission.getFullName()) && !full || (submission.getDataNode().has("visited") && submission.getDataNode().get("visited").asBoolean()) && !full) {
+        if (HasSeen.getSeen(submission) && !full) {
             holder.itemView.setAlpha(0.65f);
         } else {
             holder.itemView.setAlpha(1.0f);

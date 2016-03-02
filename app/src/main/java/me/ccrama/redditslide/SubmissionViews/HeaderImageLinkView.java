@@ -27,7 +27,6 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 2/7/2016.
@@ -69,7 +68,6 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void doImageAndText(Submission submission, boolean full) {
 
-        LogUtil.v("Loading " + submission.getTitle());
         final ContentType.ImageType type = ContentType.getImageType(submission);
 
         setVisibility(View.VISIBLE);

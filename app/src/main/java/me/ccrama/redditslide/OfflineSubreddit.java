@@ -134,7 +134,7 @@ public class OfflineSubreddit {
 
             for (int i = submissions.size(); i > -1; i--) {
                 try {
-                    if (HasSeen.getSeen(submissions.get(i).getFullName())) {
+                    if (HasSeen.getSeen(submissions.get(i))) {
                         if (forever) {
                             Hidden.setHidden(submissions.get(i));
                         }

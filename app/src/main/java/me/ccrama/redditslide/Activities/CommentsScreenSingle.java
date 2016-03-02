@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,7 +36,12 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     private String subreddit;
     private String name;
     private String context;
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 14){
+            comments.notifyDataSetChanged();
+        }
+    }
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_CONTEXT = "context";
     public static final String EXTRA_SUBMISSION = "submission";

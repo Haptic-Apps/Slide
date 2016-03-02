@@ -441,7 +441,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {
-                    if (HasSeen.getSeen(adapter.dataSet.posts.get(i).getFullName())) {
+                    if (HasSeen.getSeen(adapter.dataSet.posts.get(i))) {
                         if (forever) {
                             Hidden.setHidden(adapter.dataSet.posts.get(i));
                         }

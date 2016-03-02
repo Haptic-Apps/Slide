@@ -34,8 +34,10 @@ public class SettingValues {
     public static final String PREF_HIDE_HEADER = "hideHeader";
     public static final String PREF_TITLE_FILTERS = "titleFilters";
     public static final String PREF_TEXT_FILTERS = "textFilters";
-    public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
+    public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
+
+    public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
     public static final String PREF_SWITCH_THUMB = "switchThumb";
@@ -104,6 +106,8 @@ public class SettingValues {
     public static String titleFilters;
     public static String textFilters;
     public static String domainFilters;
+    public static String subredditFilters;
+
     public static boolean fastscroll;
     public static boolean fab = true;
     public static int fabType = R.integer.FAB_POST;
@@ -167,6 +171,8 @@ public class SettingValues {
         titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
         textFilters = prefs.getString(PREF_TEXT_FILTERS, "");
         domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");
+        subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
+
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
 
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);

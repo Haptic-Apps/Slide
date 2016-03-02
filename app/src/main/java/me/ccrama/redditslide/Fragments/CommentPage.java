@@ -54,7 +54,7 @@ public class CommentPage extends Fragment {
     boolean archived;
     boolean loadMore;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView rv;
+    public RecyclerView rv;
     private int page;
     private SubmissionComments comments;
     private boolean single;

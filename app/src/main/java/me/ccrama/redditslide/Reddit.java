@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -62,11 +61,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
     public static long enter_animation_time = enter_animation_time_original;
     public static int enter_animation_time_multiplier = 1;
-
-    public static String titleFiltersRegex;
-    public static String textFiltersRegex;
-    public static String domainFiltersRegex;
-
 
     public static Authentication authentication;
 
@@ -155,19 +149,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return false;
     }
 
-    public static String regex(String toSplit) {
-        String[] names = toSplit.split(",");
-        final StringBuilder b = new StringBuilder();
-        String separator = "";
-        for (final String name : names) {
-            if (!name.isEmpty()) {
-                b.append(separator);
-                b.append(Pattern.quote(name.trim()));
-                separator = "|";
-            }
-        }
-        return b.toString();
-    }
 
     public static String arrayToString(ArrayList<String> array) {
         if (array != null) {
@@ -564,10 +545,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         }
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
-
-        titleFiltersRegex = regex(SettingValues.titleFilters);
-        textFiltersRegex = regex(SettingValues.textFilters);
-        domainFiltersRegex = regex(SettingValues.domainFilters);
 
         fabClear = seen.getBoolean(SettingValues.PREF_FAB_CLEAR, false);
 

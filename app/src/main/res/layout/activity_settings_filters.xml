@@ -183,6 +183,57 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/card_background"
+                android:elevation="4dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="16dp"
+                        android:paddingTop="16dp"
+                        android:src="@drawable/infonew"
+                        android:tint="?attr/tint"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/setting_filter_subreddits"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/font"
+                        android:textColorHint="?attr/font"
+                        android:textStyle="bold"/>
+
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/subreddit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+
+                    android:layout_marginRight="16dp"
+                    android:hint="@string/settings_filter_hint"
+                    android:textSize="14sp"/>
+
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

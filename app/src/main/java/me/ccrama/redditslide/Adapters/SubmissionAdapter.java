@@ -31,9 +31,8 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
-import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.Views.CreateCardView;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -89,7 +88,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        LogUtil.v("Creating view" +tag);
         tag++;
 
         if (i == SPACER) {

@@ -245,7 +245,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
-                    if (HasSeen.getSeen(posts.posts.get(i).getFullName())) {
+                    if (HasSeen.getSeen(posts.posts.get(i))) {
                         if (forever) {
                             Hidden.setHidden(posts.posts.get(i));
                         }

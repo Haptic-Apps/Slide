@@ -113,10 +113,10 @@ public class SubredditPosts implements PostLoader {
                     new MySynccitReadTask().execute(ids);
                 }
                 if (reset || offline || posts == null) {
-                    posts = new ArrayList<>(new LinkedHashSet(submissions));
+                    posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
                     start = -1;
                 } else {
-                    posts.addAll(submissions);
+                    posts.addAll(filteredSubmissions);
                     posts = new ArrayList<>(new LinkedHashSet(posts));
                     offline = false;
                 }

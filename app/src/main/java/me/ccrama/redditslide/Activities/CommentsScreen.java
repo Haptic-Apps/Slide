@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -83,7 +84,13 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     }
 
- //   boolean tip;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 14){
+            comments.notifyDataSetChanged();
+            //todo make this work
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstance) {

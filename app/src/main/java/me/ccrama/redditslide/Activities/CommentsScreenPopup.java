@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -48,7 +49,12 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
     public static final String EXTRA_MULTIREDDIT = "multireddit";
     private PostLoader subredditPosts;
     int firstPage;
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 14){
+            comments.notifyDataSetChanged();
+        }
+    }
     OverviewPagerAdapter comments;
     private String subreddit;
     public OfflineSubreddit o;

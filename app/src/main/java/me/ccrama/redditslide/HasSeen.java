@@ -3,6 +3,7 @@ package me.ccrama.redditslide;
 import android.os.AsyncTask;
 
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Synccit.SynccitRead;
 
@@ -11,8 +12,12 @@ import me.ccrama.redditslide.Synccit.SynccitRead;
  */
 public class HasSeen {
 
-    public static boolean getSeen(String fullname) {
-        if(fullname.contains("t3_")){
+    public static boolean getSeen(Submission s) {
+        if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean()) {
+            return true;
+        }
+        String fullname = s.getFullName();
+        if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
         return Reddit.seen.contains(fullname) || SynccitRead.visitedIds.contains(fullname);
@@ -20,19 +25,19 @@ public class HasSeen {
 
     public static void addSeen(String fullname) {
         final String finalFullname = fullname;
-        if(Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold())
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    new AccountManager(Authentication.reddit).storeVisits(finalFullname);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold())
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        new AccountManager(Authentication.reddit).storeVisits(finalFullname);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
-                return null;
-            }
-        }.execute();
-        if(fullname.contains("t3_")){
+            }.execute();
+        if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
         Reddit.seen.edit().putBoolean(fullname, false).apply();
