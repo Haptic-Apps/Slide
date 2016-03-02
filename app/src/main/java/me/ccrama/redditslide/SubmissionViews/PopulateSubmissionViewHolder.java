@@ -93,8 +93,11 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onClick(View v) {
                 HasSeen.addSeen(submission.getFullName());
-                if (contextActivity instanceof MainActivity)
+                if (contextActivity instanceof MainActivity) {
                     holder.title.setAlpha(0.65f);
+                    holder.leadImage.setAlpha(0.65f);
+                    holder.thumbimage.setAlpha(0.65f);
+                }
                 switch (type) {
                     case NSFW_IMAGE:
                         openImage(contextActivity, submission);
@@ -987,8 +990,12 @@ public class PopulateSubmissionViewHolder {
 
         if (HasSeen.getSeen(submission) && !full) {
             holder.title.setAlpha(0.65f);
+            holder.leadImage.setAlpha(0.65f);
+            holder.thumbimage.setAlpha(0.65f);
         } else {
-            holder.title.setAlpha(1.0f);
+            holder.title.setAlpha(1f);
+            holder.leadImage.setAlpha(1f);
+            holder.thumbimage.setAlpha(1f);
         }
 
 

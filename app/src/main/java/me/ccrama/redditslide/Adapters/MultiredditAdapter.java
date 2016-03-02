@@ -114,8 +114,9 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 @Override
                 public void onClick(View arg0) {
-                    ((SubmissionViewHolder) holder2).title.setAlpha(0.65f);
-
+                    holder.title.setAlpha(0.65f);
+                    holder.leadImage.setAlpha(0.65f);
+                    holder.thumbimage.setAlpha(0.65f);
                     if (SettingValues.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
                         i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
