@@ -101,7 +101,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
-                builder.title(R.string.reorder_add_subreddit)
+                builder.title(R.string.dialog_choose_subreddits_to_edit)
                         .items(subsAsChar)
                         .itemsCallbackMultiChoice(null, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
@@ -115,7 +115,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                 return true;
                             }
                         })
-                        .positiveText(R.string.btn_add)
+                        .positiveText(R.string.btn_select)
                         .negativeText(R.string.btn_cancel)
                         .show();
             }
@@ -123,9 +123,9 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle("Color syncing")
-                        .setMessage("This will try to retrieve the subreddit's 'key color' set by the moderators. It will not overwrite already colored subreddits.")
-                        .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle(R.string.dialog_color_sync_title)
+                        .setMessage(R.string.dialog_color_sync_message)
+                        .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 final MaterialDialog d = new MaterialDialog.Builder(SettingsSubreddit.this).title(R.string.general_sub_sync)
@@ -170,7 +170,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                 }.execute();
                                 d.show();
                             }
-                        }).setNegativeButton("Cancel", null).show();
+                        }).setNegativeButton(R.string.btn_cancel, null).show();
             }
         });
     }

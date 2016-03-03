@@ -313,10 +313,21 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             {
                 TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
 
+                String subTitles = "";
+                if (multipleSubs) {
+                    for (String sub : subreddits) {
+                        subTitles = subTitles + "/r/" + sub + ", ";
+                    }
+                    subTitles = subTitles.substring(0, subTitles.length() - 2);
+                } else {
+                    subTitles = ("/r/" + subreddit);
+                }
+
+                final String finalSubTitles = subTitles;
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, subreddit))
+                        new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, finalSubTitles))
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
