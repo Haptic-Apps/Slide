@@ -60,10 +60,12 @@ public class SettingsSubreddit extends BaseActivityAnim {
         setContentView(R.layout.activity_settings_subreddit);
 
         setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true, true);
-        reloadSubList();
 
         recycler = ((RecyclerView) findViewById(R.id.subslist));
         recycler.setLayoutManager(new LinearLayoutManager(this));
+
+        reloadSubList();
+
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +196,6 @@ public class SettingsSubreddit extends BaseActivityAnim {
         }
 
         mSettingsSubAdapter = new SettingsSubAdapter(this, changedSubs);
-
         recycler.setAdapter(mSettingsSubAdapter);
         recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             int oldDy = 0;
