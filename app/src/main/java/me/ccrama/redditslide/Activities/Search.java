@@ -24,6 +24,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class Search extends BaseActivityAnim {
@@ -180,7 +181,7 @@ public class Search extends BaseActivityAnim {
             mLayoutManager = new PreCachingLayoutManager(this);
             rv.setLayoutManager(mLayoutManager);
 
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 

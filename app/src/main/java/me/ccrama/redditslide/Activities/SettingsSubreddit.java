@@ -197,17 +197,19 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
         mSettingsSubAdapter = new SettingsSubAdapter(this, changedSubs);
         recycler.setAdapter(mSettingsSubAdapter);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.post_floating_action_button);
         recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            int oldDy = 0;
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > oldDy) {
-                    ((FloatingActionButton) findViewById(R.id.post_floating_action_button)).hide();
+                if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+
+                    fab.show();
+
+
                 } else {
-                    ((FloatingActionButton) findViewById(R.id.post_floating_action_button)).show();
+                    fab.hide();
+
                 }
-                oldDy = dy;
-                super.onScrolled(recyclerView, dx, dy);
             }
 
             @Override

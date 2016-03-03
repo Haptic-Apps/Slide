@@ -8,16 +8,6 @@
 
     android:orientation="vertical">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/header"
                 android:layout_width="match_parent"
@@ -59,10 +49,7 @@
                     android:orientation="vertical">
                 </android.support.v7.widget.RecyclerView>
             </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
-        </LinearLayout>
 
-
-    </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
 
 
