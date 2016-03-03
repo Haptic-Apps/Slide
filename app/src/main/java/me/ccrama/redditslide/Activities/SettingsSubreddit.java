@@ -4,9 +4,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -33,6 +35,9 @@ public class SettingsSubreddit extends BaseActivityAnim {
     public SettingsSubAdapter mSettingsSubAdapter;
     ArrayList<String> changedSubs = new ArrayList<>();
 
+    private RecyclerView recycler;
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 2) {
@@ -47,6 +52,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
     }
 
     int done;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,8 @@ public class SettingsSubreddit extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true, true);
         reloadSubList();
 
+        recycler = ((RecyclerView) findViewById(R.id.subslist));
+        recycler.setLayoutManager(new LinearLayoutManager(this));
         findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,7 +194,26 @@ public class SettingsSubreddit extends BaseActivityAnim {
         }
 
         mSettingsSubAdapter = new SettingsSubAdapter(this, changedSubs);
-        ((ListView) findViewById(R.id.subslist)).setAdapter(mSettingsSubAdapter);
+
+        recycler.setAdapter(mSettingsSubAdapter);
+        recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int oldDy = 0;
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > oldDy) {
+                    ((FloatingActionButton) findViewById(R.id.post_floating_action_button)).hide();
+                } else {
+                    ((FloatingActionButton) findViewById(R.id.post_floating_action_button)).show();
+                }
+                oldDy = dy;
+                super.onScrolled(recyclerView, dx, dy);
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
     }
 
 

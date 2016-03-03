@@ -7,10 +7,10 @@ import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -31,15 +31,77 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 8/17/2015.
  */
-public class SettingsSubAdapter extends ArrayAdapter<String> {
+public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.ViewHolder> {
     private final ArrayList<String> objects;
 
+    private Activity context;
 
-    public SettingsSubAdapter(Context context, ArrayList<String> objects) {
-        super(context, 0, objects);
+    public SettingsSubAdapter(Activity context, ArrayList<String> objects) {
         this.objects = objects;
+        this.context = context;
     }
 
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.subforsublisteditor, parent, false);
+        return new ViewHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        View convertView = holder.itemView;
+        final TextView t =
+                ((TextView) convertView.findViewById(R.id.name));
+        t.setText(objects.get(position));
+
+        final String subreddit = objects.get(position);
+        convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
+        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+
+        convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, subreddit))
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Palette.removeColor(subreddit);
+                                // Remove layout settings
+                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
+                                // Remove accent / font color settings
+                                new ColorPreferences(context).removeFontStyle(subreddit);
+
+                                dialog.dismiss();
+                                objects.remove(subreddit);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+        convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prepareAndShowSubEditor(subreddit);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return objects.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
     /**
      * Displays the subreddit color chooser
      * It is possible to color multiple subreddits at the same time
@@ -289,72 +351,24 @@ public class SettingsSubAdapter extends ArrayAdapter<String> {
         }
     }
 
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublisteditor, parent, false);
-        }
-        final TextView t =
-                ((TextView) convertView.findViewById(R.id.name));
-        t.setText(objects.get(position));
-
-        final String subreddit = objects.get(position);
-        convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-        convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
-
-        convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialogWrapper.Builder(getContext()).setTitle(getContext().getString(R.string.settings_delete_sub_settings, subreddit))
-                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Palette.removeColor(subreddit);
-                                // Remove layout settings
-                                SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + subreddit).apply();
-                                // Remove accent / font color settings
-                                new ColorPreferences(getContext()).removeFontStyle(subreddit);
-
-                                dialog.dismiss();
-                                objects.remove(subreddit);
-                                notifyDataSetChanged();
-                            }
-                        })
-                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
-            }
-        });
-        convertView.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prepareAndShowSubEditor(subreddit);
-            }
-        });
-        return convertView;
-    }
-
     public void prepareAndShowSubEditor(ArrayList<String> subreddits) {
         if (subreddits.size() == 1) prepareAndShowSubEditor(subreddits.get(0));
         else if (subreddits.size() > 1) {
-            LayoutInflater localInflater = ((Activity) getContext()).getLayoutInflater();
+            LayoutInflater localInflater = ((Activity) context).getLayoutInflater();
             final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-            showSubThemeEditor(subreddits, ((Activity) getContext()), dialoglayout);
+            showSubThemeEditor(subreddits, ((Activity) context), dialoglayout);
         }
     }
 
     private void prepareAndShowSubEditor(String subreddit) {
-        int style = new ColorPreferences(getContext()).getThemeSubreddit(subreddit);
-        final Context contextThemeWrapper = new ContextThemeWrapper(getContext(), style);
-        LayoutInflater localInflater = ((Activity) getContext()).getLayoutInflater().cloneInContext(contextThemeWrapper);
+        int style = new ColorPreferences(context).getThemeSubreddit(subreddit);
+        final Context contextThemeWrapper = new ContextThemeWrapper(context, style);
+        LayoutInflater localInflater = ((Activity) context).getLayoutInflater().cloneInContext(contextThemeWrapper);
         final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
 
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(subreddit);
-        showSubThemeEditor(arrayList, ((Activity) getContext()), dialoglayout);
+        showSubThemeEditor(arrayList, ((Activity) context), dialoglayout);
     }
 
 }
