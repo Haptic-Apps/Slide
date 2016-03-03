@@ -891,7 +891,12 @@ public class PopulateSubmissionViewHolder {
 
         addClickFunctions(holder.leadImage, type, mContext, submission, holder);
 
-        addClickFunctions(thumbImage2, type, mContext, submission, holder);
+
+        if(holder.thumbimage != null) {
+            addClickFunctions(holder.thumbimage, type, mContext, submission, holder);
+        } else {
+            addClickFunctions(thumbImage2, type, mContext, submission, holder);
+        }
 
 
         if (full) {

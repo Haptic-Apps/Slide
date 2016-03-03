@@ -49,7 +49,6 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
@@ -246,7 +245,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-        LogUtil.v("SIZE IS " + Reddit.pxToDp(54, getContext()));
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));

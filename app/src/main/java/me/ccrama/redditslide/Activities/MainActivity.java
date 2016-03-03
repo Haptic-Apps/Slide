@@ -1480,13 +1480,11 @@ public class MainActivity extends BaseActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         mToolbar.getMenu().findItem(R.id.pics).setChecked(SettingValues.isPicsEnabled(selectedSub));
-        LogUtil.v("Is enabled in " + selectedSub + " is " + SettingValues.isPicsEnabled(selectedSub));
         mToolbar.getMenu().findItem(R.id.pics).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 boolean old = SettingValues.isPicsEnabled(selectedSub);
                 SettingValues.setPicsEnabled(selectedSub, !item.isChecked());
-                LogUtil.v("Changed " + selectedSub + " from " + old + " to " + SettingValues.isPicsEnabled(selectedSub));
                 item.setChecked(!item.isChecked());
                 reloadSubs();
                 invalidateOptionsMenu();
