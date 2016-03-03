@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+import java.util.Map;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -65,6 +67,13 @@ public class EditCardsLayout extends BaseActivity {
                 layout.addView(CreateCardView.setBigPicEnabled(isChecked, layout));
                 cropped.setEnabled(isChecked);
                 middle.setEnabled(isChecked && cardmode.isChecked());
+                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                for(Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()){
+                    if(map.getKey().startsWith("picsenabled")){
+                        e.remove(map.getKey()); //reset all overridden values
+                    }
+                }
+                e.apply();
 
             }
         });

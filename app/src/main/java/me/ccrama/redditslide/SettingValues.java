@@ -191,6 +191,15 @@ public class SettingValues {
         actionbarVisible = prefs.getBoolean(PREF_ACTIONBAR_VISIBLE, true);
     }
 
+    public static void setPicsEnabled(String sub, boolean checked) {
+        prefs.edit().putBoolean("picsenabled" +sub.toLowerCase(), checked).apply();
+    }
+
+    public static boolean isPicsEnabled(String subreddit){
+        if(subreddit == null) return bigPicEnabled;
+        return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(), bigPicEnabled);
+    }
+
     public enum ColorIndicator {
         CARD_BACKGROUND, TEXT_COLOR, NONE
 

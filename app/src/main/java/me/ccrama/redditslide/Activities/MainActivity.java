@@ -651,6 +651,7 @@ public class MainActivity extends BaseActivity {
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
 
+            selectedSub = (usedArray.get(0));
             themeSystemBars(usedArray.get(0));
             setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
@@ -1452,7 +1453,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null &&drawerLayout.isDrawerOpen(GravityCompat.END)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawers();
         } else if (SettingValues.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
@@ -1475,15 +1476,29 @@ public class MainActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        mToolbar.getMenu().findItem(R.id.pics).setChecked(SettingValues.isPicsEnabled(selectedSub));
+        LogUtil.v("Is enabled in " + selectedSub + " is " + SettingValues.isPicsEnabled(selectedSub));
+        mToolbar.getMenu().findItem(R.id.pics).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                boolean old = SettingValues.isPicsEnabled(selectedSub);
+                SettingValues.setPicsEnabled(selectedSub, !item.isChecked());
+                LogUtil.v("Changed " + selectedSub + " from " + old + " to " + SettingValues.isPicsEnabled(selectedSub));
+                item.setChecked(!item.isChecked());
+                reloadSubs();
+                invalidateOptionsMenu();
+                return false;
+            }
+        });
+        return true;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_subreddit_overview, menu);
-
-        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
-        //   else menu.findItem(R.id.action_info).setVisible(false);
-
         return true;
     }
 
@@ -1819,7 +1834,7 @@ public class MainActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onPageSelected(int position) {
+                public void onPageSelected(final int position) {
 
                     findViewById(R.id.header).animate()
                             .translationY(0)
@@ -1830,6 +1845,8 @@ public class MainActivity extends BaseActivity {
                         Reddit.appRestart.edit().putBoolean("tutorial_1", true).apply();
                         doTutorial();
                     }
+
+
                     Reddit.currentPosition = position;
                     doSubSidebar(usedArray.get(position));
 
@@ -1851,6 +1868,10 @@ public class MainActivity extends BaseActivity {
                         getSupportActionBar().setTitle(usedArray.get(position));
                     else mTabLayout.setSelectedTabIndicatorColor(
                             new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+
+                   selectedSub = usedArray.get(position);
+
+
                 }
 
                 @Override
@@ -1915,6 +1936,7 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+    public String selectedSub;
 
     public int getCurrentPage() {
         int position = 0;

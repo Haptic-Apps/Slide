@@ -885,7 +885,7 @@ public class PopulateSubmissionViewHolder {
         if (full)
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
 
-        holder.leadImage.setSubmission(submission, full);
+        holder.leadImage.setSubmission(submission, full, baseSub);
 
         ContentType.ImageType type = ContentType.getImageType(submission);
 

@@ -60,13 +60,13 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     boolean done;
 
-    public void setSubmission(final Submission submission, final boolean full) {
+    public void setSubmission(final Submission submission, final boolean full, String baseSub) {
         backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
         thumbImage2.setImageResource(android.R.color.transparent);
-        doImageAndText(submission, full);
+        doImageAndText(submission, full, baseSub);
     }
 
-    public void doImageAndText(Submission submission, boolean full) {
+    public void doImageAndText(Submission submission, boolean full, String baseSub) {
 
         final ContentType.ImageType type = ContentType.getImageType(submission);
 
@@ -137,7 +137,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         } else if (type == ContentType.ImageType.IMAGE) {
 
             url = submission.getUrl();
-            if (!full && !SettingValues.bigPicEnabled || forceThumb) {
+            if (!full && !SettingValues.isPicsEnabled(baseSub) || forceThumb) {
 
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
@@ -161,7 +161,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
 
             url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            if (!SettingValues.bigPicEnabled && !full || forceThumb) {
+            if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb) {
 
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);
