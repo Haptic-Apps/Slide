@@ -127,7 +127,7 @@ public class Submit extends BaseActivity {
         });
 
         DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.innersend2), getSupportFragmentManager());
-        if (!intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
+        if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
             ((EditText) findViewById(R.id.urltext)).setText(data);
             self.setVisibility(View.GONE);
@@ -135,7 +135,7 @@ public class Submit extends BaseActivity {
             link.setVisibility(View.VISIBLE);
             ((RadioButton)findViewById(R.id.linkradio)).setChecked(true);
 
-        } else {
+        } else if(intent.hasExtra(Intent.EXTRA_STREAM)){
             Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (imageUri != null) {
                 try {
