@@ -1549,7 +1549,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int counter = unhideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyItemRangeChanged(i, counter);
+            notifyItemRangeInserted(i, counter);
         } else {
             listView.setItemAnimator(new ScaleInLeftAnimator());
             listView.setItemAnimator(new FadeInAnimator());
@@ -1562,7 +1562,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int counter = hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
-            notifyItemRangeChanged(i, counter);
+            notifyItemRangeRemoved(i, counter);
         } else {
             listView.setItemAnimator(new FadeInDownAnimator());
             notifyItemRangeRemoved(i, counter);
