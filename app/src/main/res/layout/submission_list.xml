@@ -167,7 +167,7 @@
         <ImageView
             android:id="@+id/scoreimg"
             android:layout_width="15dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="16dp"
@@ -179,7 +179,7 @@
         <TextView
             android:id="@+id/score"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
 
             android:layout_gravity="center_vertical"
@@ -192,7 +192,7 @@
         <ImageView
             android:id="@+id/pointsimg"
             android:layout_width="15dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
 
             android:tint="?attr/tint"
             android:layout_below="@+id/innerrelative"
@@ -207,7 +207,7 @@
         <TextView
             android:id="@+id/comments"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
 
             android:layout_gravity="center_vertical"
@@ -224,11 +224,11 @@
             android:id="@+id/save"
             style="@style/Ripple.List"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
 
             android:layout_toLeftOf="@+id/hide"
-            android:padding="4dp"
+            android:padding="8dp"
             android:src="@drawable/saved"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
@@ -237,11 +237,11 @@
             android:id="@+id/mod"
             style="@style/Ripple.List"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
 
             android:layout_toLeftOf="@+id/upvote"
-            android:padding="4dp"
+            android:padding="8dp"
             android:src="@drawable/mod"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
@@ -250,11 +250,11 @@
             android:id="@+id/hide"
             style="@style/Ripple.List"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
 
             android:layout_below="@+id/innerrelative"
             android:layout_toLeftOf="@+id/mod"
-            android:padding="4dp"
+            android:padding="8dp"
             android:src="@drawable/hide"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
@@ -263,10 +263,10 @@
             android:id="@+id/upvote"
             style="@style/Ripple.List"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
             android:layout_toLeftOf="@+id/downvote"
-            android:padding="4dp"
+            android:padding="8dp"
 
             android:src="@drawable/upvoted"
             android:tag="tintactionbar"
@@ -276,11 +276,11 @@
             android:id="@+id/downvote"
             style="@style/Ripple.List"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_below="@+id/innerrelative"
 
             android:layout_toLeftOf="@+id/menu"
-            android:padding="4dp"
+            android:padding="8dp"
             android:src="@drawable/downvote"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
@@ -290,10 +290,10 @@
             android:id="@+id/menu"
             style="@style/Ripple.List"
             android:layout_width="36dp"
-            android:layout_height="24dp"
+            android:layout_height="36dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/innerrelative"
-            android:padding="4dp"
+            android:padding="8dp"
             android:src="@drawable/more"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
