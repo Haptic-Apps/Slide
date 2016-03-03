@@ -295,6 +295,19 @@ public class CreateCardView {
         });
         return animator;
     }
+    private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
+        ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+               v.setScaleY((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+        return animator;
+    }
 
     public static void animateIn(View l) {
         l.setVisibility(View.VISIBLE);
@@ -329,10 +342,14 @@ public class CreateCardView {
             }
         });
         mAnimator.start();
+
+
     }
 
     public static void toggleActionbar(View v){
         if(!SettingValues.actionbarVisible) {
+
+            flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu)).start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
                 if (v2.getId() != R.id.mod) {
                     if (v2.getId() == R.id.save) {

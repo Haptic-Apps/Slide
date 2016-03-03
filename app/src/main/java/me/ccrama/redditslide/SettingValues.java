@@ -195,6 +195,9 @@ public class SettingValues {
         prefs.edit().putBoolean("picsenabled" +sub.toLowerCase(), checked).apply();
     }
 
+    public static void resetPicsEnabled(String sub){
+        prefs.edit().remove("picsenabled" + sub).apply();
+    }
     public static boolean isPicsEnabled(String subreddit){
         if(subreddit == null) return bigPicEnabled;
         return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(), bigPicEnabled);

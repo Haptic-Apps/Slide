@@ -26,19 +26,19 @@
         android:icon="@drawable/search"
         android:title="@string/search_title"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/theme"
+        android:title="@string/change_subreddit_theme"
+        app:showAsAction="never" />
     <item
         android:id="@+id/night"
-        android:title="@string/change_theme"
+        android:title="@string/change_background_theme"
         app:showAsAction="never" />
-
 
     <item
         android:id="@+id/save"
         android:title="@string/btn_cache"
         app:showAsAction="never" />
-    <group android:checkableBehavior="all">
-        <item
-            android:id="@+id/pics"
-            android:title="Show big pics in this sub" />
-    </group>
+
 </menu>

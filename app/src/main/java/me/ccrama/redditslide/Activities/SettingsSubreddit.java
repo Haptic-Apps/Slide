@@ -82,6 +82,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                     // Remove accent / font color settings
                                     new ColorPreferences(SettingsSubreddit.this).removeFontStyle(s);
 
+                                    SettingValues.resetPicsEnabled(s);
                                 }
                                 reloadSubList();
 
@@ -186,11 +187,10 @@ public class SettingsSubreddit extends BaseActivityAnim {
         int defaultFont = colorPrefs.getColor("");
 
         for (String s : allSubs) {
-            if (Palette.getColor(s) != Palette.getDefaultColor()) { //Main color is different
-                changedSubs.add(s);
-            } else if (SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)) { //Alternate Layout is set
-                changedSubs.add(s);
-            } else if (colorPrefs.getColor(s) != defaultFont) { //different accent / font color
+            if (Palette.getColor(s) != Palette.getDefaultColor()
+                    || SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)
+                    || colorPrefs.getColor(s) != defaultFont
+                    || SettingValues.prefs.contains("picsenabled" + s)) {
                 changedSubs.add(s);
             }
         }

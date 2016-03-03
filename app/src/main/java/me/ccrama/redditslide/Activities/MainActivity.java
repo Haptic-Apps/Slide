@@ -592,22 +592,7 @@ public class MainActivity extends BaseActivity {
                 });
 
             }
-
-
-            findViewById(R.id.sub_theme).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    final String subreddit = usedArray.get(pager.getCurrentItem());
-
-                    int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
-                    final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
-                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
-                    final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                    ArrayList<String> arrayList = new ArrayList<>();
-                    arrayList.add(subreddit);
-                    SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
-                }
-            });
+            findViewById(R.id.sub_theme).setVisibility(View.GONE);
         } else {
             //Hide info button on frontpage and all
             mShowInfoButton = false;
@@ -1479,15 +1464,24 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        mToolbar.getMenu().findItem(R.id.pics).setChecked(SettingValues.isPicsEnabled(selectedSub));
-        mToolbar.getMenu().findItem(R.id.pics).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                final String subreddit = usedArray.get(pager.getCurrentItem());
+
+                int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
+                final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
+                LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add(subreddit);
+                SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
+                /*
                 boolean old = SettingValues.isPicsEnabled(selectedSub);
                 SettingValues.setPicsEnabled(selectedSub, !item.isChecked());
                 item.setChecked(!item.isChecked());
                 reloadSubs();
-                invalidateOptionsMenu();
+                invalidateOptionsMenu();*/
                 return false;
             }
         });

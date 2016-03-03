@@ -8,6 +8,7 @@ import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                 // Remove accent / font color settings
                                 new ColorPreferences(context).removeFontStyle(subreddit);
 
+                                SettingValues.resetPicsEnabled(subreddit);
+
                                 dialog.dismiss();
                                 objects.remove(subreddit);
                                 notifyDataSetChanged();
@@ -121,10 +124,13 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
         final String subreddit = multipleSubs ? null : subreddits.get(0);
 
+        final SwitchCompat bigPics = (SwitchCompat) dialoglayout.findViewById(R.id.bigpics);
+
         if (multipleSubs) {
             //Check if all selected subs have the same settings
             int previousSubColor = 0;
             int previousSubAccent = 0;
+            bigPics.setChecked(SettingValues.bigPicEnabled);
             boolean sameMainColor = true;
             boolean sameAccentColor = true;
             for (String sub : subreddits) {
@@ -159,6 +165,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             currentColor = Palette.getColor(subreddit);
             isAlternateLayout = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit);
             currentAccentColor = colorPrefs.getColor(subreddit);
+            bigPics.setChecked(SettingValues.isPicsEnabled(subreddit));
         }
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
@@ -304,6 +311,38 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 });
             }
             {
+                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
+
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, subreddit))
+                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        for (String sub : subreddits) {
+                                            Palette.removeColor(sub);
+                                            // Remove layout settings
+                                            SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
+                                            // Remove accent / font color settings
+                                            new ColorPreferences(context).removeFontStyle(sub);
+
+                                            SettingValues.resetPicsEnabled(sub);
+                                        }
+                                        if (context instanceof MainActivity)
+                                            ((MainActivity) context).reloadSubs();
+                                        else if (context instanceof SettingsSubreddit) {
+                                            ((SettingsSubreddit) context).reloadSubList();
+                                        }
+                                        d.dismiss();
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_no, null).show();
+                    }
+                });
+            }
+            {
                 TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -324,8 +363,12 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                         }
 
 
+
                         for (String sub : subreddits) {
                             // Set main color
+                            if(bigPics.isChecked() != SettingValues.isPicsEnabled(sub)){
+                                SettingValues.setPicsEnabled(sub, bigPics.isChecked());
+                            }
                             if (mainColor != Palette.getDefaultColor())
                                 Palette.setColor(sub, mainColor);
                             // Set accent color
