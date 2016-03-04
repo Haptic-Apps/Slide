@@ -649,18 +649,27 @@ public class MainActivity extends BaseActivity {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
                 pager.setCurrentItem(toGoto);
+
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
                 pager.setCurrentItem(toGoto);
 
             }
-            SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager,pager.getCurrentItem());
-            // class and call the method:
-            if ( page != null) {
-                if (page.posts == null) {
-                    page.doAdapter();
+
+            pager.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager,pager.getCurrentItem());
+                    // class and call the method:
+                    if ( page != null) {
+
+                        if (page.posts == null) {
+                            page.doAdapter();
+                        }
+                    }
                 }
-            }
+            }, 200);
+
         } else if (SubredditStorage.subredditsForHome != null) {
             setDataSet(SubredditStorage.subredditsForHome);
         }
@@ -1917,7 +1926,6 @@ public class MainActivity extends BaseActivity {
 
             SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
-
             args.putString("id", usedArray.get(i));
             f.setArguments(args);
 
