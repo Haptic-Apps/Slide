@@ -1863,11 +1863,8 @@ public class MainActivity extends BaseActivity {
                     Reddit.currentPosition = position;
                     doSubSidebar(usedArray.get(position));
 
-                    // ((SubmissionsView) getCurrentFragment()).doAdapter();
-                    SubmissionsView fragment = ((SubmissionsView) adapter.getCurrentFragment());
-
-                    if (fragment != null && fragment.adapter != null) {
-                        SubredditPosts p = fragment.adapter.dataSet;
+                    if (page != null && page.adapter != null) {
+                        SubredditPosts p = page.adapter.dataSet;
                         if (p.offline && p.cached != null) {
                             Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
                         }
