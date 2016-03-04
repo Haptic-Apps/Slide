@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
@@ -21,7 +22,9 @@ public class SettingsHandling extends BaseActivityAnim implements
         setContentView(R.layout.activity_settings_handling);
         setupAppBar(R.id.toolbar, R.string.settings_link_handling, true, true);
 
-        SwitchCompat web = (SwitchCompat) findViewById(R.id.web);
+        TextView web = (TextView) findViewById(R.id.browser);
+
+        //todo web stuff
         SwitchCompat image = (SwitchCompat) findViewById(R.id.image);
         SwitchCompat gif = (SwitchCompat) findViewById(R.id.gif);
         SwitchCompat album = (SwitchCompat) findViewById(R.id.album);
@@ -42,28 +45,12 @@ public class SettingsHandling extends BaseActivityAnim implements
                 }
             });
         }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.albumpager);
-
-            single.setChecked(SettingValues.albumSwipe);
-            single.setEnabled(SettingValues.album);
-
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.albumSwipe = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, isChecked).apply();
-
-                }
-            });
-        }
-        web.setChecked(SettingValues.web);
+       
         image.setChecked(SettingValues.image);
         gif.setChecked(SettingValues.gif);
         album.setChecked(SettingValues.album);
         video.setChecked(SettingValues.video);
 
-        web.setOnCheckedChangeListener(this);
         image.setOnCheckedChangeListener(this);
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
