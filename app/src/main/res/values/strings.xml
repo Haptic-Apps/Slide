@@ -48,6 +48,7 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="theme_black">AMOLED black</string>
+    <string name="theme_dark_blue">Dark blue</string>
     <string name="theme_default_color">Primary color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
@@ -567,14 +568,12 @@
     <string name="profile_manage_accounts">Manage accounts</string>
     <string name="profile_remove_account">Would you really like to remove this account?</string>
     <string name="profile_remove">Delete account</string>
-    <string name="theme_dark_blue">Dark Blue</string>
     <string name="card_right_thumb">Right-aligned thumbnail</string>
     <string name="submission_share_permalink">Share post</string>
     <string name="submission_share_content_url">Share content URL</string>
     <string name="change_theme">Change theme</string>
-    <string name="setting_filter_subreddits">SUBREDDIT FILTERS</string>
-    <string name="change_background_theme">Change background theme</string>
-    <string name="change_subreddit_theme">Change subreddit theme</string>
+    <string name="setting_filter_subreddits">Subreddit filters</string>
+    <string name="subreddit_theme">Subreddit theme</string>
     <string name="btn_select">Select</string>
     <string name="dialog_choose_subreddits_to_edit">Choose subreddits to edit</string>
     <string name="dialog_color_sync_title">Color syncing</string>

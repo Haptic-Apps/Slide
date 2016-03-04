@@ -29,11 +29,11 @@
 
     <item
         android:id="@+id/theme"
-        android:title="@string/change_subreddit_theme"
+        android:title="@string/subreddit_theme"
         app:showAsAction="never" />
     <item
         android:id="@+id/night"
-        android:title="@string/change_background_theme"
+        android:title="@string/theme_base"
         app:showAsAction="never" />
 
     <item
