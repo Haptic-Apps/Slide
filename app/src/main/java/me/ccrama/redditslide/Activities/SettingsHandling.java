@@ -50,7 +50,7 @@ public class SettingsHandling extends BaseActivityAnim implements
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsHandling.this, v);
-                popup.getMenuInflater().inflate(R.menu.fab_settings, popup.getMenu());
+                popup.getMenuInflater().inflate(R.menu.link_menu, popup.getMenu());
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
