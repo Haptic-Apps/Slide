@@ -309,34 +309,6 @@
                         android:textSize="16sp"
                         />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/fab"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginRight="16dp"
-                        android:padding="16dp"
-                        android:src="@drawable/fab"
-                        android:tint="?attr/tint" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-
-                        android:text="@string/settings_title_fab"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
-                </LinearLayout>
-
             </LinearLayout>
 
 

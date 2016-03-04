@@ -262,13 +262,7 @@ public class Settings extends BaseActivity {
                 Settings.this.startActivity(inte);
             }
         });
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent inte = new Intent(Settings.this, SettingsFab.class);
-                Settings.this.startActivity(inte);
-            }
-        });
+
         if(Authentication.isLoggedIn) {
             findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
                 @Override
