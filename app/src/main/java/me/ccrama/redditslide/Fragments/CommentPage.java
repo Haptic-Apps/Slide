@@ -174,6 +174,7 @@ public class CommentPage extends Fragment {
     }
 
     RecyclerView.OnScrollListener toolbarScroll;
+    Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -203,7 +204,8 @@ public class CommentPage extends Fragment {
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
-        toolbarScroll = new ToolbarScrollHideHandler((Toolbar) v.findViewById(R.id.toolbar), v.findViewById(R.id.header));
+        toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
                                                            @Override
@@ -371,14 +373,14 @@ public class CommentPage extends Fragment {
     private void goUp() {
         if (adapter.users != null && adapter.users.size() > 0) {
 
-            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
-            for (int i = pastVisiblesItems - 3; i >= 0; i--) {
+            for (int i = pastVisiblesItems - 2; i >= 0; i--) {
                 if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
 
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                        (((PreCachingLayoutManagerComments)rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight() );
                         rv.removeOnScrollListener(toolbarScroll);
-                        (rv.getLayoutManager()).scrollToPosition(i + 2);
                         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
                             @Override
                             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -396,13 +398,13 @@ public class CommentPage extends Fragment {
 
     private void goDown() {
         if (adapter.users != null && adapter.users.size() > 0) {
-            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+            int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
             for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
                 if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                        (rv.getLayoutManager()).scrollToPosition(i + 2);
+                        (((PreCachingLayoutManagerComments)rv.getLayoutManager())).scrollToPositionWithOffset(i+2, toolbar.getHeight());
                         break;
                     }
             }
