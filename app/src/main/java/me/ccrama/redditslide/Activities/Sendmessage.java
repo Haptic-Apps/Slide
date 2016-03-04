@@ -19,6 +19,7 @@ import net.dean.jraw.models.PrivateMessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -109,6 +110,8 @@ public class Sendmessage extends BaseActivity {
                 findViewById(R.id.send).setVisibility(View.GONE);
             }
         });
+        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.innersend2), getSupportFragmentManager());
+
 
     }
 
