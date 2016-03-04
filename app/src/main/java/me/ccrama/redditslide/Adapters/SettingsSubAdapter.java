@@ -327,28 +327,30 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, finalSubTitles))
+                        String titleStart = context.getString(R.string.settings_delete_sub_settings, finalSubTitles);
+                        titleStart = titleStart.replace("/r//r/", "/r/");
+                        new AlertDialogWrapper.Builder(context).setTitle(titleStart)
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                                        for (String sub : subreddits) {
-                                            Palette.removeColor(sub);
-                                            // Remove layout settings
-                                            SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
-                                            // Remove accent / font color settings
-                                            new ColorPreferences(context).removeFontStyle(sub);
+                                for (String sub : subreddits) {
+                                    Palette.removeColor(sub);
+                                    // Remove layout settings
+                                    SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
+                                    // Remove accent / font color settings
+                                    new ColorPreferences(context).removeFontStyle(sub);
 
-                                            SettingValues.resetPicsEnabled(sub);
-                                        }
-                                        if (context instanceof MainActivity)
-                                            ((MainActivity) context).reloadSubs();
-                                        else if (context instanceof SettingsSubreddit) {
-                                            ((SettingsSubreddit) context).reloadSubList();
-                                        }
-                                        d.dismiss();
-                                    }
-                                })
+                                    SettingValues.resetPicsEnabled(sub);
+                                }
+                                if (context instanceof MainActivity)
+                                    ((MainActivity) context).reloadSubs();
+                                else if (context instanceof SettingsSubreddit) {
+                                    ((SettingsSubreddit) context).reloadSubList();
+                                }
+                                d.dismiss();
+                            }
+                        })
                                 .setNegativeButton(R.string.btn_no, null).show();
                     }
                 });

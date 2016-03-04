@@ -253,7 +253,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (posts != null && !posts.offline)
+                if (posts == null || (posts != null && !posts.offline))
                     mSwipeRefreshLayout.setRefreshing(true);
             }
         });
@@ -392,8 +392,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-
-        doAdapter();
         return v;
     }
 

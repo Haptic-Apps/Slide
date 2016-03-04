@@ -608,6 +608,7 @@ public class MainActivity extends BaseActivity {
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         pager.setCurrentItem(current);
+        mTabLayout.setupWithViewPager(pager);
     }
 
     public void updateColor(int color, String subreddit) {
@@ -653,7 +654,13 @@ public class MainActivity extends BaseActivity {
                 pager.setCurrentItem(toGoto);
 
             }
-
+            SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager,toGoto);
+            // class and call the method:
+            if ( page != null) {
+                if (page.posts == null) {
+                    page.doAdapter();
+                }
+            }
         } else if (SubredditStorage.subredditsForHome != null) {
             setDataSet(SubredditStorage.subredditsForHome);
         }
@@ -1461,6 +1468,7 @@ public class MainActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -1487,6 +1495,7 @@ public class MainActivity extends BaseActivity {
         });
         return true;
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -1819,6 +1828,7 @@ public class MainActivity extends BaseActivity {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
+            pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1827,7 +1837,18 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
+                    SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager, position);
+                    // class and call the method:
+                    if ( page != null) {
 
+                        LogUtil.v("Loading " + page.id);
+
+                        if (page.posts == null) {
+                            LogUtil.v("Doing " + page.id);
+
+                            page.doAdapter();
+                        }
+                    }
                     findViewById(R.id.header).animate()
                             .translationY(0)
                             .setInterpolator(new LinearInterpolator())
@@ -1843,8 +1864,10 @@ public class MainActivity extends BaseActivity {
                     doSubSidebar(usedArray.get(position));
 
                     // ((SubmissionsView) getCurrentFragment()).doAdapter();
-                    if (adapter.getCurrentFragment() != null) {
-                        SubredditPosts p = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet;
+                    SubmissionsView fragment = ((SubmissionsView) adapter.getCurrentFragment());
+
+                    if (fragment != null && fragment.adapter != null) {
+                        SubredditPosts p = fragment.adapter.dataSet;
                         if (p.offline && p.cached != null) {
                             Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
                         }
@@ -1861,7 +1884,7 @@ public class MainActivity extends BaseActivity {
                     else mTabLayout.setSelectedTabIndicatorColor(
                             new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
 
-                   selectedSub = usedArray.get(position);
+                    selectedSub = usedArray.get(position);
 
 
                 }
@@ -1875,6 +1898,7 @@ public class MainActivity extends BaseActivity {
                 pager.getAdapter().notifyDataSetChanged();
                 pager.setCurrentItem(1);
                 pager.setCurrentItem(0);
+
             }
         }
 
@@ -1928,6 +1952,7 @@ public class MainActivity extends BaseActivity {
 
         }
     }
+
     public String selectedSub;
 
     public int getCurrentPage() {
