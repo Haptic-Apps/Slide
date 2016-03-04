@@ -654,7 +654,7 @@ public class MainActivity extends BaseActivity {
                 pager.setCurrentItem(toGoto);
 
             }
-            SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager,toGoto);
+            SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager,pager.getCurrentItem());
             // class and call the method:
             if ( page != null) {
                 if (page.posts == null) {
