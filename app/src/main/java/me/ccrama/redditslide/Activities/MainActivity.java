@@ -408,6 +408,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_overview);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
         setSupportActionBar(mToolbar);
 
 
