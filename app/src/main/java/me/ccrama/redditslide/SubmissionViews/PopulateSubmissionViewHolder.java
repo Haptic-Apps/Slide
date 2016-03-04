@@ -850,7 +850,8 @@ public class PopulateSubmissionViewHolder {
                             } catch (ApiException e) {
                                 e.printStackTrace();
                             }
-                            CreateCardView.toggleActionbar(holder.itemView);
+                            if (!full && !SettingValues.actionbarVisible)
+                                CreateCardView.toggleActionbar(holder.itemView);
 
                             return null;
                         }
@@ -892,7 +893,7 @@ public class PopulateSubmissionViewHolder {
         addClickFunctions(holder.leadImage, type, mContext, submission, holder);
 
 
-        if(holder.thumbimage != null) {
+        if (holder.thumbimage != null) {
             addClickFunctions(holder.thumbimage, type, mContext, submission, holder);
         } else {
             addClickFunctions(thumbImage2, type, mContext, submission, holder);
@@ -954,7 +955,8 @@ public class PopulateSubmissionViewHolder {
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
 
                             }
-                            CreateCardView.toggleActionbar(holder.itemView);
+                            if (!full && !SettingValues.actionbarVisible)
+                                CreateCardView.toggleActionbar(holder.itemView);
 
                         }
                     });
@@ -982,8 +984,8 @@ public class PopulateSubmissionViewHolder {
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
                             }
-
-                            CreateCardView.toggleActionbar(holder.itemView);
+                            if (!full && !SettingValues.actionbarVisible)
+                                CreateCardView.toggleActionbar(holder.itemView);
                         }
                     });
                 }

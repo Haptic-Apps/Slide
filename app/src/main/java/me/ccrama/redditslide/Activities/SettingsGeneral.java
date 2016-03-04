@@ -175,19 +175,7 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
 
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.lowq);
 
-            single.setChecked(!SettingValues.blurCheck);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.blurCheck = !isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_BLUR, !isChecked).apply();
-
-                }
-            });
-        }
 
         /* Might need this later
         if (Reddit.expandedSettings) {
@@ -237,19 +225,7 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             });
         }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.hidetop);
 
-            single.setChecked(SettingValues.hideHeader);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.hideHeader = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDE_HEADER, isChecked).apply();
-
-                }
-            });
-        }
         if (Reddit.notificationTime > 0) {
             ((TextView) findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));

@@ -47,7 +47,6 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/settings_section_general"
-                    android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -56,17 +55,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/settings"
                         android:tint="?attr/tint" />
 
@@ -76,9 +71,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_general"
                         android:textColor="?attr/font"
-
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -86,17 +79,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/link"
                         android:tint="?attr/tint" />
 
@@ -105,10 +95,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_link_handling"
-
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
 
@@ -117,58 +105,49 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/multicolumn"
                         android:tint="?attr/tint" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_multi_column"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/reorder"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/sub"
                         android:tint="?attr/tint" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-
                         android:gravity="center_vertical"
                         android:text="@string/title_reorder_subs"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -191,7 +170,6 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/settings_title_appearance"
-                    android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -200,17 +178,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/theme"
                         android:tint="?attr/tint" />
 
@@ -222,7 +197,7 @@
                         android:text="@string/settings_title_default_theme"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
 
@@ -231,17 +206,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/card"
                         android:tint="?attr/tint" />
 
@@ -253,7 +225,7 @@
                         android:text="@string/settings_layout_default"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
 
@@ -262,17 +234,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/sub"
                         android:tint="?attr/tint" />
 
@@ -284,7 +253,7 @@
                         android:text="@string/settings_title_sub_theme"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -292,17 +261,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/fontsizedarker"
                         android:tint="?attr/tint" />
 
@@ -314,7 +280,7 @@
                         android:text="@string/settings_title_font"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -322,17 +288,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/commentchange"
                         android:tint="?attr/tint" />
 
@@ -344,7 +307,7 @@
                         android:text="@string/settings_title_comments"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -352,17 +315,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/fab"
                         android:tint="?attr/tint" />
 
@@ -374,7 +334,7 @@
                         android:text="@string/settings_title_fab"
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
             </LinearLayout>
@@ -397,7 +357,6 @@
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/settings_title_other"
-                    android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -407,17 +366,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/ic_backup"
                         android:tint="?attr/tint" />
 
@@ -429,24 +385,22 @@
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/synccit"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/ic_backup"
                         android:tint="?attr/tint" />
 
@@ -458,26 +412,26 @@
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/cache"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:visibility="gone"
                     android:background="?android:selectableItemBackground"
                     android:orientation="horizontal"
-
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+
+                    android:paddingRight="16dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/save"
                         android:tint="?attr/tint" />
 
@@ -489,36 +443,33 @@
 
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/filter"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/filter"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_filter"
-
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold"/>
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -526,17 +477,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/crown"
                         android:tint="?attr/tint" />
 
@@ -546,9 +494,8 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_pro"
                         android:textColor="?attr/font"
-
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -556,17 +503,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/reddit"
                         android:tint="?attr/tint" />
 
@@ -575,10 +519,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_reddit_prefs"
-
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -586,17 +529,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/donate"
                         android:tint="?attr/tint" />
 
@@ -605,10 +545,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_support"
-
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
 
                 </LinearLayout>
 
@@ -617,17 +556,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="16dp"
+
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/infonew"
                         android:tint="?attr/tint" />
 
@@ -636,10 +572,9 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_about"
-
                         android:textColor="?attr/font"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

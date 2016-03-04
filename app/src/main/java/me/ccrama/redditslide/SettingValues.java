@@ -29,7 +29,6 @@ public class SettingValues {
     public static final String PREF_CACHE_DEFAULT = "cacheDefault";
     public static final String PREF_CUSTOMTABS = "customtabs";
     public static final String PREF_SCROLL_SEEN = "scrollSeen";
-    public static final String PREF_HIDE_HEADER = "hideHeader";
     public static final String PREF_TITLE_FILTERS = "titleFilters";
     public static final String PREF_TEXT_FILTERS = "textFilters";
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
@@ -74,7 +73,6 @@ public class SettingValues {
     public static boolean album;
     public static boolean cache;
     public static boolean expandedSettings;
-    public static boolean hideHeader;
     public static boolean cacheDefault;
     public static boolean image;
     public static boolean video;
@@ -156,7 +154,6 @@ public class SettingValues {
         cacheDefault = false;
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
-        hideHeader = prefs.getBoolean(PREF_HIDE_HEADER, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
 

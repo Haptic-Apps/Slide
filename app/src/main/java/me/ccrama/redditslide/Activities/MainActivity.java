@@ -1154,9 +1154,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-        if (SettingValues.hideHeader) {
-            header.findViewById(R.id.back).setVisibility(View.GONE);
-        }
+
         if (Authentication.didOnline) {
 
             View support = header.findViewById(R.id.support);
