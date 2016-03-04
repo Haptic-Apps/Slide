@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -54,6 +56,8 @@ public class SettingsGeneral extends BaseActivityAnim {
                             TimeUtils.getTimeInHoursAndMins(i1 * 15, context.getBaseContext())));
             }
         });
+
+
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -175,42 +179,43 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
 
+        ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab?(SettingValues.fabType==R.integer.FAB_DISMISS?getString(R.string.fab_hide):getString(R.string.fab_create)):getString(R.string.fab_disabled));
 
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
+                popup.getMenuInflater().inflate(R.menu.fab_settings, popup.getMenu());
 
-        /* Might need this later
-        if (Reddit.expandedSettings) {
-            {
-                final SeekBar animationMultiplier = (SeekBar) findViewById(R.id.animation_length_sb);
-                animationMultiplier.setProgress(Reddit.enter_animation_time_multiplier);
-                animationMultiplier.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        if (progress <= 0) {
-                            progress = 1;
-                            animationMultiplier.setProgress(1);
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.disabled:
+                                SettingValues.fab = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FAB, false).apply();
+                                break;
+                            case R.id.hide:
+                                SettingValues.fab = true;
+                                SettingValues.fabType = R.integer.FAB_DISMISS;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_FAB_TYPE, R.integer.FAB_DISMISS).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FAB, true).apply();
+                                break;
+                            case R.id.create:
+                                SettingValues.fab = true;
+                                SettingValues.fabType = R.integer.FAB_POST;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_FAB_TYPE, R.integer.FAB_POST).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FAB, true).apply();
+                                break;
                         }
-                        SettingValues.prefs.edit().putInt("AnimationLengthMultiplier", progress).apply();
-                        Reddit.enter_animation_time_multiplier = progress;
-                        Reddit.enter_animation_time = Reddit.enter_animation_time_original * Reddit.enter_animation_time_multiplier;
-                    }
+                        ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab?(SettingValues.fabType==R.integer.FAB_DISMISS?getString(R.string.fab_hide):getString(R.string.fab_create)):getString(R.string.fab_disabled));
 
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
+                        return true;
                     }
                 });
 
+                popup.show();
             }
-        }
-        else {
-            findViewById(R.id.animation_length_sb).setVisibility(View.GONE);
-            findViewById(R.id.enter_animation).setVisibility(View.GONE);
-        }*/
+        });
 
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);

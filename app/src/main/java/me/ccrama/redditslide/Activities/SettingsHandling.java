@@ -30,21 +30,6 @@ public class SettingsHandling extends BaseActivityAnim implements
         SwitchCompat album = (SwitchCompat) findViewById(R.id.album);
         SwitchCompat video = (SwitchCompat) findViewById(R.id.video);
 
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.chrome);
-
-            single.setChecked(SettingValues.customtabs);
-                single.setEnabled(SettingValues.web);
-
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.customtabs = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CUSTOMTABS, isChecked).apply();
-
-                }
-            });
-        }
 
         image.setChecked(SettingValues.image);
         gif.setChecked(SettingValues.gif);

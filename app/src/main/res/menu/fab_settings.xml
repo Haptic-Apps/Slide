@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/disabled"
+        android:title="@string/fab_disabled"/>
+
+    <item
+        android:id="@+id/create"
+        android:title="@string/fab_create"/>
+
+    <item
+        android:id="@+id/hide"
+        android:title="@string/fab_hide"/>
+
+</menu>

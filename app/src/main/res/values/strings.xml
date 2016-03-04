@@ -578,6 +578,9 @@
     <string name="dialog_choose_subreddits_to_edit">Choose subreddits to edit</string>
     <string name="dialog_color_sync_title">Color syncing</string>
     <string name="dialog_color_sync_message">This will try to retrieve the subreddit\'s \'key color\' set by the moderators. It will not overwrite already colored subreddits.</string>
+    <string name="fab_hide">Hide viewed posts</string>
+    <string name="fab_create">Create new post</string>
+    <string name="fab_disabled">Disabled</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
