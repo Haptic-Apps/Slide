@@ -478,15 +478,10 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             final RecyclerView.LayoutManager mLayoutManager;
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-                adapter.spanned = true;
             } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
                 mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                adapter.spanned = true;
-
             } else {
                 mLayoutManager = new PreCachingLayoutManager(this);
-                adapter.spanned = false;
-
             }
 
             rv.setLayoutManager(mLayoutManager);
@@ -509,15 +504,10 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             }
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
                 mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-                adapter.spanned = true;
             } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
                 mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                adapter.spanned = true;
-
             } else {
                 mLayoutManager = new PreCachingLayoutManager(this);
-                adapter.spanned = false;
-
             }
             rv.setLayoutManager(mLayoutManager);
             mLayoutManager.scrollToPosition(i);

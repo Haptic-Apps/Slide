@@ -167,35 +167,29 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public void onConfigurationChanged(Configuration newConfig) {
 
         super.onConfigurationChanged(newConfig);
-        int currentOrientation = getResources().getConfiguration().orientation;
+        int currentOrientation = newConfig.orientation;
 
-        if (adapter != null) {
-
-            if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                int i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                final RecyclerView.LayoutManager mLayoutManager;
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                    mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-                    adapter.spanned = true;
-                } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                    mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                    adapter.spanned = true;
-
-                } else {
-                    mLayoutManager = new PreCachingLayoutManager(getContext());
-                    adapter.spanned = false;
-
-                }
-
-                rv.setLayoutManager(mLayoutManager);
-
-                mLayoutManager.scrollToPosition(i);
-
-
+        int i = 0;
+        if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (rv.getAdapter() != null) {
+                i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+            }
+            final RecyclerView.LayoutManager mLayoutManager;
+            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+            } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             } else {
-                int i = 0;
-                final RecyclerView.LayoutManager mLayoutManager;
+                mLayoutManager = new PreCachingLayoutManager(getContext());
+            }
 
+            rv.setLayoutManager(mLayoutManager);
+
+
+        } else {
+            final RecyclerView.LayoutManager mLayoutManager;
+
+            if (rv.getAdapter() != null) {
                 if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
@@ -205,23 +199,21 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 } else {
                     i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
                 }
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                    mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
-                    adapter.spanned = true;
-                } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                    mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                    adapter.spanned = true;
-
-                } else {
-                    mLayoutManager = new PreCachingLayoutManager(getContext());
-                    adapter.spanned = false;
-
-                }
-                rv.setLayoutManager(mLayoutManager);
-                mLayoutManager.scrollToPosition(i);
             }
+            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+            } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            } else {
+                mLayoutManager = new PreCachingLayoutManager(getContext());
+            }
+            rv.setLayoutManager(mLayoutManager);
+
         }
+        rv.getLayoutManager().scrollToPosition(i);
+
     }
+
 
     boolean down = false;
 
@@ -394,7 +386,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-        if (!MainActivity.hasDone && id.equals(((MainActivity)getActivity()).usedArray.get(((MainActivity)getActivity()).toGoto))) {
+        if (!MainActivity.hasDone && id.equals(((MainActivity) getActivity()).usedArray.get(((MainActivity) getActivity()).toGoto))) {
             doAdapter();
         }
         return v;

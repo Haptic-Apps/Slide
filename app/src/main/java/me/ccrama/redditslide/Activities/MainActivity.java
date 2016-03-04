@@ -609,6 +609,7 @@ public class MainActivity extends BaseActivity {
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
         hasDone = false;
+
         pager.setCurrentItem(current);
         mTabLayout.setupWithViewPager(pager);
     }
@@ -1822,7 +1823,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        private Fragment mCurrentFragment;
+        private SubmissionsView mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -1835,17 +1836,6 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
-                    SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager, position);
-                    // class and call the method:
-                    if ( page != null && hasDone) {
-
-                        LogUtil.v("Loading " + page.id);
-
-                        if (page.posts == null) {
-                            LogUtil.v("Doing " + page.id);
-                            page.doAdapter();
-                        }
-                    }
                     findViewById(R.id.header).animate()
                             .translationY(0)
                             .setInterpolator(new LinearInterpolator())
@@ -1860,6 +1850,7 @@ public class MainActivity extends BaseActivity {
                     Reddit.currentPosition = position;
                     doSubSidebar(usedArray.get(position));
 
+                    SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                     if (page != null && page.adapter != null) {
                         SubredditPosts p = page.adapter.dataSet;
                         if (p.offline && p.cached != null) {
@@ -1904,7 +1895,12 @@ public class MainActivity extends BaseActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             if (getCurrentFragment() != object) {
-                mCurrentFragment = ((Fragment) object);
+                mCurrentFragment = ((SubmissionsView) object);
+                if ( mCurrentFragment != null && hasDone) {
+                    if (mCurrentFragment.posts == null) {
+                        mCurrentFragment.doAdapter();
+                    }
+                }
             }
             super.setPrimaryItem(container, position, object);
         }

@@ -48,8 +48,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int NO_MORE = 3;
     private final int SPACER = 6;
 
-    public boolean spanned;
-
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
@@ -57,7 +55,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.context = context;
         this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
-        spanned = listView.getLayoutManager() instanceof StaggeredGridLayoutManager;
     }
 
     @Override
@@ -202,8 +199,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         if (holder2 instanceof SpacerViewHolder) {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));
-            if (spanned) {
-                StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            if (listView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (context).findViewById(R.id.header).getHeight());
                 layoutParams.setFullSpan(true);
                 holder2.itemView.setLayoutParams(layoutParams);
             }
