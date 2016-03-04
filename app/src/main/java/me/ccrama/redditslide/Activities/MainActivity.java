@@ -624,8 +624,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public static boolean hasDone = false;
     public void setDataSet(List<String> data) {
 
+        hasDone = false;
         if (data != null) {
 
             usedArray = data;
@@ -657,19 +659,6 @@ public class MainActivity extends BaseActivity {
 
             }
 
-            pager.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager,pager.getCurrentItem());
-                    // class and call the method:
-                    if ( page != null) {
-
-                        if (page.posts == null) {
-                            page.doAdapter();
-                        }
-                    }
-                }
-            }, 200);
 
         } else if (SubredditStorage.subredditsForHome != null) {
             setDataSet(SubredditStorage.subredditsForHome);
@@ -1847,13 +1836,12 @@ public class MainActivity extends BaseActivity {
                 public void onPageSelected(final int position) {
                     SubmissionsView page = (SubmissionsView) adapter.instantiateItem(pager, position);
                     // class and call the method:
-                    if ( page != null) {
+                    if ( page != null && hasDone) {
 
                         LogUtil.v("Loading " + page.id);
 
                         if (page.posts == null) {
                             LogUtil.v("Doing " + page.id);
-
                             page.doAdapter();
                         }
                     }

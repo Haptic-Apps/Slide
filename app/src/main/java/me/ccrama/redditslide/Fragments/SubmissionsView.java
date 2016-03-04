@@ -394,12 +394,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
+        if (!MainActivity.hasDone && id.equals(((MainActivity)getActivity()).usedArray.get(((MainActivity)getActivity()).toGoto))) {
+            doAdapter();
+        }
         return v;
     }
 
     public boolean main;
 
     public void doAdapter() {
+        MainActivity.hasDone = true;
         posts = new SubredditPosts(id);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id);
         rv.setAdapter(adapter);
