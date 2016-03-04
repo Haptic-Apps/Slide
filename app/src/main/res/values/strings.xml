@@ -581,6 +581,8 @@
     <string name="fab_hide">Hide viewed posts</string>
     <string name="fab_create">Create new post</string>
     <string name="fab_disabled">Disabled</string>
+    <string name="handling_internal_browser">Use internal browser</string>
+    <string name="handling_external_browser">Use external browser</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

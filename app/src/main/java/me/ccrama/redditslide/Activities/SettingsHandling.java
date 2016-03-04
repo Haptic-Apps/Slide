@@ -1,7 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -40,6 +43,45 @@ public class SettingsHandling extends BaseActivityAnim implements
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
         video.setOnCheckedChangeListener(this);
+
+        ((TextView) findViewById(R.id.browser)).setText(SettingValues.web ? (SettingValues.customtabs ? getString(R.string.settings_link_chrome) : getString(R.string.handling_internal_browser)) : getString(R.string.handling_external_browser));
+
+        findViewById(R.id.select_browser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsHandling.this, v);
+                popup.getMenuInflater().inflate(R.menu.fab_settings, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.chrome:
+                                SettingValues.customtabs = true;
+                                SettingValues.web = true;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREFS_WEB, true).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CUSTOMTABS, true).apply();
+                                break;
+                            case R.id.internal:
+                                SettingValues.customtabs = false;
+                                SettingValues.web = true;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREFS_WEB, true).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CUSTOMTABS, false).apply();
+                                break;
+                            case R.id.external:
+                                SettingValues.web = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREFS_WEB, false).apply();
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.browser)).setText(SettingValues.web ? (SettingValues.customtabs ? getString(R.string.settings_link_chrome) : getString(R.string.handling_internal_browser)) : getString(R.string.handling_external_browser));
+
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
     }
 
     @Override
