@@ -14,16 +14,6 @@ public class SettingsComments extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_settings_comments);
         setupAppBar(R.id.toolbar, R.string.settings_title_comments, true, true);
-
-        SwitchCompat username_to_profile = (SwitchCompat) findViewById(R.id.username_to_profile);
-        username_to_profile.setChecked(SettingValues.click_user_name_to_profile);
-        username_to_profile.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.click_user_name_to_profile = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_USERNAME_CLICK, isChecked).apply();
-            }
-        });
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
             single.setChecked(SettingValues.fastscroll);

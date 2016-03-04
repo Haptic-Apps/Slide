@@ -21,9 +21,7 @@ public class SettingValues {
     public static final String PREF_AUTOTHEME = "autotime";
     public static final String PREF_COLOR_BACK = "colorBack";
     public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
-    public static final String PREF_IMAGE_SOLID_BACKGROUND = "imageViewerSolidBackground";
     public static final String PREF_COLOR_EVERYWHERE = "colorEverywhere";
-    public static final String PREF_USERNAME_CLICK = "UsernameClick";
     public static final String PREF_SWAP = "Swap";
     public static final String PREFS_WEB = "web";
     public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
@@ -57,7 +55,6 @@ public class SettingValues {
     public static final String PREF_BLUR = "blur";
     public static final String PREF_ALBUM_SWIPE = "albumswipe";
     public static final String PREF_COMMENT_NAV = "commentNav";
-    public static final String PREF_POST_NAV = "postNav";
     public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
 
     public static CreateCardView.CardEnum defaultCardView;
@@ -83,7 +80,6 @@ public class SettingValues {
     public static boolean video;
     public static boolean colorBack;
     public static boolean colorNavBar;
-    public static boolean imageViewerSolidBackground;
     public static boolean actionbarVisible;
     public static boolean fullscreen;
     public static boolean blurCheck;
@@ -111,7 +107,6 @@ public class SettingValues {
     public static boolean fastscroll;
     public static boolean fab = true;
     public static int fabType = R.integer.FAB_POST;
-    public static boolean click_user_name_to_profile = true;
     public static boolean hideButton;
     public static boolean tabletUI;
     public static boolean customtabs;
@@ -150,12 +145,10 @@ public class SettingValues {
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
-        imageViewerSolidBackground = prefs.getBoolean(PREF_IMAGE_SOLID_BACKGROUND, false);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
 
-        click_user_name_to_profile = prefs.getBoolean(PREF_USERNAME_CLICK, true);
         swap = prefs.getBoolean(PREF_SWAP, false);
         web = prefs.getBoolean(PREFS_WEB, true);
         image = prefs.getBoolean(PREF_IMAGE, true);

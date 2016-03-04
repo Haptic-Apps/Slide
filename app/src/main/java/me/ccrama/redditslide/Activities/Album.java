@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -44,10 +43,6 @@ public class Album extends FullScreenActivity {
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
 
         setContentView(R.layout.album);
-
-        if (SettingValues.imageViewerSolidBackground) {
-            findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
-        }
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
         b.setTitle(R.string.album_loading);

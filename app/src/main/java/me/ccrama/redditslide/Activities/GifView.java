@@ -3,14 +3,12 @@ package me.ccrama.redditslide.Activities;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
 
@@ -44,10 +42,6 @@ public class GifView extends FullScreenActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gif);
-
-        if (SettingValues.imageViewerSolidBackground) {
-            findViewById(R.id.root).setBackgroundColor(ContextCompat.getColor(this, R.color.darkbg));
-        }
 
         v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();

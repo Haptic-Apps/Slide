@@ -174,19 +174,7 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             });
         }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.navposts);
 
-            single.setChecked(SettingValues.postNav);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.postNav = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_POST_NAV, isChecked).apply();
-
-                }
-            });
-        }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.lowq);
 

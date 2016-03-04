@@ -403,17 +403,6 @@ public class SettingsTheme extends BaseActivityAnim {
             }
         });
 
-        final SwitchCompat imageViewerSolidBackgroundSwitch = (SwitchCompat) findViewById(R.id.imageviewer_background);
-
-        imageViewerSolidBackgroundSwitch.setChecked(SettingValues.imageViewerSolidBackground);
-        imageViewerSolidBackgroundSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.imageViewerSolidBackground = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE_SOLID_BACKGROUND, isChecked).apply();
-            }
-        });
     }
 
 }

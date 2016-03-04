@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import net.dean.jraw.models.Comment;
@@ -29,12 +27,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -126,16 +120,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         }
         holder.children.setVisibility(View.GONE);
 
-        holder.author.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (SettingValues.click_user_name_to_profile) {
-                    Intent i2 = new Intent(mContext, Profile.class);
-                    i2.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
-                    mContext.startActivity(i2);
-                }
-            }
-        });
         holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
         if (holder.author.getCurrentTextColor() == 0) {
             holder.author.setTextColor(holder.time.getCurrentTextColor());

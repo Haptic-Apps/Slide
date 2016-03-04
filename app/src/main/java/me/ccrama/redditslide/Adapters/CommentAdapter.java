@@ -1242,18 +1242,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
 
-            holder.author.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (SettingValues.click_user_name_to_profile) {
-                        Intent i2 = new Intent(mContext, Profile.class);
-                        i2.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
-                        mContext.startActivity(i2);
-                    } else {
-                        holder.itemView.performClick();
-                    }
-                }
-            });
             holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
             if (holder.author.getCurrentTextColor() == 0) {
                 holder.author.setTextColor(holder.time.getCurrentTextColor());
