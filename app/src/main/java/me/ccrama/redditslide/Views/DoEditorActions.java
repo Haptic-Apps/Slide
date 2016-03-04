@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -32,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -45,7 +47,7 @@ public class DoEditorActions {
                 android:id="@+id/link"
 
              */
-    public static void doActions(final EditText editText, View baseView, final FragmentManager fm) {
+    public static void doActions(final EditText editText, final View baseView, final FragmentManager fm) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,13 +139,18 @@ public class DoEditorActions {
             public void onClick(View v) {
                 LinearLayout layout = new LinearLayout(editText.getContext());
                 layout.setOrientation(LinearLayout.VERTICAL);
+                int[] attrs = {R.attr.font};
+
+                TypedArray ta = baseView.getContext().obtainStyledAttributes(new ColorPreferences(baseView.getContext()).getFontStyle().getBaseId(), attrs);
 
                 final EditText titleBox = new EditText(editText.getContext());
                 titleBox.setHint(R.string.editor_url);
+                titleBox.setTextColor(ta.getColor(0, Color.WHITE));
                 layout.addView(titleBox);
 
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_text);
+                descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
                 layout.addView(descriptionBox);
                 layout.setPadding(16, 16, 16, 16);
 
@@ -218,6 +225,8 @@ public class DoEditorActions {
         protected void onPostExecute(final JSONObject result) {
             dialog.dismiss();
             try {
+                int[] attrs = {R.attr.font};
+                TypedArray ta = editText.getContext().obtainStyledAttributes(new ColorPreferences(editText.getContext()).getFontStyle().getBaseId(), attrs);
                 final String url = result.getJSONObject("data").getString("link");
                 LinearLayout layout = new LinearLayout(editText.getContext());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -225,12 +234,13 @@ public class DoEditorActions {
                 final TextView titleBox = new TextView(editText.getContext());
                 titleBox.setText(url);
                 layout.addView(titleBox);
-                titleBox.setTextColor(Color.WHITE);
+                titleBox.setTextColor(ta.getColor(0, Color.WHITE));
+
 
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_title);
-                descriptionBox.setTextColor(Color.WHITE);
-                descriptionBox.setHintTextColor(Color.WHITE);
+                descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
+
 
                 layout.setPadding(16, 16, 16, 16);
                 layout.addView(descriptionBox);
