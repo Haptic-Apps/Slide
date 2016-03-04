@@ -566,9 +566,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             dpWidth = fina / 300;
         }
         if (seen.contains("notificationOverride")) {
-            notificationTime = seen.getInt("notificationOverride", 60);
+            notificationTime = seen.getInt("notificationOverride", 360);
         } else {
-            notificationTime = 60;
+            notificationTime = 360;
         }
         int defaultDPWidth = fina / 300;
         authentication = new Authentication(this);
