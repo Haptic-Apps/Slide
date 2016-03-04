@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 
-android:background="?attr/card_background">
+android:background="?attr/activity_background">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -27,11 +27,14 @@ android:background="?attr/card_background">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/activity_background"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/card_background"
+        android:elevation="8dp"
         android:orientation="vertical">
 
-        <TextView
+
+    <TextView
             android:layout_width="wrap_content"
             android:text="@string/settings_font_comment"
             android:padding="16dp"
@@ -90,7 +93,7 @@ android:background="?attr/card_background">
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-
+            android:paddingBottom="16dp"
             android:paddingRight="16dp">
 
 
@@ -120,9 +123,16 @@ android:background="?attr/card_background">
                 android:layout_height="wrap_content" />
 
         </RadioGroup>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/card_background"
+        android:elevation="8dp"
+        android:orientation="vertical">
 
-
-        <TextView
+    <TextView
             android:layout_width="wrap_content"
             android:text="@string/settings_font_post"
             android:padding="16dp"
@@ -181,7 +191,7 @@ android:background="?attr/card_background">
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="16dp"
-
+            android:paddingBottom="16dp"
             android:paddingRight="16dp">
 
 
