@@ -56,7 +56,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
-        final String subreddit = SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
+        final String subreddit = fitems.get(position).contains("+")?fitems.get(position):SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
         convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
         convertView.setOnClickListener(new View.OnClickListener() {

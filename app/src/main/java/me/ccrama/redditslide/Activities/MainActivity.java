@@ -1898,7 +1898,11 @@ public class MainActivity extends BaseActivity {
                 mCurrentFragment = ((SubmissionsView) object);
                 if ( mCurrentFragment != null && hasDone) {
                     if (mCurrentFragment.posts == null) {
-                        mCurrentFragment.doAdapter();
+                        if(mCurrentFragment.isAdded()){
+                            mCurrentFragment.doAdapter();
+                        } else {
+                            hasDone = false;
+                        }
                     }
                 }
             }
