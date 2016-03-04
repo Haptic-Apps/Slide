@@ -608,6 +608,7 @@ public class MainActivity extends BaseActivity {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
+        hasDone = false;
         pager.setCurrentItem(current);
         mTabLayout.setupWithViewPager(pager);
     }

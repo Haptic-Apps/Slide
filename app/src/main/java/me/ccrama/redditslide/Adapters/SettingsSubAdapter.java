@@ -322,6 +322,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 } else {
                     subTitles = ("/r/" + subreddit);
                 }
+                subTitles.replace("/r/frontpage", "frontpage");
 
                 final String finalSubTitles = subTitles;
                 dialogButton.setOnClickListener(new View.OnClickListener() {
