@@ -1,5 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="?attr/card_background"
+    android:id="@+id/background"
     android:layout_height="wrap_content">
 
     <View
@@ -21,189 +23,184 @@
         android:id="@+id/dot"
         android:layout_width="3dp"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/background"
+        android:layout_alignBottom="@+id/commentOverflow"
+
         android:layout_alignParentTop="true"
         android:background="#fff" />
 
-
-    <RelativeLayout
-        android:id="@+id/background"
+    <com.wefika.flowlayout.FlowLayout
+        android:id="@+id/flow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_toRightOf="@id/dot"
-        android:background="?attr/card_background">
-
-        <com.wefika.flowlayout.FlowLayout
-            android:id="@+id/flow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:minHeight="28dp"
-            android:orientation="horizontal"
-            android:paddingTop="8dp">
+        android:minHeight="28dp"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
 
 
-            <TextView
-                android:id="@+id/author"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:fontFamily="sans-serif-condensed"
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:fontFamily="sans-serif-condensed"
 
-                android:gravity="center_vertical"
-                android:paddingRight="5dp"
-                android:text="ccrama"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commenttitle"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/submission_properties_seperator_comments"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commenttitle" />
-
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="center_vertical"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:text="+49"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commentinfo"
-
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/submission_properties_seperator_comments"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commenttitle" />
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:text="4 hours ago"
-                android:textColor="?attr/font"
-
-                android:textSize="?attr/font_commentinfo" />
-
-            <include
-                android:id="@+id/gild"
-                layout="@layout/gilded"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" />
-
-            <include
-                android:id="@+id/flairbubble"
-                layout="@layout/flair"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="5dp"
-                android:layout_toRightOf="@+id/pinned"
-                android:src="@drawable/pinned" />
-
-            <include
-                android:id="@+id/you"
-                layout="@layout/you"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-
-                android:layout_toRightOf="@+id/pinned"
-                android:src="@drawable/pinned" />
-
-            <include
-                android:id="@+id/op"
-                layout="@layout/op"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4dp"
-
-                android:layout_toRightOf="@+id/pinned"
-                android:src="@drawable/pinned" />
-
-            <include
-                android:id="@+id/sticky"
-                layout="@layout/stickied"
-                android:layout_width="wrap_content"
-                android:layout_height="16dp"
-
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4dp"
-
-                android:layout_toRightOf="@+id/op" />
-
-            <include
-                android:id="@+id/children"
-                layout="@layout/commentnumber"
-                android:layout_width="wrap_content"
-                android:layout_height="12dp"
-
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="4dp"
-
-                android:layout_toRightOf="@+id/sticky"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp" />
-        </com.wefika.flowlayout.FlowLayout>
-
-        <me.ccrama.redditslide.SpoilerRobotoTextView
-            android:id="@+id/firstTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/flow"
-            android:layout_marginTop="-8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="comment"
+            android:gravity="center_vertical"
+            android:paddingRight="5dp"
+            android:text="ccrama"
             android:textColor="?attr/font"
-            android:textSize="?attr/font_commentbody" />
+            android:textSize="?attr/font_commenttitle"
+            android:textStyle="bold" />
 
-        <me.ccrama.redditslide.Views.CommentOverflow
-            android:id="@+id/commentOverflow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/firstTextView"
-            android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:visibility="invisible" />
-    </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/submission_properties_seperator_comments"
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_commenttitle" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center_vertical"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="+49"
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_commentinfo"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/submission_properties_seperator_comments"
+            android:textColor="?attr/font"
+            android:textSize="?attr/font_commenttitle" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="4 hours ago"
+            android:textColor="?attr/font"
+
+            android:textSize="?attr/font_commentinfo" />
+
+        <include
+            android:id="@+id/gild"
+            layout="@layout/gilded"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" />
+
+        <include
+            android:id="@+id/flairbubble"
+            layout="@layout/flair"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/pinned"
+            android:src="@drawable/pinned" />
+
+        <include
+            android:id="@+id/you"
+            layout="@layout/you"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+
+            android:layout_toRightOf="@+id/pinned"
+            android:src="@drawable/pinned" />
+
+        <include
+            android:id="@+id/op"
+            layout="@layout/op"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
+
+            android:layout_toRightOf="@+id/pinned"
+            android:src="@drawable/pinned" />
+
+        <include
+            android:id="@+id/sticky"
+            layout="@layout/stickied"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
+
+            android:layout_toRightOf="@+id/op" />
+
+        <include
+            android:id="@+id/children"
+            layout="@layout/commentnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
+
+            android:layout_toRightOf="@+id/sticky"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" />
+    </com.wefika.flowlayout.FlowLayout>
+
+    <me.ccrama.redditslide.SpoilerRobotoTextView
+        android:id="@+id/firstTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/flow"
+        android:layout_marginTop="-8dp"
+        android:layout_toRightOf="@id/dot"
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="comment"
+        android:textColor="?attr/font"
+        android:textSize="?attr/font_commentbody" />
+
+    <me.ccrama.redditslide.Views.CommentOverflow
+        android:id="@+id/commentOverflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/firstTextView"
+        android:layout_toRightOf="@id/dot"
+        android:orientation="vertical"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:visibility="invisible" />
 
     <LinearLayout
         android:id="@+id/menuarea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/background"
+        android:layout_below="@+id/commentOverflow"
         android:orientation="vertical" />
 
 

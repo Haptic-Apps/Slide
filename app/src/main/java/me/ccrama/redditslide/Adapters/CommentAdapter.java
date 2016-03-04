@@ -419,7 +419,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onAnimationEnd(Animator animation) {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) l.getLayoutParams();
                 params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-                params.addRule(RelativeLayout.BELOW, R.id.background);
+                params.addRule(RelativeLayout.BELOW, R.id.commentOverflow);
                 l.setLayoutParams(params);
             }
 
@@ -1140,6 +1140,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.score.setText(scoreText);
 
+
             if (up.contains(comment.getFullName())) {
                 holder.score.setTextColor(holder.textColorUp);
             } else if (down.contains(comment.getFullName())) {
@@ -1173,9 +1174,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
                 distingush = "[A]";
             }
-            String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
-            //    holder.info.setText(submission.getAuthor() + distingush + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + submission.getSubredditName() + separator + submission.getDomain());
-
             holder.author.setText(comment.getAuthor() + distingush);
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
                 holder.flairBubble.setVisibility(View.VISIBLE);
