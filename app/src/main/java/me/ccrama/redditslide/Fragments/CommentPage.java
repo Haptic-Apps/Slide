@@ -377,11 +377,8 @@ public class CommentPage extends Fragment {
                 if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
 
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i + 2);
-                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-
                         rv.removeOnScrollListener(toolbarScroll);
+                        (rv.getLayoutManager()).scrollToPosition(i + 2);
                         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
                             @Override
                             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -405,9 +402,7 @@ public class CommentPage extends Fragment {
 
                 if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                     if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                        RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                        smoothScroller.setTargetPosition(i + 2);
-                        (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
+                        (rv.getLayoutManager()).scrollToPosition(i + 2);
                         break;
                     }
             }
