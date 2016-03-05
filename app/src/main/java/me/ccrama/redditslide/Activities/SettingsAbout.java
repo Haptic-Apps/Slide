@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
@@ -58,6 +59,7 @@ public class SettingsAbout extends BaseActivityAnim {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("Version", versionNumber);
                 clipboard.setPrimaryClip(clip);
+                Toast.makeText(SettingsAbout.this, "Version number copied to clipboard", Toast.LENGTH_SHORT).show();
 
             }
         });
