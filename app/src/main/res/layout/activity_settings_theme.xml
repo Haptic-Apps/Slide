@@ -126,7 +126,7 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.75dp"
+                android:layout_height="0.25dp"
                 android:layout_alignParentBottom="true"
                 android:alpha=".25"
                 android:background="?attr/tint" />
@@ -169,7 +169,7 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.75dp"
+                android:layout_height="0.25dp"
                 android:layout_alignParentBottom="true"
                 android:alpha=".25"
                 android:background="?attr/tint" />
@@ -222,7 +222,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.75dp"
+                android:layout_height="0.25dp"
                 android:layout_alignParentBottom="true"
                 android:alpha=".25"
                 android:background="?attr/tint" />

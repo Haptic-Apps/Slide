@@ -69,7 +69,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -155,7 +155,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
 
 
             <RelativeLayout
@@ -199,7 +199,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
 
 
             <RelativeLayout
