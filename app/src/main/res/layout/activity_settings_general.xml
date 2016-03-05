@@ -52,7 +52,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Subreddit tabs"
+                        android:text="@string/settings_sub_tabs"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Swipe between subreddits"
+                        android:text="@string/settings_sub_tabs_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -104,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_swipeanywhere"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -111,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Swipe anywhere in view to exit"
+                        android:text="@string/settings_general_swipeanywhere_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>

@@ -593,6 +593,9 @@
     <string name="mode_thumbnail">Thumbnail only</string>
     <string name="mode_cropped">Big pic cropped</string>
     <string name="mode_bigpic">Big pic</string>
+    <string name="settings_sub_tabs_description">Swipe between subreddits</string>
+    <string name="settings_sub_tabs">Subreddit tabs</string>
+    <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

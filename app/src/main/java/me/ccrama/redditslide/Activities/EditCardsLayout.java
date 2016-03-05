@@ -28,7 +28,7 @@ public class EditCardsLayout extends BaseActivity {
 
         super.onCreate(savedInstance);
 
-        applyColorTheme("");
+        applyColorTheme();
         setContentView(R.layout.activity_settings_theme_card);
 
         setupAppBar(R.id.toolbar, R.string.settings_layout_default, true, true);
