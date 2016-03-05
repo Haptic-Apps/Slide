@@ -587,6 +587,19 @@
     <string name="fab_disabled">Disabled</string>
     <string name="handling_internal_browser">Use internal browser</string>
     <string name="handling_external_browser">Use external browser</string>
+    <string name="settings_fastscroll_description">Enables a bottom bar with nav arrows</string>
+    <string name="settings_comment_crop_description">Separate from cropped setting on main view</string>
+    <string name="settings_comment_collapse">Fully collapse comments</string>
+    <string name="settings_comment_collapse_description">Also disables comment animations</string>
+    <string name="mode_list">List</string>
+    <string name="mode_centered">Card with centered image</string>
+    <string name="mode_card">Card</string>
+    <string name="mode_thumbnail">Thumbnail only</string>
+    <string name="mode_cropped">Big pic cropped</string>
+    <string name="mode_bigpic">Big pic</string>
+    <string name="settings_sub_tabs_description">Swipe between subreddits</string>
+    <string name="settings_sub_tabs">Subreddit tabs</string>
+    <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

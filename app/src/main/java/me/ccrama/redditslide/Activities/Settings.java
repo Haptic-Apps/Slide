@@ -126,14 +126,7 @@ public class Settings extends BaseActivity {
         } else {
             findViewById(R.id.reorder).setVisibility(View.GONE);
         }
-        findViewById(R.id.cache).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent i = new Intent(Settings.this, SettingsCache.class);
-                startActivity(i);
-            }
-        });
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

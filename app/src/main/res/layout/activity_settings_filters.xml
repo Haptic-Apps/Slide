@@ -2,10 +2,10 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -17,14 +17,14 @@
         android:minHeight="56dp"
         android:paddingRight="16dp"
         android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
+        app:layout_scrollFlags="scroll|enterAlways" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-                android:background="?attr/activity_background">
+        android:background="?attr/card_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,90 +34,77 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/card_background"
-                android:elevation="4dp"
+                android:paddingBottom="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/link"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint" />
 
                     <TextView
-                        android:id="@+id/cache"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_filter_domain"
-                        android:textAllCaps="true"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"
-                        android:textStyle="bold"/>
-
-
+                        android:textSize="16sp" />
                 </LinearLayout>
+
 
                 <EditText
                     android:id="@+id/domain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     android:hint="@string/settings_filter_hint"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/card_background"
-                android:elevation="4dp"
+                android:paddingBottom="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/fontsizedarker"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:textAllCaps="true"
                         android:text="@string/settings_filter_selfttext"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"
-                        android:textStyle="bold"/>
-
-
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <EditText
@@ -125,111 +112,102 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     android:hint="@string/settings_filter_hint"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/card_background"
-                android:elevation="4dp"
+                android:paddingBottom="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
                         android:src="@drawable/infonew"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_filter_title"
-                        android:textAllCaps="true"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"
-                        android:textStyle="bold"/>
-
-
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     android:hint="@string/settings_filter_hint"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
 
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/card_background"
-                android:elevation="4dp"
+                android:paddingBottom="8dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-
-                    android:paddingRight="16dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:paddingBottom="16dp"
-                        android:paddingTop="16dp"
-                        android:src="@drawable/infonew"
-                        android:tint="?attr/tint"/>
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
+                        android:src="@drawable/sub"
+                        android:tint="?attr/tint" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/setting_filter_subreddits"
-                        android:textAllCaps="true"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"
-                        android:textStyle="bold"/>
-
-
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <EditText
                     android:id="@+id/subreddit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     android:hint="@string/settings_filter_hint"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
 
             </LinearLayout>

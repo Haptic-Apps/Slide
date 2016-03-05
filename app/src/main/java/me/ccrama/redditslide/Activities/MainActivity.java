@@ -225,10 +225,7 @@ public class MainActivity extends BaseActivity {
             restartTheme();
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
-
                 ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
-
-
             }
         } else if (requestCode == RESET_ADAPTER_RESULT) {
             resetAdapter();
@@ -334,25 +331,25 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
-            Reddit.appRestart.edit().putBoolean("firststart4602", true).apply();
+            Reddit.appRestart.edit().putBoolean("firststart4603", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("4602update") && !Reddit.colors.contains("firststart4602")) {
+        } else if (!Reddit.colors.contains("4603update") && !Reddit.colors.contains("firststart4603")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.6.2")
+                    .title("Slide v4.6.3")
                     .customView(R.layout.whats_new, false)
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("4602update", true).apply();
+                            Reddit.colors.edit().putBoolean("4603update", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("4602update", true).apply();
+                            Reddit.colors.edit().putBoolean("4603update", true).apply();
 
                         }
                     })
@@ -608,8 +605,7 @@ public class MainActivity extends BaseActivity {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        hasDone = false;
-
+        shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
         mTabLayout.setupWithViewPager(pager);
     }
@@ -626,18 +622,15 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public static boolean hasDone = false;
     public void setDataSet(List<String> data) {
-
-        hasDone = false;
         if (data != null) {
-
             usedArray = data;
             if (adapter == null) {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             } else {
                 adapter.notifyDataSetChanged();
             }
+            shouldLoad = usedArray.get(0);
             pager.setCurrentItem(1);
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
@@ -653,10 +646,12 @@ public class MainActivity extends BaseActivity {
             if (!SettingValues.single) {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
+                shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
+                shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 
             }
@@ -1822,6 +1817,8 @@ public class MainActivity extends BaseActivity {
         return super.dispatchKeyEvent(event);
     }
 
+    public static String shouldLoad;
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
 
@@ -1892,17 +1889,21 @@ public class MainActivity extends BaseActivity {
             return mCurrentFragment;
         }
 
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            shouldLoad = usedArray.get(position);
             if (getCurrentFragment() != object) {
                 mCurrentFragment = ((SubmissionsView) object);
-                if ( mCurrentFragment != null && hasDone) {
+                if (mCurrentFragment != null) {
                     if (mCurrentFragment.posts == null) {
-                        mCurrentFragment.doAdapter();
+                        if (mCurrentFragment.isAdded()) {
+                            mCurrentFragment.doAdapter();
+                        }
                     }
                 }
             }
-            super.setPrimaryItem(container, position, object);
         }
 
         @Override

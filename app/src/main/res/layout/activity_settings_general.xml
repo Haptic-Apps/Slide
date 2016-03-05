@@ -52,7 +52,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Subreddit tabs"
+                        android:text="@string/settings_sub_tabs"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -60,7 +61,8 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Swipe between subreddits"
+                        android:text="@string/settings_sub_tabs_description"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -82,7 +84,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -102,6 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_swipeanywhere"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -109,7 +112,8 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Swipe anywhere in view to exit"
+                        android:text="@string/settings_general_swipeanywhere_description"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -131,7 +135,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
             <RelativeLayout
                 android:id="@+id/fab"
                 android:layout_width="match_parent"
@@ -152,6 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_title_fab"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -160,6 +165,7 @@
                         android:alpha=".86"
                         android:layout_centerVertical="true"
                         android:id="@+id/fab_current"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -168,7 +174,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
             <RelativeLayout
                 android:id="@+id/notifications"
                 android:layout_width="match_parent"
@@ -176,12 +182,13 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:layout_centerVertical="true"
                     android:orientation="vertical">
 
@@ -189,6 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_title_notifications"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -197,15 +205,17 @@
                         android:alpha=".86"
                         android:layout_centerVertical="true"
                         android:id="@+id/notifications_current"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:background="?attr/tint"
+                    android:alpha=".25"
+                    android:layout_height="0.25dp"/>
             </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
-                android:background="?attr/tint"
-                android:alpha=".25"
-                android:layout_height="0.75dp"/>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -225,6 +235,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_scroll_read"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -248,7 +259,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -269,6 +280,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_confirm_exit"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -292,7 +304,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
-                android:layout_height="0.75dp"/>
+                android:layout_height="0.25dp"/>
 
             <RelativeLayout
                 android:id="@+id/sorting"
@@ -314,6 +326,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_title_sorting"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -322,6 +335,7 @@
                         android:alpha=".86"
                         android:layout_centerVertical="true"
                         android:id="@+id/sorting_current"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>

@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
-        android:background="?attr/activity_background">
+        android:background="?attr/card_background">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,9 +34,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/card_background"
-                android:elevation="4dp"
                 android:orientation="vertical"
                 android:paddingTop="16dp">
 
@@ -47,6 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"
                     android:hint="@string/settings_synccit_username"
                     android:textSize="18sp" />
 
@@ -54,7 +53,8 @@
                 <EditText
                     android:id="@+id/auth"
                     android:layout_width="match_parent"
-
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"

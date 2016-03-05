@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -165,8 +166,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         @Override
                         public void onClick(View v) {
                             String urlString = "https://reddit.com" + submission.getPermalink();
-                            OpenRedditLink.customIntentChooser(urlString, mContext);
-                        }
+                            Intent i = new Intent(mContext, Website.class);
+                            i.putExtra(Website.EXTRA_URL, urlString);
+                            mContext.startActivity(i);                        }
                     });
                     dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                         @Override

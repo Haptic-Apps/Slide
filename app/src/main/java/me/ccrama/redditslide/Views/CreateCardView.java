@@ -197,6 +197,8 @@ public class CreateCardView {
 
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
+        SettingValues.prefs.edit().putBoolean("middleCard", false).apply();
+        SettingValues.middleImage = false;
         if (subreddit.isEmpty()) {
             SettingValues.prefs.edit().putString("defaultCardViewNew", cardEnum.name()).apply();
             SettingValues.defaultCardView = cardEnum;
@@ -216,6 +218,9 @@ public class CreateCardView {
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
 
         SettingValues.bigPicEnabled = b;
+        SettingValues.prefs.edit().putBoolean("bigPicCropped", false).apply();
+
+        SettingValues.bigPicCropped = false;
         return CreateView(parent);
 
 
@@ -223,6 +228,9 @@ public class CreateCardView {
 
     public static View setBigPicCropped(Boolean b, ViewGroup parent) {
 
+        SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
+
+        SettingValues.bigPicEnabled = b;
 
         SettingValues.prefs.edit().putBoolean("bigPicCropped", b).apply();
 
@@ -250,8 +258,12 @@ public class CreateCardView {
 
     public static View setMiddleCard(boolean b, ViewGroup parent, Boolean secondary, String sub) {
         secondary = false; //removing secondary layouts for now
-
         String subreddit = (secondary) ? "second" : "";
+
+        sub = sub.toLowerCase();
+        SettingValues.prefs.edit().putString("defaultCardViewNew", CardEnum.LARGE.name()).apply();
+        SettingValues.defaultCardView = CardEnum.LARGE;
+
         sub = sub.toLowerCase();
         if (subreddit.isEmpty()) {
 
@@ -295,6 +307,7 @@ public class CreateCardView {
         });
         return animator;
     }
+
     private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
         ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
         animator.setInterpolator(new FastOutSlowInInterpolator());
@@ -303,7 +316,7 @@ public class CreateCardView {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 //Update Height
-               v.setScaleY((Float) valueAnimator.getAnimatedValue());
+                v.setScaleY((Float) valueAnimator.getAnimatedValue());
             }
         });
         return animator;
@@ -346,8 +359,8 @@ public class CreateCardView {
 
     }
 
-    public static void toggleActionbar(View v){
-        if(!SettingValues.actionbarVisible) {
+    public static void toggleActionbar(View v) {
+        if (!SettingValues.actionbarVisible) {
 
             flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu)).start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
@@ -379,6 +392,7 @@ public class CreateCardView {
             }
         }
     }
+
     private static void doHideObjects(final View v) {
 
         if (SettingValues.bigPicCropped) {
@@ -393,7 +407,7 @@ public class CreateCardView {
             v.findViewById(R.id.secondMenu).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v3) {
-                   toggleActionbar(v);
+                    toggleActionbar(v);
                 }
             });
         } else {
