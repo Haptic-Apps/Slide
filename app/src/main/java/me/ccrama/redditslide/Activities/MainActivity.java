@@ -225,10 +225,7 @@ public class MainActivity extends BaseActivity {
             restartTheme();
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
-
                 ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
-
-
             }
         } else if (requestCode == RESET_ADAPTER_RESULT) {
             resetAdapter();

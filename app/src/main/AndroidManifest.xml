@@ -27,10 +27,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.SettingsCache"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".Activities.SettingsSynccit"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
@@ -76,11 +72,6 @@
 
             android:theme="@style/swipeable" />
         <activity
-            android:name=".Activities.SettingsFab"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:theme="@style/swipeable" />
-        <activity
             android:name=".Activities.SettingsComments"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
@@ -108,11 +99,6 @@
 
         <activity
             android:name=".Activities.GifView"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:theme="@style/swipeable" />
-        <activity
-            android:name=".Activities.SettingsAutonight"
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:theme="@style/swipeable" />

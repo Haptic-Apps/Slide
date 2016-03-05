@@ -583,6 +583,10 @@
     <string name="fab_disabled">Disabled</string>
     <string name="handling_internal_browser">Use internal browser</string>
     <string name="handling_external_browser">Use external browser</string>
+    <string name="settings_fastscroll_description">Enables a bottom bar with nav arrows</string>
+    <string name="settings_comment_crop_description">Separate from cropped setting on main view</string>
+    <string name="settings_comment_collapse">Fully collapse comments</string>
+    <string name="settings_comment_collapse_description">Also disables comment animations</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

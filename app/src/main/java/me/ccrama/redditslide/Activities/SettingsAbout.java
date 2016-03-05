@@ -28,7 +28,7 @@ public class SettingsAbout extends BaseActivityAnim {
         View report = findViewById(R.id.report);
         View libs = findViewById(R.id.libs);
         View changelog = findViewById(R.id.changelog);
-        TextView version = (TextView) findViewById(R.id.version);
+        final TextView version = (TextView) findViewById(R.id.version);
 
         version.setText("Slide v" + BuildConfig.VERSION_NAME);
 
@@ -49,7 +49,18 @@ public class SettingsAbout extends BaseActivityAnim {
                     return false;
                 }
             });
+
         }
+        version.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String versionNumber = version.getText().toString();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Version", versionNumber);
+                clipboard.setPrimaryClip(clip);
+
+            }
+        });
 
         report.setOnClickListener(new View.OnClickListener() {
             @Override

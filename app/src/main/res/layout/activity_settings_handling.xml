@@ -49,6 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Web browser"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                     <TextView
@@ -58,6 +59,7 @@
                         android:id="@+id/browser"
                         android:layout_centerVertical="true"
                         android:text="Swipe anywhere in view to exit"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -88,6 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_gif"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -130,6 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_image"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -173,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_video"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -216,6 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_album"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
 

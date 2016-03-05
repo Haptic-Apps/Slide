@@ -51,6 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Swap long press and tap actions"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -93,13 +94,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_fastscroll"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Enables a bottom bar with nav arrows"
+                        android:text="@string/settings_fastscroll_description"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -142,13 +145,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_crop"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Separate from cropped setting on main view"
+                        android:text="@string/settings_comment_crop_description"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -190,6 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_color"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -232,6 +238,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/settings_volume_nav_comments"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -273,14 +280,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Fully collapse comments"
+                        android:text="@string/settings_comment_collapse"
+                        android:textColor="?attr/font"
                         android:textSize="16sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:layout_centerVertical="true"
-                        android:text="Also disables comment animations"
+                        android:text="@string/settings_comment_collapse_description"
+                        android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
 

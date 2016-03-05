@@ -41,23 +41,18 @@
                 android:text="@string/backup_info"
                 android:textColor="?attr/font"
                 android:textSize="16sp" />
-
             <LinearLayout
                 android:id="@+id/back"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:padding="16dp"
                     android:src="@drawable/reload"
                     android:tint="?attr/tint" />
 
@@ -66,28 +61,21 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/backup_btn"
-
                     android:textColor="?attr/font"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="16sp" />
             </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/restore"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:padding="16dp"
                     android:src="@drawable/send"
                     android:tint="?attr/tint" />
 
@@ -96,13 +84,9 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/backup_btn_restore"
-
                     android:textColor="?attr/font"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textSize="16sp" />
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 

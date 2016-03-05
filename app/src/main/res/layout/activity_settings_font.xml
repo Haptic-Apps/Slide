@@ -1,255 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-
-android:background="?attr/activity_background">
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    android:background="?attr/card_background">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_light_blue_500"
-        android:clipToPadding="false"
-
-        android:minHeight="56dp"
-        android:paddingRight="16dp"
-        android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways">
-    </android.support.v7.widget.Toolbar>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="?attr/card_background"
-        android:elevation="8dp"
         android:orientation="vertical">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_light_blue_500"
+            android:clipToPadding="false"
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:text="@string/settings_font_comment"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:layout_height="wrap_content" />
+            android:minHeight="56dp"
+            android:paddingRight="16dp"
+            android:theme="@style/Theme.AppCompat"
+            app:layout_scrollFlags="scroll|enterAlways"></android.support.v7.widget.Toolbar>
 
         <LinearLayout
-            android:id="@+id/commentfontsize"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/ic_format_size_white_48dp"
-                android:tint="?attr/tint"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="16dp"
+                    android:padding="16dp"
+                    android:src="@drawable/commentchange"
+                    android:tint="?attr/tint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_font_comment"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/commentfontsize"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
-                    android:text="@string/font_size"
-                    android:textColor="?attr/font"
-                    android:textSize="14sp"/>
+                    android:orientation="vertical"
+                    android:paddingRight="16dp">
 
-                <TextView
-                    android:id="@+id/commentFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_card"
-                    android:textColor="?attr/font"
-                    android:textSize="12sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/font_size"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/commentFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_card"
+                        android:textColor="?attr/font"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <RadioGroup
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/creg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_regular"
+                    app:typeface="roboto_regular" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/cslab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+
+                    android:text="@string/settings_font_slab"
+                    app:typeface="roboto_slab_regular" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/ccond"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_condensed"
+                    app:typeface="roboto_condensed_regular" />
+
+            </RadioGroup>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="?attr/tint"
+            android:alpha=".25"
+            android:layout_height="0.75dp"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingBottom="16dp"
-            android:paddingRight="16dp">
-
-
-
-           <com.devspark.robototextview.widget.RobotoRadioButton
-               android:layout_width="match_parent"
-               android:text="@string/settings_font_regular"
-               android:background="?android:selectableItemBackground"
-               android:id="@+id/creg"
-               app:typeface="roboto_regular"
-               android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:text="@string/settings_font_slab"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/cslab"
-
-                app:typeface="roboto_slab_regular"
-                android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/ccond"
-
-                android:text="@string/settings_font_condensed"
-                app:typeface="roboto_condensed_regular"
-                android:layout_height="wrap_content" />
-
-        </RadioGroup>
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="?attr/card_background"
-        android:elevation="8dp"
-        android:orientation="vertical">
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:text="@string/settings_font_post"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:id="@+id/postfontsize"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <ImageView
-                android:layout_width="56dp"
-                android:layout_height="match_parent"
-                android:paddingBottom="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp"
-                android:src="@drawable/ic_format_size_white_48dp"
-                android:tint="?attr/tint"/>
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="16dp"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_format_size_white_48dp"
+                    android:tint="?attr/tint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_font_post"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/postfontsize"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
                 android:paddingRight="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
-                    android:text="@string/font_size"
-                    android:textColor="?attr/font"
-                    android:textSize="14sp"/>
+                    android:orientation="vertical"
+                    android:paddingRight="16dp">
 
-                <TextView
-                    android:id="@+id/postFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_card"
-                    android:textColor="?attr/font"
-                    android:textSize="12sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/font_size"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/postFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_card"
+                        android:textColor="?attr/font"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp">
+
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/sreg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+
+                    android:text="@string/settings_font_regular"
+                    app:typeface="roboto_regular" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/sregl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+
+                    android:text="@string/settings_font_light"
+                    app:typeface="roboto_regular" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/sslab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+
+                    android:text="@string/settings_font_slab"
+                    app:typeface="roboto_slab_regular" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/sslabl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+
+                    android:text="@string/settings_font_slab_light"
+                    app:typeface="roboto_slab_light" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/scond"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_condensed"
+                    app:typeface="roboto_condensed_regular" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/scondl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_condensed_light"
+                    app:typeface="roboto_condensed_light" />
+
+            </RadioGroup>
+
+
         </LinearLayout>
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingBottom="16dp"
-            android:paddingRight="16dp">
-
-
-
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:text="@string/settings_font_regular"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/sreg"
-
-                app:typeface="roboto_regular"
-                android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:text="@string/settings_font_light"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/sregl"
-
-                app:typeface="roboto_regular"
-                android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:text="@string/settings_font_slab"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/sslab"
-
-                app:typeface="roboto_slab_regular"
-                android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:text="@string/settings_font_slab_light"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/sslabl"
-
-                app:typeface="roboto_slab_light"
-                android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-                android:layout_width="match_parent"
-                android:background="?android:selectableItemBackground"
-                android:id="@+id/scond"
-
-                android:text="@string/settings_font_condensed"
-                app:typeface="roboto_condensed_regular"
-                android:layout_height="wrap_content" />
-            <com.devspark.robototextview.widget.RobotoRadioButton
-            android:layout_width="match_parent"
-            android:background="?android:selectableItemBackground"
-            android:id="@+id/scondl"
-
-            android:text="@string/settings_font_condensed_light"
-            app:typeface="roboto_condensed_light"
-            android:layout_height="wrap_content" />
-
-        </RadioGroup>
-
-
-
-
     </LinearLayout>
-</LinearLayout>
 </ScrollView>
