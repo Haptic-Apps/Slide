@@ -390,10 +390,9 @@ public class SettingsTheme extends BaseActivityAnim {
             }
         });
 
-        int style = SettingValues.navbarStyle;
         String selectedStyle = "";
 
-        switch (style) {
+        switch (SettingValues.navbarStyle) {
             case 1:
                 selectedStyle = getString(R.string.settings_navigation_bar_stock);
                 break;
@@ -434,6 +433,7 @@ public class SettingsTheme extends BaseActivityAnim {
                                     break;
                             }
                             ((TextView) findViewById(R.id.navbar_style_current)).setText(selectedStyle);
+                            themeSystemBars("");
                         }
                     };
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
