@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -389,20 +390,60 @@ public class SettingsTheme extends BaseActivityAnim {
             }
         });
 
-        final SwitchCompat colorNavbarSwitch = (SwitchCompat) findViewById(R.id.color_navigation_bar);
+        int style = SettingValues.navbarStyle;
+        String selectedStyle = "";
 
-        colorNavbarSwitch.setChecked(SettingValues.colorNavBar);
-        colorNavbarSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch (style) {
+            case 1:
+                selectedStyle = getString(R.string.settings_navigation_bar_stock);
+                break;
+            case 2:
+                selectedStyle = getString(R.string.settings_navigation_bar_colored);
+                break;
+            case 3:
+                selectedStyle = getString(R.string.settings_navigation_bar_translucent);
+                break;
+        }
+        ((TextView) findViewById(R.id.navbar_style_current)).setText(selectedStyle);
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.colorNavBar = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_NAV_BAR, isChecked).apply();
-                themeSystemBars("");
+        {
+            findViewById(R.id.navbar_style).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            }
-        });
+                    final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
 
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            String selectedStyle = "";
+                            switch (i) {
+                                case 0:
+                                    SettingValues.navbarStyle = R.integer.NAVBAR_STOCK;
+                                    selectedStyle = getString(R.string.settings_navigation_bar_stock);
+                                    break;
+                                case 1:
+                                    SettingValues.navbarStyle = R.integer.NAVBAR_COLORED;
+                                    selectedStyle = getString(R.string.settings_navigation_bar_colored);
+                                    break;
+                                case 2:
+                                    SettingValues.navbarStyle = R.integer.NAVBAR_TRANSLUCENT;
+                                    selectedStyle = getString(R.string.settings_navigation_bar_translucent);
+                                    break;
+                            }
+                            SettingValues.prefs.edit().putInt("navbarStyle", (i + 1)).apply();
+                            ((TextView) findViewById(R.id.navbar_style_current)).setText(selectedStyle);
+                        }
+                    };
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
+                    builder.setTitle(R.string.settings_navigation_bar_choose);
+                    String[] navbarStyles = {getString(R.string.settings_navigation_bar_stock),
+                            getString(R.string.settings_navigation_bar_colored),
+                            getString(R.string.settings_navigation_bar_translucent)};
+                    builder.setSingleChoiceItems(navbarStyles, 0, l2);
+                    builder.show();
+                }
+            });
+        }
     }
 
 }

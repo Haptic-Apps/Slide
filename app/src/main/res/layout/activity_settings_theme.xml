@@ -14,7 +14,7 @@
         android:background="@color/md_light_blue_500"
         android:clipToPadding="false"
         android:minHeight="56dp"
-        android:paddingRight="16dp"
+        android:paddingEnd="16dp"
         android:theme="@style/Theme.AppCompat"
 
         app:layout_scrollFlags="scroll|enterAlways"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="-24dp"
                 android:src="@drawable/more" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/color"
                     android:tint="?attr/tint" />
@@ -96,7 +96,7 @@
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/accent"
                     android:tint="?attr/tint" />
@@ -125,7 +125,7 @@
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/theme"
                     android:tint="?attr/tint" />
@@ -154,7 +154,7 @@
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/middle"
                     android:tint="?attr/tint" />
@@ -181,15 +181,14 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:src="@drawable/sub"
                     android:tint="?attr/tint" />
@@ -211,38 +210,42 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/navigation_bar_container"
+                android:id="@+id/navbar_style"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-
-                android:paddingRight="16dp">
+                android:background="?android:selectableItemBackground"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/ic_colored_navigation_bar"
+                    android:src="@drawable/color"
                     android:tint="?attr/tint" />
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/color_navigation_bar"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:text="@string/settings_colored_navigation_bar"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_navigation_bar_style"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/navbar_style_current"
+                        android:textSize="13sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

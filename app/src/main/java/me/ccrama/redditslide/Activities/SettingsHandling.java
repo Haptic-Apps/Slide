@@ -104,10 +104,6 @@ public class SettingsHandling extends BaseActivityAnim implements
                 SettingValues.album = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM, isChecked).apply();
                 break;
-            case R.id.video:
-                SettingValues.video = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VIDEO, isChecked).apply();
-                break;
         }
 
     }
