@@ -197,6 +197,8 @@ public class CreateCardView {
 
         String subreddit = (secondary) ? "second" : "";
         sub = sub.toLowerCase();
+        SettingValues.prefs.edit().putBoolean("middleCard", false).apply();
+        SettingValues.middleImage = false;
         if (subreddit.isEmpty()) {
             SettingValues.prefs.edit().putString("defaultCardViewNew", cardEnum.name()).apply();
             SettingValues.defaultCardView = cardEnum;
@@ -216,6 +218,9 @@ public class CreateCardView {
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
 
         SettingValues.bigPicEnabled = b;
+        SettingValues.prefs.edit().putBoolean("bigPicCropped", false).apply();
+
+        SettingValues.bigPicCropped = false;
         return CreateView(parent);
 
 
