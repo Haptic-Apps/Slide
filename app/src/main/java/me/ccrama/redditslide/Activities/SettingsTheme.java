@@ -441,7 +441,7 @@ public class SettingsTheme extends BaseActivityAnim {
                     String[] navbarStyles = {getString(R.string.settings_navigation_bar_stock),
                             getString(R.string.settings_navigation_bar_colored),
                             getString(R.string.settings_navigation_bar_translucent)};
-                    builder.setSingleChoiceItems(navbarStyles, 0, l2);
+                    builder.setSingleChoiceItems(navbarStyles, SettingValues.navbarStyle - 1, l2);
                     builder.show();
                 }
             });
