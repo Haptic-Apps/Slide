@@ -223,6 +223,9 @@ public class CreateCardView {
 
     public static View setBigPicCropped(Boolean b, ViewGroup parent) {
 
+        SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
+
+        SettingValues.bigPicEnabled = b;
 
         SettingValues.prefs.edit().putBoolean("bigPicCropped", b).apply();
 
