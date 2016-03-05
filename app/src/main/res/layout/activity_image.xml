@@ -30,7 +30,6 @@
             android:background="?android:selectableItemBackground"
             android:padding="15dp"
             android:src="@drawable/openexternal"
-
             android:tint="@color/white" />
 
         <ImageView

@@ -608,8 +608,7 @@ public class MainActivity extends BaseActivity {
         int current = pager.getCurrentItem();
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
-        hasDone = false;
-
+        shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
         mTabLayout.setupWithViewPager(pager);
     }
@@ -626,18 +625,15 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public static boolean hasDone = false;
     public void setDataSet(List<String> data) {
-
-        hasDone = false;
         if (data != null) {
-
             usedArray = data;
             if (adapter == null) {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             } else {
                 adapter.notifyDataSetChanged();
             }
+            shouldLoad = usedArray.get(0);
             pager.setCurrentItem(1);
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
@@ -653,10 +649,12 @@ public class MainActivity extends BaseActivity {
             if (!SettingValues.single) {
                 mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
+                shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 
             } else {
                 getSupportActionBar().setTitle(usedArray.get(0));
+                shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 
             }
@@ -1822,6 +1820,8 @@ public class MainActivity extends BaseActivity {
         return super.dispatchKeyEvent(event);
     }
 
+    public static String shouldLoad;
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
 
@@ -1892,21 +1892,21 @@ public class MainActivity extends BaseActivity {
             return mCurrentFragment;
         }
 
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            shouldLoad = usedArray.get(position);
             if (getCurrentFragment() != object) {
                 mCurrentFragment = ((SubmissionsView) object);
-                if ( mCurrentFragment != null && hasDone) {
+                if (mCurrentFragment != null) {
                     if (mCurrentFragment.posts == null) {
-                        if(mCurrentFragment.isAdded()){
+                        if (mCurrentFragment.isAdded()) {
                             mCurrentFragment.doAdapter();
-                        } else {
-                            hasDone = false;
                         }
                     }
                 }
             }
-            super.setPrimaryItem(container, position, object);
         }
 
         @Override

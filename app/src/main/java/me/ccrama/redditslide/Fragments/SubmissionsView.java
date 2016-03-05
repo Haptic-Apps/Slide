@@ -386,7 +386,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-        if (!MainActivity.hasDone && id.equals(((MainActivity) getActivity()).usedArray.get(((MainActivity) getActivity()).toGoto))) {
+        if (MainActivity.shouldLoad.equals(id)) {
             doAdapter();
         }
         return v;
@@ -395,12 +395,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public boolean main;
 
     public void doAdapter() {
-        MainActivity.hasDone = true;
         posts = new SubredditPosts(id);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
-
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
@@ -442,6 +440,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         return null;
     }
 
+    boolean forceLoad;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -449,6 +448,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
         main = bundle.getBoolean("main", false);
+        forceLoad = bundle.getBoolean("load",false);
+
     }
 
     private void refresh() {
