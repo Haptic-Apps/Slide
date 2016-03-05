@@ -420,17 +420,19 @@ public class SettingsTheme extends BaseActivityAnim {
                                 case 0:
                                     SettingValues.navbarStyle = R.integer.NAVBAR_STOCK;
                                     selectedStyle = getString(R.string.settings_navigation_bar_stock);
+                                    SettingValues.prefs.edit().putInt("navbarStyle", 1).apply();
                                     break;
                                 case 1:
                                     SettingValues.navbarStyle = R.integer.NAVBAR_COLORED;
                                     selectedStyle = getString(R.string.settings_navigation_bar_colored);
+                                    SettingValues.prefs.edit().putInt("navbarStyle", 2).apply();
                                     break;
                                 case 2:
                                     SettingValues.navbarStyle = R.integer.NAVBAR_TRANSLUCENT;
                                     selectedStyle = getString(R.string.settings_navigation_bar_translucent);
+                                    SettingValues.prefs.edit().putInt("navbarStyle", 3).apply();
                                     break;
                             }
-                            SettingValues.prefs.edit().putInt("navbarStyle", (i + 1)).apply();
                             ((TextView) findViewById(R.id.navbar_style_current)).setText(selectedStyle);
                         }
                     };
