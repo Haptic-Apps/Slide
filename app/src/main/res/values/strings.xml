@@ -587,6 +587,12 @@
     <string name="settings_comment_crop_description">Separate from cropped setting on main view</string>
     <string name="settings_comment_collapse">Fully collapse comments</string>
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
+    <string name="mode_list">List</string>
+    <string name="mode_centered">Card with centered image</string>
+    <string name="mode_card">Card</string>
+    <string name="mode_thumbnail">Thumbnail only</string>
+    <string name="mode_cropped">Big pic cropped</string>
+    <string name="mode_bigpic">Big pic</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

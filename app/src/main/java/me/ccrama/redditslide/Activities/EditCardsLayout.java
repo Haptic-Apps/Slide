@@ -2,11 +2,14 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Map;
 
@@ -18,9 +21,6 @@ import me.ccrama.redditslide.Views.CreateCardView;
  * Created by ccrama on 9/17/2015.
  */
 public class EditCardsLayout extends BaseActivity {
-    ViewPager pager;
-    private String subreddit;
-
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideRedditSwipeAnywhere();
@@ -28,57 +28,107 @@ public class EditCardsLayout extends BaseActivity {
 
         super.onCreate(savedInstance);
 
-        boolean isAlternate;
-        if (getIntent() != null && getIntent().hasExtra("secondary")) {
-            subreddit = getIntent().getExtras().getString("secondary", "test");
-            isAlternate = true;
-        } else {
-            subreddit = "";
-            isAlternate = false;
-        }
-        subreddit = subreddit.toLowerCase();
-        applyColorTheme(subreddit);
+        applyColorTheme("");
         setContentView(R.layout.activity_settings_theme_card);
 
         setupAppBar(R.id.toolbar, R.string.settings_layout_default, true, true);
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();
-        layout.addView(CreateCardView.CreateView(layout, (!subreddit.isEmpty()), subreddit));
+        layout.addView(CreateCardView.CreateView(layout, false, ""));
 
         //View type//
         //Cards or List//
+        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard(false) ? (CreateCardView.isMiddle(false) ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
 
-        final SwitchCompat cardmode = (SwitchCompat) findViewById(R.id.cardmode);
-        cardmode.setChecked(CreateCardView.isCard(!subreddit.isEmpty()));
-
-        final SwitchCompat bigpic = (SwitchCompat) findViewById(R.id.bigpicsqitch);
-        final SwitchCompat cropped = (SwitchCompat) findViewById(R.id.bigpiccropped);
-        final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.show_actionbar);
-        final SwitchCompat middle = (SwitchCompat) findViewById(R.id.middlechk);
-
-        //Big pic enabled//
-
-        bigpic.setChecked(SettingValues.bigPicEnabled);
-        bigpic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        findViewById(R.id.view).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setBigPicEnabled(isChecked, layout));
-                cropped.setEnabled(isChecked);
-                middle.setEnabled(isChecked && cardmode.isChecked());
-                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                for(Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()){
-                    if(map.getKey().startsWith("picsenabled")){
-                        e.remove(map.getKey()); //reset all overridden values
-                    }
-                }
-                e.apply();
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
+                popup.getMenuInflater().inflate(R.menu.card_mode_settings, popup.getMenu());
 
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.center:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setMiddleCard(true, layout, false, ""));
+                                break;
+                            case R.id.card:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, false, ""));
+                                break;
+                            case R.id.list:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout, false, ""));
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard(false) ? (CreateCardView.isMiddle(false) ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
+                        return true;
+                    }
+                });
+
+                popup.show();
             }
         });
 
-        //Actionbar visible//
+
+        //Pic modes//
+
+        ((TextView) findViewById(R.id.picture_current)).setText(SettingValues.bigPicEnabled ? (SettingValues.bigPicCropped ? getString(R.string.mode_cropped) : getString(R.string.mode_bigpic)) : getString(R.string.mode_thumbnail));
+
+        findViewById(R.id.picture).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
+                popup.getMenuInflater().inflate(R.menu.pic_mode_settings, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.bigpic:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setBigPicEnabled(true, layout));
+                            {
+                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
+                                    if (map.getKey().startsWith("picsenabled")) {
+                                        e.remove(map.getKey()); //reset all overridden values
+                                    }
+                                }
+                                e.apply();
+                            }
+                            break;
+                            case R.id.cropped:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setBigPicCropped(true, layout));
+                                break;
+                            case R.id.thumbnail:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setBigPicEnabled(false, layout));
+                            {
+                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
+                                    if (map.getKey().startsWith("picsenabled")) {
+                                        e.remove(map.getKey()); //reset all overridden values
+                                    }
+                                }
+                                e.apply();
+                            }
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.picture_current)).setText(SettingValues.bigPicEnabled ? (SettingValues.bigPicCropped ? getString(R.string.mode_cropped) : getString(R.string.mode_bigpic)) : getString(R.string.mode_thumbnail));
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
+
+        //Actionbar//
+        final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.show_actionbar);
 
         actionbar.setChecked(SettingValues.actionbarVisible);
         actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -89,56 +139,8 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
-        middle.setEnabled(cardmode.isChecked() && bigpic.isChecked());
-        middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
-        //Big pic cropped//
 
-        cropped.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setBigPicCropped(isChecked, layout));
-            }
-        });
-
-        middle.setEnabled(cardmode.isChecked() && bigpic.isChecked());
-        middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
-
-
-        cropped.setEnabled(bigpic.isChecked());
-        cropped.setChecked(SettingValues.bigPicCropped);
-
-        cardmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    layout.removeAllViews();
-                    layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout, !subreddit.isEmpty(), subreddit));
-
-                } else {
-                    layout.removeAllViews();
-                    layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, !subreddit.isEmpty(), subreddit));
-
-                    middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
-                }
-
-                middle.setEnabled(isChecked);
-            }
-        });
-        middle.setChecked(CreateCardView.isMiddle(!subreddit.isEmpty()));
-
-
-        middle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setMiddleCard(isChecked, layout, !subreddit.isEmpty(), subreddit));
-
-            }
-        });
-
-
-        final SwitchCompat hidebutton = (SwitchCompat) findViewById(R.id.hidebutton);
+        final AppCompatCheckBox hidebutton = (AppCompatCheckBox) findViewById(R.id.hidebutton);
         layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
         layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
 
@@ -147,12 +149,12 @@ public class EditCardsLayout extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingValues.hideButton = isChecked;
-                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton  && SettingValues.actionbarVisible? View.VISIBLE : View.GONE);
+                layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_HIDEBUTTON, isChecked).apply();
 
             }
         });
-        final SwitchCompat savebutton = (SwitchCompat) findViewById(R.id.savebutton);
+        final AppCompatCheckBox savebutton = (AppCompatCheckBox) findViewById(R.id.savebutton);
         layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
 
         savebutton.setChecked(SettingValues.saveButton);
@@ -160,7 +162,7 @@ public class EditCardsLayout extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingValues.saveButton = isChecked;
-                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton  && SettingValues.actionbarVisible? View.VISIBLE : View.GONE);
+                layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SAVE_BUTTON, isChecked).apply();
 
             }
@@ -182,12 +184,12 @@ public class EditCardsLayout extends BaseActivity {
             @Override
             public void onClick(View v) {
                 SharedPreferences.Editor edit = SettingValues.prefs.edit();
-                edit.remove(subreddit + "largeThumbnailsNew");
-                edit.remove(subreddit + "defaultCardViewNew");
-                edit.remove(subreddit + "infoBarTypeNew");
+                edit.remove("largeThumbnailsNew");
+                edit.remove("defaultCardViewNew");
+                edit.remove("infoBarTypeNew");
                 edit.apply();
                 layout.removeAllViews();
-                layout.addView(CreateCardView.CreateView(layout, !subreddit.isEmpty(), subreddit));
+                layout.addView(CreateCardView.CreateView(layout, false, ""));
 
             }
         });

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/card"
+        android:title="@string/mode_card"/>
+
+    <item
+        android:id="@+id/center"
+        android:title="@string/mode_centered"/>
+
+    <item
+        android:id="@+id/list"
+        android:title="@string/mode_list"/>
+
+</menu>
