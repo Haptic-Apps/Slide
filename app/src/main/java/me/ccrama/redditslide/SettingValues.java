@@ -141,7 +141,7 @@ public class SettingValues {
         daytime = prefs.getInt(PREF_NIGHT_TIME, 6);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
-        navbarStyle = prefs.getInt(PREF_NAVBAR_STYLE, 0);
+        navbarStyle = prefs.getInt(PREF_NAVBAR_STYLE, 1);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
