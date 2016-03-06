@@ -45,6 +45,8 @@
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:text="Android"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="?attr/font"
                 android:textSize="16sp" />
 
