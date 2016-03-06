@@ -607,7 +607,8 @@ public class MainActivity extends BaseActivity {
         pager.setAdapter(adapter);
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
-        mTabLayout.setupWithViewPager(pager);
+        if (mTabLayout != null)
+            mTabLayout.setupWithViewPager(pager);
     }
 
     public void updateColor(int color, String subreddit) {
