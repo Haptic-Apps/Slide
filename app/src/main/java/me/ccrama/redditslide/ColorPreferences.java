@@ -366,7 +366,7 @@ public class ColorPreferences {
     }
 
     public void removeFontStyle(String subreddit){
-        edit().remove(subreddit).commit();
+        edit().remove(subreddit).apply();
     }
 
     public int getColor(String s) {

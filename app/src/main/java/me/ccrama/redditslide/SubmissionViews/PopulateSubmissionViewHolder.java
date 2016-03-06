@@ -850,14 +850,15 @@ public class PopulateSubmissionViewHolder {
                             } catch (ApiException e) {
                                 e.printStackTrace();
                             }
-                            if (!full && !SettingValues.actionbarVisible)
-                                CreateCardView.toggleActionbar(holder.itemView);
+
 
                             return null;
                         }
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
+                            if (!full && !SettingValues.actionbarVisible)
+                                CreateCardView.toggleActionbar(holder.itemView);
                             if (ActionStates.isSaved(submission)) {
                                 ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                                 Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();

@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -17,7 +16,6 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -92,7 +90,7 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
 
     }
 
-    boolean tip;
+    //boolean tip;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -145,10 +143,10 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
                 @Override
                 public void onPageSelected(int position) {
                     updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
-                    if (tip) {
+                 /*   if (tip) {
                         Tooltip.removeAll(CommentsScreenPopup.this);
                         Reddit.appRestart.edit().putString("tutorial_6", "t").apply();
-                    }
+                    }*/
                 }
 
                 @Override
@@ -157,7 +155,7 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
                 }
             });
         }
-        if (Reddit.appRestart.contains("tutorialSwipeComment") && !Reddit.appRestart.contains("tutorial_comm")) {
+       /* if (Reddit.appRestart.contains("tutorialSwipeComment") && !Reddit.appRestart.contains("tutorial_comm")) {
             tip = true;
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -201,7 +199,7 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
                 }
             }, 250);
 
-        }
+        }*/
     }
 
     private void updateSubredditAndSubmission(Submission post) {
