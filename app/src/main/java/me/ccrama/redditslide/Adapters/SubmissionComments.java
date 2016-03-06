@@ -123,6 +123,7 @@ public class SubmissionComments {
             sort = CommentSort.CONFIDENCE;
         args.put("sort", sort.name().toLowerCase());
 
+        System.gc();
 
         RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
                 .path(String.format("/comments/%s", request.getId()))

@@ -68,8 +68,10 @@ public class ContentType {
     public static ImageType getImageType(Submission s) {
         Submission.ThumbnailType t = s.getThumbnailType();
         String url = s.getUrl();
-        if (url.startsWith("/")) {
+        if (url.startsWith("/") && !url.startsWith("//")) {
             url = "reddit.com" + url;
+        } else {
+            url = url.replace("//", "http://");
         }
         if (s.isSelfPost()) {
             return ImageType.SELF;
@@ -176,10 +178,11 @@ public class ContentType {
             return ImageType.SPOILER;
         }
 
-        if (url.startsWith("/")) {
+        if (url.startsWith("/") && !url.startsWith("//")) {
             url = "reddit.com" + url;
+        } else {
+            url = url.replace("//", "http://");
         }
-
         if (isRedditLink(url)) {
             return ImageType.REDDIT;
         } else if (url.length() >= 20 && url.substring(0, 20).contains("youtube.com") || url.length() >= 15 &&url.substring(0, 15).contains("youtu.be")) {

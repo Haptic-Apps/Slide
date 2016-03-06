@@ -148,6 +148,7 @@ public class GifUtils {
 
                                                 int length = ucon.getContentLength();
 
+                                                CacheUtil.makeRoom(c, length);
 
                                                 f.createNewFile();
 
@@ -158,7 +159,6 @@ public class GifUtils {
                                                 int readBytes = 0;
                                                 while ((len = inStream.read(buff)) != -1) {
                                                     outStream.write(buff, 0, len);
-                                                    Log.v("Slide", f.length() + " OVER " + length);
                                                     final int percent = Math.round(100.0f * f.length() / length);
                                                     if (progressBar != null) {
                                                         c.runOnUiThread(new Runnable() {
@@ -305,6 +305,7 @@ public class GifUtils {
 
                                 int length = ucon.getContentLength();
 
+                                CacheUtil.makeRoom(c, length);
 
                                 f.createNewFile();
 
@@ -450,6 +451,7 @@ public class GifUtils {
 
                                             int length = ucon.getContentLength();
 
+                                            CacheUtil.makeRoom(c, length);
 
                                             f.createNewFile();
 
@@ -624,6 +626,8 @@ public class GifUtils {
 
                                                             int length = ucon.getContentLength();
 
+                                                            CacheUtil.makeRoom(c, length);
+
                                                             final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                                             f.createNewFile();
@@ -794,6 +798,7 @@ public class GifUtils {
 
                                                 int length = ucon.getContentLength();
 
+                                                CacheUtil.makeRoom(c, length);
 
                                                 f.createNewFile();
 
@@ -867,6 +872,7 @@ public class GifUtils {
 
                                             int length = ucon.getContentLength();
 
+                                            CacheUtil.makeRoom(c, length);
 
                                             f.createNewFile();
 
@@ -923,6 +929,8 @@ public class GifUtils {
                                                             BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
 
                                                             int length = ucon.getContentLength();
+
+                                                            CacheUtil.makeRoom(c, length);
 
                                                             final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
