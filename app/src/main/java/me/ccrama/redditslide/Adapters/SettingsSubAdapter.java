@@ -25,6 +25,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -364,17 +365,6 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                     public void onClick(View v) {
                         int accentColor = colorPickeracc.getColor();
                         int mainColor = colorPicker2.getColor();
-                        ColorPreferences.Theme t = null;
-
-                        //Do not save accent color if it matches the default accent color
-                        if (accentColor != colorPrefs.getColor("")) {
-                            for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                if (ContextCompat.getColor(context, type.getColor()) == accentColor && Reddit.themeBack == type.getThemeType()) {
-                                    t = type;
-                                    break;
-                                }
-                            }
-                        }
 
 
 
@@ -386,6 +376,21 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                             if (mainColor != Palette.getDefaultColor())
                                 Palette.setColor(sub, mainColor);
                             // Set accent color
+                            ColorPreferences.Theme t = null;
+
+                            //Do not save accent color if it matches the default accent color
+                            if (accentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || accentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
+                                LogUtil.v("Not equal");
+
+                                for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                    if (ContextCompat.getColor(context, type.getColor()) == accentColor && Reddit.themeBack == type.getThemeType()) {
+                                        t = type;
+                                        LogUtil.v("Setting to " + t.getTitle());
+                                        break;
+                                    }
+                                }
+                            }
+
                             if (t != null) colorPrefs.setFontStyle(t, sub);
 
                             // Set layout

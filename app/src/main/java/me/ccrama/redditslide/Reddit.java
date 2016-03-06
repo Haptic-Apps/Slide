@@ -567,6 +567,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             fina = heightDp;
         }
         fina = ((fina + 99) / 100) * 100;
+
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
         if (seen.contains("tabletOVERRIDE")) {

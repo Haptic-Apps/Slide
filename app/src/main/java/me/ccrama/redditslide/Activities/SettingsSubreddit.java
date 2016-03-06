@@ -24,7 +24,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -91,9 +90,6 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onClick(View view) {
                 final ArrayList<String> subs = SubredditStorage.sort(SubredditStorage.subredditsForHome);
-                subs.remove("frontpage");
-                subs.remove("all");
-
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
@@ -177,14 +173,12 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
         // Check which subreddits are different
         ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);
-        int defaultFont = colorPrefs.getColor("Default Subreddit");
+        int defaultFont = colorPrefs.getFontStyle().getColor();
 
         for (String s : allSubs) {
-            LogUtil.v("Pallete is " + (Palette.getColor(s) != Palette.getDefaultColor()) +  " Layout is " + SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s) +" Color prefs is " + (colorPrefs.getColor(s) != defaultFont) + " Pics enabled is " + SettingValues.prefs.contains("picsenabled" + s.toLowerCase()));
-
             if (Palette.getColor(s) != Palette.getDefaultColor()
                     || SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)
-                    || colorPrefs.getColor(s) != defaultFont
+                    || colorPrefs.getFontStyleSubreddit(s).getColor() != defaultFont
                     || SettingValues.prefs.contains("picsenabled" + s.toLowerCase())) {
                 changedSubs.add(s);
             }

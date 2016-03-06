@@ -78,7 +78,6 @@ import net.dean.jraw.util.JrawUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -371,35 +370,6 @@ public class MainActivity extends BaseActivity {
 
         if (getIntent().getBooleanExtra("EXIT", false)) finish();
 
-        if (SettingValues.autoTime) {
-            int hour = Calendar.getInstance().getTime().getHours();
-
-            String base = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().toLowerCase();
-            int number;
-            if (hour >= SettingValues.nighttime && base.contains("light")) {
-                number = 0;
-            } else if (hour >= SettingValues.daytime && (base.contains("dark") || base.contains("amoled"))) {
-                number = 1;
-            } else {
-                number = 3;
-            }
-            if (number != 3) {
-                String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
-                final String newName = name.replace("(", "");
-                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                    if (theme.toString().contains(newName) && theme.getThemeType() == number) {
-                        getTheme().applyStyle(theme.getBaseId(), true);
-                        Reddit.themeBack = theme.getThemeType();
-                        new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                        break;
-                    }
-                }
-            } else {
-                getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
-
-            }
-
-        }
         applyColorTheme();
 
         setContentView(R.layout.activity_overview);
@@ -1521,7 +1491,6 @@ public class MainActivity extends BaseActivity {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
                                 Reddit.themeBack = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
-
                                 d.dismiss();
                                 recreate();
 
@@ -1539,10 +1508,8 @@ public class MainActivity extends BaseActivity {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
-
                                 d.dismiss();
                                 recreate();
-
                                 break;
                             }
                         }
@@ -1557,10 +1524,8 @@ public class MainActivity extends BaseActivity {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
-
                                 d.dismiss();
                                 recreate();
-
                                 break;
                             }
                         }

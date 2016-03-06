@@ -18,6 +18,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -79,13 +80,12 @@ public class SettingsTheme extends BaseActivityAnim {
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                     if (type.getThemeType() == 0) {
                         arrs[i] = ContextCompat.getColor(SettingsTheme.this, type.getColor());
-
                         i++;
                     }
                 }
 
                 colorPicker.setColors(arrs);
-                colorPicker.setSelectedColor(new ColorPreferences(SettingsTheme.this).getColor(""));
+                colorPicker.setSelectedColor(ContextCompat.getColor(SettingsTheme.this, new ColorPreferences(SettingsTheme.this).getFontStyle().getColor()));
 
 
                 dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
@@ -96,6 +96,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                             if (ContextCompat.getColor(SettingsTheme.this, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
                                 t = type;
+                                LogUtil.v("Setting to " + t.getTitle());
                                 break;
                             }
                         }

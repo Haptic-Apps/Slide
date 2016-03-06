@@ -1471,18 +1471,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hideChildrenObject(holder.children);
                     holder.firstTextView.setVisibility(View.VISIBLE);
                     holder.commentOverflow.setVisibility(View.VISIBLE);
-
-                    //todo maybe holder.content.setVisibility(View.VISIBLE);
                 } else {
                     int childNumber = getChildNumber(baseNode);
                     if (childNumber > 0) {
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
-
                         hiddenPersons.add(comment.getFullName());
                         showChildrenObject(holder.children);
                         ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
-                        //todo maybe holder.content.setVisibility(View.GONE);
-
                     }
                     if (holder.firstTextView.getVisibility() == View.VISIBLE && SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.GONE);
