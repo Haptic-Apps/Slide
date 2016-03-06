@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -77,11 +76,8 @@ public class SettingsSubreddit extends BaseActivityAnim {
                             public void onClick(DialogInterface dialog, int which) {
                                 for (String s : changedSubs) {
                                     Palette.removeColor(s);
-                                    // Remove layout settings
                                     SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + s).apply();
-                                    // Remove accent / font color settings
                                     new ColorPreferences(SettingsSubreddit.this).removeFontStyle(s);
-
                                     SettingValues.resetPicsEnabled(s);
                                 }
                                 reloadSubList();
@@ -176,21 +172,20 @@ public class SettingsSubreddit extends BaseActivityAnim {
     }
 
     public void reloadSubList() {
-        Log.v(LogUtil.getTag(), "adapter init");
         changedSubs.clear();
         ArrayList<String> allSubs = SubredditStorage.sort(SubredditStorage.subredditsForHome);
-        allSubs.remove("all");
-        allSubs.remove("frontpage");
 
         // Check which subreddits are different
         ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);
-        int defaultFont = colorPrefs.getColor("");
+        int defaultFont = colorPrefs.getColor("Default Subreddit");
 
         for (String s : allSubs) {
+            LogUtil.v("Pallete is " + (Palette.getColor(s) != Palette.getDefaultColor()) +  " Layout is " + SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s) +" Color prefs is " + (colorPrefs.getColor(s) != defaultFont) + " Pics enabled is " + SettingValues.prefs.contains("picsenabled" + s.toLowerCase()));
+
             if (Palette.getColor(s) != Palette.getDefaultColor()
                     || SettingValues.prefs.contains(Reddit.PREF_LAYOUT + s)
                     || colorPrefs.getColor(s) != defaultFont
-                    || SettingValues.prefs.contains("picsenabled" + s)) {
+                    || SettingValues.prefs.contains("picsenabled" + s.toLowerCase())) {
                 changedSubs.add(s);
             }
         }
