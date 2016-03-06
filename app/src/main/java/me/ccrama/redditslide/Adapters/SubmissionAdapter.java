@@ -22,11 +22,9 @@ import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -81,6 +79,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         return SUBMISSION;
     }
+
     int tag = 1;
 
     @Override
@@ -102,10 +101,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return new SubmissionViewHolder(v);
         }
     }
+
     int clicked;
 
-    public void refreshView(){
-       final RecyclerView.ItemAnimator a = listView.getItemAnimator();
+    public void refreshView() {
+        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
         listView.setItemAnimator(null);
         notifyItemChanged(clicked);
         listView.postDelayed(new Runnable() {
@@ -159,28 +159,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 }
             });
             final boolean saved = submission.isSaved();
-
-
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    if (context instanceof MainActivity && ((MainActivity) context).t != null) {
-                        Tooltip.removeAll(context);
-                        Reddit.appRestart.edit().putString("tutorial_4", "A").apply();
-                    }
-                    if (!dataSet.stillShow) {
-
-                        Snackbar.make(holder.itemView, holder2.itemView.getContext().getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
-
-                    } else {
-                        holder.itemView.findViewById(R.id.menu).callOnClick();
-                    }
-                    return true;
-                }
-
-            });
-
 
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase());
 

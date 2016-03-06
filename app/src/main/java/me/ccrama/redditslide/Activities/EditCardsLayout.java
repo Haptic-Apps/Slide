@@ -115,7 +115,7 @@ public class EditCardsLayout extends BaseActivity {
                                 }
                                 e.apply();
                             }
-                                break;
+                            break;
                         }
                         ((TextView) findViewById(R.id.picture_current)).setText(SettingValues.bigPicEnabled ? (SettingValues.bigPicCropped ? getString(R.string.mode_cropped) : getString(R.string.mode_bigpic)) : getString(R.string.mode_thumbnail));
                         return true;
@@ -128,18 +128,49 @@ public class EditCardsLayout extends BaseActivity {
 
 
         //Actionbar//
-        final SwitchCompat actionbar = (SwitchCompat) findViewById(R.id.show_actionbar);
 
-        actionbar.setChecked(SettingValues.actionbarVisible);
-        actionbar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
+
+        findViewById(R.id.actionbar).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setActionbarVisible(isChecked, layout));
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(EditCardsLayout.this, v);
+                popup.getMenuInflater().inflate(R.menu.actionbar_mode, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.always:
+                                SettingValues.actionbarTap = true;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, true).apply();
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setActionbarVisible(true, layout));
+                                break;
+                            case R.id.tap:
+                                SettingValues.actionbarTap = true;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, true).apply();
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setActionbarVisible(false, layout));
+                                break;
+                            case R.id.button:
+                                SettingValues.actionbarTap = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, false).apply();
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setActionbarVisible(false, layout));
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
+                        return true;
+                    }
+                });
+
+                popup.show();
             }
         });
 
 
+        //Other buttons//
         final AppCompatCheckBox hidebutton = (AppCompatCheckBox) findViewById(R.id.hidebutton);
         layout.findViewById(R.id.hide).setVisibility(SettingValues.hideButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);
         layout.findViewById(R.id.save).setVisibility(SettingValues.saveButton && SettingValues.actionbarVisible ? View.VISIBLE : View.GONE);

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/always"
+        android:title="@string/always_actionbar"/>
+
+    <item
+        android:id="@+id/tap"
+        android:title="@string/tap_actionbar"/>
+
+    <item
+        android:id="@+id/button"
+        android:title="@string/press_actionbar"/>
+
+</menu>

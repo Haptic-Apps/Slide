@@ -392,7 +392,7 @@ public class ColorPreferences {
         dark_amber(R.style.amber_dark, "dark_amber", R.color.md_amber_A700, 0),
         light_amber(R.style.amber_LIGHT, "light_amber", R.color.md_amber_A700, 1),
         amoled_amber(R.style.amber_AMOLED, "amoled_amber", R.color.md_amber_A700, 2),
-        blue_amber(R.style.amber_blue, "amoled_amber", R.color.md_amber_A700, 3),
+        blue_amber(R.style.amber_blue, "blue_amber", R.color.md_amber_A700, 3),
 
         dark_yellow(R.style.yellow_dark, "dark_yellow", R.color.md_yellow_A700, 0),
         light_yellow(R.style.yellow_LIGHT, "light_yellow", R.color.md_yellow_A700, 1),

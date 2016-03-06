@@ -400,7 +400,7 @@ public class CreateCardView {
             ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         }
-        if (!SettingValues.actionbarVisible) {
+        if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
                 v2.setVisibility(View.GONE);
             }
@@ -412,6 +412,19 @@ public class CreateCardView {
             });
         } else {
             v.findViewById(R.id.secondMenu).setVisibility(View.GONE);
+            if (SettingValues.actionbarTap) {
+                for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
+                    v2.setVisibility(View.GONE);
+                }
+                v.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        toggleActionbar(v);
+                        return true;
+                    }
+                });
+            }
+
         }
         if (SettingValues.switchThumb) {
             RelativeLayout.LayoutParams picParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2).getLayoutParams();
