@@ -137,7 +137,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             c.startActivity(intent);
         }
     }
-
+    public static boolean isPackageInstalled(final Context ctx, String s) {
+        try {
+            final PackageManager pm = ctx.getPackageManager();
+            final PackageInfo pi = pm.getPackageInfo(s, 0);
+            if (pi != null && pi.applicationInfo.enabled)
+                return true;
+        } catch (final Throwable ignored) {
+        }
+        return false;
+    }
     private static boolean isPackageInstalled(final Context ctx) {
         try {
             final PackageManager pm = ctx.getPackageManager();

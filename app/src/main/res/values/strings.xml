@@ -596,6 +596,9 @@
     <string name="settings_sub_tabs_description">Swipe between subreddits</string>
     <string name="settings_sub_tabs">Subreddit tabs</string>
     <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
+    <string name="press_actionbar">Press arrow to show actionbar</string>
+    <string name="tap_actionbar">Long press for actionbar</string>
+    <string name="always_actionbar">Always show actionbar</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>

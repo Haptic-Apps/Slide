@@ -25,6 +25,7 @@ public class SettingValues {
     public static final String PREF_SWAP = "Swap";
     public static final String PREFS_WEB = "web";
     public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
+    public static final String PREF_ACTIONBAR_TAP = "actionbarTap";
     public static final String PREF_CACHE = "cache";
     public static final String PREF_CACHE_DEFAULT = "cacheDefault";
     public static final String PREF_CUSTOMTABS = "customtabs";
@@ -79,6 +80,7 @@ public class SettingValues {
     public static boolean colorBack;
     public static boolean colorNavBar;
     public static boolean actionbarVisible;
+    public static boolean actionbarTap;
     public static boolean fullscreen;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
@@ -179,6 +181,8 @@ public class SettingValues {
         hideButton = prefs.getBoolean(PREF_HIDEBUTTON, false);
         saveButton = prefs.getBoolean(PREF_SAVE_BUTTON, false);
         actionbarVisible = prefs.getBoolean(PREF_ACTIONBAR_VISIBLE, true);
+        actionbarTap = prefs.getBoolean(PREF_ACTIONBAR_TAP, false);
+
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {

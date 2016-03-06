@@ -8,9 +8,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
@@ -26,6 +28,7 @@ import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -52,7 +55,23 @@ public class CheckForMail extends BroadcastReceiver {
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
             if (messages != null && messages.size() > 0) {
+                if(Reddit.isPackageInstalled(c, "com.teslacoilsw.notifier")) {
+                    try {
 
+                        ContentValues cv = new ContentValues();
+
+                        cv.put("tag", "me.ccrama.redditslide/me.ccrama.redditslide.MainActivity");
+
+                        cv.put("count", messages.size());
+
+                        c.getContentResolver().insert(Uri
+                                        .parse("content://com.teslacoilsw.notifier/unread_count"),
+                                cv);
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
                 //create arraylist of the messages fullName for markasread action
                 String[] messageNames = new String[messages.size()];
                 int counter = 0;
