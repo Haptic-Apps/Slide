@@ -255,7 +255,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             case LINK:
             case IMAGE_LINK:
             case NSFW_LINK:
-                CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
+                CustomTabUtil.openUrl(url.startsWith("//")?url.replace("//", "http://"):url, Palette.getColor(subreddit), activity);
                 break;
             case SELF:
                 break;
