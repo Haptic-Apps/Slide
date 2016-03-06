@@ -1,4 +1,32 @@
 
+4.6.2 / 2016-02-23
+==================
+
+  * New account switcher in sidebar
+  * Added deeper zooming in image view
+  * Added open external button to images and gifs
+  * Added padding to bottom of scrollable content in text (scrollbar was overlapping the content)
+  * Added animation to comment menu
+  * Made album header transparent
+  * Fixed some crashes with nested unordered lists
+  * Fixed replyarea height
+  * Fixed comment crash
+  * Fixed loading when swiping through multireddits
+  * Fixed crash when text starts with strikethrough
+  * Fixed navigating up in comments
+  * Improvements to the Subreddit and Multireddit adapters
+  * Fixed more RecyclerView adapter crashes
+  * Fixed crash in the inbox
+  * Fixed inbox always showing loading icon even if reached the bottom
+  * Fixed all applicable recyclers crashing because of invalid adapter positions
+  * Fixed account switching, Now selects other account if logging out of current account
+  * Fixed RefreshLayout offsets
+  * Start of fix for name scrunching issue in comments
+  * Fixes to CommentScreenPopup
+  * Fixed posts going into toolbar in multicolumn mode
+  * Fixed some blurry images
+  * Fixed adding friend or mod to reorder screen, Ignore case on friend and mod
+
 4.6.1 / 2016-02-17
 ==================
 
