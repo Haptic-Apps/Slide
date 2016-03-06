@@ -21,7 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -32,7 +35,6 @@ import java.io.File;
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.ImageSource;
@@ -87,7 +89,13 @@ public class FullscreenImage extends FullScreenActivity {
 
 
         ((Reddit) getApplication()).getImageLoader()
-                .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
+                .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder()
+                        .resetViewBeforeLoading(true)
+                        .cacheOnDisk(true)
+                        .imageScaleType(ImageScaleType.NONE)
+                        .cacheInMemory(false)
+                        .displayer(new FadeInBitmapDisplayer(250))
+                        .build(), new ImageLoadingListener() {
                     private View mView;
 
                     @Override
