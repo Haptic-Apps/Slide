@@ -57,7 +57,6 @@
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:id="@+id/browser"
-                        android:layout_centerVertical="true"
                         android:text="Swipe anywhere in view to exit"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -66,7 +65,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -109,7 +107,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -150,14 +147,11 @@
                     android:textColorHint="?attr/font" />
 
             </RelativeLayout>
-
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -194,7 +188,6 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </RelativeLayout>
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

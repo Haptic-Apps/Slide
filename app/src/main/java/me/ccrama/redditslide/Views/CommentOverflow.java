@@ -73,6 +73,7 @@ public class CommentOverflow extends LinearLayout {
         theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
         TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[]{R.attr.font_commentbody});
         fontSize = a.getDimensionPixelSize(0, -1);
+        a.recycle();
     }
 
     /**

@@ -70,7 +70,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -100,7 +99,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:text="@string/settings_fastscroll_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -121,7 +119,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -151,7 +148,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:text="@string/settings_comment_crop_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -172,7 +168,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -215,7 +210,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -258,7 +252,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -287,7 +280,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:text="@string/settings_comment_collapse_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />

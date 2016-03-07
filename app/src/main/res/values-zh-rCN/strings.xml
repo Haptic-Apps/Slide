@@ -113,7 +113,7 @@
   <string name="comment_delete_err">噢，出问题了。</string>
   <string name="comment_delete_err_msg">你想再试一次吗？</string>
   <string name="comment_deleted">[deleted]</string>
-  <string name="comment_loading_more">正在加载更多评论...</string>
+  <string name="comment_loading_more">正在加载更多评论…</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
   <string name="sorting_choose">选择一个排序分类</string>
@@ -223,7 +223,7 @@
   <string name="misc_continue">继续</string>
   <string name="misc_unsubscribed">已取消订阅</string>
   <string name="misc_no_more_posts">没有更多的帖子！</string>
-  <string name="misc_please_wait">请稍等...</string>
+  <string name="misc_please_wait">请稍等…</string>
   <string name="misc_img_share">分享图片方式</string>
   <string name="misc_link_chooser">打开链接方式</string>
   <string name="misc_mark_read">标记已读</string>

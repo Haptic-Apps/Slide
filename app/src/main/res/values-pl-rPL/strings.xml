@@ -220,7 +220,7 @@
   <string name="type_emb">W aplikacji</string>
   <string name="type_imgur">Imgur</string>
   <!-- Reply to message -->
-  <string name="mail_author_wrote">%1$s napisał...</string>
+  <string name="mail_author_wrote">%1$s napisał…</string>
   <string name="mail_hint_recipient">Odbiorca</string>
   <string name="mail_hint_subject">Temat</string>
   <string name="mail_hint_body">Zawartość</string>
@@ -441,7 +441,7 @@
   <string name="title_create_multi">Stwórz multireddit</string>
   <string name="title_mod">Moderator</string>
   <!-- Text in Donation-Activity -->
-  <string name="donate_amount_title">Ta kwota...</string>
+  <string name="donate_amount_title">Ta kwota…</string>
   <string name="donate_info_student">Jestem studenckim deweloperem, i jestem bardzo wdzięczny za dotacje! To one sprawiają, że Slide istnieje, i jest darmowy :)</string>
   <string name="donate_btn">Wesprzyj</string>
   <string name="donate_amount_ads1">Zapobiega wyświetlaniu %d </string>

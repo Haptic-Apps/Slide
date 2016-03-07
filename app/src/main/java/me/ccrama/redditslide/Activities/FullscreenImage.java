@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.NotificationCompat;
@@ -31,6 +33,9 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
@@ -39,6 +44,8 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -62,6 +69,78 @@ public class FullscreenImage extends FullScreenActivity {
 
         setContentView(R.layout.activity_image);
 
+
+
+        String url = getIntent().getExtras().getString(EXTRA_URL);
+        if (url != null && ContentType.isImgurLink(url)) {
+            url = url + ".png";
+        }
+        LogUtil.v(url);
+        if(url != null && !url.startsWith("https://i.redditmedia.com" )&& !url.contains("imgur.com")){ //we can assume redditmedia and imgur links are to direct images and not websites
+            final String finalUrl2 = url;
+            new AsyncTask<Void, Void, Void>() {
+               @Override
+               protected Void doInBackground(Void... params) {
+                   try {
+                       URL obj = new URL(finalUrl2);
+                       URLConnection conn = obj.openConnection();
+                       final String type = conn.getHeaderField("Content-Type");
+                       runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               if(type.startsWith("image/")){
+                                   //is image
+                                   loadImage(finalUrl2);
+                               } else {
+                                   CustomTabUtil.openUrl(finalUrl2, Palette.getDefaultColor(), FullscreenImage.this);
+                                   finish();
+                               }
+                           }
+                       });
+
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   }
+
+                   //get all headers
+
+                   return null;
+               }
+           }.execute();
+
+        } else if(url != null){
+            loadImage(url);
+        } else {
+            finish();
+            //todo maybe something better
+        }
+
+        if (!Reddit.appRestart.contains("tutorialSwipeImage")) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Tooltip.make(FullscreenImage.this,
+                            new Tooltip.Builder(106)
+                                    .text("Drag from the very edge to exit")
+                                    .closePolicy(new Tooltip.ClosePolicy()
+                                            .insidePolicy(true, false)
+                                            .outsidePolicy(true, false), 3000)
+                                    .maxWidth(500)
+                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
+                                    .activateDelay(800)
+                                    .showDelay(300)
+                                    .withArrow(true)
+                                    .withOverlay(true)
+                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
+                                    .build()
+                    ).show();
+                }
+            }, 250);
+        }
+    }
+
+    public void loadImage(String url){
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
         i.setMinimumDpi(10);
@@ -76,12 +155,6 @@ public class FullscreenImage extends FullScreenActivity {
             }
         };
         handler.postDelayed(progressBarDelayRunner, 500);
-
-        String url = getIntent().getExtras().getString(EXTRA_URL);
-        if (url != null && ContentType.isImgurLink(url)) {
-            url = url + ".png";
-        }
-        LogUtil.v(url);
 
         ImageView fakeImage = new ImageView(FullscreenImage.this);
         fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
@@ -258,29 +331,6 @@ public class FullscreenImage extends FullScreenActivity {
 
 
         }
-        if (!Reddit.appRestart.contains("tutorialSwipeImage")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Tooltip.make(FullscreenImage.this,
-                            new Tooltip.Builder(106)
-                                    .text("Drag from the very edge to exit")
-                                    .closePolicy(new Tooltip.ClosePolicy()
-                                            .insidePolicy(true, false)
-                                            .outsidePolicy(true, false), 3000)
-                                    .maxWidth(500)
-                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                                    .activateDelay(800)
-                                    .showDelay(300)
-                                    .withArrow(true)
-                                    .withOverlay(true)
-                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                    .build()
-                    ).show();
-                }
-            }, 250);
-        }
     }
 
     @Override
@@ -331,8 +381,8 @@ public class FullscreenImage extends FullScreenActivity {
     }
 
     private String saveImageGallery(final Bitmap _bitmap, String URL) {
-        if (!new File("/sdcard/Pictures").exists())
-            new File("/sdcard/Pictures").mkdirs();
+        if (!new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures").exists())
+            new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures").mkdirs();
 
         return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL, "");
 

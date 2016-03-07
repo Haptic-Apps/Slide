@@ -126,9 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/secondMenu"
-                        android:layout_marginTop="8dp"
-                        android:layout_toRightOf="@+id/thumbimage2">
+                        android:layout_marginTop="8dp">
 
                         <me.ccrama.redditslide.Views.TitleTextView
                             android:id="@+id/title"

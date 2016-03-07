@@ -127,7 +127,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.25dp"
-                android:layout_alignParentBottom="true"
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
@@ -170,7 +169,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.25dp"
-                android:layout_alignParentBottom="true"
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
@@ -199,7 +197,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:alpha=".86"
                         android:text="Only color background in multis, frontpage, and all"
                         android:textColor="?attr/font"
@@ -223,7 +220,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.25dp"
-                android:layout_alignParentBottom="true"
                 android:alpha=".25"
                 android:background="?attr/tint" />
 

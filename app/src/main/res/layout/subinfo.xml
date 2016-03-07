@@ -95,6 +95,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:theme="?android:attr/buttonBarStyle"
                 android:layout_height="wrap_content">
 
                 <Button
@@ -103,12 +104,14 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
+                    android:theme="?android:attr/buttonBarButtonStyle"
                     android:text="@string/title_theme_settings"
                     android:textAllCaps="true" />
 
                 <Button
                     android:id="@+id/wiki"
                     android:layout_width="wrap_content"
+                    android:theme="?android:attr/buttonBarButtonStyle"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
@@ -118,6 +121,7 @@
                 <Button
                     android:id="@+id/submit"
                     android:layout_width="wrap_content"
+                    android:theme="?android:attr/buttonBarButtonStyle"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
