@@ -178,6 +178,19 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.datause);
+
+            single.setChecked(SettingValues.lowRes);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.lowRes = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LOW_RES, isChecked).apply();
+
+                }
+            });
+        }
 
         ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab?(SettingValues.fabType==R.integer.FAB_DISMISS?getString(R.string.fab_hide):getString(R.string.fab_create)):getString(R.string.fab_disabled));
 

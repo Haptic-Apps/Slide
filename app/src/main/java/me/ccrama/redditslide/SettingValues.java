@@ -26,8 +26,6 @@ public class SettingValues {
     public static final String PREFS_WEB = "web";
     public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
     public static final String PREF_ACTIONBAR_TAP = "actionbarTap";
-    public static final String PREF_CACHE = "cache";
-    public static final String PREF_CACHE_DEFAULT = "cacheDefault";
     public static final String PREF_CUSTOMTABS = "customtabs";
     public static final String PREF_SCROLL_SEEN = "scrollSeen";
     public static final String PREF_TITLE_FILTERS = "titleFilters";
@@ -39,6 +37,8 @@ public class SettingValues {
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
     public static final String PREF_SWITCH_THUMB = "switchThumb";
+    public static final String PREF_LOW_RES = "lowRes";
+
 
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
@@ -81,6 +81,7 @@ public class SettingValues {
     public static boolean actionbarVisible;
     public static boolean actionbarTap;
     public static boolean fullscreen;
+    public static boolean lowRes;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
     public static boolean scrollSeen;
@@ -147,6 +148,8 @@ public class SettingValues {
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
+        lowRes = prefs.getBoolean(PREF_LOW_RES, false);
+
 
         swap = prefs.getBoolean(PREF_SWAP, false);
         web = prefs.getBoolean(PREFS_WEB, true);
