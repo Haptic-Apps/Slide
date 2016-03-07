@@ -1,9 +1,11 @@
 package me.ccrama.redditslide.util;
 
-import android.content.Context;
+import android.app.Activity;
 
 import java.io.File;
 import java.io.IOException;
+
+import me.ccrama.redditslide.ImageLoaderUtils;
 
 /**
  * Created by carlo_000 on 3/6/2016.
@@ -12,14 +14,15 @@ import java.io.IOException;
  */
 public class CacheUtil {
 
-    private static final long MAX_SIZE = 52428800L; // 50MB
+    private static final long MAX_SIZE = 50000000l; // 50MB
 
-    public static void makeRoom(Context context, int length) throws IOException {
+    public static void makeRoom(Activity context, int length) throws IOException {
 
-        File cacheDir = context.getCacheDir();
+        File cacheDir = ImageLoaderUtils.getCacheDirectory(context);
         long size = getDirSize(cacheDir);
         long newSize = length + size;
 
+        LogUtil.v("Comparing " + newSize + " to " + MAX_SIZE);
         if (newSize > MAX_SIZE) {
             cleanDir(cacheDir, newSize - MAX_SIZE);
         }

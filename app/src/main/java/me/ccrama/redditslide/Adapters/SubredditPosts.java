@@ -138,7 +138,7 @@ public class SubredditPosts implements PostLoader {
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
-                    if (!PostMatch.doesMatch(s, paginator.getSubreddit())) {
+                    if (!PostMatch.doesMatch(s, subreddit)) {
                         finalSubs.add(s);
                     }
                 }

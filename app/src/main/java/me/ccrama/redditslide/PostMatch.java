@@ -55,52 +55,53 @@ public class PostMatch {
         subredditc = !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
         boolean contentMatch = false;
 
-        if(baseSubreddit != null && !baseSubreddit.isEmpty()) {
-            baseSubreddit = baseSubreddit.toLowerCase();
-            boolean gifs = isGif(baseSubreddit);
-            boolean images = isImage(baseSubreddit);
-            boolean nsfw = isNsfw(baseSubreddit);
-            boolean albums = isAlbums(baseSubreddit);
-            boolean urls = isUrls(baseSubreddit);
-            boolean selftext = isSelftext(baseSubreddit);
+        if (baseSubreddit == null || baseSubreddit.isEmpty()) baseSubreddit = "frontpage";
+        baseSubreddit = baseSubreddit.toLowerCase();
+        boolean gifs = isGif(baseSubreddit);
+        boolean images = isImage(baseSubreddit);
+        boolean nsfw = isNsfw(baseSubreddit);
+        boolean albums = isAlbums(baseSubreddit);
+        boolean urls = isUrls(baseSubreddit);
+        boolean selftext = isSelftext(baseSubreddit);
 
 
-            switch (ContentType.getImageType(s)) {
+        switch (ContentType.getImageType(s)) {
 
-                case NSFW_IMAGE:
-                case NSFW_GIF:
-                case NSFW_GFY:
-                case NSFW_LINK:
-                    if (!nsfw) contentMatch = true;
-                    break;
-                case REDDIT:
-                case EMBEDDED:
-                case LINK:
-                case IMAGE_LINK:
-                case NONE_URL:
-                case VIDEO:
-                    if (!urls) contentMatch = true;
-                    break;
-                case SELF:
-                case NONE:
-                    if (!selftext) contentMatch = true;
-                    break;
-                case ALBUM:
-                    if (!albums) contentMatch = true;
-                    break;
-                case IMAGE:
-                case IMGUR:
-                case NONE_IMAGE:
-                    if (!images) contentMatch = true;
-                    break;
-                case GFY:
-                case GIF:
-                case NONE_GFY:
-                case NONE_GIF:
-                    if (!gifs) contentMatch = true;
-                    break;
-            }
+            case NSFW_IMAGE:
+            case NSFW_GIF:
+            case NSFW_GFY:
+            case NSFW_LINK:
+                if (!nsfw) contentMatch = true;
+                break;
+            case REDDIT:
+            case EMBEDDED:
+            case LINK:
+            case IMAGE_LINK:
+            case NONE_URL:
+            case VIDEO:
+                if (!urls) contentMatch = true;
+                break;
+            case SELF:
+            case NONE:
+                if (!selftext) contentMatch = true;
+                break;
+            case ALBUM:
+                if (!albums) contentMatch = true;
+                break;
+            case IMAGE:
+            case IMGUR:
+            case NONE_IMAGE:
+                if (!images) contentMatch = true;
+                break;
+            case GFY:
+            case GIF:
+            case NONE_GFY:
+            case NONE_GIF:
+                if (!gifs) contentMatch = true;
+                break;
+
         }
+
         return (titlec || bodyc || domainc || subredditc || contentMatch);
     }
 
