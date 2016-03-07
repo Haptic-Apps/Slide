@@ -93,6 +93,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -1471,6 +1472,9 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.filter:
+                filterContent(shouldLoad);
+                return true;
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
@@ -1637,6 +1641,29 @@ public class MainActivity extends BaseActivity {
             default:
                 return false;
         }
+    }
+    boolean[] chosen;
+    public void filterContent(final String subreddit) {
+        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
+
+        new AlertDialogWrapper.Builder(this)
+                .setTitle("Content to show in /r/" + subreddit)
+                .alwaysCallMultiChoiceCallback()
+                .setMultiChoiceItems(new String[]{"Gifs", "Albums", "Images", "NSFW Content", "Selftext", "Websites"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        chosen[which] = isChecked;
+                    }
+                }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5] );
+                PostMatch.setChosen(chosen, subreddit);
+                reloadSubs();
+            }
+        }).setNegativeButton("Cancel", null).show();
+
+
     }
 
     public void saveOffline(final List<Submission> submissions, final String subreddit) {

@@ -340,7 +340,6 @@
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#FFFFFF</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
-
         <item name="font">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
@@ -348,8 +347,6 @@
         <item name="android:windowBackground">@null</item>
         <item name="actionMenuTextColor">#DE000000</item>
         <item name="android:actionMenuTextColor">#DE000000</item>
-
-
     </style>
 
     <style name="Theme.DARK" parent="swipestyle">
@@ -375,7 +372,9 @@
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
     </style>
+
     <style name="Theme.AMOLED" parent="swipestyle">
         <item name="activity_background">#000000</item>
         <item name="card_background">#000000</item>
@@ -387,6 +386,7 @@
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
     </style>
 
     <style name="ActionBarCompat">

@@ -31,11 +31,15 @@
         android:id="@+id/theme"
         android:title="@string/subreddit_theme"
         app:showAsAction="never" />
+
     <item
         android:id="@+id/night"
         android:title="@string/theme_base"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/filter"
+        android:title="@string/sub_content_filter"
+        app:showAsAction="never" />
     <item
         android:id="@+id/save"
         android:title="@string/btn_cache"
