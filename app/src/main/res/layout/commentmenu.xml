@@ -63,7 +63,7 @@
 
                             android:padding="12dp"
 
-                            android:src="@drawable/profile"
+                            app:srcCompat="@drawable/profile"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -99,7 +99,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/saved"
+                            app:srcCompat="@drawable/saved"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -134,7 +134,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/gild"
+                            app:srcCompat="@drawable/gild"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -167,7 +167,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/report"
+                            app:srcCompat="@drawable/report"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -199,7 +199,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/infonew"
+                            app:srcCompat="@drawable/infonew"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -226,7 +226,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/share"
+                            app:srcCompat="@drawable/share"
                             android:tint="?attr/tint" />
 
                         <TextView

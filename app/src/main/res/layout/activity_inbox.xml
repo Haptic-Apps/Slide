@@ -2,6 +2,7 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -34,7 +35,7 @@
                     android:paddingBottom="12dp"
                     android:paddingTop="12dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/edit" />
+                    app:srcCompat="@drawable/edit" />
                 <ImageView
                     android:id="@+id/notifs"
                     android:layout_width="48dp"
@@ -46,7 +47,7 @@
                     android:paddingBottom="12dp"
                     android:paddingTop="12dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/notifs" />
+                    app:srcCompat="@drawable/notifs" />
 
 
             </android.support.v7.widget.Toolbar>

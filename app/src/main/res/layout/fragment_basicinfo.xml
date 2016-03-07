@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background"
@@ -47,7 +48,7 @@
                 <ImageView
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:src="@drawable/circle"
+                    app:srcCompat="@drawable/circle"
 
                     android:id="@+id/tint_primary"
                     />
@@ -75,7 +76,7 @@
                     android:layout_height="36dp"
                     android:id="@+id/tint_accent"
 
-                    android:src="@drawable/circle"
+                    app:srcCompat="@drawable/circle"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -100,7 +101,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:tint="?attr/card_background"
-                    android:src="@drawable/circle"
+                    app:srcCompat="@drawable/circle"
                     />
                 <TextView
                     android:layout_width="match_parent"

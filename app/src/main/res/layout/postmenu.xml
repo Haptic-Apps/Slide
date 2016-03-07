@@ -65,7 +65,7 @@
 
                             android:padding="12dp"
 
-                            android:src="@drawable/profile"
+                            app:srcCompat="@drawable/profile"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -100,7 +100,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/sub"
+                            app:srcCompat="@drawable/sub"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -134,7 +134,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/sidebar_saved"
+                            app:srcCompat="@drawable/sidebar_saved"
 
                             android:tint="?attr/tint" />
 
@@ -170,7 +170,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/openexternal"
+                            app:srcCompat="@drawable/openexternal"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -202,7 +202,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/report"
+                            app:srcCompat="@drawable/report"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -234,7 +234,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/infonew"
+                            app:srcCompat="@drawable/infonew"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -261,7 +261,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/share"
+                            app:srcCompat="@drawable/share"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -292,7 +292,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/hide"
+                            app:srcCompat="@drawable/hide"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -322,7 +322,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/commentchange"
+                            app:srcCompat="@drawable/commentchange"
                             android:tint="?attr/tint" />
 
 
@@ -332,7 +332,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/downvote"
+                            app:srcCompat="@drawable/downvote"
                             android:tint="?attr/tint" />
                         <ImageView
                             android:layout_width="0dp"
@@ -340,7 +340,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/upvoted"
+                            app:srcCompat="@drawable/upvoted"
                             android:tint="?attr/tint" />
 
                     </LinearLayout>

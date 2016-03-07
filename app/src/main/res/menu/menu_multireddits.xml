@@ -4,7 +4,7 @@
     tools:context=".SubredditOverview">
 
     <item android:id="@+id/action_edit"
-        android:icon="@drawable/editmenu"
+        android:icon="@drawable/edit"
         android:title="@string/editor_title"
         app:showAsAction="ifRoom"/>
 

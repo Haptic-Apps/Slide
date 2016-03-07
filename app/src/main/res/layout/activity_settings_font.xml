@@ -41,7 +41,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/commentchange"
+                    app:srcCompat="@drawable/commentchange"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -147,7 +147,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/ic_format_size_white_48dp"
+                    app:srcCompat="@drawable/ic_format_size_white_48dp"
                     android:tint="?attr/tint" />
 
                 <TextView

@@ -52,7 +52,7 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="-24dp"
-                android:src="@drawable/more" />
+                app:srcCompat="@drawable/more" />
             <LinearLayout
                 android:id="@+id/main"
                 android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/color"
+                    app:srcCompat="@drawable/color"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -89,7 +89,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/accent"
+                    app:srcCompat="@drawable/accent"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -113,7 +113,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/theme"
+                    app:srcCompat="@drawable/theme"
                     android:tint="?attr/tint" />
 
                 <TextView

@@ -2,6 +2,7 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
@@ -12,7 +13,7 @@
         android:layout_height="140dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:src="@drawable/sad"
+        app:srcCompat="@drawable/sad"
         android:textSize="70sp" />
 
     <TextView

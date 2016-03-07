@@ -27,7 +27,7 @@
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/upvoted" />
+            app:srcCompat="@drawable/upvoted" />
 
 
 
@@ -43,7 +43,7 @@
             android:paddingTop="8dp"
             android:scaleType="fitCenter"
 
-            android:src="@drawable/delete"
+            app:srcCompat="@drawable/delete"
 
             android:tint="@color/white" />
 
@@ -79,7 +79,7 @@
 
             android:scaleType="fitCenter"
 
-            android:src="@drawable/refresh"
+            app:srcCompat="@drawable/refresh"
 
             />
 
@@ -97,7 +97,7 @@
             android:paddingTop="8dp"
             android:scaleType="fitCenter"
 
-            android:src="@drawable/az"
+            app:srcCompat="@drawable/az"
 
             android:tint="@color/white"
 
@@ -127,6 +127,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/add"
+        app:srcCompat="@drawable/add"
         android:layout_height="wrap_content" />
 </RelativeLayout>

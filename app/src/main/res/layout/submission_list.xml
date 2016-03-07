@@ -51,7 +51,7 @@
                 android:layout_marginLeft="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/chameleon"
+                app:srcCompat="@drawable/chameleon"
                 app:riv_corner_radius="2dp" />
             <ImageView
                 android:id="@+id/secondMenu"
@@ -61,7 +61,7 @@
                 android:layout_height="36dp"
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
-                android:src="@drawable/down"
+                app:srcCompat="@drawable/down"
                 android:tag="tint"
                 android:tint="?attr/tint" />
             <RelativeLayout
@@ -128,7 +128,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/gild"
 
-                        android:src="@drawable/pinned" />
+                        app:srcCompat="@drawable/pinned" />
 
                     <include
                         android:id="@+id/nsfw"
@@ -154,7 +154,7 @@
 
                         android:layout_toRightOf="@+id/flairbubble"
 
-                        android:src="@drawable/pinned" />
+                        app:srcCompat="@drawable/pinned" />
 
                 </com.wefika.flowlayout.FlowLayout>
 
@@ -173,7 +173,7 @@
             android:layout_marginLeft="16dp"
             android:tint="?attr/tint"
             android:layout_marginRight="4dp"
-            android:src="@drawable/upvoted"
+            app:srcCompat="@drawable/upvoted"
             android:tag="tintactionbar" />
 
         <TextView
@@ -201,7 +201,7 @@
             android:layout_marginRight="4dp"
             android:layout_toRightOf="@+id/score"
 
-            android:src="@drawable/commentchange"
+            app:srcCompat="@drawable/commentchange"
             android:tag="tintactionbar" />
 
         <TextView
@@ -229,7 +229,7 @@
 
             android:layout_toLeftOf="@+id/hide"
             android:padding="8dp"
-            android:src="@drawable/saved"
+            app:srcCompat="@drawable/saved"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
@@ -242,7 +242,7 @@
 
             android:layout_toLeftOf="@+id/upvote"
             android:padding="8dp"
-            android:src="@drawable/mod"
+            app:srcCompat="@drawable/mod"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
@@ -255,7 +255,7 @@
             android:layout_below="@+id/innerrelative"
             android:layout_toLeftOf="@+id/mod"
             android:padding="8dp"
-            android:src="@drawable/hide"
+            app:srcCompat="@drawable/hide"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
@@ -268,7 +268,7 @@
             android:layout_toLeftOf="@+id/downvote"
             android:padding="8dp"
 
-            android:src="@drawable/upvoted"
+            app:srcCompat="@drawable/upvoted"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
@@ -281,7 +281,7 @@
 
             android:layout_toLeftOf="@+id/menu"
             android:padding="8dp"
-            android:src="@drawable/downvote"
+            app:srcCompat="@drawable/downvote"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
@@ -294,7 +294,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/innerrelative"
             android:padding="8dp"
-            android:src="@drawable/more"
+            app:srcCompat="@drawable/more"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 
