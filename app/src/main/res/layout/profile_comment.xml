@@ -52,12 +52,6 @@
 
 
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
 
 
                         <TextView
@@ -89,7 +83,6 @@
                             android:layout_marginLeft="10dp"
                             android:gravity="center_horizontal"
                             android:orientation="horizontal" />
-                    </LinearLayout>
 
 
             </LinearLayout>
@@ -106,7 +99,6 @@
                 android:id="@+id/commentOverflow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/firstTextView"
                 android:orientation="vertical"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"

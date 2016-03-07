@@ -60,7 +60,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:text="@string/settings_sub_tabs_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -81,7 +80,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -111,7 +109,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:text="@string/settings_general_swipeanywhere_description"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -132,7 +129,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -163,7 +159,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:id="@+id/fab_current"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -171,7 +166,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -203,7 +197,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:id="@+id/notifications_current"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -256,7 +249,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -301,7 +293,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -323,14 +314,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Restrict data use"
+                        android:text="Restrict data use when off WiFi"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:text="Will load half-quality images if possible"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
@@ -352,7 +342,6 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_alignParentBottom="true"
                 android:background="?attr/tint"
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
@@ -383,7 +372,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:layout_centerVertical="true"
                         android:id="@+id/sorting_current"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />

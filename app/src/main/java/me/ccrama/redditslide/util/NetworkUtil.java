@@ -45,7 +45,15 @@ public class NetworkUtil {
     public static boolean isConnected(Context context) {
         return getConnectivityStatus(context) != Status.NONE;
     }
-
+    /**
+     * Checks if the network is connected to WiFi.
+     *
+     * @param context The context used to retrieve connection information
+     * @return True if the application is connected, false if else.
+     */
+    public static boolean isConnectedWifi(Context context) {
+        return getConnectivityStatus(context) == Status.WIFI;
+    }
     /**
      * A simplified list of connectivity statuses. See {@link ConnectivityManager}'s {@code TYPE_*} for a full list.
      *

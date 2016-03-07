@@ -28,6 +28,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by carlo_000 on 2/7/2016.
@@ -136,7 +137,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
-            if (SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
+            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
 
                 int length = submission.getThumbnails().getVariations().length;
                 url =  Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
@@ -167,7 +168,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
         } else if (submission.getThumbnails() != null) {
 
-            if (SettingValues.lowRes && submission.getThumbnails().getVariations().length != 0) {
+            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails().getVariations().length != 0) {
 
                 int length = submission.getThumbnails().getVariations().length;
                 url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters

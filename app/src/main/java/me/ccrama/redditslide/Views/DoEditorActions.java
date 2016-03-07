@@ -154,6 +154,7 @@ public class DoEditorActions {
                 layout.addView(descriptionBox);
                 layout.setPadding(16, 16, 16, 16);
 
+                ta.recycle();
                 new AlertDialogWrapper.Builder(editText.getContext())
                         .setTitle(R.string.editor_title_link)
                         .setView(layout)
@@ -242,6 +243,7 @@ public class DoEditorActions {
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
 
 
+                ta.recycle();
                 layout.setPadding(16, 16, 16, 16);
                 layout.addView(descriptionBox);
                 new AlertDialogWrapper.Builder(editText.getContext()).setTitle(R.string.editor_title_link)

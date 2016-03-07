@@ -150,7 +150,7 @@
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Foto gespeichert</string>
-  <string name="info_connecting">Verbinde zu Reddit...</string>
+  <string name="info_connecting">Verbinde zu Reddit…</string>
   <!-- General errors / errors without a category -->
   <string name="err_network_title">Oh nein, Slide konnte nicht zu Reddit verbinden!</string>
   <string name="err_title">Oh nein, irgendwas ist schief gelaufen!</string>
@@ -172,7 +172,7 @@
   <!-- Pin infos -->
   <string name="pin_select">Wählen Sie Subreddits zum Anpinnen</string>
   <!-- Login strings -->
-  <string name="login_restarting_title">Slide startet neu...</string>
+  <string name="login_restarting_title">Slide startet neu…</string>
   <string name="login_restart_msg">Damit subreddits und Einstellungen synchronisiert werden, wird Slide neu starten</string>
   <!-- Multireddit errors -->
   <string name="multireddit_err_title">(Noch) Keine Multireddits!</string>
