@@ -79,6 +79,10 @@ public class ContentType {
             return ImageType.REDDIT;
         }
         if(isImgurLink(url)){
+            if(url.contains("?") && (url.contains(".png") ||url.contains(".gif") || url.contains(".jpg"))){
+                url = url.substring(0, url.lastIndexOf("?"));
+                return getImageType(url);
+            }
             return ImageType.IMGUR;
         }
         if (!s.getUrl().contains("youtube.com") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
@@ -189,6 +193,10 @@ public class ContentType {
             return ImageType.VIDEO;
         }
         if(isImgurLink(url)){
+            if(url.contains("?") && (url.contains(".png") ||url.contains(".gif") || url.contains(".jpg"))){
+                url = url.substring(0, url.lastIndexOf("?"));
+                return getImageType(url);
+            }
             return ImageType.IMGUR;
         }
         if (isAlbum(url)) {

@@ -66,9 +66,9 @@ public class OpenRedditLink {
                     String end = parts[6];
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
 
+                    if(end.length() >= 3)
                     i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
-                    Log.v(LogUtil.getTag(), "CONTEXT " + end);
                 }
                 context.startActivity(i);
                 break;

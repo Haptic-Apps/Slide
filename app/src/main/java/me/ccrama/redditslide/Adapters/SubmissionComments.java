@@ -114,8 +114,9 @@ public class SubmissionComments {
             args.put("context", Integer.toString(request.getContext()));
         if (request.getLimit() != null)
             args.put("limit", Integer.toString(request.getLimit()));
-        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
+        if (request.getFocus() != null && request.getFocus().length() >= 3 && !JrawUtils.isFullname(request.getFocus()))
             args.put("comment", request.getFocus());
+
 
         CommentSort sort = request.getSort();
         if (sort == null)
