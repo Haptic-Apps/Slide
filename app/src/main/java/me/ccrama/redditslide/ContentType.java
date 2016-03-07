@@ -71,7 +71,7 @@ public class ContentType {
         if (url.startsWith("/") && !url.startsWith("//")) {
             url = "reddit.com" + url;
         } else {
-            url = url.replace("//", "http://");
+            url = url.replace("//", "https://");
         }
         if (s.isSelfPost()) {
             return ImageType.SELF;
@@ -181,7 +181,7 @@ public class ContentType {
         if (url.startsWith("/") && !url.startsWith("//")) {
             url = "reddit.com" + url;
         } else {
-            url = url.replace("//", "http://");
+            url = url.replace("//", "https://");
         }
         if (isRedditLink(url)) {
             return ImageType.REDDIT;

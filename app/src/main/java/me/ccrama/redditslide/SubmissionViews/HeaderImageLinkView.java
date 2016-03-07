@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -138,7 +139,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             if (SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
 
                 int length = submission.getThumbnails().getVariations().length;
-                url = submission.getThumbnails().getVariations()[length].getUrl();
+                url =  Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
 
             } else {
                 url = submission.getUrl();
@@ -166,13 +167,13 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
         } else if (submission.getThumbnails() != null) {
 
-            if (SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
+            if (SettingValues.lowRes && submission.getThumbnails().getVariations().length != 0) {
 
                 int length = submission.getThumbnails().getVariations().length;
-                url = submission.getThumbnails().getVariations()[length].getUrl();
+                url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
 
             } else {
-                url = submission.getThumbnails().getSource().getUrl();
+                url =  Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
             }
             if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb) {
 
