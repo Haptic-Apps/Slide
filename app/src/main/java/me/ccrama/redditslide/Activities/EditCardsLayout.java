@@ -142,8 +142,8 @@ public class EditCardsLayout extends BaseActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.always:
-                                SettingValues.actionbarTap = true;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, true).apply();
+                                SettingValues.actionbarTap = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ACTIONBAR_TAP, false).apply();
                                 layout.removeAllViews();
                                 layout.addView(CreateCardView.setActionbarVisible(true, layout));
                                 break;

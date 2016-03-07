@@ -99,7 +99,7 @@ public class SubredditPosts implements PostLoader {
 
                List<Submission> filteredSubmissions = new ArrayList<>();
                 for (Submission s : submissions) {
-                    if (!PostMatch.doesMatch(s)) {
+                    if (!PostMatch.doesMatch(s, paginator.getSubreddit())) {
                         filteredSubmissions.add(s);
                     }
                 }
@@ -138,7 +138,7 @@ public class SubredditPosts implements PostLoader {
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
-                    if (!PostMatch.doesMatch(s)) {
+                    if (!PostMatch.doesMatch(s, paginator.getSubreddit())) {
                         finalSubs.add(s);
                     }
                 }
