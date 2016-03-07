@@ -137,14 +137,17 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
-            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
+            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails() != null &&submission.getThumbnails().getVariations() != null) {
 
                 int length = submission.getThumbnails().getVariations().length;
                 url =  Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
 
             } else {
-                url = submission.getUrl();
-            }
+                if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                    url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                } else {
+                    url = submission.getUrl();
+                }            }
             if (!full && !SettingValues.isPicsEnabled(baseSub) || forceThumb) {
 
                 if (!full) {

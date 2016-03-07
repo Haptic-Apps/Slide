@@ -1473,11 +1473,8 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                if(!shouldLoad.equals("frontpage")) {
-                    filterContent(shouldLoad);
-                } else {
-                    Snackbar.make(mToolbar, "Sorry, you cannot filter frontpage", Snackbar.LENGTH_LONG).show();
-                }
+                filterContent(shouldLoad);
+
                 return true;
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
@@ -1646,7 +1643,9 @@ public class MainActivity extends BaseActivity {
                 return false;
         }
     }
+
     boolean[] chosen;
+
     public void filterContent(final String subreddit) {
         chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
 
@@ -1661,7 +1660,7 @@ public class MainActivity extends BaseActivity {
                 }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5] );
+                LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5]);
                 PostMatch.setChosen(chosen, subreddit);
                 reloadSubs();
             }
