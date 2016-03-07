@@ -276,7 +276,6 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
             }
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
-            Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
@@ -290,7 +289,7 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size() ;
+            return subredditPosts.getPosts().size() - 1;
         }
 
     }
