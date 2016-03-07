@@ -443,7 +443,11 @@
     <string name="settings_auto_start">Night starts at</string>
     <string name="settings_middle_card">Image in middle of card</string>
     <string name="settings_cache_delete">Delete all cached data</string>
-    <string name="settings_colored_navigation_bar">Colored navigation bar</string>
+    <string name="settings_navigation_bar_choose">Choose a navigation bar style</string>
+    <string name="settings_navigation_bar_style">Navigation bar style</string>
+    <string name="settings_navigation_bar_stock">Stock</string>
+    <string name="settings_navigation_bar_colored">Colored</string>
+    <string name="settings_navigation_bar_translucent">Translucent</string>
     <string name="settings_imageviewer_background">Use Solid Imageviewer background</string>
     <string name="settings_filter_domain">Domain filters</string>
     <string name="settings_filter_selfttext">Selftext filters</string>

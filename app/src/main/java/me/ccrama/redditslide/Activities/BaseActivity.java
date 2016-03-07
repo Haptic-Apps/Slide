@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -299,8 +300,15 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     protected void themeSystemBars(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(color);
-            if (SettingValues.colorNavBar) {
-                getWindow().setNavigationBarColor(color);
+            switch (SettingValues.navbarStyle) {
+                case 2:
+                    getWindow().setNavigationBarColor(color);
+                    break;
+                case 3:
+                    getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                    break;
+                default:
+                    break;
             }
         }
     }

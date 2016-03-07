@@ -20,7 +20,7 @@ public class SettingValues {
     public static final String PREF_NIGHT_TIME = "night";
     public static final String PREF_AUTOTHEME = "autotime";
     public static final String PREF_COLOR_BACK = "colorBack";
-    public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
+    public static final String PREF_NAVBAR_STYLE = "navbarStyle";
     public static final String PREF_COLOR_EVERYWHERE = "colorEverywhere";
     public static final String PREF_SWAP = "Swap";
     public static final String PREFS_WEB = "web";
@@ -43,7 +43,6 @@ public class SettingValues {
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
     public static final String PREF_GIF = "gif";
-    public static final String PREF_VIDEO = "video";
     public static final String PREF_EXIT = "Exit";
     public static final String PREF_FASTSCROLL = "Fastscroll";
     public static final String PREF_FAB_CLEAR = "fabClear";
@@ -78,7 +77,7 @@ public class SettingValues {
     public static boolean image;
     public static boolean video;
     public static boolean colorBack;
-    public static boolean colorNavBar;
+    public static int navbarStyle;
     public static boolean actionbarVisible;
     public static boolean actionbarTap;
     public static boolean fullscreen;
@@ -145,7 +144,7 @@ public class SettingValues {
         daytime = prefs.getInt(PREF_NIGHT_TIME, 6);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
-        colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
+        navbarStyle = prefs.getInt(PREF_NAVBAR_STYLE, 1);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
@@ -177,7 +176,6 @@ public class SettingValues {
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
 
         gif = prefs.getBoolean(PREF_GIF, true);
-        video = prefs.getBoolean(PREF_VIDEO, true);
         exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, false);
 

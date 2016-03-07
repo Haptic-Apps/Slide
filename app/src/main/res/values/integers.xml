@@ -2,4 +2,8 @@
 <resources>
     <integer name="FAB_DISMISS">1</integer>
     <integer name="FAB_POST">2</integer>
+
+    <integer name="NAVBAR_STOCK">1</integer>
+    <integer name="NAVBAR_COLORED">2</integer>
+    <integer name="NAVBAR_TRANSLUCENT">3</integer>
 </resources>
