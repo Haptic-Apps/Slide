@@ -127,7 +127,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/gild"
 
-                        app:srcCompat="@drawable/pinned" />
+                         />
 
                     <include
                         android:id="@+id/nsfw"
@@ -153,7 +153,7 @@
 
                         android:layout_toRightOf="@+id/flairbubble"
 
-                        app:srcCompat="@drawable/pinned" />
+                         />
 
                 </com.wefika.flowlayout.FlowLayout>
 
@@ -232,7 +232,7 @@
 
             android:layout_toLeftOf="@+id/hide"
             android:padding="8dp"
-            app:srcCompat="@drawable/saved"
+            app:srcCompat="@drawable/iconstarfilled"
             android:tag="tintactionbar"
             android:tint="?attr/tint" />
 

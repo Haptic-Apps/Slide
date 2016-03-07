@@ -91,8 +91,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/nsfw"
-
-                        app:srcCompat="@drawable/pinned" />
+                        />
 
                     <include
                         android:id="@+id/gild"
@@ -116,7 +115,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@+id/pinned"
 
-                        app:srcCompat="@drawable/pinned" />
+                         />
                 </com.wefika.flowlayout.FlowLayout>
 
             </LinearLayout>
@@ -323,7 +322,7 @@
 
                 android:layout_toLeftOf="@+id/reply"
                 android:padding="8dp"
-                app:srcCompat="@drawable/saved"
+                app:srcCompat="@drawable/iconstarfilled"
                 android:tag="tint"
                 android:tint="?attr/tint" />
 

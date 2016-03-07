@@ -117,7 +117,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
             android:layout_toRightOf="@+id/pinned"
-            app:srcCompat="@drawable/pinned" />
+           />
 
         <include
             android:id="@+id/you"
@@ -129,7 +129,7 @@
             android:layout_gravity="center_vertical"
 
             android:layout_toRightOf="@+id/pinned"
-            app:srcCompat="@drawable/pinned" />
+          />
 
         <include
             android:id="@+id/op"
@@ -142,7 +142,7 @@
             android:layout_marginLeft="4dp"
 
             android:layout_toRightOf="@+id/pinned"
-            app:srcCompat="@drawable/pinned" />
+       />
 
         <include
             android:id="@+id/sticky"

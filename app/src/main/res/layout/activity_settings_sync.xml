@@ -53,7 +53,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    app:srcCompat="@drawable/reload"
+                    app:srcCompat="@drawable/refresh"
                     android:tint="?attr/tint" />
 
                 <TextView
