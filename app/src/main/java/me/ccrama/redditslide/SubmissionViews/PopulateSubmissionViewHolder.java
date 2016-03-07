@@ -272,12 +272,16 @@ public class PopulateSubmissionViewHolder {
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
-        new BottomSheet.Builder(mContext)
-                .title(Html.fromHtml(submission.getTitle()))
-                .sheet(1, profile, "/u/" + submission.getAuthor())
-                .sheet(2, sub, "/r/" + submission.getSubredditName())
-                .sheet(3, saved, mContext.getString(R.string.submission_save))
-                .sheet(5, hide, mContext.getString(R.string.submission_hide))
+
+        BottomSheet.Builder b = new BottomSheet.Builder(mContext)
+                .title(Html.fromHtml(submission.getTitle()));
+
+
+        b.sheet(1, profile, "/u/" + submission.getAuthor())
+                .sheet(2, sub, "/r/" + submission.getSubredditName());
+        if (Authentication.isLoggedIn)
+            b.sheet(3, saved, mContext.getString(R.string.submission_save));
+        b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url)
@@ -377,7 +381,10 @@ public class PopulateSubmissionViewHolder {
                                 break;
                         }
                     }
-                }).show();
+                });
+
+
+        b.show();
     }
 
 
