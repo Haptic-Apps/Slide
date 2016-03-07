@@ -45,6 +45,8 @@
   <string name="theme_light">明るめ</string>
   <string name="theme_dark">暗め</string>
   <string name="theme_black">AMOLED ブラック</string>
+  <string name="theme_dark_blue">ダークブルー</string>
+  <string name="theme_default_color">プライマリ色</string>
   <string name="theme_subreddit_color">色の変更</string>
   <string name="theme_accent_color">アクセントカラー</string>
   <string name="theme_base">ベーステーマ</string>
@@ -81,6 +83,8 @@
   <string name="drawer_sync_subs">あなたの Subreddit を同期</string>
   <string name="drawer_account_switch">切り替えまたは削除</string>
   <string name="drawer_account_switch_msg">このアカウントに切り替えますか、またはこのアカウントを削除しますか?</string>
+  <string name="drawer_offline">Slide はオフライン モードです</string>
+  <string name="drawer_offline_retry">オンライン モードを試してください</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">ピン留め</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -122,6 +126,9 @@
   <string name="comment_load_more">さらに %1$d を読み込む</string>
   <string name="comment_loading_more">追加のコメントを読み込んでいます&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">始めましょう</string>
+  <string name="welcome_personalize">パーソナライズ</string>
+  <string name="welcome_finish">チュートリアルを開始</string>
   <!-- Sorting options -->
   <string name="sorting_choose">並べ替えの種類を選択</string>
   <string name="sorting_change_sorting">投稿の並べ替えを変更</string>
@@ -479,10 +486,10 @@
   <string name="profile_manage_accounts">アカウントを管理</string>
   <string name="profile_remove_account">このアカウントを削除してもよろしいですか?</string>
   <string name="profile_remove">アカウントを削除</string>
-  <string name="theme_dark_blue">ダークブルー</string>
   <string name="card_right_thumb">サムネイルの右揃え</string>
   <string name="submission_share_permalink">投稿を共有</string>
   <string name="submission_share_content_url">コンテンツ URL を共有</string>
+  <string name="mode_card">カード</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分前</item>
   </plurals>

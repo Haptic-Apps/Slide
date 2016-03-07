@@ -9,10 +9,11 @@
   <string name="general_pro_msg">J\'ai décidé de rendre certaines fonctionnalités de Slide (notamment le mode multi-colonnes) disponibles en achetant une Clé Pro sur le Play Store.\n\nCela me permet de continuer à développer Slide sans avoir à afficher des publicités dans la version gratuite.\n\nLa version pro vous donne accès au mode multi-colonnes, au mode Shadowbox (pour les subreddits axés images), et d nombreuses autres choses à venir !\n\nVoulez-vous deverouiller Slide pour Reddit Pro?</string>
   <string name="general_open_settings">Ouvrir les paramètres du Subreddit</string>
   <string name="general_sub_sync">Synchronisation des abonnements</string>
-  <string name="general_login">Se Connecter</string>
+  <string name="general_login">Connexion</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Message désenregistré</string>
   <string name="submission_info_saved">Message enregistré</string>
+  <string name="submission_info_archived">Il s\'agit d\'une publication archivée. Vous ne pourrez pas voter ou la commenter.</string>
   <string name="submission_post_saved">Publication enregistrée</string>
   <string name="submission_info_hidden">Publication masquée pour toujours.</string>
   <string name="submission_stickied">Épinglé</string>
@@ -29,6 +30,7 @@
   <string name="submission_save">Enregistrer la publication</string>
   <string name="submission_share">Partager la publication</string>
   <string name="submission_load_full">Charger entièrement le fil</string>
+  <string name="submission_np_link">Il s\'agit d\'un lien sans participation. Merci de ne pas voter ou commenter.</string>
   <string name="submission_tap_gif">Appuyez pour charger le GIF</string>
   <string name="submission_not_found">Publication non trouvée !</string>
   <string name="submission_not_found_msg">Désolé, ce message est introuvable</string>
@@ -45,6 +47,7 @@
   <string name="theme_light">Clair</string>
   <string name="theme_dark">Sombre</string>
   <string name="theme_black">Noir AMOLED</string>
+  <string name="theme_default_color">Couleur principale</string>
   <string name="theme_subreddit_color">Modifier la couleur</string>
   <string name="theme_accent_color">Couleur d\'accentuation</string>
   <string name="theme_base">Thème de base</string>
@@ -57,9 +60,12 @@
   <!-- For editing the submission card layout -->
   <string name="card_actionbar">Barre d\'action visible</string>
   <string name="card_picture">Grandes images</string>
+  <string name="card_section_images">Images</string>
+  <string name="card_section_actionbar">Barre d\'action</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Paramètres multi-colonnes</string>
   <string name="multi_column_landscape">Paysage</string>
+  <string name="multi_column_portrait">Deux colonnes en mode portrait</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Passez à la version Pro</string>
@@ -70,6 +76,7 @@
   <string name="drawer_search">Rechercher un subreddit</string>
   <string name="drawer_moderation">Modération</string>
   <string name="drawer_sync_subs">Synchronisez vos Subreddits</string>
+  <string name="drawer_offline">Slide est en mode hors-ligne</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">Épinglés</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -95,6 +102,7 @@
   <string name="profile_gilded">doré</string>
   <string name="profile_downvoted">downvoted</string>
   <string name="profile_hidden">caché</string>
+  <string name="profile_friend">Ami</string>
   <string name="profile_add_friend">Ajouter un ami</string>
   <string name="profile_remove_friend">Supprimer cet ami</string>
   <!-- Comment text options -->
@@ -106,6 +114,9 @@
   <string name="comment_delete_err">Uh oh, quelque chose a mal tourné.</string>
   <string name="comment_delete_err_msg">Voulez-vous réessayer ?</string>
   <string name="comment_deleted">[supprimé]</string>
+  <string name="comment_unsave">Désenregistrer</string>
+  <string name="comment_load_more">Charger %1$d de plus</string>
+  <string name="comment_loading_more">Chargement de plus de commentaires&#8230;</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
   <string name="sorting_choose">Choisissez un mode de tri</string>
@@ -153,6 +164,7 @@
   <string name="err_login">Vous devez vous connecter pour faire ça! Se connecter maintenant?</string>
   <string name="err_permission">L\'autorisation a été refusée</string>
   <string name="err_permission_msg">Il semblerait que vous interdisiez à Slide l\'accès d\'écriture vers le stockage interne. Slide ne pourra pas sauvegarder les images, ou mettre en cache les postes et les images :( . \nAutoriser à Slide l\'accès vers le stockage internet?</string>
+  <string name="err_authentication">Échec de l\'authentification</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF non trouvé</string>
   <string name="gif_err_msg">Une erreur s\'est produite en chargeant ce gif. Veuillez réessayer.</string>
@@ -167,6 +179,7 @@
   <string name="multireddit_err_msg">Voulez-vous créer un nouveau Multireddit?</string>
   <string name="multireddit_title_empty">Le titre ne peut pas être vide</string>
   <string name="multireddit_title_empty_msg">Veuillez entrer un nom pour votre Multireddit</string>
+  <string name="multireddit_no_subs">Aucun subreddit n\'est ajouté</string>
   <string name="multireddit_selector">Sélectionnez des subreddits à ajouter</string>
   <string name="multireddit_invalid_name">Nom de multireddit invalide</string>
   <!-- Album errors/information -->
@@ -216,6 +229,10 @@
   <string name="misc_continue">Suivant</string>
   <string name="misc_unsubscribed">Désabonné</string>
   <string name="misc_no_more_posts">Plus de messages!</string>
+  <string name="misc_please_wait">Veuillez patienter&#8230;</string>
+  <string name="misc_img_share">Partager l\'image avec</string>
+  <string name="misc_link_chooser">Ouvrir l\'URL avec</string>
+  <string name="misc_mark_read">Marquer comme lu</string>
   <!-- Goto User -->
   <string name="user_enter">Entrez votre pseudo</string>
   <string name="user_btn_goto">Voir l\'utilisateur</string>
@@ -243,6 +260,7 @@
   <string name="btn_refresh">Actualiser</string>
   <string name="btn_confirm">Confirmer</string>
   <string name="btn_theme_toggle">Activer le Thème Sombre</string>
+  <string name="btn_delete">Supprimer</string>
   <!-- Backup -->
   <string name="backup_success">Sauvegarde réussie!</string>
   <string name="backup_restoring">Restauration de vous paramètres</string>
@@ -297,6 +315,7 @@
   <string name="captcha">Entrez le code ci-dessus</string>
   <string name="captcha_title">Montrez patte blanche</string>
   <!-- Settings -->
+  <string name="settings_reddit_prefs">Paramètres de Reddit</string>
   <string name="settings_accent_title">Modifier la couleur d\'accentuation</string>
   <string name="settings_card_mode">Mode Carte</string>
   <string name="settings_delete_sub_settings">Voulez-vous supprimer les paramètres de /r/%1$s</string>
@@ -384,6 +403,7 @@
   <!-- Time -->
   <string name="time_just_now">à l\'instant</string>
   <string name="submission_share_permalink">Partager la publication</string>
+  <string name="mode_card">Cartes</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">il y a %d minute</item>
     <item quantity="other">il y a %d minutes</item>

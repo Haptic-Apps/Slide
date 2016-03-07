@@ -49,6 +49,8 @@
   <string name="theme_light">Svijetla</string>
   <string name="theme_dark">Tamna</string>
   <string name="theme_black">AMOLED crna</string>
+  <string name="theme_dark_blue">Tamno plava</string>
+  <string name="theme_default_color">Primarna boja</string>
   <string name="theme_subreddit_color">Promijeni boju</string>
   <string name="theme_accent_color">Boja detalja</string>
   <string name="theme_base">Temeljna tema</string>
@@ -85,6 +87,8 @@
   <string name="drawer_sync_subs">Uskladi svoje podreddite</string>
   <string name="drawer_account_switch">Promijeni ili Izbriši</string>
   <string name="drawer_account_switch_msg">Želitw li se prebaciti na ovaj korisnički račun ili ga ukloniti?</string>
+  <string name="drawer_offline">Slide je u izvanmrežnom načinu rada</string>
+  <string name="drawer_offline_retry">Pokušaj se povezati s internetom</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">prikvačeno</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -124,6 +128,9 @@
   <string name="comment_load_more">Učitaj %1$d više</string>
   <string name="comment_loading_more">Učitavanje više komentara&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Započni</string>
+  <string name="welcome_personalize">Osobne postavke</string>
+  <string name="welcome_finish">Započni vodič</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Odaberite vrstu sortiranja</string>
   <string name="sorting_change_sorting">Način sortiranja</string>
@@ -466,7 +473,14 @@
   <string name="settings_synccit_failed_msg">Provjerite je li ispravno vaše korisničko ime i autentifikacijski ključ!</string>
   <string name="settings_synccit">Synccit integracija</string>
   <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
+  <string name="reorder_subs_added">" podredditi dodani"</string>
+  <string name="profile_manage_accounts">Upravljanje korisničkim računima</string>
+  <string name="profile_remove_account">Želite li zaista ukloniti ovaj korisnički račun?</string>
+  <string name="profile_remove">Izbriši korisnički račun</string>
+  <string name="card_right_thumb">Desno poravnata minijatura</string>
   <string name="submission_share_permalink">Podijeli post</string>
+  <string name="submission_share_content_url">Podijeli URL sadržaja</string>
+  <string name="mode_card">Kartica</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">prije %d minute</item>
     <item quantity="few">prije %d minute</item>

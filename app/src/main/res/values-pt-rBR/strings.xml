@@ -45,6 +45,7 @@
   <string name="theme_light">Claro</string>
   <string name="theme_dark">Escuro</string>
   <string name="theme_black">Preto (para AMOLED)</string>
+  <string name="theme_default_color">Cor principal</string>
   <string name="theme_subreddit_color">Alterar cor</string>
   <string name="theme_accent_color">Cor dos detalhes</string>
   <string name="theme_base">Tema de base</string>
@@ -58,9 +59,11 @@
   <string name="card_actionbar">Barra de Ação visivel</string>
   <string name="card_picture">Imagem grande</string>
   <string name="card_hide_post_button">Ocultar post</string>
+  <string name="card_section_images">Imagens</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Configurações de Multi-Coluna</string>
   <string name="multi_column_landscape">Paisagem</string>
+  <string name="multi_column_portrait">Duas colunas em modo retrato</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Perfil</string>
   <string name="drawer_support">Adquira a versão Pro</string>
@@ -107,7 +110,10 @@
   <string name="comment_delete_err">Opa, algo deu errado.</string>
   <string name="comment_delete_err_msg">Gostaria de tentar novamente?</string>
   <string name="comment_deleted">[deletado]</string>
+  <string name="comment_loading_more">Carregando mais comentários&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Iniciar</string>
+  <string name="welcome_finish">Iniciar o Tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Escolha um filtro</string>
   <string name="sorting_change_sorting">Modo de filtro</string>
@@ -154,6 +160,7 @@
   <string name="err_login">Você tem que estar logado para fazer isso! Entrar agora?</string>
   <string name="err_permission">Permissão negada</string>
   <string name="err_permission_msg">Parece que você negou ao Slide acesso para escrever/salvar no armazenamento externo. Isso fará com que o cache de imagens, de posts e salvar imagens falhe :(. \n Gostaria de permitir acesso ao armazenamento externo?</string>
+  <string name="err_authentication">Falha na autenticação</string>
   <!-- Gif -->
   <string name="gif_err_title">Gif não encontrado</string>
   <string name="gif_err_msg">Ocorreu um erro ao carregar este GIF. Por favor, re-Abra o GIF e tente novamente.</string>
@@ -217,6 +224,7 @@
   <string name="misc_continue">Continuar</string>
   <string name="misc_unsubscribed">Desinscrito</string>
   <string name="misc_no_more_posts">Sem mais posts!</string>
+  <string name="misc_img_share">Compartilhar imagem com</string>
   <!-- Goto User -->
   <string name="user_enter">Digite o nome de usuário</string>
   <string name="user_btn_goto">Ir para o usuário</string>
@@ -399,7 +407,9 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="time_just_now">agora mesmo</string>
+  <string name="comment_load_more_number_unknown">Carregar mais comentários</string>
   <string name="submission_share_permalink">Compartilhar post</string>
+  <string name="mode_card">Cartão</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto atrás</item>
     <item quantity="other">%d minutos atrás</item>

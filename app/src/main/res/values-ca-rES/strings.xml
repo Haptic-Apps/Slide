@@ -239,6 +239,7 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="submission_share_permalink">Compartir post</string>
+  <string name="mode_card">Targeta</string>
   <plurals name="time_days_ago">
     <item quantity="one">ahir</item>
     <item quantity="other">fa %d dies</item>

@@ -479,6 +479,7 @@
   <string name="settings_synccit">Integrazione con Synccit</string>
   <string name="reorder_sync_complete">Sincronizzazione completata</string>
   <string name="submission_share_permalink">Condividi post</string>
+  <string name="mode_card">Card</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto fa</item>
     <item quantity="other">%d minuti fa</item>

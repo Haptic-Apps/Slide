@@ -204,4 +204,5 @@
   <!-- Time -->
   <string name="time_just_now">الآن</string>
   <string name="submission_share_permalink">مشاركة المنشور</string>
+  <string name="mode_card">بطاقة</string>
 </resources>

@@ -50,6 +50,8 @@
   <string name="theme_light">Jasny</string>
   <string name="theme_dark">Ciemny</string>
   <string name="theme_black">AMOLED Czarny</string>
+  <string name="theme_dark_blue">Ciemny niebieski</string>
+  <string name="theme_default_color">Kolor podstawowy</string>
   <string name="theme_subreddit_color">Zmień kolor</string>
   <string name="theme_accent_color">Kolor akcentów</string>
   <string name="theme_base">Podstawowy motyw</string>
@@ -86,6 +88,8 @@
   <string name="drawer_sync_subs">Zsynchronizuj subreddity</string>
   <string name="drawer_account_switch">Przełącz lub Usuń</string>
   <string name="drawer_account_switch_msg">Czy chciałbyś przełączyć na to konto czy je usunąć?</string>
+  <string name="drawer_offline">Slide jest w trybie offline</string>
+  <string name="drawer_offline_retry">Spróbuj przejść w tryb online</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">Przypięty</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -127,6 +131,9 @@
   <string name="comment_load_more">Załaduj %1$d więcej</string>
   <string name="comment_loading_more">Ładowanie więcej komentarzy&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Zaczynajmy</string>
+  <string name="welcome_personalize">Personalizuj</string>
+  <string name="welcome_finish">Rozpocznij tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Wybierz typ sortowania</string>
   <string name="sorting_change_sorting">Sortowanie postów</string>
@@ -468,6 +475,7 @@
   <string name="time_just_now">teraz</string>
   <string name="color_sync_complete">Synchronizacja zakończona</string>
   <string name="comment_load_more_number_unknown">Załaduj więcej komentarzy</string>
+  <string name="settings_comment_color">Kolorowa indykacja drzew komentarzy</string>
   <string name="settings_volume_nav_posts">Przeglądanie postów przyciskami głośności</string>
   <string name="settings_volume_nav_comments">Przeglądaj komentarze przyciskami głośności</string>
   <string name="settings_synccit_remove">ODŁĄCZ SYNCCIT</string>
@@ -481,7 +489,14 @@
   <string name="settings_synccit_failed_msg">Upewnij się, że nazwa użytkownika i klucz są poprawne!</string>
   <string name="settings_synccit">Integracja Synccit</string>
   <string name="reorder_sync_complete">Synchronizacja zakończona</string>
+  <string name="reorder_subs_added">" subreddity dodane"</string>
+  <string name="settings_comment_collapsefully">Zwiń komentarz w pełni (wyłącza animacje)</string>
+  <string name="profile_manage_accounts">Zarządzanie kontami</string>
+  <string name="profile_remove_account">Czy chcesz usunąć to konto?</string>
+  <string name="profile_remove">Usuń konto</string>
   <string name="submission_share_permalink">Udostępnij post</string>
+  <string name="submission_share_content_url">Udostępnij link zawartości</string>
+  <string name="mode_card">Karta</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minutę temu</item>
     <item quantity="few">%d minuty temu</item>

@@ -47,6 +47,7 @@
   <string name="theme_light">Light</string>
   <string name="theme_dark">Dark</string>
   <string name="theme_black">AMOLED black</string>
+  <string name="theme_dark_blue">Dark blue</string>
   <string name="theme_default_color">Primary colour</string>
   <string name="theme_subreddit_color">Change colour</string>
   <string name="theme_accent_color">Accent colour</string>
@@ -132,6 +133,7 @@
   <string name="welcome_finish">Start tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Choose a sorting type</string>
+  <string name="sorting_time_choose">Choose a time frame</string>
   <string name="sorting_change_sorting">Sort mode</string>
   <string name="sorting_best">Best</string>
   <string name="sorting_top">Top</string>
@@ -280,6 +282,7 @@
   <string name="btn_cache">Cache comments</string>
   <string name="btn_delete">Delete</string>
   <string name="btn_switch">Switch</string>
+  <string name="btn_time">Time</string>
   <!-- Backup -->
   <string name="backup_success">Backup successful!</string>
   <string name="backup_restoring">Restoring your Settings</string>
@@ -489,10 +492,37 @@
   <string name="profile_manage_accounts">Manage accounts</string>
   <string name="profile_remove_account">Would you really like to remove this account?</string>
   <string name="profile_remove">Delete account</string>
-  <string name="theme_dark_blue">Dark blue</string>
   <string name="card_right_thumb">Right-aligned thumbnail</string>
   <string name="submission_share_permalink">Share post</string>
   <string name="submission_share_content_url">Share content URL</string>
+  <string name="change_theme">Change theme</string>
+  <string name="setting_filter_subreddits">Subreddit filters</string>
+  <string name="subreddit_theme">Subreddit theme</string>
+  <string name="btn_select">Select</string>
+  <string name="dialog_choose_subreddits_to_edit">Choose subreddits to edit</string>
+  <string name="dialog_color_sync_title">Colour syncing</string>
+  <string name="dialog_color_sync_message">This will try to retrieve the subreddit\'s \'key colour\' set by the moderators. It will not overwrite already coloured subreddits.</string>
+  <string name="fab_hide">Hide viewed posts</string>
+  <string name="fab_create">Create new post</string>
+  <string name="fab_disabled">Disabled</string>
+  <string name="handling_internal_browser">Use internal browser</string>
+  <string name="handling_external_browser">Use external browser</string>
+  <string name="settings_fastscroll_description">Enables a bottom bar with nav arrows</string>
+  <string name="settings_comment_crop_description">Separate from cropped setting on main view</string>
+  <string name="settings_comment_collapse">Fully collapse comments</string>
+  <string name="settings_comment_collapse_description">Also disables comment animations</string>
+  <string name="mode_list">List</string>
+  <string name="mode_centered">Card with centred image</string>
+  <string name="mode_card">Card</string>
+  <string name="mode_thumbnail">Thumbnail only</string>
+  <string name="mode_cropped">Big pic cropped</string>
+  <string name="mode_bigpic">Big pic</string>
+  <string name="settings_sub_tabs_description">Swipe between subreddits</string>
+  <string name="settings_sub_tabs">Subreddit tabs</string>
+  <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
+  <string name="press_actionbar">Press arrow to show actionbar</string>
+  <string name="tap_actionbar">Long press for actionbar</string>
+  <string name="always_actionbar">Always show actionbar</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minute ago</item>
     <item quantity="other">%d minutes ago</item>

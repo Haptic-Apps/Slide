@@ -23,5 +23,5 @@ if [ -n "$response" ]; then
     wget -qO "$tempfile" "https://api.crowdin.com/api/project/slide-for-reddit/download/all.zip?key=$apikey"
     unzip -oqd "$basedir/$location" "$tempfile"
     rm "$tempfile"
-    git diff --stat --no-ext-diff "$basedir/$location"
+    git --no-pager diff --stat --no-ext-diff "$basedir/$location"
 fi

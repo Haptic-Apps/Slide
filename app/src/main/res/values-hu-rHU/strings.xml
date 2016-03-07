@@ -93,4 +93,5 @@
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <string name="mode_card">Kártya</string>
 </resources>

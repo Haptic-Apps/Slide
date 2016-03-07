@@ -157,4 +157,5 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="submission_share_permalink">Jaa posti</string>
+  <string name="mode_card">Kortti</string>
 </resources>
