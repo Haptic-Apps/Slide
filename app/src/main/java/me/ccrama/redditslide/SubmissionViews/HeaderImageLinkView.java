@@ -74,10 +74,10 @@ public class HeaderImageLinkView extends RelativeLayout {
         String url = "";
         boolean forceThumb = false;
 
-        if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("width")) {
+        if (submission.getThumbnails() != null) {
 
-            int height = submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt();
-            int width = submission.getDataNode().get("preview").get("images").get(0).get("source").get("width").asInt();
+            int height = submission.getThumbnails().getSource().getHeight();
+            int width = submission.getThumbnails().getSource().getWidth();
 
             if (full) {
                 if (height < dpToPx(50) && type != ContentType.ImageType.SELF) {
@@ -86,7 +86,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 } else {
                     double h = getHeightFromAspectRatio(height, width);
-                    if(h != 0) {
+                    if (h != 0) {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
                     } else {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
@@ -100,7 +100,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
             } else if (height >= dpToPx(50)) {
                 double h = getHeightFromAspectRatio(height, width);
-                if(h != 0) {
+                if (h != 0) {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(height, width)));
                 } else {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -135,8 +135,14 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
+            if (SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
 
-            url = submission.getUrl();
+                int length = submission.getThumbnails().getVariations().length;
+                url = submission.getThumbnails().getVariations()[length].getUrl();
+
+            } else {
+                url = submission.getUrl();
+            }
             if (!full && !SettingValues.isPicsEnabled(baseSub) || forceThumb) {
 
                 if (!full) {
@@ -158,9 +164,16 @@ public class HeaderImageLinkView extends RelativeLayout {
                     wrapArea.setVisibility(View.GONE);
                 }
             }
-        } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
+        } else if (submission.getThumbnails() != null) {
 
-            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+            if (SettingValues.lowRes && submission.getThumbnails().getVariations() != null) {
+
+                int length = submission.getThumbnails().getVariations().length;
+                url = submission.getThumbnails().getVariations()[length].getUrl();
+
+            } else {
+                url = submission.getThumbnails().getSource().getUrl();
+            }
             if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb) {
 
                 if (!full) {
