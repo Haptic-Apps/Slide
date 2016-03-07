@@ -387,4 +387,5 @@
   <!-- Time -->
   <string name="time_just_now">только что</string>
   <string name="submission_share_permalink">Поделиться постом</string>
+  <string name="mode_card">Карточка</string>
 </resources>

@@ -336,6 +336,7 @@
   <!-- Time -->
   <string name="time_just_now">akkurat nå</string>
   <string name="submission_share_permalink">Dele post</string>
+  <string name="mode_card">Kort</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">for %d minutt siden</item>
     <item quantity="other">for %d minutter siden</item>

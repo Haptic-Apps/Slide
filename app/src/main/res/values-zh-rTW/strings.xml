@@ -71,4 +71,5 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="submission_share_permalink">分享告示</string>
+  <string name="mode_card">卡片</string>
 </resources>

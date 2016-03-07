@@ -149,4 +149,5 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="submission_share_permalink">שתף פוסט</string>
+  <string name="mode_card">קלף</string>
 </resources>

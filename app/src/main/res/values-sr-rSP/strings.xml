@@ -209,4 +209,5 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="submission_share_permalink">Подели пост</string>
+  <string name="mode_card">Картица</string>
 </resources>

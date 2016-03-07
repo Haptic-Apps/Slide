@@ -322,6 +322,7 @@
   <!-- Time -->
   <string name="time_just_now">şimdi</string>
   <string name="submission_share_permalink">Mesajı paylaş</string>
+  <string name="mode_card">Kart</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d dakika önce</item>
     <item quantity="other">%d dakika önce</item>
