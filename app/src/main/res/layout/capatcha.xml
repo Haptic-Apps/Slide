@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:adjustViewBounds="true"
-                android:src="@drawable/test" />
+                app:srcCompat="@drawable/test" />
 
             <LinearLayout
                 android:id="@+id/sidebar"

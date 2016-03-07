@@ -53,7 +53,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/reload"
+                    app:srcCompat="@drawable/reload"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -76,7 +76,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    android:src="@drawable/send"
+                    app:srcCompat="@drawable/send"
                     android:tint="?attr/tint" />
 
                 <TextView

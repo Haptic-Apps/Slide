@@ -52,7 +52,7 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="-24dp"
-                android:src="@drawable/more" />
+                app:srcCompat="@drawable/more" />
 
             <LinearLayout
                 android:id="@+id/main"
@@ -69,7 +69,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/color"
+                    app:srcCompat="@drawable/color"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -98,7 +98,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/accent"
+                    app:srcCompat="@drawable/accent"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -127,7 +127,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/theme"
+                    app:srcCompat="@drawable/theme"
                     android:tint="?attr/tint" />
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/middle"
+                    app:srcCompat="@drawable/middle"
                     android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -191,7 +191,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/sub"
+                    app:srcCompat="@drawable/sub"
                     android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -226,7 +226,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/ic_colored_navigation_bar"
+                    app:srcCompat="@drawable/ic_colored_navigation_bar"
                     android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat
@@ -261,7 +261,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/ic_colored_navigation_bar"
+                    app:srcCompat="@drawable/ic_colored_navigation_bar"
                     android:tint="?attr/tint" />
 
                 <android.support.v7.widget.SwitchCompat

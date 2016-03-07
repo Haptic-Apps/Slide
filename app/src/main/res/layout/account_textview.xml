@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:padding="18dp"
     android:layout_height="72dp">
@@ -18,7 +19,7 @@
         android:id="@+id/remove"
         android:layout_alignParentRight="true"
         android:padding="6dp"
-        android:src="@drawable/close"
+        app:srcCompat="@drawable/close"
         android:tint="?attr/tint"
         android:layout_height="36dp" />
 </RelativeLayout>

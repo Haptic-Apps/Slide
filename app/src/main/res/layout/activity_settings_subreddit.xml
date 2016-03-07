@@ -33,7 +33,7 @@
 
                 android:scaleType="fitCenter"
 
-                android:src="@drawable/delete"
+                app:srcCompat="@drawable/delete"
 
                 />
             <ImageView
@@ -47,7 +47,7 @@
                 android:paddingTop="8dp"
                 android:scaleType="fitCenter"
 
-                android:src="@drawable/color"
+                app:srcCompat="@drawable/color"
 
                 android:tint="@color/white"
 

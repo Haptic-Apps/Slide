@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
 
             android:layout_alignParentLeft="true"
-            android:src="@drawable/chameleon" />
+            app:srcCompat="@drawable/chameleon" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/thumbimage2"

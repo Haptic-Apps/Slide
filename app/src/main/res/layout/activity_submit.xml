@@ -159,7 +159,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/image"
+                        app:srcCompat="@drawable/image"
                         android:tint="?attr/tint"/>
 
 
@@ -174,7 +174,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/link"
+                        app:srcCompat="@drawable/link"
                         android:tint="?attr/tint"/>
 
                     <ImageButton
@@ -188,7 +188,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_format_bold_white_48dp"
+                        app:srcCompat="@drawable/ic_format_bold_white_48dp"
                         android:tint="?attr/tint"/>
 
                     <ImageButton
@@ -202,7 +202,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_format_italic_white_48dp"
+                        app:srcCompat="@drawable/ic_format_italic_white_48dp"
                         android:tint="?attr/tint"/>
 
                     <ImageButton
@@ -216,7 +216,7 @@
 
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_format_list_bulleted_white_48dp"
+                        app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"
                         android:tint="?attr/tint"/>
 
                     <ImageButton
@@ -230,7 +230,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_format_list_numbered_white_48dp"
+                        app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"
                         android:tint="?attr/tint"/>
 
                     <ImageButton
@@ -244,7 +244,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_format_quote_white_48dp"
+                        app:srcCompat="@drawable/ic_format_quote_white_48dp"
                         android:tint="?attr/tint"/>
 
                     <ImageButton
@@ -258,7 +258,7 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/fontsizedarker"
+                        app:srcCompat="@drawable/fontsizedarker"
                         android:tint="?attr/tint"/>
                 </LinearLayout>
 
@@ -323,7 +323,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:src="@drawable/send"
+        app:srcCompat="@drawable/send"
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"

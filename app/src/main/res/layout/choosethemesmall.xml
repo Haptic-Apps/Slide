@@ -59,7 +59,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/theme"
+                            app:srcCompat="@drawable/theme"
                             android:tint="#ffffff" />
 
                         <TextView
@@ -90,7 +90,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/theme"
+                            app:srcCompat="@drawable/theme"
                             android:tint="#ffffff" />
 
                         <TextView
@@ -121,7 +121,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/theme"
+                            app:srcCompat="@drawable/theme"
                             android:tint="#de393939" />
 
                         <TextView
@@ -152,7 +152,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/theme"
+                            app:srcCompat="@drawable/theme"
                             android:tint="#ffffff" />
 
                         <TextView

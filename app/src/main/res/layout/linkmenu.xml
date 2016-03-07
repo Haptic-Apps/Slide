@@ -76,7 +76,7 @@
 
                             android:padding="12dp"
 
-                            android:src="@drawable/expand"
+                            app:srcCompat="@drawable/expand"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -108,7 +108,7 @@
 
                             android:padding="12dp"
 
-                            android:src="@drawable/openexternal"
+                            app:srcCompat="@drawable/openexternal"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -141,7 +141,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/report"
+                            app:srcCompat="@drawable/report"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -171,7 +171,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/share"
+                            app:srcCompat="@drawable/share"
                             android:tint="?attr/tint" />
 
                         <TextView

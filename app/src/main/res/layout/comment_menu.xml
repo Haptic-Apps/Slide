@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -20,7 +21,7 @@
 
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            android:src="@drawable/more"
+            app:srcCompat="@drawable/more"
 
 
             />
@@ -32,7 +33,7 @@
 
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            android:src="@drawable/edit"
+            app:srcCompat="@drawable/edit"
 
 
             />
@@ -44,7 +45,7 @@
 
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            android:src="@drawable/delete"
+            app:srcCompat="@drawable/delete"
 
 
             />
@@ -56,7 +57,7 @@
             android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            android:src="@drawable/upvoteicon"
+            app:srcCompat="@drawable/upvoteicon"
 
             />
 
@@ -68,7 +69,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
 
-            android:src="@drawable/downvoteicon"
+            app:srcCompat="@drawable/downvoteicon"
             />
 
         <ImageView
@@ -79,7 +80,7 @@
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
 
-            android:src="@drawable/reply"
+            app:srcCompat="@drawable/reply"
             />
     </LinearLayout>
 
@@ -126,7 +127,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/image"
+                app:srcCompat="@drawable/image"
                 />
 
 
@@ -141,7 +142,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/link"
+                app:srcCompat="@drawable/link"
                 />
 
             <ImageButton
@@ -155,7 +156,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_bold_white_48dp"
+                app:srcCompat="@drawable/ic_format_bold_white_48dp"
                 />
 
             <ImageButton
@@ -169,7 +170,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_italic_white_48dp"
+                app:srcCompat="@drawable/ic_format_italic_white_48dp"
                 />
 
             <ImageButton
@@ -183,7 +184,7 @@
 
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_list_bulleted_white_48dp"
+                app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"
                 />
 
             <ImageButton
@@ -197,7 +198,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_list_numbered_white_48dp"
+                app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"
                 />
 
             <ImageButton
@@ -211,7 +212,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_format_quote_white_48dp"
+                app:srcCompat="@drawable/ic_format_quote_white_48dp"
                 />
 
             <ImageButton
@@ -225,7 +226,7 @@
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/fontsizedarker"
+                app:srcCompat="@drawable/fontsizedarker"
                 />
         </LinearLayout>
 

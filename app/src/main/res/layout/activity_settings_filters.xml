@@ -48,7 +48,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/link"
+                        app:srcCompat="@drawable/link"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -94,7 +94,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/fontsizedarker"
+                        app:srcCompat="@drawable/fontsizedarker"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -140,7 +140,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/infonew"
+                        app:srcCompat="@drawable/infonew"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -185,7 +185,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/sub"
+                        app:srcCompat="@drawable/sub"
                         android:tint="?attr/tint" />
 
                     <TextView

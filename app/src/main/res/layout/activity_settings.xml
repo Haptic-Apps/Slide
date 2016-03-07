@@ -62,7 +62,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/settings"
+                        app:srcCompat="@drawable/settings"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -87,7 +87,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/link"
+                        app:srcCompat="@drawable/link"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -113,7 +113,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/multicolumn"
+                        app:srcCompat="@drawable/multicolumn"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -138,7 +138,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/sub"
+                        app:srcCompat="@drawable/sub"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -186,7 +186,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/theme"
+                        app:srcCompat="@drawable/theme"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -214,7 +214,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/card"
+                        app:srcCompat="@drawable/card"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -242,7 +242,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/sub"
+                        app:srcCompat="@drawable/sub"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -269,7 +269,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/fontsizedarker"
+                        app:srcCompat="@drawable/fontsizedarker"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -296,7 +296,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/commentchange"
+                        app:srcCompat="@drawable/commentchange"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -346,7 +346,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/ic_backup"
+                        app:srcCompat="@drawable/ic_backup"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -373,7 +373,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/ic_backup"
+                        app:srcCompat="@drawable/ic_backup"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -400,7 +400,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/filter"
+                        app:srcCompat="@drawable/filter"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -426,7 +426,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/crown"
+                        app:srcCompat="@drawable/crown"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -452,7 +452,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/reddit"
+                        app:srcCompat="@drawable/reddit"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -478,7 +478,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/donate"
+                        app:srcCompat="@drawable/donate"
                         android:tint="?attr/tint" />
 
                     <TextView
@@ -505,7 +505,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        android:src="@drawable/infonew"
+                        app:srcCompat="@drawable/infonew"
                         android:tint="?attr/tint" />
 
                     <TextView

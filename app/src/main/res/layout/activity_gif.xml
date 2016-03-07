@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -62,7 +62,7 @@
             android:layout_height="56dp"
             android:background="?android:selectableItemBackground"
             android:padding="15dp"
-            android:src="@drawable/openexternal"
+            app:srcCompat="@drawable/openexternal"
 
             android:tint="@color/white" />
 
@@ -72,7 +72,7 @@
             android:layout_height="56dp"
             android:background="?android:selectableItemBackground"
             android:padding="15dp"
-            android:src="@drawable/share"
+            app:srcCompat="@drawable/share"
 
             android:tint="@color/white" />
 
@@ -85,7 +85,7 @@
             android:layout_gravity="right"
             android:padding="15dp"
 
-            android:src="@drawable/save" />
+            app:srcCompat="@drawable/save" />
 
 
     </LinearLayout>

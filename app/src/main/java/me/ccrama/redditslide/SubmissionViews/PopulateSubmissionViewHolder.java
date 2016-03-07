@@ -259,7 +259,7 @@ public class PopulateSubmissionViewHolder {
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
         Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
-        Drawable saved = mContext.getResources().getDrawable(R.drawable.saved);
+        Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
         Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);

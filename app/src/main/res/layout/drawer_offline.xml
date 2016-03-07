@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
 
@@ -20,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="-20dp"
             android:padding="57dp"
-            android:src="@drawable/slogo" />
+            app:srcCompat="@drawable/slogo" />
 
     </RelativeLayout>
 
@@ -60,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/internet"
+            app:srcCompat="@drawable/internet"
             android:tint="?attr/tint" />
 
         <TextView
@@ -88,7 +89,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/settings"
+            app:srcCompat="@drawable/settings"
             android:tint="?attr/tint" />
 
         <TextView

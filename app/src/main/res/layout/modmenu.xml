@@ -65,7 +65,7 @@
 
                             android:padding="12dp"
 
-                            android:src="@drawable/report"
+                            app:srcCompat="@drawable/report"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -99,7 +99,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/support"
+                            app:srcCompat="@drawable/support"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -133,7 +133,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/fontsizedarker"
+                            app:srcCompat="@drawable/fontsizedarker"
 
                             android:tint="?attr/tint" />
 
@@ -168,7 +168,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/hide"
+                            app:srcCompat="@drawable/hide"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -200,7 +200,7 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:src="@drawable/ic_format_quote_white_48dp"
+                            app:srcCompat="@drawable/ic_format_quote_white_48dp"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -231,7 +231,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/close"
+                            app:srcCompat="@drawable/close"
                             android:tint="?attr/tint" />
 
                         <TextView
@@ -262,7 +262,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:src="@drawable/user"
+                            app:srcCompat="@drawable/user"
                             android:tint="?attr/tint" />
 
                         <TextView

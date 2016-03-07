@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
@@ -20,7 +21,7 @@
             android:layout_marginTop="-20dp"
             android:padding="57dp"
             android:theme="@style/Ripple.List"
-            android:src="@drawable/slogo" />
+            app:srcCompat="@drawable/slogo" />
 
         <TextView
             android:id="@+id/welcome"
@@ -47,7 +48,7 @@
 
         <ImageView
             android:layout_width="30dp"
-            android:src="@drawable/down"
+            app:srcCompat="@drawable/down"
             android:layout_margin="12dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
@@ -101,7 +102,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/profile"
+            app:srcCompat="@drawable/profile"
             android:tint="?attr/tint" />
 
         <TextView
@@ -173,7 +174,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/sidebar_inbox"
+            app:srcCompat="@drawable/sidebar_inbox"
             android:id="@+id/inb"
             android:tint="?attr/tint" />
 
@@ -218,7 +219,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/mod"
+            app:srcCompat="@drawable/mod"
             android:tint="?attr/tint" />
 
         <TextView
@@ -247,7 +248,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/collection"
+            app:srcCompat="@drawable/collection"
             android:tint="?attr/tint" />
 
         <TextView
@@ -275,7 +276,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/crown"
+            app:srcCompat="@drawable/crown"
             android:tint="?attr/tint" />
 
         <TextView
@@ -303,7 +304,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/profile"
+            app:srcCompat="@drawable/profile"
             android:tint="?attr/tint" />
 
         <TextView
@@ -331,7 +332,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="26dp"
-            android:src="@drawable/settings"
+            app:srcCompat="@drawable/settings"
             android:tint="?attr/tint" />
 
         <TextView

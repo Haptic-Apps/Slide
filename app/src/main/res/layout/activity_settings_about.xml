@@ -46,7 +46,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/report"
+                    app:srcCompat="@drawable/report"
                     android:tint="?attr/tint"/>
 
                 <TextView
@@ -75,7 +75,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/infonew"
+                    app:srcCompat="@drawable/infonew"
                     android:tint="?attr/tint"/>
 
                 <TextView
@@ -104,7 +104,7 @@
                     android:paddingBottom="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:src="@drawable/infonew"
+                    app:srcCompat="@drawable/infonew"
                     android:tint="?attr/tint"/>
 
                 <TextView

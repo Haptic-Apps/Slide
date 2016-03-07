@@ -60,7 +60,7 @@
 
             android:scaleType="fitCenter"
 
-            android:src="@drawable/delete"
+            app:srcCompat="@drawable/delete"
 
             />
     </android.support.v7.widget.Toolbar>

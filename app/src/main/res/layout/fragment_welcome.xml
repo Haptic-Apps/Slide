@@ -9,7 +9,7 @@
         android:background="@drawable/backdrop_welcome"
         android:layout_height="match_parent"/>
    <ImageView
-       android:src="@drawable/slogo"
+       app:srcCompat="@drawable/slogo"
        android:layout_above="@+id/icon"
        android:layout_width="match_parent"
        android:layout_centerHorizontal="true"
@@ -20,7 +20,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="40dp"
         android:id="@+id/icon"
-        android:src="@drawable/ic_launcher"
+        app:srcCompat="@drawable/ic_launcher"
         android:layout_height="140dp" />
     <TextView
         android:layout_width="match_parent"

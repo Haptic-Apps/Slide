@@ -31,7 +31,7 @@
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
 
-            android:src="@drawable/search"
+            app:srcCompat="@drawable/search"
             android:tint="?attr/tint" />
 
         <EditText

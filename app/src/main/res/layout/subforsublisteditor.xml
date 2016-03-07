@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -47,7 +48,7 @@
             style="@style/Ripple.List"
 
             android:padding="12dp"
-            android:src="@drawable/delete"
+            app:srcCompat="@drawable/delete"
             android:tint="?attr/tint" />
 
         <ImageView
@@ -59,7 +60,7 @@
 
             style="@style/Ripple.List"
             android:padding="12dp"
-            android:src="@drawable/edit"
+            app:srcCompat="@drawable/edit"
 
             android:tint="?attr/tint" />
 

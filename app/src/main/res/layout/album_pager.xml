@@ -2,6 +2,7 @@
 
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -29,7 +30,7 @@
             android:layout_height="56dp"
             android:layout_gravity="right"
             android:padding="15dp"
-            android:src="@drawable/card" />
+            app:srcCompat="@drawable/card" />
 
 
     </android.support.v7.widget.Toolbar>

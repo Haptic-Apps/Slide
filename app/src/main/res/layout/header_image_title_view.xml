@@ -7,7 +7,8 @@
     android:layout_height="wrap_content"
     android:background="?attr/card_background"
 
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <ImageView
@@ -17,7 +18,7 @@
         android:adjustViewBounds="true"
 
         android:scaleType="centerCrop"
-        android:src="@drawable/chameleon" />
+        app:srcCompat="@drawable/chameleon" />
 
     <LinearLayout
         android:id="@+id/base"

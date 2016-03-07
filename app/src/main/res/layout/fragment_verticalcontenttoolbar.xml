@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:background="?attr/activity_background"
     android:layout_height="match_parent">
@@ -36,7 +36,7 @@
                 android:paddingTop="12dp"
 
                 android:scaleType="fitCenter"
-                android:src="@drawable/sort" />
+                app:srcCompat="@drawable/sort" />
 
 
             <ImageView
@@ -53,7 +53,7 @@
 
                 android:scaleType="fitCenter"
 
-                android:src="@drawable/search"
+                app:srcCompat="@drawable/search"
                 android:tint="@color/white" />
 
 
@@ -127,7 +127,7 @@
                 android:layout_height="36dp"
                 android:layout_weight="1"
                 style="@style/Ripple.List"
-                android:src="@drawable/up" />
+                app:srcCompat="@drawable/up" />
 
             <ImageView
                 android:id="@+id/down"
@@ -136,7 +136,7 @@
                 android:layout_height="36dp"
                 android:layout_weight="1"
                 style="@style/Ripple.List"
-                android:src="@drawable/down" />
+                app:srcCompat="@drawable/down" />
         </LinearLayout>
 
     </RelativeLayout>

@@ -47,7 +47,7 @@
                     android:layout_height="match_parent"
 
                     android:layout_alignParentLeft="true"
-                    android:src="@drawable/chameleon" />
+                    app:srcCompat="@drawable/chameleon" />
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/thumbimage2"
@@ -84,7 +84,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="4dp"
-                    android:src="@drawable/upvoted"
+                    app:srcCompat="@drawable/upvoted"
                     android:tag="tint" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     android:layout_below="@+id/title"
                     android:layout_marginRight="4dp"
                     android:layout_toRightOf="@+id/score"
-                    android:src="@drawable/commentchange" />
+                    app:srcCompat="@drawable/commentchange" />
 
                 <TextView
                     android:id="@+id/comments"
