@@ -1473,7 +1473,11 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.filter:
-                filterContent(shouldLoad);
+                if(!shouldLoad.equals("frontpage")) {
+                    filterContent(shouldLoad);
+                } else {
+                    Snackbar.make(mToolbar, "Sorry, you cannot filter frontpage", Snackbar.LENGTH_LONG).show();
+                }
                 return true;
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
