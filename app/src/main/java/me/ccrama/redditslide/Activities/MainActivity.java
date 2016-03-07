@@ -30,6 +30,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -741,11 +742,21 @@ public class MainActivity extends BaseActivity {
 
 
     public void openPopup() {
-
-        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+        PopupMenu popup = new PopupMenu(MainActivity.this, mToolbar);
+        final String[] base = Reddit.getSortingStrings(getBaseContext());
+        for (String s : base) {
+            popup.getMenu().add(s);
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (String s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
                 switch (i) {
                     case 0:
                         Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.HOT);
@@ -815,13 +826,16 @@ public class MainActivity extends BaseActivity {
                         Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
                         Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.ALL);
                         reloadSubs();
+
+
                 }
+                return true;
             }
-        };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id), l2);
-        builder.show();
+        });
+        popup.show();
+
+
+
 
     }
 
@@ -1464,6 +1478,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_subreddit_overview, menu);
         return true;

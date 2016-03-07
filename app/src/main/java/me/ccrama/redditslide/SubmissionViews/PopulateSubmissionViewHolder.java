@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -250,14 +252,36 @@ public class PopulateSubmissionViewHolder {
     }
 
     public <T extends Contribution> void showBottomSheet(final Activity mContext, final Submission submission, final SubmissionViewHolder holder, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
+
+        int[] attrs = new int[]{R.attr.tint};
+        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+
+        int color = ta.getColor(0, Color.WHITE);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
+        Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
+        Drawable saved = mContext.getResources().getDrawable(R.drawable.saved);
+        Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
+        Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
+        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
+        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
         new BottomSheet.Builder(mContext)
                 .title(Html.fromHtml(submission.getTitle()))
-                .sheet(1, mContext.getResources().getDrawable(R.drawable.profile), "/u/" + submission.getAuthor())
-                .sheet(2, mContext.getResources().getDrawable(R.drawable.sub), "/r/" + submission.getSubredditName())
-                .sheet(3, mContext.getResources().getDrawable(R.drawable.saved), mContext.getString(R.string.submission_save))
-                .sheet(5, mContext.getResources().getDrawable(R.drawable.hide), mContext.getString(R.string.submission_hide))
-                .sheet(7, mContext.getResources().getDrawable(R.drawable.openexternal), mContext.getString(R.string.submission_link_extern))
-                .sheet(4, mContext.getResources().getDrawable(R.drawable.share), mContext.getString(R.string.submission_share_permalink))
+                .sheet(1, profile, "/u/" + submission.getAuthor())
+                .sheet(2, sub, "/r/" + submission.getSubredditName())
+                .sheet(3, saved, mContext.getString(R.string.submission_save))
+                .sheet(5, hide, mContext.getString(R.string.submission_hide))
+                .sheet(7, open, mContext.getString(R.string.submission_link_extern))
+                .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
+                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url)
+                )
 
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
@@ -342,7 +366,7 @@ public class PopulateSubmissionViewHolder {
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getUrl(), mContext);
                                 break;
                             case 8:
-                                Reddit.defaultShareText(submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getPermalink(), mContext);
                                 break;
                             case 6:
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -912,7 +936,7 @@ public class PopulateSubmissionViewHolder {
                 if (offline) {
                     Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
                 } else {
-                    if(SettingValues.actionbarTap){
+                    if (SettingValues.actionbarTap) {
                         CreateCardView.toggleActionbar(holder.itemView);
                     } else {
                         holder.itemView.findViewById(R.id.menu).callOnClick();

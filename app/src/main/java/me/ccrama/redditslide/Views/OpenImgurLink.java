@@ -21,7 +21,6 @@ public class OpenImgurLink {
         if (url.endsWith("/")) {
             url = url.substring(0, url.length() - 1);
         }
-
         String hash = url.substring(url.lastIndexOf("/"), url.length());
 
         if(NetworkUtil.isConnected(c)) {
