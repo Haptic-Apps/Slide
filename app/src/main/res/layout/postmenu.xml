@@ -134,7 +134,7 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/sidebar_saved"
+                            app:srcCompat="@drawable/iconstarfilled"
 
                             android:tint="?attr/tint" />
 
