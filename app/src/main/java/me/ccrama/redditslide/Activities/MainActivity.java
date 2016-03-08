@@ -37,7 +37,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -743,7 +742,7 @@ public class MainActivity extends BaseActivity {
 
 
     public void openPopup() {
-        PopupMenu popup = new PopupMenu(MainActivity.this, mToolbar, Gravity.RIGHT);
+        PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor));
         final String[] base = Reddit.getSortingStrings(getBaseContext());
         for (String s : base) {
             popup.getMenu().add(s);
