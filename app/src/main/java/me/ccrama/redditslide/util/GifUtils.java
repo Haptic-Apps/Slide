@@ -955,12 +955,9 @@ public class GifUtils {
     }
 
     public static void doNotifGif(String s, Activity c) {
-        Intent intent = new Intent();
-        intent.setAction(android.content.Intent.ACTION_VIEW);
-
-        intent.setData(Uri.parse(s));
-        Intent newI = Intent.createChooser(intent, "Open Gif");
-        PendingIntent contentIntent = PendingIntent.getActivity(c, 0, newI, PendingIntent.FLAG_CANCEL_CURRENT);
+        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+        shareIntent.setDataAndType(Uri.parse(s), "video/*");
+        PendingIntent contentIntent = PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
         Notification notif = new NotificationCompat.Builder(c)
