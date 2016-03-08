@@ -4,25 +4,25 @@ import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -33,9 +33,11 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.UUID;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
@@ -52,7 +54,7 @@ import me.ccrama.redditslide.util.LogUtil;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class FullscreenImage extends FullScreenActivity {
+public class FullscreenImage extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
 
 
     public float previous;
@@ -70,45 +72,44 @@ public class FullscreenImage extends FullScreenActivity {
         setContentView(R.layout.activity_image);
 
 
-
         String url = getIntent().getExtras().getString(EXTRA_URL);
         if (url != null && ContentType.isImgurLink(url)) {
             url = url + ".png";
         }
         LogUtil.v(url);
-        if(url != null && !url.startsWith("https://i.redditmedia.com" )&& !url.contains("imgur.com")){ //we can assume redditmedia and imgur links are to direct images and not websites
+        if (url != null && !url.startsWith("https://i.redditmedia.com") && !url.contains("imgur.com")) { //we can assume redditmedia and imgur links are to direct images and not websites
             final String finalUrl2 = url;
             new AsyncTask<Void, Void, Void>() {
-               @Override
-               protected Void doInBackground(Void... params) {
-                   try {
-                       URL obj = new URL(finalUrl2);
-                       URLConnection conn = obj.openConnection();
-                       final String type = conn.getHeaderField("Content-Type");
-                       runOnUiThread(new Runnable() {
-                           @Override
-                           public void run() {
-                               if(type.startsWith("image/")){
-                                   //is image
-                                   loadImage(finalUrl2);
-                               } else {
-                                   CustomTabUtil.openUrl(finalUrl2, Palette.getDefaultColor(), FullscreenImage.this);
-                                   finish();
-                               }
-                           }
-                       });
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        URL obj = new URL(finalUrl2);
+                        URLConnection conn = obj.openConnection();
+                        final String type = conn.getHeaderField("Content-Type");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (type.startsWith("image/")) {
+                                    //is image
+                                    loadImage(finalUrl2);
+                                } else {
+                                    CustomTabUtil.openUrl(finalUrl2, Palette.getDefaultColor(), FullscreenImage.this);
+                                    finish();
+                                }
+                            }
+                        });
 
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                   }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                   //get all headers
+                    //get all headers
 
-                   return null;
-               }
-           }.execute();
+                    return null;
+                }
+            }.execute();
 
-        } else if(url != null){
+        } else if (url != null) {
             loadImage(url);
         } else {
             finish();
@@ -140,7 +141,7 @@ public class FullscreenImage extends FullScreenActivity {
         }
     }
 
-    public void loadImage(String url){
+    public void loadImage(String url) {
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
         i.setMinimumDpi(10);
@@ -286,35 +287,11 @@ public class FullscreenImage extends FullScreenActivity {
                                         @Override
                                         public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
 
-
                                             final String localAbsoluteFilePath = saveImageGallery(loadedImage, finalUrl1);
-
-                                            if (localAbsoluteFilePath != null) {
-                                                MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                                                    public void onScanCompleted(String path, Uri uri) {
-                                                        Intent intent = new Intent();
-                                                        intent.setAction(android.content.Intent.ACTION_VIEW);
-                                                        String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(".PNG");
-
-                                                        intent.setDataAndType(Uri.parse(localAbsoluteFilePath), mime);
-                                                        PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-                                                        Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
-                                                                .setContentTitle(getString(R.string.info_photo_saved))
-                                                                .setSmallIcon(R.drawable.notif)
-                                                                .setLargeIcon(loadedImage)
-                                                                .setContentIntent(contentIntent)
-                                                                .setStyle(new NotificationCompat.BigPictureStyle()
-                                                                        .bigPicture(loadedImage)).build();
-
-
-                                                        NotificationManager mNotificationManager =
-                                                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                                                        mNotificationManager.notify(1, notif);
-
-                                                    }
-                                                });
+                                            if (localAbsoluteFilePath != null && ! localAbsoluteFilePath.isEmpty() && !localAbsoluteFilePath.equals("choosing")) {
+                                                showNotifPhoto(localAbsoluteFilePath, loadedImage);
+                                            } else if(localAbsoluteFilePath == null || localAbsoluteFilePath.isEmpty()) {
+                                               showErrorDialog();
                                             }
 
                                         }
@@ -333,6 +310,51 @@ public class FullscreenImage extends FullScreenActivity {
         }
     }
 
+    public void showNotifPhoto(final String localAbsoluteFilePath, final Bitmap loadedImage) {
+        LogUtil.v(localAbsoluteFilePath);
+        MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            public void onScanCompleted(String path, Uri uri) {
+                Intent intent = new Intent();
+                intent.setAction(android.content.Intent.ACTION_VIEW);
+                String mime = "image/png";
+                intent.setDataAndType(Uri.parse(localAbsoluteFilePath), mime);
+                PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+                Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
+                        .setContentTitle(getString(R.string.info_photo_saved))
+                        .setSmallIcon(R.drawable.notif)
+                        .setLargeIcon(loadedImage)
+                        .setContentIntent(contentIntent)
+                        .setStyle(new NotificationCompat.BigPictureStyle()
+                                .bigPicture(loadedImage)).build();
+
+
+                NotificationManager mNotificationManager =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                mNotificationManager.notify(1, notif);
+                loadedImage.recycle();
+            }
+
+        });
+    }
+
+    public void showErrorDialog(){
+        new AlertDialogWrapper.Builder(FullscreenImage.this)
+                .setTitle("Uh oh, something went wrong.")
+                .setMessage("Slide couldn't save to the selected directory. Would you like to choose a new save location?")
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new FolderChooserDialog.Builder(FullscreenImage.this)
+                                .chooseButton(R.string.btn_select)  // changes label of the choose button
+                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, null)
+                .show();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -372,32 +394,70 @@ public class FullscreenImage extends FullScreenActivity {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         shareImage(loadedImage);
-
-
                     }
-
-
                 });
     }
 
-    private String saveImageGallery(final Bitmap _bitmap, String URL) {
-        if (!new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures").exists())
-            new File(Environment.getExternalStorageDirectory() + File.separator + "Pictures").mkdirs();
 
-        return MediaStore.Images.Media.insertImage(getContentResolver(), _bitmap, URL, "");
+    private String saveImageGallery(final Bitmap bitmap, String URL) {
+        if (Reddit.appRestart.getString("imagelocation", "").isEmpty() || !new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+            if( !new File(Reddit.appRestart.getString("imagelocation", "")).exists()){
+                showErrorDialog();
+            } else {
+                new FolderChooserDialog.Builder(this)
+                        .chooseButton(R.string.btn_select)  // changes label of the choose button
+                        .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                        .show();
+            }
+            return "choosing";
 
+        } else {
+            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
+
+
+            FileOutputStream out = null;
+            try {
+                f.createNewFile();
+                out = new FileOutputStream(f);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } catch (Exception e) {
+                e.printStackTrace();
+               showErrorDialog();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                        return f.getAbsolutePath();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
 
     }
 
     private void shareImage(final Bitmap bitmap) {
 
-        String pathofBmp = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Shared", null);
-        Uri bmpUri = Uri.parse(pathofBmp);
-        final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        shareImageIntent.setType("image/png");
-        startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+        String loc = saveImageGallery(bitmap, "");
+        if (loc != null && !loc.isEmpty() && !loc.equals("choosing")) {
+            Uri bmpUri = Uri.parse(loc);
+            final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
+            shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+            shareImageIntent.setType("image/png");
+            startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+        } else if(loc == null || loc.isEmpty()  ){
+           showErrorDialog();
+        }
 
+    }
 
+    @Override
+    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+        if (folder != null) {
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
+            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        }
     }
 }

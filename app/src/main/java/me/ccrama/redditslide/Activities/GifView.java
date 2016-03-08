@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
+
+import java.io.File;
 
 import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.R;
@@ -16,12 +21,17 @@ import me.ccrama.redditslide.util.GifUtils;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class GifView extends FullScreenActivity {
-
+public class GifView extends FullScreenActivity implements FolderChooserDialog.FolderCallback{
+    @Override
+    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+        if (folder != null) {
+            Reddit.appRestart.edit().putString("giflocation", folder.getAbsolutePath().toString()).apply();
+            Toast.makeText(this, "Gifs will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        }
+    }
     public static final String EXTRA_URL = "url";
     public ProgressBar loader;
     SharedPreferences prefs;
-
 
     @Override
     public void onResume() {
