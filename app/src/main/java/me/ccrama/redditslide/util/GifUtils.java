@@ -927,11 +927,11 @@ public class GifUtils {
     }
 
     public static void saveGif(File from, Activity a) {
-        if (!new File(Reddit.appRestart.getString("giflocation", "")).exists()) {
-            showErrorDialog(a);
-        } else if (Reddit.appRestart.getString("giflocation", "").isEmpty()) {
+        if (Reddit.appRestart.getString("giflocation", "").isEmpty()) {
             showFirstDialog(a);
-        } else {
+        } else if (!new File(Reddit.appRestart.getString("giflocation", "")).exists()) {
+            showErrorDialog(a);
+        } else  {
             File f = new File(Reddit.appRestart.getString("giflocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
 
 
