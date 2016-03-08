@@ -909,17 +909,28 @@ public class GifUtils {
                 .show();
     }
 
-    public static void saveGif(File from, Activity a) {
-        if (Reddit.appRestart.getString("giflocation", "").isEmpty() || !new File(Reddit.appRestart.getString("giflocation", "")).exists()) {
-            if (!new File(Reddit.appRestart.getString("giflocation", "")).exists()) {
-                showErrorDialog(a);
-            } else {
-                new FolderChooserDialog.Builder((GifView) a)
-                        .chooseButton(R.string.btn_select)  // changes label of the choose button
-                        .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
-                        .show();
-            }
+    public static void showFirstDialog(final Activity a) {
+        new AlertDialogWrapper.Builder(a)
+                .setTitle("Set gif save location")
+                .setMessage("Slide's gif save location has not been set yet. Would you like to set this now?")
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new FolderChooserDialog.Builder((GifView) a)
+                                .chooseButton(R.string.btn_select)  // changes label of the choose button
+                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, null)
+                .show();
+    }
 
+    public static void saveGif(File from, Activity a) {
+        if (!new File(Reddit.appRestart.getString("giflocation", "")).exists()) {
+            showErrorDialog(a);
+        } else if (Reddit.appRestart.getString("giflocation", "").isEmpty()) {
+            showFirstDialog(a);
         } else {
             File f = new File(Reddit.appRestart.getString("giflocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
 

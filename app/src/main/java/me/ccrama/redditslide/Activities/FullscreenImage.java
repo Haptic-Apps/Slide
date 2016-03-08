@@ -286,14 +286,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                                     .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                         @Override
                                         public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-
-                                            final String localAbsoluteFilePath = saveImageGallery(loadedImage, finalUrl1);
-                                            if (localAbsoluteFilePath != null && ! localAbsoluteFilePath.isEmpty() && !localAbsoluteFilePath.equals("choosing")) {
-                                                showNotifPhoto(localAbsoluteFilePath, loadedImage);
-                                            } else if(localAbsoluteFilePath == null || localAbsoluteFilePath.isEmpty()) {
-                                               showErrorDialog();
-                                            }
-
+                                            saveImageGallery(loadedImage, finalUrl1);
                                         }
 
                                     });
@@ -308,6 +301,23 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
 
 
         }
+    }
+
+    public void showFirstDialog() {
+        new AlertDialogWrapper.Builder(this)
+                .setTitle("Set image save location")
+                .setMessage("Slide's image save location has not been set yet. Would you like to set this now?")
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new FolderChooserDialog.Builder(FullscreenImage.this)
+                                .chooseButton(R.string.btn_select)  // changes label of the choose button
+                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.btn_no, null)
+                .show();
     }
 
     public void showNotifPhoto(final String localAbsoluteFilePath, final Bitmap loadedImage) {
@@ -338,7 +348,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
         });
     }
 
-    public void showErrorDialog(){
+    public void showErrorDialog() {
         new AlertDialogWrapper.Builder(FullscreenImage.this)
                 .setTitle("Uh oh, something went wrong.")
                 .setMessage("Slide couldn't save to the selected directory. Would you like to choose a new save location?")
@@ -354,6 +364,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -398,18 +409,11 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
     }
 
 
-    private String saveImageGallery(final Bitmap bitmap, String URL) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty() || !new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            if( !new File(Reddit.appRestart.getString("imagelocation", "")).exists()){
-                showErrorDialog();
-            } else {
-                new FolderChooserDialog.Builder(this)
-                        .chooseButton(R.string.btn_select)  // changes label of the choose button
-                        .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
-                        .show();
-            }
-            return "choosing";
-
+    private void saveImageGallery(final Bitmap bitmap, String URL) {
+        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+            showFirstDialog();
+        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+            showErrorDialog();
         } else {
             File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
 
@@ -421,34 +425,64 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             } catch (Exception e) {
                 e.printStackTrace();
-               showErrorDialog();
+                showErrorDialog();
             } finally {
                 try {
                     if (out != null) {
                         out.close();
-                        return f.getAbsolutePath();
+                        showNotifPhoto(f.getAbsolutePath(), bitmap);
+
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    showErrorDialog();
                 }
             }
         }
-        return null;
 
     }
 
     private void shareImage(final Bitmap bitmap) {
 
-        String loc = saveImageGallery(bitmap, "");
-        if (loc != null && !loc.isEmpty() && !loc.equals("choosing")) {
-            Uri bmpUri = Uri.parse(loc);
-            final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
-            shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-            shareImageIntent.setType("image/png");
-            startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
-        } else if(loc == null || loc.isEmpty()  ){
-           showErrorDialog();
+        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+            showFirstDialog();
+        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+            showErrorDialog();
+        } else {
+            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
+
+
+            FileOutputStream out = null;
+            try {
+                f.createNewFile();
+                out = new FileOutputStream(f);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } catch (Exception e) {
+                e.printStackTrace();
+                showErrorDialog();
+            } finally {
+                try {
+                    if (out != null) {
+                        out.close();
+                        if ( !f.getAbsolutePath().isEmpty()) {
+                            Uri bmpUri = Uri.parse(f.getAbsolutePath());
+                            final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
+                            shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
+                            shareImageIntent.setType("image/png");
+                            startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+                        } else {
+                            showErrorDialog();
+                        }
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showErrorDialog();
+                }
+            }
         }
+
 
     }
 
