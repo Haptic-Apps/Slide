@@ -314,11 +314,10 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
         LogUtil.v(localAbsoluteFilePath);
         MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
-                Intent intent = new Intent();
-                intent.setAction(android.content.Intent.ACTION_VIEW);
-                String mime = "image/png";
-                intent.setDataAndType(Uri.parse(localAbsoluteFilePath), mime);
-                PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+                final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+                shareIntent.setDataAndType(Uri.parse(localAbsoluteFilePath), "image/*");
+                PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
                 Notification notif = new NotificationCompat.Builder(FullscreenImage.this)
