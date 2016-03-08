@@ -93,7 +93,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     private SubredditPosts posts;
     public SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private void restartTheme() {
+    public void restartTheme() {
         Intent intent = this.getIntent();
         finish();
         startActivity(intent);

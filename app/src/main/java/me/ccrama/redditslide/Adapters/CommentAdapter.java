@@ -72,10 +72,10 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -148,21 +148,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (i == SPACER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
             return new SpacerViewHolder(v);
-
         } else if (i == HEADER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
             return new SubmissionViewHolder(v);
         } else if (i == 2) {
-
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
             return new CommentViewHolder(v);
-
         } else {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
             return new MoreCommentViewHolder(v);
-
         }
-
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission) {
@@ -1217,7 +1212,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
             }
 
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime() , mContext) : ""));
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
