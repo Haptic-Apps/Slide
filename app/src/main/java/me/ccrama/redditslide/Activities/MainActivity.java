@@ -743,7 +743,7 @@ public class MainActivity extends BaseActivity {
 
 
     public void openPopup() {
-        PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.LEFT);
+        PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final String[] base = Reddit.getSortingStrings(getBaseContext());
         for (String s : base) {
             popup.getMenu().add(s);
@@ -1681,8 +1681,6 @@ public class MainActivity extends BaseActivity {
                 reloadSubs();
             }
         }).setNegativeButton("Cancel", null).show();
-
-
     }
 
     public void saveOffline(final List<Submission> submissions, final String subreddit) {

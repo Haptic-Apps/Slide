@@ -203,7 +203,7 @@
                     android:layout_marginLeft="16dp"
                     android:tint="?attr/tint"
                     android:layout_marginRight="4dp"
-                    android:src="@drawable/upvoted"
+                    app:srcCompat="@drawable/upvoted"
                     android:tag="tintactionbar" />
 
                 <TextView
@@ -230,7 +230,7 @@
                     android:layout_marginRight="4dp"
                     android:layout_toRightOf="@+id/score"
 
-                    android:src="@drawable/commentchange"
+                    app:srcCompat="@drawable/commentchange"
                     android:tag="tintactionbar" />
 
                 <TextView
@@ -258,7 +258,7 @@
                     android:layout_toLeftOf="@+id/downvote"
                     android:padding="8dp"
 
-                    android:src="@drawable/upvoted"
+                    app:srcCompat="@drawable/upvoted"
                     android:tag="tintactionbar"
                     android:tint="?attr/tint" />
 
@@ -271,7 +271,7 @@
 
                     android:layout_toLeftOf="@+id/menu"
                     android:padding="8dp"
-                    android:src="@drawable/downvote"
+                    app:srcCompat="@drawable/downvote"
                     android:tag="tintactionbar"
                     android:tint="?attr/tint" />
 
@@ -284,7 +284,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/innerrelative"
                     android:padding="8dp"
-                    android:src="@drawable/more"
+                    app:srcCompat="@drawable/more"
                     android:tag="tintactionbar"
                     android:tint="?attr/tint" />
 

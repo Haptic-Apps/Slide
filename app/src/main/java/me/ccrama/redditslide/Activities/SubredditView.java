@@ -19,6 +19,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
@@ -48,10 +49,12 @@ import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -60,6 +63,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -106,14 +110,93 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
         return true;
     }
-
+    
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
         switch (item.getItemId()) {
+            case R.id.filter:
+                filterContent(subreddit);
+                return true;
+            case R.id.night: {
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
+                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                title.setBackgroundColor(Palette.getDefaultColor());
+
+
+                builder.setView(dialoglayout);
+                final Dialog d = builder.show();
+
+                dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
+                                Reddit.themeBack = theme.getThemeType();
+                                new ColorPreferences(SubredditView.this).setFontStyle(theme);
+                                d.dismiss();
+                                recreate();
+
+                                break;
+                            }
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
+                                new ColorPreferences(SubredditView.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+                                d.dismiss();
+                                recreate();
+                                break;
+                            }
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
+                                new ColorPreferences(SubredditView.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+                                d.dismiss();
+                                recreate();
+                                break;
+                            }
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
+                                new ColorPreferences(SubredditView.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+                                d.dismiss();
+                                recreate();
+
+                                break;
+                            }
+                        }
+                    }
+                });
+            }
+
+            return true;
             case R.id.action_refresh:
                 mSwipeRefreshLayout.setRefreshing(true);
                 posts = new SubredditPosts(subreddit);
@@ -123,9 +206,6 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 return true;
             case R.id.action_sort:
                 openPopup();
-                return true;
-            case R.id.action_info:
-                drawerLayout.openDrawer(Gravity.RIGHT);
                 return true;
             case R.id.search:
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
@@ -162,12 +242,15 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 }
                 builder.show();
                 return true;
+            case R.id.action_info:
+                drawerLayout.openDrawer(Gravity.RIGHT);
+                return true;
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
                     if (posts.posts != null && !posts.posts.isEmpty()) {
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra(Shadowbox.EXTRA_PAGE, 0);
-                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, subreddit);
+                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, posts.subreddit);
                         startActivity(i);
                     }
                 } else {
@@ -194,6 +277,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         }
     }
 
+
     public String term;
     FloatingActionButton fab;
 
@@ -219,6 +303,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setResult(3);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -513,13 +598,66 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             mLayoutManager.scrollToPosition(i);
         }
     }
-
-    public void openPopup() {
-
-        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
-
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+            public boolean onMenuItemClick(MenuItem item) {
+
+                int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
+                final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
+                LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                ArrayList<String> arrayList = new ArrayList<>();
+                arrayList.add(subreddit);
+                SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this, dialoglayout);
+                return false;
+            }
+        });
+        return true;
+    }
+
+    boolean[] chosen;
+    public void filterContent(final String subreddit) {
+        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
+
+        new AlertDialogWrapper.Builder(this)
+                .setTitle("Content to show in /r/" + subreddit)
+                .alwaysCallMultiChoiceCallback()
+                .setMultiChoiceItems(new String[]{"Gifs", "Albums", "Images", "NSFW Content", "Selftext", "Websites"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        chosen[which] = isChecked;
+                    }
+                }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5]);
+                PostMatch.setChosen(chosen, subreddit);
+                reloadSubs();
+            }
+        }).setNegativeButton("Cancel", null).show();
+
+
+    }
+    
+    public void openPopup() {
+        PopupMenu popup = new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        final String[] base = Reddit.getSortingStrings(getBaseContext());
+        for (String s : base) {
+            popup.getMenu().add(s);
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (String s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
                 switch (i) {
                     case 0:
                         Reddit.setSorting(subreddit, Sorting.HOT);
@@ -589,14 +727,16 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.ALL);
                         reloadSubs();
+
                 }
+                return true;
             }
-        };
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SubredditView.this);
-        builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(subreddit), l2);
-        builder.show();
+        });
+        popup.show();
+
+
+
+
     }
 
     private void reloadSubs() {

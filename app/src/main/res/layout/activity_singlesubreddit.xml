@@ -12,7 +12,14 @@
         android:layout_height="match_parent"
 
         android:orientation="vertical">
+        <View
+            android:id="@+id/anchor"
+            android:layout_width="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="3dp"
 
+            android:layout_gravity="top|right"
+            android:layout_height="1dp" />
 
             <android.support.design.widget.AppBarLayout
                 android:id="@+id/header"
@@ -28,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#00000000"
+                    android:theme="@style/ActionBarCompat"
                     android:minHeight="56dp" />
 
 
