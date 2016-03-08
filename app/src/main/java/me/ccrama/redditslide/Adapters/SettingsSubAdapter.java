@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SettingsSubreddit;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -106,6 +107,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             super(itemView);
         }
     }
+
     /**
      * Displays the subreddit color chooser
      * It is possible to color multiple subreddits at the same time
@@ -138,10 +140,10 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 int currentSubColor = Palette.getColor(sub);
                 int currentSubAccent = colorPrefs.getColor("");
 
-                if (previousSubColor != 0 && previousSubAccent != 0){
+                if (previousSubColor != 0 && previousSubAccent != 0) {
                     if (currentSubColor != previousSubColor) {
                         sameMainColor = false;
-                    } else if (currentSubAccent != previousSubAccent){
+                    } else if (currentSubAccent != previousSubAccent) {
                         sameAccentColor = false;
                     }
                 }
@@ -297,8 +299,6 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }
 
 
-
-
             builder.setView(dialoglayout);
             final Dialog d = builder.show();
             {
@@ -333,26 +333,28 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                         titleStart = titleStart.replace("/r//r/", "/r/");
                         new AlertDialogWrapper.Builder(context).setTitle(titleStart)
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                                for (String sub : subreddits) {
-                                    Palette.removeColor(sub);
-                                    // Remove layout settings
-                                    SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
-                                    // Remove accent / font color settings
-                                    new ColorPreferences(context).removeFontStyle(sub);
+                                        for (String sub : subreddits) {
+                                            Palette.removeColor(sub);
+                                            // Remove layout settings
+                                            SettingValues.prefs.edit().remove(Reddit.PREF_LAYOUT + sub).apply();
+                                            // Remove accent / font color settings
+                                            new ColorPreferences(context).removeFontStyle(sub);
 
-                                    SettingValues.resetPicsEnabled(sub);
-                                }
-                                if (context instanceof MainActivity)
-                                    ((MainActivity) context).reloadSubs();
-                                else if (context instanceof SettingsSubreddit) {
-                                    ((SettingsSubreddit) context).reloadSubList();
-                                }
-                                d.dismiss();
-                            }
-                        })
+                                            SettingValues.resetPicsEnabled(sub);
+                                        }
+                                        if (context instanceof MainActivity)
+                                            ((MainActivity) context).reloadSubs();
+                                        else if (context instanceof SettingsSubreddit) {
+                                            ((SettingsSubreddit) context).reloadSubList();
+                                        } else if (context instanceof SubredditView) {
+                                            ((SubredditView) context).restartTheme();
+                                        }
+                                        d.dismiss();
+                                    }
+                                })
                                 .setNegativeButton(R.string.btn_no, null).show();
                     }
                 });
@@ -367,10 +369,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                         int mainColor = colorPicker2.getColor();
 
 
-
                         for (String sub : subreddits) {
                             // Set main color
-                            if(bigPics.isChecked() != SettingValues.isPicsEnabled(sub)){
+                            if (bigPics.isChecked() != SettingValues.isPicsEnabled(sub)) {
                                 SettingValues.setPicsEnabled(sub, bigPics.isChecked());
                             }
                             if (mainColor != Palette.getDefaultColor())
@@ -395,13 +396,15 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
                             // Set layout
 
-                                SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
+                            SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
 
                         }
                         if (context instanceof MainActivity)
                             ((MainActivity) context).reloadSubs();
                         else if (context instanceof SettingsSubreddit) {
                             ((SettingsSubreddit) context).reloadSubList();
+                        } else if (context instanceof SubredditView) {
+                            ((SubredditView) context).restartTheme();
                         }
                         d.dismiss();
 
