@@ -27,6 +27,8 @@ public class SettingValues {
     public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
     public static final String PREF_ACTIONBAR_TAP = "actionbarTap";
     public static final String PREF_CUSTOMTABS = "customtabs";
+    public static final String PREF_STORE_HISTORY = "storehistory";
+    public static final String PREF_STORE_NSFW_HISTORY = "storensfw";
     public static final String PREF_SCROLL_SEEN = "scrollSeen";
     public static final String PREF_TITLE_FILTERS = "titleFilters";
     public static final String PREF_TEXT_FILTERS = "textFilters";
@@ -85,6 +87,8 @@ public class SettingValues {
     public static boolean lowRes;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
+    public static boolean storeHistory;
+    public static boolean storeNSFWHistory;
     public static boolean scrollSeen;
     public static boolean saveButton;
     public static boolean colorEverywhere;
@@ -158,6 +162,8 @@ public class SettingValues {
         cache = true;
         cacheDefault = false;
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
+        storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
+        storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
@@ -185,7 +191,6 @@ public class SettingValues {
         saveButton = prefs.getBoolean(PREF_SAVE_BUTTON, false);
         actionbarVisible = prefs.getBoolean(PREF_ACTIONBAR_VISIBLE, true);
         actionbarTap = prefs.getBoolean(PREF_ACTIONBAR_TAP, false);
-
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
@@ -207,7 +212,6 @@ public class SettingValues {
 
     public enum ColorMatchingMode {
         ALWAYS_MATCH, MATCH_EXTERNALLY
-
     }
 
 

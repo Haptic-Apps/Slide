@@ -419,6 +419,8 @@
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
+    <string name="settings_store_history">Store history</string>
+    <string name="settings_store_nsfw_history">Store NSFW history</string>
     <string name="settings_confirm_exit">Confirm exit dialog</string>
     <string name="settings_fastscroll">Navigate between parent comments</string>
     <string name="settings_floating_action_button">Floating action button</string>
