@@ -470,6 +470,7 @@
     <string name="settings_title_backup">Backup &amp; restore</string>
     <string name="settings_title_default_theme">Main theme</string>
     <string name="settings_title_general">General</string>
+    <string name="settings_title_history">History</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_pro">Go Pro</string>
     <string name="settings_title_sub_theme">Subreddit themes</string>
@@ -628,4 +629,8 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+    <string name="title_activity_settings_history">SettingsHistory</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
