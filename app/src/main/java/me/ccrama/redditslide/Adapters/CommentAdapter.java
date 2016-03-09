@@ -930,7 +930,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    EditText currentlyEditing;
+    public EditText currentlyEditing;
 
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
         holder.dots.setVisibility(View.VISIBLE);

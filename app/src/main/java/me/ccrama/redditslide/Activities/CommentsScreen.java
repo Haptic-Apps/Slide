@@ -86,6 +86,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 14){
             comments.notifyDataSetChanged();
             //todo make this work
@@ -130,7 +131,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
             comments = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setOffscreenPageLimit(1);
             pager.setAdapter(comments);
             pager.setCurrentItem(firstPage);
 
@@ -147,6 +147,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                         Tooltip.removeAll(CommentsScreen.this);
                         Reddit.appRestart.edit().putString("tutorial_6", "t").apply();
                     }*/
+                    if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
+                        subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
+                    }
                 }
 
                 @Override
@@ -155,51 +158,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
-       /* if (Reddit.appRestart.contains("tutorialSwipeComment") && !Reddit.appRestart.contains("tutorial_comm")) {
-            tip = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Tooltip.make(CommentsScreen.this,
-                            new Tooltip.Builder(106)
-                                    .anchor(findViewById(R.id.content_view), Tooltip.Gravity.CENTER)
-                                    .text("Swipe left and right to go between submissions. You can disable this in General Settings")
-                                    .maxWidth(600)
-                                    .activateDelay(800)
-                                    .showDelay(300)
-                                    .withArrow(true)
-                                    .withOverlay(true)
-                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                    .build()
-                    ).show();
-                }
-            }, 250);
-        } else if (!Reddit.appRestart.contains("tutorialSwipeComment")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Tooltip.make(CommentsScreen.this,
-                            new Tooltip.Builder(106)
-                                    .closePolicy(new Tooltip.ClosePolicy()
-                                            .insidePolicy(true, false)
-                                            .outsidePolicy(true, false), 3000)
-                                    .text("Drag from the very edge to exit")
-                                    .maxWidth(500)
-                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                                    .activateDelay(800)
-                                    .showDelay(300)
-                                    .withArrow(true)
-                                    .withOverlay(true)
-                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                    .build()
-                    ).show();
-
-                }
-            }, 250);
-
-        }*/
     }
 
     private void updateSubredditAndSubmission(Submission post) {
@@ -207,7 +165,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         themeSystemBars(subreddit);
         setRecentBar(subreddit);
         HasSeen.addSeen(post.getFullName());
-
     }
 
 
@@ -269,14 +226,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         public Fragment getItem(int i) {
             Fragment f = new CommentPage();
             Bundle args = new Bundle();
-
-            // TODO is there a better point load more posts (instead of the second to last element)?
-            if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
-                subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
-            }
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
-            Log.v(LogUtil.getTag(), name.substring(3, name.length()));
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
             args.putInt("page", i);
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());

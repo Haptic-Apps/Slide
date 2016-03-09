@@ -10,6 +10,9 @@
         android:layout_height="wrap_content">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/sidebar"
@@ -20,8 +23,7 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
 
-                android:orientation="horizontal"
-              >
+                android:orientation="horizontal">
 
 
                 <EditText
@@ -69,5 +71,6 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>
