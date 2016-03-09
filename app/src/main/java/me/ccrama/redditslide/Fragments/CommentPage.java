@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.CommentSort;
-import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
@@ -192,7 +191,7 @@ public class CommentPage extends Fragment {
                     if (comments.mLoadData != null) comments.mLoadData.cancel(true);
 
                     comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
-                    comments.setSorting(Reddit.defaultCommentSorting);
+                    comments.setSorting(CommentSort.CONFIDENCE);
                     loadMore = false;
                     v.findViewById(R.id.loadall).setVisibility(View.GONE);
 
@@ -312,35 +311,36 @@ public class CommentPage extends Fragment {
                 }
             }
         });
-        Submission s;
+        OfflineSubreddit o = null;
         if (!single) {
-            OfflineSubreddit o;
             if (getActivity() instanceof CommentsScreen ? ((CommentsScreen) getActivity()).o != null : ((CommentsScreenPopup) getActivity()).o != null) {
                 o = (getActivity() instanceof CommentsScreen) ? ((CommentsScreen) getActivity()).o : ((CommentsScreenPopup) getActivity()).o;
             } else {
                 o = OfflineSubreddit.getSubreddit(baseSubreddit);
             }
-            if (o != null && o.submissions.size() >= page && o.submissions.get(page).getComments() != null) {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
+        }
+        if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
+            if (o.submissions.size() > 0)
                 adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
-            } else if (context.isEmpty() && o != null && o.submissions.size() > page) {
+            rv.setAdapter(adapter);
+        } else if (context.isEmpty()) {
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            comments.setSorting(Reddit.defaultCommentSorting);
+            if (o != null && o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+            rv.setAdapter(adapter);
+        } else {
+            if (context.equals(Reddit.EMPTY_STRING)) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 comments.setSorting(Reddit.defaultCommentSorting);
-                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
             } else {
-                if (context.equals(Reddit.EMPTY_STRING)) {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                    comments.setSorting(Reddit.defaultCommentSorting);
-                } else {
-                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-                    comments.setSorting(Reddit.defaultCommentSorting);
-                }
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
+                comments.setSorting(Reddit.defaultCommentSorting);
             }
-            if (adapter != null) {
-                rv.setAdapter(adapter);
-            }
-        }
 
+
+        }
         if (!np && !archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setVisibility(View.GONE);
@@ -512,7 +512,8 @@ public class CommentPage extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        comments.cancelLoad();
+        if (comments != null)
+            comments.cancelLoad();
     }
 
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
