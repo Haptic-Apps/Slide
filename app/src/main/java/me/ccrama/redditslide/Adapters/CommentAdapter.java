@@ -192,19 +192,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
-            int i = 1;
+            int i = 2;
             for (CommentObject n : users) {
-
-                if (n instanceof CommentItem)
-
-                    if (n.comment.getComment().getFullName().contains(currentSelectedItem)) {
-
-                        Log.v(LogUtil.getTag(), "SCROLLING TO " + i);
-                        CommentPage.TopSnappedSmoothScroller scroller = new CommentPage.TopSnappedSmoothScroller(mContext, (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                        scroller.setTargetPosition(i);
-                        (listView.getLayoutManager()).startSmoothScroll(scroller);
-                        break;
-                    }
+                if (n instanceof  CommentItem && n.comment.getComment().getFullName().contains(currentSelectedItem)) {
+                    ((PreCachingLayoutManagerComments) listView.getLayoutManager()).scrollToPositionWithOffset(i, mPage.getActivity().findViewById(R.id.header).getHeight());
+                    break;
+                }
                 i++;
             }
         }
