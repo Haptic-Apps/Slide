@@ -40,7 +40,7 @@ public class SubredditStorage {
         editor.putString("subs", login ? "" : Reddit.arrayToString(subredditsForHome));
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
         editor.putString("name", Authentication.name);
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -51,7 +51,7 @@ public class SubredditStorage {
         editor.putString("subs", login ? "" : Reddit.arrayToString(subredditsForHome));
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
         editor.putString("name", "");
-        editor.commit();
+        editor.apply();
 
     }
 
@@ -152,6 +152,7 @@ public class SubredditStorage {
     }
 
     public static void saveSubredditsForHome(ArrayList<String> subs) {
+        subredditsForHome = new ArrayList<>(subs);
         StringBuilder b = new StringBuilder();
         for (String s : subs) {
             b.append(s);
@@ -159,8 +160,7 @@ public class SubredditStorage {
         }
         String finalS = b.toString();
         finalS = finalS.substring(0, finalS.length() - 1);
-        subscriptions.edit().putString(Authentication.name, finalS).commit();
-        subredditsForHome = new ArrayList<>(subs);
+        subscriptions.edit().putString(Authentication.name, finalS).apply();
         saveState(false);
     }
 

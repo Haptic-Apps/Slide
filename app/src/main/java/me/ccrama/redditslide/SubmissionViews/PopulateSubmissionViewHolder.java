@@ -8,6 +8,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -246,6 +247,7 @@ public class PopulateSubmissionViewHolder {
         return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
 
     }
+    boolean[] chosen = new boolean[]{false, false};
 
     public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
@@ -258,12 +260,14 @@ public class PopulateSubmissionViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
+        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
         Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
         Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable filter = mContext.getResources().getDrawable(R.drawable.filter);
+
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -271,7 +275,7 @@ public class PopulateSubmissionViewHolder {
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
+        filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder(mContext)
                 .title(Html.fromHtml(submission.getTitle()));
@@ -284,8 +288,8 @@ public class PopulateSubmissionViewHolder {
         b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
-                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url)
-                )
+                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
+                .sheet(10, filter, mContext.getString(R.string.filter_content))
 
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
@@ -303,6 +307,50 @@ public class PopulateSubmissionViewHolder {
                                 mContext.startActivityForResult(i, 14);
                             }
                             break;
+                            case 10:
+                                new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
+                                        .alwaysCallMultiChoiceCallback()
+                                        .setMultiChoiceItems(new String[]{"/r/" + submission.getSubredditName(), submission.getDomain()}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                                chosen[which] = isChecked;
+                                            }
+                                        })
+                                        .setPositiveButton("Filter", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                boolean filtered = false;
+                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                                                if(chosen[0]){
+                                                    SettingValues.subredditFilters = SettingValues.subredditFilters + "," + submission.getSubredditName();
+                                                    filtered = true;
+                                                    e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
+                                                }
+                                                if(chosen[1]){
+                                                    SettingValues.domainFilters = SettingValues.domainFilters + "," + submission.getDomain();
+                                                    filtered = true;
+                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
+
+                                                }
+                                                if(filtered){
+                                                    e.apply();
+                                                    final int pos = posts.indexOf(submission);
+                                                    final T t = posts.get(pos);
+                                                    posts.remove(submission);
+
+                                                    recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                    Hidden.setHidden(t);
+
+                                                    if (baseSub != null) {
+                                                        OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                                    }
+
+                                                }
+                                            }
+                                        }).setNegativeButton("Cancel", null)
+                                        .show();
+                                break;
+
                             case 3:
                                 new AsyncTask<Void, Void, Void>() {
                                     @Override
@@ -619,6 +667,7 @@ public class PopulateSubmissionViewHolder {
                                 @Override
                                 protected ArrayList<String> doInBackground(Void... params) {
                                     FlairReference allFlairs = new FluentRedditClient(Authentication.reddit).subreddit(submission.getSubredditName()).flair();
+
 
                                     try {
                                         flair = allFlairs.options();

@@ -60,10 +60,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
         SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
-
+        super.onPause();
     }
 
     @Override
@@ -114,7 +113,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
             public void onClick(View v) {
 
                 done = 0;
-
 
                 final Dialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
                         .content(R.string.misc_please_wait)

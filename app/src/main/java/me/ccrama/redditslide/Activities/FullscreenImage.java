@@ -77,7 +77,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
             url = url + ".png";
         }
         LogUtil.v(url);
-        if (url != null && !url.startsWith("https://i.redditmedia.com") && !url.contains("imgur.com")) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((url != null && !url.startsWith("https://i.redditmedia.com") && !url.contains("imgur.com")) || url != null &&  url.contains(".jpg")) { //we can assume redditmedia and imgur links are to direct images and not websites
             final String finalUrl2 = url;
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -91,6 +91,12 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                             public void run() {
                                 if (type.startsWith("image/")) {
                                     //is image
+                                    if(type.contains("gif")){
+                                        Intent i = new Intent(FullscreenImage.this, GifView.class);
+                                        i.putExtra(GifView.EXTRA_URL, finalUrl2.replace(".jpg", ".gif"));
+                                        startActivity(i);
+                                        finish();
+                                    }
                                     loadImage(finalUrl2);
                                 } else {
                                     CustomTabUtil.openUrl(finalUrl2, Palette.getDefaultColor(), FullscreenImage.this);

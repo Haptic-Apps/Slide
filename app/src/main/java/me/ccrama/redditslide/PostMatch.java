@@ -71,7 +71,7 @@ public class PostMatch {
             case NSFW_GIF:
             case NSFW_GFY:
             case NSFW_LINK:
-                if (!nsfw) contentMatch = true;
+                if (nsfw) contentMatch = true;
                 break;
             case REDDIT:
             case EMBEDDED:
@@ -79,25 +79,25 @@ public class PostMatch {
             case IMAGE_LINK:
             case NONE_URL:
             case VIDEO:
-                if (!urls) contentMatch = true;
+                if (urls) contentMatch = true;
                 break;
             case SELF:
             case NONE:
-                if (!selftext) contentMatch = true;
+                if (selftext) contentMatch = true;
                 break;
             case ALBUM:
-                if (!albums) contentMatch = true;
+                if (albums) contentMatch = true;
                 break;
             case IMAGE:
             case IMGUR:
             case NONE_IMAGE:
-                if (!images) contentMatch = true;
+                if (images) contentMatch = true;
                 break;
             case GFY:
             case GIF:
             case NONE_GFY:
             case NONE_GIF:
-                if (!gifs) contentMatch = true;
+                if (gifs) contentMatch = true;
                 break;
 
         }
@@ -139,37 +139,37 @@ public class PostMatch {
     public static void setChosen(boolean[] values, String subreddit) {
         subreddit = subreddit.toLowerCase();
         SharedPreferences.Editor e = filters.edit();
-        e.putBoolean(subreddit + "_gifs", values[0]);
-        e.putBoolean(subreddit + "_albums", values[1]);
-        e.putBoolean(subreddit + "_images", values[2]);
-        e.putBoolean(subreddit + "_nsfw", values[3]);
-        e.putBoolean(subreddit + "_selftext", values[4]);
-        e.putBoolean(subreddit + "_urls", values[5]);
+        e.putBoolean(subreddit + "_gifsFilter", values[0]);
+        e.putBoolean(subreddit + "_albumsFilter", values[1]);
+        e.putBoolean(subreddit + "_imagesFilter", values[2]);
+        e.putBoolean(subreddit + "_nsfwFilter", values[3]);
+        e.putBoolean(subreddit + "_selftextFilter", values[4]);
+        e.putBoolean(subreddit + "_urlsFilter", values[5]);
         e.apply();
 
     }
 
     public static boolean isGif(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_gifs", true);
+        return filters.getBoolean(baseSubreddit + "_gifsFilter", false);
     }
 
     public static boolean isImage(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_images", true);
+        return filters.getBoolean(baseSubreddit + "_imagesFilter", false);
     }
 
     public static boolean isAlbums(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_albums", true);
+        return filters.getBoolean(baseSubreddit + "_albumsFilter", false);
     }
 
     public static boolean isNsfw(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_nsfw", true);
+        return filters.getBoolean(baseSubreddit + "_nsfwFilter", false);
     }
 
     public static boolean isSelftext(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_selftext", true);
+        return filters.getBoolean(baseSubreddit + "_selftextFilter", false);
     }
 
     public static boolean isUrls(String baseSubreddit) {
-        return filters.getBoolean(baseSubreddit + "_urls", true);
+        return filters.getBoolean(baseSubreddit + "_urlsFilter", false);
     }
 }

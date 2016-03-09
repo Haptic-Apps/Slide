@@ -490,18 +490,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
-        savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
-        savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
-
-        savedInstanceState.putBoolean(IS_MOD, Authentication.mod);
-        savedInstanceState.putString(USERNAME, Authentication.name);
-    }
-
     public void doSubSidebar(final String subreddit) {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
@@ -1265,10 +1253,8 @@ public class MainActivity extends BaseActivity {
     }
 
     public void setDrawerSubList() {
-        ArrayList<String> copy = new ArrayList<>();
-        for (String s : SubredditStorage.subredditsForHome) {
-            copy.add(s);
-        }
+        ArrayList<String> copy = new ArrayList<>(SubredditStorage.subredditsForHome);
+
         e = ((EditText) headerMain.findViewById(R.id.sort));
         doTutorial();
 
@@ -1666,7 +1652,7 @@ public class MainActivity extends BaseActivity {
         chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
 
         new AlertDialogWrapper.Builder(this)
-                .setTitle("Content to show in /r/" + subreddit)
+                .setTitle("Content to hide in /r/" + subreddit)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{"Gifs", "Albums", "Images", "NSFW Content", "Selftext", "Websites"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
@@ -1781,7 +1767,7 @@ public class MainActivity extends BaseActivity {
         }
         Reddit.setDefaultErrorHandler(this);
         if (datasetChanged) {
-            usedArray = SubredditStorage.subredditsForHome;
+            usedArray = new ArrayList<>(SubredditStorage.subredditsForHome);
             adapter.notifyDataSetChanged();
             datasetChanged = false;
             if (mTabLayout != null) {
