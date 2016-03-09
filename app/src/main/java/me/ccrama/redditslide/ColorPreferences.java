@@ -284,7 +284,7 @@ public class ColorPreferences {
 
     public Theme getFontStyle() {
         try {
-            return Theme.valueOf(open().getString(FONT_STYLE,  Theme.dark_deeporange.name()));
+            return Theme.valueOf(open().getString(FONT_STYLE,  Theme.dark_amber.name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
