@@ -322,12 +322,12 @@ public class PopulateSubmissionViewHolder {
                                                 boolean filtered = false;
                                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
                                                 if(chosen[0]){
-                                                    SettingValues.subredditFilters = SettingValues.subredditFilters + "," + submission.getSubredditName();
+                                                    SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(","))?"":",") + submission.getSubredditName();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
                                                 }
                                                 if(chosen[1]){
-                                                    SettingValues.domainFilters = SettingValues.domainFilters + "," + submission.getDomain();
+                                                    SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(","))?"":",") + submission.getDomain();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
 
