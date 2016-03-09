@@ -43,7 +43,6 @@ public class SettingValues {
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
     public static final String PREF_GIF = "gif";
-    public static final String PREF_VIDEO = "video";
     public static final String PREF_EXIT = "Exit";
     public static final String PREF_FASTSCROLL = "Fastscroll";
     public static final String PREF_FAB_CLEAR = "fabClear";
@@ -76,7 +75,6 @@ public class SettingValues {
     public static boolean expandedSettings;
     public static boolean cacheDefault;
     public static boolean image;
-    public static boolean video;
     public static boolean colorBack;
     public static boolean colorNavBar;
     public static boolean actionbarVisible;
@@ -177,7 +175,6 @@ public class SettingValues {
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
 
         gif = prefs.getBoolean(PREF_GIF, true);
-        video = prefs.getBoolean(PREF_VIDEO, true);
         exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, false);
 
