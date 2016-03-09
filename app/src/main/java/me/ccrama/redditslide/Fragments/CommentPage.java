@@ -151,17 +151,12 @@ public class CommentPage extends Fragment {
                 adapter.currentSelectedItem = fullname;
                 adapter.reset(getContext(), comments, rv, comments.submission);
                 adapter.notifyDataSetChanged();
-                int i = 1;
+                int i = 2;
                 for (CommentObject n : comments.comments) {
-
-                    if (n instanceof CommentItem)
-
-                        if (n.comment.getComment().getFullName().contains(fullname)) {
-                            RecyclerView.SmoothScroller smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), (PreCachingLayoutManagerComments) rv.getLayoutManager());
-                            smoothScroller.setTargetPosition(i);
-                            (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-                            break;
-                        }
+                    if (n instanceof  CommentItem && n.comment.getComment().getFullName().contains(fullname)) {
+                        ((PreCachingLayoutManagerComments) rv.getLayoutManager()).scrollToPositionWithOffset(i, toolbar.getHeight());
+                        break;
+                    }
                     i++;
                 }
 

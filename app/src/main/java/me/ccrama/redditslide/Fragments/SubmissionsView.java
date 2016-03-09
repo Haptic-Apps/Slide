@@ -386,7 +386,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-        if (MainActivity.shouldLoad.equals(id)) {
+        if (MainActivity.shouldLoad == null || id == null ||  MainActivity.shouldLoad.equals(id)) {
             doAdapter();
         }
         return v;
