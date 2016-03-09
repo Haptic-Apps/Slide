@@ -32,6 +32,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="• You can now hide gif, nsfw, album, selftext, image, and websites posts per-subreddit from the overflow menu"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="• Filters in the Settings screen now function, subreddit filters have been added, and you can filter subs and domains from the overflow menu on submissions"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
             android:text="• New Dark Blue base theme"
             android:textSize="16sp" />
 
@@ -308,6 +320,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="• Upvote, Downvote, and Save save state from comment screen to post screen"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
             android:text="• Various new animations"
             android:textSize="16sp" />
         <TextView
@@ -315,6 +334,12 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="• Tons of bug fixes and improvements"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="• Better content handling (gifs longer than 15 secs, gif jpgs load, open correct mime type from the url content header if the source is unknown)"
             android:textSize="16sp" />
         <TextView
             android:layout_width="match_parent"
