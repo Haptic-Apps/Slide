@@ -147,6 +147,7 @@
                     android:textColorHint="?attr/font" />
 
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"

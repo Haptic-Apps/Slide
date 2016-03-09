@@ -39,7 +39,6 @@ public class SettingValues {
     public static final String PREF_SWITCH_THUMB = "switchThumb";
     public static final String PREF_LOW_RES = "lowRes";
 
-
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
     public static final String PREF_GIF = "gif";
@@ -150,7 +149,6 @@ public class SettingValues {
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         lowRes = prefs.getBoolean(PREF_LOW_RES, false);
 
-
         swap = prefs.getBoolean(PREF_SWAP, false);
         web = prefs.getBoolean(PREFS_WEB, true);
         image = prefs.getBoolean(PREF_IMAGE, true);
@@ -207,6 +205,4 @@ public class SettingValues {
         ALWAYS_MATCH, MATCH_EXTERNALLY
 
     }
-
-
 }
