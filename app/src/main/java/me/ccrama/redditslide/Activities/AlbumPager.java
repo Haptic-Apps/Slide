@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.google.gson.JsonElement;
@@ -79,7 +79,7 @@ public class AlbumPager extends FullScreenActivity {
         setContentView(R.layout.album_pager);
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setTitle(R.string.album_loading);
+        b.setTitle(R.string.type_album);
         ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -138,7 +138,7 @@ public class AlbumPager extends FullScreenActivity {
         }
 
         @Override
-        public void doWithData(ArrayList<JsonElement> jsonElements) {
+        public void doWithData(final ArrayList<JsonElement> jsonElements) {
             AlbumPager.this.gallery = LoadIntoPager.this.gallery;
             images = new ArrayList<>(jsonElements);
 
@@ -156,6 +156,54 @@ public class AlbumPager extends FullScreenActivity {
 
                 @Override
                 public void onPageSelected(int position) {
+                    JsonElement user = jsonElements.get(position);
+
+
+                    if (user.getAsJsonObject().has("image")) {
+                        if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
+                            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                            getSupportActionBar().setTitle(text.get(0));
+
+                        }
+
+                        if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
+                            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                            final String done = text.get(0);
+                            findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done);
+                                }
+                            });
+                            if (done.isEmpty()) {
+                                findViewById(R.id.text).setVisibility(View.GONE);
+                            } else {
+                                findViewById(R.id.text).setVisibility(View.VISIBLE);
+                            }
+                        }
+                    } else {
+                        if (user.getAsJsonObject().has("title")) {
+                            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
+                            getSupportActionBar().setTitle(text.get(0));
+
+                        }
+
+                        if (user.getAsJsonObject().has("description")) {
+                            List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
+                            final String done = text.get(0);
+                            findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done);
+                                }
+                            });
+                            if (done.isEmpty()) {
+                                findViewById(R.id.text).setVisibility(View.GONE);
+                            } else {
+                                findViewById(R.id.text).setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
 
                 }
 
@@ -335,7 +383,7 @@ public class AlbumPager extends FullScreenActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final ViewGroup rootView = (ViewGroup) inflater.inflate(
-                    R.layout.submission_imagecard_album, container, false);
+                    R.layout.album_image_pager, container, false);
 
             String url;
 
@@ -348,13 +396,9 @@ public class AlbumPager extends FullScreenActivity {
             }
 
             final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
-            TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
-            SpoilerRobotoTextView desc = (SpoilerRobotoTextView) rootView.findViewById(R.id.desc);
             ImageView fakeImage = new ImageView(getActivity());
             fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-
             ((Reddit) getActivity().getApplication()).getImageLoader()
                     .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
                         private View mView;
@@ -387,51 +431,8 @@ public class AlbumPager extends FullScreenActivity {
                             ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
                         }
                     });
-            title.setVisibility(View.VISIBLE);
-            desc.setVisibility(View.VISIBLE);
-            if (user.getAsJsonObject().has("image")) {
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    title.setTextHtml(text.get(0));
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-                } else {
-                    desc.setVisibility(View.GONE);
 
-                }
 
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
-                    title.setVisibility(View.GONE);
-
-                }
-            } else {
-                if (user.getAsJsonObject().has("title")) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-                } else {
-                    desc.setVisibility(View.GONE);
-                }
-
-                if (user.getAsJsonObject().has("description")) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
-                    title.setText(Html.fromHtml(text.get(0)));
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
-                    title.setVisibility(View.GONE);
-                }
-            }
             return rootView;
         }
 

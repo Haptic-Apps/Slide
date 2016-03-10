@@ -45,7 +45,7 @@ public class Album extends FullScreenActivity {
         setContentView(R.layout.album);
 
         final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setTitle(R.string.album_loading);
+        b.setTitle(R.string.type_album);
         ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
         setSupportActionBar(b);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

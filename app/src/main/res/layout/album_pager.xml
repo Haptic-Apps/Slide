@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,16 +10,12 @@
     android:orientation="vertical">
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/images_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00000000"
+        android:background="#aa000000"
         android:clipToPadding="false"
         android:minHeight="60dp"
         android:theme="@style/Theme.AppCompat">
@@ -31,9 +27,20 @@
             android:layout_gravity="right"
             android:padding="15dp"
             app:srcCompat="@drawable/card" />
-
+        <ImageView
+            android:id="@+id/text"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+            android:padding="15dp"
+            app:srcCompat="@drawable/fontsizedarker" />
 
     </android.support.v7.widget.Toolbar>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/images_horizontal"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_height="match_parent" />
 
     <View
         android:id="@+id/tutorial"
@@ -41,4 +48,4 @@
         android:layout_height="20dp"
         android:layout_gravity="center_vertical" />
 
-</FrameLayout>
+</RelativeLayout>
