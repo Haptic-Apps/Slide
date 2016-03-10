@@ -24,7 +24,7 @@ class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
         title = (TextView) v.findViewById(R.id.title);
         score = (TextView) v.findViewById(R.id.score);
         time = (TextView) v.findViewById(R.id.time);
-        gild = v.findViewById(R.id.gild);
+        gild = v.findViewById(R.id.gildtext);
         content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
         overflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
     }

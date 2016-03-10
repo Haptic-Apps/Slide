@@ -91,12 +91,6 @@
             android:textSize="14sp" />
 
     </android.support.design.widget.AppBarLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-
-        android:layout_height="match_parent">
-
         <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
             android:id="@+id/activity_main_swipe_refresh_layout"
             android:layout_width="match_parent"
@@ -111,7 +105,6 @@
                 android:orientation="vertical"/>
 
         </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
-
         <LinearLayout
             android:id="@+id/fastscroll"
             android:layout_width="match_parent"
@@ -138,6 +131,4 @@
                 style="@style/Ripple.List"
                 app:srcCompat="@drawable/down" />
         </LinearLayout>
-
-    </RelativeLayout>
 </FrameLayout>

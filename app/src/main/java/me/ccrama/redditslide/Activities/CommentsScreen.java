@@ -25,7 +25,6 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Visuals.StyleView;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -44,7 +43,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
-    private PostLoader subredditPosts;
+    public PostLoader subredditPosts;
     int firstPage;
 
     OverviewPagerAdapter comments;
@@ -100,9 +99,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
-        StyleView.styleActivity(this);
         Reddit.setDefaultErrorHandler(this);
-
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
         baseSubreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
@@ -222,7 +219,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            position = position;
             if (getCurrentFragment() != object) {
                 mCurrentFragment = ((CommentPage) object);
                 if (mCurrentFragment != null) {

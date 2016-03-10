@@ -26,7 +26,6 @@ import net.dean.jraw.models.CommentSort;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
@@ -155,7 +154,7 @@ public class CommentPage extends Fragment {
                 adapter.notifyDataSetChanged();
                 int i = 2;
                 for (CommentObject n : comments.comments) {
-                    if (n instanceof  CommentItem && n.comment.getComment().getFullName().contains(fullname)) {
+                    if (n instanceof CommentItem && n.comment.getComment().getFullName().contains(fullname)) {
                         ((PreCachingLayoutManagerComments) rv.getLayoutManager()).scrollToPositionWithOffset(i, toolbar.getHeight());
                         break;
                     }
@@ -173,10 +172,7 @@ public class CommentPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-
         final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
-
-
         if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
         } else {
@@ -199,7 +195,6 @@ public class CommentPage extends Fragment {
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
-        rv.getLayoutManager().setMeasurementCacheEnabled(true);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
@@ -214,7 +209,7 @@ public class CommentPage extends Fragment {
 
             }
         });
-        rv.addOnScrollListener(toolbarScroll);
+      //  rv.addOnScrollListener(toolbarScroll);
         if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
@@ -310,9 +305,9 @@ public class CommentPage extends Fragment {
                 }
             }
         });
-       if(!(getActivity() instanceof CommentsScreen) || ((CommentsScreen)getActivity()).currentPage == page){
-           doAdapter();
-       }
+        if (!(getActivity() instanceof CommentsScreen) || ((CommentsScreen) getActivity()).currentPage == page) {
+            doAdapter();
+        }
         if (!np && !archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setVisibility(View.GONE);
@@ -440,37 +435,39 @@ public class CommentPage extends Fragment {
         }
     }
 
-    public void doAdapter(){
+    public void doAdapter() {
         loaded = true;
-        OfflineSubreddit o = null;
-        if (!single) {
-            if (getActivity() instanceof CommentsScreen ? ((CommentsScreen) getActivity()).o != null : ((CommentsScreenPopup) getActivity()).o != null) {
-                o = (getActivity() instanceof CommentsScreen) ? ((CommentsScreen) getActivity()).o : ((CommentsScreenPopup) getActivity()).o;
-            } else {
-                o = OfflineSubreddit.getSubreddit(baseSubreddit);
-            }
-        }
-        if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
-            if (o.submissions.size() > 0)
-                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
-            rv.setAdapter(adapter);
-        } else if (context.isEmpty()) {
+        if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null) {
+
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
-            if (o != null && o.submissions.size() > 0)
-                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+            adapter = new CommentAdapter(this, comments, rv, ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page), getFragmentManager());
             rv.setAdapter(adapter);
+
         } else {
-            if (context.equals(Reddit.EMPTY_STRING)) {
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(baseSubreddit);
+            if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
+                if (o.submissions.size() > 0)
+                    adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+                rv.setAdapter(adapter);
+            } else if (context.isEmpty()) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 comments.setSorting(Reddit.defaultCommentSorting);
+                if (o != null && o.submissions.size() > 0)
+                    adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+                rv.setAdapter(adapter);
             } else {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-                comments.setSorting(Reddit.defaultCommentSorting);
+                if (context.equals(Reddit.EMPTY_STRING)) {
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                    comments.setSorting(Reddit.defaultCommentSorting);
+                } else {
+                    comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
+                    comments.setSorting(Reddit.defaultCommentSorting);
+                }
+
+
             }
-
-
         }
     }
 
