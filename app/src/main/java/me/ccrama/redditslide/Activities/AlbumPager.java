@@ -161,6 +161,56 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
             p.setAdapter(adapter);
+            {
+                JsonElement user = jsonElements.get(0);
+
+
+                if (user.getAsJsonObject().has("image")) {
+                    if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
+                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
+                        getSupportActionBar().setTitle(text.get(0));
+
+                    }
+
+                    if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
+                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
+                        final String done = text.get(0);
+                        findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done).show();
+                            }
+                        });
+                        if (done.isEmpty()) {
+                            findViewById(R.id.text).setVisibility(View.GONE);
+                        } else {
+                            findViewById(R.id.text).setVisibility(View.VISIBLE);
+                        }
+                    }
+                } else {
+                    if (user.getAsJsonObject().has("title")) {
+                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
+                        getSupportActionBar().setTitle(text.get(0));
+
+                    }
+
+                    if (user.getAsJsonObject().has("description")) {
+                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
+                        final String done = text.get(0);
+                        findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done).show();
+                            }
+                        });
+                        if (done.isEmpty()) {
+                            findViewById(R.id.text).setVisibility(View.GONE);
+                        } else {
+                            findViewById(R.id.text).setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
             p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -185,7 +235,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                             findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done);
+                                    new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done).show();
                                 }
                             });
                             if (done.isEmpty()) {
@@ -207,7 +257,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                             findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done);
+                                    new AlertDialogWrapper.Builder(AlbumPager.this).setMessage(done).show();
                                 }
                             });
                             if (done.isEmpty()) {
