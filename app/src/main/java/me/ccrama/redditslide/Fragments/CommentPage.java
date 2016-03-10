@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -66,16 +65,7 @@ public class CommentPage extends Fragment {
     public String subreddit;
     public boolean loaded = false;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if (id == android.R.id.home) {
-            getActivity().onBackPressed();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -173,11 +163,7 @@ public class CommentPage extends Fragment {
             }
         });
 
-        if (getActivity() instanceof BaseActivityAnim) {
-            ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
-            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(subreddit);
-        }
+
         toolbar.setBackgroundColor(Palette.getColor(subreddit));
 
         v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
@@ -228,6 +214,11 @@ public class CommentPage extends Fragment {
     }
 
     public void doAdapter() {
+        if (getActivity() instanceof BaseActivityAnim) {
+            ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(subreddit);
+        }
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

@@ -200,24 +200,25 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         });
         return v;
     }
-
     private List<Submission> clearSeenPosts(boolean forever) {
         if (posts.posts != null) {
-            List<Submission> originalDataSetPosts = posts.posts;
-            OfflineSubreddit.getSubreddit("multi" + posts.getMultiReddit().getDisplayName().toLowerCase()).clearSeenPosts(false);
 
+            List<Submission> originalDataSetPosts = posts.posts;
+
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.getMultiReddit().getDisplayName().toLowerCase());
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(posts.posts.get(i))) {
                         if (forever) {
                             Hidden.setHidden(posts.posts.get(i));
                         }
+                        o.clearPost(posts.posts.get(i));
+
                         posts.posts.remove(i);
                         if (posts.posts.size() == 0) {
                             adapter.notifyDataSetChanged();
                         } else {
                             rv.setItemAnimator(new FadeInAnimator());
-
                             adapter.notifyItemRemoved(i + 1);
                         }
                     }
@@ -225,6 +226,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
+            o.writeToMemory();
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }

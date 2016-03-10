@@ -129,24 +129,19 @@ public class OfflineSubreddit {
 
     }
 
-    public void clearSeenPosts(boolean forever) {
+    public void clearPost(Submission s) {
         if (submissions != null) {
-
-            for (int i = submissions.size(); i > -1; i--) {
-                try {
-                    if (HasSeen.getSeen(submissions.get(i))) {
-                        if (forever) {
-                            Hidden.setHidden(submissions.get(i));
-                        }
-                        submissions.remove(i);
-                    }
-                } catch (IndexOutOfBoundsException e) {
-                    //Let the loop reset itself
+            Submission toRemove = null;
+            for (Submission s2 : submissions) {
+                if (s.getFullName().equals(s2.getFullName())) {
+                    toRemove = s2;
                 }
+            }
+            if(toRemove != null){
+                submissions.remove(toRemove);
             }
 
         }
-        writeToMemory();
     }
 
     int savedIndex;
