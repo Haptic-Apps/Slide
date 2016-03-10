@@ -141,17 +141,18 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
-            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails() != null &&submission.getThumbnails().getVariations() != null) {
+            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                 int length = submission.getThumbnails().getVariations().length;
-                url =  Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+                url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
 
             } else {
                 if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                     url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                 } else {
                     url = submission.getUrl();
-                }            }
+                }
+            }
             if (!full && !SettingValues.isPicsEnabled(baseSub) || forceThumb) {
 
                 if (!full) {
@@ -181,7 +182,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
 
             } else {
-                url =  Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
+                url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
             }
             if (!SettingValues.isPicsEnabled(baseSub) && !full || forceThumb) {
 
@@ -242,12 +243,9 @@ public class HeaderImageLinkView extends RelativeLayout {
         } else {
             title = (TextView) findViewById(R.id.textimage);
             info = (TextView) findViewById(R.id.subtextimage);
-            if (forceThumb
-                    || (submission.isNsfw() && !SettingValues.NSFWPreviews || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
-                setBottomSheet(thumbImage2, submission.getUrl());
-            } else {
-                setBottomSheet(this, submission.getUrl());
-            }
+            setBottomSheet(thumbImage2, submission.getUrl());
+            setBottomSheet(this, submission.getUrl());
+
         }
 
 
@@ -395,26 +393,26 @@ public class HeaderImageLinkView extends RelativeLayout {
                     b.sheet(R.id.copy_link, copy, getResources().getString(R.string.submission_link_copy));
 
                     b.listener(new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case R.id.open_link:
-                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                            getContext().startActivity(browserIntent);
-                                            break;
-                                        case R.id.share_link:
-                                            Reddit.defaultShareText(url, activity);
-                                            break;
-                                        case R.id.copy_link:
-                                            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-                                            ClipData clip = ClipData.newPlainText("Link", url);
-                                            clipboard.setPrimaryClip(clip);
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case R.id.open_link:
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    getContext().startActivity(browserIntent);
+                                    break;
+                                case R.id.share_link:
+                                    Reddit.defaultShareText(url, activity);
+                                    break;
+                                case R.id.copy_link:
+                                    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("Link", url);
+                                    clipboard.setPrimaryClip(clip);
 
-                                            Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
-                                            break;
-                                    }
-                                }
-                            }).show();
+                                    Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }
+                    }).show();
                     return true;
                 }
                 return false;

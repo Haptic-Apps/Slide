@@ -122,7 +122,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     if (posts != null && !posts.isEmpty()) {
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.getMultiReddit().getDisplayName());
+                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
                         startActivity(i);
                     }
                 } else {
@@ -199,79 +199,79 @@ public class MultiredditOverview extends BaseActivityAnim {
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch (i) {
                     case 0:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.HOT);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.HOT);
                         reloadSubs();
                         break;
                     case 1:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.NEW);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.NEW);
                         reloadSubs();
                         break;
                     case 2:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.RISING);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.RISING);
                         reloadSubs();
                         break;
                     case 3:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.HOUR);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.TOP);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.DAY);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.TOP);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.WEEK);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.TOP);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.WEEK);
                         reloadSubs();
                         break;
                     case 6:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.MONTH);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.TOP);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 7:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.YEAR);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.TOP);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 8:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.TOP);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.ALL);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.TOP);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.ALL);
                         reloadSubs();
                         break;
                     case 9:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.HOUR);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.CONTROVERSIAL);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.HOUR);
                         reloadSubs();
                         break;
                     case 10:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.DAY);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.CONTROVERSIAL);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.DAY);
                         reloadSubs();
                         break;
                     case 11:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.WEEK);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.CONTROVERSIAL);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.WEEK);
                         reloadSubs();
                     case 12:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.MONTH);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.CONTROVERSIAL);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.MONTH);
                         reloadSubs();
                     case 13:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.YEAR);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.CONTROVERSIAL);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.YEAR);
                         reloadSubs();
                     case 14:
-                        Reddit.setSorting(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", Sorting.CONTROVERSIAL);
-                        Reddit.setTime(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi", TimePeriod.ALL);
+                        Reddit.setSorting( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , Sorting.CONTROVERSIAL);
+                        Reddit.setTime( "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() , TimePeriod.ALL);
                         reloadSubs();
                 }
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MultiredditOverview.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.getMultiReddit().getDisplayName() + "multi"), l2);
+        builder.setSingleChoiceItems(Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName() ), l2);
         builder.show();
 
     }

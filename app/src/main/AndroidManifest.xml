@@ -33,37 +33,30 @@
         <activity
             android:name=".Activities.ForceTouchLink"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.Album"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Internet"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsFilter"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.FullscreenImage"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.ModQueue"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.AlbumPager"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Imgur"
@@ -73,39 +66,32 @@
         <activity
             android:name=".Activities.SettingsComments"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Loader"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsFont"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.CommentSearch"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Website"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
 
         <activity
             android:name=".Activities.GifView"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.FullscreenVideo"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="true"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Wiki"
@@ -119,27 +105,22 @@
         <activity
             android:name=".Activities.SubredditView"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.MultiredditOverview"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Profile"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsReddit"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Sendmessage"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
 
         <activity

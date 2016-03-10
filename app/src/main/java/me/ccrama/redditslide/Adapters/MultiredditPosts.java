@@ -1,16 +1,26 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.text.Html;
+import android.util.Log;
+import android.view.View;
+
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.MultiRedditPaginator;
+import net.dean.jraw.paginators.SubredditPaginator;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -18,66 +28,177 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Synccit.MySynccitReadTask;
+import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
- * This class is reponsible for loading multireddit specific submissions
+ * This class is reponsible for loading subreddit specific submissions
  * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
  * asynchronously.
- *
+ * <p/>
  * Created by ccrama on 9/17/2015.
  */
 public class MultiredditPosts implements PostLoader {
-    public ArrayList<Submission> posts;
+    public List<Submission> posts;
+    public boolean nomore = false;
+    public boolean stillShow;
+    public boolean offline;
     public boolean loading;
     private MultiRedditPaginator paginator;
-    private MultiReddit multiReddit;
-    public boolean nomore = false;
-    public MultiredditAdapter adapter;
-    private LoadData loadData;
-    public boolean skipOne;
-    /**
-     *
-     * @param multiRedditDisplayName the display name of the multireddit
-     */
-    public MultiredditPosts(String multiRedditDisplayName) {
-        posts = new ArrayList<>();
-        this.multiReddit = SubredditStorage.getMultiredditByDisplayName(multiRedditDisplayName);
-    }
+    public OfflineSubreddit cached;
+    Context c;
+    MultiredditAdapter adapter;
 
-    public MultiReddit getMultiReddit() {
-        return multiReddit;
+    public MultiredditPosts(String multireddit) {
+        posts = new ArrayList<>();
+        this.multiReddit = SubredditStorage.getMultiredditByDisplayName(multireddit);
+
     }
 
     @Override
     public void loadMore(Context context, SubmissionDisplay displayer, boolean reset) {
+        this.c = context;
         new LoadData(context, displayer, reset).execute(multiReddit);
     }
 
     public void loadMore(Context context, SubmissionDisplay displayer, boolean reset, MultiredditAdapter adapter) {
         this.adapter = adapter;
-        loadData = new LoadData(context, displayer, reset);
-        loadData.execute(multiReddit);
+        this.c = context;
+        loadMore(context, displayer, reset);
+    }
+
+    public void loadPhotos(List<Submission> submissions) {
+        for (Submission submission : submissions) {
+            boolean forceThumb = false;
+            String url;
+            ContentType.ImageType type = ContentType.getImageType(submission);
+            if (submission.getThumbnails() != null) {
+
+                int height = submission.getThumbnails().getSource().getHeight();
+                int width = submission.getThumbnails().getSource().getWidth();
+                if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
+
+                } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+
+
+                } else if (type == ContentType.ImageType.IMAGE) {
+                    if (!NetworkUtil.isConnectedWifi(c) && SettingValues.lowRes && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
+
+                        int length = submission.getThumbnails().getVariations().length;
+                        url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+
+                    } else {
+                        if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                        } else {
+                            url = submission.getUrl();
+                        }
+                    }
+
+
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
+
+                } else if (submission.getThumbnails() != null) {
+
+                    if (!NetworkUtil.isConnectedWifi(c) && SettingValues.lowRes && submission.getThumbnails().getVariations().length != 0) {
+
+                        int length = submission.getThumbnails().getVariations().length;
+                        url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+
+                    } else {
+                        url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
+                    }
+
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
+
+                } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(submission.getUrl(), new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
+                }
+            }
+        }
     }
 
     @Override
     public List<Submission> getPosts() {
         return posts;
     }
-
-    public void cancelLoad() {
-        if (loadData != null) {
-            loadData.cancel(true);
-        }
-    }
+    public MultiReddit multiReddit;
 
     @Override
     public boolean hasMore() {
-        return true; // TODO when is this false
+        return !nomore;
     }
 
-    private class LoadData extends AsyncTask<MultiReddit, Void, ArrayList<Submission>> {
+    public boolean skipOne;
+    boolean usedOffline;
+
+    /**
+     * Asynchronous task for loading data
+     */
+    private class LoadData extends AsyncTask<MultiReddit, Void, List<Submission>> {
         final boolean reset;
-        final Context context;
+        Context context;
         final SubmissionDisplay displayer;
 
         public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {
@@ -87,86 +208,139 @@ public class MultiredditPosts implements PostLoader {
         }
 
         @Override
-        public void onPostExecute(ArrayList<Submission> submissions) {
+        public void onPostExecute(List<Submission> submissions) {
             loading = false;
+            context = null;
 
             if (submissions != null && !submissions.isEmpty()) {
                 // new submissions found
-
                 int start = 0;
                 if (posts != null) {
                     start = posts.size() + 1;
                 }
 
-                ArrayList<Submission> filteredSubmissions = new ArrayList<>();
-                for (Submission c : submissions) {
-                        if (!PostMatch.doesMatch(c)) {
-                            filteredSubmissions.add(c);
-                        }
 
+                List<Submission> filteredSubmissions = new ArrayList<>();
+                for (Submission s : submissions) {
+                    if (!PostMatch.doesMatch(s, paginator.getMultiReddit().getDisplayName())) {
+                        filteredSubmissions.add(s);
+                    }
                 }
                 String[] ids = new String[filteredSubmissions.size()];
                 int i = 0;
-                for(Submission s : filteredSubmissions){
+                for (Submission s : filteredSubmissions) {
                     ids[i] = s.getId();
                     i++;
                 }
-                if(!SettingValues.synccitName.isEmpty()){
+                if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask().execute(ids);
                 }
-                if (reset || posts == null) {
-                    posts = filteredSubmissions;
+                loadPhotos(filteredSubmissions);
+                if (reset || offline || posts == null) {
+                    posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
                     start = -1;
                 } else {
                     posts.addAll(filteredSubmissions);
+                    posts = new ArrayList<>(new LinkedHashSet(posts));
+                    offline = false;
                 }
 
                 final int finalStart = start;
+
+                if (!usedOffline)
+                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase()).overwriteSubmissions(posts).writeToMemory();
+
                 // update online
-
-                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName()).overwriteSubmissions(posts).writeToMemory();
-
-               displayer.updateSuccess(posts, finalStart);
+                displayer.updateSuccess(posts, finalStart);
 
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (!nomore && adapter != null) {
+            } else if (!OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase()).submissions.isEmpty() && !nomore && SettingValues.cache) {
+                offline = true;
+                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase());
+
+                List<Submission> finalSubs = new ArrayList<>();
+                for (Submission s : cached.submissions) {
+                    if (!PostMatch.doesMatch(s, "multi" + multiReddit.getDisplayName().toLowerCase())) {
+                        finalSubs.add(s);
+                    }
+                }
+
+                posts = finalSubs;
+
+                if (cached.submissions.size() > 0) {
+                    stillShow = true;
+                } else {
+                    displayer.updateOfflineError();
+                }
+                // update offline
+                displayer.updateOffline(submissions, cached.time);
+            } else if (!nomore) {
                 // error
                 displayer.updateError();
-                adapter.refreshLayout.setRefreshing(false);
             }
         }
 
         @Override
-        protected ArrayList<Submission> doInBackground(MultiReddit... subredditPaginators) {
-            ArrayList<Submission> newSubmissions = new ArrayList<>();
+        protected List<Submission> doInBackground(MultiReddit... subredditPaginators) {
 
-            try {
-                if (reset || paginator == null) {
-                    paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                    paginator.setSorting(Reddit.getSorting(multiReddit.getDisplayName()));
-                    paginator.setTimePeriod(Reddit.getTime(multiReddit.getDisplayName()));
-                    if(skipOne)
-                        paginator.next();
-                }
+            if (!NetworkUtil.isConnected(context)) {
+                Log.v(LogUtil.getTag(), "Using offline data");
 
-                if(!paginator.hasNext()){
-                    nomore = true;
-                    return newSubmissions;
-                }
-
-                for (Submission s : paginator.next()) {
-                        newSubmissions.add(s);
-
-                }
-                OfflineSubreddit.getSubreddit("multi" + subredditPaginators[0].getFullName()).overwriteSubmissions(newSubmissions).writeToMemory();
-
-                return newSubmissions;
-            } catch (Exception e) {
+                offline = true;
                 return null;
+            } else {
+                offline = false;
             }
 
+            stillShow = true;
+
+
+            if (SettingValues.cacheDefault && !usedOffline) {
+                OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName());
+                usedOffline = true;
+                offline = false;
+                Log.v(LogUtil.getTag(), "Using cached data");
+
+                return o.submissions;
+            }
+
+            if (usedOffline && !reset) {
+                paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
+                paginator.setLimit(25);
+                paginator.setSorting(Reddit.getSorting("multi" + multiReddit.getDisplayName().toLowerCase()));
+                paginator.setTimePeriod(Reddit.getTime("multi" + multiReddit.getDisplayName().toLowerCase()));
+
+            }
+
+            if (reset || paginator == null) {
+                offline = false;
+                paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
+                paginator.setSorting(Reddit.getSorting("multi" + multiReddit.getDisplayName().toLowerCase()));
+                paginator.setTimePeriod(Reddit.getTime("multi" + multiReddit.getDisplayName().toLowerCase()));
+                paginator.setLimit(25);
+
+            }
+
+            List<Submission> things = new ArrayList<>();
+
+            try {
+                if (paginator != null && paginator.hasNext()) {
+                    things.addAll(paginator.next());
+                } else {
+                    nomore = true;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (e.getMessage().contains("Forbidden")) {
+                    Reddit.authentication.updateToken(context);
+                }
+
+            }
+
+            return things;
         }
     }
 }
