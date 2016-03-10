@@ -442,15 +442,22 @@ public class AlbumUtils {
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override
                                 public void onCompleted(Exception e, final JsonObject result) {
-                                    albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
+                                    if (result != null && result.has("data")) {
+                                        albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
 
-                                    baseActivity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            doGallery(result);
+                                        baseActivity.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                doGallery(result);
+                                            }
+                                        });
+                                    } else {
+                                        Intent i = new Intent(baseActivity, Website.class);
+                                        i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
+                                        baseActivity.startActivity(i);
+                                        baseActivity.finish();
 
-                                        }
-                                    });
+                                    }
                                 }
 
                             });
@@ -470,14 +477,20 @@ public class AlbumUtils {
                             .setCallback(new FutureCallback<JsonObject>() {
                                              @Override
                                              public void onCompleted(Exception e, final JsonObject result) {
-                                                 albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
-                                                 baseActivity.runOnUiThread(new Runnable() {
-                                                     @Override
-                                                     public void run() {
-                                                         doAlbum(result);
-
-                                                     }
-                                                 });
+                                                 if (result != null && !result.isJsonNull()) {
+                                                     albumRequests.edit().putString("http://api.imgur.com/2/album" + hash + ".json", result.toString()).apply();
+                                                     baseActivity.runOnUiThread(new Runnable() {
+                                                         @Override
+                                                         public void run() {
+                                                             doAlbum(result);
+                                                         }
+                                                     });
+                                                 } else {
+                                                     Intent i = new Intent(baseActivity, Website.class);
+                                                     i.putExtra(Website.EXTRA_URL, "http://imgur.com/" + hash);
+                                                     baseActivity.startActivity(i);
+                                                     baseActivity.finish();
+                                                 }
                                              }
 
                                          }
