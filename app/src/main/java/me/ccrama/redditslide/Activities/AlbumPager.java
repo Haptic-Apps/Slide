@@ -40,9 +40,7 @@ import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.MediaVideoView;
-import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
@@ -86,7 +84,7 @@ public class AlbumPager extends FullScreenActivity {
 
 
         new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
-        if(!Reddit.appRestart.contains("tutorialSwipeAlbum")){
+        if (!Reddit.appRestart.contains("tutorialSwipeAlbum")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -124,9 +122,9 @@ public class AlbumPager extends FullScreenActivity {
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
-        if(!Reddit.appRestart.contains("tutorialSwipeAlbum")){
+        if (!Reddit.appRestart.contains("tutorialSwipeAlbum")) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipeAlbum", true).apply();
         }
     }
@@ -295,50 +293,7 @@ public class AlbumPager extends FullScreenActivity {
                     R.layout.submission_gifcard_album, container, false);
             loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
 
-            TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
-            SpoilerRobotoTextView desc = (SpoilerRobotoTextView) rootView.findViewById(R.id.desc);
 
-            title.setVisibility(View.VISIBLE);
-            desc.setVisibility(View.VISIBLE);
-            if (user.getAsJsonObject().has("image")) {
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                    desc.setTextHtml(text.get(0));
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-                } else {
-                    desc.setVisibility(View.GONE);
-                }
-                if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-
-                    title.setTextHtml(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString(), "FORCE_LINK_HANDLING");
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
-                    title.setVisibility(View.GONE);
-                }
-            } else {
-                if (user.getAsJsonObject().has("title")) {
-                    desc.setTextHtml(user.getAsJsonObject().get("title").getAsString(), "FORCE_LINK_HANDLING");
-
-                    if (desc.getText().toString().isEmpty()) {
-                        desc.setVisibility(View.GONE);
-                    }
-
-                } else {
-                    desc.setVisibility(View.GONE);
-                }
-                if (user.getAsJsonObject().has("description")) {
-                    title.setTextHtml(user.getAsJsonObject().get("description").getAsString(), "FORCE_LINK_HANDLING");
-                    if (title.getText().toString().isEmpty()) {
-                        title.setVisibility(View.GONE);
-                    }
-                } else {
-                    title.setVisibility(View.GONE);
-                }
-            }
             gif = rootView.findViewById(R.id.gif);
 
             gif.setVisibility(View.VISIBLE);
@@ -354,7 +309,6 @@ public class AlbumPager extends FullScreenActivity {
                 dat = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
 
             }
-
 
             new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, null, false, true).execute(dat);
 

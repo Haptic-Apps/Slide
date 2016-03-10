@@ -40,45 +40,6 @@
                     android:progress="0" />
             </RelativeLayout>
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imagearea"
-                android:background="#55000000"
-                android:maxHeight="90dp">
-
-                <LinearLayout
-                    android:id="@+id/base"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-
-                    android:orientation="vertical">
-
-                    <me.ccrama.redditslide.Views.TitleTextView
-                        android:id="@+id/title"
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="10dp"
-                        android:textColor="#ffffff"
-                        android:textSize="?attr/font_cardtitle" />
-
-                    <me.ccrama.redditslide.SpoilerRobotoTextView
-                        android:id="@+id/desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".56"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
-                        android:textColor="#ffffff"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </ScrollView>
-
-
         </RelativeLayout>
 
 
