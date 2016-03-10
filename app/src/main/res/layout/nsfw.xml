@@ -15,6 +15,8 @@
         android:padding="2.5dp"
         android:textColor="#fff"
         android:textSize="10sp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:textStyle="bold">
 
     </TextView>
