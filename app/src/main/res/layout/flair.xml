@@ -6,14 +6,13 @@
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/flairback"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="2.5dp"
+        android:padding="2.5dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:paddingRight="2.5dp"
         android:layout_gravity="center"
         android:textColor="?attr/font"
         android:textSize="9sp">

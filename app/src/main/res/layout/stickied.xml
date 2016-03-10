@@ -10,7 +10,7 @@
         android:textSize="10sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/commentback"
         android:gravity="center_vertical"
         android:orientation="vertical"

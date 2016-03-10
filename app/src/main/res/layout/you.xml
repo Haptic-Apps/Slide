@@ -12,13 +12,12 @@
         android:layout_width="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:text="@string/misc_you"
         android:background="@drawable/guildback"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="2.5dp"
-        android:paddingRight="2.5dp">
+        android:padding="2.5dp">
 
     </TextView>
 

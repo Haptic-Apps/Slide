@@ -8,7 +8,7 @@
         android:layout_gravity="center"
         android:text="@string/misc_nsfw"
         android:textAllCaps="true"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/nsfwback"
         android:gravity="center_vertical"
         android:orientation="vertical"
