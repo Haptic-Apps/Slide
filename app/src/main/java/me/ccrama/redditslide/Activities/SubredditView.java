@@ -114,6 +114,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             case R.id.filter:
                 filterContent(subreddit);
                 return true;
