@@ -114,7 +114,7 @@ public class CommentsScreenPopup extends BaseActivityAnim implements SubmissionD
 
         } else {
             baseSubreddit = subreddit.toLowerCase();
-            subredditPosts = new SubredditPosts(baseSubreddit);
+            subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreenPopup.this);
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST

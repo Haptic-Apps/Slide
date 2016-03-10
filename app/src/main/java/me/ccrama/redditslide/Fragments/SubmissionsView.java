@@ -386,7 +386,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-        if (MainActivity.shouldLoad == null || id == null ||  MainActivity.shouldLoad.equals(id)) {
+        if (MainActivity.shouldLoad == null || id == null ||  (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id))) {
             doAdapter();
         }
         return v;
@@ -395,7 +395,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public boolean main;
 
     public void doAdapter() {
-        posts = new SubredditPosts(id);
+        posts = new SubredditPosts(id, getContext());
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);

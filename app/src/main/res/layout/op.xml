@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="16dp"
-    android:background="@drawable/guildback"
-    android:backgroundTint="@color/md_light_blue_500"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="2.5dp"
-    android:paddingRight="2.5dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+  >
 
     <TextView
-        android:id="@+id/gildtext"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:id="@+id/op"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:text="OP"
         android:textColor="#fff"
         android:textSize="10sp"
-        android:textStyle="bold">
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:background="@drawable/guildback"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="2.5dp"
+        android:paddingRight="2.5dp">
 
     </TextView>
 
-</LinearLayout>
+</merge>

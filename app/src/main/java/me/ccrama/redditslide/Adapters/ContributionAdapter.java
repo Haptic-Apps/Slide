@@ -234,7 +234,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             final int pos = dataSet.posts.indexOf(submission);
                             final Contribution old = dataSet.posts.get(pos);
                             dataSet.posts.remove(submission);
-                            notifyItemRemoved(pos);
+                            notifyItemRemoved(pos + 1);
                             d.dismiss();
 
                             Hidden.setHidden(old);
@@ -243,7 +243,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 @Override
                                 public void onClick(View v) {
                                     dataSet.posts.add(pos, old);
-                                    notifyItemInserted(pos);
+                                    notifyItemInserted(pos + 1);
                                     Hidden.undoHidden(old);
 
                                 }
@@ -265,7 +265,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         final int pos = dataSet.posts.indexOf(submission);
                         final Contribution old = dataSet.posts.get(pos);
                         dataSet.posts.remove(submission);
-                        notifyItemRemoved(pos);
+                        notifyItemRemoved(pos + 1);
 
                         Hidden.undoHidden(old);
                     }

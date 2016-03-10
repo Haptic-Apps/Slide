@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="15dp"
-    android:background="@drawable/commentback"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-
-    android:padding="2.5dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <TextView
-        android:id="@+id/flairtext"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:id="@+id/pinned"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/submission_stickied"
         android:textAllCaps="true"
         android:textColor="#fff"
         android:textSize="10sp"
-        android:textStyle="bold">
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:background="@drawable/commentback"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+
+        android:padding="2.5dp">
 
     </TextView>
 
-</LinearLayout>
+</merge>

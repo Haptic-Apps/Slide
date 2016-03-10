@@ -29,7 +29,6 @@
         <activity
             android:name=".Activities.SettingsSynccit"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Activities.ForceTouchLink"

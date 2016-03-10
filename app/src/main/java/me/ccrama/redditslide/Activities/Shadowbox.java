@@ -49,7 +49,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit);
         } else {
-            subredditPosts = new SubredditPosts(subreddit);
+            subredditPosts = new SubredditPosts(subreddit, Shadowbox.this);
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 

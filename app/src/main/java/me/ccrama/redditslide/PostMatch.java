@@ -66,6 +66,9 @@ public class PostMatch {
         boolean selftext = isSelftext(baseSubreddit);
 
 
+        if(s.isNsfw()){
+            if (nsfw) contentMatch = true;
+        }
         switch (ContentType.getImageType(s)) {
 
             case NSFW_IMAGE:

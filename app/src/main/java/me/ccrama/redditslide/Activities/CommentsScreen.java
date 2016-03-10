@@ -57,7 +57,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if(SettingValues.commentNav) {
+        if (SettingValues.commentNav) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode);
@@ -87,11 +87,13 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 14){
+        if (requestCode == 14) {
             comments.notifyDataSetChanged();
             //todo make this work
         }
     }
+
+    public int currentPage;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -112,7 +114,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
         } else {
             baseSubreddit = subreddit.toLowerCase();
-            subredditPosts = new SubredditPosts(baseSubreddit);
+            subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
         if (firstPage == RecyclerView.NO_POSITION) {
             //IS SINGLE POST
@@ -132,6 +134,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
             comments = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(comments);
+            currentPage = firstPage;
+
             pager.setCurrentItem(firstPage);
 
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -150,6 +154,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                     if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
                         subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
                     }
+
+                    currentPage = position;
                 }
 
                 @Override
@@ -204,7 +210,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        private Fragment mCurrentFragment;
+        private CommentPage mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -213,13 +219,20 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
-
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            if (getCurrentFragment() != object) {
-                mCurrentFragment = ((Fragment) object);
-            }
             super.setPrimaryItem(container, position, object);
+            position = position;
+            if (getCurrentFragment() != object) {
+                mCurrentFragment = ((CommentPage) object);
+                if (mCurrentFragment != null) {
+                    if (!mCurrentFragment.loaded) {
+                        if (mCurrentFragment.isAdded()) {
+                            mCurrentFragment.doAdapter();
+                        }
+                    }
+                }
+            }
         }
 
         @Override
@@ -241,7 +254,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size() -2;
+            return subredditPosts.getPosts().size() - 2;
         }
 
     }

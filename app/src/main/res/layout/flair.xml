@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="16dp"
-    android:background="@drawable/flairback"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-
-    android:paddingLeft="2.5dp"
-    android:paddingRight="2.5dp">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+   >
 
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="16dp"
+        android:background="@drawable/flairback"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="2.5dp"
+        android:paddingRight="2.5dp"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:text="PEASANTRY"
-        android:textAllCaps="true"
-        android:textColor="#fff"
+        android:textColor="?attr/font"
         android:textSize="9sp">
 
     </TextView>
 
-</LinearLayout>
+</merge>

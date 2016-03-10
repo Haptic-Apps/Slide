@@ -199,7 +199,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             return true;
             case R.id.action_refresh:
                 mSwipeRefreshLayout.setRefreshing(true);
-                posts = new SubredditPosts(subreddit);
+                posts = new SubredditPosts(subreddit, SubredditView.this);
                 adapter = new SubmissionAdapter(this, posts, rv, subreddit);
                 rv.setAdapter(adapter);
                 posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
@@ -494,7 +494,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 mSwipeRefreshLayout.setRefreshing(true);
             }
         });
-        posts = new SubredditPosts(subreddit);
+        posts = new SubredditPosts(subreddit, SubredditView.this);
         adapter = new SubmissionAdapter(this, posts, rv, subreddit);
         rv.setAdapter(adapter);
 

@@ -91,6 +91,13 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
 
         }
+
+        if (comment.getTimesGilded() > 0) {
+            holder.gild.setVisibility(View.VISIBLE);
+            ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
+        } else {
+            holder.gild.setVisibility(View.GONE);
+        }
         holder.itemView.findViewById(R.id.sticky).setVisibility(View.GONE);
 
         if (comment.isScoreHidden()) {
@@ -112,12 +119,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
         setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
-        if (comment.getTimesGilded() > 0) {
-            holder.gild.setVisibility(View.VISIBLE);
-            ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
-        } else {
-            holder.gild.setVisibility(View.GONE);
-        }
+
         holder.children.setVisibility(View.GONE);
 
         holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));

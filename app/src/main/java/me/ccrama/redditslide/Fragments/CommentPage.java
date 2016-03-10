@@ -64,6 +64,8 @@ public class CommentPage extends Fragment {
     private ContextWrapper contextThemeWrapper;
     private PreCachingLayoutManagerComments mLayoutManager;
     public String subreddit;
+    public boolean loaded = false;
+
 
     public boolean onKeyDown(int keyCode) {
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
@@ -171,6 +173,7 @@ public class CommentPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+
         final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
 
@@ -196,6 +199,7 @@ public class CommentPage extends Fragment {
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
+        rv.getLayoutManager().setMeasurementCacheEnabled(true);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
         v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
@@ -306,36 +310,9 @@ public class CommentPage extends Fragment {
                 }
             }
         });
-        OfflineSubreddit o = null;
-        if (!single) {
-            if (getActivity() instanceof CommentsScreen ? ((CommentsScreen) getActivity()).o != null : ((CommentsScreenPopup) getActivity()).o != null) {
-                o = (getActivity() instanceof CommentsScreen) ? ((CommentsScreen) getActivity()).o : ((CommentsScreenPopup) getActivity()).o;
-            } else {
-                o = OfflineSubreddit.getSubreddit(baseSubreddit);
-            }
-        }
-        if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
-            if (o.submissions.size() > 0)
-                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
-            rv.setAdapter(adapter);
-        } else if (context.isEmpty()) {
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            comments.setSorting(Reddit.defaultCommentSorting);
-            if (o != null && o.submissions.size() > 0)
-                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
-            rv.setAdapter(adapter);
-        } else {
-            if (context.equals(Reddit.EMPTY_STRING)) {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                comments.setSorting(Reddit.defaultCommentSorting);
-            } else {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-                comments.setSorting(Reddit.defaultCommentSorting);
-            }
-
-
-        }
+       if(!(getActivity() instanceof CommentsScreen) || ((CommentsScreen)getActivity()).currentPage == page){
+           doAdapter();
+       }
         if (!np && !archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setVisibility(View.GONE);
@@ -460,6 +437,40 @@ public class CommentPage extends Fragment {
                         }
                 }
             }
+        }
+    }
+
+    public void doAdapter(){
+        loaded = true;
+        OfflineSubreddit o = null;
+        if (!single) {
+            if (getActivity() instanceof CommentsScreen ? ((CommentsScreen) getActivity()).o != null : ((CommentsScreenPopup) getActivity()).o != null) {
+                o = (getActivity() instanceof CommentsScreen) ? ((CommentsScreen) getActivity()).o : ((CommentsScreenPopup) getActivity()).o;
+            } else {
+                o = OfflineSubreddit.getSubreddit(baseSubreddit);
+            }
+        }
+        if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
+            if (o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+            rv.setAdapter(adapter);
+        } else if (context.isEmpty()) {
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            comments.setSorting(Reddit.defaultCommentSorting);
+            if (o != null && o.submissions.size() > 0)
+                adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+            rv.setAdapter(adapter);
+        } else {
+            if (context.equals(Reddit.EMPTY_STRING)) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                comments.setSorting(Reddit.defaultCommentSorting);
+            } else {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
+                comments.setSorting(Reddit.defaultCommentSorting);
+            }
+
+
         }
     }
 

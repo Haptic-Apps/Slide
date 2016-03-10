@@ -86,7 +86,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    static int HEADER = 1;
+    final static int HEADER = 1;
     public Context mContext;
     public SubmissionComments dataSet;
     public Submission submission;
@@ -112,6 +112,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> hiddenPersons;
     ArrayList<String> replie;
 
+    boolean first;
+
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
         mPage = mContext;
@@ -135,6 +137,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         shifted = 0;
 
         isSame = false;
+
     }
 
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
@@ -145,19 +148,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
-            return new SpacerViewHolder(v);
-        } else if (i == HEADER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
-            return new SubmissionViewHolder(v);
-        } else if (i == 2) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
-            return new CommentViewHolder(v);
-        } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
-            return new MoreCommentViewHolder(v);
+        switch (i) {
+            case SPACER: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new SpacerViewHolder(v);
+                return v2;
+            }
+            case HEADER: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new SubmissionViewHolder(v);
+                return v2;
+            }
+            case 2: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new CommentViewHolder(v);
+                return v2;
+            }
+            default: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new MoreCommentViewHolder(v);
+                return v2;
+            }
         }
+
+
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission) {
@@ -194,14 +208,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
             int i = 2;
             for (CommentObject n : users) {
-                if (n instanceof  CommentItem && n.comment.getComment().getFullName().contains(currentSelectedItem)) {
+                if (n instanceof CommentItem && n.comment.getComment().getFullName().contains(currentSelectedItem)) {
                     ((PreCachingLayoutManagerComments) listView.getLayoutManager()).scrollToPositionWithOffset(i, mPage.getActivity().findViewById(R.id.header).getHeight());
                     break;
                 }
                 i++;
             }
         }
-
     }
 
     private final int SPACER = 6;
@@ -1136,7 +1149,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 holder.score.setTextColor(holder.textColorRegular);
             }
-
+            String distingush = "";
+            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+                distingush = "[M]";
+            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+                distingush = "[A]";
+            }
+            holder.author.setText(comment.getAuthor() + distingush);
 
             if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
                 holder.you.setVisibility(View.VISIBLE);
@@ -1151,23 +1170,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (comment.getDataNode().get("stickied").asBoolean()) {
-                holder.itemView.findViewById(R.id.sticky).setVisibility(View.VISIBLE);
+                holder.itemView.findViewById(R.id.pinned).setVisibility(View.VISIBLE);
             } else {
-                holder.itemView.findViewById(R.id.sticky).setVisibility(View.GONE);
+                holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
             }
 
-            String distingush = "";
-            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
-                distingush = "[M]";
-            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                distingush = "[A]";
-            }
-            holder.author.setText(comment.getAuthor() + distingush);
+
             if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
                 holder.flairBubble.setVisibility(View.VISIBLE);
                 holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
             } else if (holder.flairBubble.getVisibility() == View.VISIBLE) {
                 holder.flairBubble.setVisibility(View.GONE);
+            }
+            if (comment.getTimesGilded() > 0) {
+                holder.gild.setVisibility(View.VISIBLE);
+                ((TextView) holder.gild).setText("" + comment.getTimesGilded());
+            } else if (holder.gild.getVisibility() == View.VISIBLE) {
+                holder.gild.setVisibility(View.GONE);
             }
 
             holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1207,18 +1226,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
 
-            if (comment.getTimesGilded() > 0) {
-                holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
-            } else if (holder.gild.getVisibility() == View.VISIBLE) {
-                holder.gild.setVisibility(View.GONE);
-            }
 
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
                 holder.childrenNumber.setText("+" + getChildNumber(baseNode));
                 if (SettingValues.collapseComments) {
-                    LogUtil.v("Hiding comment area");
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
                 }
@@ -1296,7 +1308,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.firstTextView.setText(R.string.comment_deleted);
                 holder.author.setText(R.string.comment_deleted);
             }
-
         } else if (firstHolder instanceof SubmissionViewHolder) {
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
@@ -1465,7 +1476,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
                         hiddenPersons.add(comment.getFullName());
                         showChildrenObject(holder.children);
-                        ((TextView) holder.children.findViewById(R.id.flairtext)).setText("+" + childNumber);
+                        ((TextView) holder.children).setText("+" + childNumber);
                     }
                     if (holder.firstTextView.getVisibility() == View.VISIBLE && SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.GONE);

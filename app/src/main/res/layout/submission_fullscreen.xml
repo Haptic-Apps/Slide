@@ -102,7 +102,6 @@
 
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@id/flairbubble"
                         android:orientation="horizontal" />
 
                     <include

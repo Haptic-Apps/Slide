@@ -21,20 +21,19 @@
     <View
         android:id="@+id/dot"
         android:layout_width="3dp"
+        android:layout_toRightOf="@+id/dots"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/menuarea"
         android:layout_alignParentTop="true"
-        android:background="#fff" />
+        />
 
-    <com.wefika.flowlayout.FlowLayout
-        android:id="@+id/flow"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_toRightOf="@id/dot"
-        android:minHeight="28dp"
         android:orientation="horizontal"
-        android:paddingTop="8dp">
+        android:id="@+id/flow"
+        android:layout_marginTop="8dp">
 
 
         <TextView
@@ -42,23 +41,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="8dp"
             android:fontFamily="sans-serif-condensed"
 
             android:gravity="center_vertical"
-            android:paddingRight="5dp"
-            android:text="ccrama"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="8dp"
             android:textColor="?attr/font"
             android:textSize="?attr/font_commenttitle"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/submission_properties_seperator_comments"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commenttitle" />
 
         <TextView
             android:id="@+id/score"
@@ -67,34 +58,23 @@
             android:layout_gravity="center_vertical"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_vertical"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:text="+49"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"
             android:textColor="?attr/font"
             android:textSize="?attr/font_commentinfo"
 
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/submission_properties_seperator_comments"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commenttitle" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:text="4 hours ago"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"
             android:textColor="?attr/font"
-
             android:textSize="?attr/font_commentinfo" />
 
         <include
@@ -102,7 +82,6 @@
             layout="@layout/gilded"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
-
             android:layout_gravity="center_vertical"
             android:gravity="center_horizontal"
             android:orientation="horizontal" />
@@ -114,7 +93,6 @@
             android:layout_height="16dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="5dp"
-            android:layout_toRightOf="@+id/pinned"
            />
 
         <include
@@ -122,64 +100,46 @@
             layout="@layout/you"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
-
-            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-
-            android:layout_toRightOf="@+id/pinned"
-          />
+            />
 
         <include
             android:id="@+id/op"
             layout="@layout/op"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
-
-            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
-
-            android:layout_toRightOf="@+id/pinned"
-       />
+            />
 
         <include
             android:id="@+id/sticky"
             layout="@layout/stickied"
             android:layout_width="wrap_content"
             android:layout_height="16dp"
-
-            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-
-            android:layout_toRightOf="@+id/op" />
+            android:layout_marginLeft="4dp" />
 
         <include
             android:id="@+id/children"
             layout="@layout/commentnumber"
             android:layout_width="wrap_content"
             android:layout_height="12dp"
-
-            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-
-            android:layout_toRightOf="@+id/sticky"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp" />
-    </com.wefika.flowlayout.FlowLayout>
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="6dp"
+            />
+    </LinearLayout>
 
     <me.ccrama.redditslide.SpoilerRobotoTextView
         android:id="@+id/firstTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/flow"
-        android:layout_marginTop="-8dp"
         android:layout_toRightOf="@id/dot"
-        android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="comment"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:textColor="?attr/font"
         android:textSize="?attr/font_commentbody" />
 
@@ -190,8 +150,8 @@
         android:layout_below="@id/firstTextView"
         android:layout_toRightOf="@id/dot"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:visibility="invisible" />
 
     <LinearLayout
