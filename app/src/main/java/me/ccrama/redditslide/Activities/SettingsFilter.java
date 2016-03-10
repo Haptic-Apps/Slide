@@ -202,6 +202,11 @@ public class SettingsFilter extends BaseActivityAnim {
         e.putString(SettingValues.PREF_TEXT_FILTERS, Reddit.arrayToString(textlist));
         e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, Reddit.arrayToString(subs));
 
+        SettingValues.titleFilters = SettingValues.prefs.getString(SettingValues.PREF_TITLE_FILTERS, "");
+        SettingValues.textFilters = SettingValues.prefs.getString(SettingValues.PREF_TEXT_FILTERS, "");
+        SettingValues.domainFilters = SettingValues.prefs.getString(SettingValues.PREF_DOMAIN_FILTERS, "");
+        SettingValues.subredditFilters = SettingValues.prefs.getString(SettingValues.PREF_SUBREDDIT_FILTERS, "");
+
         e.apply();
 
     }
