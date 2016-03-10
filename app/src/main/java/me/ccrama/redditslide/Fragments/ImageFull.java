@@ -26,16 +26,15 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.CommentsScreenPopup;
-import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -68,20 +67,13 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        if (SettingValues.video) {
-                            String data = submission.getDataNode().get("media_embed").get("content").asText();
-                            {
-                                Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                contextActivity.startActivity(i);
-                            }
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
+                        Reddit.defaultShare(submission.getUrl(), contextActivity);
                     }
+
                 });
                 break;
             case NSFW_GIF:
+
                 base.setOnClickListener(new View.OnClickListener() {
 
                     @Override

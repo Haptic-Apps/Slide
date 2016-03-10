@@ -31,18 +31,14 @@ public class SettingsHandling extends BaseActivityAnim implements
         SwitchCompat image = (SwitchCompat) findViewById(R.id.image);
         SwitchCompat gif = (SwitchCompat) findViewById(R.id.gif);
         SwitchCompat album = (SwitchCompat) findViewById(R.id.album);
-        SwitchCompat video = (SwitchCompat) findViewById(R.id.video);
-
 
         image.setChecked(SettingValues.image);
         gif.setChecked(SettingValues.gif);
         album.setChecked(SettingValues.album);
-        video.setChecked(SettingValues.video);
 
         image.setOnCheckedChangeListener(this);
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
-        video.setOnCheckedChangeListener(this);
 
         ((TextView) findViewById(R.id.browser)).setText(SettingValues.web ? (SettingValues.customtabs ? getString(R.string.settings_link_chrome) : getString(R.string.handling_internal_browser)) : getString(R.string.handling_external_browser));
 
@@ -103,10 +99,6 @@ public class SettingsHandling extends BaseActivityAnim implements
             case R.id.album:
                 SettingValues.album = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM, isChecked).apply();
-                break;
-            case R.id.video:
-                SettingValues.video = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VIDEO, isChecked).apply();
                 break;
         }
 
