@@ -21,7 +21,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,7 +77,6 @@ import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -236,6 +234,7 @@ public class PopulateSubmissionViewHolder {
         return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
 
     }
+
     boolean[] chosen = new boolean[]{false, false};
 
     public static int getWhiteTintColor() {
@@ -310,18 +309,18 @@ public class PopulateSubmissionViewHolder {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 boolean filtered = false;
                                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                                if(chosen[0]){
-                                                    SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(","))?"":",") + submission.getSubredditName();
+                                                if (chosen[0]) {
+                                                    SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
                                                 }
-                                                if(chosen[1]){
-                                                    SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(","))?"":",") + submission.getDomain();
+                                                if (chosen[1]) {
+                                                    SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
 
                                                 }
-                                                if(filtered){
+                                                if (filtered) {
                                                     e.apply();
                                                     final int pos = posts.indexOf(submission);
                                                     final T t = posts.get(pos);
@@ -380,16 +379,20 @@ public class PopulateSubmissionViewHolder {
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 Hidden.setHidden(t);
 
+                                final OfflineSubreddit s;
                                 if (baseSub != null) {
-                                    OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                    s = OfflineSubreddit.getSubreddit(baseSub);
+                                    s.hide(pos);
+                                } else {
+                                    s = null;
                                 }
 
 
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if (baseSub != null) {
-                                            OfflineSubreddit.getSubreddit(baseSub).unhideLast();
+                                        if (baseSub != null && s != null) {
+                                            s.unhideLast();
                                         }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos + 1);
@@ -871,16 +874,19 @@ public class PopulateSubmissionViewHolder {
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 if (!offline)
                                     Hidden.setHidden(t);
-                                if (baseSub != null) {
-                                    Log.v(LogUtil.getTag(), "HIDING POST2");
 
-                                    OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                final OfflineSubreddit s;
+                                if (baseSub != null) {
+                                    s = OfflineSubreddit.getSubreddit(baseSub);
+                                    s.hide(pos);
+                                } else {
+                                    s = null;
                                 }
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if (baseSub != null) {
-                                            OfflineSubreddit.getSubreddit(baseSub).unhideLast();
+                                        if (baseSub != null && s != null) {
+                                            s.unhideLast();
                                         }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos + 1);
