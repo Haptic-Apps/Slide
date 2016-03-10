@@ -10,7 +10,7 @@ import net.dean.jraw.models.Submission;
 public class PostMatch {
     public static boolean contains(String target, String[] strings, boolean totalMatch) {
         for (String s : strings) {
-            s = s.toLowerCase();
+            s = s.toLowerCase().trim();
             if (!s.isEmpty() && totalMatch ? target.equals(s) : target.contains(s)) {
 
                 return true;
