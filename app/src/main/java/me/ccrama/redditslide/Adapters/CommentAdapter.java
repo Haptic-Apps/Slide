@@ -64,7 +64,6 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -88,6 +87,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     final static int HEADER = 1;
+    private final int SPACER = 6;
     public Context mContext;
     public SubmissionComments dataSet;
     public Submission submission;
@@ -112,8 +112,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> hidden;
     ArrayList<String> hiddenPersons;
     ArrayList<String> replie;
-
-    boolean first;
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
@@ -141,38 +139,40 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public class SpacerViewHolder extends RecyclerView.ViewHolder {
-        public SpacerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+    public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, int oldSize) {
 
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        switch (i) {
-            case SPACER: {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new SpacerViewHolder(v);
-                return v2;
-            }
-            case HEADER: {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new SubmissionViewHolder(v);
-                return v2;
-            }
-            case 2: {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new CommentViewHolder(v);
-                return v2;
-            }
-            default: {
-                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new MoreCommentViewHolder(v);
-                return v2;
+        this.mContext = mContext;
+        this.listView = listView;
+        this.dataSet = dataSet;
+
+        this.submission = submission;
+        hidden = new ArrayList<>();
+        users = dataSet.comments;
+        if (users != null) {
+            for (int i = 0; i < users.size(); i++) {
+                keys.put(users.get(i).getName(), i);
             }
         }
+        hiddenPersons = new ArrayList<>();
+        replie = new ArrayList<>();
 
 
+        isSame = false;
+        notifyDataSetChanged();
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
+            int i = 1;
+
+            for (CommentObject n : users) {
+
+                if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
+                    CommentPage.TopSnappedSmoothScroller scroller = new CommentPage.TopSnappedSmoothScroller(mContext, (PreCachingLayoutManagerComments) listView.getLayoutManager());
+                    scroller.setTargetPosition(i);
+                    (listView.getLayoutManager()).startSmoothScroll(scroller);
+                    break;
+                }
+                i++;
+            }
+        }
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission) {
@@ -218,47 +218,391 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private final int SPACER = 6;
-
-    public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, int oldSize) {
-
-        this.mContext = mContext;
-        this.listView = listView;
-        this.dataSet = dataSet;
-
-        this.submission = submission;
-        hidden = new ArrayList<>();
-        users = dataSet.comments;
-        if (users != null) {
-            for (int i = 0; i < users.size(); i++) {
-                keys.put(users.get(i).getName(), i);
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        switch (i) {
+            case SPACER: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new SpacerViewHolder(v);
+                return v2;
+            }
+            case HEADER: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new SubmissionViewHolder(v);
+                return v2;
+            }
+            case 2: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new CommentViewHolder(v);
+                return v2;
+            }
+            default: {
+                View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
+                RecyclerView.ViewHolder v2 = new MoreCommentViewHolder(v);
+                return v2;
             }
         }
-        hiddenPersons = new ArrayList<>();
-        replie = new ArrayList<>();
 
 
-        isSame = false;
-        notifyDataSetChanged();
-        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
-            int i = 1;
+    }
 
-            for (CommentObject n : users) {
-
-                if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    CommentPage.TopSnappedSmoothScroller scroller = new CommentPage.TopSnappedSmoothScroller(mContext, (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                    scroller.setTargetPosition(i);
-                    (listView.getLayoutManager()).startSmoothScroll(scroller);
-                    break;
-                }
-                i++;
-            }
+    public class SpacerViewHolder extends RecyclerView.ViewHolder {
+        public SpacerViewHolder(View itemView) {
+            super(itemView);
         }
     }
+
 
     public void setError(boolean b) {
         listView.setAdapter(new ErrorAdapter());
     }
+
+
+    @Override
+    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
+        int pos = old != 0 ? old - 1 : old;
+
+        if (firstHolder instanceof CommentViewHolder) {
+            final CommentViewHolder holder = (CommentViewHolder) firstHolder;
+            int nextPos = pos - 1;
+
+            nextPos = getRealPosition(nextPos);
+            final int finalPos = nextPos;
+            final int finalPos1 = pos;
+
+
+            if (pos > toShiftTo) {
+                shifted = 0;
+            }
+            if (pos < shiftFrom) {
+                shifted = 0;
+            }
+            final CommentNode baseNode = users.get(nextPos).comment;
+            final Comment comment = baseNode.getComment();
+
+
+            if (pos == getItemCount() - 1) {
+                holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single));
+            } else {
+                holder.itemView.setPadding(0, 0, 0, 0);
+            }
+
+            if (comment.getVote() == VoteDirection.UPVOTE) {
+                if (!up.contains(comment.getFullName())) {
+                    up.add(comment.getFullName());
+                }
+            } else if (comment.getVote() == VoteDirection.DOWNVOTE) {
+                if (!down.contains(comment.getFullName())) {
+                    down.add(comment.getFullName());
+                }
+            }
+            String scoreText;
+            if (comment.isScoreHidden())
+                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+            else scoreText = comment.getScore().toString();
+
+            holder.score.setText(scoreText);
+
+
+            if (up.contains(comment.getFullName())) {
+                holder.score.setTextColor(holder.textColorUp);
+            } else if (down.contains(comment.getFullName())) {
+                holder.score.setTextColor(holder.textColorDown);
+            } else {
+                holder.score.setTextColor(holder.textColorRegular);
+            }
+            String distingush = "";
+            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+                distingush = "[M]";
+            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+                distingush = "[A]";
+            }
+            holder.author.setText(comment.getAuthor() + distingush);
+
+            if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+                holder.you.setVisibility(View.VISIBLE);
+            } else if (holder.itemView.findViewById(R.id.you).getVisibility() == View.VISIBLE) {
+                holder.you.setVisibility(View.GONE);
+            }
+
+            if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+                holder.op.setVisibility(View.VISIBLE);
+            } else if (holder.op.getVisibility() == View.VISIBLE) {
+                holder.op.setVisibility(View.GONE);
+            }
+
+            if (comment.getDataNode().get("stickied").asBoolean()) {
+                holder.itemView.findViewById(R.id.pinned).setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
+            }
+
+
+            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+                holder.flairBubble.setVisibility(View.VISIBLE);
+                holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
+            } else if (holder.flairBubble.getVisibility() == View.VISIBLE) {
+                holder.flairBubble.setVisibility(View.GONE);
+            }
+            if (comment.getTimesGilded() > 0) {
+                holder.gild.setVisibility(View.VISIBLE);
+                ((TextView) holder.gild).setText("" + comment.getTimesGilded());
+            } else if (holder.gild.getVisibility() == View.VISIBLE) {
+                holder.gild.setVisibility(View.GONE);
+            }
+
+            holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (SettingValues.swap) {
+                        doOnClick(holder, comment, baseNode);
+                    } else {
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                    }
+                    return true;
+                }
+            });
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    mContext,
+                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
+            holder.firstTextView.setTypeface(typeface);
+            setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (SettingValues.swap) {
+                        doOnClick(holder, comment, baseNode);
+                    } else {
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                    }
+                    return true;
+                }
+            });
+
+            if (baseNode.isTopLevel()) {
+                holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
+            } else if (holder.itemView.findViewById(R.id.next).getVisibility() == View.VISIBLE) {
+                holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
+            }
+
+            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
+
+
+            if (hiddenPersons.contains(comment.getFullName())) {
+                holder.children.setVisibility(View.VISIBLE);
+                holder.childrenNumber.setText("+" + getChildNumber(baseNode));
+                if (SettingValues.collapseComments) {
+                    holder.firstTextView.setVisibility(View.GONE);
+                    holder.commentOverflow.setVisibility(View.GONE);
+                }
+            } else {
+                holder.children.setVisibility(View.GONE);
+                holder.firstTextView.setVisibility(View.VISIBLE);
+                holder.commentOverflow.setVisibility(View.VISIBLE);
+            }
+
+            holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
+            if (holder.author.getCurrentTextColor() == 0) {
+                holder.author.setTextColor(holder.time.getCurrentTextColor());
+            }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (SettingValues.swap) {
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                    } else {
+                        doOnClick(holder, comment, baseNode);
+                    }
+                }
+            });
+            holder.firstTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
+                    if (SettingValues.swap) {
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                    } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
+                        doOnClick(holder, comment, baseNode);
+                    } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
+                        SpoilerRobotoTextView.resetSpoilerClicked();
+                    }
+                }
+            });
+
+
+            holder.dot.setVisibility(View.VISIBLE);
+
+            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+            int width = 0;
+
+            //Padding on the left, starting with the third comment
+            for (int i = 2; i < baseNode.getDepth(); i++) {
+                width += dwidth;
+            }
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            params.setMargins(width, 0, 0, 0);
+            holder.itemView.setLayoutParams(params);
+
+            if (baseNode.getDepth() - 1 > 0) {
+                int i22 = baseNode.getDepth() - 2;
+                if (i22 % 5 == 0) {
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
+                } else if (i22 % 4 == 0) {
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
+                } else if (i22 % 3 == 0) {
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
+                } else if (i22 % 2 == 0) {
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
+                } else {
+                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
+                }
+            } else {
+                holder.dot.setVisibility(View.GONE);
+            }
+            if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
+                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
+            } else {
+                doUnHighlighted(holder, baseNode);
+            }
+            if (deleted.contains(comment.getFullName())) {
+                holder.firstTextView.setText(R.string.comment_deleted);
+                holder.author.setText(R.string.comment_deleted);
+            }
+        } else if (firstHolder instanceof SubmissionViewHolder) {
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
+            if (Authentication.isLoggedIn && Authentication.didOnline) {
+                if (submission.isArchived())
+                    firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
+                else {
+                    firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
+                            if (replyArea.getVisibility() == View.GONE) {
+                                expand(replyArea, true, true);
+                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
+
+                                currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
+                                editingPosition = firstHolder.getAdapterPosition();
+
+                                firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dataSet.refreshLayout.setRefreshing(true);
+                                        currentlyEditing = null;
+                                        editingPosition = -1;
+                                        new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                                        replyArea.setVisibility(View.GONE);
+
+                                        //Hide soft keyboard
+                                        View view = ((Activity) mContext).getCurrentFocus();
+                                        if (view != null) {
+                                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        }
+                                    }
+                                });
+                            } else {
+                                collapse(replyArea, true);
+                            }
+                        }
+                    });
+                    firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
+                            currentlyEditing = null;
+                            editingPosition = -1;
+                        }
+                    });
+                }
+            } else {
+                firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
+                firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
+
+            }
+
+            firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    firstHolder.itemView.findViewById(R.id.menu).callOnClick();
+
+                }
+            });
+        } else if (firstHolder instanceof MoreCommentViewHolder) {
+            final MoreCommentViewHolder holder = (MoreCommentViewHolder) firstHolder;
+            int nextPos = pos - 1;
+
+            nextPos = getRealPosition(nextPos);
+
+            final MoreChildItem baseNode = (MoreChildItem) users.get(nextPos);
+            if (baseNode.children.getCount() > 0) {
+                holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
+            } else {
+                holder.content.setText(R.string.comment_load_more_number_unknown);
+            }
+
+            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+            int width = 0;
+            for (int i = 1; i < baseNode.comment.getDepth(); i++) {
+                width += dwidth;
+            }
+
+            final View progress = holder.loading;
+            progress.setVisibility(View.GONE);
+            holder.content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (progress.getVisibility() == View.GONE) {
+                        progress.setVisibility(View.VISIBLE);
+                        holder.content.setText(R.string.comment_loading_more);
+                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder).execute(baseNode);
+                    }
+                }
+            });
+
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            params.setMargins(width, 0, 0, 0);
+            holder.itemView.setLayoutParams(params);
+        }
+        if (firstHolder instanceof SpacerViewHolder) {
+            firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
+        }
+    }
+
+    private void setViews(String rawHTML, String subredditName, CommentViewHolder holder) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            holder.firstTextView.setVisibility(View.VISIBLE);
+            holder.firstTextView.setTextHtml(blocks.get(0), subredditName);
+            startIndex = 1;
+        } else {
+            holder.firstTextView.setText("");
+            holder.firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                holder.commentOverflow.setViews(blocks, subredditName);
+            } else {
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            holder.commentOverflow.removeAllViews();
+        }
+    }
+
+    int editingPosition;
 
     private ValueAnimator slideAnimator(int start, int end, final View v) {
         ValueAnimator animator = ValueAnimator.ofInt(start, end);
@@ -1096,352 +1440,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         animator.start();
     }
-
-    @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
-        int pos = old != 0 ? old - 1 : old;
-
-        if (firstHolder instanceof CommentViewHolder) {
-            final CommentViewHolder holder = (CommentViewHolder) firstHolder;
-            int nextPos = pos - 1;
-
-            nextPos = getRealPosition(nextPos);
-            final int finalPos = nextPos;
-            final int finalPos1 = pos;
-
-
-            if (pos > toShiftTo) {
-                shifted = 0;
-            }
-            if (pos < shiftFrom) {
-                shifted = 0;
-            }
-            final CommentNode baseNode = users.get(nextPos).comment;
-            final Comment comment = baseNode.getComment();
-
-
-            if (pos == getItemCount() - 1) {
-                holder.itemView.setPadding(0, 0, 0, (int) mContext.getResources().getDimension(R.dimen.overview_top_padding_single));
-            } else {
-                holder.itemView.setPadding(0, 0, 0, 0);
-            }
-
-            if (comment.getVote() == VoteDirection.UPVOTE) {
-                if (!up.contains(comment.getFullName())) {
-                    up.add(comment.getFullName());
-                }
-            } else if (comment.getVote() == VoteDirection.DOWNVOTE) {
-                if (!down.contains(comment.getFullName())) {
-                    down.add(comment.getFullName());
-                }
-            }
-            String scoreText;
-            if (comment.isScoreHidden())
-                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
-            else scoreText = comment.getScore().toString();
-
-            holder.score.setText(scoreText);
-
-
-            if (up.contains(comment.getFullName())) {
-                holder.score.setTextColor(holder.textColorUp);
-            } else if (down.contains(comment.getFullName())) {
-                holder.score.setTextColor(holder.textColorDown);
-            } else {
-                holder.score.setTextColor(holder.textColorRegular);
-            }
-            String distingush = "";
-            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
-                distingush = "[M]";
-            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                distingush = "[A]";
-            }
-            holder.author.setText(comment.getAuthor() + distingush);
-
-            if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-                holder.you.setVisibility(View.VISIBLE);
-            } else if (holder.itemView.findViewById(R.id.you).getVisibility() == View.VISIBLE) {
-                holder.you.setVisibility(View.GONE);
-            }
-
-            if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
-                holder.op.setVisibility(View.VISIBLE);
-            } else if (holder.op.getVisibility() == View.VISIBLE) {
-                holder.op.setVisibility(View.GONE);
-            }
-
-            if (comment.getDataNode().get("stickied").asBoolean()) {
-                holder.itemView.findViewById(R.id.pinned).setVisibility(View.VISIBLE);
-            } else {
-                holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
-            }
-
-
-            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
-                holder.flairBubble.setVisibility(View.VISIBLE);
-                holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
-            } else if (holder.flairBubble.getVisibility() == View.VISIBLE) {
-                holder.flairBubble.setVisibility(View.GONE);
-            }
-            if (comment.getTimesGilded() > 0) {
-                holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild).setText("" + comment.getTimesGilded());
-            } else if (holder.gild.getVisibility() == View.VISIBLE) {
-                holder.gild.setVisibility(View.GONE);
-            }
-
-            holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (SettingValues.swap) {
-                        doOnClick(holder, comment, baseNode);
-                    } else {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    }
-                    return true;
-                }
-            });
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    mContext,
-                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
-            holder.firstTextView.setTypeface(typeface);
-            setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
-
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (SettingValues.swap) {
-                        doOnClick(holder, comment, baseNode);
-                    } else {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    }
-                    return true;
-                }
-            });
-
-            if (baseNode.isTopLevel()) {
-                holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
-            } else if (holder.itemView.findViewById(R.id.next).getVisibility() == View.VISIBLE) {
-                holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
-            }
-
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
-
-
-            if (hiddenPersons.contains(comment.getFullName())) {
-                holder.children.setVisibility(View.VISIBLE);
-                holder.childrenNumber.setText("+" + getChildNumber(baseNode));
-                if (SettingValues.collapseComments) {
-                    holder.firstTextView.setVisibility(View.GONE);
-                    holder.commentOverflow.setVisibility(View.GONE);
-                }
-            } else {
-                holder.children.setVisibility(View.GONE);
-                holder.firstTextView.setVisibility(View.VISIBLE);
-                holder.commentOverflow.setVisibility(View.VISIBLE);
-            }
-
-            holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
-            if (holder.author.getCurrentTextColor() == 0) {
-                holder.author.setTextColor(holder.time.getCurrentTextColor());
-            }
-
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (SettingValues.swap) {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    } else {
-                        doOnClick(holder, comment, baseNode);
-                    }
-                }
-            });
-            holder.firstTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
-                    if (SettingValues.swap) {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
-                        doOnClick(holder, comment, baseNode);
-                    } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
-                        SpoilerRobotoTextView.resetSpoilerClicked();
-                    }
-                }
-            });
-
-
-            holder.dot.setVisibility(View.VISIBLE);
-
-            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
-            int width = 0;
-
-            //Padding on the left, starting with the third comment
-            for (int i = 2; i < baseNode.getDepth(); i++) {
-                width += dwidth;
-            }
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
-            params.setMargins(width, 0, 0, 0);
-            holder.itemView.setLayoutParams(params);
-
-            if (baseNode.getDepth() - 1 > 0) {
-                int i22 = baseNode.getDepth() - 2;
-                if (i22 % 5 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
-                } else if (i22 % 4 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
-                } else if (i22 % 3 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
-                } else if (i22 % 2 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
-                } else {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
-                }
-            } else {
-                holder.dot.setVisibility(View.GONE);
-            }
-            if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
-                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
-            } else {
-                doUnHighlighted(holder, baseNode);
-            }
-            if (deleted.contains(comment.getFullName())) {
-                holder.firstTextView.setText(R.string.comment_deleted);
-                holder.author.setText(R.string.comment_deleted);
-            }
-        } else if (firstHolder instanceof SubmissionViewHolder) {
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
-            if (Authentication.isLoggedIn && Authentication.didOnline) {
-                if (submission.isArchived())
-                    firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
-                else {
-                    firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
-                            if (replyArea.getVisibility() == View.GONE) {
-                                expand(replyArea, true, true);
-                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
-
-                                currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
-                                editingPosition = firstHolder.getAdapterPosition();
-
-                                firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        dataSet.refreshLayout.setRefreshing(true);
-                                        currentlyEditing = null;
-                                        editingPosition = -1;
-                                        new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
-                                        replyArea.setVisibility(View.GONE);
-
-                                        //Hide soft keyboard
-                                        View view = ((Activity) mContext).getCurrentFocus();
-                                        if (view != null) {
-                                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                        }
-                                    }
-                                });
-                            } else {
-                                collapse(replyArea, true);
-                            }
-                        }
-                    });
-                    firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
-                            currentlyEditing = null;
-                            editingPosition = -1;
-                        }
-                    });
-                }
-            } else {
-                firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
-                firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
-
-            }
-
-            firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    firstHolder.itemView.findViewById(R.id.menu).callOnClick();
-
-                }
-            });
-        } else if (firstHolder instanceof MoreCommentViewHolder) {
-            final MoreCommentViewHolder holder = (MoreCommentViewHolder) firstHolder;
-            int nextPos = pos - 1;
-
-            nextPos = getRealPosition(nextPos);
-
-            final MoreChildItem baseNode = (MoreChildItem) users.get(nextPos);
-            if (baseNode.children.getCount() > 0) {
-                holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
-            } else {
-                holder.content.setText(R.string.comment_load_more_number_unknown);
-            }
-
-            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
-            int width = 0;
-            for (int i = 1; i < baseNode.comment.getDepth(); i++) {
-                width += dwidth;
-            }
-
-            final View progress = holder.loading;
-            progress.setVisibility(View.GONE);
-            holder.content.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (progress.getVisibility() == View.GONE) {
-                        progress.setVisibility(View.VISIBLE);
-                        holder.content.setText(R.string.comment_loading_more);
-                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder).execute(baseNode);
-                    }
-                }
-            });
-
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
-            params.setMargins(width, 0, 0, 0);
-            holder.itemView.setLayoutParams(params);
-        }
-        if (firstHolder instanceof SpacerViewHolder) {
-            firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
-        }
-    }
-
-    private void setViews(String rawHTML, String subredditName, CommentViewHolder holder) {
-        if (rawHTML.isEmpty()) {
-            return;
-        }
-
-        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
-
-        int startIndex = 0;
-        // the <div class="md"> case is when the body contains a table or code block first
-        if (!blocks.get(0).equals("<div class=\"md\">")) {
-            holder.firstTextView.setVisibility(View.VISIBLE);
-            holder.firstTextView.setTextHtml(blocks.get(0), subredditName);
-            startIndex = 1;
-        } else {
-            holder.firstTextView.setText("");
-            holder.firstTextView.setVisibility(View.GONE);
-        }
-
-        if (blocks.size() > 1) {
-            if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
-            } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
-            }
-        } else {
-            holder.commentOverflow.removeAllViews();
-        }
-    }
-
-    int editingPosition;
 
     public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode, final Comment comment) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() <= editingPosition) {

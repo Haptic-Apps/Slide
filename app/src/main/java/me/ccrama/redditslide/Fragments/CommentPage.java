@@ -66,82 +66,6 @@ public class CommentPage extends Fragment {
     public boolean loaded = false;
 
 
-    public boolean onKeyDown(int keyCode) {
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-            goDown();
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            goUp();
-            return true;
-        }
-        return false;
-    }
-
-    private void reloadSubs() {
-        mSwipeRefreshLayout.setRefreshing(true);
-        comments.setSorting(Reddit.defaultCommentSorting);
-    }
-
-    private void openPopup(View view) {
-        if (comments.comments != null && !comments.comments.isEmpty()) {
-            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    switch (i) {
-                        case 0:
-                            Reddit.defaultCommentSorting = CommentSort.CONFIDENCE;
-                            reloadSubs();
-                            break;
-                        case 1:
-                            Reddit.defaultCommentSorting = CommentSort.TOP;
-                            reloadSubs();
-                            break;
-                        case 2:
-                            Reddit.defaultCommentSorting = CommentSort.QA;
-                            reloadSubs();
-                            break;
-                        case 3:
-                            Reddit.defaultCommentSorting = CommentSort.NEW;
-                            reloadSubs();
-                            break;
-                        case 4:
-                            Reddit.defaultCommentSorting = CommentSort.CONTROVERSIAL;
-                            reloadSubs();
-                            break;
-                        case 5:
-                            Reddit.defaultCommentSorting = CommentSort.OLD;
-                            reloadSubs();
-                            break;
-                    }
-                    SettingValues.prefs.edit().putString("defaultCommentSorting", Reddit.defaultCommentSorting.name()).apply();
-                    SettingValues.defaultCommentSorting = Reddit.defaultCommentSorting;
-                }
-            };
-            int i = Reddit.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
-                    : Reddit.defaultCommentSorting == CommentSort.TOP ? 1
-                    : Reddit.defaultCommentSorting == CommentSort.QA ? 2
-                    : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
-                    : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
-                    : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
-                    : 0;
-            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
-            builder.setTitle(R.string.sorting_choose);
-            Resources res = getActivity().getBaseContext().getResources();
-            builder.setSingleChoiceItems(
-                    new String[]{res.getString(R.string.sorting_best),
-                            res.getString(R.string.sorting_top),
-                            res.getString(R.string.sorting_ama),
-                            res.getString(R.string.sorting_new),
-                            res.getString(R.string.sorting_controversial),
-                            res.getString(R.string.sorting_old)},
-                    i, l2);
-            builder.show();
-        }
-
-    }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,7 +133,7 @@ public class CommentPage extends Fragment {
 
             }
         });
-      //  rv.addOnScrollListener(toolbarScroll);
+        //  rv.addOnScrollListener(toolbarScroll);
         if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
@@ -245,42 +169,6 @@ public class CommentPage extends Fragment {
         }
         toolbar.setBackgroundColor(Palette.getColor(subreddit));
 
-
-      /* STARTING IT  v.findViewById(R.subreddit.fab).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-
-
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-
-                        View body = v.findViewById(R.subreddit.body);
-                        int cx = (view.getLeft() + view.getRight()) / 2;
-                        int cy = (view.getTop() + view.getBottom()) / 2;
-
-// get the final radius for the clipping circle
-                        int finalRadius = body.getWidth();
-
-// create and start the animator for this view
-// (the start radius is zero)
-                        SupportAnimator anim =  io.codetail.animation.ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
-                        anim.start();
-                        break;
-
-                    case MotionEvent.ACTION_DOWN:
-                        view.setLayoutParams(params);
-                        break;
-                }
-
-                return true;
-            }
-        });*/
         v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -333,106 +221,6 @@ public class CommentPage extends Fragment {
 
 
         return v;
-    }
-
-    private void goUp() {
-        if (adapter.users != null && adapter.users.size() > 0) {
-            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
-                new AlertDialogWrapper.Builder(getActivity())
-                        .setTitle("Discard comment?")
-                        .setMessage("Do you really want to discard your comment?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                adapter.currentlyEditing = null;
-                                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                                for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-
-                                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
-                                            rv.removeOnScrollListener(toolbarScroll);
-                                            rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                                                @Override
-                                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                                        rv.setOnScrollListener(toolbarScroll);
-                                                    }
-                                                }
-                                            });
-
-                                            break;
-
-                                        }
-                                }
-                            }
-                        }).setNegativeButton("No", null)
-                        .show();
-
-            } else {
-                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-
-                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
-                            rv.removeOnScrollListener(toolbarScroll);
-                            rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                                @Override
-                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                        rv.setOnScrollListener(toolbarScroll);
-                                    }
-                                }
-                            });
-
-                            break;
-
-                        }
-                }
-            }
-        }
-    }
-
-    private void goDown() {
-        if (adapter.users != null && adapter.users.size() > 0) {
-            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
-                new AlertDialogWrapper.Builder(getActivity())
-                        .setTitle("Discard comment?")
-                        .setMessage("Do you really want to discard your comment?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                adapter.currentlyEditing = null;
-                                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                                for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
-
-                                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-                                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
-                                            break;
-                                        }
-                                }
-                            }
-                        }).setNegativeButton("No", null)
-                        .show();
-
-            } else {
-                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
-
-                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
-                            break;
-                        }
-                }
-            }
-        }
     }
 
     public void doAdapter() {
@@ -536,6 +324,181 @@ public class CommentPage extends Fragment {
         @Override
         protected int getVerticalSnapPreference() {
             return SNAP_TO_START;
+        }
+    }
+
+    public boolean onKeyDown(int keyCode) {
+        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            goDown();
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
+            goUp();
+            return true;
+        }
+        return false;
+    }
+
+    private void reloadSubs() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        comments.setSorting(Reddit.defaultCommentSorting);
+    }
+
+    private void openPopup(View view) {
+        if (comments.comments != null && !comments.comments.isEmpty()) {
+            final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    switch (i) {
+                        case 0:
+                            Reddit.defaultCommentSorting = CommentSort.CONFIDENCE;
+                            reloadSubs();
+                            break;
+                        case 1:
+                            Reddit.defaultCommentSorting = CommentSort.TOP;
+                            reloadSubs();
+                            break;
+                        case 2:
+                            Reddit.defaultCommentSorting = CommentSort.QA;
+                            reloadSubs();
+                            break;
+                        case 3:
+                            Reddit.defaultCommentSorting = CommentSort.NEW;
+                            reloadSubs();
+                            break;
+                        case 4:
+                            Reddit.defaultCommentSorting = CommentSort.CONTROVERSIAL;
+                            reloadSubs();
+                            break;
+                        case 5:
+                            Reddit.defaultCommentSorting = CommentSort.OLD;
+                            reloadSubs();
+                            break;
+                    }
+                    SettingValues.prefs.edit().putString("defaultCommentSorting", Reddit.defaultCommentSorting.name()).apply();
+                    SettingValues.defaultCommentSorting = Reddit.defaultCommentSorting;
+                }
+            };
+            int i = Reddit.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
+                    : Reddit.defaultCommentSorting == CommentSort.TOP ? 1
+                    : Reddit.defaultCommentSorting == CommentSort.QA ? 2
+                    : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
+                    : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
+                    : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
+                    : 0;
+            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
+            builder.setTitle(R.string.sorting_choose);
+            Resources res = getActivity().getBaseContext().getResources();
+            builder.setSingleChoiceItems(
+                    new String[]{res.getString(R.string.sorting_best),
+                            res.getString(R.string.sorting_top),
+                            res.getString(R.string.sorting_ama),
+                            res.getString(R.string.sorting_new),
+                            res.getString(R.string.sorting_controversial),
+                            res.getString(R.string.sorting_old)},
+                    i, l2);
+            builder.show();
+        }
+
+    }
+
+    private void goUp() {
+        if (adapter.users != null && adapter.users.size() > 0) {
+            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
+                new AlertDialogWrapper.Builder(getActivity())
+                        .setTitle("Discard comment?")
+                        .setMessage("Do you really want to discard your comment?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapter.currentlyEditing = null;
+                                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+                                for (int i = pastVisiblesItems - 2; i >= 0; i--) {
+                                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+
+                                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
+                                            rv.removeOnScrollListener(toolbarScroll);
+                                            rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                                                @Override
+                                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                                        rv.setOnScrollListener(toolbarScroll);
+                                                    }
+                                                }
+                                            });
+
+                                            break;
+
+                                        }
+                                }
+                            }
+                        }).setNegativeButton("No", null)
+                        .show();
+
+            } else {
+                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+                for (int i = pastVisiblesItems - 2; i >= 0; i--) {
+                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+
+                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
+                            rv.removeOnScrollListener(toolbarScroll);
+                            rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+                                @Override
+                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                        rv.setOnScrollListener(toolbarScroll);
+                                    }
+                                }
+                            });
+
+                            break;
+
+                        }
+                }
+            }
+        }
+    }
+
+    private void goDown() {
+        if (adapter.users != null && adapter.users.size() > 0) {
+            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
+                new AlertDialogWrapper.Builder(getActivity())
+                        .setTitle("Discard comment?")
+                        .setMessage("Do you really want to discard your comment?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapter.currentlyEditing = null;
+                                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+                                for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
+
+                                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
+                                            break;
+                                        }
+                                }
+                            }
+                        }).setNegativeButton("No", null)
+                        .show();
+
+            } else {
+                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+
+                for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
+
+                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
+                            break;
+                        }
+                }
+            }
         }
     }
 
