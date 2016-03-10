@@ -3,12 +3,9 @@
 <merge
     android:id="@+id/imagearea"
     android:layout_width="match_parent"
-
     android:layout_height="wrap_content"
     android:background="?attr/card_background"
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <ImageView
@@ -18,7 +15,7 @@
         android:adjustViewBounds="true"
 
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/chameleon" />
+        android:src="@drawable/chameleon" />
 
     <LinearLayout
         android:id="@+id/base"

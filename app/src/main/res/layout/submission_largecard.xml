@@ -9,15 +9,12 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
     android:layout_marginLeft="8dp"
-
     android:layout_marginRight="8dp"
-
     android:layout_marginTop="4dp"
     android:gravity="center"
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
-
     cardview:cardCornerRadius="2dp">
 
     <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -73,7 +70,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/secondMenu"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/thumbimage2">
 
@@ -135,12 +131,10 @@
                          />
 
                     <include
-                        android:id="@+id/nsfw"
                         layout="@layout/nsfw"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_toRightOf="@+id/pinned"

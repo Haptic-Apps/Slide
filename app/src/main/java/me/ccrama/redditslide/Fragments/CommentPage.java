@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -65,6 +66,16 @@ public class CommentPage extends Fragment {
     public String subreddit;
     public boolean loaded = false;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            getActivity().onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

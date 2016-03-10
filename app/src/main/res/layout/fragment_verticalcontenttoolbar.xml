@@ -110,12 +110,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="#55000000"
             android:weightSum="2">
 
             <ImageView
                 android:id="@+id/up"
-
                 android:layout_width="0dp"
                 android:layout_height="36dp"
                 android:layout_weight="1"
@@ -125,7 +125,6 @@
             <ImageView
                 android:id="@+id/down"
                 android:layout_width="0dp"
-
                 android:layout_height="36dp"
                 android:layout_weight="1"
                 style="@style/Ripple.List"

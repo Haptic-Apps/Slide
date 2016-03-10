@@ -1668,6 +1668,7 @@ public class MainActivity extends BaseActivity {
             }
         }).setNegativeButton("Cancel", null).show();
     }
+    AsyncTask caching;
 
     public void saveOffline(final List<Submission> submissions, final String subreddit) {
         final boolean[] chosen = new boolean[2];
@@ -1683,47 +1684,56 @@ public class MainActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 final MaterialDialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.offline_caching)
                         .progress(false, submissions.size())
-                        .cancelable(false)
+                        .cancelable(true)
+                        .negativeText(R.string.btn_cancel)
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                caching.cancel(true);
+                            }
+                        })
                         .show();
                 final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
-                for (final Submission s : submissions) {
-                    new AsyncTask<Void, Void, Void>() {
+                caching = new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
-                            JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                            if (s2 != null) {
-                                newSubmissions.add(s2);
-                                switch (ContentType.getImageType(s)) {
-                                    case GFY:
-                                    case GIF:
-                                    case NONE_GIF:
-                                    case NSFW_GIF:
-                                    case NONE_GFY:
-                                    case NSFW_GFY:
-                                        if (chosen[0])
-                                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
-                                        break;
-                                    case ALBUM:
-                                        if (chosen[1])
+                            for (final Submission s : submissions) {
 
-                                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
-                                        break;
+                                JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                                if (s2 != null) {
+                                    newSubmissions.add(s2);
+                                    switch (ContentType.getImageType(s)) {
+                                        case GFY:
+                                        case GIF:
+                                        case NONE_GIF:
+                                        case NSFW_GIF:
+                                        case NONE_GFY:
+                                        case NSFW_GFY:
+                                            if (chosen[0])
+                                                GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
+                                            break;
+                                        case ALBUM:
+                                            if (chosen[1])
+
+                                                AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                                            break;
+                                    }
+                                } else {
+                                    d.setMaxProgress((d.getMaxProgress() - 1));
                                 }
-                            } else {
-                                d.setMaxProgress((d.getMaxProgress() - 1));
-                            }
-                            d.setProgress(newSubmissions.size());
-                            if (d.getCurrentProgress() == d.getMaxProgress()) {
-                                d.cancel();
+                                d.setProgress(newSubmissions.size());
+                                if (d.getCurrentProgress() == d.getMaxProgress()) {
+                                    d.cancel();
 
-                                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(newSubmissions);
+                                    OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(newSubmissions);
 
+                                }
                             }
                             return null;
                         }
                     }.execute();
                 }
-            }
+
         }).show();
 
 

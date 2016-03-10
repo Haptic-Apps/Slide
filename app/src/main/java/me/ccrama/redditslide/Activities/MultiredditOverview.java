@@ -98,7 +98,8 @@ public class MultiredditOverview extends BaseActivityAnim {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home:
+
+            case android.R.id.home:
                 onBackPressed();
                 return true;
             case R.id.action_edit: {
