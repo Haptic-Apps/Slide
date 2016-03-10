@@ -41,6 +41,8 @@
 
     </style>
 
+    <style name="popup" parent="Theme.AppCompat.Dialog.Alert"/>
+
     <style name="spinnerItemStyle">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>

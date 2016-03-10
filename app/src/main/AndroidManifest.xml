@@ -235,13 +235,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity
-            android:name=".Activities.CommentsScreenPopup"
-
-            android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:theme="@style/Theme.AppCompat.Dialog.Alert" />
-
-        <activity
             android:name=".Activities.EditCardsLayout"
             android:configChanges="keyboardHidden|orientation|screenSize"
 

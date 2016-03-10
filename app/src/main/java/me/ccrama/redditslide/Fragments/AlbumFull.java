@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Fragments;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +13,8 @@ import android.view.ViewGroup;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 import me.ccrama.redditslide.util.AlbumUtils;
 
@@ -51,7 +48,7 @@ public class AlbumFull extends Fragment {
         list.setVisibility(View.VISIBLE);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        ((RecyclerView)list).setLayoutManager(layoutManager);
+        ((RecyclerView) list).setLayoutManager(layoutManager);
 
         ((RecyclerView) list).setOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -109,17 +106,12 @@ public class AlbumFull extends Fragment {
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SettingValues.tabletUI && getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    Intent i2 = new Intent(getActivity(), CommentsScreenPopup.class);
-                    i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, i);
-                    (getActivity()).startActivity(i2);
 
-                } else {
-                    Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
-                    (getActivity()).startActivity(i2);
-                }
+                Intent i2 = new Intent(getActivity(), CommentsScreen.class);
+                i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                (getActivity()).startActivity(i2);
+
             }
         });
 

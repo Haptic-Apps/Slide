@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import net.dean.jraw.models.Submission;
 
@@ -43,6 +45,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
+
     public PostLoader subredditPosts;
     int firstPage;
 
@@ -96,9 +99,19 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        super.onCreate(savedInstance);
-        applyColorTheme();
-        setContentView(R.layout.activity_slide);
+
+        if (SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setTheme(R.style.popup);
+            super.onCreate(savedInstance);
+            applyColorTheme();
+            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            setContentView(R.layout.activity_slide_popup);
+        } else {
+            super.onCreate(savedInstance);
+            applyColorTheme();
+            setContentView(R.layout.activity_slide);
+        }
+
         Reddit.setDefaultErrorHandler(this);
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, -1);
@@ -122,6 +135,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             Log.v(LogUtil.getTag(), "Subreddit is " + baseSubreddit + " and size is " + o.submissions.size() + " and getting " + firstPage + " and is " + o.submissions.get(firstPage).getTitle());
             // subredditPosts.loadMore(this.getApplicationContext(), this, true);
         }
+
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
             finish();
         } else {
@@ -216,6 +230,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
+
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);

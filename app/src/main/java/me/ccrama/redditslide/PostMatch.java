@@ -11,7 +11,7 @@ public class PostMatch {
     public static boolean contains(String target, String[] strings, boolean totalMatch) {
         for (String s : strings) {
             s = s.toLowerCase().trim();
-            if (!s.isEmpty() && totalMatch ? target.equals(s) : target.contains(s)) {
+            if (!s.isEmpty() && !s.equals("\n") &&  totalMatch ? target.equals(s) : target.contains(s)) {
 
                 return true;
             }

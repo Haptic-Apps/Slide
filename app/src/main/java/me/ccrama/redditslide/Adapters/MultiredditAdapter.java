@@ -6,7 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -18,9 +17,7 @@ import android.widget.LinearLayout;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CreateCardView;
 
@@ -102,17 +99,11 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     holder.title.setAlpha(0.65f);
                     holder.leadImage.setAlpha(0.65f);
                     holder.thumbimage.setAlpha(0.65f);
-                    if (SettingValues.tabletUI && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        Intent i2 = new Intent(mContext, CommentsScreenPopup.class);
-                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
-                        mContext.startActivityForResult(i2, 2);
-                    } else {
-                        Intent i2 = new Intent(mContext, CommentsScreen.class);
-                        i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                        i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
-                        mContext.startActivityForResult(i2, 2);
-                    }
+
+                    Intent i2 = new Intent(mContext, CommentsScreen.class);
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                    i2.putExtra(CommentsScreen.EXTRA_MULTIREDDIT, dataSet.getMultiReddit().getDisplayName());
+                    mContext.startActivityForResult(i2, 2);
 
 
                 }

@@ -6,7 +6,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.Activities.CommentsScreenPopup;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -137,21 +135,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.title.setAlpha(0.65f);
                         holder.leadImage.setAlpha(0.65f);
                         holder.thumbimage.setAlpha(0.65f);
-                        if (SettingValues.tabletUI && holder2.itemView.getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                            Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreenPopup.class);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                            i2.putExtra(CommentsScreenPopup.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                            context.startActivityForResult(i2, 940);
-                            clicked = holder2.getAdapterPosition();
 
-                        } else {
-                            Intent i2 = new Intent(holder2.itemView.getContext(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                            context.startActivityForResult(i2, 940);
-                            clicked = holder2.getAdapterPosition();
+                        Intent i2 = new Intent(context, CommentsScreen.class);
+                        i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                        i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                        context.startActivityForResult(i2, 940);
+                        clicked = holder2.getAdapterPosition();
 
-                        }
+
                     } else {
                         Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
                     }
