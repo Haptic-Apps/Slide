@@ -91,7 +91,7 @@ dependencies {
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'uz.shift:colorpicker:0.5@aar'
     compile 'com.android.support:customtabs:23.2.0'
-    compile 'com.android.support:recyclerview-v7:23.2.0'
+    compile 'com.android.support:recyclerview-v7:22.+'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'

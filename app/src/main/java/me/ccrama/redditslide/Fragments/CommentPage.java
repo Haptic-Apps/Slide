@@ -133,7 +133,7 @@ public class CommentPage extends Fragment {
 
             }
         });
-        //  rv.addOnScrollListener(toolbarScroll);
+         rv.addOnScrollListener(toolbarScroll);
         if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
@@ -185,14 +185,7 @@ public class CommentPage extends Fragment {
 
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
 
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (adapter == null || adapter.users == null) {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                }
-            }
-        });
+
         if (!(getActivity() instanceof CommentsScreen) || ((CommentsScreen) getActivity()).currentPage == page) {
             doAdapter();
         }
@@ -224,6 +217,14 @@ public class CommentPage extends Fragment {
     }
 
     public void doAdapter() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (adapter == null || adapter.users == null) {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            }
+        });
         loaded = true;
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null) {
 

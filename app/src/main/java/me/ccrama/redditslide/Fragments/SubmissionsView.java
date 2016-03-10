@@ -244,13 +244,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
 
 
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (posts == null || (posts != null && !posts.offline))
-                    mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
@@ -395,6 +388,14 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public boolean main;
 
     public void doAdapter() {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (posts == null || (posts != null && !posts.offline))
+                    mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         posts = new SubredditPosts(id, getContext());
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id);
         rv.setAdapter(adapter);
