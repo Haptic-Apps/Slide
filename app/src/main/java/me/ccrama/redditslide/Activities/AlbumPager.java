@@ -367,7 +367,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             final String finalUrl  = url;
             {
                 final ImageView iv = (ImageView) rootView.findViewById(R.id.share);
-                findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
+                rootView.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Reddit.defaultShare(finalUrl, AlbumPager.this);
@@ -382,7 +382,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 });
                 {
                     final String finalUrl1 = url;
-                    findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View v2) {
@@ -489,7 +489,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 try {
                     if (out != null) {
                         out.close();
-                        showNotifPhoto(f.getAbsolutePath(), bitmap);
+                        showNotifPhoto(f, bitmap);
 
 
                     }
@@ -518,13 +518,12 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
-    public void showNotifPhoto(final String localAbsoluteFilePath, final Bitmap loadedImage) {
-        LogUtil.v(localAbsoluteFilePath);
-        MediaScannerConnection.scanFile(AlbumPager.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+    public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
+        MediaScannerConnection.scanFile(AlbumPager.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
 
                 final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                shareIntent.setDataAndType(Uri.parse(localAbsoluteFilePath), "image/*");
+                shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
                 PendingIntent contentIntent = PendingIntent.getActivity(AlbumPager.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 

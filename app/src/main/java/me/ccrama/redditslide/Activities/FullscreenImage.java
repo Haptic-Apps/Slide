@@ -326,13 +326,12 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 .show();
     }
 
-    public void showNotifPhoto(final String localAbsoluteFilePath, final Bitmap loadedImage) {
-        LogUtil.v(localAbsoluteFilePath);
-        MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
+    public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
+        MediaScannerConnection.scanFile(FullscreenImage.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
 
                 final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                shareIntent.setDataAndType(Uri.parse(localAbsoluteFilePath), "image/*");
+                shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
                 PendingIntent contentIntent = PendingIntent.getActivity(FullscreenImage.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 
@@ -436,7 +435,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 try {
                     if (out != null) {
                         out.close();
-                        showNotifPhoto(f.getAbsolutePath(), bitmap);
+                        showNotifPhoto(f, bitmap);
 
 
                     }
