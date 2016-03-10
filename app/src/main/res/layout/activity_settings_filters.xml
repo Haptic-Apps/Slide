@@ -61,12 +61,19 @@
                 </LinearLayout>
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/domainlist"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"/>
                 <EditText
                     android:id="@+id/domain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:hint="@string/settings_filter_hint"
                     android:textSize="14sp" />
 
@@ -105,11 +112,16 @@
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/selftextlist"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"/>
                 <EditText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
-
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
@@ -151,10 +163,16 @@
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/titlelist"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content"/>
                 <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
@@ -196,13 +214,21 @@
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/subredditlist"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
 
+                    </LinearLayout>
                 <EditText
                     android:id="@+id/subreddit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:hint="@string/settings_filter_hint"
                     android:textSize="14sp" />
 

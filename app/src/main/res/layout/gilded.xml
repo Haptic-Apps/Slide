@@ -7,6 +7,8 @@
         android:textColor="#fff"
         android:textSize="10sp"
         android:textStyle="bold"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:layout_width="wrap_content"
         android:layout_height="16dp"
         android:background="@drawable/guildback"
