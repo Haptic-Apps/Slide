@@ -25,9 +25,6 @@ public class HasSeen {
     }
 
     public static void addSeen(String fullname) {
-        if (!SettingValues.storeHistory)
-            return;
-
         final String finalFullname = fullname;
         if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold())
             new AsyncTask<Void, Void, Void>() {

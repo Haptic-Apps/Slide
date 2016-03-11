@@ -206,7 +206,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         subreddit = post.getSubredditName();
         themeSystemBars(subreddit);
         setRecentBar(subreddit);
-        HasSeen.addSeen(post.getFullName());
+
+        if (SettingValues.storeHistory) {
+            if (post.isNsfw() && !SettingValues.storeNSFWHistory) {}
+            else HasSeen.addSeen(post.getFullName());
+        }
 
     }
 
