@@ -84,12 +84,11 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         String author = comment.getAuthor();
         holder.author.setText(author + distingush);
         if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
-            holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.VISIBLE);
+            holder.itemView.findViewById(R.id.text).setVisibility(View.VISIBLE);
             ((TextView) holder.itemView.findViewById(R.id.text)).setText(Html.fromHtml(comment.getAuthorFlair().getText()));
 
         } else {
-            holder.itemView.findViewById(R.id.flairbubble).setVisibility(View.GONE);
-
+            holder.itemView.findViewById(R.id.text).setVisibility(View.GONE);
         }
 
         if (comment.getTimesGilded() > 0) {
@@ -98,7 +97,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         } else {
             holder.gild.setVisibility(View.GONE);
         }
-        holder.itemView.findViewById(R.id.sticky).setVisibility(View.GONE);
+        holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
 
         if (comment.isScoreHidden()) {
             String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();

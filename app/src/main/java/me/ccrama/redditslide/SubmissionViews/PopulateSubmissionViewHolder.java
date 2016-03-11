@@ -411,7 +411,7 @@ public class PopulateSubmissionViewHolder {
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getUrl(), mContext);
                                 break;
                             case 8:
-                                Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(submission.getTitle() + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
                                 break;
                             case 6:
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);

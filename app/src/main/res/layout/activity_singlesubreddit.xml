@@ -21,25 +21,7 @@
             android:layout_gravity="top|right"
             android:layout_height="1dp" />
 
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/orange"
-                android:elevation="16dp"
-                android:orientation="vertical"
-                android:theme="@style/Theme.AppCompat">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:theme="@style/ActionBarCompat"
-                    android:minHeight="56dp" />
-
-
-            </android.support.design.widget.AppBarLayout>
 
             <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
                 android:id="@+id/activity_main_swipe_refresh_layout"
@@ -59,6 +41,25 @@
                     android:listSelector="@android:color/transparent"
                     android:orientation="vertical" />
             </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/orange"
+            android:elevation="16dp"
+            android:orientation="vertical"
+            android:theme="@style/Theme.AppCompat">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00000000"
+                android:theme="@style/ActionBarCompat"
+                android:minHeight="56dp" />
+
+
+        </android.support.design.widget.AppBarLayout>
             <include
                 layout="@layout/fab"
                 android:layout_width="wrap_content"
