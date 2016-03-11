@@ -53,6 +53,7 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenImage;
+import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.Imgur;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -111,7 +112,17 @@ public class PopulateSubmissionViewHolder {
                         contextActivity.startActivity(i2);
                         break;
                     case EMBEDDED:
-                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        if (SettingValues.video) {
+                            String data = submission.getDataNode().get("media_embed").get("content").asText();
+                            {
+                                Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                contextActivity.startActivity(i);
+                            }
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        }
+
                         break;
                     case NSFW_GIF:
                         openGif(false, contextActivity, submission);
@@ -378,7 +389,7 @@ public class PopulateSubmissionViewHolder {
                                 posts.remove(submission);
 
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-                                Hidden.setHidden(t);
+                                Hidden.setHidden((Contribution) t);
 
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
@@ -397,7 +408,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden(t);
+                                        Hidden.undoHidden((Contribution) t);
 
                                     }
                                 }).show();
@@ -669,7 +680,7 @@ public class PopulateSubmissionViewHolder {
                                         for (FlairTemplate temp : flair) {
                                             finalFlairs.add(temp.getText());
                                         }
-                                        mContext.runOnUiThread(new Runnable() {
+                                        ((Activity) mContext).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 new MaterialDialog.Builder(mContext).title(R.string.mod_flair_post).inputType(InputType.TYPE_CLASS_TEXT)
@@ -871,7 +882,7 @@ public class PopulateSubmissionViewHolder {
 
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 if (!offline)
-                                    Hidden.setHidden(t);
+                                    Hidden.setHidden((Contribution) t);
 
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
@@ -888,7 +899,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden(t);
+                                        Hidden.undoHidden((Contribution) t);
 
                                     }
                                 }).show();
