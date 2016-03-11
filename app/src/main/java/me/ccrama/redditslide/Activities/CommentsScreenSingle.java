@@ -18,6 +18,7 @@ import net.dean.jraw.models.Submission;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.StyleView;
@@ -105,6 +106,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             try {
                 Submission s = Authentication.reddit.getSubmission(params[0]);
                 HasSeen.addSeen(s.getFullName());
+                LastComments.setComments(s);
                 return s.getSubredditName();
 
             } catch (Exception e) {

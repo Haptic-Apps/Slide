@@ -66,95 +66,99 @@ public class ContentType {
 
 
     public static ImageType getImageType(Submission s) {
-        Submission.ThumbnailType t = s.getThumbnailType();
-        String url = s.getUrl();
-        if (url.startsWith("/") && !url.startsWith("//")) {
-            url = "reddit.com" + url;
-        } else {
-            url = url.replace("//", "https://");
-        }
-        if (s.isSelfPost()) {
-            return ImageType.SELF;
-        } else if (isRedditLink(url)) {
-            return ImageType.REDDIT;
-        }
-        if(isImgurLink(url)){
-            if(url.contains("?") && (url.contains(".png") ||url.contains(".gif") || url.contains(".jpg"))){
-                url = url.substring(0, url.lastIndexOf("?"));
-                return getImageType(url);
+        try {
+            Submission.ThumbnailType t = s.getThumbnailType();
+            String url = s.getUrl();
+            if (url.startsWith("/") && !url.startsWith("//")) {
+                url = "reddit.com" + url;
+            } else {
+                url = url.replace("//", "https://");
             }
-            return ImageType.IMGUR;
-        }
-        if (!s.getUrl().contains("youtube.com") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
-            return ImageType.EMBEDDED;
-        }
-        if (s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")) {
-            return ImageType.REDDIT;
-        }
-        if (s.getUrl().contains("youtube.com") || s.getUrl().contains("youtu.be")){
-            return ImageType.VIDEO;
-        }
-        switch (t) {
-            case NSFW:
-                if (isImage(url) && !url.contains("gif")) {
-                    return ImageType.NSFW_IMAGE;
-                } else if (isGif(url)) {
-                    if (url.contains("gfy"))
-                        return ImageType.NSFW_GFY;
-                    return ImageType.NSFW_GIF;
-
-                } else {
-                    return ImageType.NSFW_LINK;
-                }
-            case DEFAULT:
-                if (isAlbum(url)) {
-                    return ImageType.ALBUM;
-                }
-                if (isImage(url) && !url.contains("gif")) {
-                    return ImageType.IMAGE;
-                } else if (isGif(url)) {
-                    if (url.contains("gfy"))
-                        return ImageType.GFY;
-                    return ImageType.GIF;
-
-                } else {
-                    return ImageType.IMAGE_LINK;
-                }
-            case SELF:
+            if (s.isSelfPost()) {
                 return ImageType.SELF;
-            case NONE:
-                if (isAlbum(url)) {
-                    return ImageType.ALBUM;
+            } else if (isRedditLink(url)) {
+                return ImageType.REDDIT;
+            }
+            if (isImgurLink(url)) {
+                if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
+                    url = url.substring(0, url.lastIndexOf("?"));
+                    return getImageType(url);
                 }
-                if (isImage(url) && !url.contains("gif")) {
-                    return ImageType.NONE_IMAGE;
-                } else if (isGif(url)) {
-                    if (url.contains("gfy"))
-                        return ImageType.NONE_GFY;
-                    return ImageType.NONE_GIF;
-                } else if (!url.isEmpty()) {
-                    return ImageType.LINK;
-                } else {
-                    return ImageType.NONE;
-                }
-            case URL:
-                if (isAlbum(url)) {
-                    return ImageType.ALBUM;
-                }
-                if (isImage(url) && !url.contains("gif")) {
-                    return ImageType.IMAGE;
-                } else if (isGif(url)) {
-                    if (url.contains("gfy"))
-                        return ImageType.GFY;
-                    return ImageType.GIF;
-                } else if (!url.isEmpty()) {
-                    return ImageType.LINK;
+                return ImageType.IMGUR;
+            }
+            if (!s.getUrl().contains("youtube.com") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
+                return ImageType.EMBEDDED;
+            }
+            if (s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")) {
+                return ImageType.REDDIT;
+            }
+            if (s.getUrl().contains("youtube.com") || s.getUrl().contains("youtu.be")) {
+                return ImageType.VIDEO;
+            }
+            switch (t) {
+                case NSFW:
+                    if (isImage(url) && !url.contains("gif")) {
+                        return ImageType.NSFW_IMAGE;
+                    } else if (isGif(url)) {
+                        if (url.contains("gfy"))
+                            return ImageType.NSFW_GFY;
+                        return ImageType.NSFW_GIF;
 
-                } else {
+                    } else {
+                        return ImageType.NSFW_LINK;
+                    }
+                case DEFAULT:
+                    if (isAlbum(url)) {
+                        return ImageType.ALBUM;
+                    }
+                    if (isImage(url) && !url.contains("gif")) {
+                        return ImageType.IMAGE;
+                    } else if (isGif(url)) {
+                        if (url.contains("gfy"))
+                            return ImageType.GFY;
+                        return ImageType.GIF;
+
+                    } else {
+                        return ImageType.IMAGE_LINK;
+                    }
+                case SELF:
+                    return ImageType.SELF;
+                case NONE:
+                    if (isAlbum(url)) {
+                        return ImageType.ALBUM;
+                    }
+                    if (isImage(url) && !url.contains("gif")) {
+                        return ImageType.NONE_IMAGE;
+                    } else if (isGif(url)) {
+                        if (url.contains("gfy"))
+                            return ImageType.NONE_GFY;
+                        return ImageType.NONE_GIF;
+                    } else if (!url.isEmpty()) {
+                        return ImageType.LINK;
+                    } else {
+                        return ImageType.NONE;
+                    }
+                case URL:
+                    if (isAlbum(url)) {
+                        return ImageType.ALBUM;
+                    }
+                    if (isImage(url) && !url.contains("gif")) {
+                        return ImageType.IMAGE;
+                    } else if (isGif(url)) {
+                        if (url.contains("gfy"))
+                            return ImageType.GFY;
+                        return ImageType.GIF;
+                    } else if (!url.isEmpty()) {
+                        return ImageType.LINK;
+
+                    } else {
+                        return ImageType.NONE;
+                    }
+                default:
                     return ImageType.NONE;
-                }
-            default:
-                return ImageType.NONE;
+            }
+        } catch(Exception e){
+            return ImageType.NONE;
         }
     }
 

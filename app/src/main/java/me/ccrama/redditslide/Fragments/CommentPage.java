@@ -202,7 +202,11 @@ public class CommentPage extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        comments.loadMore(adapter, subreddit);
+                        if(comments != null) {
+                            comments.loadMore(adapter, subreddit);
+                        } else {
+                            mSwipeRefreshLayout.setRefreshing(false);
+                        }
 
                         //TODO catch errors
                     }

@@ -137,6 +137,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             c.startActivity(intent);
         }
     }
+
     public static boolean isPackageInstalled(final Context ctx, String s) {
         try {
             final PackageManager pm = ctx.getPackageManager();
@@ -147,6 +148,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         return false;
     }
+
     private static boolean isPackageInstalled(final Context ctx) {
         try {
             final PackageManager pm = ctx.getPackageManager();
@@ -390,46 +392,57 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         //is offline
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                        .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
-                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (!(c instanceof MainActivity)) {
-                                                    ((Activity) c).finish();
-                                                }
-                                            }
-                                        }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        forceRestart(c);
-                                    }
-                                }).show();
-                            }
-                        });
+                                          @Override
+                                          public void run() {
+                                              try {
+
+                                                  new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                                          .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
+                                                          .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                              @Override
+                                                              public void onClick(DialogInterface dialog, int which) {
+                                                                  if (!(c instanceof MainActivity)) {
+                                                                      ((Activity) c).finish();
+                                                                  }
+                                                              }
+                                                          }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                                                      @Override
+                                                      public void onClick(DialogInterface dialog, int which) {
+                                                          forceRestart(c);
+                                                      }
+                                                  }).show();
+                                              } catch (Exception ignored) {
+
+                                              }
+                                          }
+                                      }
+
+                        );
                     } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
                         //Un-authenticated
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                        .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
-                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (!(c instanceof MainActivity)) {
-                                                    ((Activity) c).finish();
+                                try {
+                                    new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                            .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    if (!(c instanceof MainActivity)) {
+                                                        ((Activity) c).finish();
+                                                    }
                                                 }
-                                            }
-                                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        authentication.updateToken((c));
-                                    }
-                                }).show();
+                                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            authentication.updateToken((c));
+                                        }
+                                    }).show();
+                                } catch (Exception ignored) {
+
+                                }
                             }
                         });
 
@@ -438,17 +451,21 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                        .setMessage("Reddit could not find the requested content.")
-                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (!(c instanceof MainActivity)) {
-                                                    ((Activity) c).finish();
+                                try {
+                                    new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
+                                            .setMessage("Reddit could not find the requested content.")
+                                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    if (!(c instanceof MainActivity)) {
+                                                        ((Activity) c).finish();
+                                                    }
                                                 }
-                                            }
 
-                                        }).show();
+                                            }).show();
+                                } catch (Exception ignored) {
+
+                                }
                             }
                         });
                     } else {

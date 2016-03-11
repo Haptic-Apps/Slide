@@ -345,7 +345,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
     }
 
-    private ImageView thumbImage2;
+    public ImageView thumbImage2;
 
     public void setThumbnail(ImageView v) {
         thumbImage2 = v;

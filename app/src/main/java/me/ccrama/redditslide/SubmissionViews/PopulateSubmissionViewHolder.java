@@ -65,6 +65,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -809,18 +810,15 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onClick(View view) {
                 if (offline) {
-
                     Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
-
                 } else {
                     showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview);
                 }
             }
         });
         int commentCount = submission.getCommentCount();
-        final Resources res = mContext.getResources();
-        holder.comments.setText("" + commentCount);
-
+        int more = LastComments.commentsSince(submission);
+        holder.comments.setText("" + commentCount + ((more == 0) ? "" : " (+" + more + ")"));
         holder.score.setText("" + submission.getScore());
 
         final ImageView downvotebutton = (ImageView) holder.downvote;
@@ -955,26 +953,16 @@ public class PopulateSubmissionViewHolder {
             holder.save.setVisibility(View.GONE);
         }
 
-
         ImageView thumbImage2 = ((ImageView) holder.thumbimage);
 
-
-        holder.leadImage.setThumbnail(thumbImage2);
+        if (holder.leadImage.thumbImage2 == null)
+            holder.leadImage.setThumbnail(thumbImage2);
         if (full)
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
 
         holder.leadImage.setSubmission(submission, full, baseSub);
 
         ContentType.ImageType type = ContentType.getImageType(submission);
-
-        addClickFunctions(holder.leadImage, type, mContext, submission, holder);
-
-
-        if (holder.thumbimage != null) {
-            addClickFunctions(holder.thumbimage, type, mContext, submission, holder);
-        } else {
-            addClickFunctions(thumbImage2, type, mContext, submission, holder);
-        }
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -997,11 +985,8 @@ public class PopulateSubmissionViewHolder {
             }
 
         });
-        if (full) {
-            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder);
-        }
 
-        if (submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair() == null || submission.getSubmissionFlair().getText().isEmpty() || submission.getSubmissionFlair().getText() == null) {
+        if (submission.getSubmissionFlair().getText() == null|| submission.getSubmissionFlair().getText().isEmpty()) {
             holder.flair.setVisibility(View.GONE);
         } else {
             holder.flair.setVisibility(View.VISIBLE);
@@ -1016,6 +1001,7 @@ public class PopulateSubmissionViewHolder {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
             }
         }
+
         int pinnedVisibility = submission.isStickied() ? View.VISIBLE : View.GONE;
         if (holder.pinned.getVisibility() != pinnedVisibility) {
             holder.pinned.setVisibility(pinnedVisibility);
@@ -1026,6 +1012,17 @@ public class PopulateSubmissionViewHolder {
             holder.nsfw.setVisibility(nsfwVisibility);
         }
 
+        addClickFunctions(holder.leadImage, type, mContext, submission, holder);
+
+
+        if (holder.thumbimage != null) {
+            addClickFunctions(holder.thumbimage, type, mContext, submission, holder);
+        } else {
+            addClickFunctions(thumbImage2, type, mContext, submission, holder);
+        }
+
+        if(full)
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder);
 
         try {
             final TextView points = holder.score;
