@@ -154,12 +154,12 @@ public class SettingsGeneral extends BaseActivityAnim {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.commentlast);
 
-            single.setChecked(!SettingValues.commentLastVisit);
+            single.setChecked(SettingValues.commentLastVisit);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.commentLastVisit = !isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_LAST_VISIT, !isChecked).apply();
+                    SettingValues.commentLastVisit = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_LAST_VISIT, isChecked).apply();
 
                 }
             });
