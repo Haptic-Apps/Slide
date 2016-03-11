@@ -17,13 +17,8 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public final TextView author;
     public final View dots;
     public final TextView time;
-    public final View gild;
     public final View children;
     public final TextView childrenNumber;
-    public final TextView flairText;
-    public final View flairBubble;
-    public final View you;
-    public final View op;
     public final View dot;
     public final LinearLayout menuArea;
     public final int textColorUp;
@@ -37,21 +32,16 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public CommentViewHolder(View v) {
         super(v);
         background = v.findViewById(R.id.background);
-        flairBubble = v.findViewById(R.id.text);
-        flairText = (TextView) v.findViewById(R.id.text);
         author = (TextView) v.findViewById(R.id.author);
         dot = v.findViewById(R.id.dot);
         menuArea = (LinearLayout) v.findViewById(R.id.menuarea);
         time = (TextView) v.findViewById(R.id.time);
         children = v.findViewById(R.id.commentnumber);
         childrenNumber = (TextView) v.findViewById(R.id.commentnumber);
-        gild = v.findViewById(R.id.gildtext);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
         textColorDown = ContextCompat.getColor(v.getContext(), R.color.md_blue_500);
         textColorRegular = author.getCurrentTextColor();
         textColorUp = ContextCompat.getColor(v.getContext(), R.color.md_orange_500);
-        you = v.findViewById(R.id.you);
-        op = v.findViewById(R.id.op);
         dots = v.findViewById(R.id.dots);
         score = (TextView) v.findViewById(R.id.score);
         commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);

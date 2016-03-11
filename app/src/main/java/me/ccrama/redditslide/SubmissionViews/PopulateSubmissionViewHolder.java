@@ -1,3 +1,4 @@
+
 package me.ccrama.redditslide.SubmissionViews;
 
 
@@ -21,6 +22,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +82,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -113,6 +120,7 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case EMBEDDED:
                         if (SettingValues.video) {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
@@ -122,7 +130,6 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-
                         break;
                     case NSFW_GIF:
                         openGif(false, contextActivity, submission);
@@ -389,7 +396,7 @@ public class PopulateSubmissionViewHolder {
                                 posts.remove(submission);
 
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-                                Hidden.setHidden((Contribution) t);
+                                Hidden.setHidden(t);
 
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
@@ -408,7 +415,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden((Contribution) t);
+                                        Hidden.undoHidden(t);
 
                                     }
                                 }).show();
@@ -459,7 +466,47 @@ public class PopulateSubmissionViewHolder {
         else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
             distingush = "[A]";
 
-        holder.title.setTextHtml(submission.getTitle()); // title is a spoiler roboto textview so it will format the html
+        SpannableStringBuilder titleString = new SpannableStringBuilder();
+        titleString.append(Html.fromHtml(submission.getTitle()));
+        if (submission.isStickied()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" PINNED ");
+            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (submission.getTimesGilded() > 0) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getTimesGilded() + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+
+            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+        }
+        if (submission.isNsfw()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" NSFW ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            titleString.append(pinned);
+        }
+        if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair().getText().isEmpty()) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.activity_background, typedValue, false);
+            int color = typedValue.data;
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getSubmissionFlair().getText() + " ");
+            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
         String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
         holder.info.setText("/r/" + submission.getSubredditName() + distingush + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + "/u/" + submission.getAuthor() + separator + submission.getDomain());
@@ -680,7 +727,7 @@ public class PopulateSubmissionViewHolder {
                                         for (FlairTemplate temp : flair) {
                                             finalFlairs.add(temp.getText());
                                         }
-                                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                                        mContext.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 new MaterialDialog.Builder(mContext).title(R.string.mod_flair_post).inputType(InputType.TYPE_CLASS_TEXT)
@@ -882,7 +929,7 @@ public class PopulateSubmissionViewHolder {
 
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 if (!offline)
-                                    Hidden.setHidden((Contribution) t);
+                                    Hidden.setHidden(t);
 
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
@@ -899,7 +946,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                         posts.add(pos, t);
                                         recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden((Contribution) t);
+                                        Hidden.undoHidden(t);
 
                                     }
                                 }).show();
@@ -997,13 +1044,6 @@ public class PopulateSubmissionViewHolder {
 
         });
 
-        if (submission.getSubmissionFlair().getText() == null|| submission.getSubmissionFlair().getText().isEmpty()) {
-            holder.flair.setVisibility(View.GONE);
-        } else {
-            holder.flair.setVisibility(View.VISIBLE);
-            holder.flairText.setText(Html.fromHtml(submission.getSubmissionFlair().getText()));
-        }
-
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
                 setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
@@ -1011,16 +1051,6 @@ public class PopulateSubmissionViewHolder {
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
             }
-        }
-
-        int pinnedVisibility = submission.isStickied() ? View.VISIBLE : View.GONE;
-        if (holder.pinned.getVisibility() != pinnedVisibility) {
-            holder.pinned.setVisibility(pinnedVisibility);
-        }
-
-        int nsfwVisibility = submission.isNsfw() ? View.VISIBLE : View.GONE;
-        if (holder.nsfw.getVisibility() != nsfwVisibility) {
-            holder.nsfw.setVisibility(nsfwVisibility);
         }
 
         addClickFunctions(holder.leadImage, type, mContext, submission, holder);
@@ -1032,7 +1062,7 @@ public class PopulateSubmissionViewHolder {
             addClickFunctions(thumbImage2, type, mContext, submission, holder);
         }
 
-        if(full)
+        if (full)
             addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder);
 
         try {
@@ -1115,16 +1145,6 @@ public class PopulateSubmissionViewHolder {
             holder.leadImage.setAlpha(1f);
             holder.thumbimage.setAlpha(1f);
         }
-
-
-        int timesGilded = submission.getTimesGilded();
-        if (timesGilded > 0) {
-            holder.gildLayout.setVisibility(View.VISIBLE);
-            holder.gildText.setText(Integer.toString(timesGilded));
-        } else {
-            holder.gildLayout.setVisibility(View.GONE);
-        }
-
 
     }
 

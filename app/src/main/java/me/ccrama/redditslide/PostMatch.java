@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 
 import net.dean.jraw.models.Submission;
 
-import me.ccrama.redditslide.util.LogUtil;
-
 /**
  * Created by carlo_000 on 1/13/2016.
  */
@@ -13,7 +11,6 @@ public class PostMatch {
     public static boolean contains(String target, String[] strings, boolean totalMatch) {
         for (String s : strings) {
             s = s.toLowerCase().trim();
-            LogUtil.v("S is '" + s + "'");
             if (!s.isEmpty() && !s.equals("\n") &&  totalMatch ? target.equals(s) : target.contains(s)) {
                 return true;
             }

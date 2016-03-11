@@ -85,77 +85,17 @@
 
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_cardtitle" />
-
-
-                <com.wefika.flowlayout.FlowLayout
-                    android:id="@+id/flow"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/information"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:tag="tint"
                     android:layout_below="@+id/title"
-                    android:paddingLeft="16dp">
 
-                    <TextView
-                        android:id="@+id/information"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:gravity="center_vertical"
-                        android:tag="tint"
-                        android:text="@string/example_time"
-                        android:textSize="?attr/font_cardinfo" />
-
-                    <include
-                        android:id="@+id/gild"
-                        layout="@layout/gilded"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-
-
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="8dp"
-                        android:orientation="horizontal"
-                        android:padding="8dp" />
-
-                    <include
-                        android:id="@+id/flairbubble"
-                        layout="@layout/flair"
-                        android:layout_width="wrap_content"
-                        android:layout_height="16dp"
-
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@+id/gild"
-
-                         />
-
-                    <include
-                        android:id="@+id/nsfw"
-                        layout="@layout/nsfw"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_toRightOf="@+id/pinned"
-
-                        />
-
-                    <include
-                        android:id="@+id/pinned"
-                        layout="@layout/stickied"
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-
-                        android:layout_toRightOf="@+id/flairbubble"
-
-                         />
-
-                </com.wefika.flowlayout.FlowLayout>
+                    android:text="@string/example_time"
+                    android:textSize="?attr/font_cardinfo" />
 
             </RelativeLayout>
 

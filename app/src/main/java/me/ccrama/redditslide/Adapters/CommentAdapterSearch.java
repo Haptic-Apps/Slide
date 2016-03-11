@@ -91,12 +91,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.text).setVisibility(View.GONE);
         }
 
-        if (comment.getTimesGilded() > 0) {
-            holder.gild.setVisibility(View.VISIBLE);
-            ((TextView) holder.gild.findViewById(R.id.gildtext)).setText("" + comment.getTimesGilded());
-        } else {
-            holder.gild.setVisibility(View.GONE);
-        }
         holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
 
         if (comment.isScoreHidden()) {

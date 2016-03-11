@@ -22,6 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import net.dean.jraw.models.Submission;
 
@@ -71,6 +74,14 @@ public class HeaderImageLinkView extends RelativeLayout {
         thumbImage2.setImageResource(android.R.color.transparent);
         doImageAndText(submission, full, baseSub);
     }
+
+    DisplayImageOptions bigOptions = new DisplayImageOptions.Builder()
+            .resetViewBeforeLoading(true)
+            .cacheOnDisk(true)
+            .imageScaleType(ImageScaleType.NONE)
+            .cacheInMemory(false)
+            .displayer(new FadeInBitmapDisplayer(250))
+            .build();
 
     public void doImageAndText(Submission submission, boolean full, String baseSub) {
 
@@ -153,6 +164,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     url = submission.getUrl();
                 }
             }
+
             if (!full && !SettingValues.isPicsEnabled(baseSub) || forceThumb) {
 
                 if (!full) {
@@ -161,12 +173,20 @@ public class HeaderImageLinkView extends RelativeLayout {
                     wrapArea.setVisibility(View.VISIBLE);
                 }
 
-                ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+                if (!full) {
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+                } else {
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2, bigOptions);
+                }
                 setVisibility(View.GONE);
 
             } else {
 
-                ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
+                if (!full) {
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
+                } else {
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop, bigOptions);
+                }
                 setVisibility(View.VISIBLE);
                 if (!full) {
                     thumbImage2.setVisibility(View.GONE);
@@ -196,7 +216,11 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             } else {
 
-                ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
+                if (!full) {
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
+                } else {
+                    ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop, bigOptions);
+                }
                 setVisibility(View.VISIBLE);
                 if (!full) {
                     thumbImage2.setVisibility(View.GONE);

@@ -25,6 +25,11 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -77,6 +82,7 @@ import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
@@ -319,38 +325,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             holder.author.setText(comment.getAuthor() + distingush);
 
-            if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-                holder.you.setVisibility(View.VISIBLE);
-            } else if (holder.itemView.findViewById(R.id.you).getVisibility() == View.VISIBLE) {
-                holder.you.setVisibility(View.GONE);
-            }
-
-            if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
-                holder.op.setVisibility(View.VISIBLE);
-            } else if (holder.op.getVisibility() == View.VISIBLE) {
-                holder.op.setVisibility(View.GONE);
-            }
-
-            if (comment.getDataNode().get("stickied").asBoolean()) {
-                holder.itemView.findViewById(R.id.pinned).setVisibility(View.VISIBLE);
-            } else {
-                holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
-            }
-
-
-            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
-                holder.flairBubble.setVisibility(View.VISIBLE);
-                holder.flairText.setText(Html.fromHtml(comment.getAuthorFlair().getText()));
-            } else if (holder.flairBubble.getVisibility() == View.VISIBLE) {
-                holder.flairBubble.setVisibility(View.GONE);
-            }
-            if (comment.getTimesGilded() > 0) {
-                holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild).setText("" + comment.getTimesGilded());
-            } else if (holder.gild.getVisibility() == View.VISIBLE) {
-                holder.gild.setVisibility(View.GONE);
-            }
-
             holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -385,8 +359,48 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else if (holder.itemView.findViewById(R.id.next).getVisibility() == View.VISIBLE) {
                 holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
             }
-
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
+            SpannableStringBuilder titleString = new SpannableStringBuilder();
+            titleString.append(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
+            if (comment.getDataNode().get("stickied").asBoolean()) {
+                SpannableStringBuilder pinned = new SpannableStringBuilder(" PINNED ");
+                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pinned.setSpan(new RoundedBackgroundSpan(mContext,R.color.white, R.color.md_green_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(pinned);
+            }
+            if (comment.getTimesGilded() > 0) {
+                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
+                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(pinned);
+            }
+            if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
+                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(pinned);
+            }
+            if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+                SpannableStringBuilder pinned = new SpannableStringBuilder(" OP ");
+                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(pinned);
+            }
+            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = mContext.getTheme();
+                theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+                int color = typedValue.data;
+                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
+                pinned.setSpan(new RoundedBackgroundSpan(holder.time.getCurrentTextColor(), color, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(" ");
+                titleString.append(pinned);
+            }
+            holder.time.setText(titleString);
 
 
             if (hiddenPersons.contains(comment.getFullName())) {

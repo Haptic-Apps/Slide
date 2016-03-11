@@ -78,49 +78,6 @@
             android:textSize="?attr/font_commentinfo" />
 
         <include
-            android:id="@+id/gild"
-            layout="@layout/gilded"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal" />
-
-        <include
-            android:id="@+id/flairbubble"
-            layout="@layout/flair"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="5dp"
-           />
-
-        <include
-            android:id="@+id/you"
-            layout="@layout/you"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            />
-
-        <include
-            android:id="@+id/op"
-            layout="@layout/op"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp"
-            />
-
-        <include
-            android:id="@+id/sticky"
-            layout="@layout/stickied"
-            android:layout_width="wrap_content"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="4dp" />
-
-        <include
             android:id="@+id/children"
             layout="@layout/commentnumber"
             android:layout_width="wrap_content"

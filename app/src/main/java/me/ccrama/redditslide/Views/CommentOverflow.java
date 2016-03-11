@@ -1,6 +1,8 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -16,6 +18,7 @@ import com.devspark.robototextview.util.RobotoTypefaceManager;
 import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
@@ -57,15 +60,26 @@ public class CommentOverflow extends LinearLayout {
 
     private void init(Context context) {
         colorPreferences = new ColorPreferences(context);
-         typeface = RobotoTypefaceManager.obtainTypeface(
-                 context,
+        typeface = RobotoTypefaceManager.obtainTypeface(
+                context,
                 new FontPreferences(context).getFontTypeComment().getTypeface());
+
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getApplicationContext().getTheme();
+        theme.resolveAttribute(R.attr.font, typedValue, true);
+        textColor = typedValue.data;
+        TypedValue fontSizeTypedValue = new TypedValue();
+        theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
+        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[]{R.attr.font_commentbody});
+        fontSize = a.getDimensionPixelSize(0, -1);
+        a.recycle();
     }
 
     /**
      * Set the text for the corresponding views.
      *
-     * @param blocks list of all blocks to be set
+     * @param blocks    list of all blocks to be set
      * @param subreddit
      */
     public void setViews(List<String> blocks, String subreddit) {

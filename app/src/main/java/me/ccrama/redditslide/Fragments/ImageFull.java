@@ -24,6 +24,7 @@ import net.dean.jraw.models.Submission;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -65,7 +66,17 @@ public class ImageFull extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        if (SettingValues.video) {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            String data = submission.getDataNode().get("media_embed").get("content").asText();
+                            {
+                                Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                contextActivity.startActivity(i);
+                            }
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        }
                     }
 
                 });
