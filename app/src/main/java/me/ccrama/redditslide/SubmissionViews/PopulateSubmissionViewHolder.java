@@ -818,7 +818,7 @@ public class PopulateSubmissionViewHolder {
         });
         int commentCount = submission.getCommentCount();
         int more = LastComments.commentsSince(submission);
-        holder.comments.setText("" + commentCount + ((more == 0) ? "" : " (+" + more + ")"));
+        holder.comments.setText("" + commentCount + ((more != 0 && SettingValues.commentLastVisit) ? " (+" + more + ")" : ""));
         holder.score.setText("" + submission.getScore());
 
         final ImageView downvotebutton = (ImageView) holder.downvote;

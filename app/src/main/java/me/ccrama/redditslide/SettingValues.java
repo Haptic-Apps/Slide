@@ -32,6 +32,7 @@ public class SettingValues {
     public static final String PREF_TEXT_FILTERS = "textFilters";
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
+    public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
 
     public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
@@ -83,6 +84,7 @@ public class SettingValues {
     public static boolean lowRes;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
+    public static boolean commentLastVisit;
     public static boolean scrollSeen;
     public static boolean saveButton;
     public static boolean colorEverywhere;
@@ -174,6 +176,7 @@ public class SettingValues {
         album = prefs.getBoolean(PREF_ALBUM, true);
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
 
+        commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
         exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, false);

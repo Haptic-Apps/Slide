@@ -602,6 +602,7 @@
     <string name="sub_content_filter">Subreddit content filter</string>
     <string name="submission_share_reddit_url">Share comments</string>
     <string name="filter_content">Filter this content</string>
+    <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
