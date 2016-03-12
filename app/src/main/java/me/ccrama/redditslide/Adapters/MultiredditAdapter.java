@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
@@ -42,13 +43,15 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final int NO_MORE = 3;
     private final int SPACER = 6;
     SwipeRefreshLayout refreshLayout;
+    MultiredditView baseView;
 
-    public MultiredditAdapter(Activity context, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout) {
+    public MultiredditAdapter(Activity context, MultiredditPosts dataSet, RecyclerView listView, SwipeRefreshLayout refreshLayout, MultiredditView baseView) {
         this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
         this.seen = new ArrayList<>();
         this.refreshLayout = refreshLayout;
+        this.baseView = baseView;
     }
 
     @Override
@@ -163,6 +166,15 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             };
 
             handler.post(r);
+            if (holder2.itemView.findViewById(R.id.reload) != null) {
+                holder2.itemView.findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dataSet.loadMore(context, baseView, true, MultiredditAdapter.this);
+                    }
+                });
+
+            }
         }
         if (holder2 instanceof SpacerViewHolder) {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));

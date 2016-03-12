@@ -144,7 +144,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             }
         });
         posts = new MultiredditPosts(SubredditStorage.getMultireddits().get(id).getDisplayName());
-        adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout);
+        adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
         rv.setAdapter(adapter);
         rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
         posts.loadMore(getActivity(), this, true, adapter);

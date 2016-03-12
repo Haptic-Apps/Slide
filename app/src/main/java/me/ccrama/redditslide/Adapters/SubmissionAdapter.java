@@ -43,14 +43,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int SUBMISSION = 1;
     private final int NO_MORE = 3;
     private final int SPACER = 6;
+    SubmissionDisplay displayer;
 
-    public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit) {
+    public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase();
         this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
         this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
+        this.displayer = displayer;
     }
 
     @Override
@@ -165,6 +167,16 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             };
 
             handler.post(r);
+
+            if (holder2.itemView.findViewById(R.id.reload) != null) {
+                holder2.itemView.findViewById(R.id.reload).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dataSet.loadMore(context, displayer, true);
+                    }
+                });
+
+            }
         }
         if (holder2 instanceof SpacerViewHolder) {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));

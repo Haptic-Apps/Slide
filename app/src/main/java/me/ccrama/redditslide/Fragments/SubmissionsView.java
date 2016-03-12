@@ -397,7 +397,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         posts = new SubredditPosts(id, getContext());
-        adapter = new SubmissionAdapter(getActivity(), posts, rv, id);
+        adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
         mSwipeRefreshLayout.setOnRefreshListener(

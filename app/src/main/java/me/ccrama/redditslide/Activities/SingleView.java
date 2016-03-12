@@ -109,7 +109,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
             }
         });
         posts = new SubredditPosts(subreddit, SingleView.this);
-        adapter = new SubmissionAdapter(this, posts, rv, posts.subreddit);
+        adapter = new SubmissionAdapter(this, posts, rv, posts.subreddit, this);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
 

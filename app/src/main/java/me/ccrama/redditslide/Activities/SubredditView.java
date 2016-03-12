@@ -203,7 +203,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             case R.id.action_refresh:
                 mSwipeRefreshLayout.setRefreshing(true);
                 posts = new SubredditPosts(subreddit, SubredditView.this);
-                adapter = new SubmissionAdapter(this, posts, rv, subreddit);
+                adapter = new SubmissionAdapter(this, posts, rv, subreddit, this);
                 rv.setAdapter(adapter);
                 posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
                 return true;
@@ -289,7 +289,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
         // Check which request we're responding to
         if (requestCode == 2) {
             // Make sure the request was successful
-            adapter = new SubmissionAdapter(this, posts, rv, subreddit);
+            adapter = new SubmissionAdapter(this, posts, rv, subreddit, this);
             rv.setAdapter(adapter);
         } else if (requestCode == 1) {
             restartTheme();
@@ -498,7 +498,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             }
         });
         posts = new SubredditPosts(subreddit, SubredditView.this);
-        adapter = new SubmissionAdapter(this, posts, rv, subreddit);
+        adapter = new SubmissionAdapter(this, posts, rv, subreddit, this);
         rv.setAdapter(adapter);
 
         doSubSidebar(subreddit);

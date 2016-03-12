@@ -35,9 +35,9 @@ import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -66,8 +66,10 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         this.isHiddenPost = isHiddenPost;
     }
+
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE = 3;
+
     @Override
     public int getItemViewType(int position) {
         if (position == 0 && dataSet.posts.size() != 0) {
@@ -77,7 +79,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.nomore) {
             return LOADING_SPINNER;
-        } else if (position == dataSet.posts.size() &&   dataSet.nomore) {
+        } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
         }
         if (dataSet.posts.get(position) instanceof Comment)
@@ -102,13 +104,14 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (i == NO_MORE) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
-        }  else {
+        } else {
             View v = CreateCardView.CreateView(viewGroup);
             return new SubmissionViewHolder(v);
 
         }
 
     }
+
     public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
             super(itemView);
@@ -117,7 +120,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, final int pos) {
-        int i = pos != 0?pos - 1:pos;
+        int i = pos != 0 ? pos - 1 : pos;
 
         if (firstHolder instanceof SubmissionViewHolder) {
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHolder;
@@ -219,7 +222,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             }
                         }
                     });
-                    if (!Authentication.isLoggedIn || !Authentication.didOnline ) {
+                    if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                         dialoglayout.findViewById(R.id.save).setVisibility(View.GONE);
                         dialoglayout.findViewById(R.id.gild).setVisibility(View.GONE);
 
@@ -276,7 +279,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View v) {
                     String url = "www.reddit.com" + submission.getPermalink();
                     url = url.replace("?ref=search_posts", "");
-                    new OpenRedditLink(mContext,url);
+                    new OpenRedditLink(mContext, url);
                 }
             });
 
@@ -310,16 +313,17 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
 
-        }
-        if(firstHolder instanceof SpacerViewHolder){
+        } else if (firstHolder instanceof SpacerViewHolder) {
             firstHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), (mContext).findViewById(R.id.header).getHeight()));
         }
     }
+
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
     }
+
     private void setViews(String rawHTML, String subredditName, ProfileCommentViewHolder holder) {
         if (rawHTML.isEmpty()) {
             return;
