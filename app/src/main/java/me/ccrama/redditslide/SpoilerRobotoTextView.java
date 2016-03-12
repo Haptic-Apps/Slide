@@ -353,8 +353,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case R.id.open_link:
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                    getContext().startActivity(browserIntent);
+                                    Uri webpage = Uri.parse(url);
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                                    getContext().startActivity(Intent.createChooser(intent, "Open externally"));
                                     break;
                                 case R.id.share_link:
                                     Reddit.defaultShareText(url, activity);
@@ -363,7 +364,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                                     ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
                                     ClipData clip = ClipData.newPlainText("Link", url);
                                     clipboard.setPrimaryClip(clip);
-
                                     Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
                                     break;
                             }

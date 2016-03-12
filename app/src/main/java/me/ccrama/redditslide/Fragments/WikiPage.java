@@ -44,8 +44,11 @@ public class WikiPage extends Fragment {
 
             @Override
             protected Void doInBackground(Void... params) {
-                text = ((Wiki) getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
+                try {
+                    text = ((Wiki) getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
+                } catch(Exception e){
 
+                }
                 return null;
             }
 

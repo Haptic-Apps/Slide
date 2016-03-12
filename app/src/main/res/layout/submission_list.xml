@@ -12,8 +12,7 @@
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
-
-    cardview:cardCornerRadius="2dp">
+    cardview:cardCornerRadius="0dp">
 
     <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

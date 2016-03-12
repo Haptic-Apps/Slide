@@ -348,14 +348,28 @@ public class PopulateSubmissionViewHolder {
                                                     SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
+                                                } else  if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters = SettingValues.subredditFilters.replace(submission.getSubredditName(), "");
+                                                    filtered = false;
+                                                    e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
+                                                    e.apply();
                                                 }
                                                 if (chosen[1] && chosen[1] != oldChosen[1]) {
                                                     SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
+                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.domainFilters = SettingValues.domainFilters.replace(submission.getDomain(), "");
+                                                    filtered = false;
+                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
+                                                    e.apply();
                                                 }
                                                 if (chosen[2] && chosen[2] != oldChosen[2]) {
                                                     SettingValues.alwaysExternal = SettingValues.alwaysExternal + ((SettingValues.alwaysExternal.isEmpty() || SettingValues.alwaysExternal.endsWith(",")) ? "" : ",") + submission.getDomain();
+                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
+                                                    e.apply();
+                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.alwaysExternal = SettingValues.alwaysExternal.replace(submission.getDomain(), "");
                                                     e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
                                                     e.apply();
                                                 }
@@ -520,7 +534,7 @@ public class PopulateSubmissionViewHolder {
         holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
         String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
-        holder.info.setText("/r/" + submission.getSubredditName() + distingush + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + "/u/" + submission.getAuthor() + separator + submission.getDomain());
+        holder.info.setText("/r/" + submission.getSubredditName()  + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + distingush + "/u/" + submission.getAuthor() + separator + submission.getDomain());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);

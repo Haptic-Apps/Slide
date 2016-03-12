@@ -86,6 +86,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
@@ -461,7 +462,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-
+            holder.commentOverflow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CommentOverflow SpoilerRobotoTextView = (CommentOverflow) v;
+                    if (SettingValues.swap) {
+                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                    } else {
+                        doOnClick(holder, comment, baseNode);
+                    }
+                }
+            });
 
             holder.dot.setVisibility(View.VISIBLE);
 
