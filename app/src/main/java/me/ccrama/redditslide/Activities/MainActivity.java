@@ -86,7 +86,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -152,69 +151,6 @@ public class MainActivity extends BaseActivity {
     private ListView drawerSubList;
     private boolean mShowInfoButton;
 
-    public Tooltip.TooltipView t;
-
-    public void doTutorial() {
-        Tooltip.removeAll(this);
-        if (!Reddit.appRestart.contains("tutorial_1") && mTabLayout != null) {
-
-            t = Tooltip.make(this,
-                    new Tooltip.Builder(101)
-                            .anchor(mTabLayout, Tooltip.Gravity.BOTTOM)
-                            .text("Swipe horizontally between your subreddits")
-                            .maxWidth(750)
-                            .withArrow(true)
-                            .activateDelay(800)
-                            .closePolicy(new Tooltip.ClosePolicy()
-                                    .insidePolicy(true, false)
-                                    .outsidePolicy(true, false), 3000)
-                            .showDelay(300)
-                            .withOverlay(true)
-                            .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                            .build()
-            );
-            t.show();
-
-        } else if (!Reddit.appRestart.contains("tutorial_2")) {
-            if (headerMain != null) {
-                t = Tooltip.make(this,
-                        new Tooltip.Builder(102)
-                                .anchor(headerMain, Tooltip.Gravity.RIGHT)
-                                .text("Open the sidebar to view your subreddits")
-                                .maxWidth(500)
-                                .activateDelay(800)
-                                .showDelay(300)
-                                .closePolicy(new Tooltip.ClosePolicy()
-                                        .insidePolicy(true, false)
-                                        .outsidePolicy(true, false), 3000)
-                                .withArrow(true)
-                                .withOverlay(true)
-                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .build()
-                );
-                t.show();
-            }
-        } else if (!Reddit.appRestart.contains("tutorial_3")) {
-            if (e != null) {
-                t = Tooltip.make(this,
-                        new Tooltip.Builder(103)
-                                .anchor(e, Tooltip.Gravity.BOTTOM)
-                                .text("Type here to filter or search for subreddits")
-                                .maxWidth(500)
-                                .activateDelay(800)
-                                .showDelay(300)
-                                .closePolicy(new Tooltip.ClosePolicy()
-                                        .insidePolicy(true, false)
-                                        .outsidePolicy(true, false), 3000)
-                                .withArrow(true)
-                                .withOverlay(true)
-                                .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                .build()
-                );
-                t.show();
-            }
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -471,8 +407,6 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
-
-        doTutorial();
         System.gc();
 
     }
@@ -1194,35 +1128,7 @@ public class MainActivity extends BaseActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
 
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-
-                if (t != null && t.getTooltipId() == 102) {
-                    t.remove();
-                    Reddit.appRestart.edit().putBoolean("tutorial_2", true).apply();
-                    doTutorial();
-                }
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                if (Reddit.appRestart.contains("tutorial_4")) {
-                    ;
-                    doTutorial();
-                }
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
         final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 MainActivity.this,
                 drawerLayout,
@@ -1258,7 +1164,6 @@ public class MainActivity extends BaseActivity {
         ArrayList<String> copy = new ArrayList<>(SubredditStorage.subredditsForHome);
 
         e = ((EditText) headerMain.findViewById(R.id.sort));
-        doTutorial();
 
 
         final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
@@ -1268,11 +1173,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
-                if (t != null) {
-                    t.remove();
-                    Reddit.appRestart.edit().putBoolean("tutorial_3", true).apply();
-                    doTutorial();
-                }
 
             }
         });
@@ -1845,12 +1745,6 @@ public class MainActivity extends BaseActivity {
                             .translationY(0)
                             .setInterpolator(new LinearInterpolator())
                             .setDuration(180);
-                    if (t != null && t.getTooltipId() == 101) {
-                        t.remove();
-                        Reddit.appRestart.edit().putBoolean("tutorial_1", true).apply();
-                        doTutorial();
-                    }
-
 
                     Reddit.currentPosition = position;
                     doSubSidebar(usedArray.get(position));

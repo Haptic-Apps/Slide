@@ -1,8 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -11,7 +11,6 @@ import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
 import java.io.File;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
@@ -21,7 +20,7 @@ import me.ccrama.redditslide.util.GifUtils;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class GifView extends FullScreenActivity implements FolderChooserDialog.FolderCallback{
+public class GifView extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
     @Override
     public void onFolderSelection(FolderChooserDialog dialog, File folder) {
         if (folder != null) {
@@ -29,6 +28,7 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
             Toast.makeText(this, "Gifs will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
         }
     }
+
     public static final String EXTRA_URL = "url";
     public ProgressBar loader;
     SharedPreferences prefs;
@@ -80,36 +80,18 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
         loader = (ProgressBar) findViewById(R.id.gifprogress);
 
         new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
-        if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
 
-                    Tooltip.make(GifView.this,
-                            new Tooltip.Builder(106)
-                                    .text("Drag from the very edge to exit")
-                                    .closePolicy(new Tooltip.ClosePolicy()
-                                            .insidePolicy(true, false)
-                                            .outsidePolicy(true, false), 3000)
-                                    .maxWidth(500)
-                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                                    .activateDelay(800)
-                                    .showDelay(300)
-                                    .withArrow(true)
-                                    .withOverlay(true)
-                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                    .build()
-                    ).show();
-                }
-            }, 250);
+
+        if (!Reddit.appRestart.contains("tutorialSwipe")) {
+            startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (!Reddit.appRestart.contains("tutorialSwipeGif")) {
-            Reddit.appRestart.edit().putBoolean("tutorialSwipeGif", true).apply();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
+
         }
     }
 

@@ -197,7 +197,10 @@
         <activity
             android:name=".Activities.SettingsSubreddit"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
+            android:theme="@style/swipeable" />
+        <activity
+            android:name=".Activities.SwipeTutorial"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsAbout"

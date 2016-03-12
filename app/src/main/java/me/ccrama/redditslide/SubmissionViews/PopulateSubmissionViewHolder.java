@@ -51,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -1012,10 +1011,6 @@ public class PopulateSubmissionViewHolder {
             @Override
             public boolean onLongClick(View v) {
 
-                if (mContext instanceof MainActivity && ((MainActivity) mContext).t != null) {
-                    Tooltip.removeAll(mContext);
-                    Reddit.appRestart.edit().putString("tutorial_4", "A").apply();
-                }
                 if (offline) {
                     Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
                 } else {

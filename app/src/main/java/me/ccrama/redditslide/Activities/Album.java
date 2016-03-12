@@ -10,6 +10,7 @@ import android.view.View;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.AlbumUtils;
@@ -17,10 +18,9 @@ import me.ccrama.redditslide.util.AlbumUtils;
 
 /**
  * Created by ccrama on 3/5/2015.
- *
+ * <p/>
  * This class is responsible for accessing the Imgur api to get the album json data
  * from a URL or Imgur hash. It extends FullScreenActivity and supports swipe from anywhere.
- *
  */
 public class Album extends FullScreenActivity {
     public static final String EXTRA_URL = "url";
@@ -53,7 +53,7 @@ public class Album extends FullScreenActivity {
 
         final String url = getIntent().getExtras().getString(EXTRA_URL, "");
 
-        new AlbumUtils.LoadAlbumFromUrl(url, this, true, true, getSupportActionBar(), (RecyclerView)findViewById(R.id.images), 0).execute(url);
+        new AlbumUtils.LoadAlbumFromUrl(url, this, true, true, getSupportActionBar(), (RecyclerView) findViewById(R.id.images), 0).execute(url);
 
         findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +61,23 @@ public class Album extends FullScreenActivity {
                 SettingValues.albumSwipe = true;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
                 Intent i = new Intent(Album.this, AlbumPager.class);
-                i.putExtra("url",url);
+                i.putExtra("url", url);
                 startActivity(i);
                 finish();
             }
         });
+
+        if (!Reddit.appRestart.contains("tutorialSwipe")) {
+            startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
+        }
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
 
+        }
+    }
 }

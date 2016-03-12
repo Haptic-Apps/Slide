@@ -39,7 +39,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
@@ -122,31 +121,17 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
             //todo maybe something better
         }
 
-        if (!Reddit.appRestart.contains("tutorialSwipeImage")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Tooltip.make(FullscreenImage.this,
-                            new Tooltip.Builder(106)
-                                    .text("Drag from the very edge to exit")
-                                    .closePolicy(new Tooltip.ClosePolicy()
-                                            .insidePolicy(true, false)
-                                            .outsidePolicy(true, false), 3000)
-                                    .maxWidth(500)
-                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                                    .activateDelay(800)
-                                    .showDelay(300)
-                                    .withArrow(true)
-                                    .withOverlay(true)
-                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                    .build()
-                    ).show();
-                }
-            }, 250);
+        if (!Reddit.appRestart.contains("tutorialSwipe")) {
+            startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
 
+        }
+    }
     public void loadImage(String url) {
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
@@ -368,14 +353,6 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 })
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (!Reddit.appRestart.contains("tutorialSwipeImage")) {
-            Reddit.appRestart.edit().putBoolean("tutorialSwipeImage", true).apply();
-        }
     }
 
     private void showShareDialog(final String url) {

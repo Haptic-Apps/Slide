@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -46,7 +45,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import it.sephiroth.android.library.tooltip.Tooltip;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
@@ -83,6 +81,14 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
+
+        }
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
 
@@ -99,28 +105,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
 
         new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
-        if (!Reddit.appRestart.contains("tutorialSwipeAlbum")) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Tooltip.make(AlbumPager.this,
-                            new Tooltip.Builder(106)
-                                    .text("Drag from the very edge to exit")
-                                    .maxWidth(500)
-                                    .closePolicy(new Tooltip.ClosePolicy()
-                                            .insidePolicy(true, false)
-                                            .outsidePolicy(true, false), 3000)
-                                    .anchor(findViewById(R.id.tutorial), Tooltip.Gravity.RIGHT)
-                                    .activateDelay(800)
-                                    .showDelay(300)
-                                    .withArrow(true)
-                                    .withOverlay(true)
-                                    .floatingAnimation(Tooltip.AnimationBuilder.DEFAULT)
-                                    .build()
-                    ).show();
-                }
-            }, 250);
+        if (!Reddit.appRestart.contains("tutorialSwipe")) {
+            startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
 
         findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
@@ -136,13 +122,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (!Reddit.appRestart.contains("tutorialSwipeAlbum")) {
-            Reddit.appRestart.edit().putBoolean("tutorialSwipeAlbum", true).apply();
-        }
-    }
 
     public class LoadIntoPager extends AlbumUtils.GetAlbumJsonFromUrl {
 
@@ -414,7 +393,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             }
 
-            final String finalUrl  = url;
+            final String finalUrl = url;
             {
                 final ImageView iv = (ImageView) rootView.findViewById(R.id.share);
                 rootView.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
@@ -507,6 +486,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             user = images.get(i);
         }
     }
+
     private void shareImage(String finalUrl) {
         ((Reddit) getApplication()).getImageLoader()
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
@@ -568,6 +548,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
+
     public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
         MediaScannerConnection.scanFile(AlbumPager.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
@@ -617,7 +598,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 try {
                     if (out != null) {
                         out.close();
-                        if ( !f.getAbsolutePath().isEmpty()) {
+                        if (!f.getAbsolutePath().isEmpty()) {
                             Uri bmpUri = Uri.parse(f.getAbsolutePath());
                             final Intent shareImageIntent = new Intent(android.content.Intent.ACTION_SEND);
                             shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
@@ -637,6 +618,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
 
     }
+
     public void showErrorDialog() {
         new AlertDialogWrapper.Builder(AlbumPager.this)
                 .setTitle("Uh oh, something went wrong.")
@@ -653,7 +635,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
     }
-    
+
 
     private void showShareDialog(final String url) {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);

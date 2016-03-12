@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/swipe"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Swipe navigation"
+        android:textColor="#fff"
+        android:textSize="26sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:padding="24dp"
+        android:id="@+id/top"
+        android:layout_marginTop="60dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Swipe from the left edge to exit.\n\nThis applies to images, gifs, albums, settings, and more!"
+        android:textColor="#b6ffffff"
+        android:textSize="18sp"
+        android:id="@+id/subtitle"
+        android:layout_below="@+id/top"
+        android:layout_marginTop="-16dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:layout_height="wrap_content"
+        />
+</RelativeLayout>

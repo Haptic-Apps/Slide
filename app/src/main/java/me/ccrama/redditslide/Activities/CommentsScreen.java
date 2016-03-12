@@ -94,6 +94,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             comments.notifyDataSetChanged();
             //todo make this work
         }
+        if (requestCode == 333) {
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeComment", true).apply();
+
+        }
     }
 
     public int currentPage;
@@ -176,7 +180,13 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
+        if (!Reddit.appRestart.contains("tutorialSwipeComment")) {
+            Intent i = new Intent(this, SwipeTutorial.class);
+            i.putExtra("subtitle", "Swipe from the left edge to exit comments.\n\nYou can swipe in the middle to get to the previous/next submission, this can be disabled in Settings > General > Swipe from Anywhere");
+            startActivityForResult(i, 333);
+        }
     }
+
 
     private void updateSubredditAndSubmission(Submission post) {
         subreddit = post.getSubredditName();
