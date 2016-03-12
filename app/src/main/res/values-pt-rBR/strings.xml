@@ -60,6 +60,7 @@
   <string name="card_picture">Imagem grande</string>
   <string name="card_hide_post_button">Ocultar post</string>
   <string name="card_section_images">Imagens</string>
+  <string name="card_section_actionbar">Barra de Ações</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Configurações de Multi-Coluna</string>
   <string name="multi_column_landscape">Paisagem</string>
@@ -225,6 +226,7 @@
   <string name="misc_unsubscribed">Desinscrito</string>
   <string name="misc_no_more_posts">Sem mais posts!</string>
   <string name="misc_img_share">Compartilhar imagem com</string>
+  <string name="misc_link_chooser">Abrir URL com</string>
   <!-- Goto User -->
   <string name="user_enter">Digite o nome de usuário</string>
   <string name="user_btn_goto">Ir para o usuário</string>
@@ -252,6 +254,7 @@
   <string name="btn_refresh">Atualizar</string>
   <string name="btn_confirm">Confirmar</string>
   <string name="btn_theme_toggle">Ligar tema escuro</string>
+  <string name="btn_delete">Excluir</string>
   <!-- Backup -->
   <string name="backup_success">Backup bem sucedido!</string>
   <string name="backup_restoring">Restaurar as configurações</string>
@@ -306,6 +309,7 @@
   <string name="captcha">Digite o código acima</string>
   <string name="captcha_title">Prove que não é um robô</string>
   <!-- Settings -->
+  <string name="settings_reddit_prefs">Preferências do Reddit</string>
   <string name="settings_accent_title">Editar cor secundária</string>
   <string name="settings_card_mode">Modo de cartão</string>
   <string name="settings_delete_sub_settings">Você realmente quer apagar as configurações para /r/%1$s?</string>
@@ -348,7 +352,14 @@
   <string name="settings_auto_start">A noite começa às</string>
   <string name="settings_middle_card">Imagem no meio do cartão</string>
   <string name="settings_cache_delete">Excluir todos os dados em cache</string>
+  <string name="settings_colored_navigation_bar">Barra de navegação colorida</string>
+  <string name="settings_filter_domain">Filtros de Domínio</string>
+  <string name="settings_filter_title">Filtros de título</string>
+  <string name="settings_filter_hint">Digite os textos correspondentes separados por vírgulas</string>
+  <string name="settings_font_post">Fonte de título da postagem</string>
+  <string name="settings_font_comment">Fonte do comentário</string>
   <string name="settings_general_swipeanywhere">Deslize a partir de qualquer área</string>
+  <string name="settings_general_alphabetical">Barra Lateral Alfabética</string>
   <string name="settings_link_chrome">Usar abas customizadas do Chrome</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_alternative_layout">Layout alternativo</string>
@@ -368,6 +379,8 @@
   <string name="settings_title_cache">Cache</string>
   <string name="settings_title_auto">Tema automático</string>
   <string name="settings_title_comments">Comentários</string>
+  <string name="settings_title_filter">Filtros</string>
+  <string name="settings_title_font">Fontes</string>
   <string name="settings_title_other">Outros</string>
   <string name="settings_section_general">Geral</string>
   <!-- Titles displayed in action bar / head / recents overview-->

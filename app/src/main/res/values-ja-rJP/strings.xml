@@ -131,6 +131,7 @@
   <string name="welcome_finish">チュートリアルを開始</string>
   <!-- Sorting options -->
   <string name="sorting_choose">並べ替えの種類を選択</string>
+  <string name="sorting_time_choose">時間枠を選択</string>
   <string name="sorting_change_sorting">投稿の並べ替えを変更</string>
   <string name="sorting_best">ベスト</string>
   <string name="sorting_top">トップ</string>
@@ -277,6 +278,7 @@
   <string name="btn_cache">コメントをキャッシュ</string>
   <string name="btn_delete">削除</string>
   <string name="btn_switch">切り替え</string>
+  <string name="btn_time">時間</string>
   <!-- Backup -->
   <string name="backup_success">正常にバックアップしました!</string>
   <string name="backup_restoring">設定を復元します</string>
@@ -489,7 +491,34 @@
   <string name="card_right_thumb">サムネイルの右揃え</string>
   <string name="submission_share_permalink">投稿を共有</string>
   <string name="submission_share_content_url">コンテンツ URL を共有</string>
+  <string name="change_theme">テーマを変更</string>
+  <string name="setting_filter_subreddits">Subreddit フィルター</string>
+  <string name="subreddit_theme">Subreddit テーマ</string>
+  <string name="btn_select">選択</string>
+  <string name="dialog_choose_subreddits_to_edit">編集する Subreddit を選択</string>
+  <string name="dialog_color_sync_title">色の同期</string>
+  <string name="dialog_color_sync_message">これはモデレーターによって設定された Subreddit の \'キー色\' を取得しようとします。既に色のついた Subreddit は上書きされません。</string>
+  <string name="fab_hide">閲覧済の投稿を非表示</string>
+  <string name="fab_create">新しい投稿を作成</string>
+  <string name="fab_disabled">無効</string>
+  <string name="handling_internal_browser">内部ブラウザーを使用する</string>
+  <string name="handling_external_browser">外部ブラウザーを使用する</string>
+  <string name="settings_fastscroll_description">ナビゲーション矢印と下部のバーを有効にします</string>
+  <string name="settings_comment_crop_description">メイン 画面のトリミングした設定から分離します</string>
+  <string name="settings_comment_collapse">コメントを完全に折りたたむ</string>
+  <string name="settings_comment_collapse_description">コメントのアニメーションも無効にします</string>
+  <string name="mode_list">リスト</string>
+  <string name="mode_centered">中央に画像のあるカード</string>
   <string name="mode_card">カード</string>
+  <string name="mode_thumbnail">サムネイルのみ</string>
+  <string name="mode_cropped">大きな画像をトリミング</string>
+  <string name="mode_bigpic">大きな画像</string>
+  <string name="settings_sub_tabs_description">Subreddit 間をスワイプします</string>
+  <string name="settings_sub_tabs">Subreddit タブ</string>
+  <string name="settings_general_swipeanywhere_description">画面のどこかをスワイプすると終了します</string>
+  <string name="press_actionbar">矢印を押してアクションバーを表示します</string>
+  <string name="tap_actionbar">アクションバーの長押し</string>
+  <string name="always_actionbar">常にアクションバーを表示</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分前</item>
   </plurals>

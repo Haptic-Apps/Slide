@@ -19,7 +19,7 @@
   <string name="submission_stickied">fixat</string>
   <string name="submission_link_internal">Deschideți intern</string>
   <string name="submission_link_extern">Deschideți extern</string>
-  <string name="submission_link_copy">Copiază linkul</string>
+  <string name="submission_link_copy">Copiază URL-ul</string>
   <string name="submission_link_share">Distribuiți URL</string>
   <string name="submission_share_title">Ce link vreți să distribuiți?</string>
   <string name="submission_share_reddit">Reddit</string>

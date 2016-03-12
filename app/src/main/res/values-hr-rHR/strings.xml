@@ -133,6 +133,7 @@
   <string name="welcome_finish">Započni vodič</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Odaberite vrstu sortiranja</string>
+  <string name="sorting_time_choose">Izaberi vremenski okvir</string>
   <string name="sorting_change_sorting">Način sortiranja</string>
   <string name="sorting_best">Najbolji</string>
   <string name="sorting_top">Vrh</string>
@@ -273,6 +274,7 @@
   <string name="btn_cache">Predmemoriraj komentare</string>
   <string name="btn_delete">Obriši</string>
   <string name="btn_switch">Prebaci</string>
+  <string name="btn_time">Vrijeme</string>
   <!-- Backup -->
   <string name="backup_success">Sigurnosna kopija uspjela!</string>
   <string name="backup_restoring">Vraćanje postavki</string>
@@ -480,7 +482,30 @@
   <string name="card_right_thumb">Desno poravnata minijatura</string>
   <string name="submission_share_permalink">Podijeli post</string>
   <string name="submission_share_content_url">Podijeli URL sadržaja</string>
+  <string name="change_theme">Promjeni temu</string>
+  <string name="setting_filter_subreddits">Podreddit filteri</string>
+  <string name="subreddit_theme">Podreddit tema</string>
+  <string name="btn_select">Odaberite</string>
+  <string name="dialog_choose_subreddits_to_edit">Odaberite podreddite za uređivanje</string>
+  <string name="dialog_color_sync_title">Sinkronizacija boja</string>
+  <string name="dialog_color_sync_message">Ovo će pokušati dohvatiti podreddit ključni skup boja od strane moderatora. To će prebrisati već obojane podreddite.</string>
+  <string name="fab_hide">Sakrij pogledane postove</string>
+  <string name="fab_create">Stvori novi post</string>
+  <string name="fab_disabled">Onemogućeno</string>
+  <string name="handling_internal_browser">Koristi interni preglednik</string>
+  <string name="handling_external_browser">Koristi eksterni preglednik</string>
+  <string name="settings_fastscroll_description">Omogućuje donju traku sa navigacijskim strelicama</string>
+  <string name="settings_comment_collapse_description">Također onemogućuje animacije komentara</string>
+  <string name="mode_list">Lista</string>
+  <string name="mode_centered">Kartice s centriranom slikom</string>
   <string name="mode_card">Kartica</string>
+  <string name="mode_thumbnail">Samo sličica minijature</string>
+  <string name="mode_cropped">Obrezana velika slika</string>
+  <string name="mode_bigpic">Velika slika</string>
+  <string name="settings_sub_tabs">Podreddit tabovi</string>
+  <string name="press_actionbar">Pritisnite strelicu za prikaz akcijske trake</string>
+  <string name="tap_actionbar">Dugi pritisak za prikaz akcijske trake</string>
+  <string name="always_actionbar">Uvijek pokaži akcijsku traku</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">prije %d minute</item>
     <item quantity="few">prije %d minute</item>

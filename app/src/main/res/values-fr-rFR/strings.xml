@@ -47,6 +47,7 @@
   <string name="theme_light">Clair</string>
   <string name="theme_dark">Sombre</string>
   <string name="theme_black">Noir AMOLED</string>
+  <string name="theme_dark_blue">Bleu foncé</string>
   <string name="theme_default_color">Couleur principale</string>
   <string name="theme_subreddit_color">Modifier la couleur</string>
   <string name="theme_accent_color">Couleur d\'accentuation</string>
@@ -60,6 +61,11 @@
   <!-- For editing the submission card layout -->
   <string name="card_actionbar">Barre d\'action visible</string>
   <string name="card_picture">Grandes images</string>
+  <string name="card_picture_cropped">Rogner les grandes images</string>
+  <string name="card_hide_post_button">Bouton \"Cacher le post\" dans la barre d\'action</string>
+  <string name="card_tint_background">Tinter le fond de carte au couleur de la subreddit</string>
+  <string name="card_tint_outside">Seulement tinter en dehors de la subreddit</string>
+  <string name="card_save_button">Bouton \"Sauvegarder le post\" dans la barre d\'action</string>
   <string name="card_section_images">Images</string>
   <string name="card_section_actionbar">Barre d\'action</string>
   <!-- Settings for Multi-column view -->
@@ -70,13 +76,17 @@
   <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Passez à la version Pro</string>
   <string name="drawer_goto_profile">Voir le profil</string>
+  <string name="drawer_reorder_subs">Réorganiser vos subreddits</string>
   <string name="drawer_add_account">Ajouter un compte</string>
   <string name="drawer_hello">Bonjour,</string>
   <string name="drawer_change_account">CHANGER DE COMPTE</string>
   <string name="drawer_search">Rechercher un subreddit</string>
   <string name="drawer_moderation">Modération</string>
   <string name="drawer_sync_subs">Synchronisez vos Subreddits</string>
+  <string name="drawer_account_switch">Changer ou supprimer</string>
+  <string name="drawer_account_switch_msg">Souhaitez-vous changer ou enlever ce compte ?</string>
   <string name="drawer_offline">Slide est en mode hors-ligne</string>
+  <string name="drawer_offline_retry">Essayez d\'entrer dans le mode en ligne</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">Épinglés</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -118,8 +128,12 @@
   <string name="comment_load_more">Charger %1$d de plus</string>
   <string name="comment_loading_more">Chargement de plus de commentaires&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Pour commencer</string>
+  <string name="welcome_personalize">Personnaliser</string>
+  <string name="welcome_finish">Tutoriel de démarrage</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Choisissez un mode de tri</string>
+  <string name="sorting_time_choose">Choisissez un laps de temps</string>
   <string name="sorting_change_sorting">Changer la méthode de tri</string>
   <string name="sorting_best">Apprécié</string>
   <string name="sorting_top">Le meilleur</string>
@@ -180,11 +194,15 @@
   <string name="multireddit_title_empty">Le titre ne peut pas être vide</string>
   <string name="multireddit_title_empty_msg">Veuillez entrer un nom pour votre Multireddit</string>
   <string name="multireddit_no_subs">Aucun subreddit n\'est ajouté</string>
+  <string name="multireddit_no_subs_msg">Veuillez ajouter des subreddits en appuyant sur le bouton +!</string>
   <string name="multireddit_selector">Sélectionnez des subreddits à ajouter</string>
+  <string name="multireddit_create_hint">Nom du Multireddit</string>
   <string name="multireddit_invalid_name">Nom de multireddit invalide</string>
+  <string name="multireddit_invalid_name_msg">Les multireddits ne peuvent contenir que des lettres, des chiffres et des tirets.</string>
   <!-- Album errors/information -->
   <string name="album_loading">Chargement de l\'album</string>
   <string name="album_err_not_found">Album non trouvé</string>
+  <string name="album_err_msg_not_found">Une erreur s\'est produite en chargeant cet album. Veuillez essayer de réouvrir l\'album. Si ce problème persiste, veuillez le signaler sur Github</string>
   <string name="album_title_count">Galerie (%1$d images)</string>
   <!-- Content types -->
   <string name="type_nsfw_img">Image NSFW</string>
@@ -198,6 +216,7 @@
   <string name="type_img">Image</string>
   <string name="type_vid">Video</string>
   <string name="type_emb">Intégré</string>
+  <string name="type_imgur">Contenu d\'Imgur</string>
   <!-- Reply to message -->
   <string name="mail_author_wrote">%1$s a écrit&#8230;</string>
   <string name="mail_hint_recipient">Destinataire</string>
@@ -260,7 +279,10 @@
   <string name="btn_refresh">Actualiser</string>
   <string name="btn_confirm">Confirmer</string>
   <string name="btn_theme_toggle">Activer le Thème Sombre</string>
+  <string name="btn_cache">Cache des commentaires</string>
   <string name="btn_delete">Supprimer</string>
+  <string name="btn_switch">Changer</string>
+  <string name="btn_time">Heure</string>
   <!-- Backup -->
   <string name="backup_success">Sauvegarde réussie!</string>
   <string name="backup_restoring">Restauration de vous paramètres</string>
@@ -319,6 +341,7 @@
   <string name="settings_accent_title">Modifier la couleur d\'accentuation</string>
   <string name="settings_card_mode">Mode Carte</string>
   <string name="settings_delete_sub_settings">Voulez-vous supprimer les paramètres de /r/%1$s</string>
+  <string name="settings_layout_default">Aménagement des postes</string>
   <string name="settings_link_album">Voir les albums en interne</string>
   <string name="settings_link_browser">Voir les pages Web en interne</string>
   <string name="settings_link_gif">Voir les gif en interne</string>
@@ -330,6 +353,7 @@
   <string name="settings_main_color_title">Modifier la couleur principale</string>
   <string name="settings_notification">Rafraîchir les messages toutes les</string>
   <string name="settings_notification_short">Vérifier chaque %1$s</string>
+  <string name="settings_single_mode">Tableaux de subreddit\n entre subreddits</string>
   <string name="enter_animation">Entrer animation\nShow montrer les animations</string>
   <string name="settings_swap_actions">Échanger appui simple et appui long dans les commentaires</string>
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
@@ -350,23 +374,54 @@
   <string name="settings_fabclear_msg">Appuyer sur le bouton effacer retirera les publications de la vue actuelle, mais pas pour toujours. \nUn appui long sur le bouton les masquera pour toujours !</string>
   <string name="settings_fabclear">Actions d\'effacement BAF</string>
   <string name="settings_notifdisabled">Notifications désactivées.</string>
+  <string name="settings_comments_click_username_for_profile">Cliquez sur le nom d\'utilisateur pour voir leur profil.</string>
+  <string name="settings_cache">Sauvegardez les posts pour un visionnage hors ligne</string>
+  <string name="settings_auto_night">Activez le thème nuit automatiquement</string>
   <string name="settings_auto_end">Le matin commence à</string>
+  <string name="settings_cache_always">Toujours afficher les données de mode hors connexion en premier (démarrage plus rapide)</string>
   <string name="settings_auto_start">La nuit commence à</string>
+  <string name="settings_middle_card">Image au centre de la carte</string>
+  <string name="settings_cache_delete">Supprimer toutes les données du cache</string>
+  <string name="settings_colored_navigation_bar">Barre de navigation colorée</string>
+  <string name="settings_imageviewer_background">Utiliser l\'arrière plan Solid Imageviewer</string>
+  <string name="settings_filter_domain">Filtres de domaine</string>
+  <string name="settings_filter_selfttext">Filtres Selftext</string>
+  <string name="settings_filter_title">Filtres de titre</string>
+  <string name="settings_filter_hint">Entrer les mots à filtrer en les séparant par des virgules</string>
+  <string name="settings_prefs_reddit">Voir toutes les préférences reddit.com</string>
+  <string name="settings_nsfw_info">Si vous ne voyez pas le contenu NSFW ou les previews, assurez-vous de sélectionner « Je suis âgé de 18 ans » et « Montrer les Vignettes NSFW» sur l\'écran de préférences reddit.com ci-dessous.</string>
+  <string name="settings_font_post">Police de titre de poste</string>
+  <string name="settings_font_comment">Polices de commentaire</string>
+  <string name="settings_comment_crop">Rogner l\'image principal en vue de commentaire</string>
+  <string name="settings_general_blur_thumbs">Masquer les aperçus d\'image de basse qualité</string>
   <string name="settings_general_swipeanywhere">Swiper à partir de n\'importe où</string>
+  <string name="settings_general_alphabetical">Barre latérale en ordre alphabétique</string>
+  <string name="settings_general_no_header">Masquer l\'en-tête sur le tiroir</string>
+  <string name="settings_general_scroll_read">Marquer les articles comme vu après défilement</string>
+  <string name="settings_link_chrome">Utilisez les onglets personnalisés Chrome</string>
+  <string name="settings_link_horizontal_album">Style de l\'album horizontale</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_alternative_layout">Disposition alternative</string>
   <string name="settings_title_backup">Sauver &amp; restaurer</string>
+  <string name="settings_title_default_theme">Thème principal</string>
   <string name="settings_title_general">Général</string>
   <string name="settings_title_notifications">Paramètres de notifications</string>
   <string name="settings_title_pro">Passez à la version Pro</string>
+  <string name="settings_title_sub_theme">Thèmes de subreddit</string>
   <string name="settings_title_sorting">Tri par défaut</string>
   <string name="settings_title_support">Faire un don</string>
   <string name="settings_title_appearance">Apparence</string>
   <string name="settings_title_about">À propos</string>
   <string name="settings_title_multi_column">Paramètres multi-colonnes</string>
   <string name="settings_title_fab">Bouton d\'action flottant</string>
+  <string name="settings_title_caching">Paramètres du cache</string>
+  <string name="settings_title_cache">Cache</string>
   <string name="settings_title_auto">Thème automatique</string>
   <string name="settings_title_comments">commentaires</string>
+  <string name="settings_title_filter">Filtres</string>
+  <string name="settings_title_font">Polices</string>
+  <string name="settings_title_other">Autre</string>
+  <string name="settings_section_support">Support</string>
   <string name="settings_section_general">Général</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Paramètres de subreddit</string>
@@ -376,9 +431,11 @@
   <string name="title_report_crash">Signaler un Plantage</string>
   <string name="title_share">Partager avec</string>
   <string name="title_login">Se connecter à Reddit</string>
+  <string name="title_reorder_subs">Réorganiser vos subreddits</string>
   <string name="title_multireddits">Multireddits</string>
   <string name="title_inbox">Boîte de réception</string>
   <string name="title_theme_settings">Paramètres de thème</string>
+  <string name="title_create_multi">Créer un multireddit</string>
   <string name="title_mod">Modérateur</string>
   <!-- Text in Donation-Activity -->
   <string name="donate_amount_title">Ce montant&#8230;</string>
@@ -395,15 +452,77 @@
   <string name="donate_success_msg">Merci beaucoup de m\'aider à développer Slide pour Reddit ! Ça compte vraiment beaucoup pour moi. Si vous rencontrez des problèmes, n\'hésitez pas à m\'envoyer un mail (en anglais) ou à poster sur /r/slideforreddit !</string>
   <string name="donate_success_btn">De rien !</string>
   <!-- Offline mode -->
+  <string name="offline_caching">Mise en cache des entrées</string>
+  <string name="offline_msg">Mettez-vous en ligne et actualiser le subreddit pour cela</string>
+  <string name="offline_drawer_info">Slide est en mode hors connexion. Connectez-vous à internet pour afficher tout le contenu !</string>
+  <string name="offline_last_update">Dernière mise à jour: %1$s</string>
+  <string name="offline_comments_not_loaded">Rendez-vous en ligne et sélectionnez « Cacher les Commentaires de » dans le menu avec les 3 points pour voir les commentaires en mode hors connexion.</string>
   <string name="network_connected">Réseau connecté</string>
   <string name="network_connected_msg">Voulez-vous quitter le mode hors-ligne ?</string>
   <!-- Website -->
   <string name="website_back">Retour</string>
+  <string name="website_external">Ouvrir dans un navigateur externe</string>
   <!-- Reorder subreddit activity -->
+  <string name="reorder_subreddits_title">Sélectionnez une subreddits à ajouter</string>
+  <string name="reorder_add_subreddit">Ajouter un subreddit</string>
+  <string name="reorder_subreddit_name">Nom de la subreddit</string>
+  <string name="reorder_remove_title">Supprimer cette subreddit ?</string>
+  <string name="reorder_remove_msg">Vous ne serez pas désabonné, mais vous ne verrez pas la subreddit dans votre barre latérale !</string>
   <!-- Time -->
   <string name="time_just_now">à l\'instant</string>
+  <string name="color_sync_complete">Synchronisation réussie</string>
+  <string name="color_sync_colored">" les subreddits étaient de couleur"</string>
+  <string name="comment_load_more_number_unknown">Charger plus de commentaires</string>
+  <string name="settings_comment_color">Indicateurs du nombre de commentaire coloré</string>
+  <string name="settings_volume_nav_posts">Naviguer entre les posts à l\'aide des boutons de volume</string>
+  <string name="settings_volume_nav_comments">Naviguer à l\'aide des boutons de volume</string>
+  <string name="settings_synccit_remove">DÉCONNECTER SYNCCIT</string>
+  <string name="settings_synccit_auth">Code d’authentification</string>
+  <string name="settings_synccit_username">Nom d\'utilisateur</string>
+  <string name="settings_synccit_delete">Vraiment supprimer le compte Synccit ?</string>
+  <string name="settings_synccit_authenticate">Authentification avec Synccit</string>
+  <string name="settings_synccit_connected">Connexion réussie !</string>
+  <string name="settings_synccit_active">Synccit est maintenant activé pour cet appareil</string>
+  <string name="settings_synccit_failed">N\'a pas pu s\'authentifier</string>
+  <string name="settings_synccit_failed_msg">Assurez-vous que votre d\'utilisateur et la clé d\'authentification sont corrects !</string>
+  <string name="settings_synccit">Intégration de Synccit</string>
+  <string name="reorder_sync_complete">Synchronisation réussie</string>
+  <string name="reorder_subs_added">" subreddits ajouté"</string>
+  <string name="settings_comment_collapsefully">Cacher complètement les commentaires (désactive aussi les animations)</string>
+  <string name="profile_manage_accounts">Gérer les comptes</string>
+  <string name="profile_remove_account">Voulez-vous vraiment supprimer ce compte ?</string>
+  <string name="profile_remove">Effacer le compte</string>
+  <string name="card_right_thumb">Vignette aligné à droite</string>
   <string name="submission_share_permalink">Partager la publication</string>
+  <string name="submission_share_content_url">Partager l\'adresse URL du contenu</string>
+  <string name="change_theme">Changer de thème</string>
+  <string name="setting_filter_subreddits">Filtres de subreddit</string>
+  <string name="subreddit_theme">Thème de la subreddit</string>
+  <string name="btn_select">Choisir</string>
+  <string name="dialog_choose_subreddits_to_edit">Choisissez les subreddits pour éditer</string>
+  <string name="dialog_color_sync_title">Synchronisation de couleur</string>
+  <string name="dialog_color_sync_message">Il va essayer de récupérer la \'couleur principale\' de la subreddit fixé par les modérateurs. Il ne va pas écraser les subreddits déjà colorées.</string>
+  <string name="fab_hide">Masquer les postes consultés</string>
+  <string name="fab_create">Créez un nouveau post</string>
+  <string name="fab_disabled">Désactivé</string>
+  <string name="handling_internal_browser">Utiliser le navigateur web intégré</string>
+  <string name="handling_external_browser">Visionner dans un navigateur externe</string>
+  <string name="settings_fastscroll_description">Permet une barre en bas avec les flèches de navigation</string>
+  <string name="settings_comment_crop_description">Séparer des paramètres de rognage en vue principale</string>
+  <string name="settings_comment_collapse">Complètement cacher les commentaires</string>
+  <string name="settings_comment_collapse_description">Désactive également les animations de commentaire</string>
+  <string name="mode_list">Liste</string>
+  <string name="mode_centered">Carte avec image centrée</string>
   <string name="mode_card">Cartes</string>
+  <string name="mode_thumbnail">Vignette seulement</string>
+  <string name="mode_cropped">Grandes images rognées</string>
+  <string name="mode_bigpic">Grande photo</string>
+  <string name="settings_sub_tabs_description">Glissez d\'un subreddit à l\'autre</string>
+  <string name="settings_sub_tabs">Tableaux subreddit</string>
+  <string name="settings_general_swipeanywhere_description">Glisser n\'importe où pour quitter</string>
+  <string name="press_actionbar">Appuyez sur la flèche pour montrer la barre d\'action</string>
+  <string name="tap_actionbar">Appui long sur la barre d\'action</string>
+  <string name="always_actionbar">Toujours afficher la barre d\'action</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">il y a %d minute</item>
     <item quantity="other">il y a %d minutes</item>
