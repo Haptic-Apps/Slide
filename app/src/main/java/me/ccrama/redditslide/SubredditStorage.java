@@ -20,6 +20,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Shortcut;
+import me.ccrama.redditslide.Widget.Configure;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -32,6 +33,7 @@ public class SubredditStorage {
     private static ArrayList<MultiReddit> multireddits;
     public static ArrayList<String> subredditsForHome;
     public static Shortcut shortcut;
+    public static Configure configure;
 
     public static void saveState(boolean login) {
 

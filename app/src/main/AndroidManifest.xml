@@ -247,15 +247,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!-- <receiver android:name=".Widget" android:label="Frontpage Widget">
-             <intent-filter>
-                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-             </intent-filter>
-             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget" />
-         </receiver>
-         <service android:name="StackWidgetService"
-             android:permission="android.permission.BIND_REMOTEVIEWS"
-             android:exported="false" />!-->
+        <activity android:name=".Widget.Configure">
+            <intent-filter>
+                <action android:name=
+                    "android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+       <!--
+        Start of widget code for the future
+        <receiver android:name=".Widget.PostWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/subreddit_widget" />
+        </receiver> !-->
         <service
             android:name=".Adapters.MarkAsReadService"
             android:exported="false" />

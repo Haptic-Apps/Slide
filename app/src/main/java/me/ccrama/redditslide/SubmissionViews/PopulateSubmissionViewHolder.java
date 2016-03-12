@@ -468,6 +468,7 @@ public class PopulateSubmissionViewHolder {
 
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(Html.fromHtml(submission.getTitle()));
+        titleString.append("\n");
         if (submission.isStickied()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned) + " ");
             pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
