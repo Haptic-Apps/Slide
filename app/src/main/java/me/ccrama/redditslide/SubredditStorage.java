@@ -279,18 +279,40 @@ public class SubredditStorage {
 
     public static ArrayList<String> sort(ArrayList<String> copy) {
         ArrayList<String> subs = new ArrayList<>(copy);
-        if (subs.contains("all")) {
-            subs.remove("all");
-        }
+        ArrayList<String> finals = new ArrayList<>();
+
+        finals.add("frontpage");
+
         if (subs.contains("frontpage")) {
             subs.remove("frontpage");
         }
 
-        java.util.Collections.sort(subs);
-        ArrayList<String> finals = new ArrayList<>();
+        if (subs.contains("all")) {
+            subs.remove("all");
+            finals.add("all");
+        }
 
-        finals.add("frontpage");
-        finals.add("all");
+        if (subs.contains("random")) {
+            subs.remove("random");
+            finals.add("random");
+        }
+
+        if (subs.contains("randnsfw")) {
+            subs.remove("randnsfw");
+            finals.add("randnsfw");
+        }
+
+        if (subs.contains("friends")) {
+            subs.remove("friends");
+            finals.add("friends");
+        }
+
+        if (subs.contains("mod")) {
+            subs.remove("mod");
+            finals.add("mod");
+        }
+
+        java.util.Collections.sort(subs);
         finals.addAll(subs);
         return finals;
 
