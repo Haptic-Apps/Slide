@@ -95,7 +95,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //todo make this work
         }
         if (requestCode == 333) {
-            Reddit.appRestart.edit().putBoolean("tutorialSwipeComment", true).apply();
+            Reddit.appRestart.edit().putBoolean("tutorialSwipeComments", true).apply();
 
         }
     }
@@ -180,7 +180,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 }
             });
         }
-        if (!Reddit.appRestart.contains("tutorialSwipeComment")) {
+        if (!Reddit.appRestart.contains("tutorialSwipeComments")) {
             Intent i = new Intent(this, SwipeTutorial.class);
             i.putExtra("subtitle", "Swipe from the left edge to exit comments.\n\nYou can swipe in the middle to get to the previous/next submission, this can be disabled in Settings > General > Swipe from Anywhere");
             startActivityForResult(i, 333);
