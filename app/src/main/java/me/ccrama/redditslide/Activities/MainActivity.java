@@ -1400,6 +1400,7 @@ public class MainActivity extends BaseActivity {
                 } else {
                     Toast.makeText(this,"No sidebar found", Toast.LENGTH_SHORT).show();
                 }
+                return true;
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
