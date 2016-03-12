@@ -430,7 +430,9 @@ public class MainActivity extends BaseActivity {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
-        if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
+        if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
+                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
+                !subreddit.contains("+")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -472,7 +474,9 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            if (subreddit.toLowerCase().equals("frontpage") || subreddit.toLowerCase().equals("all") || subreddit.contains(".") || subreddit.contains("+")) {
+            if (subreddit.equalsIgnoreCase("frontpage") || subreddit.equalsIgnoreCase("all") ||
+                    subreddit.equalsIgnoreCase("mod") || subreddit.equalsIgnoreCase("friends") ||
+                    subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
 
