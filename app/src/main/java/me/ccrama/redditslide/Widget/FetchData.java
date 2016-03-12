@@ -18,6 +18,8 @@ import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 3/11/2016.
+ *
+ * Heavily adapted from https://laaptu.wordpress.com/2013/07/24/populate-appwidget-listview-with-remote-datadata-from-web/
  */
 public class FetchData extends Service {
 

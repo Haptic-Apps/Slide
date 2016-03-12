@@ -86,7 +86,7 @@
 
                 <TextView
                     android:id="@+id/information"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -95,6 +95,7 @@
                     android:layout_below="@+id/title"
                     android:text="@string/example_time"
                     android:textSize="?attr/font_cardinfo" />
+
             </RelativeLayout>
 
 
