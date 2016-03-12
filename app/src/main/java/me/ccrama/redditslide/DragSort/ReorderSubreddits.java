@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -89,8 +88,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_sort);
         setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         subs = new ArrayList<>(SubredditStorage.subredditsForHome);
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
@@ -103,7 +100,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 subs = new ArrayList<>(SubredditStorage.sort(subs));
                 adapter = new CustomAdapter(subs);
                 //  adapter.setHasStableIds(true);
-
                 recyclerView.setAdapter(adapter);
             }
         });
@@ -111,9 +107,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 done = 0;
-
                 final Dialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
                         .content(R.string.misc_please_wait)
                         .progress(true, 100)
@@ -151,12 +145,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
             }
         });
+
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
         dragSortRecycler.setViewHandleId();
         dragSortRecycler.setFloatingAlpha();
         dragSortRecycler.setAutoScrollSpeed();
         dragSortRecycler.setAutoScrollWindow();
-
 
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override
@@ -164,7 +158,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 String item = subs.remove(from);
                 subs.add(to, item);
                 adapter.notifyDataSetChanged();
-
             }
         });
 
@@ -285,15 +278,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-
+                if (dy <= 0 && fab.getId() != 0 ) {
                     fab.show();
-
-
                 } else {
                     fab.hide();
-
-
                 }
             }
         });
