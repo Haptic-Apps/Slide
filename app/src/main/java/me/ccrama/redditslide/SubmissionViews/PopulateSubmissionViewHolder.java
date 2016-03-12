@@ -285,8 +285,15 @@ public class PopulateSubmissionViewHolder {
 
         b.sheet(1, profile, "/u/" + submission.getAuthor())
                 .sheet(2, sub, "/r/" + submission.getSubredditName());
+
+        String save = mContext.getString(R.string.btn_save);
+        if(ActionStates.isSaved(submission)){
+            save = mContext.getString(R.string.comment_unsave);
+        }
+
+
         if (Authentication.isLoggedIn)
-            b.sheet(3, saved, mContext.getString(R.string.submission_save));
+            b.sheet(3, saved, save);
         b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
