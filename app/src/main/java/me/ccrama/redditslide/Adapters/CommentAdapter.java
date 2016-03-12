@@ -463,7 +463,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-           
+
             holder.dot.setVisibility(View.VISIBLE);
 
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);

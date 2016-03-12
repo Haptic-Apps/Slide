@@ -24,6 +24,11 @@
         android:icon="@drawable/search"
         android:title="@string/search_title"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/sidebar"
+        android:icon="@drawable/infonew"
+        android:title="@string/general_open_settings"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/theme"

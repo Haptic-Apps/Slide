@@ -219,8 +219,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                                 term = charSequence.toString();
                             }
                         })
-                        .positiveText(R.string.search_all)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        .neutralText(R.string.search_all)
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(SubredditView.this, Search.class);
@@ -231,8 +231,8 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
                 //Add "search current sub" if it is not frontpage/all/random
                 if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
-                    builder.negativeText(getString(R.string.search_subreddit, subreddit))
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    builder.positiveText(getString(R.string.search_subreddit, subreddit))
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(SubredditView.this, Search.class);

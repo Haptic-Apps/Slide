@@ -1386,11 +1386,20 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        final String subreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+
         switch (item.getItemId()) {
+
             case R.id.filter:
                 filterContent(shouldLoad);
 
                 return true;
+            case R.id.sidebar:
+                if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
+                    drawerLayout.openDrawer(Gravity.RIGHT);
+                } else {
+                    Toast.makeText(this,"No sidebar found", Toast.LENGTH_SHORT).show();
+                }
             case R.id.night: {
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
@@ -1479,7 +1488,6 @@ public class MainActivity extends BaseActivity {
                 openPopup();
                 return true;
             case R.id.search:
-                final String subreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
                         .alwaysCallInputCallback()
                         .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
@@ -1488,8 +1496,8 @@ public class MainActivity extends BaseActivity {
                                 term = charSequence.toString();
                             }
                         })
-                        .positiveText(R.string.search_all)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        .neutralText(R.string.search_all)
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                 Intent i = new Intent(MainActivity.this, Search.class);
@@ -1500,8 +1508,8 @@ public class MainActivity extends BaseActivity {
 
                 //Add "search current sub" if it is not frontpage/all/random
                 if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random")) {
-                    builder.negativeText(getString(R.string.search_subreddit, subreddit))
-                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    builder.positiveText(getString(R.string.search_subreddit, subreddit))
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(MainActivity.this, Search.class);
