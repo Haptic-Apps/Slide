@@ -1046,7 +1046,7 @@ public class PopulateSubmissionViewHolder {
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
-                setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder, mContext);
+                setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
@@ -1148,7 +1148,7 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder, Context mContext) {
+    private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -1163,9 +1163,9 @@ public class PopulateSubmissionViewHolder {
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName, mContext);
+                holder.commentOverflow.setViews(blocks, subredditName);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, mContext);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
         }
     }

@@ -82,9 +82,9 @@ public class WikiPage extends Fragment {
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subredditName, getActivity());
+                commentOverflow.setViews(blocks, subredditName);
             } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, getActivity());
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
         } else {
             commentOverflow.removeAllViews();

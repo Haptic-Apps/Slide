@@ -40,12 +40,12 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
 
         String text = bold ? oldText.toString().toUpperCase() : oldText.toString();
 
-        RectF rect = new RectF(x, top - ((top - bottom) * (half ? 0.2f : 0f)), x + measureText(paint, text, start, end), bottom + ((top - bottom) * (half ? 0.2f : 0f)));
+        RectF rect = new RectF(x, top - ((top - bottom) * (half ? 0.1f : 0f)), x + measureText(paint, text, start, end), bottom + ((top - bottom) * (half ? 0.1f : 0f)));
         paint.setColor(backgroundColor);
         canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, paint);
         paint.setColor(textColor);
 
-        float baseLine = paint.getFontSpacing() * (half ? 0.80f : 0.5f);
+        float baseLine = paint.getFontSpacing() * (half ? 0.90f : 0.5f);
         if (bold) paint.setFakeBoldText(true);
         canvas.drawText(text, start, end, x, rect.bottom - ((rect.bottom - rect.top - baseLine) / 2), paint); //center the text in the parent span
     }

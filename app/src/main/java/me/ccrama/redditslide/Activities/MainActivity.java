@@ -300,20 +300,11 @@ public class MainActivity extends BaseActivity {
             // permissions this app might request
         }
     }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-
-        savedInstanceState.putStringArrayList(SUBS, SubredditStorage.subredditsForHome);
-        savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
-        savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
-
-        savedInstanceState.putBoolean(IS_MOD, Authentication.mod);
-        savedInstanceState.putString(USERNAME, Authentication.name);
-    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        LogUtil.v("Starting time is " + System.currentTimeMillis());
+
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this,
@@ -656,9 +647,9 @@ public class MainActivity extends BaseActivity {
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subredditName, this);
+                commentOverflow.setViews(blocks, subredditName);
             } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, this);
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
             SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
             for (int i = 0; i < commentOverflow.getChildCount(); i++) {

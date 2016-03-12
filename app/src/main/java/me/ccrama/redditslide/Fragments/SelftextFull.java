@@ -84,9 +84,9 @@ public class SelftextFull extends Fragment {
         CommentOverflow overflow = (CommentOverflow) base.findViewById(R.id.commentOverflow);
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                overflow.setViews(blocks, subredditName, getActivity());
+                overflow.setViews(blocks, subredditName);
             } else {
-                overflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, getActivity());
+                overflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
         }
     }

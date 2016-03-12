@@ -60,9 +60,6 @@ public class CommentOverflow extends LinearLayout {
 
     private void init(Context context) {
         colorPreferences = new ColorPreferences(context);
-        typeface = RobotoTypefaceManager.obtainTypeface(
-                context,
-                new FontPreferences(context).getFontTypeComment().getTypeface());
     }
 
     /**
@@ -71,14 +68,18 @@ public class CommentOverflow extends LinearLayout {
      * @param blocks    list of all blocks to be set
      * @param subreddit
      */
-    public void setViews(List<String> blocks, String subreddit, Context context) {
+    public void setViews(List<String> blocks, String subreddit) {
+        Context context = getContext();
+        typeface = RobotoTypefaceManager.obtainTypeface(
+                context,
+                new FontPreferences(context).getFontTypeComment().getTypeface());
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.font, typedValue, true);
         textColor = typedValue.data;
         TypedValue fontSizeTypedValue = new TypedValue();
         theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
-        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[]{R.attr.font_commentbody});
+        TypedArray a = context.obtainStyledAttributes(null, new int[]{R.attr.font_commentbody},R.attr.font_commentbody, new FontPreferences(context).getCommentFontStyle().getResId());
         fontSize = a.getDimensionPixelSize(0, -1);
         a.recycle();
         removeAllViews();
