@@ -401,6 +401,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return true;
                 }
             });
+
             Typeface typeface = RobotoTypefaceManager.obtainTypeface(
                     mContext,
                     new FontPreferences(mContext).getFontTypeComment().getTypeface());
@@ -462,18 +463,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-            holder.commentOverflow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommentOverflow SpoilerRobotoTextView = (CommentOverflow) v;
-                    if (SettingValues.swap) {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    } else {
-                        doOnClick(holder, comment, baseNode);
-                    }
-                }
-            });
-
+           
             holder.dot.setVisibility(View.VISIBLE);
 
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
@@ -774,7 +764,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
-
 
         ValueAnimator mAnimator = slideAnimator(0, l.getMeasuredHeight() - l2.getMeasuredHeight(), l);
 
