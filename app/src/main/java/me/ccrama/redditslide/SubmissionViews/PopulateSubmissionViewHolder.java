@@ -22,11 +22,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
-import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.style.RelativeSizeSpan;
-import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -468,29 +465,21 @@ public class PopulateSubmissionViewHolder {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(Html.fromHtml(submission.getTitle()));
         if (submission.isStickied()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned) + " ");
-            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned).toUpperCase() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
         if (submission.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getTimesGilded() + " ");
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
-
-            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
         if (submission.isNsfw()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" NSFW ");
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
-            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
             titleString.append(pinned);
         }
         if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair().getText().isEmpty()) {
@@ -499,9 +488,7 @@ public class PopulateSubmissionViewHolder {
             theme.resolveAttribute(R.attr.activity_background, typedValue, false);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getSubmissionFlair().getText() + " ");
-            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, true, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, true, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }

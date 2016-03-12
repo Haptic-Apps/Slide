@@ -114,9 +114,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         titleString.append(((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
         if (comment.getDataNode().get("stickied").asBoolean()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned) + " ");
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned).toUpperCase() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
@@ -124,16 +123,14 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         titleString.append(" ");
         if (comment.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
         titleString.append(" ");
         if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you).toUpperCase() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
@@ -144,8 +141,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
-            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
