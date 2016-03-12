@@ -486,7 +486,7 @@ public class CommentPage extends Fragment {
 
                                     if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                                         if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
+                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2,  ((View)toolbar.getParent()).getTranslationY() != 0?0:toolbar.getHeight());
                                             break;
                                         }
                                 }
@@ -501,7 +501,7 @@ public class CommentPage extends Fragment {
 
                     if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                         if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View)toolbar.getParent()).getTranslationY() != 0?0:toolbar.getHeight());
                             break;
                         }
                 }

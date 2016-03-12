@@ -31,6 +31,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
@@ -74,7 +75,6 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -281,13 +281,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             distingush = "[A]";
         }
 
-        SpannableStringBuilder author = new SpannableStringBuilder(distingush + comment.getAuthor());
+        SpannableStringBuilder author = new SpannableStringBuilder(" " + distingush + comment.getAuthor() + " ");
         int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 
         author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        if (authorcolor != 0) {
+        if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (!distingush.isEmpty()) {
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
@@ -330,20 +335,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             titleString.append(" ");
         }
         if (comment.getTimesGilded() > 0) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★" + comment.getTimesGilded() + " ");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
-            titleString.append(" ");
-        }
-        if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you).toUpperCase() + " ");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
-            titleString.append(" ");
-        }
-        if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" OP ");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
@@ -1717,7 +1710,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         b.sheet(1, profile, "/u/" + n.getAuthor());
         String save = mContext.getString(R.string.btn_save);
-        if(ActionStates.isSaved(n)){
+        if (ActionStates.isSaved(n)) {
             save = mContext.getString(R.string.comment_unsave);
         }
         if (Authentication.isLoggedIn)
@@ -1775,7 +1768,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 break;
                             case 5: {
                                 Intent i = new Intent(mContext, Website.class);
-                                i.putExtra(Website.EXTRA_URL,"https://reddit.com" + submission.getPermalink() +
+                                i.putExtra(Website.EXTRA_URL, "https://reddit.com" + submission.getPermalink() +
                                         n.getFullName().substring(3, n.getFullName().length()) + "?context=3");
                                 i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
                                 mContext.startActivity(i);

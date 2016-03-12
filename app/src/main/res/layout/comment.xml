@@ -1,8 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/background"
     android:layout_width="match_parent"
+    android:layout_marginTop="0.25dp"
     android:layout_height="wrap_content">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="?attr/activity_background"
+        android:orientation="horizontal" />
     <View
         android:id="@+id/next"
         android:layout_width="match_parent"
