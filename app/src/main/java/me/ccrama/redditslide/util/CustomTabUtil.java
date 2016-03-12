@@ -1,9 +1,7 @@
 package me.ccrama.redditslide.util;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -36,14 +34,14 @@ public class CustomTabUtil {
                     .setShowTitle(true)
                     .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
                     .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
-
-                    .setActionButton(BitmapFactory.decodeResource(res, R.drawable.share),
-                            contextActivity.getString(R.string.submission_link_share),
-                            createPendingShareIntent(contextActivity.getApplicationContext(), url))
+                    .addDefaultShareMenuItem()
                     .setCloseButtonIcon(BitmapFactory.decodeResource(res, R.drawable.ic_arrow_back_white_24dp));
-
             try {
-                builder.build().launchUrl(contextActivity, Uri.parse(url));
+                String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+                CustomTabsIntent customTabsIntent = builder.build();
+
+                customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.launchUrl(contextActivity, Uri.parse(url));
             } catch (ActivityNotFoundException anfe) {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
@@ -56,13 +54,6 @@ public class CustomTabUtil {
         } else {
             Reddit.defaultShare(url, contextActivity);
         }
-    }
-
-    private static PendingIntent createPendingShareIntent(Context context, String url) {
-        Intent actionIntent = new Intent(Intent.ACTION_SEND)
-                .setType("text/plain")
-                .putExtra(Intent.EXTRA_TEXT, url);
-        return PendingIntent.getActivity(context, 0, actionIntent, 0);
     }
 
     public static CustomTabsSession getSession() {
