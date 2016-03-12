@@ -172,9 +172,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
+                holder.commentOverflow.setViews(blocks, subredditName, mContext);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, mContext);
             }
         } else {
             holder.commentOverflow.removeAllViews();

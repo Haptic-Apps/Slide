@@ -771,9 +771,9 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subreddit);
+                commentOverflow.setViews(blocks, subreddit, this);
             } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit, this);
             }
             SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
             for (int i = 0; i < commentOverflow.getChildCount(); i++) {

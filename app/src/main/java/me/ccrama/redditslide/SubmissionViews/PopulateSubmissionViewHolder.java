@@ -260,7 +260,7 @@ public class PopulateSubmissionViewHolder {
         return Palette.ThemeEnum.DARK.getTint();
     }
 
-    public <T extends Contribution> void showBottomSheet(final Activity mContext, final Submission submission, final SubmissionViewHolder holder, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
+    public <T extends Contribution> void showBottomSheet(final Activity mContext, final Submission submission, final SubmissionViewHolder holder, final List<T> posts, final String baseSub, final RecyclerView recyclerview, final boolean full) {
 
         int[] attrs = new int[]{R.attr.tint};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
@@ -384,7 +384,7 @@ public class PopulateSubmissionViewHolder {
                                             Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
                                         } else {
                                             Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
-                                            ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                            ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                                         }
 
                                     }
@@ -870,7 +870,7 @@ public class PopulateSubmissionViewHolder {
                 if (offline) {
                     Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
                 } else {
-                    showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview);
+                    showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview, full);
                 }
             }
         });
@@ -1046,7 +1046,7 @@ public class PopulateSubmissionViewHolder {
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
-                setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
+                setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder, mContext);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
@@ -1148,7 +1148,7 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {
+    private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder, Context mContext) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -1163,9 +1163,9 @@ public class PopulateSubmissionViewHolder {
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
+                holder.commentOverflow.setViews(blocks, subredditName, mContext);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, mContext);
             }
         }
     }

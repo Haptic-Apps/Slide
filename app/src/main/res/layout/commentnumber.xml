@@ -8,19 +8,18 @@
     <TextView
         android:id="@+id/commentnumber"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_height="16dp"
         android:background="@drawable/commentback"
         android:paddingLeft="2.5dp"
+        android:layout_toRightOf="@+id/content"
         android:paddingRight="2.5dp"
         android:textColor="#fff"
         android:layout_marginRight="6dp"
         android:layout_marginTop="6dp"
         android:textSize="10sp"
         android:textStyle="bold">
-
     </TextView>
 
 </merge>

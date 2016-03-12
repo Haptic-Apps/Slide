@@ -379,7 +379,7 @@ public class SwipeBackLayout extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (!mEnable) {
+        if (!mEnable || super.onTouchEvent(event)) {
             return false;
         }
         mDragHelper.processTouchEvent(event);

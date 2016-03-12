@@ -340,9 +340,9 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.overflow.setViews(blocks, subredditName);
+                holder.overflow.setViews(blocks, subredditName, mContext);
             } else {
-                holder.overflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                holder.overflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, mContext);
             }
         } else {
             holder.overflow.removeAllViews();

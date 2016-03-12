@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -71,8 +73,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return new CommentViewHolder(v);
 
     }
-    public void doScoreText(CommentViewHolder holder, Comment comment){
-        String spacer = mContext.getString(R.string.submission_properties_seperator_comments);
+    public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
+        String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
         String distingush = "";
@@ -86,6 +88,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 
         author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -96,21 +99,20 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         titleString.append(spacer);
 
         String scoreText;
-        if (comment.isScoreHidden())
+        if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
-        else scoreText = comment.getScore().toString();
+        } else {
+            scoreText = Integer.toString(comment.getScore() + offset);
+        }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
-
-        titleString.append(spacer);
 
         titleString.append(score);
         titleString.append((comment.isControversial() ? "†" : ""));
 
         titleString.append(spacer);
-        titleString.append(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) );
+        titleString.append(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
         titleString.append(((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
-
         if (comment.getDataNode().get("stickied").asBoolean()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned) + " ");
             pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -119,6 +121,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
             pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -126,19 +129,22 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             titleString.append(" ");
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
             pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -154,7 +160,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         final CommentNode baseNode = dataSet.get(pos);
         final Comment comment = baseNode.getComment();
 
-        doScoreText(holder, comment);
+        doScoreText(holder, comment, 0);
 
         if (baseNode.isTopLevel()) {
             holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
@@ -243,9 +249,9 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
+                holder.commentOverflow.setViews(blocks, subredditName, mContext);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, mContext);
             }
         } else {
             holder.commentOverflow.removeAllViews();

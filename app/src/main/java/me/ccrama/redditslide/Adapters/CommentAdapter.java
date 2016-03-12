@@ -326,6 +326,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
             pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -333,26 +334,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             titleString.append(" ");
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
             pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" OP ");
             pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
+        titleString.append(" ");
         if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -637,9 +642,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
+                holder.commentOverflow.setViews(blocks, subredditName, mPage.getContext());
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, mPage.getContext());
             }
         } else {
             holder.commentOverflow.removeAllViews();

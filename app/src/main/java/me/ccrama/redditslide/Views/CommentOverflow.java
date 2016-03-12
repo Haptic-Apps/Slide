@@ -63,17 +63,6 @@ public class CommentOverflow extends LinearLayout {
         typeface = RobotoTypefaceManager.obtainTypeface(
                 context,
                 new FontPreferences(context).getFontTypeComment().getTypeface());
-
-
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getApplicationContext().getTheme();
-        theme.resolveAttribute(R.attr.font, typedValue, true);
-        textColor = typedValue.data;
-        TypedValue fontSizeTypedValue = new TypedValue();
-        theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
-        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[]{R.attr.font_commentbody});
-        fontSize = a.getDimensionPixelSize(0, -1);
-        a.recycle();
     }
 
     /**
@@ -82,10 +71,17 @@ public class CommentOverflow extends LinearLayout {
      * @param blocks    list of all blocks to be set
      * @param subreddit
      */
-    public void setViews(List<String> blocks, String subreddit) {
+    public void setViews(List<String> blocks, String subreddit, Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.font, typedValue, true);
+        textColor = typedValue.data;
+        TypedValue fontSizeTypedValue = new TypedValue();
+        theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
+        TypedArray a = context.obtainStyledAttributes(fontSizeTypedValue.data, new int[]{R.attr.font_commentbody});
+        fontSize = a.getDimensionPixelSize(0, -1);
+        a.recycle();
         removeAllViews();
-
-        final Context context = getContext();
 
         if (!blocks.isEmpty()) {
             setVisibility(View.VISIBLE);
