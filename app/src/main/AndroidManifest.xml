@@ -228,7 +228,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:theme="@style/swipeable" />
+        <activity
+            android:name=".Activities.SettingsExternalBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize"
 
+            android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Login"
             android:configChanges="keyboardHidden|orientation|screenSize"

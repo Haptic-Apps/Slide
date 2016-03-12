@@ -31,6 +31,7 @@ public class SettingValues {
     public static final String PREF_TITLE_FILTERS = "titleFilters";
     public static final String PREF_TEXT_FILTERS = "textFilters";
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
+    public static final String PREF_ALWAYS_EXTERNAL = "alwaysExternal";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
 
@@ -106,6 +107,7 @@ public class SettingValues {
     public static String textFilters;
     public static String domainFilters;
     public static String subredditFilters;
+    public static String alwaysExternal;
 
     public static boolean fastscroll;
     public static boolean fab = true;
@@ -168,6 +170,7 @@ public class SettingValues {
         textFilters = prefs.getString(PREF_TEXT_FILTERS, "");
         domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");
         subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
+        alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
 

@@ -11,11 +11,17 @@ public class PostMatch {
     public static boolean contains(String target, String[] strings, boolean totalMatch) {
         for (String s : strings) {
             s = s.toLowerCase().trim();
-            if (!s.isEmpty() && !s.equals("\n") &&  totalMatch ? target.equals(s) : target.contains(s)) {
+            if (!s.isEmpty() && !s.equals("\n") && totalMatch ? target.equals(s) : target.contains(s)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static boolean openExternal(String url) {
+        if (externalDomain == null)
+            externalDomain = SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        return !SettingValues.alwaysExternal.isEmpty() && contains(url.toLowerCase(), externalDomain, false);
     }
 
     public static SharedPreferences filters;
@@ -24,6 +30,7 @@ public class PostMatch {
     public static String[] texts = null;
     public static String[] domains = null;
     public static String[] subreddits = null;
+    public static String[] externalDomain = null;
 
 
     public static boolean doesMatch(Submission s, String baseSubreddit) {
@@ -65,7 +72,7 @@ public class PostMatch {
         boolean selftext = isSelftext(baseSubreddit);
 
 
-        if(s.isNsfw()){
+        if (s.isNsfw()) {
             if (nsfw) contentMatch = true;
         }
         switch (ContentType.getImageType(s)) {

@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -40,6 +41,13 @@ public class SettingsHandling extends BaseActivityAnim implements
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
 
+        findViewById(R.id.custom_handling).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SettingsHandling.this, SettingsExternalBrowser.class);
+                startActivity(i);
+            }
+        });
         ((TextView) findViewById(R.id.browser)).setText(SettingValues.web ? (SettingValues.customtabs ? getString(R.string.settings_link_chrome) : getString(R.string.handling_internal_browser)) : getString(R.string.handling_external_browser));
 
         findViewById(R.id.select_browser).setOnClickListener(new View.OnClickListener() {

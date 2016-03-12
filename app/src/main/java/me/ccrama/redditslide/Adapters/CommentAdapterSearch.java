@@ -107,6 +107,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             scoreText = Integer.toString(comment.getScore() + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
+        int scoreColor;
 
 
         titleString.append(score);
@@ -125,7 +126,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             titleString.append(" ");
         }
         if (comment.getTimesGilded() > 0) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★" + comment.getTimesGilded() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + comment.getTimesGilded() + " ");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");

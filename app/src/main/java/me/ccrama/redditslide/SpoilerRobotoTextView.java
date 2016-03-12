@@ -237,78 +237,82 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-        switch (type) {
-            case IMGUR:
-                Intent intent2 = new Intent(activity, Imgur.class);
-                intent2.putExtra(Imgur.EXTRA_URL, url);
-                activity.startActivity(intent2);
-                break;
-            case NSFW_IMAGE:
-                openImage(url);
-                break;
-            case NSFW_GIF:
-                openGif(false, url);
-                break;
-            case NSFW_GFY:
-                openGif(true, url);
-                break;
-            case REDDIT:
-                new OpenRedditLink(activity, url);
-                break;
-            case LINK:
-            case IMAGE_LINK:
-            case NSFW_LINK:
-                CustomTabUtil.openUrl(url.startsWith("//")?url.replace("//", "https://"):url, Palette.getColor(subreddit), activity);
-                break;
-            case SELF:
-                break;
-            case GFY:
-                openGif(true, url);
-                break;
-            case ALBUM:
-                if (SettingValues.album) {
-                    if (SettingValues.albumSwipe) {
-                        Intent i = new Intent(activity, AlbumPager.class);
-                        i.putExtra(Album.EXTRA_URL, url);
-                        activity.startActivity(i);
+        if(!PostMatch.openExternal(url)) {
+            switch (type) {
+                case IMGUR:
+                    Intent intent2 = new Intent(activity, Imgur.class);
+                    intent2.putExtra(Imgur.EXTRA_URL, url);
+                    activity.startActivity(intent2);
+                    break;
+                case NSFW_IMAGE:
+                    openImage(url);
+                    break;
+                case NSFW_GIF:
+                    openGif(false, url);
+                    break;
+                case NSFW_GFY:
+                    openGif(true, url);
+                    break;
+                case REDDIT:
+                    new OpenRedditLink(activity, url);
+                    break;
+                case LINK:
+                case IMAGE_LINK:
+                case NSFW_LINK:
+                    CustomTabUtil.openUrl(url.startsWith("//") ? url.replace("//", "https://") : url, Palette.getColor(subreddit), activity);
+                    break;
+                case SELF:
+                    break;
+                case GFY:
+                    openGif(true, url);
+                    break;
+                case ALBUM:
+                    if (SettingValues.album) {
+                        if (SettingValues.albumSwipe) {
+                            Intent i = new Intent(activity, AlbumPager.class);
+                            i.putExtra(Album.EXTRA_URL, url);
+                            activity.startActivity(i);
 
-                        activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                            activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        } else {
+                            Intent i = new Intent(activity, Album.class);
+                            i.putExtra(Album.EXTRA_URL, url);
+                            activity.startActivity(i);
+                            activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        }
                     } else {
-                        Intent i = new Intent(activity, Album.class);
-                        i.putExtra(Album.EXTRA_URL, url);
-                        activity.startActivity(i);
-                        activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        Reddit.defaultShare(url, activity);
                     }
-                } else {
+                    break;
+                case IMAGE:
+                    openImage(url);
+                    break;
+                case GIF:
+                    openGif(false, url);
+                    break;
+                case NONE_GFY:
+                    openGif(true, url);
+                    break;
+                case NONE_GIF:
+                    openGif(false, url);
+                    break;
+                case NONE:
+                    break;
+                case NONE_IMAGE:
+                    openImage(url);
+                    break;
+                case NONE_URL:
+                    CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
+                    break;
+                case VIDEO:
                     Reddit.defaultShare(url, activity);
-                }
-                break;
-            case IMAGE:
-                openImage(url);
-                break;
-            case GIF:
-                openGif(false, url);
-                break;
-            case NONE_GFY:
-                openGif(true, url);
-                break;
-            case NONE_GIF:
-                openGif(false, url);
-                break;
-            case NONE:
-                break;
-            case NONE_IMAGE:
-                openImage(url);
-                break;
-            case NONE_URL:
-                CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
-                break;
-            case VIDEO:
-                Reddit.defaultShare(url, activity);
-            case SPOILER:
-                spoilerClicked = true;
-                setOrRemoveSpoilerSpans(xOffset);
-                break;
+                case SPOILER:
+                    spoilerClicked = true;
+                    setOrRemoveSpoilerSpans(xOffset);
+                    break;
+            }
+        } else {
+            Reddit.defaultShare(url, context);
         }
     }
 

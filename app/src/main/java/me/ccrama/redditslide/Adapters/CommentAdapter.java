@@ -274,21 +274,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
-        String distingush = "";
-        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
-            distingush = "[M]";
-        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-            distingush = "[A]";
-        }
 
-        SpannableStringBuilder author = new SpannableStringBuilder(" " + distingush + comment.getAuthor() + " ");
+        SpannableStringBuilder author = new SpannableStringBuilder(" " + comment.getAuthor() + " ");
         int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 
         author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (!distingush.isEmpty()) {
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -335,7 +329,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             titleString.append(" ");
         }
         if (comment.getTimesGilded() > 0) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★" + comment.getTimesGilded() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + comment.getTimesGilded() + " ");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");

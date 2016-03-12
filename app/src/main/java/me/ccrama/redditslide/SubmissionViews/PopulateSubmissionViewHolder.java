@@ -71,6 +71,7 @@ import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -99,100 +100,108 @@ public class PopulateSubmissionViewHolder {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 HasSeen.addSeen(submission.getFullName());
                 if (contextActivity instanceof MainActivity) {
                     holder.title.setAlpha(0.65f);
                     holder.leadImage.setAlpha(0.65f);
                     holder.thumbimage.setAlpha(0.65f);
                 }
-                switch (type) {
-                    case NSFW_IMAGE:
-                        openImage(contextActivity, submission);
-                        break;
-                    case IMGUR:
-                        Intent i2 = new Intent(contextActivity, Imgur.class);
-                        i2.putExtra(Imgur.EXTRA_URL, submission.getUrl());
-                        contextActivity.startActivity(i2);
-                        break;
-                    case EMBEDDED:
-                        if (SettingValues.video) {
-                            String data = submission.getDataNode().get("media_embed").get("content").asText();
-                            {
-                                Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                contextActivity.startActivity(i);
-                            }
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                        break;
-                    case NSFW_GIF:
-                        openGif(false, contextActivity, submission);
-                        break;
-                    case NSFW_GFY:
-                        openGif(true, contextActivity, submission);
-                        break;
-                    case REDDIT:
-                        openRedditContent(submission.getUrl(), contextActivity);
-                        break;
-                    case LINK:
-                    case IMAGE_LINK:
-                    case NSFW_LINK:
-                        CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        break;
-                    case SELF:
-                        if (holder != null) {
-                            holder.itemView.performClick();
-                        }
-                        break;
-                    case GFY:
-                        openGif(true, contextActivity, submission);
-                        break;
-                    case ALBUM:
-                        if (SettingValues.album) {
-                            if (SettingValues.albumSwipe) {
-                                Intent i = new Intent(contextActivity, AlbumPager.class);
-                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+
+                if (!PostMatch.openExternal(submission.getUrl())) {
+
+                    switch (type) {
+                        case NSFW_IMAGE:
+                            openImage(contextActivity, submission);
+                            break;
+                        case IMGUR:
+                            Intent i2 = new Intent(contextActivity, Imgur.class);
+                            i2.putExtra(Imgur.EXTRA_URL, submission.getUrl());
+                            contextActivity.startActivity(i2);
+                            break;
+                        case EMBEDDED:
+                            if (SettingValues.video) {
+                                String data = submission.getDataNode().get("media_embed").get("content").asText();
+                                {
+                                    Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                    i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                    contextActivity.startActivity(i);
+                                }
                             } else {
-                                Intent i = new Intent(contextActivity, Album.class);
-                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
-                        } else {
+                            break;
+                        case NSFW_GIF:
+                            openGif(false, contextActivity, submission);
+                            break;
+                        case NSFW_GFY:
+                            openGif(true, contextActivity, submission);
+                            break;
+                        case REDDIT:
+                            openRedditContent(submission.getUrl(), contextActivity);
+                            break;
+                        case LINK:
+                        case IMAGE_LINK:
+                        case NSFW_LINK:
+                            CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                            break;
+                        case SELF:
+                            if (holder != null) {
+                                holder.itemView.performClick();
+                            }
+                            break;
+                        case GFY:
+                            openGif(true, contextActivity, submission);
+                            break;
+                        case ALBUM:
+                            if (SettingValues.album) {
+                                if (SettingValues.albumSwipe) {
+                                    Intent i = new Intent(contextActivity, AlbumPager.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                } else {
+                                    Intent i = new Intent(contextActivity, Album.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                }
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+
+                            }
+                            break;
+                        case IMAGE:
+                            openImage(contextActivity, submission);
+                            break;
+                        case GIF:
+                            openGif(false, contextActivity, submission);
+                            break;
+                        case NONE_GFY:
+                            openGif(true, contextActivity, submission);
+                            break;
+                        case NONE_GIF:
+                            openGif(false, contextActivity, submission);
+                            break;
+                        case NONE:
+                            if (holder != null) {
+                                holder.itemView.performClick();
+                            }
+                            break;
+                        case NONE_IMAGE:
+                            openImage(contextActivity, submission);
+                            break;
+                        case NONE_URL:
+                            CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                            break;
+                        case VIDEO:
+
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
 
-                        }
-                        break;
-                    case IMAGE:
-                        openImage(contextActivity, submission);
-                        break;
-                    case GIF:
-                        openGif(false, contextActivity, submission);
-                        break;
-                    case NONE_GFY:
-                        openGif(true, contextActivity, submission);
-                        break;
-                    case NONE_GIF:
-                        openGif(false, contextActivity, submission);
-                        break;
-                    case NONE:
-                        if (holder != null) {
-                            holder.itemView.performClick();
-                        }
-                        break;
-                    case NONE_IMAGE:
-                        openImage(contextActivity, submission);
-                        break;
-                    case NONE_URL:
-                        CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        break;
-                    case VIDEO:
-
-                        Reddit.defaultShare(submission.getUrl(), contextActivity);
-
+                    }
+                } else {
+                    Reddit.defaultShare(submission.getUrl(), contextActivity);
                 }
             }
         });
@@ -249,7 +258,7 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    boolean[] chosen = new boolean[]{false, false};
+    boolean[] chosen = new boolean[]{false, false, false};
 
     public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
@@ -287,7 +296,7 @@ public class PopulateSubmissionViewHolder {
                 .sheet(2, sub, "/r/" + submission.getSubredditName());
 
         String save = mContext.getString(R.string.btn_save);
-        if(ActionStates.isSaved(submission)){
+        if (ActionStates.isSaved(submission)) {
             save = mContext.getString(R.string.comment_unsave);
         }
 
@@ -317,9 +326,14 @@ public class PopulateSubmissionViewHolder {
                             }
                             break;
                             case 10:
+
+                                chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+
+                                final boolean[] oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+
                                 new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
                                         .alwaysCallMultiChoiceCallback()
-                                        .setMultiChoiceItems(new String[]{"/r/" + submission.getSubredditName(), submission.getDomain()}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                                        .setMultiChoiceItems(new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                                 chosen[which] = isChecked;
@@ -330,17 +344,22 @@ public class PopulateSubmissionViewHolder {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 boolean filtered = false;
                                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                                if (chosen[0]) {
+                                                if (chosen[0] && chosen[0] != oldChosen[0]) {
                                                     SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
                                                 }
-                                                if (chosen[1]) {
+                                                if (chosen[1] && chosen[1] != oldChosen[1]) {
                                                     SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
-
                                                 }
+                                                if (chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.alwaysExternal = SettingValues.alwaysExternal + ((SettingValues.alwaysExternal.isEmpty() || SettingValues.alwaysExternal.endsWith(",")) ? "" : ",") + submission.getDomain();
+                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
+                                                    e.apply();
+                                                }
+
                                                 if (filtered) {
                                                     e.apply();
                                                     final int pos = posts.indexOf(submission);
@@ -477,7 +496,7 @@ public class PopulateSubmissionViewHolder {
             titleString.append(pinned);
         }
         if (submission.getTimesGilded() > 0) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★" + submission.getTimesGilded() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + submission.getTimesGilded() + " ");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
