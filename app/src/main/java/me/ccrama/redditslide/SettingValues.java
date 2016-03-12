@@ -180,7 +180,7 @@ public class SettingValues {
 
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
-        video = prefs.getBoolean(PREF_VIDEO, true);
+        video =true;
         exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, false);
 

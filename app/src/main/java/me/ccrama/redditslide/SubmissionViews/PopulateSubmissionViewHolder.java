@@ -120,7 +120,6 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case EMBEDDED:
                         if (SettingValues.video) {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
                             String data = submission.getDataNode().get("media_embed").get("content").asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
