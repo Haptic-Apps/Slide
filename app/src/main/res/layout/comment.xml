@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/background"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <View
@@ -13,90 +13,46 @@
         android:orientation="horizontal" />
 
     <View
-        android:id="@+id/dots"
-        android:layout_width="1dp"
-        android:layout_height="1dp"
-        android:background="?attr/activity_background" />
-
-    <View
         android:id="@+id/dot"
         android:layout_width="3dp"
-        android:layout_toRightOf="@+id/dots"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/menuarea"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/dot"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center_vertical"
+        android:textColor="?attr/font"
+        android:textSize="?attr/font_commentinfo"
+
         />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <include
+        android:id="@+id/children"
+        layout="@layout/commentnumber"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/dot"
-        android:orientation="horizontal"
-        android:id="@+id/flow"
-        android:layout_marginTop="8dp">
-
-
-        <TextView
-            android:id="@+id/author"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-condensed"
-
-            android:gravity="center_vertical"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="8dp"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commenttitle"
-            android:textStyle="bold" />
-
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:fontFamily="sans-serif-condensed"
-            android:gravity="center_vertical"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commentinfo"
-
-            />
-
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commentinfo" />
-
-        <include
-            android:id="@+id/children"
-            layout="@layout/commentnumber"
-            android:layout_width="wrap_content"
-            android:layout_height="12dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="9dp"
-            android:layout_marginRight="6dp"
-            />
-    </LinearLayout>
+        />
 
     <me.ccrama.redditslide.SpoilerRobotoTextView
         android:id="@+id/firstTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/flow"
-        android:layout_toRightOf="@id/dot"
-        android:layout_marginBottom="8dp"
+        android:layout_below="@id/content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_toRightOf="@id/dot"
         android:textColor="?attr/font"
         android:textSize="?attr/font_commentbody" />
 
@@ -105,10 +61,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/firstTextView"
-        android:layout_toRightOf="@id/dot"
-        android:orientation="vertical"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@id/dot"
+        android:orientation="vertical"
         android:visibility="invisible" />
 
     <LinearLayout

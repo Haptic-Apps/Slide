@@ -191,10 +191,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     builder.insert(start, ".");
                 }
                 Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(),options);
-                builder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 //Check if url span has length. If it does, it's a spoiler/caption
                 if(textCovers.length()>1) {
-                    builder.setSpan(new URLSpan("/sp"), start + 1, end + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setSpan(new URLSpan("/sp"), start + 1, end + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     builder.setSpan(new StyleSpan(Typeface.ITALIC), start + 1, end+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }

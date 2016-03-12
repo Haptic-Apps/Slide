@@ -7,21 +7,26 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.TypefaceSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
 
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
-import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -30,6 +35,7 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -43,7 +49,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     ///... other methods
     private List<CommentNode> dataSet;
-    private Submission submission;
 
 
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
@@ -66,6 +71,80 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         return new CommentViewHolder(v);
 
     }
+    public void doScoreText(CommentViewHolder holder, Comment comment){
+        String spacer = mContext.getString(R.string.submission_properties_seperator_comments);
+        SpannableStringBuilder titleString = new SpannableStringBuilder();
+
+        String distingush = "";
+        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+            distingush = "[M]";
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            distingush = "[A]";
+        }
+
+        SpannableStringBuilder author = new SpannableStringBuilder(distingush + comment.getAuthor());
+        int authorcolor = Palette.getFontColorUser(comment.getAuthor());
+
+        author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        if (authorcolor != 0) {
+            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        titleString.append(author);
+
+        titleString.append(spacer);
+
+        String scoreText;
+        if (comment.isScoreHidden())
+            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+        else scoreText = comment.getScore().toString();
+        SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
+
+        titleString.append(spacer);
+
+        titleString.append(score);
+        titleString.append((comment.isControversial() ? "†" : ""));
+
+        titleString.append(spacer);
+        titleString.append(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) );
+
+        titleString.append(((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
+
+        if (comment.getDataNode().get("stickied").asBoolean()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned) + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+        }
+        if (comment.getTimesGilded() > 0) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+            int color = typedValue.data;
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        holder.content.setText(titleString);
+    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int pos) {
@@ -75,33 +154,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         final CommentNode baseNode = dataSet.get(pos);
         final Comment comment = baseNode.getComment();
 
-        String distingush = "";
-        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
-            distingush = "[M]";
-        else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
-            distingush = "[A]";
-
-        String author = comment.getAuthor();
-        holder.author.setText(author + distingush);
-        if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
-            holder.itemView.findViewById(R.id.text).setVisibility(View.VISIBLE);
-            ((TextView) holder.itemView.findViewById(R.id.text)).setText(Html.fromHtml(comment.getAuthorFlair().getText()));
-
-        } else {
-            holder.itemView.findViewById(R.id.text).setVisibility(View.GONE);
-        }
-
-        holder.itemView.findViewById(R.id.pinned).setVisibility(View.GONE);
-
-        if (comment.isScoreHidden()) {
-            String scoreText = mContext.getString(R.string.misc_score_hidden).toUpperCase();
-
-            holder.score.setText("[" + scoreText + "]");
-
-        } else {
-            holder.score.setText(comment.getScore() + "");
-
-        }
+        doScoreText(holder, comment);
 
         if (baseNode.isTopLevel()) {
             holder.itemView.findViewById(R.id.next).setVisibility(View.VISIBLE);
@@ -109,16 +162,12 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
 
         }
-        holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
         setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
         holder.children.setVisibility(View.GONE);
 
-        holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
-        if (holder.author.getCurrentTextColor() == 0) {
-            holder.author.setTextColor(holder.time.getCurrentTextColor());
-        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,19 +213,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         } else {
             holder.itemView.findViewById(R.id.dot).setVisibility(View.GONE);
         }
-        if (author.toLowerCase().equals(Authentication.name.toLowerCase())) {
-            holder.itemView.findViewById(R.id.you).setVisibility(View.VISIBLE);
-        } else {
-            holder.itemView.findViewById(R.id.you).setVisibility(View.GONE);
 
-        }
-        if (author.toLowerCase().equals(subAuthor.toLowerCase())) {
-
-            holder.itemView.findViewById(R.id.op).setVisibility(View.VISIBLE);
-        } else {
-            holder.itemView.findViewById(R.id.op).setVisibility(View.GONE);
-
-        }
     }
 
     /**

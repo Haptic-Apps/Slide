@@ -16,7 +16,7 @@ public class MoreCommentViewHolder extends RecyclerView.ViewHolder {
 
     public MoreCommentViewHolder(View v) {
         super(v);
-        dots = v.findViewById(R.id.dots);
+        dots = v.findViewById(R.id.dot);
         content = (TextView) v.findViewById(R.id.content);
         loading = v.findViewById(R.id.loading);
     }

@@ -303,6 +303,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        LogUtil.v("Starting time is " + System.currentTimeMillis());
+
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
         if (ContextCompat.checkSelfPermission(this,

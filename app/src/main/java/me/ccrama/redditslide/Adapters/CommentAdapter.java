@@ -28,7 +28,9 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -264,6 +266,100 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
+    public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
+        String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
+        SpannableStringBuilder titleString = new SpannableStringBuilder();
+
+        String distingush = "";
+        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
+            distingush = "[M]";
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            distingush = "[A]";
+        }
+
+        SpannableStringBuilder author = new SpannableStringBuilder(distingush + comment.getAuthor());
+        int authorcolor = Palette.getFontColorUser(comment.getAuthor());
+
+        author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        if (authorcolor != 0) {
+            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        titleString.append(author);
+
+        titleString.append(spacer);
+
+        String scoreText;
+        if (comment.isScoreHidden()) {
+            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+        } else {
+            scoreText = Integer.toString(comment.getScore() + offset);
+        }
+        SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
+        int scoreColor;
+
+        if (up.contains(comment.getFullName())) {
+            scoreColor = (holder.textColorUp);
+        } else if (down.contains(comment.getFullName())) {
+            scoreColor = (holder.textColorDown);
+        } else {
+            scoreColor = (holder.textColorRegular);
+        }
+
+        score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        titleString.append(score);
+        titleString.append((comment.isControversial() ? "†" : ""));
+
+        titleString.append(spacer);
+        titleString.append(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
+
+        titleString.append(((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
+
+        if (comment.getDataNode().get("stickied").asBoolean()) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned) + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+        }
+        if (comment.getTimesGilded() > 0) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" OP ");
+            pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+            int color = typedValue.data;
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(" ");
+            titleString.append(pinned);
+        }
+        holder.content.setText(titleString);
+    }
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
         int pos = old != 0 ? old - 1 : old;
@@ -302,28 +398,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     down.add(comment.getFullName());
                 }
             }
-            String scoreText;
-            if (comment.isScoreHidden())
-                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
-            else scoreText = comment.getScore().toString();
 
-            holder.score.setText(scoreText);
+            doScoreText(holder, comment, 0);
 
-
-            if (up.contains(comment.getFullName())) {
-                holder.score.setTextColor(holder.textColorUp);
-            } else if (down.contains(comment.getFullName())) {
-                holder.score.setTextColor(holder.textColorDown);
-            } else {
-                holder.score.setTextColor(holder.textColorRegular);
-            }
-            String distingush = "";
-            if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
-                distingush = "[M]";
-            } else if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                distingush = "[A]";
-            }
-            holder.author.setText(comment.getAuthor() + distingush);
 
             holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -359,48 +436,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else if (holder.itemView.findViewById(R.id.next).getVisibility() == View.VISIBLE) {
                 holder.itemView.findViewById(R.id.next).setVisibility(View.GONE);
             }
-            SpannableStringBuilder titleString = new SpannableStringBuilder();
-            titleString.append(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext) + ((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
-            if (comment.getDataNode().get("stickied").asBoolean()) {
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" PINNED ");
-                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                pinned.setSpan(new RoundedBackgroundSpan(mContext,R.color.white, R.color.md_green_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                pinned.setSpan(new RelativeSizeSpan(0.5f), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(pinned);
-            }
-            if (comment.getTimesGilded() > 0) {
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getTimesGilded() + " ");
-                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(pinned);
-            }
-            if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.misc_you) + " ");
-                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(pinned);
-            }
-            if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" OP ");
-                pinned.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, pinned.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(pinned);
-            }
-            if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = mContext.getTheme();
-                theme.resolveAttribute(R.attr.activity_background, typedValue, true);
-                int color = typedValue.data;
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
-                pinned.setSpan(new RoundedBackgroundSpan(holder.time.getCurrentTextColor(), color, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(" ");
-                titleString.append(pinned);
-            }
-            holder.time.setText(titleString);
 
 
             if (hiddenPersons.contains(comment.getFullName())) {
@@ -414,11 +449,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.children.setVisibility(View.GONE);
                 holder.firstTextView.setVisibility(View.VISIBLE);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
-            }
-
-            holder.author.setTextColor(Palette.getFontColorUser(comment.getAuthor()));
-            if (holder.author.getCurrentTextColor() == 0) {
-                holder.author.setTextColor(holder.time.getCurrentTextColor());
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -482,7 +512,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             if (deleted.contains(comment.getFullName())) {
                 holder.firstTextView.setText(R.string.comment_deleted);
-                holder.author.setText(R.string.comment_deleted);
+                holder.content.setText(R.string.comment_deleted);
             }
         } else if (firstHolder instanceof SubmissionViewHolder) {
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
@@ -849,7 +879,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             currentlySelected = holder;
             currentBaseNode = baseNode;
-            holder.dots.setVisibility(View.GONE);
             int color = Palette.getColor(n.getSubredditName());
             currentSelectedItem = n.getFullName();
 
@@ -874,21 +903,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             View discard = baseView.findViewById(R.id.discard);
             final EditText replyLine = (EditText) baseView.findViewById(R.id.replyLine);
 
-            String scoreText;
-            if (n.isScoreHidden())
-                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
-            else scoreText = n.getScore().toString();
-
-            holder.score.setText(scoreText + (n.isControversial() ? "†" : ""));
 
             if (up.contains(n.getFullName())) {
-                holder.score.setTextColor(holder.textColorUp);
                 upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
             } else if (down.contains(n.getFullName())) {
-                holder.score.setTextColor(holder.textColorDown);
                 downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
             } else {
-                holder.score.setTextColor(holder.textColorRegular);
                 downvote.clearColorFilter();
                 upvote.clearColorFilter();
             }
@@ -1005,7 +1025,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             @Override
                                                             public void run() {
                                                                 holder.firstTextView.setTextHtml("[deleted]");
-                                                                holder.author.setText("[deleted]");
+                                                                holder.content.setText("[deleted]");
                                                             }
                                                         });
 
@@ -1223,29 +1243,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (up.contains(n.getFullName())) {
                         new Vote(v, mContext).execute(n);
                         up.remove(n.getFullName());
-                        holder.score.setTextColor(holder.textColorRegular);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + "");
-                        }
+                        doScoreText(holder, n, 0);
                         upvote.clearColorFilter();
 
                     } else if (down.contains(n.getFullName())) {
                         new Vote(true, v, mContext).execute(n);
                         up.add(n.getFullName());
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + 1 + "");
-                        }
                         down.remove(n.getFullName());
                         downvote.clearColorFilter(); // reset colour
-                        holder.score.setTextColor(holder.textColorUp);
+                        doScoreText(holder, n, 1);
                         upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
                     } else {
                         new Vote(true, v, mContext).execute(n);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + 1 + "");
-                        }
                         up.add(n.getFullName());
-                        holder.score.setTextColor(holder.textColorUp);
+                        doScoreText(holder, n, 1);
                         upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
                     }
                 }
@@ -1258,30 +1269,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (down.contains(n.getFullName())) {
                         new Vote(v, mContext).execute(n);
                         down.remove(n.getFullName());
-                        holder.score.setTextColor(holder.textColorRegular);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() + "");
-                        }
+                        doScoreText(holder, n, 0);
                         downvote.clearColorFilter();
 
                     } else if (up.contains(n.getFullName())) {
                         new Vote(false, v, mContext).execute(n);
                         down.add(n.getFullName());
                         up.remove(n.getFullName());
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() - 1 + "");
-                        }
+
                         upvote.clearColorFilter(); // reset colour
-                        holder.score.setTextColor(holder.textColorDown);
+                        doScoreText(holder, n, -1);
                         downvote.setColorFilter(holder.textColorDown);
 
                     } else {
                         new Vote(false, v, mContext).execute(n);
-                        if (!n.isScoreHidden()) {
-                            holder.score.setText(n.getScore() - 1 + "");
-                        }
                         down.add(n.getFullName());
-                        holder.score.setTextColor(holder.textColorDown);
+                        doScoreText(holder, n, -1);
                         downvote.setColorFilter(holder.textColorDown);
                     }
                 }
@@ -1298,7 +1301,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public EditText currentlyEditing;
 
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
-        holder.dots.setVisibility(View.VISIBLE);
         collapse(holder.menuArea);
 
         TypedValue typedValue = new TypedValue();
@@ -1338,7 +1340,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentlySelected = null;
             currentSelectedItem = "";
             collapse(holder.menuArea);
-            holder.dots.setVisibility(View.VISIBLE);
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
 

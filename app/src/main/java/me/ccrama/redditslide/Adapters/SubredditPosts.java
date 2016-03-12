@@ -49,6 +49,7 @@ public class SubredditPosts implements PostLoader {
     Context c;
 
     public SubredditPosts(String subreddit, Context c) {
+        LogUtil.v("Time is " + System.currentTimeMillis());
         posts = new ArrayList<>();
         this.subreddit = subreddit;
         this.c = c;
@@ -205,6 +206,8 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         public void onPostExecute(List<Submission> submissions) {
+            LogUtil.v("Newest time is " + System.currentTimeMillis());
+
             loading = false;
             context = null;
 
@@ -280,6 +283,7 @@ public class SubredditPosts implements PostLoader {
 
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
+            LogUtil.v("New time is " + System.currentTimeMillis());
 
             if (!NetworkUtil.isConnected(context)) {
                 Log.v(LogUtil.getTag(), "Using offline data");
