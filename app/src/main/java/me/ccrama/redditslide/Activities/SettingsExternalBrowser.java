@@ -60,7 +60,7 @@ public class SettingsExternalBrowser extends BaseActivityAnim {
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SettingValues.domainFilters = SettingValues.alwaysExternal.replace(finalS, "");
+                        SettingValues.alwaysExternal = SettingValues.alwaysExternal.replace(finalS, "");
                         updateFilters();
                     }
                 });
