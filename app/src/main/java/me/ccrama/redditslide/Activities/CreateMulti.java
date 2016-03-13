@@ -30,14 +30,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.MultiRedditUpdateRequest;
 import net.dean.jraw.http.NetworkException;
-import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
+import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,15 +143,17 @@ public class CreateMulti extends BaseActivityAnim {
     /**
      * Shows a dialog with all Subscribed subreddits and allows the user to select which ones to include in the Multireddit
      */
+    String[] all ;
+
     public void showSelectDialog() {
         ArrayList<String> sorted = SubredditStorage.sort(SubredditStorage.subredditsForHome);
-        final String[] all = new String[sorted.size() - 2];
         final List<String> s2 = new ArrayList<>(subs);
+        all = new String[sorted.size()];
         boolean[] checked = new boolean[all.length];
 
         int i = 0;
         for (String s : sorted) {
-            if (!(s.equals("all") || s.equals("frontpage"))) {
+            if (!(s.equals("all") || !s.equals("frontpage")) || !s.contains("+")) {
                 all[i] = s;
                 if (s2.contains(s)) {
                     checked[i] = true;
@@ -157,6 +161,18 @@ public class CreateMulti extends BaseActivityAnim {
                 i++;
             }
         }
+
+        List<String> list = new ArrayList<>();
+
+        for(String s : all) {
+            if(s != null && s.length() > 0) {
+                list.add(s);
+            }
+        }
+
+        all = list.toArray(new String[list.size()]);
+
+
         final ArrayList<String> toCheck = new ArrayList<>();
 
 
@@ -172,18 +188,98 @@ public class CreateMulti extends BaseActivityAnim {
                         }
                         Log.v(LogUtil.getTag(), "Done with " + all[which]);
                     }
-                }).setTitle(R.string.multireddit_selector).setPositiveButton(getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                subs = toCheck;
-                Log.v(LogUtil.getTag(), subs.size() + "SIZE ");
-                adapter = new CustomAdapter(subs);
-                recyclerView.setAdapter(adapter);
+                })
+                .setTitle(R.string.multireddit_selector)
+                .setPositiveButton(getString(R.string.btn_add).toUpperCase(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        subs = toCheck;
+                        Log.v(LogUtil.getTag(), subs.size() + "SIZE ");
+                        adapter = new CustomAdapter(subs);
+                        recyclerView.setAdapter(adapter);
 
-            }
-        }).show();
+                    }
+                })
+                .setNegativeButton(R.string.reorder_add_subreddit, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new MaterialDialog.Builder(CreateMulti.this)
+                                .title(R.string.reorder_add_subreddit)
+                                .inputRangeRes(2, 20, R.color.md_red_500)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence raw) {
+                                        input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
+                                    }
+                                })
+                                .positiveText(R.string.btn_add)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        new AsyncGetSubreddit().execute(input);
+                                    }
+                                })
+                                .negativeText(R.string.btn_cancel)
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                                    }
+                                }).show();
+                    }
+                })
+                .show();
     }
+    String input;
 
+    private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+
+        @Override
+        public void onPostExecute(Subreddit subreddit) {
+            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")) {
+                subs.add(input);
+                adapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(subs.size());
+            }
+        }
+
+        @Override
+        protected Subreddit doInBackground(final String... params) {
+            try {
+                if (subs.contains(params[0])) return null;
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch (Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new AlertDialogWrapper.Builder(CreateMulti.this)
+                                    .setTitle(R.string.subreddit_err)
+                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+
+                                        }
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+
+                                }
+                            }).show();
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+
+                return null;
+            }
+        }
+
+    }
 
     /**
      * Responsible for showing a list of subreddits which are added to this Multireddit
