@@ -263,6 +263,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     break;
                 case SELF:
                     break;
+                case STREAMABLE:
+                    openStreamable(url);
+                    break;
                 case GFY:
                     openGif(true, url);
                     break;
@@ -374,6 +377,22 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private void openGif(boolean gfy, String url) {
+        if (SettingValues.gif) {
+            Intent myIntent = new Intent(getContext(), GifView.class);
+            if (gfy) {
+                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + url);
+            } else {
+                myIntent.putExtra(GifView.EXTRA_URL, "" + url);
+
+            }
+            getContext().startActivity(myIntent);
+
+        } else {
+            Reddit.defaultShare(url, getContext());
+        }
+    }
+
+    private void openStreamable(boolean gfy, String url) {
         if (SettingValues.gif) {
             Intent myIntent = new Intent(getContext(), GifView.class);
             if (gfy) {

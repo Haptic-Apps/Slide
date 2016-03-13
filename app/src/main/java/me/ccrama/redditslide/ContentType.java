@@ -74,6 +74,9 @@ public class ContentType {
             } else {
                 url = url.replace("//", "https://");
             }
+            if(s.getUrl().contains("streamable.com")){
+                return ImageType.STREAMABLE;
+            }
             if (s.isSelfPost()) {
                 return ImageType.SELF;
             } else if (isRedditLink(url)) {
@@ -196,6 +199,9 @@ public class ContentType {
         } else if (url.length() >= 20 && url.substring(0, 20).contains("youtube.com") || url.length() >= 15 &&url.substring(0, 15).contains("youtu.be")) {
             return ImageType.VIDEO;
         }
+        if(url.contains("streamable.com")){
+            return ImageType.STREAMABLE;
+        }
         if(isImgurLink(url)){
             if(url.contains("?") && (url.contains(".png") ||url.contains(".gif") || url.contains(".jpg"))){
                 url = url.substring(0, url.lastIndexOf("?"));
@@ -223,6 +229,7 @@ public class ContentType {
     public enum ImageType {
         NSFW_IMAGE,
         NSFW_GIF,
+        STREAMABLE,
         NSFW_GFY,
         REDDIT,
         EMBEDDED,

@@ -43,6 +43,9 @@ public class Profile extends BaseActivityAnim {
 
     public static final String EXTRA_PROFILE = "profile";
     public static final String EXTRA_SAVED = "saved";
+    public static final String EXTRA_COMMENT = "comment";
+    public static final String EXTRA_SUBMIT = "submitted";
+    public static final String EXTRA_UPVOTE = "upvoted";
     private String name;
     private Account account;
     private ViewPager pager;
@@ -113,6 +116,12 @@ public class Profile extends BaseActivityAnim {
         });
         if(getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
             pager.setCurrentItem(6);
+        if(getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
+            pager.setCurrentItem(1);
+        if(getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name))
+            pager.setCurrentItem(2);
+        if(getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
+            pager.setCurrentItem(4);
 
     }
 

@@ -89,6 +89,7 @@ public class PostMatch {
             case IMAGE_LINK:
             case NONE_URL:
             case VIDEO:
+            case STREAMABLE:
                 if (urls) contentMatch = true;
                 break;
             case SELF:

@@ -45,7 +45,6 @@ public class MultiredditPosts implements PostLoader {
     public boolean offline;
     public boolean loading;
     private MultiRedditPaginator paginator;
-    public OfflineSubreddit cached;
     Context c;
     MultiredditAdapter adapter;
 
@@ -286,8 +285,6 @@ public class MultiredditPosts implements PostLoader {
         protected List<Submission> doInBackground(MultiReddit... subredditPaginators) {
 
             if (!NetworkUtil.isConnected(context)) {
-                Log.v(LogUtil.getTag(), "Using offline data");
-
                 offline = true;
                 return null;
             } else {
@@ -295,16 +292,6 @@ public class MultiredditPosts implements PostLoader {
             }
 
             stillShow = true;
-
-
-            if (SettingValues.cacheDefault && !usedOffline) {
-                OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName());
-                usedOffline = true;
-                offline = false;
-                Log.v(LogUtil.getTag(), "Using cached data");
-
-                return o.submissions;
-            }
 
             if (usedOffline && !reset) {
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);

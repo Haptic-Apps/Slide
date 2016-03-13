@@ -8,7 +8,14 @@
     android:background="?attr/activity_background"
 
     >
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="3dp"
 
+        android:layout_gravity="top|right"
+        android:layout_height="1dp" />
     <android.support.design.widget.AppBarLayout
         android:id="@+id/header"
         android:layout_width="match_parent"

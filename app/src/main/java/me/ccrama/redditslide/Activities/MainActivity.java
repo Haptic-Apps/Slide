@@ -835,7 +835,19 @@ public class MainActivity extends BaseActivity {
         });
         mAnimator.start();
     }
+    private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
+        ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
 
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                v.setScaleY((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+        return animator;
+    }
     public void doDrawer() {
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
@@ -861,7 +873,7 @@ public class MainActivity extends BaseActivity {
             });
 
 
-            header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
@@ -878,10 +890,39 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+            header.findViewById(R.id.commented).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                    inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
+                    inte.putExtra(Profile.EXTRA_COMMENT, true);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
+            header.findViewById(R.id.submitted).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                    inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
+                    inte.putExtra(Profile.EXTRA_SUBMIT, true);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
+            header.findViewById(R.id.upvoted).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                    inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
+                    inte.putExtra(Profile.EXTRA_UPVOTE, true);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
+
             header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Submit.class);
+                    inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                     MainActivity.this.startActivity(inte);
                 }
             });
@@ -997,14 +1038,16 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.godown).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     LinearLayout body = (LinearLayout) header.findViewById(R.id.expand_profile);
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
+                        flipAnimator(true, view);
                     } else {
                         collapse(body);
+                        flipAnimator(true, view);
                     }
                 }
             });
@@ -1398,7 +1441,7 @@ public class MainActivity extends BaseActivity {
                 if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
                     drawerLayout.openDrawer(Gravity.RIGHT);
                 } else {
-                    Toast.makeText(this,"No sidebar found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No sidebar found", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.night: {
