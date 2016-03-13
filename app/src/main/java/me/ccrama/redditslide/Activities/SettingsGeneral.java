@@ -153,6 +153,19 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.pager);
+
+            single.setChecked(SettingValues.commentPager);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.commentPager = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_PAGER, isChecked).apply();
+
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.swipeback);
 
             single.setChecked(SettingValues.swipeAnywhere);

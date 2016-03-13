@@ -73,7 +73,6 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() + 1);
                         ((MainActivity) getContext()).adapter.notifyDataSetChanged();
                         ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
-
                     }
 
                     ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));

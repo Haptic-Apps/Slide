@@ -160,7 +160,6 @@ public class SettingValues {
         lowRes = prefs.getBoolean(PREF_LOW_RES, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
-
         swap = prefs.getBoolean(PREF_SWAP, false);
         web = prefs.getBoolean(PREFS_WEB, true);
         image = prefs.getBoolean(PREF_IMAGE, true);

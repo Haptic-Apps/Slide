@@ -2015,6 +2015,7 @@ public class MainActivity extends BaseActivity {
                         setRecentBar(openingComments.getSubredditName().toLowerCase());
 
 
+
                     }
                 }
 
