@@ -92,6 +92,7 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
@@ -246,6 +247,8 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public boolean commentPager = false;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         LogUtil.v("Starting time is " + System.currentTimeMillis());
@@ -342,6 +345,8 @@ public class MainActivity extends BaseActivity {
         pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
 
         singleMode = SettingValues.single;
+        if (singleMode)
+            commentPager = SettingValues.commentPager;
         // Inflate tabs if single mode is disabled
         if (!singleMode)
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
@@ -537,7 +542,11 @@ public class MainActivity extends BaseActivity {
         if (data != null) {
             usedArray = data;
             if (adapter == null) {
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                if (commentPager && singleMode) {
+                    adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+                } else {
+                    adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                }
             } else {
                 adapter.notifyDataSetChanged();
             }
@@ -835,6 +844,7 @@ public class MainActivity extends BaseActivity {
         });
         mAnimator.start();
     }
+
     private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
         ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
         animator.setInterpolator(new FastOutSlowInInterpolator());
@@ -848,6 +858,7 @@ public class MainActivity extends BaseActivity {
         });
         return animator;
     }
+
     public void doDrawer() {
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
@@ -1372,6 +1383,8 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawers();
+        } else if(commentPager && pager.getCurrentItem() == toOpenComments){
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
         } else if (SettingValues.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
             builder.setTitle(R.string.general_confirm_exit);
@@ -1862,7 +1875,7 @@ public class MainActivity extends BaseActivity {
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
             shouldLoad = usedArray.get(position);
-            if (getCurrentFragment() != object) {
+            if (getCurrentFragment() != object && position != toOpenComments) {
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment != null) {
                     if (mCurrentFragment.posts == null) {
@@ -1902,6 +1915,158 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null) {
+                return StringUtils.abbreviate(usedArray.get(position), 25);
+            } else {
+                return "";
+            }
+
+
+        }
+    }
+
+    public int currentComment;
+    public Submission openingComments;
+    public int toOpenComments;
+
+    public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
+        private SubmissionsView mCurrentFragment;
+
+        public OverviewPagerAdapterComment(FragmentManager fm) {
+            super(fm);
+            pager.clearOnPageChangeListeners();
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(final int position) {
+                    if (position != toOpenComments) {
+                        pager.setSwipeLeftOnly(false);
+                        header.animate()
+                                .translationY(0)
+                                .setInterpolator(new LinearInterpolator())
+                                .setDuration(180);
+
+                        Reddit.currentPosition = position;
+                        doSubSidebar(usedArray.get(position));
+
+                        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+                        if (page != null && page.adapter != null) {
+                            SubredditPosts p = page.adapter.dataSet;
+                            if (p.offline && p.cached != null) {
+                                Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (hea != null)
+                            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                        themeSystemBars(usedArray.get(position));
+                        setRecentBar(usedArray.get(position));
+
+                        if (SettingValues.single)
+                            getSupportActionBar().setTitle(usedArray.get(position));
+                        else mTabLayout.setSelectedTabIndicatorColor(
+                                new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+
+                        selectedSub = usedArray.get(position);
+
+                    } else {
+                        header.animate()
+                                .translationY(-header.getHeight())
+                                .setInterpolator(new LinearInterpolator())
+                                .setDuration(180);
+                        pager.setSwipeLeftOnly(true);
+
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            if (pager.getAdapter() != null) {
+                pager.getAdapter().notifyDataSetChanged();
+                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
+
+            }
+        }
+
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            if (position != toOpenComments) {
+                shouldLoad = usedArray.get(position);
+                if (getCurrentFragment() != object) {
+                    mCurrentFragment = ((SubmissionsView) object);
+                    if (mCurrentFragment != null) {
+                        if (mCurrentFragment.posts == null) {
+                            if (mCurrentFragment.isAdded()) {
+                                mCurrentFragment.doAdapter();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+       public Fragment storedFragment;
+        @Override
+        public int getItemPosition(Object object) {
+            if(object != storedFragment)
+            return POSITION_NONE;
+            return POSITION_UNCHANGED;
+        }
+        @Override
+        public Fragment getItem(int i) {
+
+            if (openingComments == null || i  != toOpenComments) {
+                SubmissionsView f = new SubmissionsView();
+                Bundle args = new Bundle();
+                args.putString("id", usedArray.get(i));
+                f.setArguments(args);
+                return f;
+
+            } else {
+                Fragment f = new CommentPage();
+                Bundle args = new Bundle();
+                String name = openingComments.getFullName();
+                args.putString("id", name.substring(3, name.length()));
+                args.putBoolean("archived", openingComments.isArchived());
+                args.putInt("page", currentComment);
+                args.putString("subreddit", openingComments.getSubredditName());
+                args.putString("baseSubreddit", subToDo);
+                f.setArguments(args);
+                return f;
+            }
+
+
+        }
+
+
+        @Override
+        public int getCount() {
+            if (usedArray == null) {
+                return 1;
+            } else {
+                return usedArray.size() + 1;
+            }
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+
+            if (usedArray != null && position != toOpenComments) {
                 return StringUtils.abbreviate(usedArray.get(position), 25);
             } else {
                 return "";

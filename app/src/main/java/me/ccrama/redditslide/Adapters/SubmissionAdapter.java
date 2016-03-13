@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -138,11 +139,30 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.leadImage.setAlpha(0.65f);
                         holder.thumbimage.setAlpha(0.65f);
 
-                        Intent i2 = new Intent(context, CommentsScreen.class);
-                        i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                        i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                        context.startActivityForResult(i2, 940);
-                        clicked = holder2.getAdapterPosition();
+                        if(context instanceof MainActivity){
+                            MainActivity a = (MainActivity)context;
+                            if(a.singleMode && a.commentPager){
+                                a.openingComments = submission;
+                                a.toOpenComments = a.pager.getCurrentItem() + 1;
+                                a.currentComment = holder.getAdapterPosition() - 1;
+                                ((MainActivity.OverviewPagerAdapterComment)((MainActivity) a).adapter).storedFragment =  ((MainActivity) a).adapter.getCurrentFragment();
+                                a.adapter.notifyDataSetChanged();
+                                a.pager.setCurrentItem(a.pager.getCurrentItem() + 1);
+
+                            } else {
+                                Intent i2 = new Intent(context, CommentsScreen.class);
+                                i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                                context.startActivityForResult(i2, 940);
+                                clicked = holder2.getAdapterPosition();
+                            }
+                        } else {
+                            Intent i2 = new Intent(context, CommentsScreen.class);
+                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                            context.startActivityForResult(i2, 940);
+                            clicked = holder2.getAdapterPosition();
+                        }
 
 
                     } else {

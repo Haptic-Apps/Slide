@@ -34,6 +34,7 @@ public class SettingValues {
     public static final String PREF_ALWAYS_EXTERNAL = "alwaysExternal";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
+    public static final String PREF_COMMENT_PAGER = "commentPager";
 
     public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
@@ -121,6 +122,7 @@ public class SettingValues {
     public static boolean autoTime;
     public static boolean albumSwipe;
     public static boolean switchThumb;
+    public static boolean commentPager;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -154,6 +156,7 @@ public class SettingValues {
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         lowRes = prefs.getBoolean(PREF_LOW_RES, false);
+        commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
 
 
         swap = prefs.getBoolean(PREF_SWAP, false);

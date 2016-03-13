@@ -26,6 +26,7 @@ import net.dean.jraw.models.CommentSort;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
@@ -64,7 +65,6 @@ public class CommentPage extends Fragment {
     private PreCachingLayoutManagerComments mLayoutManager;
     public String subreddit;
     public boolean loaded = false;
-
 
 
     @Override
@@ -134,7 +134,7 @@ public class CommentPage extends Fragment {
 
             }
         });
-         rv.addOnScrollListener(toolbarScroll);
+        rv.addOnScrollListener(toolbarScroll);
         if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
         } else {
@@ -202,7 +202,7 @@ public class CommentPage extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        if(comments != null) {
+                        if (comments != null) {
                             comments.loadMore(adapter, subreddit);
                         } else {
                             mSwipeRefreshLayout.setRefreshing(false);
@@ -220,8 +220,10 @@ public class CommentPage extends Fragment {
     public void doAdapter() {
         if (getActivity() instanceof BaseActivityAnim) {
             ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
-            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(subreddit);
+            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } else {
+            toolbar.setTitle(subreddit);
         }
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -233,12 +235,15 @@ public class CommentPage extends Fragment {
         });
         loaded = true;
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null) {
-
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
             adapter = new CommentAdapter(this, comments, rv, ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page), getFragmentManager());
             rv.setAdapter(adapter);
-
+        } else if (getActivity() instanceof MainActivity) {
+            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+            comments.setSorting(Reddit.defaultCommentSorting);
+            adapter = new CommentAdapter(this, comments, rv, ((MainActivity) getActivity()).openingComments, getFragmentManager());
+            rv.setAdapter(adapter);
         } else {
             OfflineSubreddit o = OfflineSubreddit.getSubreddit(baseSubreddit);
             if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
@@ -279,11 +284,11 @@ public class CommentPage extends Fragment {
 
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
+                adapter.reset(getContext(), comments, rv,(getActivity() instanceof MainActivity)?((MainActivity)getActivity()).openingComments:OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
             } catch (Exception ignored) {
             }
         } else {
-            adapter.reset(getContext(), comments, rv, OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
+            adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity)?((MainActivity)getActivity()).openingComments:OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
         }
     }
 
@@ -486,7 +491,7 @@ public class CommentPage extends Fragment {
 
                                     if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                                         if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2,  ((View)toolbar.getParent()).getTranslationY() != 0?0:toolbar.getHeight());
+                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
                                             break;
                                         }
                                 }
@@ -501,7 +506,7 @@ public class CommentPage extends Fragment {
 
                     if (adapter.users.size() > i && adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
                         if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View)toolbar.getParent()).getTranslationY() != 0?0:toolbar.getHeight());
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
                             break;
                         }
                 }
