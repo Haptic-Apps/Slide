@@ -935,10 +935,10 @@ public class MainActivity extends BaseActivity {
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
-                        flipAnimator(true, header.findViewById(R.id.headerflip)).start();
+                        flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
-                        flipAnimator(false, header.findViewById(R.id.headerflip)).start();
+                        flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     }
 
                 }

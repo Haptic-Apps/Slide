@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -84,6 +85,7 @@ public class Website extends BaseActivityAnim {
         url = getIntent().getExtras().getString(EXTRA_URL, "");
         subredditColor = getIntent().getExtras().getInt(EXTRA_COLOR, Palette.getDefaultColor());
 
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupAppBar(R.id.toolbar, "", true, subredditColor, R.id.appbar);
 
         p = (ProgressBar) findViewById(R.id.progress);
@@ -118,11 +120,15 @@ public class Website extends BaseActivityAnim {
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
             if (!title.isEmpty()) {
-                getSupportActionBar().setTitle(title);
-                if (url.contains("/"))
-                    getSupportActionBar().setSubtitle(getDomainName(url));
+                if(getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(title);
+                    if (url.contains("/"))
+                        getSupportActionBar().setSubtitle(getDomainName(url));
+                }
             } else {
-                getSupportActionBar().setTitle(getDomainName(url));
+                if(getSupportActionBar() != null) {
+                    getSupportActionBar().setTitle(getDomainName(url));
+                }
 
             }
         }
