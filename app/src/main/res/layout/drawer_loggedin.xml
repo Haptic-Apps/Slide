@@ -49,6 +49,7 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:id="@+id/headerflip"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="12dp"
@@ -121,14 +122,15 @@
 
         <ImageView
             android:id="@+id/godown"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
+            android:theme="@style/Ripple.List"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="16dp"
             android:gravity="center"
-            android:padding="4dp"
+            android:padding="14dp"
+            android:layout_marginRight="2dp"
             android:src="@drawable/down"
             android:textSize="14sp"
             android:textStyle="bold" />

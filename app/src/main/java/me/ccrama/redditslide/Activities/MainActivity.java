@@ -935,8 +935,10 @@ public class MainActivity extends BaseActivity {
                 public void onClick(View v) {
                     if (profStuff.getVisibility() == View.GONE) {
                         expand(profStuff);
+                        flipAnimator(true, header.findViewById(R.id.headerflip)).start();
                     } else {
                         collapse(profStuff);
+                        flipAnimator(false, header.findViewById(R.id.headerflip)).start();
                     }
 
                 }
@@ -1044,10 +1046,10 @@ public class MainActivity extends BaseActivity {
                     LinearLayout body = (LinearLayout) header.findViewById(R.id.expand_profile);
                     if (body.getVisibility() == View.GONE) {
                         expand(body);
-                        flipAnimator(true, view);
+                        flipAnimator(false, view).start();
                     } else {
                         collapse(body);
-                        flipAnimator(true, view);
+                        flipAnimator(true, view).start();
                     }
                 }
             });
