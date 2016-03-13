@@ -123,10 +123,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     public void setTextHtml(CharSequence text, String subreddit) {
         SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(saveEmotesFromDestruction(text.toString().trim()));
 
-        if(text.toString().contains("<a")) {
+        if (text.toString().contains("<a")) {
             setEmoteSpans(builder); //for emote enabled subreddits
         }
-        if(text.toString().contains("[")) {
+        if (text.toString().contains("[")) {
             setCodeFont(builder);
             setSpoilerStyle(builder);
         }
@@ -138,7 +138,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
             setFocusable(false);
             setClickable(false);
-            if(subreddit.equals("FORCE_LINK_CLICK")) {
+            if (subreddit.equals("FORCE_LINK_CLICK")) {
                 setLongClickable(false);
             }
 
@@ -153,29 +153,29 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         //Emotes often have no spoiler caption, and therefore are converted to empty anchors. Html.fromHtml removes anchors with zero length node text. Find zero length anchors that start with "/" and add "." to them.
         Pattern htmlEmotePattern = Pattern.compile("<a href=\"/.*\"></a>");
         Matcher htmlEmoteMatcher = htmlEmotePattern.matcher(html);
-        while(htmlEmoteMatcher.find()) {
+        while (htmlEmoteMatcher.find()) {
             String newPiece = htmlEmoteMatcher.group();
             //Ignore empty tags marked with sp.
-            if(!htmlEmoteMatcher.group().contains("href=\"/sp\"")) {
-                newPiece = newPiece.replace("></a",">.</a");
-                html = html.replace(htmlEmoteMatcher.group(),newPiece);
+            if (!htmlEmoteMatcher.group().contains("href=\"/sp\"")) {
+                newPiece = newPiece.replace("></a", ">.</a");
+                html = html.replace(htmlEmoteMatcher.group(), newPiece);
             }
         }
         return html;
     }
 
     private void setEmoteSpans(SpannableStringBuilder builder) {
-        for(URLSpan span:builder.getSpans(0,builder.length(),URLSpan.class)) {
-            File emoteDir = new File(Environment.getExternalStorageDirectory(),"RedditEmotes");
-            File emoteFile = new File(emoteDir,span.getURL().replace("/", "").replaceAll("-.*","")+".png"); //BPM uses "-" to add dynamics for emotes in browser. Fall back to original here if exists.
+        for (URLSpan span : builder.getSpans(0, builder.length(), URLSpan.class)) {
+            File emoteDir = new File(Environment.getExternalStorageDirectory(), "RedditEmotes");
+            File emoteFile = new File(emoteDir, span.getURL().replace("/", "").replaceAll("-.*", "") + ".png"); //BPM uses "-" to add dynamics for emotes in browser. Fall back to original here if exists.
             boolean startsWithSlash = span.getURL().startsWith("/");
-            boolean hasOnlyOneSlash = StringUtils.countMatches(span.getURL(),"/") == 1;
+            boolean hasOnlyOneSlash = StringUtils.countMatches(span.getURL(), "/") == 1;
 
-            if(emoteDir.exists() && startsWithSlash && hasOnlyOneSlash && emoteFile.exists()) {
+            if (emoteDir.exists() && startsWithSlash && hasOnlyOneSlash && emoteFile.exists()) {
                 //We've got an emote match
                 int start = builder.getSpanStart(span);
                 int end = builder.getSpanEnd(span);
-                CharSequence textCovers = builder.subSequence(start,end);
+                CharSequence textCovers = builder.subSequence(start, end);
 
                 //Make sure bitmap loaded works well with screen density.
                 BitmapFactory.Options options = new BitmapFactory.Options();
@@ -187,15 +187,15 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
                 //Since emotes are not directly attached to included text, add extra character to attach image to.
                 builder.removeSpan(span);
-                if(builder.subSequence(start,end).charAt(0) != '.') {
+                if (builder.subSequence(start, end).charAt(0) != '.') {
                     builder.insert(start, ".");
                 }
-                Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(),options);
+                Bitmap emoteBitmap = BitmapFactory.decodeFile(emoteFile.getAbsolutePath(), options);
                 builder.setSpan(new ImageSpan(getContext(), emoteBitmap), start, start + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 //Check if url span has length. If it does, it's a spoiler/caption
-                if(textCovers.length()>1) {
+                if (textCovers.length() > 1) {
                     builder.setSpan(new URLSpan("/sp"), start + 1, end + 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                    builder.setSpan(new StyleSpan(Typeface.ITALIC), start + 1, end+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setSpan(new StyleSpan(Typeface.ITALIC), start + 1, end + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
         }
@@ -237,7 +237,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-        if(!PostMatch.openExternal(url)) {
+        if (!PostMatch.openExternal(url)) {
             switch (type) {
                 case IMGUR:
                     Intent intent2 = new Intent(activity, Imgur.class);
@@ -351,27 +351,27 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             b.sheet(R.id.open_link, open, getResources().getString(R.string.submission_link_extern));
             b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
             b.sheet(R.id.copy_link, copy, getResources().getString(R.string.submission_link_copy));
-                    b.listener(new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case R.id.open_link:
-                                    Uri webpage = Uri.parse(url);
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                    getContext().startActivity(Intent.createChooser(intent, "Open externally"));
-                                    break;
-                                case R.id.share_link:
-                                    Reddit.defaultShareText(url, activity);
-                                    break;
-                                case R.id.copy_link:
-                                    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clip = ClipData.newPlainText("Link", url);
-                                    clipboard.setPrimaryClip(clip);
-                                    Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
-                                    break;
-                            }
-                        }
-                    }).show();
+            b.listener(new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case R.id.open_link:
+                            Uri webpage = Uri.parse(url);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                            getContext().startActivity(Intent.createChooser(intent, "Open externally"));
+                            break;
+                        case R.id.share_link:
+                            Reddit.defaultShareText(url, activity);
+                            break;
+                        case R.id.copy_link:
+                            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("Link", url);
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            }).show();
 
         }
     }
@@ -392,15 +392,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
     }
 
-    private void openStreamable(boolean gfy, String url) {
-        if (SettingValues.gif) {
+    private void openStreamable(String url) {
+        if (SettingValues.video) { //todo maybe streamable here?
             Intent myIntent = new Intent(getContext(), GifView.class);
-            if (gfy) {
-                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + url);
-            } else {
-                myIntent.putExtra(GifView.EXTRA_URL, "" + url);
 
-            }
+            myIntent.putExtra(GifView.EXTRA_STREAMABLE, url);
             getContext().startActivity(myIntent);
 
         } else {

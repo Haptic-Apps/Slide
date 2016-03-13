@@ -15,12 +15,16 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.StreamableUtil;
 
 
 /**
  * Created by ccrama on 3/5/2015.
  */
 public class GifView extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
+    public static final String EXTRA_STREAMABLE = "streamable";
+
+
     @Override
     public void onFolderSelection(FolderChooserDialog dialog, File folder) {
         if (folder != null) {
@@ -57,9 +61,22 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
         v.clearFocus();
 
 
-        final String dat = getIntent().getExtras().getString(EXTRA_URL);
 
 
+
+
+        prefs = getSharedPreferences("DATA", 0);
+
+        loader = (ProgressBar) findViewById(R.id.gifprogress);
+        final String dat;
+        if (getIntent().hasExtra(EXTRA_STREAMABLE)) {
+            dat = getIntent().getStringExtra(EXTRA_STREAMABLE);
+            new StreamableUtil.AsyncLoadStreamable(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
+
+        } else {
+            dat = getIntent().getExtras().getString(EXTRA_URL);
+            new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
+        }
         findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,14 +91,6 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
 
             }
         });
-
-        prefs = getSharedPreferences("DATA", 0);
-
-        loader = (ProgressBar) findViewById(R.id.gifprogress);
-
-        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
-
-
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }

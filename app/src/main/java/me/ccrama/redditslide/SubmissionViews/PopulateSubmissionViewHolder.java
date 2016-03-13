@@ -112,6 +112,17 @@ public class PopulateSubmissionViewHolder {
                 if (!PostMatch.openExternal(submission.getUrl())) {
 
                     switch (type) {
+                        case STREAMABLE:
+                            if (SettingValues.video) {
+                                Intent myIntent = new Intent(contextActivity, GifView.class);
+
+                                myIntent.putExtra(GifView.EXTRA_STREAMABLE, submission.getUrl());
+                                contextActivity.startActivity(myIntent);
+
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
+                            break;
                         case NSFW_IMAGE:
                             openImage(contextActivity, submission);
                             break;

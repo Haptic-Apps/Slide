@@ -25,6 +25,7 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -51,6 +52,7 @@ public class ImageFull extends Fragment {
     private ViewGroup rootView;
     private SubsamplingScaleImageView image;
 
+
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
         if(!PostMatch.openExternal(submission.getUrl())) {
 
@@ -64,6 +66,21 @@ public class ImageFull extends Fragment {
                         }
                     });
                     break;
+                case STREAMABLE:
+                    base.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (SettingValues.video) {
+                                Intent myIntent = new Intent(contextActivity, GifView.class);
+
+                                myIntent.putExtra(GifView.EXTRA_STREAMABLE, submission.getUrl());
+                                contextActivity.startActivity(myIntent);
+
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
+                        }
+                    });
                 case EMBEDDED:
                     base.setOnClickListener(new View.OnClickListener() {
 

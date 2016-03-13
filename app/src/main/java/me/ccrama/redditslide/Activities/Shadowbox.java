@@ -252,6 +252,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f.setArguments(args);
                 }
                 break;
+                case STREAMABLE:
                 case GIF: {
                     f = new Gif();
                     Bundle args = new Bundle();

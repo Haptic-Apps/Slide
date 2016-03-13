@@ -299,6 +299,9 @@ public class HeaderImageLinkView extends RelativeLayout {
                 title.setText(R.string.type_nsfw_link);
 
                 break;
+            case STREAMABLE:
+                title.setText("Streamable");
+                break;
             case SELF:
                 title.setVisibility(View.GONE);
                 info.setVisibility(View.GONE);

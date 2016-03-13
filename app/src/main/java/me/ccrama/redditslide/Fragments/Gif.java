@@ -16,6 +16,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.StreamableUtil;
 
 
 /**
@@ -67,8 +68,11 @@ public class Gif extends Fragment {
 
 
         String dat = s.getUrl();
-
-        new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, true).execute(dat);
+        if (dat.contains("streamable.com")) {
+            new StreamableUtil.AsyncLoadStreamable(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, true).execute(dat);
+        } else {
+            new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, true).execute(dat);
+        }
 
         rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {
             @Override

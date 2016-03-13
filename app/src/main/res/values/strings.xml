@@ -603,6 +603,8 @@
     <string name="submission_share_reddit_url">Share comments</string>
     <string name="filter_content">Filter this content</string>
     <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
+    <string name="error_video_not_found">Video not found</string>
+    <string name="error_video_message">An error occured while loading this video</string>
 
     <plurals name="time_minutes_ago">
         <item quantity="one">%d minute ago</item>
