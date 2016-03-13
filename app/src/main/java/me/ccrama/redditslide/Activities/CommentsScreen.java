@@ -277,7 +277,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size() - 2;
+            return subredditPosts.getPosts().size() ;
         }
 
     }
