@@ -139,15 +139,18 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.leadImage.setAlpha(0.65f);
                         holder.thumbimage.setAlpha(0.65f);
 
-                        if(context instanceof MainActivity){
+                        if (context instanceof MainActivity) {
                             MainActivity a = (MainActivity)context;
-                            if(a.singleMode && a.commentPager){
-                                a.openingComments = submission;
-                                a.toOpenComments = a.pager.getCurrentItem() + 1;
-                                a.currentComment = holder.getAdapterPosition() - 1;
-                                ((MainActivity.OverviewPagerAdapterComment)((MainActivity) a).adapter).storedFragment =  ((MainActivity) a).adapter.getCurrentFragment();
-                                a.adapter.notifyDataSetChanged();
-                                a.pager.setCurrentItem(a.pager.getCurrentItem() + 1);
+                            if (a.singleMode && a.commentPager) {
+
+                                if (a.openingComments != submission) {
+                                    a.openingComments = submission;
+                                    a.toOpenComments = a.pager.getCurrentItem() + 1;
+                                    a.currentComment = holder.getAdapterPosition() - 1;
+                                    ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).storedFragment = ((MainActivity) a).adapter.getCurrentFragment();
+                                    a.adapter.notifyDataSetChanged();
+                                }
+                                a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
 
                             } else {
                                 Intent i2 = new Intent(context, CommentsScreen.class);
