@@ -94,6 +94,8 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -1926,7 +1928,7 @@ public class MainActivity extends BaseActivity {
 
     public int currentComment;
     public Submission openingComments;
-    public int toOpenComments;
+    public int toOpenComments = -1;
 
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         private SubmissionsView mCurrentFragment;
@@ -1979,6 +1981,10 @@ public class MainActivity extends BaseActivity {
                                 .setInterpolator(new LinearInterpolator())
                                 .setDuration(180);
                         pager.setSwipeLeftOnly(true);
+                        themeSystemBars(openingComments.getSubredditName().toLowerCase());
+                        setRecentBar(openingComments.getSubredditName().toLowerCase());
+                        HasSeen.addSeen(openingComments.getFullName());
+                        LastComments.setComments(openingComments);
 
                     }
                 }

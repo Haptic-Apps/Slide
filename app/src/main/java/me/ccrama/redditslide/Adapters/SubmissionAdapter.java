@@ -139,11 +139,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.leadImage.setAlpha(0.65f);
                         holder.thumbimage.setAlpha(0.65f);
 
-                        if (context instanceof MainActivity) {
+                        if(context instanceof MainActivity){
                             MainActivity a = (MainActivity)context;
-                            if (a.singleMode && a.commentPager) {
+                            if(a.singleMode && a.commentPager){
 
-                                if (a.openingComments != submission) {
+                                if(a.openingComments != submission) {
                                     a.openingComments = submission;
                                     a.toOpenComments = a.pager.getCurrentItem() + 1;
                                     a.currentComment = holder.getAdapterPosition() - 1;

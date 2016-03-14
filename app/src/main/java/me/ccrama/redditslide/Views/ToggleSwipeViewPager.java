@@ -40,7 +40,7 @@ public class ToggleSwipeViewPager extends ViewPager {
         if(enabled){
             setAllowedSwipeDirection(SwipeDirection.left);
         } else {
-            setAllowedSwipeDirection(SwipeDirection.all);
+            setAllowedSwipeDirection(SwipeDirection.none);
         }
     }
 

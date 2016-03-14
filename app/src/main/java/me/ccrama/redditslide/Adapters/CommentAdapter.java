@@ -1698,12 +1698,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Drawable gild = mContext.getResources().getDrawable(R.drawable.gild);
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
+        Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         gild.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        parent.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                 .title(Html.fromHtml(n.getBody()));
@@ -1719,6 +1721,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
                 .sheet(7, copy, mContext.getString(R.string.submission_copy))
                 .sheet(4, share, mContext.getString(R.string.comment_share))
+                .sheet(10, parent, "Show parent comment")
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -1787,6 +1790,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
                                         , mContext);
                                 break;
+
                         }
                     }
                 });
