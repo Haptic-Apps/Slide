@@ -71,6 +71,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         ((MainActivity) getContext()).openingComments = null;
                         ((MainActivity) getContext()).toOpenComments = -1;
                         ((MainActivity) getContext()).adapter.notifyDataSetChanged();
+                        ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
 
                     }
 

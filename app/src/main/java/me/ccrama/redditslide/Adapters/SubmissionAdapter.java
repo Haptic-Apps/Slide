@@ -25,6 +25,8 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -144,9 +146,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             if(a.singleMode && a.commentPager){
 
                                 if(a.openingComments != submission) {
+                                    clicked = holder2.getAdapterPosition();
                                     a.openingComments = submission;
                                     a.toOpenComments = a.pager.getCurrentItem() + 1;
                                     a.currentComment = holder.getAdapterPosition() - 1;
+                                    HasSeen.addSeen(submission.getFullName());
+                                    LastComments.setComments(submission);
                                     ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).storedFragment = ((MainActivity) a).adapter.getCurrentFragment();
                                     a.adapter.notifyDataSetChanged();
                                 }

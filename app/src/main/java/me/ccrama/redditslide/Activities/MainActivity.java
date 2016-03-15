@@ -1933,6 +1933,44 @@ public class MainActivity extends BaseActivity {
     public Submission openingComments;
     public int toOpenComments = -1;
 
+    public void doPageSelectedComments(int position){
+        pager.setSwipeLeftOnly(false);
+        header.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                header.animate()
+                        .translationY(0)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(180);
+            }
+        }, 250);
+
+
+        Reddit.currentPosition = position;
+        if(position + 1 != currentComment) {
+            doSubSidebar(usedArray.get(position));
+        }
+        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+        if (page != null && page.adapter != null) {
+            SubredditPosts p = page.adapter.dataSet;
+            if (p.offline && p.cached != null) {
+                Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (hea != null)
+            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+        themeSystemBars(usedArray.get(position));
+        setRecentBar(usedArray.get(position));
+
+        if (SettingValues.single)
+            getSupportActionBar().setTitle(usedArray.get(position));
+        else mTabLayout.setSelectedTabIndicatorColor(
+                new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+
+        selectedSub = usedArray.get(position);
+    }
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         private SubmissionsView mCurrentFragment;
 
@@ -1948,37 +1986,10 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onPageSelected(final int position) {
                     if (position != toOpenComments) {
-                        pager.setSwipeLeftOnly(false);
-                        header.animate()
-                                .translationY(0)
-                                .setInterpolator(new LinearInterpolator())
-                                .setDuration(180);
-
-                        Reddit.currentPosition = position;
-                        if(position + 1 != currentComment) {
-                            doSubSidebar(usedArray.get(position));
+                        doPageSelectedComments(position);
+                        if (position == toOpenComments - 1 && adapter != null && adapter.getCurrentFragment() != null) {
+                            ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
                         }
-                        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
-                        if (page != null && page.adapter != null) {
-                            SubredditPosts p = page.adapter.dataSet;
-                            if (p.offline && p.cached != null) {
-                                Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        if (hea != null)
-                            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        themeSystemBars(usedArray.get(position));
-                        setRecentBar(usedArray.get(position));
-
-                        if (SettingValues.single)
-                            getSupportActionBar().setTitle(usedArray.get(position));
-                        else mTabLayout.setSelectedTabIndicatorColor(
-                                new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
-
-                        selectedSub = usedArray.get(position);
-
                     } else {
                         if(mAsyncGetSubreddit != null){
                             mAsyncGetSubreddit.cancel(true);
@@ -1990,8 +2001,7 @@ public class MainActivity extends BaseActivity {
                         pager.setSwipeLeftOnly(true);
                         themeSystemBars(openingComments.getSubredditName().toLowerCase());
                         setRecentBar(openingComments.getSubredditName().toLowerCase());
-                        HasSeen.addSeen(openingComments.getFullName());
-                        LastComments.setComments(openingComments);
+
 
                     }
                 }

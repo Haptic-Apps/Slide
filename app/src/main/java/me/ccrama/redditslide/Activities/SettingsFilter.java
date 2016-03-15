@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -202,6 +203,12 @@ public class SettingsFilter extends BaseActivityAnim {
         e.putString(SettingValues.PREF_TEXT_FILTERS, Reddit.arrayToString(textlist));
         e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, Reddit.arrayToString(subs));
         e.apply();
+
+        PostMatch.subreddits = null;
+        PostMatch.domains = null;
+        PostMatch.titles = null;
+        PostMatch.externalDomain = null;
+        PostMatch.texts = null;
 
         SettingValues.titleFilters = SettingValues.prefs.getString(SettingValues.PREF_TITLE_FILTERS, "");
         SettingValues.textFilters = SettingValues.prefs.getString(SettingValues.PREF_TEXT_FILTERS, "");
