@@ -199,6 +199,20 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
+        //Smaller tags//
+
+        final SwitchCompat smallTag = (SwitchCompat) findViewById(R.id.tagsetting);
+
+        smallTag.setChecked(SettingValues.smallTag);
+        smallTag.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                layout.addView(CreateCardView.setSmallTag(isChecked, layout));
+            }
+        });
+
+
         //Actionbar//
         //Enable, collapse//
         final SwitchCompat switchThumb = (SwitchCompat) findViewById(R.id.action);

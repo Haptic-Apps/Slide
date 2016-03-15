@@ -1952,8 +1952,9 @@ public class MainActivity extends BaseActivity {
                                 .setDuration(180);
 
                         Reddit.currentPosition = position;
-                        doSubSidebar(usedArray.get(position));
-
+                        if(position + 1 != currentComment) {
+                            doSubSidebar(usedArray.get(position));
+                        }
                         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
                             SubredditPosts p = page.adapter.dataSet;

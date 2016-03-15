@@ -25,6 +25,7 @@ public class SettingValues {
     public static final String PREF_SWAP = "Swap";
     public static final String PREFS_WEB = "web";
     public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
+    public static final String PREF_SMALL_TAG = "smallTag";
     public static final String PREF_ACTIONBAR_TAP = "actionbarTap";
     public static final String PREF_CUSTOMTABS = "customtabs";
     public static final String PREF_SCROLL_SEEN = "scrollSeen";
@@ -99,6 +100,7 @@ public class SettingValues {
     public static boolean postNav;
     public static boolean exit;
     public static boolean cropImage;
+    public static boolean smallTag;
     public static boolean collapseComments;
 
     public static String synccitName;
@@ -157,7 +159,7 @@ public class SettingValues {
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         lowRes = prefs.getBoolean(PREF_LOW_RES, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
-
+        smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
 
         swap = prefs.getBoolean(PREF_SWAP, false);
         web = prefs.getBoolean(PREFS_WEB, true);

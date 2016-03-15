@@ -140,7 +140,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         holder.thumbimage.setAlpha(0.65f);
 
                         if(context instanceof MainActivity){
-                            MainActivity a = (MainActivity)context;
+                            final MainActivity a = (MainActivity)context;
                             if(a.singleMode && a.commentPager){
 
                                 if(a.openingComments != submission) {
@@ -150,7 +150,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).storedFragment = ((MainActivity) a).adapter.getCurrentFragment();
                                     a.adapter.notifyDataSetChanged();
                                 }
-                                a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
+                                a.pager.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
+                                    }
+                                }, 250);
 
                             } else {
                                 Intent i2 = new Intent(context, CommentsScreen.class);
