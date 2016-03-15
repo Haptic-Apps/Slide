@@ -571,8 +571,9 @@ public class MainActivity extends BaseActivity {
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 
-            } else {
-                getSupportActionBar().setTitle(usedArray.get(0));
+            } else{
+                if(toGoto == -1) toGoto = 0;
+                getSupportActionBar().setTitle(usedArray.get(toGoto));
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 

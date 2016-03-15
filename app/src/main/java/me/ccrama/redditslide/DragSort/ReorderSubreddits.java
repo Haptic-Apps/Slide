@@ -65,8 +65,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     @Override
-    public void onBackPressed(){
-        if(isMultiple){
+    public void onBackPressed() {
+        if (isMultiple) {
             chosen = new ArrayList<>();
             doOldToolbar();
             adapter.notifyDataSetChanged();
@@ -278,7 +278,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy <= 0 && fab.getId() != 0 ) {
+                if (dy <= 0 && fab.getId() != 0) {
                     fab.show();
                 } else {
                     fab.hide();
@@ -328,7 +328,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")) {
+            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")|| input.equalsIgnoreCase("all")) {
                 subs.add(input);
                 adapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(subs.size());
@@ -337,44 +337,49 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         @Override
         protected Subreddit doInBackground(final String... params) {
-            try {
-                if (subs.contains(params[0])) return null;
-                return Authentication.reddit.getSubreddit(params[0]);
-            } catch (Exception e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                                    .setTitle(R.string.subreddit_err)
-                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+            String sub = params[0];
+            if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod")) {
+                try {
+                    if (subs.contains(params[0])) return null;
+                    return Authentication.reddit.getSubreddit(params[0]);
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                        .setTitle(R.string.subreddit_err)
+                                        .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
 
-                                        }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
+                                            }
+                                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
 
-                                }
-                            }).show();
-                        } catch (Exception e) {
+                                    }
+                                }).show();
+                            } catch (Exception e) {
 
+                            }
                         }
-                    }
-                });
-
-                return null;
+                    });
+                }
             }
+            return null;
+
         }
 
     }
+
     public void doOldToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setVisibility(View.VISIBLE);
     }
+
     public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
 
@@ -437,7 +442,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
 
-
         public void updateToolbar() {
             mToolbar.setTitle(chosen.size() + " selected");
         }
@@ -448,7 +452,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             final String origPos = items.get(position);
             holder.text.setText(origPos);
 
-            if(chosen.contains(origPos)){
+            if (chosen.contains(origPos)) {
                 holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);

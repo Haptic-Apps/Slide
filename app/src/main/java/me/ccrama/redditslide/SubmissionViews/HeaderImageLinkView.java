@@ -35,6 +35,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -282,6 +283,10 @@ public class HeaderImageLinkView extends RelativeLayout {
             info.setVisibility(View.VISIBLE);
         }
 
+        if (SettingValues.smallTag && !full) {
+            ((TransparentTagTextView)title).init(getContext());
+        }
+
         switch (type) {
             case NSFW_IMAGE:
                 title.setText(R.string.type_nsfw_img);
@@ -309,11 +314,11 @@ public class HeaderImageLinkView extends RelativeLayout {
                 title.setText("STREAMABLE");
                 break;
             case SELF:
-                if (!SettingValues.smallTag && !full) {
+                if (!SettingValues.smallTag || full) {
                     title.setVisibility(View.GONE);
-
                 } else {
-                    title.setText("SELF");
+                    title.setVisibility(View.VISIBLE);
+                    title.setText("SELFTEXT");
                 }
                 if (info != null)
                     info.setVisibility(View.GONE);
@@ -367,10 +372,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         }
 
-
         try {
             if (info != null)
-
                 info.setText(getDomainName(submission.getUrl()));
         } catch (URISyntaxException e1) {
             e1.printStackTrace();

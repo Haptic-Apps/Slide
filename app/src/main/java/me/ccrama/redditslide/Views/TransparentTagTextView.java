@@ -17,8 +17,7 @@ import me.ccrama.redditslide.R;
 /**
  * Created by carlos on 3/14/16.
  */
-public class TransparentTagTextView extends TextView
-{
+public class TransparentTagTextView extends TextView {
     Bitmap mMaskBitmap;
     Canvas mMaskCanvas;
     Paint mPaint;
@@ -28,75 +27,84 @@ public class TransparentTagTextView extends TextView
     Canvas mBackgroundCanvas;
     boolean mSetBoundsOnSizeAvailable = false;
 
-    public TransparentTagTextView(Context context)
-    {
+    public TransparentTagTextView(Context context) {
         super(context);
 
         init(context);
     }
+
     public TransparentTagTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public void init(Context context){
+    public void init(Context context) {
+        mSetBoundsOnSizeAvailable = true;
         mPaint = new Paint();
         mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         super.setTextColor(Color.BLACK);
         super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setBackgroundDrawable(context.getResources().getDrawable(R.drawable.flairback));
     }
+
+
+    Drawable backdrop;
+    public void resetBackground(Context context) {
+        mPaint = new Paint();
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+        super.setTextColor(Color.BLACK);
+        super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        backdrop = context.getResources().getDrawable(R.drawable.flairback);
+        setBackgroundDrawable(backdrop);
+    }
+
     @Override
-    @Deprecated
-    public void setBackgroundDrawable(Drawable bg)
-    {
-        mBackground = bg;
-        int w = bg.getIntrinsicWidth();
-        int h = bg.getIntrinsicHeight();
+    public void setBackgroundDrawable(Drawable bg) {
+        if(bg != null) {
+            mBackground = bg;
+            int w = bg.getIntrinsicWidth();
+            int h = bg.getIntrinsicHeight();
 
-        // Drawable has no dimensions, retrieve View's dimensions
-        if (w == -1 || h == -1)
-        {
-            w = getWidth();
-            h = getHeight();
+            // Drawable has no dimensions, retrieve View's dimensions
+            if (w == -1 || h == -1) {
+                w = getWidth();
+                h = getHeight();
+            }
+
+            // Layout has not run
+            if (w == 0 || h == 0) {
+                mSetBoundsOnSizeAvailable = true;
+                return;
+            }
+
+            mBackground.setBounds(0, 0, w, h);
         }
-
-        // Layout has not run
-        if (w == 0 || h == 0)
-        {
-            mSetBoundsOnSizeAvailable = true;
-            return;
-        }
-
-        mBackground.setBounds(0, 0, w, h);
         invalidate();
     }
 
     @Override
-    public void setBackgroundColor(int color)
-    {
+    public void setBackgroundColor(int color) {
         setBackgroundDrawable(new ColorDrawable(color));
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
-    {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mBackgroundBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mBackgroundCanvas = new Canvas(mBackgroundBitmap);
         mMaskBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mMaskCanvas = new Canvas(mMaskBitmap);
 
-        if (mSetBoundsOnSizeAvailable)
-        {
+        if (mSetBoundsOnSizeAvailable) {
             mBackground.setBounds(0, 0, w, h);
             mSetBoundsOnSizeAvailable = false;
         }
     }
 
     @Override
-    protected void onDraw(Canvas canvas)
-    {
+    protected void onDraw(Canvas canvas) {
+        setBackgroundDrawable(backdrop);
+
         // Draw background
         mBackground.draw(mBackgroundCanvas);
 
