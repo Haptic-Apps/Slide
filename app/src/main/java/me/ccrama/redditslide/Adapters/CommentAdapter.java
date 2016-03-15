@@ -264,6 +264,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 hideAll(o.comment);
             }
         }
+        notifyItemChanged(2);
     }
 
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
