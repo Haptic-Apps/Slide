@@ -1375,7 +1375,9 @@ public class MainActivity extends BaseActivity {
 
     public void restartTheme() {
         Intent intent = this.getIntent();
-        intent.putExtra(EXTRA_PAGE_TO, pager.getCurrentItem());
+        int page = pager.getCurrentItem();
+        if(currentComment == page) page -=1;
+        intent.putExtra(EXTRA_PAGE_TO, page);
         finish();
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in_real, R.anim.fading_out_real);
@@ -1977,6 +1979,9 @@ public class MainActivity extends BaseActivity {
                         selectedSub = usedArray.get(position);
 
                     } else {
+                        if(mAsyncGetSubreddit != null){
+                            mAsyncGetSubreddit.cancel(true);
+                        }
                         header.animate()
                                 .translationY(-header.getHeight())
                                 .setInterpolator(new LinearInterpolator())

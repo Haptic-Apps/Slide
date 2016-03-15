@@ -273,7 +273,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
 
 
-        if(SettingValues.smallTag && !full){
+        if (SettingValues.smallTag && !full) {
             title = (TextView) findViewById(R.id.tag);
             info = null;
         } else {
@@ -309,9 +309,14 @@ public class HeaderImageLinkView extends RelativeLayout {
                 title.setText("STREAMABLE");
                 break;
             case SELF:
-                title.setVisibility(View.GONE);
-                if(info != null)
-                info.setVisibility(View.GONE);
+                if (!SettingValues.smallTag && !full) {
+                    title.setVisibility(View.GONE);
+
+                } else {
+                    title.setText("SELF");
+                }
+                if (info != null)
+                    info.setVisibility(View.GONE);
 
                 break;
 
@@ -325,7 +330,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 } else {
                     title.setVisibility(View.GONE);
-                    if(info != null)
+                    if (info != null)
 
                         info.setVisibility(View.GONE);
                 }
@@ -364,7 +369,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
 
         try {
-            if(info != null)
+            if (info != null)
 
                 info.setText(getDomainName(submission.getUrl()));
         } catch (URISyntaxException e1) {
