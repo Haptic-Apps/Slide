@@ -2014,8 +2014,6 @@ public class MainActivity extends BaseActivity {
                         themeSystemBars(openingComments.getSubredditName().toLowerCase());
                         setRecentBar(openingComments.getSubredditName().toLowerCase());
 
-
-
                     }
                 }
 
