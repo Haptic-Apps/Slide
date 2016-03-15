@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -122,18 +123,7 @@ public class CommentPage extends Fragment {
         rv.setLayoutManager(mLayoutManager);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
-        v.findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (comments.comments != null) {
-                    DataShare.sharedComments = comments.comments;
-                    DataShare.subAuthor = comments.submission.getAuthor();
-                    Intent i = new Intent(getActivity(), CommentSearch.class);
-                    startActivityForResult(i, 1);
-                }
 
-            }
-        });
         rv.addOnScrollListener(toolbarScroll);
         if (!SettingValues.fastscroll) {
             v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
@@ -166,14 +156,6 @@ public class CommentPage extends Fragment {
 
         toolbar.setBackgroundColor(Palette.getColor(subreddit));
 
-        v.findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                {
-                    openPopup(v);
-                }
-            }
-        });
 
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -225,6 +207,42 @@ public class CommentPage extends Fragment {
         } else {
             toolbar.setTitle(subreddit);
         }
+        toolbar.inflateMenu(R.menu.menu_comment_items);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.search:{
+                        if (comments.comments != null) {
+                            DataShare.sharedComments = comments.comments;
+                            DataShare.subAuthor = comments.submission.getAuthor();
+                            Intent i = new Intent(getActivity(), CommentSearch.class);
+                            startActivityForResult(i, 1);
+                        }
+                    }
+                    return true;
+                    case R.id.sort:{
+                        openPopup(toolbar);
+                    }
+                    return true;
+                    case R.id.reload:
+                        if (comments != null) {
+                            mSwipeRefreshLayout.setRefreshing(true);
+                            comments.loadMore(adapter, subreddit);
+                        }
+                        return true;
+                    case R.id.collapse:
+                    {
+                        if(adapter != null){
+                            adapter.collapseAll();
+                        }
+                    }
+                    return true;
+
+                }
+                return false;
+            }
+        });
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

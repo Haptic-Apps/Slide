@@ -20,44 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
-            android:minHeight="56dp">
-
-
-            <ImageView
-                android:id="@+id/sorting"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-
-
-                style="@style/Ripple.List"
-                android:paddingBottom="12dp"
-
-                android:paddingTop="12dp"
-
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/sort" />
-
-
-            <ImageView
-                android:id="@+id/search"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-                style="@style/Ripple.List"
-
-                android:paddingBottom="12dp"
-
-                android:paddingTop="12dp"
-
-
-                android:scaleType="fitCenter"
-
-                app:srcCompat="@drawable/search"
-                android:tint="@color/white" />
-
-
-        </android.support.v7.widget.Toolbar>
+            android:minHeight="56dp"/>
 
         <TextView
             android:id="@+id/np"

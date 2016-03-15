@@ -257,6 +257,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
+    public void collapseAll() {
+        for(CommentObject o : users){
+            if(o.comment.isTopLevel()){
+                hiddenPersons.add(o.comment.getComment().getFullName());
+                hideAll(o.comment);
+            }
+        }
+    }
+
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
@@ -1442,7 +1451,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             notifyItemRangeInserted(i, counter);
         }
     }
+    public void hideAll(CommentNode n) {
 
+        int counter = hideNumber(n, 0);
+        if (SettingValues.collapseComments) {
+            listView.setItemAnimator(null);
+            notifyDataSetChanged();
+        } else {
+            listView.setItemAnimator(new FadeInDownAnimator());
+            notifyDataSetChanged();
+        }
+
+    }
     public void hideAll(CommentNode n, int i) {
 
         int counter = hideNumber(n, 0);
