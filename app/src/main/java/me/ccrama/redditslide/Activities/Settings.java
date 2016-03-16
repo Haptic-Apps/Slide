@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -34,15 +37,17 @@ public class Settings extends BaseActivity {
         if (requestCode == RESTART_SETTINGS_RESULT) {
             Intent i = new Intent(Settings.this, Settings.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            i.putExtra("position", scrollY);
             startActivity(i);
             overridePendingTransition(0, 0);
-
             finish();
             overridePendingTransition(0, 0);
 
 
         }
     }
+
+    int scrollY;
 
 
     @Override
@@ -55,6 +60,26 @@ public class Settings extends BaseActivity {
         SettingValues.expandedSettings = true;
         setSettingItems();
 
+        final ScrollView mScrollView = ((ScrollView)findViewById(R.id.base));
+
+
+        mScrollView.post(new Runnable() {
+
+            @Override
+            public void run() {
+                ViewTreeObserver observer = mScrollView.getViewTreeObserver();
+                if(getIntent().hasExtra("position")){
+                    mScrollView.scrollTo(0, getIntent().getIntExtra("position", 0));
+                }
+                observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+                    @Override
+                    public void onScrollChanged() {
+                        scrollY = mScrollView.getScrollY();
+                    }
+                });
+            }
+        });
     }
 
     private void setSettingItems() {

@@ -100,7 +100,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             if (full) {
                 if (height < dpToPx(50) && type != ContentType.ImageType.SELF) {
                     forceThumb = true;
-                } else if (SettingValues.cropImage) {
+                } else if (SettingValues.bigPicCropped) {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 } else {
                     double h = getHeightFromAspectRatio(height, width);

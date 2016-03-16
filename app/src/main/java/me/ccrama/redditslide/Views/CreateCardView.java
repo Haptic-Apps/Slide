@@ -400,16 +400,16 @@ public class CreateCardView {
     }
 
     private static void doHideObjects(final View v) {
-
+        if(SettingValues.smallTag){
+            v.findViewById(R.id.base).setVisibility(View.GONE);
+            v.findViewById(R.id.tag).setVisibility(View.VISIBLE);
+        } else {
+            v.findViewById(R.id.tag).setVisibility(View.GONE);
+        }
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
             ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-            if(SettingValues.smallTag){
-                v.findViewById(R.id.base).setVisibility(View.GONE);
-                v.findViewById(R.id.tag).setVisibility(View.VISIBLE);
-            } else {
-                v.findViewById(R.id.tag).setVisibility(View.GONE);
-            }
+
         }
         if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {

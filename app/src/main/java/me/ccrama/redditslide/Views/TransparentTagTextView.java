@@ -103,7 +103,7 @@ public class TransparentTagTextView extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        setBackgroundDrawable(backdrop);
+        super.setBackgroundDrawable(backdrop);
 
         // Draw background
         mBackground.draw(mBackgroundCanvas);

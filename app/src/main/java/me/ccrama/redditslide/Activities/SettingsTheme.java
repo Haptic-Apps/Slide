@@ -26,7 +26,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsTheme extends BaseActivityAnim {
+public class SettingsTheme extends BaseActivity {
 
 
     public void onCreate(Bundle savedInstanceState) {
