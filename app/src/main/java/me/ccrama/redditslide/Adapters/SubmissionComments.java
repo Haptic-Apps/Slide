@@ -133,6 +133,10 @@ public class SubmissionComments {
         return response.getJson();
     }
 
+    public void reloadSubmission(CommentAdapter commentAdapter) {
+        commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3, submission.getFullName().length()));
+    }
+
     public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;
 

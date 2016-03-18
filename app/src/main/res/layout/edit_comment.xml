@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/card_background"
     android:orientation="vertical">
 
@@ -34,11 +35,139 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
 
-                    android:inputType="textMultiLine|textAutoCorrect"
+                    android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                     android:textColor="?attr/font"
 
                     android:textSize="16sp" />
 
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/innersend2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-6dp"
+                android:layout_marginRight="-6dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:alpha=".56"
+
+                android:gravity="center"
+                android:orientation="horizontal"
+
+                android:weightSum="8">
+
+                <ImageButton
+                    android:id="@+id/imagerep"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:height="48dp"
+                    android:background="#00000000"
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/image"
+                    />
+
+
+                <ImageButton
+                    android:id="@+id/link"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+
+                    android:height="48dp"
+                    android:background="#00000000"
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/link"
+                    />
+
+                <ImageButton
+                    android:id="@+id/bold"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:height="48dp"
+                    android:background="#00000000"
+
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_format_bold_white_48dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/italics"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+
+                    android:height="48dp"
+                    android:background="#00000000"
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_format_italic_white_48dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/bulletlist"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:height="48dp"
+                    android:background="#00000000"
+                    android:cropToPadding="false"
+
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/numlist"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:height="48dp"
+                    android:background="#00000000"
+
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/quote"
+                    android:layout_width="0dp"
+
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:height="48dp"
+                    android:background="#00000000"
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ic_format_quote_white_48dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/size"
+                    android:layout_width="0dp"
+
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:height="48dp"
+                    android:background="#00000000"
+                    android:cropToPadding="false"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/fontsizedarker"
+                    />
             </LinearLayout>
 
             <LinearLayout

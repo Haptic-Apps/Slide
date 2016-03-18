@@ -569,9 +569,85 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
                     firstHolder.itemView.findViewById(R.id.menu).callOnClick();
-
                 }
             });
+
+            View edit = firstHolder.itemView.findViewById(R.id.edit);
+            if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && submission.getSelftext() != null) {
+                edit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+
+                        final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+                        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+
+                        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+                        e.setText(StringEscapeUtils.unescapeHtml4(submission.getSelftext()));
+
+                        DoEditorActions.doActions(e, dialoglayout, fm);
+
+                        builder.setView(dialoglayout);
+                        final Dialog d = builder.create();
+                        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+                        d.show();
+                        dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                d.dismiss();
+                            }
+                        });
+                        dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
+                                            new AccountManager(Authentication.reddit).updateContribution(submission, e.getText().toString());
+                                            dataSet.reloadSubmission(CommentAdapter.this);
+                                            d.dismiss();
+                                        } catch (Exception e) {
+                                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new AlertDialogWrapper.Builder(mContext)
+                                                            .setTitle(R.string.comment_delete_err)
+                                                            .setMessage(R.string.comment_delete_err_msg)
+                                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    dialog.dismiss();
+                                                                    doInBackground();
+                                                                }
+                                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    }).show();
+                                                }
+                                            });
+                                        }
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+                                        notifyItemChanged(1);
+                                    }
+                                }.execute();
+                            }
+                        });
+
+
+                    }
+                });
+            } else {
+                edit.setVisibility(View.GONE);
+            }
+
         } else if (firstHolder instanceof MoreCommentViewHolder) {
             final MoreCommentViewHolder holder = (MoreCommentViewHolder) firstHolder;
             int nextPos = pos - 1;
@@ -943,6 +1019,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
                             e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
+                            DoEditorActions.doActions(e, dialoglayout, fm);
 
                             builder.setView(dialoglayout);
                             final Dialog d = builder.create();
