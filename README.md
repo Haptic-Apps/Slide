@@ -1,6 +1,7 @@
 # Slide [![Build Status](https://travis-ci.org/ccrama/Slide.svg?branch=master)](https://travis-ci.org/ccrama/Slide) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/slide-for-reddit/localized.svg)](https://crowdin.com/project/slide-for-reddit) [![Snoonet](https://img.shields.io/badge/IRC-%23slide-CF49FF.svg)](https://kiwiirc.com/client/irc.snoonet.org/#slide)
 
 <img src="app/src/main/res/drawable/ic_launcher.png" align="left"
+style="max-width: 25%"
     hspace="10" vspace="10">
 
 Slide is an open source, ad free Reddit browser for Android. It is based around
