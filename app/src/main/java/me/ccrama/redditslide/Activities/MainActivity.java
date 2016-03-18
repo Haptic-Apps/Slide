@@ -1584,10 +1584,10 @@ public class MainActivity extends BaseActivity {
                 if (SettingValues.tabletUI) {
                     List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
-                        Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
-                        startActivity(i);
+                        Intent i2 = new Intent(this, Shadowbox.class);
+                        i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        startActivity(i2);
                     }
                 } else {
                     new AlertDialogWrapper.Builder(this)
