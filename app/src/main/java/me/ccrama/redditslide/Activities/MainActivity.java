@@ -1599,15 +1599,6 @@ public class MainActivity extends BaseActivity {
                 startActivity(i);
             }
             return true;
-          /*  case R.id.action_info:
-                if (usedArray != null) {
-                    String sub = usedArray.get(pager.getCurrentItem());
-                    if (!sub.equals("frontpage") && !sub.equals("all")) {
-                        ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer
-                                (GravityCompat.END);
-                    }
-                }
-                return true;*/
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
                     List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
