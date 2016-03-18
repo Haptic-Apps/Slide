@@ -320,6 +320,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             scoreColor = (holder.textColorRegular);
         }
 
+        if(score == null || score.toString().isEmpty()) score = new SpannableStringBuilder("0");
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         titleString.append(score);

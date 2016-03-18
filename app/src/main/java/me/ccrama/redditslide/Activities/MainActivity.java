@@ -520,8 +520,14 @@ public class MainActivity extends BaseActivity {
 
     public void reloadSubs() {
         int current = pager.getCurrentItem();
-        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(adapter);
+        if (adapter instanceof OverviewPagerAdapterComment) {
+            adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+        } else {
+            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+        }
+
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
         if (mTabLayout != null)
@@ -571,8 +577,8 @@ public class MainActivity extends BaseActivity {
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
 
-            } else{
-                if(toGoto == -1) toGoto = 0;
+            } else {
+                if (toGoto == -1) toGoto = 0;
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
@@ -1377,7 +1383,7 @@ public class MainActivity extends BaseActivity {
     public void restartTheme() {
         Intent intent = this.getIntent();
         int page = pager.getCurrentItem();
-        if(currentComment == page) page -=1;
+        if (currentComment == page) page -= 1;
         intent.putExtra(EXTRA_PAGE_TO, page);
         finish();
         startActivity(intent);
@@ -1388,7 +1394,7 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawers();
-        } else if(commentPager && pager.getCurrentItem() == toOpenComments){
+        } else if (commentPager && pager.getCurrentItem() == toOpenComments) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
         } else if (SettingValues.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
@@ -1588,6 +1594,11 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.save:
                 saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                return true;
+            case R.id.submit:
+                Intent i = new Intent(this, Submit.class);
+                i.putExtra(Submit.EXTRA_SUBREDDIT, subToDo);
+                startActivity(i);
                 return true;
           /*  case R.id.action_info:
                 if (usedArray != null) {
@@ -1933,7 +1944,7 @@ public class MainActivity extends BaseActivity {
     public Submission openingComments;
     public int toOpenComments = -1;
 
-    public void doPageSelectedComments(int position){
+    public void doPageSelectedComments(int position) {
         pager.setSwipeLeftOnly(false);
         header.postDelayed(new Runnable() {
             @Override
@@ -1947,7 +1958,7 @@ public class MainActivity extends BaseActivity {
 
 
         Reddit.currentPosition = position;
-        if(position + 1 != currentComment) {
+        if (position + 1 != currentComment) {
             doSubSidebar(usedArray.get(position));
         }
         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
@@ -1971,6 +1982,7 @@ public class MainActivity extends BaseActivity {
 
         selectedSub = usedArray.get(position);
     }
+
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         private SubmissionsView mCurrentFragment;
 
@@ -1991,7 +2003,7 @@ public class MainActivity extends BaseActivity {
                             ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
                         }
                     } else {
-                        if(mAsyncGetSubreddit != null){
+                        if (mAsyncGetSubreddit != null) {
                             mAsyncGetSubreddit.cancel(true);
                         }
                         header.animate()
@@ -2042,17 +2054,20 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
-       public Fragment storedFragment;
+
+        public Fragment storedFragment;
+
         @Override
         public int getItemPosition(Object object) {
-            if(object != storedFragment)
-            return POSITION_NONE;
+            if (object != storedFragment)
+                return POSITION_NONE;
             return POSITION_UNCHANGED;
         }
+
         @Override
         public Fragment getItem(int i) {
 
-            if (openingComments == null || i  != toOpenComments) {
+            if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
                 args.putString("id", usedArray.get(i));

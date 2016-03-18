@@ -89,7 +89,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (type.startsWith("image/")) {
+                                if (type != null && !type.isEmpty() && type.startsWith("image/")) {
                                     //is image
                                     if(type.contains("gif")){
                                         Intent i = new Intent(FullscreenImage.this, GifView.class);
