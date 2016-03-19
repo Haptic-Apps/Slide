@@ -55,6 +55,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.MediaView"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.AlbumPager"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />

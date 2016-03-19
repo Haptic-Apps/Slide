@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.models.CommentNode;
@@ -199,7 +198,7 @@ public class SubmissionComments {
 
 
                 return comments;
-            } catch (NetworkException e) {
+            } catch (Exception e) {
                 //Todo reauthenticate
             }
             return null;

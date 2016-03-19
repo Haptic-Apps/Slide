@@ -18,6 +18,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -178,8 +179,8 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }
                     } else {
                         if (SettingValues.image) {
-                            Intent myIntent = new Intent(main, FullscreenImage.class);
-                            myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
+                            Intent myIntent = new Intent(main, MediaView.class);
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
                             main.startActivity(myIntent);
                         } else {
                             Reddit.defaultShare(url, main);

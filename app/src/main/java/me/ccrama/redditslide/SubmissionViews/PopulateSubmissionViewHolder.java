@@ -54,11 +54,10 @@ import java.util.Map;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
-import me.ccrama.redditslide.Activities.Imgur;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -125,8 +124,12 @@ public class PopulateSubmissionViewHolder {
                             openImage(contextActivity, submission);
                             break;
                         case IMGUR:
-                            Intent i2 = new Intent(contextActivity, Imgur.class);
-                            i2.putExtra(Imgur.EXTRA_URL, submission.getUrl());
+                            Intent i2 = new Intent(contextActivity, MediaView.class);
+                            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                                i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                            }
+                            i2.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                             contextActivity.startActivity(i2);
                             break;
                         case EMBEDDED:
@@ -225,15 +228,17 @@ public class PopulateSubmissionViewHolder {
     public static void openImage(Activity contextActivity, Submission submission) {
         if (SettingValues.image) {
             DataShare.sharedSubmission = submission;
-            Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
+            Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
+            String previewUrl;
             if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            } else {
-                url = submission.getUrl();
+                previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
-            myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
-            myIntent.putExtra(FullscreenImage.EXTRA_SHARE_URL, submission.getUrl());
+            url = submission.getUrl();
+
+            myIntent.putExtra(MediaView.EXTRA_URL, url);
+            myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
             contextActivity.startActivity(myIntent);
         } else {
@@ -246,18 +251,19 @@ public class PopulateSubmissionViewHolder {
         if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
-            Intent myIntent = new Intent(contextActivity, GifView.class);
+            Intent myIntent = new Intent(contextActivity, MediaView.class);
             if (gfy) {
-                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission.getUrl());
+                myIntent.putExtra(MediaView.EXTRA_URL, "gfy" + submission.getUrl());
             } else {
-                myIntent.putExtra(GifView.EXTRA_URL, "" + submission.getUrl());
-
+                myIntent.putExtra(MediaView.EXTRA_URL, "" + submission.getUrl());
+            }
+            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
             contextActivity.startActivity(myIntent);
-            contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
-
         }
 
     }
@@ -357,7 +363,7 @@ public class PopulateSubmissionViewHolder {
                                                     SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
-                                                } else  if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
                                                     SettingValues.subredditFilters = SettingValues.subredditFilters.replace(submission.getSubredditName(), "");
                                                     filtered = false;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
@@ -543,7 +549,7 @@ public class PopulateSubmissionViewHolder {
         holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
         String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
-        holder.info.setText("/r/" + submission.getSubredditName()  + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + distingush + "/u/" + submission.getAuthor() + separator + submission.getDomain());
+        holder.info.setText("/r/" + submission.getSubredditName() + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + distingush + "/u/" + submission.getAuthor() + separator + submission.getDomain());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);

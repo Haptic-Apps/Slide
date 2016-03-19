@@ -94,8 +94,6 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -567,6 +565,7 @@ public class MainActivity extends BaseActivity {
             themeSystemBars(usedArray.get(0));
             setRecentBar(usedArray.get(0));
             doSubSidebar(usedArray.get(0));
+            if (toGoto == -1) toGoto = 0;
 
             findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (hea != null)
@@ -578,7 +577,6 @@ public class MainActivity extends BaseActivity {
                 pager.setCurrentItem(toGoto);
 
             } else {
-                if (toGoto == -1) toGoto = 0;
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
