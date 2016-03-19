@@ -153,6 +153,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     HasSeen.addSeen(submission.getFullName());
                                     LastComments.setComments(submission);
                                     ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).storedFragment = ((MainActivity) a).adapter.getCurrentFragment();
+                                    ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).size = a.toOpenComments + 1;
                                     a.adapter.notifyDataSetChanged();
                                 }
                                 a.pager.postDelayed(new Runnable() {

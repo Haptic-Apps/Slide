@@ -1983,6 +1983,7 @@ public class MainActivity extends BaseActivity {
 
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         private SubmissionsView mCurrentFragment;
+        public int size = usedArray.size();
 
         public OverviewPagerAdapterComment(FragmentManager fm) {
             super(fm);
@@ -2094,7 +2095,7 @@ public class MainActivity extends BaseActivity {
             if (usedArray == null) {
                 return 1;
             } else {
-                return usedArray.size() + 1;
+                return size;
             }
         }
 
