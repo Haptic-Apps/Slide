@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * A simple ViewPager subclass that allows swiping between pages to be enabled or disabled at
  * runtime.
@@ -26,10 +28,6 @@ public class ToggleSwipeViewPager extends ViewPager {
         return (mEnableSwiping && super.onInterceptTouchEvent(event)) || (!mEnableSwiping && swipeLeftOnly && IsSwipeAllowed(event) && super.onInterceptTouchEvent(event));
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return (mEnableSwiping && super.onTouchEvent(event)) || (!mEnableSwiping && swipeLeftOnly && IsSwipeAllowed(event) && super.onTouchEvent(event));
-    }
     private float initialXValue;
     private SwipeDirection direction;
     public enum SwipeDirection {
@@ -59,7 +57,7 @@ public class ToggleSwipeViewPager extends ViewPager {
             return true;
         }
 
-        if(event.getAction()==MotionEvent.ACTION_MOVE) {
+
             try {
                 float diffX = event.getX() - initialXValue;
                 if (diffX > 0 && direction == SwipeDirection.right ) {
@@ -71,7 +69,7 @@ public class ToggleSwipeViewPager extends ViewPager {
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
-            }
+
         }
 
         return true;

@@ -104,9 +104,7 @@ public class PopulateSubmissionViewHolder {
 
                 HasSeen.addSeen(submission.getFullName());
                 if (contextActivity instanceof MainActivity) {
-                    holder.title.setAlpha(0.65f);
-                    holder.leadImage.setAlpha(0.65f);
-                    holder.thumbimage.setAlpha(0.65f);
+                    holder.title.setAlpha(0.54f);
                 }
 
                 if (!PostMatch.openExternal(submission.getUrl())) {
@@ -1169,13 +1167,9 @@ public class PopulateSubmissionViewHolder {
 
 
         if (HasSeen.getSeen(submission) && !full) {
-            holder.title.setAlpha(0.65f);
-            holder.leadImage.setAlpha(0.65f);
-            holder.thumbimage.setAlpha(0.65f);
+            holder.title.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
-            holder.leadImage.setAlpha(1f);
-            holder.thumbimage.setAlpha(1f);
         }
 
     }
