@@ -27,7 +27,7 @@ android {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
         generatedDensities = []
-        versionCode 136
+        versionCode 137
         generatedDensities = []
         multiDexEnabled = true
         versionName androidGitVersion.name()
@@ -88,7 +88,7 @@ dependencies {
     }
 
     compile 'com.github.ccrama:JRAW:5a689181ab'
-    compile 'com.android.support:design:23.2.0'
+    compile 'com.android.support:design:23.2.1'
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'uz.shift:colorpicker:0.5@aar'
     compile 'com.android.support:customtabs:23.2.0'

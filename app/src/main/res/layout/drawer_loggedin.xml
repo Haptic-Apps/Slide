@@ -131,7 +131,7 @@
             android:gravity="center"
             android:padding="14dp"
             android:layout_marginRight="2dp"
-            android:src="@drawable/down"
+            app:srcCompat="@drawable/down"
             android:textSize="14sp"
             android:textStyle="bold" />
     </RelativeLayout>
