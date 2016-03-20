@@ -85,6 +85,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
@@ -258,8 +259,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void collapseAll() {
-        for(CommentObject o : users){
-            if(o.comment.isTopLevel()){
+        for (CommentObject o : users) {
+            if (o.comment.isTopLevel()) {
                 hiddenPersons.add(o.comment.getComment().getFullName());
                 hideAll(o.comment);
             }
@@ -320,7 +321,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             scoreColor = (holder.textColorRegular);
         }
 
-        if(score == null || score.toString().isEmpty()) score = new SpannableStringBuilder("0");
+        if (score == null || score.toString().isEmpty()) score = new SpannableStringBuilder("0");
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         titleString.append(score);
@@ -690,8 +691,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
         }
     }
-
-    private void setViews(String rawHTML, String subredditName, CommentViewHolder holder) {
+    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -701,23 +701,27 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int startIndex = 0;
         // the <div class="md"> case is when the body contains a table or code block first
         if (!blocks.get(0).equals("<div class=\"md\">")) {
-            holder.firstTextView.setVisibility(View.VISIBLE);
-            holder.firstTextView.setTextHtml(blocks.get(0), subredditName);
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subredditName);
             startIndex = 1;
         } else {
-            holder.firstTextView.setText("");
-            holder.firstTextView.setVisibility(View.GONE);
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
         }
 
         if (blocks.size() > 1) {
             if (startIndex == 0) {
-                holder.commentOverflow.setViews(blocks, subredditName);
+                commentOverflow.setViews(blocks, subredditName);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
         } else {
-            holder.commentOverflow.removeAllViews();
+            commentOverflow.removeAllViews();
         }
+    }
+
+    private void setViews(String rawHTML, String subredditName, CommentViewHolder holder) {
+        setViews(rawHTML, subredditName, holder.firstTextView, holder.commentOverflow);
     }
 
     int editingPosition;
@@ -1530,6 +1534,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             notifyItemRangeInserted(i, counter);
         }
     }
+
     public void hideAll(CommentNode n) {
 
         int counter = hideNumber(n, 0);
@@ -1542,6 +1547,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
     }
+
     public void hideAll(CommentNode n, int i) {
 
         int counter = hideNumber(n, 0);
@@ -1819,80 +1825,92 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             b.sheet(3, saved, save);
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
                 .sheet(7, copy, mContext.getString(R.string.submission_copy))
-                .sheet(4, share, mContext.getString(R.string.comment_share))
-                .sheet(10, parent, "Show parent comment")
-                .listener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 1: {
-                                Intent i = new Intent(mContext, Profile.class);
-                                i.putExtra(Profile.EXTRA_PROFILE, n.getAuthor());
-                                mContext.startActivity(i);
-                            }
-                            break;
+                .sheet(4, share, mContext.getString(R.string.comment_share));
+        if (!currentBaseNode.isTopLevel()) {
+            b.sheet(10, parent, "Show parent comment");
+        }
+        b.listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 1: {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra(Profile.EXTRA_PROFILE, n.getAuthor());
+                        mContext.startActivity(i);
+                    }
+                    break;
 
-                            case 3:
-                                if (ActionStates.isSaved(n)) {
-                                    new AsyncTask<Void, Void, Void>() {
-                                        @Override
-                                        protected Void doInBackground(Void... params) {
-                                            try {
-                                                ActionStates.setSaved(n, false);
-                                                new AccountManager(Authentication.reddit).unsave(n);
-                                            } catch (ApiException e) {
-                                                e.printStackTrace();
-                                            }
+                    case 3:
+                        if (ActionStates.isSaved(n)) {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        ActionStates.setSaved(n, false);
+                                        new AccountManager(Authentication.reddit).unsave(n);
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
 
-                                            return null;
-                                        }
-
-                                    }.execute();
-
-
-                                } else {
-                                    new AsyncTask<Void, Void, Void>() {
-                                        @Override
-                                        protected Void doInBackground(Void... params) {
-                                            try {
-                                                ActionStates.setSaved(n, true);
-                                                new AccountManager(Authentication.reddit).save(n);
-                                            } catch (ApiException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            return null;
-                                        }
-
-                                    }.execute();
-
+                                    return null;
                                 }
 
-                                break;
-                            case 5: {
-                                Intent i = new Intent(mContext, Website.class);
-                                i.putExtra(Website.EXTRA_URL, "https://reddit.com" + submission.getPermalink() +
-                                        n.getFullName().substring(3, n.getFullName().length()) + "?context=3");
-                                i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
-                                mContext.startActivity(i);
-                            }
-                            break;
-                            case 7:
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Comment text", n.getBody());
-                                clipboard.setPrimaryClip(clip);
+                            }.execute();
 
-                                Toast.makeText(mContext, "Comment text copied", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 4:
-                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink() +
-                                        n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
-                                        , mContext);
-                                break;
+
+                        } else {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        ActionStates.setSaved(n, true);
+                                        new AccountManager(Authentication.reddit).save(n);
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    return null;
+                                }
+
+                            }.execute();
 
                         }
+
+                        break;
+                    case 5: {
+                        Intent i = new Intent(mContext, Website.class);
+                        i.putExtra(Website.EXTRA_URL, "https://reddit.com" + submission.getPermalink() +
+                                n.getFullName().substring(3, n.getFullName().length()) + "?context=3");
+                        i.putExtra(Website.EXTRA_COLOR, Palette.getColor(n.getSubredditName()));
+                        mContext.startActivity(i);
                     }
-                });
+                    break;
+                    case 10:
+                        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                        final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
+                        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                        Comment parent = users.get(holder.getAdapterPosition() - 3).comment.getComment();
+                        setViews(parent.getDataNode().get("body_html").asText(), submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                        builder.setView(dialoglayout);
+                        builder.show();
+                        break;
+
+                    case 7:
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Comment text", n.getBody());
+                        clipboard.setPrimaryClip(clip);
+
+                        Toast.makeText(mContext, "Comment text copied", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink() +
+                                n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
+                                , mContext);
+                        break;
+
+                }
+            }
+        });
 
 
         b.show();
