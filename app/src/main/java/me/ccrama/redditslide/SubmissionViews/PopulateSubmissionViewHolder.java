@@ -564,6 +564,12 @@ public class PopulateSubmissionViewHolder {
             titleString.append(" ");
             titleString.append(pinned);
         }
+        if (!submission.getDataNode().get("approved_by").asText().equals("null")) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" Approved by " + submission.getDataNode().get("approved_by").asText().trim() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append("  ");
+            titleString.append(pinned);
+        }
         if (submission.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + submission.getTimesGilded() + " ");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
