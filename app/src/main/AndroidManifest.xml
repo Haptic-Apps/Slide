@@ -15,13 +15,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/yellow_dark">
-
         <activity
             android:name=".Activities.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
@@ -65,7 +65,6 @@
         <activity
             android:name=".Activities.Imgur"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsComments"
@@ -87,7 +86,6 @@
             android:name=".Activities.Website"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
-
         <activity
             android:name=".Activities.GifView"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -100,7 +98,6 @@
         <activity
             android:name=".Activities.Wiki"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.CommentsScreen"
@@ -126,77 +123,68 @@
             android:name=".Activities.Sendmessage"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
-
         <activity
             android:name=".Activities.OpenContent"
             android:label="View content">
             <intent-filter android:label="Slide">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http"/>
-                <data android:scheme="https"/>
-                <data android:host="*reddit.com"/>
-                <data android:host="redd.it"/>
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="*reddit.com" />
+                <data android:host="redd.it" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Activities.SettingsGeneral"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
-
         <activity
             android:name=".Activities.CommentsScreenSingle"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Inbox"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
-            android:theme="@style/swipeable"
-
-            />
+            android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Submit"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="New Submission"
-            android:theme="@style/swipeable" >
+            android:theme="@style/swipeable">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND" />
+
                 <data android:mimeType="image/*" />
-                <data android:mimeType="text/plain"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            </activity>
+        </activity>
         <activity
             android:name=".Activities.Tutorial"
-
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".Activities.DonateView"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Shadowbox"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Crash"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-
         <activity
             android:name=".Activities.Settings"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsTheme"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsSubreddit"
@@ -208,71 +196,66 @@
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsAbout"
-            android:theme="@style/swipeable"
-
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Search"
-            android:theme="@style/swipeable"
-
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsHandling"
-            android:theme="@style/swipeable"
-
-            android:configChanges="keyboardHidden|orientation|screenSize" />
-
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.EditCardsLayout"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".DragSort.ReorderSubreddits"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsExternalBrowser"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Login"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SettingsBackup"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
+            android:theme="@style/swipeable" />
+        <activity
+            android:name=".Activities.SettingsHistory"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_settings_history"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.CreateMulti"
             android:configChanges="keyboardHidden|orientation|screenSize"
-
             android:theme="@style/swipeable" />
         <activity android:name=".Activities.Shortcut">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".Widget.Configure">
             <intent-filter>
-                <action android:name=
-                    "android.appwidget.action.APPWIDGET_CONFIGURE" />
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-       <!--
-        Start of widget code for the future
-        <receiver android:name=".Widget.PostWidgetProvider" >
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data android:name="android.appwidget.provider"
-                android:resource="@xml/subreddit_widget" />
-        </receiver> !-->
+        <!--
+         Start of widget code for the future
+         <receiver android:name=".Widget.PostWidgetProvider" >
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+             </intent-filter>
+             <meta-data android:name="android.appwidget.provider"
+                 android:resource="@xml/subreddit_widget" />
+         </receiver> !-->
         <service
             android:name=".Adapters.MarkAsReadService"
             android:exported="false" />
@@ -287,18 +270,14 @@
         <meta-data
             android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
             android:resource="@dimen/app_defaultsize_w" />
-
         <meta-data
             android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
             android:resource="@dimen/app_defaultsize_h" />
-
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
             android:resource="@dimen/app_minimumsize_w" />
 
-        <receiver android:name=".Notifications.CheckForMail">
-
-        </receiver>
+        <receiver android:name=".Notifications.CheckForMail"></receiver>
 
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
@@ -306,7 +285,8 @@
         <meta-data
             android:name="com.lge.support.SPLIT_WINDOW"
             android:value="true" />
-    </application>
 
+
+    </application>
 
 </manifest>
