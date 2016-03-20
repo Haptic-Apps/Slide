@@ -67,6 +67,8 @@ public class Album extends FullScreenActivity {
             }
         });
 
+
+
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
