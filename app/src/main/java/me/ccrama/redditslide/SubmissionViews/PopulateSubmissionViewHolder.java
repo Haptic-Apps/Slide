@@ -99,11 +99,18 @@ public class PopulateSubmissionViewHolder {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                HasSeen.addSeen(submission.getFullName());
-                if (contextActivity instanceof MainActivity) {
-                    holder.title.setAlpha(0.54f);
+                if (SettingValues.storeHistory) {
+                    if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
+                            || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
+                        //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
+                    } else {
+                        HasSeen.addSeen(submission.getFullName());
+                        if (contextActivity instanceof MainActivity) {
+                            holder.title.setAlpha(0.65f);
+                            holder.leadImage.setAlpha(0.65f);
+                            holder.thumbimage.setAlpha(0.65f);
+                        }
+                    }
                 }
 
                 if (!PostMatch.openExternal(submission.getUrl())) {

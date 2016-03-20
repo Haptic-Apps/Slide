@@ -13,6 +13,7 @@ import me.ccrama.redditslide.Synccit.SynccitRead;
 public class HasSeen {
 
     public static boolean getSeen(Submission s) {
+
         if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean()) {
             return true;
         }

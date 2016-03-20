@@ -420,6 +420,8 @@
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
+    <string name="settings_store_history">Store history</string>
+    <string name="settings_store_nsfw_history">Store NSFW history</string>
     <string name="settings_confirm_exit">Confirm exit dialog</string>
     <string name="settings_fastscroll">Navigate between parent comments</string>
     <string name="settings_floating_action_button">Floating action button</string>
@@ -469,6 +471,7 @@
     <string name="settings_title_backup">Backup &amp; restore</string>
     <string name="settings_title_default_theme">Main theme</string>
     <string name="settings_title_general">General</string>
+    <string name="settings_title_history">History</string>
     <string name="settings_title_notifications">Notifications</string>
     <string name="settings_title_pro">Go Pro</string>
     <string name="settings_title_sub_theme">Subreddit themes</string>
@@ -639,4 +642,8 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+    <string name="title_activity_settings_history">SettingsHistory</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
