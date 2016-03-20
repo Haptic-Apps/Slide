@@ -1831,7 +1831,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         if (Authentication.isLoggedIn) {
             b.sheet(3, saved, save);
-            b.sheet(12, report, mContext.getString(R.string.btn_report));
+            b.sheet(16, report, mContext.getString(R.string.btn_report));
 
         }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
@@ -1896,7 +1896,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mContext.startActivity(i);
                     }
                     break;
-                    case 12:
+                    case 16:
                         reportReason = "";
                         new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
                             @Override
@@ -1914,7 +1914,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             @Override
                                             protected Void doInBackground(Void... params) {
                                                 try {
-                                                    new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                    new AccountManager(Authentication.reddit).report(currentBaseNode.getComment(), reportReason);
                                                 } catch (ApiException e) {
                                                     e.printStackTrace();
                                                 }
@@ -1929,7 +1929,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     }
                                 })
                                 .show();
-
+                        break;
                     case 10:
                         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                         final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);

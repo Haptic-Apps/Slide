@@ -322,7 +322,7 @@ public class PopulateSubmissionViewHolder {
 
         if (Authentication.isLoggedIn) {
             b.sheet(3, saved, save);
-            b.sheet(12, filter, mContext.getString(R.string.btn_report));
+            b.sheet(12, report, mContext.getString(R.string.btn_report));
         }
         b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
