@@ -273,6 +273,8 @@ public class PopulateSubmissionViewHolder {
 
     }
 
+    public String reportReason;
+
     boolean[] chosen = new boolean[]{false, false, false};
 
     public static int getWhiteTintColor() {
@@ -289,6 +291,7 @@ public class PopulateSubmissionViewHolder {
         final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
         Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
         Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
@@ -298,6 +301,7 @@ public class PopulateSubmissionViewHolder {
         sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -316,14 +320,15 @@ public class PopulateSubmissionViewHolder {
         }
 
 
-        if (Authentication.isLoggedIn)
+        if (Authentication.isLoggedIn) {
             b.sheet(3, saved, save);
+            b.sheet(12, filter, mContext.getString(R.string.btn_report));
+        }
         b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
                 .sheet(10, filter, mContext.getString(R.string.filter_content))
-
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -477,6 +482,41 @@ public class PopulateSubmissionViewHolder {
                                 break;
                             case 4:
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getUrl(), mContext);
+                                break;
+                            case 12:
+                                reportReason = "";
+                                new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                        reportReason = input.toString();
+                                    }
+                                }).alwaysCallInputCallback()
+                                        .positiveText(R.string.btn_report)
+                                        .negativeText(R.string.btn_cancel)
+                                        .onNegative(null)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                new AsyncTask<Void, Void, Void>() {
+                                                    @Override
+                                                    protected Void doInBackground(Void... params) {
+                                                        try {
+                                                            new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                        } catch (ApiException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        return null;
+                                                    }
+
+                                                    @Override
+                                                    protected void onPostExecute(Void aVoid) {
+                                                        Snackbar.make(recyclerview, R.string.msg_report_sent, Snackbar.LENGTH_SHORT).show();
+                                                    }
+                                                }.execute();
+                                            }
+                                        })
+                                        .show();
+
                                 break;
                             case 8:
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);

@@ -21,6 +21,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -48,6 +49,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
@@ -691,6 +694,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
         }
     }
+
     public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
@@ -1792,6 +1796,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public String reportReason;
+
     public void showBottomSheet(final Context mContext, final CommentViewHolder holder, final Comment n) {
 
         int[] attrs = new int[]{R.attr.tint};
@@ -1804,10 +1810,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable report = mContext.getResources().getDrawable(R.drawable.report);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         gild.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         parent.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1821,8 +1829,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (ActionStates.isSaved(n)) {
             save = mContext.getString(R.string.comment_unsave);
         }
-        if (Authentication.isLoggedIn)
+        if (Authentication.isLoggedIn) {
             b.sheet(3, saved, save);
+            b.sheet(12, report, mContext.getString(R.string.btn_report));
+
+        }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
                 .sheet(7, copy, mContext.getString(R.string.submission_copy))
                 .sheet(4, share, mContext.getString(R.string.comment_share));
@@ -1885,6 +1896,40 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mContext.startActivity(i);
                     }
                     break;
+                    case 12:
+                        reportReason = "";
+                        new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                reportReason = input.toString();
+                            }
+                        }).alwaysCallInputCallback()
+                                .positiveText(R.string.btn_report)
+                                .negativeText(R.string.btn_cancel)
+                                .onNegative(null)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        new AsyncTask<Void, Void, Void>() {
+                                            @Override
+                                            protected Void doInBackground(Void... params) {
+                                                try {
+                                                    new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                } catch (ApiException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                return null;
+                                            }
+
+                                            @Override
+                                            protected void onPostExecute(Void aVoid) {
+                                                Snackbar.make(listView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT).show();
+                                            }
+                                        }.execute();
+                                    }
+                                })
+                                .show();
+
                     case 10:
                         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                         final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);

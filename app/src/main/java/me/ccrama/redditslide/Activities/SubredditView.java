@@ -1191,7 +1191,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         try {
                             new AlertDialogWrapper.Builder(SubredditView.this)
                                     .setTitle(R.string.subreddit_err)
-                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                    .setMessage(getString(R.string.subreddit_err_msg_new, params[0]))
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -1211,6 +1211,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         }
                     }
                 });
+                e.printStackTrace();
 
                 return null;
             }

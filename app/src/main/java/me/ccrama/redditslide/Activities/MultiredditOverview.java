@@ -119,7 +119,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
 
             case R.id.action_shadowbox:
-                if (SettingValues.tabletUI) {
+                if (SettingValues.tabletUI && adapter != null) {
                     List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i = new Intent(this, Shadowbox.class);
@@ -127,7 +127,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                         i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
                         startActivity(i);
                     }
-                } else {
+                } else if(adapter != null) {
                     new AlertDialogWrapper.Builder(this)
                             .setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
