@@ -138,9 +138,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 public void onClick(View arg0) {
 
                     if (Authentication.didOnline || submission.getComments() != null) {
-                        holder.title.setAlpha(0.65f);
-                        holder.leadImage.setAlpha(0.65f);
-                        holder.thumbimage.setAlpha(0.65f);
+                        holder.title.setAlpha(0.54f);
 
                         if(context instanceof MainActivity){
                             final MainActivity a = (MainActivity)context;
