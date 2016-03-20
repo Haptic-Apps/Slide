@@ -68,6 +68,7 @@ public class OpenRedditLink {
             case SEARCH: {
                 Intent i = new Intent(context, Search.class);
                 String end = parts[parts.length - 1];
+                end = end.replace(":", "%3A");
                 boolean restrictSub = end.contains("restrict_sr=on");
                 if (restrictSub) {
                     i.putExtra(Search.EXTRA_SUBREDDIT, parts[2]);
