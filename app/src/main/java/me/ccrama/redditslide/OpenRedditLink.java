@@ -14,6 +14,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.util.LogUtil;
@@ -54,12 +55,108 @@ public class OpenRedditLink {
                 Intent i = new Intent(context, Wiki.class);
                 i.putExtra(Wiki.EXTRA_SUBREDDIT, parts[2]);
                 String page;
-                if(parts.length >= 5) {
+                if (parts.length >= 5) {
                     page = parts[4];
-                    if(page.contains("#")){
+                    if (page.contains("#")) {
                         page = page.substring(0, page.indexOf("#"));
                     }
                     i.putExtra(Wiki.EXTRA_PAGE, page);
+                }
+                context.startActivity(i);
+                break;
+            }
+            case SEARCH: {
+                Intent i = new Intent(context, Search.class);
+                String end = parts[parts.length - 1];
+                boolean restrictSub = end.contains("restrict_sr=on");
+                if (restrictSub) {
+                    i.putExtra(Search.EXTRA_SUBREDDIT, parts[2]);
+                } else {
+                    i.putExtra(Search.EXTRA_SUBREDDIT, "all");
+                }
+                if (end.contains("q=")) {
+                    String querry;
+                    int index = end.indexOf("q=");
+                    if (end.contains("&") && end.contains("+")) {
+                        querry = end.substring(index + 2, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                    } else if (end.contains("&")) {
+                        querry = end.substring(index + 2, end.indexOf("&", index));
+                    } else {
+                        querry = end.substring(index + 2, end.length());
+                    }
+                    i.putExtra(Search.EXTRA_TERM, querry);
+                }
+                if (end.contains("author:")) {
+                    String author;
+                    int index = end.indexOf("author:");
+                    if (end.contains("&") && end.contains("+")) {
+                        author = end.substring(index + 7, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                    } else if (end.contains("&")) {
+                        author = end.substring(index + 7, end.indexOf("&", index));
+                    } else {
+                        author = end.substring(index + 7, end.length());
+                    }
+                    i.putExtra(Search.EXTRA_AUTHOR, author);
+                }
+                if (end.contains("nsfw:")) {
+                    boolean nsfw;
+                    int index = end.indexOf("nsfw:");
+                    if (end.contains("&") && end.contains("+")) {
+                        nsfw = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                    } else if (end.contains("&")) {
+                        nsfw = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
+                    } else {
+                        nsfw = end.substring(index + 5, end.length()).equals("yes");
+                    }
+                    i.putExtra(Search.EXTRA_NSFW, nsfw);
+                }
+                if (end.contains("self:")) {
+                    boolean self;
+                    int index = end.indexOf("self:");
+                    if (end.contains("&") && end.contains("+")) {
+                        self = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                    } else if (end.contains("&")) {
+                        self = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
+                    } else {
+                        self = end.substring(index + 5, end.length()).equals("yes");
+                    }
+                    i.putExtra(Search.EXTRA_SELF, self);
+                }
+                if (end.contains("selftext:")) {
+                    boolean selftext;
+                    int index = end.indexOf("selftext:");
+                    if (end.contains("&") && end.contains("+")) {
+                        selftext = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                    } else if (end.contains("&")) {
+                        selftext = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
+                    } else {
+                        selftext = end.substring(index + 5, end.length()).equals("yes");
+                    }
+                    i.putExtra(Search.EXTRA_SELF, selftext);
+                }
+                if (end.contains("url:")) {
+                    String s_url;
+                    int index = end.indexOf("url:");
+                    if (end.contains("&") && end.contains("+")) {
+                        s_url = end.substring(index + 4, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                    } else if (end.contains("&")) {
+                        s_url = end.substring(index + 4, end.indexOf("&", index));
+                    } else {
+                        s_url = end.substring(index + 4, end.length());
+                    }
+                    i.putExtra(Search.EXTRA_URL, s_url);
+                }
+                if (end.contains("site:")) {
+                    String site;
+                    int index = end.indexOf("site:");
+                    if (end.contains("&") && end.contains("+")) {
+                        site = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                    } else if (end.contains("&")) {
+                        site = end.substring(index + 5, end.indexOf("&", index));
+                    } else {
+                        site = end.substring(index + 5, end.length());
+                    }
+                    i.putExtra(Search.EXTRA_SITE, site);
                 }
                 context.startActivity(i);
                 break;
@@ -74,8 +171,8 @@ public class OpenRedditLink {
                     String end = parts[6];
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
 
-                    if(end.length() >= 3)
-                    i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
+                    if (end.length() >= 3)
+                        i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
                 }
                 context.startActivity(i);
@@ -217,6 +314,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/w.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/search.*")) {
+            // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
+            return RedditLinkType.SEARCH;
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/.*")) {
             // Permalink to comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;

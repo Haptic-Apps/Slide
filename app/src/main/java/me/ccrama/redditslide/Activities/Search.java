@@ -32,12 +32,25 @@ public class Search extends BaseActivityAnim {
 
     public static final String EXTRA_TERM = "term";
     public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_SITE = "site";
+    public static final String EXTRA_URL = "url";
+    public static final String EXTRA_SELF = "self";
+    public static final String EXTRA_NSFW = "nsfw";
+    public static final String EXTRA_AUTHOR = "author";
+
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
     private ContributionAdapter adapter;
+
     private String where;
     private String subreddit;
+    private String site;
+    private String url;
+    private boolean self;
+    private boolean nsfw;
+    private String author;
+
     private SubredditSearchPosts posts;
 
     @Override
@@ -159,6 +172,23 @@ public class Search extends BaseActivityAnim {
         applyColorTheme("");
         setContentView(R.layout.activity_saved);
         where = getIntent().getExtras().getString(EXTRA_TERM, "");
+
+        if (getIntent().hasExtra(EXTRA_AUTHOR)) {
+            where = where + "&author=" + getIntent().getExtras().getString(EXTRA_AUTHOR);
+        }
+        if (getIntent().hasExtra(EXTRA_NSFW)) {
+            where = where + "&nsfw=" + (getIntent().getExtras().getBoolean(EXTRA_NSFW)?"yes":"no");
+        }
+        if (getIntent().hasExtra(EXTRA_SELF)) {
+            where = where + "&selftext=" + (getIntent().getExtras().getBoolean(EXTRA_SELF)?"yes":"no");
+        }
+        if (getIntent().hasExtra(EXTRA_SITE)) {
+            where = where + "&site=" + getIntent().getExtras().getString(EXTRA_SITE);
+        }
+        if (getIntent().hasExtra(EXTRA_URL)) {
+            where = where + "&url=" + getIntent().getExtras().getString(EXTRA_URL);
+        }
+
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
@@ -177,9 +207,9 @@ public class Search extends BaseActivityAnim {
         });
         getSupportActionBar().setSubtitle(Reddit.getSortingStringsSearch(getBaseContext())[Reddit.getSortingIdSearch(this)]);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
-            final PreCachingLayoutManager mLayoutManager;
-            mLayoutManager = new PreCachingLayoutManager(this);
-            rv.setLayoutManager(mLayoutManager);
+        final PreCachingLayoutManager mLayoutManager;
+        mLayoutManager = new PreCachingLayoutManager(this);
+        rv.setLayoutManager(mLayoutManager);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(mToolbar, findViewById(R.id.header)) {
             @Override

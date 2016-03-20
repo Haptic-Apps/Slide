@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.CaptchaHelper;
 import net.dean.jraw.models.Captcha;
+import net.dean.jraw.models.Submission;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,6 +59,7 @@ public class Submit extends BaseActivity {
     private EditText subredditText;
 
     private View link;
+    private SwitchCompat inboxReplies;
     private String URL;
 
 
@@ -73,6 +76,7 @@ public class Submit extends BaseActivity {
         }
         setupAppBar(R.id.toolbar, R.string.title_submit_post, true, true);
 
+        inboxReplies = (SwitchCompat) findViewById(R.id.replies);
 
         Intent intent = getIntent();
 
@@ -133,9 +137,9 @@ public class Submit extends BaseActivity {
             self.setVisibility(View.GONE);
             image.setVisibility(View.GONE);
             link.setVisibility(View.VISIBLE);
-            ((RadioButton)findViewById(R.id.linkradio)).setChecked(true);
+            ((RadioButton) findViewById(R.id.linkradio)).setChecked(true);
 
-        } else if(intent.hasExtra(Intent.EXTRA_STREAM)){
+        } else if (intent.hasExtra(Intent.EXTRA_STREAM)) {
             Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (imageUri != null) {
                 try {
@@ -144,7 +148,7 @@ public class Submit extends BaseActivity {
                     self.setVisibility(View.GONE);
                     image.setVisibility(View.VISIBLE);
                     link.setVisibility(View.GONE);
-                    ((RadioButton)findViewById(R.id.imageradio)).setChecked(true);
+                    ((RadioButton) findViewById(R.id.imageradio)).setChecked(true);
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -238,8 +242,9 @@ public class Submit extends BaseActivity {
                                                 @Override
                                                 protected Boolean doInBackground(Void... params) {
                                                     try {
-                                                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying).getFullName();
-                                                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
+                                                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying);
+                                                        new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
+                                                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
 
                                                     } catch (ApiException e) {
                                                         runOnUiThread(new Runnable() {
