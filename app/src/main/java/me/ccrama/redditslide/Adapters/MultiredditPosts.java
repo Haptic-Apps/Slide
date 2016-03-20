@@ -295,7 +295,7 @@ public class MultiredditPosts implements PostLoader {
 
             if (usedOffline && !reset) {
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                paginator.setLimit(25);
+                paginator.setLimit(50);
                 paginator.setSorting(Reddit.getSorting("multi" + multiReddit.getDisplayName().toLowerCase()));
                 paginator.setTimePeriod(Reddit.getTime("multi" + multiReddit.getDisplayName().toLowerCase()));
 
@@ -306,7 +306,7 @@ public class MultiredditPosts implements PostLoader {
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setSorting(Reddit.getSorting("multi" + multiReddit.getDisplayName().toLowerCase()));
                 paginator.setTimePeriod(Reddit.getTime("multi" + multiReddit.getDisplayName().toLowerCase()));
-                paginator.setLimit(25);
+                paginator.setLimit(50);
 
             }
 

@@ -296,7 +296,7 @@ public class SubredditPosts implements PostLoader {
 
             if (usedOffline && !reset) {
                 paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
-                paginator.setLimit(25);
+                paginator.setLimit(50);
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
 
@@ -312,7 +312,7 @@ public class SubredditPosts implements PostLoader {
                 }
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
-                paginator.setLimit(25);
+                paginator.setLimit(50);
 
             }
 
