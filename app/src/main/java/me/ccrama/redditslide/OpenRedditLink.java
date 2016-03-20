@@ -53,6 +53,14 @@ public class OpenRedditLink {
             case WIKI: {
                 Intent i = new Intent(context, Wiki.class);
                 i.putExtra(Wiki.EXTRA_SUBREDDIT, parts[2]);
+                String page;
+                if(parts.length >= 5) {
+                    page = parts[4];
+                    if(page.contains("#")){
+                        page = page.substring(0, page.indexOf("#"));
+                    }
+                    i.putExtra(Wiki.EXTRA_PAGE, page);
+                }
                 context.startActivity(i);
                 break;
             }
@@ -206,6 +214,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/wiki.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/w.*")) {
+            // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
+            return RedditLinkType.WIKI;
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/.*")) {
             // Permalink to comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
@@ -235,6 +246,7 @@ public class OpenRedditLink {
         SUBMISSION_WITHOUT_SUB,
         SUBREDDIT,
         USER,
+        SEARCH,
         OTHER
     }
 

@@ -20,6 +20,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -27,12 +28,14 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class Wiki extends BaseActivityAnim {
 
     public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_PAGE = "page";
 
     private TabLayout tabs;
     private ViewPager pager;
     private String subreddit;
     private Wiki.OverviewPagerAdapter adapter;
     private List<String> pages;
+    private String page;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -45,6 +48,10 @@ public class Wiki extends BaseActivityAnim {
         setContentView(R.layout.activity_slidetabs);
         setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);
 
+        if(getIntent().hasExtra(EXTRA_PAGE)) {
+            page = getIntent().getExtras().getString(EXTRA_PAGE);
+            LogUtil.v("Page is " + page);
+        }
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         pager = (ViewPager) findViewById(R.id.content_view);
@@ -61,7 +68,6 @@ public class Wiki extends BaseActivityAnim {
            wiki = new WikiManager(Authentication.reddit);
             try {
                 pages = wiki.getPages(subreddit);
-                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 ArrayList<String> toRemove = new ArrayList<>();
                 for (String s : pages) {
@@ -70,6 +76,11 @@ public class Wiki extends BaseActivityAnim {
                     }
                 }
                 pages.removeAll(toRemove);
+
+
+                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+
+
             } catch (Exception e) {
                 runOnUiThread(new Runnable() {
                     @Override
@@ -100,6 +111,9 @@ public class Wiki extends BaseActivityAnim {
             if (adapter != null) {
                 pager.setAdapter(adapter);
                 tabs.setupWithViewPager(pager);
+                if(pages.contains(page)){
+                    pager.setCurrentItem(pages.indexOf(page));
+                }
             } else {
                 new AlertDialogWrapper.Builder(Wiki.this)
                         .setTitle(R.string.wiki_err)

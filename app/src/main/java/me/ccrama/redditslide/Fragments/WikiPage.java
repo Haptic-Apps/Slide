@@ -66,7 +66,7 @@ public class WikiPage extends Fragment {
     }
 
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
-        if (rawHTML.isEmpty()) {
+        if (rawHTML ==null || rawHTML.isEmpty()) {
             return;
         }
 
