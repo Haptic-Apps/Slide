@@ -281,6 +281,7 @@ public class SubredditStorage {
         ArrayList<String> subs = new ArrayList<>(copy);
         ArrayList<String> finals = new ArrayList<>();
 
+        finals.add("all");
         finals.add("frontpage");
         finals.add("all");
 

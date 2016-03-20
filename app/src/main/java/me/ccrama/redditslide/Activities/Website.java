@@ -118,9 +118,8 @@ public class Website extends BaseActivityAnim {
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
-            if(getSupportActionBar() != null) {
-
+            try {
+                super.onReceivedTitle(view, title);
                 if (!title.isEmpty()) {
                     if (getSupportActionBar() != null) {
                         getSupportActionBar().setTitle(title);
@@ -133,6 +132,8 @@ public class Website extends BaseActivityAnim {
                     }
 
                 }
+            } catch (Exception ignored){
+
             }
         }
     }

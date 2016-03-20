@@ -525,7 +525,8 @@ public class CommentPage extends Fragment {
 
                 for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
 
-                    if (adapter.users.size() > i && adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                    int position = adapter.getRealPosition(i);
+                    if (position != -1 && adapter.users.size() > i && adapter.users.get(position) instanceof CommentItem)
                         if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                             (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
                             break;

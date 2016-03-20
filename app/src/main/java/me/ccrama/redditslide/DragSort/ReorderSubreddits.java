@@ -328,7 +328,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")|| input.equalsIgnoreCase("all")) {
+            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
                 subs.add(input);
                 adapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(subs.size());
@@ -338,7 +338,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         protected Subreddit doInBackground(final String... params) {
             String sub = params[0];
-            if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod")) {
+            if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") && !sub.equalsIgnoreCase("frontpage")) {
                 try {
                     if (subs.contains(params[0])) return null;
                     return Authentication.reddit.getSubreddit(params[0]);
