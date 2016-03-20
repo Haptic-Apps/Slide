@@ -118,17 +118,21 @@ public class Website extends BaseActivityAnim {
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            super.onReceivedTitle(view, title);
-            if (!title.isEmpty()) {
-                if(getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(title);
-                    if (url.contains("/"))
-                        getSupportActionBar().setSubtitle(getDomainName(url));
+            try {
+                super.onReceivedTitle(view, title);
+                if (!title.isEmpty()) {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle(title);
+                        if (url.contains("/"))
+                            getSupportActionBar().setSubtitle(getDomainName(url));
+                    }
+                } else {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle(getDomainName(url));
+                    }
+
                 }
-            } else {
-                if(getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(getDomainName(url));
-                }
+            } catch (Exception ignored){
 
             }
         }

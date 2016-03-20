@@ -26,7 +26,8 @@ android {
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
-        versionCode 135
+        generatedDensities = []
+        versionCode 136
         generatedDensities = []
         multiDexEnabled = true
         versionName androidGitVersion.name()
@@ -92,7 +93,7 @@ dependencies {
     compile 'uz.shift:colorpicker:0.5@aar'
     compile 'com.android.support:customtabs:23.2.0'
     compile 'com.android.support:recyclerview-v7:23.2.0'
-    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'
     compile 'com.google.android.gms:play-services-drive:8.4.0'

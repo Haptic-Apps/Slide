@@ -328,7 +328,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("mod")) {
+            if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
                 subs.add(input);
                 adapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(subs.size());
