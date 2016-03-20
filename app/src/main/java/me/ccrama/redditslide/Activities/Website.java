@@ -120,6 +120,7 @@ public class Website extends BaseActivityAnim {
         public void onReceivedTitle(WebView view, String title) {
             try {
                 super.onReceivedTitle(view, title);
+<<<<<<< HEAD
                 if (getSupportActionBar() != null) {
 
                     if (!title.isEmpty()) {
@@ -137,6 +138,21 @@ public class Website extends BaseActivityAnim {
                 }
             } catch (Exception ignored) {
 
+=======
+                if (!title.isEmpty()) {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle(title);
+                        if (url.contains("/"))
+                            getSupportActionBar().setSubtitle(getDomainName(url));
+                    }
+                } else {
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle(getDomainName(url));
+                    }
+
+                }
+            } catch (Exception ignored){
+>>>>>>> master
 
             }
         }
