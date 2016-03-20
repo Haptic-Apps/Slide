@@ -128,6 +128,280 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> hiddenPersons;
     ArrayList<String> replie;
 
+    public <T extends Contribution> void showModBottomSheet(final Context mContext, final Comment comment, final CommentViewHolder holder, final Map<String, Integer> reports, final Map<String, String> reports2) {
+
+        int[] attrs = new int[]{R.attr.tint};
+        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+
+        int color = ta.getColor(0, Color.WHITE);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
+        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
+        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
+        final Drawable pin = mContext.getResources().getDrawable(R.drawable.lock);
+        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
+
+
+        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        approve.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        nsfw.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
+                .title(Html.fromHtml(comment.getBody()));
+
+        int reportCount = reports.size() + reports2.size();
+
+        if (reportCount == 0) {
+            b.sheet(0, report, "No reports");
+        } else {
+            b.sheet(0, report, "View " + reportCount + " reports");
+        }
+
+        boolean approved = false;
+        String whoApproved = "";
+        if (comment.getDataNode().get("approved_by").asText().equals("null")) {
+            b.sheet(1, approve, "Approve comment");
+        } else {
+            approved = true;
+            whoApproved = comment.getDataNode().get("approved_by").asText();
+            b.sheet(1, approve, "Approved by /u/" + whoApproved);
+        }
+
+        // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
+
+
+        final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode().get("stickied").asBoolean();
+        if (stickied) {
+            b.sheet(4, pin, "Un-pin comment");
+        } else {
+            b.sheet(4, pin, "Pin comment");
+        }
+
+        final String finalWhoApproved = whoApproved;
+        final boolean finalApproved = approved;
+        b.sheet(6, remove, mContext.getString(R.string.btn_remove))
+                .sheet(8, profile, "Author profile")
+                .listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                new AsyncTask<Void, Void, ArrayList<String>>() {
+                                    @Override
+                                    protected ArrayList<String> doInBackground(Void... params) {
+
+                                        ArrayList<String> finalReports = new ArrayList<>();
+                                        for (String s : reports.keySet()) {
+                                            finalReports.add("x" + reports.get(s) + " " + s);
+                                        }
+                                        for (String s : reports2.keySet()) {
+                                            finalReports.add(s + ": " + reports2.get(s));
+                                        }
+                                        if (finalReports.isEmpty()) {
+                                            finalReports.add(mContext.getString(R.string.mod_no_reports));
+                                        }
+                                        return finalReports;
+                                    }
+
+                                    @Override
+                                    public void onPostExecute(ArrayList<String> data) {
+                                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_reports).setItems(data.toArray(new CharSequence[data.size()]),
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+
+                                                    }
+                                                }).show();
+                                    }
+                                }.execute();
+
+                                break;
+                            case 1:
+                                if (finalApproved) {
+                                    Intent i = new Intent(mContext, Profile.class);
+                                    i.putExtra(Profile.EXTRA_PROFILE, finalWhoApproved);
+                                    mContext.startActivity(i);
+                                } else {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_approve)
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(final DialogInterface dialog, int which) {
+
+                                                    new AsyncTask<Void, Void, Boolean>() {
+
+                                                        @Override
+                                                        public void onPostExecute(Boolean b) {
+                                                            if (b) {
+                                                                dialog.dismiss();
+                                                                Snackbar.make(holder.itemView, R.string.mod_approved, Snackbar.LENGTH_LONG).show();
+
+                                                            } else {
+                                                                new AlertDialogWrapper.Builder(mContext)
+                                                                        .setTitle(R.string.err_general)
+                                                                        .setMessage(R.string.err_retry_later).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(Void... params) {
+                                                            try {
+                                                                new ModerationManager(Authentication.reddit).approve(comment);
+                                                            } catch (ApiException e) {
+                                                                e.printStackTrace();
+                                                                return false;
+
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
+
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                        }
+                                    }).show();
+                                }
+                                break;
+                            case 2:
+                                //todo this
+                                break;
+
+                            case 4:
+                                if (stickied) {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really un-pin this comment?")
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(final DialogInterface dialog, int which) {
+
+                                                    new AsyncTask<Void, Void, Boolean>() {
+
+                                                        @Override
+                                                        public void onPostExecute(Boolean b) {
+                                                            if (b) {
+                                                                dialog.dismiss();
+
+                                                                Snackbar.make(holder.itemView, "Comment un-pinned", Snackbar.LENGTH_LONG).show();
+
+                                                            } else {
+                                                                new AlertDialogWrapper.Builder(mContext)
+                                                                        .setTitle(R.string.err_general)
+                                                                        .setMessage(R.string.err_retry_later).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(Void... params) {
+                                                            try {
+                                                                new ModerationManager(Authentication.reddit).setSticky(comment, false);
+                                                            } catch (ApiException e) {
+                                                                e.printStackTrace();
+                                                                return false;
+
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
+
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, null).show();
+                                } else {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really pin this comment?")
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(final DialogInterface dialog, int which) {
+
+                                                    new AsyncTask<Void, Void, Boolean>() {
+
+                                                        @Override
+                                                        public void onPostExecute(Boolean b) {
+                                                            if (b) {
+                                                                dialog.dismiss();
+                                                                Snackbar.make(holder.itemView, "Comment pinned", Snackbar.LENGTH_LONG).show();
+
+                                                            } else {
+                                                                new AlertDialogWrapper.Builder(mContext)
+                                                                        .setTitle(R.string.err_general)
+                                                                        .setMessage(R.string.err_retry_later).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(Void... params) {
+                                                            try {
+                                                                new ModerationManager(Authentication.reddit).setSticky(comment, true);
+                                                            } catch (ApiException e) {
+                                                                e.printStackTrace();
+                                                                return false;
+
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
+
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, null).show();
+                                }
+
+                                break;
+                            case 6:
+
+                                new AlertDialogWrapper.Builder(mContext).setTitle("Really remove this comment?")
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(final DialogInterface dialog, int which) {
+
+                                                new AsyncTask<Void, Void, Boolean>() {
+
+                                                    @Override
+                                                    public void onPostExecute(Boolean b) {
+                                                        if (b) {
+                                                            dialog.dismiss();
+                                                            Snackbar.make(holder.itemView, "Comment removed", Snackbar.LENGTH_LONG).show();
+                                                            deleted.add(comment.getFullName());
+                                                            holder.firstTextView.setTextHtml("[deleted]");
+                                                            holder.content.setText("[deleted]");
+                                                        } else {
+                                                            new AlertDialogWrapper.Builder(mContext)
+                                                                    .setTitle(R.string.err_general)
+                                                                    .setMessage(R.string.err_retry_later).show();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    protected Boolean doInBackground(Void... params) {
+                                                        try {
+                                                            new ModerationManager(Authentication.reddit).remove(comment, false);
+                                                        } catch (ApiException e) {
+                                                            e.printStackTrace();
+                                                            return false;
+
+                                                        }
+                                                        return true;
+                                                    }
+                                                }.execute();
+
+                                            }
+                                        }).setNegativeButton(R.string.btn_no, null).show();
+                                break;
+                            case 8:
+                                Intent i = new Intent(mContext, Profile.class);
+                                i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
+                                mContext.startActivity(i);
+                                break;
+
+                        }
+                    }
+                });
+
+
+        b.show();
+    }
+
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
         mPage = mContext;
@@ -1012,6 +1286,29 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 } catch (Exception e) {
                     Log.d(LogUtil.getTag(), "Error loading mod " + e.toString());
+                }
+            }
+            {
+                if (SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
+                    baseView.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+                    final Map<String, Integer> reports = baseNode.getComment().getUserReports();
+                    final Map<String, String> reports2 = baseNode.getComment().getModeratorReports();
+                    if (reports.size() + reports2.size() > 0) {
+                        ((ImageView) baseView.findViewById(R.id.mod)).setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.SRC_ATOP);
+                    } else {
+                        ((ImageView)baseView.findViewById(R.id.mod)).setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
+
+                    }
+
+                    baseView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showModBottomSheet(mContext, baseNode.getComment(), holder, reports, reports2);
+
+                        }
+                    });
+                } else {
+                    baseView.findViewById(R.id.mod).setVisibility(View.GONE);
                 }
             }
             {
