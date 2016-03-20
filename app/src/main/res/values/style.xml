@@ -352,9 +352,9 @@
     </style>
 
     <style name="Theme.DARK" parent="swipestyle">
-        <item name="activity_background">#303030</item>
-        <item name="card_background">#424242</item>
-        <item name="list_background">#303030</item>
+        <item name="activity_background">#212121</item>
+        <item name="card_background">#303030</item>
+        <item name="list_background">#212121</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
 
         <item name="font">#FFFFFFFF</item> <!-- 100% white -->
@@ -378,7 +378,7 @@
     </style>
 
     <style name="Theme.AMOLED" parent="swipestyle">
-        <item name="activity_background">#000000</item>
+        <item name="activity_background">#181818</item>
         <item name="card_background">#000000</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>

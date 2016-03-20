@@ -17,6 +17,19 @@
         android:scaleType="centerCrop"
         android:src="@drawable/chameleon" />
 
+    <me.ccrama.redditslide.Views.TransparentTagTextView
+        android:layout_width="wrap_content"
+        android:text="IMAGE"
+        android:id="@+id/tag"
+        android:alpha="0.86"
+        android:layout_alignBottom="@+id/leadimage"
+        android:textAllCaps="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:padding="2dp"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/base"
         android:layout_width="match_parent"

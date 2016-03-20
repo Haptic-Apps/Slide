@@ -37,6 +37,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
+                android:id="@+id/viewtype"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -52,7 +53,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_sub_tabs"
+                        android:text="View type"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -60,24 +61,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="@string/settings_sub_tabs_description"
+                        android:id="@+id/currentViewType"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/single"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"

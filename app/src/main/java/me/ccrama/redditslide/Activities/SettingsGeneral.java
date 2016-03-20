@@ -138,19 +138,7 @@ public class SettingsGeneral extends BaseActivityAnim {
         setContentView(R.layout.activity_settings_general);
         setupAppBar(R.id.toolbar, R.string.settings_title_general, true, true);
 
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.single);
 
-            single.setChecked(!SettingValues.single);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.single = !isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, !isChecked).apply();
-
-                }
-            });
-        }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.commentlast);
 
@@ -164,6 +152,7 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             });
         }
+
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.swipeback);
 
@@ -205,6 +194,48 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
 
+
+        //View type multi choice
+        ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
+
+        findViewById(R.id.viewtype).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
+                popup.getMenuInflater().inflate(R.menu.view_type_settings, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.tabs:
+                                SettingValues.single = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, false).apply();
+                                break;
+                            case R.id.notabs:
+                                SettingValues.single = true;
+                                SettingValues.commentPager = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, true).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_PAGER, false).apply();
+                                break;
+                            case R.id.comments:
+                                SettingValues.single = true;
+                                SettingValues.commentPager = true;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, true).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_PAGER, true).apply();
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
+
+                        return true;
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
+
+        //FAB multi choice//
         ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab?(SettingValues.fabType==R.integer.FAB_DISMISS?getString(R.string.fab_hide):getString(R.string.fab_create)):getString(R.string.fab_disabled));
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
@@ -242,6 +273,7 @@ public class SettingsGeneral extends BaseActivityAnim {
                 popup.show();
             }
         });
+
 
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);

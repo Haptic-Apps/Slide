@@ -29,7 +29,10 @@
         android:icon="@drawable/infonew"
         android:title="@string/general_open_settings"
         app:showAsAction="ifRoom" />
-
+    <item
+        android:id="@+id/submit"
+        android:title="@string/btn_submit"
+        app:showAsAction="never" />
     <item
         android:id="@+id/theme"
         android:title="@string/subreddit_theme"

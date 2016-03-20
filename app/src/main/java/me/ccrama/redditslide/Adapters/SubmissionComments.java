@@ -5,7 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.models.CommentNode;
@@ -133,6 +132,10 @@ public class SubmissionComments {
         return response.getJson();
     }
 
+    public void reloadSubmission(CommentAdapter commentAdapter) {
+        commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3, submission.getFullName().length()));
+    }
+
     public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;
 
@@ -195,7 +198,7 @@ public class SubmissionComments {
 
 
                 return comments;
-            } catch (NetworkException e) {
+            } catch (Exception e) {
                 //Todo reauthenticate
             }
             return null;

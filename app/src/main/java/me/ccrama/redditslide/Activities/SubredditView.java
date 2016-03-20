@@ -200,6 +200,11 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             }
 
             return true;
+            case R.id.submit:
+                Intent i = new Intent(this, Submit.class);
+                i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                startActivity(i);
+                return true;
             case R.id.action_refresh:
                 mSwipeRefreshLayout.setRefreshing(true);
                 posts = new SubredditPosts(subreddit, SubredditView.this);
@@ -251,10 +256,10 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
                     if (posts.posts != null && !posts.posts.isEmpty()) {
-                        Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra(Shadowbox.EXTRA_PAGE, 0);
-                        i.putExtra(Shadowbox.EXTRA_SUBREDDIT, posts.subreddit);
-                        startActivity(i);
+                        Intent i2 = new Intent(this, Shadowbox.class);
+                        i2.putExtra(Shadowbox.EXTRA_PAGE, 0);
+                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, posts.subreddit);
+                        startActivity(i2);
                     }
                 } else {
                     new AlertDialogWrapper.Builder(this)
@@ -1186,7 +1191,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         try {
                             new AlertDialogWrapper.Builder(SubredditView.this)
                                     .setTitle(R.string.subreddit_err)
-                                    .setMessage(getString(R.string.subreddit_err_msg, params[0]))
+                                    .setMessage(getString(R.string.subreddit_err_msg_new, params[0]))
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -1206,6 +1211,7 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                         }
                     }
                 });
+                e.printStackTrace();
 
                 return null;
             }

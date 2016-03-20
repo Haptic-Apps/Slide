@@ -11,6 +11,8 @@ import android.view.MotionEvent;
  */
 public class ToggleSwipeViewPager extends ViewPager {
     private boolean mEnableSwiping = true;
+    private boolean swipeLeftOnly = false;
+    private float mStartDragX;
 
     public ToggleSwipeViewPager(Context context) {
         super(context);
@@ -20,17 +22,25 @@ public class ToggleSwipeViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-        return mEnableSwiping && super.onInterceptTouchEvent(event);
-    }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return mEnableSwiping && super.onTouchEvent(event);
+    public boolean onTouchEvent(MotionEvent ev) {
+        return (mEnableSwiping || swipeLeftOnly) && super.onTouchEvent(ev);
+    }
+
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return (mEnableSwiping || swipeLeftOnly) && super.onInterceptTouchEvent(ev);
+    }
+
+
+    public void setSwipeLeftOnly(boolean enabled) {
+        swipeLeftOnly = enabled;
     }
 
     public void setSwipingEnabled(boolean enabled) {
         mEnableSwiping = enabled;
     }
+
 }

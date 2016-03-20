@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="@string/search_title"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/sort"
+        android:title="@string/sorting_change_sorting"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/content"
+        android:icon="@drawable/link"
+        android:title="@string/btn_open_content"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/reload"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/btn_refresh"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/collapse"
+        android:title="@string/btn_collapse_all"
+        app:showAsAction="never" />
+
+</menu>

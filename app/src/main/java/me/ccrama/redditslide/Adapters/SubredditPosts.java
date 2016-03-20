@@ -294,16 +294,6 @@ public class SubredditPosts implements PostLoader {
 
             stillShow = true;
 
-
-            if (SettingValues.cacheDefault && !usedOffline) {
-                OfflineSubreddit o = OfflineSubreddit.getSubreddit(subreddit);
-                usedOffline = true;
-                offline = false;
-                Log.v(LogUtil.getTag(), "Using cached data");
-
-                return o.submissions;
-            }
-
             if (usedOffline && !reset) {
                 paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
                 paginator.setLimit(50);

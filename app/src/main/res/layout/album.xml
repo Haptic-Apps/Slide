@@ -30,7 +30,13 @@
         android:theme="@style/Theme.AppCompat"
 
         >
-
+        <ImageView
+            android:id="@+id/grid"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+            android:padding="15dp"
+            app:srcCompat="@drawable/grid" />
         <ImageView
             android:id="@+id/slider"
             android:layout_width="56dp"

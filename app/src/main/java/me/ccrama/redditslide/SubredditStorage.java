@@ -283,6 +283,7 @@ public class SubredditStorage {
 
         finals.add("all");
         finals.add("frontpage");
+        finals.add("all");
 
         if (subs.contains("frontpage")) {
             subs.remove("frontpage");

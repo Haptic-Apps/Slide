@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -22,6 +23,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -45,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
@@ -134,7 +138,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             AlbumPager.this.gallery = LoadIntoPager.this.gallery;
             images = new ArrayList<>(jsonElements);
 
-            ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+            final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
 
             getSupportActionBar().setSubtitle(1 + "/" + images.size());
 
@@ -190,6 +194,38 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                 }
             }
+            final ArrayList<String> list =new ArrayList<>();
+            if (gallery) {
+                for (final JsonElement elem : images) {
+                    list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
+                }
+            } else {
+                for (final JsonElement elem : images) {
+                    list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+                }
+            }
+            findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater l = getLayoutInflater();
+                    View body = l.inflate(R.layout.album_grid_dialog, null, false);
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(AlbumPager.this);
+                    GridView gridview = (GridView) body.findViewById(R.id.images);
+                    gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, list));
+
+
+                    b.setView(body);
+                    final Dialog d = b.create();
+                    gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View v,
+                                                int position, long id) {
+                            p.setCurrentItem(position);
+                            d.dismiss();
+                        }
+                    });
+                    d.show();
+                }
+            });
             p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

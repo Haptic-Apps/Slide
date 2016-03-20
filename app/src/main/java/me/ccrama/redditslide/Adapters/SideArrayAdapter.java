@@ -56,7 +56,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
-        final String subreddit = fitems.get(position).contains("+")?fitems.get(position):SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
+        final String subreddit = fitems.get(position).contains("+") ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
         convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
         convertView.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,18 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     Intent inte = new Intent(getContext(), SubredditView.class);
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);
-                } else ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+                } else {
+                    if (((MainActivity) getContext()).commentPager) {
+                        ((MainActivity) getContext()).openingComments = null;
+                        ((MainActivity) getContext()).toOpenComments = -1;
+                        ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() +1);
+                        ((MainActivity) getContext()).adapter.notifyDataSetChanged();
+                        ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+                    }
+
+                    ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+
+                }
 
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

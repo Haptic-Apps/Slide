@@ -1,23 +1,28 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -49,7 +54,8 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
     }
-    public AlbumView(Activity context, ArrayList<JsonElement> users, boolean gallery, int height) {
+
+    public AlbumView(final Activity context, ArrayList<JsonElement> users, boolean gallery, int height) {
 
         this.height = height;
         main = context;
@@ -66,7 +72,30 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
+        context.findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater l = context.getLayoutInflater();
+                View body = l.inflate(R.layout.album_grid_dialog, null, false);
+                AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
+                GridView gridview = (GridView) body.findViewById(R.id.images);
+                gridview.setAdapter(new ImageGridAdapter(context, list));
+
+
+                b.setView(body);
+                final Dialog d = b.create();
+                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View v,
+                                            int position, long id) {
+                        ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                        d.dismiss();
+                    }
+                });
+                d.show();
+            }
+        });
     }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 1) {
@@ -178,8 +207,8 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         }
                     } else {
                         if (SettingValues.image) {
-                            Intent myIntent = new Intent(main, FullscreenImage.class);
-                            myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
+                            Intent myIntent = new Intent(main, MediaView.class);
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
                             main.startActivity(myIntent);
                         } else {
                             Reddit.defaultShare(url, main);

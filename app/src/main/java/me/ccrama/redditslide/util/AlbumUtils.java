@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.R;
@@ -109,17 +110,13 @@ public class AlbumUtils {
 
             if (!result.getAsJsonObject("data").getAsJsonObject("image").get("is_album").getAsBoolean()) {
                 if (openExternalNotAlbum) {
+                    Intent i = new Intent(baseActivity, MediaView.class);
                     if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
-                        Intent i = new Intent(baseActivity, GifView.class);
-                        i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
-                        baseActivity.startActivity(i);
+                        i.putExtra(MediaView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
                     } else {
-                        Intent i = new Intent(baseActivity, FullscreenImage.class);
-                        i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
-                        baseActivity.startActivity(i);
+                        i.putExtra(MediaView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
                     }
-
-
+                    baseActivity.startActivity(i);
                 }
                 if (finishIfNone)
                     baseActivity.finish();
@@ -379,15 +376,13 @@ public class AlbumUtils {
 
                     }
                 } else if (result.get("data").getAsJsonObject().has("image")) {
+                    Intent i = new Intent(baseActivity, MediaView.class);
                     if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
-                        Intent i = new Intent(baseActivity, GifView.class);
                         i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
-                        baseActivity.startActivity(i);
                     } else {
-                        Intent i = new Intent(baseActivity, FullscreenImage.class);
                         i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
-                        baseActivity.startActivity(i);
                     }
+                    baseActivity.startActivity(i);
                     baseActivity.finish();
                 }
             }

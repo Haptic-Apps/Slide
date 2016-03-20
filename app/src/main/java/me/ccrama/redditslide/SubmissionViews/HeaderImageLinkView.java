@@ -35,6 +35,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -99,7 +100,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             if (full) {
                 if (height < dpToPx(50) && type != ContentType.ImageType.SELF) {
                     forceThumb = true;
-                } else if (SettingValues.cropImage) {
+                } else if (SettingValues.bigPicCropped) {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 } else {
                     double h = getHeightFromAspectRatio(height, width);
@@ -273,8 +274,18 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
 
 
-        title.setVisibility(View.VISIBLE);
-        info.setVisibility(View.VISIBLE);
+        if (SettingValues.smallTag && !full) {
+            title = (TextView) findViewById(R.id.tag);
+            info = null;
+        } else {
+            findViewById(R.id.tag).setVisibility(View.GONE);
+            title.setVisibility(View.VISIBLE);
+            info.setVisibility(View.VISIBLE);
+        }
+
+        if (SettingValues.smallTag && !full) {
+            ((TransparentTagTextView)title).init(getContext());
+        }
 
         switch (type) {
             case NSFW_IMAGE:
@@ -300,11 +311,17 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 break;
             case STREAMABLE:
-                title.setText("Streamable");
+                title.setText("STREAMABLE");
                 break;
             case SELF:
-                title.setVisibility(View.GONE);
-                info.setVisibility(View.GONE);
+                if (!SettingValues.smallTag || full) {
+                    title.setVisibility(View.GONE);
+                } else {
+                    title.setVisibility(View.VISIBLE);
+                    title.setText("SELFTEXT");
+                }
+                if (info != null)
+                    info.setVisibility(View.GONE);
 
                 break;
 
@@ -318,7 +335,9 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 } else {
                     title.setVisibility(View.GONE);
-                    info.setVisibility(View.GONE);
+                    if (info != null)
+
+                        info.setVisibility(View.GONE);
                 }
                 break;
             case IMGUR:
@@ -353,9 +372,9 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         }
 
-
         try {
-            info.setText(getDomainName(submission.getUrl()));
+            if (info != null)
+                info.setText(getDomainName(submission.getUrl()));
         } catch (URISyntaxException e1) {
             e1.printStackTrace();
         }

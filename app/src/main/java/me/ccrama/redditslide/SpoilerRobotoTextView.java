@@ -48,9 +48,8 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.GifView;
-import me.ccrama.redditslide.Activities.Imgur;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -240,8 +239,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (!PostMatch.openExternal(url)) {
             switch (type) {
                 case IMGUR:
-                    Intent intent2 = new Intent(activity, Imgur.class);
-                    intent2.putExtra(Imgur.EXTRA_URL, url);
+                    Intent intent2 = new Intent(activity, MediaView.class);
+                    intent2.putExtra(MediaView.EXTRA_URL, url);
                     activity.startActivity(intent2);
                     break;
                 case NSFW_IMAGE:
@@ -406,8 +405,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     private void openImage(String submission) {
         if (SettingValues.image) {
-            Intent myIntent = new Intent(getContext(), FullscreenImage.class);
-            myIntent.putExtra(FullscreenImage.EXTRA_URL, submission);
+            Intent myIntent = new Intent(getContext(), MediaView.class);
+            myIntent.putExtra(MediaView.EXTRA_URL, submission);
             getContext().startActivity(myIntent);
         } else {
             Reddit.defaultShare(submission, getContext());

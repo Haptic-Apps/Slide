@@ -191,7 +191,13 @@ public class CreateCardView {
         return CreateView(parent);
 
     }
+    public static View setSmallTag(boolean isChecked, ViewGroup parent) {
 
+        SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SMALL_TAG, isChecked).apply();
+        SettingValues.smallTag = isChecked;
+        return CreateView(parent);
+
+    }
     public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, Boolean secondary, String sub) {
         secondary = false; //removing secondary layouts for now
 
@@ -394,7 +400,12 @@ public class CreateCardView {
     }
 
     private static void doHideObjects(final View v) {
-
+        if(SettingValues.smallTag){
+            v.findViewById(R.id.base).setVisibility(View.GONE);
+            v.findViewById(R.id.tag).setVisibility(View.VISIBLE);
+        } else {
+            v.findViewById(R.id.tag).setVisibility(View.GONE);
+        }
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
             ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);

@@ -54,11 +54,10 @@ import java.util.Map;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.FullscreenImage;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
-import me.ccrama.redditslide.Activities.Imgur;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -104,9 +103,7 @@ public class PopulateSubmissionViewHolder {
 
                 HasSeen.addSeen(submission.getFullName());
                 if (contextActivity instanceof MainActivity) {
-                    holder.title.setAlpha(0.65f);
-                    holder.leadImage.setAlpha(0.65f);
-                    holder.thumbimage.setAlpha(0.65f);
+                    holder.title.setAlpha(0.54f);
                 }
 
                 if (!PostMatch.openExternal(submission.getUrl())) {
@@ -127,8 +124,12 @@ public class PopulateSubmissionViewHolder {
                             openImage(contextActivity, submission);
                             break;
                         case IMGUR:
-                            Intent i2 = new Intent(contextActivity, Imgur.class);
-                            i2.putExtra(Imgur.EXTRA_URL, submission.getUrl());
+                            Intent i2 = new Intent(contextActivity, MediaView.class);
+                            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                                i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                            }
+                            i2.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                             contextActivity.startActivity(i2);
                             break;
                         case EMBEDDED:
@@ -227,15 +228,17 @@ public class PopulateSubmissionViewHolder {
     public static void openImage(Activity contextActivity, Submission submission) {
         if (SettingValues.image) {
             DataShare.sharedSubmission = submission;
-            Intent myIntent = new Intent(contextActivity, FullscreenImage.class);
+            Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
+            String previewUrl;
             if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-            } else {
-                url = submission.getUrl();
+                previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
-            myIntent.putExtra(FullscreenImage.EXTRA_URL, url);
-            myIntent.putExtra(FullscreenImage.EXTRA_SHARE_URL, submission.getUrl());
+            url = submission.getUrl();
+
+            myIntent.putExtra(MediaView.EXTRA_URL, url);
+            myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
             contextActivity.startActivity(myIntent);
         } else {
@@ -248,18 +251,19 @@ public class PopulateSubmissionViewHolder {
         if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
-            Intent myIntent = new Intent(contextActivity, GifView.class);
+            Intent myIntent = new Intent(contextActivity, MediaView.class);
             if (gfy) {
-                myIntent.putExtra(GifView.EXTRA_URL, "gfy" + submission.getUrl());
+                myIntent.putExtra(MediaView.EXTRA_URL, "gfy" + submission.getUrl());
             } else {
-                myIntent.putExtra(GifView.EXTRA_URL, "" + submission.getUrl());
-
+                myIntent.putExtra(MediaView.EXTRA_URL, "" + submission.getUrl());
+            }
+            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
             contextActivity.startActivity(myIntent);
-            contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
         } else {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
-
         }
 
     }
@@ -268,6 +272,8 @@ public class PopulateSubmissionViewHolder {
         return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
 
     }
+
+    public String reportReason;
 
     boolean[] chosen = new boolean[]{false, false, false};
 
@@ -285,6 +291,7 @@ public class PopulateSubmissionViewHolder {
         final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
         Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
         Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
@@ -294,6 +301,7 @@ public class PopulateSubmissionViewHolder {
         sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -312,14 +320,15 @@ public class PopulateSubmissionViewHolder {
         }
 
 
-        if (Authentication.isLoggedIn)
+        if (Authentication.isLoggedIn) {
             b.sheet(3, saved, save);
+            b.sheet(12, report, mContext.getString(R.string.btn_report));
+        }
         b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
                 .sheet(10, filter, mContext.getString(R.string.filter_content))
-
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -359,7 +368,7 @@ public class PopulateSubmissionViewHolder {
                                                     SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
                                                     filtered = true;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
-                                                } else  if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
                                                     SettingValues.subredditFilters = SettingValues.subredditFilters.replace(submission.getSubredditName(), "");
                                                     filtered = false;
                                                     e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
@@ -474,6 +483,41 @@ public class PopulateSubmissionViewHolder {
                             case 4:
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getUrl(), mContext);
                                 break;
+                            case 12:
+                                reportReason = "";
+                                new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                        reportReason = input.toString();
+                                    }
+                                }).alwaysCallInputCallback()
+                                        .positiveText(R.string.btn_report)
+                                        .negativeText(R.string.btn_cancel)
+                                        .onNegative(null)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                new AsyncTask<Void, Void, Void>() {
+                                                    @Override
+                                                    protected Void doInBackground(Void... params) {
+                                                        try {
+                                                            new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                        } catch (ApiException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        return null;
+                                                    }
+
+                                                    @Override
+                                                    protected void onPostExecute(Void aVoid) {
+                                                        Snackbar.make(recyclerview, R.string.msg_report_sent, Snackbar.LENGTH_SHORT).show();
+                                                    }
+                                                }.execute();
+                                            }
+                                        })
+                                        .show();
+
+                                break;
                             case 8:
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
                                 break;
@@ -520,6 +564,12 @@ public class PopulateSubmissionViewHolder {
             titleString.append(" ");
             titleString.append(pinned);
         }
+        if (!submission.getDataNode().get("approved_by").asText().equals("null")) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" Approved by " + submission.getDataNode().get("approved_by").asText().trim() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append("  ");
+            titleString.append(pinned);
+        }
         if (submission.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + submission.getTimesGilded() + " ");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -545,7 +595,7 @@ public class PopulateSubmissionViewHolder {
         holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
         String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
-        holder.info.setText("/r/" + submission.getSubredditName()  + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + distingush + "/u/" + submission.getAuthor() + separator + submission.getDomain());
+        holder.info.setText("/r/" + submission.getSubredditName() + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + distingush + "/u/" + submission.getAuthor() + separator + submission.getDomain());
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);
@@ -1169,13 +1219,9 @@ public class PopulateSubmissionViewHolder {
 
 
         if (HasSeen.getSeen(submission) && !full) {
-            holder.title.setAlpha(0.65f);
-            holder.leadImage.setAlpha(0.65f);
-            holder.thumbimage.setAlpha(0.65f);
+            holder.title.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
-            holder.leadImage.setAlpha(1f);
-            holder.thumbimage.setAlpha(1f);
         }
 
     }

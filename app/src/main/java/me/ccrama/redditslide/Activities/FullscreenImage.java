@@ -39,6 +39,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
@@ -76,7 +77,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
             url = url + ".png";
         }
         LogUtil.v(url);
-        if ((url != null && !url.startsWith("https://i.redditmedia.com") && !url.contains("imgur.com")) || url != null &&  url.contains(".jpg")) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((url != null && !url.startsWith("https://i.redditmedia.com") && !url.contains("imgur.com")) || url != null &&  url.contains(".jpg") && !url.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
             final String finalUrl2 = url;
             new AsyncTask<Void, Void, Void>() {
                 @Override

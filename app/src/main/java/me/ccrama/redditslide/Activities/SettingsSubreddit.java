@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,6 +18,7 @@ import net.dean.jraw.models.Subreddit;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -115,54 +117,58 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle(R.string.dialog_color_sync_title)
-                        .setMessage(R.string.dialog_color_sync_message)
-                        .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                final MaterialDialog d = new MaterialDialog.Builder(SettingsSubreddit.this).title(R.string.general_sub_sync)
-                                        .content(R.string.misc_please_wait)
-                                        .progress(false, 100)
-                                        .cancelable(false).show();
+                if(Authentication.isLoggedIn) {
+                    new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle(R.string.dialog_color_sync_title)
+                            .setMessage(R.string.dialog_color_sync_message)
+                            .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final MaterialDialog d = new MaterialDialog.Builder(SettingsSubreddit.this).title(R.string.general_sub_sync)
+                                            .content(R.string.misc_please_wait)
+                                            .progress(false, 100)
+                                            .cancelable(false).show();
 
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        ArrayList<Subreddit> subColors = SubredditStorage.syncSubredditsGetObject();
-                                        d.setMaxProgress(subColors.size());
-                                        int i = 0;
-                                        for (Subreddit s : subColors) {
-                                            if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
-                                                Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), SettingsSubreddit.this));
-                                                done++;
+                                    new AsyncTask<Void, Void, Void>() {
+                                        @Override
+                                        protected Void doInBackground(Void... params) {
+                                            ArrayList<Subreddit> subColors = SubredditStorage.syncSubredditsGetObject();
+                                            d.setMaxProgress(subColors.size());
+                                            int i = 0;
+                                            for (Subreddit s : subColors) {
+                                                if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
+                                                    Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), SettingsSubreddit.this));
+                                                    done++;
+                                                }
+                                                d.setProgress(i);
+
+                                                i++;
+                                                if (i == d.getMaxProgress()) {
+                                                    d.dismiss();
+
+                                                }
+
                                             }
-                                            d.setProgress(i);
-
-                                            i++;
-                                            if (i == d.getMaxProgress()) {
-                                                d.dismiss();
-
-                                            }
-
+                                            return null;
                                         }
-                                        return null;
-                                    }
 
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
+                                        @Override
+                                        protected void onPostExecute(Void aVoid) {
 
-                                        reloadSubList();
+                                            reloadSubList();
 
-                                        new AlertDialogWrapper.Builder(SettingsSubreddit.this)
-                                                .setTitle(R.string.color_sync_complete)
-                                                .setMessage(done + getString(R.string.color_sync_colored))
-                                                .setPositiveButton(getString(R.string.btn_ok), null)
-                                                .show();
-                                    }
-                                }.execute();
-                                d.show();
-                            }
-                        }).setNegativeButton(R.string.btn_cancel, null).show();
+                                            new AlertDialogWrapper.Builder(SettingsSubreddit.this)
+                                                    .setTitle(R.string.color_sync_complete)
+                                                    .setMessage(done + getString(R.string.color_sync_colored))
+                                                    .setPositiveButton(getString(R.string.btn_ok), null)
+                                                    .show();
+                                        }
+                                    }.execute();
+                                    d.show();
+                                }
+                            }).setNegativeButton(R.string.btn_cancel, null).show();
+                } else {
+                    Snackbar.make(mToolbar,"Please log in to use Color Sync", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -190,7 +196,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+                if (dy <= 0 && fab.getId() != 0) {
 
                     fab.show();
 
