@@ -282,6 +282,7 @@ public class SubredditStorage {
         ArrayList<String> finals = new ArrayList<>();
 
         finals.add("frontpage");
+        finals.add("all");
 
         if (subs.contains("frontpage")) {
             subs.remove("frontpage");

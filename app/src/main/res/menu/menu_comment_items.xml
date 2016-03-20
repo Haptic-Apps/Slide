@@ -14,6 +14,11 @@
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/content"
+        android:icon="@drawable/link"
+        android:title="@string/btn_open_content"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/reload"
         android:icon="@drawable/ic_refresh"
         android:title="@string/btn_refresh"

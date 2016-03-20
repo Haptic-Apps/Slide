@@ -1593,11 +1593,12 @@ public class MainActivity extends BaseActivity {
             case R.id.save:
                 saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                 return true;
-            case R.id.submit:
+            case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
-                i.putExtra(Submit.EXTRA_SUBREDDIT, subToDo);
+                i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                 startActivity(i);
-                return true;
+            }
+            return true;
           /*  case R.id.action_info:
                 if (usedArray != null) {
                     String sub = usedArray.get(pager.getCurrentItem());

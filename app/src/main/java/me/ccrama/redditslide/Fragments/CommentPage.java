@@ -224,6 +224,9 @@ public class CommentPage extends Fragment {
                     case R.id.sort:{
                         openPopup(toolbar);
                     }
+                    case R.id.content:{
+                        
+                    }
                     return true;
                     case R.id.reload:
                         if (comments != null) {
