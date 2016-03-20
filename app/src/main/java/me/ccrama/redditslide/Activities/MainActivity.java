@@ -1880,8 +1880,8 @@ public class MainActivity extends BaseActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            shouldLoad = usedArray.get(position);
             if (getCurrentFragment() != object && position != toOpenComments) {
+                shouldLoad = usedArray.get(position);
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment != null) {
                     if (mCurrentFragment.posts == null) {
@@ -2060,7 +2060,7 @@ public class MainActivity extends BaseActivity {
             if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
-                args.putString("id", usedArray.get(i));
+                if(usedArray.size() > i) args.putString("id", usedArray.get(i));
                 f.setArguments(args);
                 return f;
 
