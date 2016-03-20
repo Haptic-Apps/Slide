@@ -115,6 +115,7 @@ public class SubmissionParser {
                     indentSpacing += "&nbsp;&nbsp;&nbsp;&nbsp;";
                 }
                 if (isNumbered) {
+                    LogUtil.v("Doing OL");
                     html = html.substring(0, tagEnd + 1)
                             + indentSpacing +
                             listNumbers.get(indent)+ ". " +

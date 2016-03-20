@@ -32,6 +32,7 @@ import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
@@ -320,7 +321,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
 
-        rv.addOnScrollListener(new ToolbarScrollHideHandler(((MainActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -379,7 +380,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-        if (MainActivity.shouldLoad == null || id == null ||  (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id))) {
+        if (MainActivity.shouldLoad == null || id == null ||  (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
             doAdapter();
         }
         return v;
