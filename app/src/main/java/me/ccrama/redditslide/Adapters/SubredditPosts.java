@@ -49,7 +49,6 @@ public class SubredditPosts implements PostLoader {
     Context c;
 
     public SubredditPosts(String subreddit, Context c) {
-        LogUtil.v("Time is " + System.currentTimeMillis());
         posts = new ArrayList<>();
         this.subreddit = subreddit;
         this.c = c;
