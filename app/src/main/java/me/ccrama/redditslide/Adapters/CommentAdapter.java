@@ -691,7 +691,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
         }
     }
-    private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -1889,7 +1889,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                         final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                        Comment parent = users.get(holder.getAdapterPosition() - 3).comment.getComment();
+                        Comment parent = users.get(getRealPosition(holder.getAdapterPosition() - 3)).comment.getComment();
                         setViews(parent.getDataNode().get("body_html").asText(), submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
                         builder.setView(dialoglayout);
                         builder.show();

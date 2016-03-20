@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
@@ -45,7 +46,9 @@ import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
@@ -288,7 +291,16 @@ public class CommentPage extends Fragment {
                                         break;
                                     case NONE:
                                     case SELF:
-                                        //todo
+                                        if(adapter.submission.getSelftext().isEmpty()){
+                                            Snackbar.make(rv, "Submission has no content", Snackbar.LENGTH_SHORT).show();
+                                        } else {
+                                            LayoutInflater inflater = getActivity().getLayoutInflater();
+                                            final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
+                                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                                           adapter.setViews(adapter.submission.getDataNode().get("selftext_html").asText(), adapter.submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                                            builder.setView(dialoglayout);
+                                            builder.show();
+                                        }
                                         break;
                                     case GFY:
                                         PopulateSubmissionViewHolder.openGif(true, getActivity(), adapter.submission);
