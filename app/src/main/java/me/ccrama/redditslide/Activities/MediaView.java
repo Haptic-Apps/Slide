@@ -80,6 +80,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         if (!firstUrl.isEmpty()) {
             imageShown = true;
+            LogUtil.v("Displaying first image");
             displayImage(firstUrl);
         }
         String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
@@ -161,7 +162,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 @Override
                 public void onCompleted(Exception e, JsonObject obj) {
                     if (obj != null && !obj.isJsonNull() && obj.has("error")) {
-                        (MediaView.this).finish();
+                        LogUtil.v("Error loading content");
+                                (MediaView.this).finish();
                     } else {
                         try {
                             String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
@@ -227,7 +229,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         } else if (contentUrl != null && !imageShown) {
             displayImage(contentUrl);
-        } else {
+        } else if(!imageShown){
             finish();
             //todo maybe something better
         }

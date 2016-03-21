@@ -230,7 +230,6 @@ public class PopulateSubmissionViewHolder {
 
     public static void openImage(Activity contextActivity, Submission submission) {
         if (SettingValues.image) {
-            DataShare.sharedSubmission = submission;
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
             String previewUrl;
