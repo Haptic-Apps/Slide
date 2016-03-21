@@ -148,8 +148,9 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             };
 
             handler.post(r);
-
-            holder2.itemView.setVisibility(View.INVISIBLE);
+            if (holder2.itemView.findViewById(R.id.reload) != null) {
+                holder2.itemView.setVisibility(View.INVISIBLE);
+            }
         }
         if (holder2 instanceof SpacerViewHolder) {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));

@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 
 import java.util.concurrent.ExecutionException;
 
+import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Adapters.ModeratorAdapter;
 import me.ccrama.redditslide.Adapters.ModeratorPosts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class ModPage extends Fragment {
 
@@ -52,6 +54,8 @@ public class ModPage extends Fragment {
         posts = new ModeratorPosts(id, sub);
         adapter = new ModeratorAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
+
+        rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue)getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);

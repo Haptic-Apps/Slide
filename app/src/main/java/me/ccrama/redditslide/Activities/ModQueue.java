@@ -92,6 +92,16 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
+            }  else if (i == 3) {
+                Fragment f = new ModPage();
+                Bundle args = new Bundle();
+
+                args.putString("id", "modqueue");
+                args.putString("subreddit", "mod");
+
+                f.setArguments(args);
+
+                return f;
             } else {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
@@ -110,7 +120,7 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return SubredditStorage.modOf == null ? 2 : SubredditStorage.modOf.size() + 2;
+            return SubredditStorage.modOf == null ? 2 : SubredditStorage.modOf.size() + 3;
         }
 
 
@@ -122,6 +132,8 @@ public class ModQueue extends BaseActivityAnim {
                 return getString(R.string.mod_mail);
             } else if (position == 2) {
                 return "/r/mod unmoderated";
+            } else if (position == 3) {
+                return "modqueue";
             } else {
                 return SubredditStorage.modOf.get(position - 3);
             }
