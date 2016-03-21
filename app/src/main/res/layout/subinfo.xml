@@ -124,8 +124,18 @@
                     android:theme="?android:attr/buttonBarButtonStyle"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:visibility="gone"
                     android:layout_weight="1"
                     android:text="@string/btn_submit"
+                    android:textAllCaps="true" />
+                <Button
+                    android:id="@+id/mods"
+                    android:layout_width="wrap_content"
+                    android:theme="?android:attr/buttonBarButtonStyle"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/btn_mods"
                     android:textAllCaps="true" />
             </LinearLayout>
 

@@ -73,8 +73,10 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
+import net.dean.jraw.models.UserRecord;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
+import net.dean.jraw.paginators.UserRecordPaginator;
 import net.dean.jraw.util.JrawUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -493,6 +495,8 @@ public class MainActivity extends BaseActivity {
                     subreddit.contains("+")) {
                 dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
                 dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+                dialoglayout.findViewById(R.id.mods).setVisibility(View.GONE);
+
 
             } else {
                 dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
@@ -501,6 +505,48 @@ public class MainActivity extends BaseActivity {
                         Intent i = new Intent(MainActivity.this, Wiki.class);
                         i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
                         startActivity(i);
+                    }
+                });
+                dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                      final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
+                               .cancelable(true)
+                               .progress(true, 100)
+                               .show();
+                        new AsyncTask<Void, Void, Void>() {
+                            ArrayList<UserRecord> mods;
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                mods = new ArrayList<>();
+                                UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
+                                paginator.setSorting(Sorting.HOT);
+                                paginator.setTimePeriod(TimePeriod.ALL);
+                                while(paginator.hasNext()){
+                                    mods.addAll(paginator.next());
+                                }
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                final ArrayList<String> names = new ArrayList<String>();
+                                for(UserRecord rec : mods){
+                                    names.add(rec.getFullName());
+                                }
+                                d.dismiss();
+                                new MaterialDialog.Builder(MainActivity.this).title("/r/" + subreddit + " mods")
+                                        .items(names)
+                                        .itemsCallback(new MaterialDialog.ListCallback() {
+                                            @Override
+                                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                Intent i = new Intent(MainActivity.this, Profile.class);
+                                                i.putExtra(Profile.EXTRA_PROFILE,  names.get(which));
+                                                startActivity(i);
+                                            }
+                                        }).show();
+                            }
+                        }.execute();
                     }
                 });
 

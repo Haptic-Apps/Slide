@@ -74,7 +74,7 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
-            } else  if (i == 0) {
+            } else if (i == 0) {
                 Fragment f = new InboxPage();
                 Bundle args = new Bundle();
                 args.putString("id", "moderator/unread");
@@ -82,16 +82,17 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
-            } else  if (i == 2) {
+            } else if (i == 2) {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
                 args.putString("id", "unmoderated");
+                args.putString("subreddit", "mod");
 
                 f.setArguments(args);
 
                 return f;
-            }else {
+            } else {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
@@ -109,20 +110,19 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return SubredditStorage.modOf == null ? 2:SubredditStorage.modOf.size() + 2;
+            return SubredditStorage.modOf == null ? 2 : SubredditStorage.modOf.size() + 2;
         }
 
 
         @Override
         public CharSequence getPageTitle(int position) {
-            if(position == 0){
+            if (position == 0) {
                 return getString(R.string.mai_mod_unread);
-            } else
-            if (position == 1) {
+            } else if (position == 1) {
                 return getString(R.string.mod_mail);
-            } else if(position == 2){
+            } else if (position == 2) {
                 return "/r/mod unmoderated";
-            } else{
+            } else {
                 return SubredditStorage.modOf.get(position - 3);
             }
         }

@@ -245,6 +245,7 @@ public class Submit extends BaseActivity {
                                                         Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying);
                                                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
                                                         new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
+                                                        Submit.this.finish();
 
                                                     } catch (ApiException e) {
                                                         runOnUiThread(new Runnable() {
@@ -286,8 +287,9 @@ public class Submit extends BaseActivity {
 
 
                         } else {
-                            String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
-                            new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
+                            Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((EditText) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()));
+                            new OpenRedditLink(Submit.this, "reddit.com/r/" + ((EditText) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
+                            new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
                             Submit.this.finish();
                         }
 
