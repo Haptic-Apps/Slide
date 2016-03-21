@@ -142,7 +142,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
             }
-        } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+        } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (!submission.getDataNode().get("thumbnail").isNull()  &&(submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
 
             setVisibility(View.GONE);
             if (!full) {
@@ -229,7 +229,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     wrapArea.setVisibility(View.GONE);
                 }
             }
-        } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+        } else if (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnail() != null  && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW))) {
 
             if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);
@@ -259,7 +259,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 title = (TextView) findViewById(R.id.textimage);
                 info = (TextView) findViewById(R.id.subtextimage);
                 if (forceThumb
-                        || (submission.isNsfw() && !SettingValues.NSFWPreviews || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+                        || (submission.isNsfw() && !SettingValues.NSFWPreviews || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
                     setBottomSheet(thumbImage2, submission.getUrl());
                 } else {
                     setBottomSheet(this, submission.getUrl());

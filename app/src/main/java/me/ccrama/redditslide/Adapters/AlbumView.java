@@ -72,28 +72,29 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
-        context.findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater l = context.getLayoutInflater();
-                View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
-                GridView gridview = (GridView) body.findViewById(R.id.images);
-                gridview.setAdapter(new ImageGridAdapter(context, list));
+        if (context.findViewById(R.id.grid) != null)
+            context.findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater l = context.getLayoutInflater();
+                    View body = l.inflate(R.layout.album_grid_dialog, null, false);
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
+                    GridView gridview = (GridView) body.findViewById(R.id.images);
+                    gridview.setAdapter(new ImageGridAdapter(context, list));
 
 
-                b.setView(body);
-                final Dialog d = b.create();
-                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View v,
-                                            int position, long id) {
-                        ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
-                        d.dismiss();
-                    }
-                });
-                d.show();
-            }
-        });
+                    b.setView(body);
+                    final Dialog d = b.create();
+                    gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View v,
+                                                int position, long id) {
+                            ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                            d.dismiss();
+                        }
+                    });
+                    d.show();
+                }
+            });
     }
 
     @Override

@@ -8,10 +8,12 @@ import android.content.res.Resources;
  */
 public class TimeUtils {
 
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
+    private static final long SECOND_MILLIS = 1000;
+    private static final long MINUTE_MILLIS = 60 * SECOND_MILLIS;
+    private static final long HOUR_MILLIS = 60 * MINUTE_MILLIS;
+    private static final long DAY_MILLIS = 24 * HOUR_MILLIS;
+    private static final long YEAR_MILLIS = 365 * DAY_MILLIS;
+    private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
 
 
     public static String getTimeAgo(long time, Context c) {
@@ -39,6 +41,28 @@ public class TimeUtils {
         } else {
             Integer value = longToInt(diff / DAY_MILLIS);
             return value + "d";
+        }
+
+    }
+    public static String getLengthTimeSince(long time, Context c) {
+        if (time < 1000000000000L) {
+            // if timestamp given in seconds, convert to millis
+            time *= 1000;
+        }
+
+        long now = System.currentTimeMillis();
+        if (time > now || time <= 0) {
+            return null;
+        }
+
+        Resources res = c.getResources();
+
+        final long diff = now - time;
+        if (diff < YEAR_MILLIS) {
+            return longToInt(diff / MONTH_MILLIS) + " month"+ (longToInt(diff / MONTH_MILLIS) > 1?"s":"");
+        } else  {
+            Integer value = longToInt(diff / YEAR_MILLIS);
+            return  value + " year" + (value > 1?"s":"");
         }
 
     }

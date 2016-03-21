@@ -121,7 +121,36 @@
                                 android:textSize="16sp" />
 
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:gravity="center_vertical"
 
+                            android:orientation="horizontal"
+                            android:paddingRight="16dp">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:text="Redditor for 2 years, 3 months of gold remiaing"
+                                android:id="@+id/moreinfo"
+                                android:textColor="?attr/font"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+                        <HorizontalScrollView
+                            android:id="@+id/trophies"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:gravity="center">
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:orientation="horizontal"
+                                android:id="@+id/trophies_inner"
+                                android:layout_height="100dp"/>
+                        </HorizontalScrollView>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"

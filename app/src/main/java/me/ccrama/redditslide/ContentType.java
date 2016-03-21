@@ -89,13 +89,13 @@ public class ContentType {
                 }
                 return ImageType.IMGUR;
             }
-            if (!s.getUrl().contains("youtube.com") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
+            if (!s.getUrl().contains("youtube.co") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
                 return ImageType.EMBEDDED;
             }
             if (s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")) {
                 return ImageType.REDDIT;
             }
-            if (s.getUrl().contains("youtube.com") || s.getUrl().contains("youtu.be")) {
+            if (s.getUrl().contains("youtube.co") || s.getUrl().contains("youtu.be")) {
                 return ImageType.VIDEO;
             }
             switch (t) {

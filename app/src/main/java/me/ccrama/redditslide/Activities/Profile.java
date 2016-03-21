@@ -18,20 +18,31 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.fluent.FluentRedditClient;
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Account;
+import net.dean.jraw.models.Trophy;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
@@ -48,6 +59,7 @@ public class Profile extends BaseActivityAnim {
     public static final String EXTRA_UPVOTE = "upvoted";
     private String name;
     private Account account;
+    private List<Trophy> trophyCase;
     private ViewPager pager;
     private TabLayout tabs;
     private String[] usedArray;
@@ -92,7 +104,6 @@ public class Profile extends BaseActivityAnim {
                 getString(R.string.profile_gilded)});
 
 
-
         new getProfile().execute(name);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -114,13 +125,13 @@ public class Profile extends BaseActivityAnim {
 
             }
         });
-        if(getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
+        if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
             pager.setCurrentItem(6);
-        if(getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
+        if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
             pager.setCurrentItem(1);
-        if(getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name))
+        if (getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name))
             pager.setCurrentItem(2);
-        if(getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
+        if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
             pager.setCurrentItem(4);
 
     }
@@ -155,7 +166,37 @@ public class Profile extends BaseActivityAnim {
                 title.setText(name);
                 final int currentColor = Palette.getColorUser(name);
                 title.setBackgroundColor(currentColor);
+                StringBuilder info = new StringBuilder();
+                info.append("Redditor for ");
+                info.append(TimeUtils.getLengthTimeSince(account.getCreated().getTime(), Profile.this));
+                info.append(". ");
+                if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
+                    info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
+                }
+                ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info.toString());
 
+                LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
+
+                if (trophyCase.isEmpty()) {
+                    dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
+                } else {
+                    for(final Trophy t : trophyCase){
+                        View view= getLayoutInflater().inflate(R.layout.trophy, null);
+                        // Edit
+                        ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
+                        ((TextView)view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
+                        if (t.getAboutUrl() != null)
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                }
+                            });
+                        l.addView(view);
+                    }
+                }
                 if (Authentication.isLoggedIn) {
                     dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -356,6 +397,7 @@ public class Profile extends BaseActivityAnim {
                     return null;
                 }
                 account = Authentication.reddit.getUser(params[0]);
+                trophyCase = new FluentRedditClient(Authentication.reddit).user(params[0]).trophyCase();
             } catch (NetworkException ignored) {
             }
             return null;

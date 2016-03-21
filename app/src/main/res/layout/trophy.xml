@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="80dp"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    android:theme="@style/Ripple.List"
+    android:layout_height="80dp">
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="60dp"
+        android:id="@+id/image"
+        android:layout_height="60dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/trophyTitle"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
