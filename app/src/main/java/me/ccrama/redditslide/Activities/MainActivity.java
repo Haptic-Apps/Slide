@@ -285,25 +285,25 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
-            Reddit.appRestart.edit().putBoolean("firststart47", true).apply();
+            Reddit.appRestart.edit().putBoolean("firststart5a", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("47update") && !Reddit.colors.contains("firststart47")) {
+        } else if (!Reddit.colors.contains("5aupdate") && !Reddit.colors.contains("firststart5a")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v4.7")
+                    .title("Slide v5 Pre-Alpha")
                     .customView(R.layout.whats_new, false)
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("47update", true).apply();
+                            Reddit.colors.edit().putBoolean("5aupdate", true).apply();
 
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("47update", true).apply();
+                            Reddit.colors.edit().putBoolean("5aupdate", true).apply();
 
                         }
                     })
